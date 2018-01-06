@@ -6,6 +6,9 @@ export const phonewidth = '150'
 export const percision = 5
 
 
+
+
+
 export const paychannellist = [
     //{'value_no':'-1',"value_name":"-"},
     {'value_no': '0', "value_name": "微信"},
