@@ -1,20 +1,13 @@
 
-export const path = "http://192.168.199.122/cloud"
+export const path = "http://192.168.199.122:8000/cloud"
 
 export const phonewidth = '150'
 //beta设置为5   s.bolink设置为2 
 export const percision = 5
 
-
-
-
-
-export const paychannellist = [
-    //{'value_no':'-1',"value_name":"-"},
-    {'value_no': '0', "value_name": "微信"},
-    {'value_no': '1', "value_name": "支付宝"},
-    {'value_no': '2', "value_name": "余额"},
-    {'value_no': '3', "value_name": "银联"}
+export const payType = [
+    {'value_no':0,'value_name':'现金'},
+    {'value_no':1,'value_name':'电子支付'}
 ]
 
 export var checkPhone = (rule, value, callback) => {

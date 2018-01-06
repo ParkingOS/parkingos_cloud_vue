@@ -27,37 +27,12 @@
 						<el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
 
 						<div v-if="showParkInfo"  style="float: left;width: 370px;">
-						 <el-input v-model="totalCount" style="width:135px;background:white" disabled>
-							<template slot="prepend">交易笔数</template>
-						 </el-input>&nbsp;&nbsp;&nbsp;
-						 <el-input v-model="money" style="width:170px;background:white" disabled>
-							<template slot="prepend">交易额</template>
+
+						 <el-input v-model="money" style="width:257px;background:white" disabled>
+							<template slot="prepend">总计</template>
 						 </el-input>
 						</div>
-						<div v-if="showdateSelector" style="float: left;">
-							<span class="demonstration">日期</span>
-							<el-date-picker
-									v-model="datesselector"
-									type="datetimerange"
-									align="right"
-									unlink-panels
-									range-separator="至"
-									start-placeholder="开始日期"
-									end-placeholder="结束日期"
-									:picker-options="pickerOptions2"
-									@change="changeanalysisdate">
-							</el-date-picker>
-						</div>
-						<!--统计页面日期选框-->
-						<div v-if="showanalysisdate">
-							<el-date-picker
-								v-model="analysisdate"
-								type="date"
-								placeholder="选择日期"
-								:picker-options="analysisdateopt"
-								@change="changeanalysisdate">
-							</el-date-picker>
-						</div>
+
 
 					</el-col>
 
