@@ -7,6 +7,8 @@ This is a project template for [vue-cli](https://github.com/vuejs/vue-cli).
 
 ``` bash
 
+# install the latest [node.js](https://nodejs.org/zh-cn/).
+
 # install dependencies
 npm install
 
