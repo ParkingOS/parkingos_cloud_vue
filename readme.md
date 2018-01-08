@@ -6,6 +6,7 @@ bolink webpage based on [vuejs2](http://vuejs.org/) and [element](http://element
 This is a project template for [vue-cli](https://github.com/vuejs/vue-cli).
 
 ``` bash
+# install the latest [node.js](https://nodejs.org/zh-cn/).
 
 # install dependencies
 npm install
