@@ -210,4 +210,8 @@ export default{
 		if(paychennel==2)return "余额"
 		if(paychennel==3)return "银联"
 	},
+	singelDoubleFormat:function (limit) {
+		if(limit == 0) return '不限制'
+		if(limit == 1) return '限制'
+    }
 }

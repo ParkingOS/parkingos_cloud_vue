@@ -1,5 +1,6 @@
 
-export const path = "http://192.168.199.122:8000/cloud"
+// export const path = "http://192.168.199.122:8000/cloud"
+export const path = "http://192.168.199.205:8000/cloud"
 
 export const phonewidth = '150'
 //beta设置为5   s.bolink设置为2 
