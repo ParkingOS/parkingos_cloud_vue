@@ -46,7 +46,7 @@
                 hideTool: false,
                 hideImg:true,
                 showImg:true,
-                queryapi: '/carrenew/query',
+                queryapi: '/liftRod/query',
                 btswidth: '100',
                 fieldsstr: 'id__liftrod_id__ctime__uin__out_channel_id__reason__resume__url',
                 tableitems: [

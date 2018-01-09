@@ -14,6 +14,8 @@
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
+                :hideImg="hideImg"
+                :showImg="showImg"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -42,7 +44,9 @@
                 hideOptions: true,
                 showParkInfo: false,
                 hideTool: false,
-                queryapi: '/carrenew/query',
+                hideImg:true,
+                showImg:true,
+                queryapi: '/order/query',
                 btswidth: '100',
                 fieldsstr: 'id__c_type__car_number__car_type__create_time__end_time__duration__pay_type__freereasons__amount_receivable__total__electronic_prepay__cash_prepay__electronic_pay__cash_pay__reduce_amount__uid__out_uid__state__url__in_passid__out_passid__order_id_local',
                 tableitems: [
@@ -52,7 +56,7 @@
                         subs: [{
                             label: '编号',
                             prop: 'id',
-                            width: '100',
+                            width: '123',
                             type: 'number',
                             editable: true,
                             searchable: true,
@@ -80,7 +84,7 @@
                             {
                                 label: '车牌号码',
                                 prop: 'car_number',
-                                width: '200',
+                                width: '150',
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
@@ -142,7 +146,7 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '出场时间',
+                            label: '停车时长',
                             prop: 'duration',
                             width: '180',
                             type: 'number',
@@ -332,6 +336,7 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
+                            hidden:true,
                             align: 'center'
                         }]
                     }, {
@@ -367,7 +372,7 @@
                         subs: [{
                             label: '车场订单编号',
                             prop: 'order_id_local',
-                            width: '123',
+                            width: '200',
                             type: 'str',
                             editable: false,
                             searchable: true,
