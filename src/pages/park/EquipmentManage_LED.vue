@@ -1,5 +1,5 @@
 <template>
-    <div>车型设定</div>
+    <div>LED管理</div>
 </template>
 
 <script>

@@ -14,7 +14,8 @@
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
-
+                :showEdit="showEdit"
+                :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -41,15 +42,14 @@
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
-                hideOptions: true,
+                hideOptions: false,
                 showParkInfo: false,
                 hideTool: false,
-
-                queryapi: '/workrecord/query',
+                showEdit: true,
+                showdelete: true,
+                queryapi: '/cartype/query',
                 btswidth: '100',
-                // fieldsstr: 'id__uid__start_time__end_time__state',
-                // fieldsstr: 'berthsec_id__end_time__history_money__id__park_id__start_time__state__uid__uuid__worksite_id',
-                fieldsstr: 'id__uid__worksite_id__park_id__end_time__state__start_time__uuid__berthsec_id__history_money',
+                fieldsstr: 'id__name__cartype_id__sort',
                 tableitems: [
                     {
 
@@ -65,11 +65,42 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '名称',
+                                prop: 'name',
+                                width: '123',
+                                type: 'str',
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
+                    {
+
                         hasSubs: false,
                         subs: [{
-                            label: '收费员',
-                            prop: 'uid',
+                            label: '收费系统编号',
+                            prop: 'cartype_id',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '排序',
+                            prop: 'sort',
                             width: '123',
                             type: 'str',
                             editable: true,
@@ -77,58 +108,7 @@
                             addable: true,
                             unsortable: true,
                             align: 'center'
-                        }]
-                    },
-                    {
 
-                        hasSubs: false,
-                        subs: [{
-                            label: '上班时间',
-                            prop: 'start_time',
-                            width: '180',
-                            type: 'date',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.start_time)
-                            }
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '下班时间',
-                            prop: 'end_time',
-                            width: '180',
-                            type: 'date',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.end_time)
-                            }
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '状态',
-                            prop: 'state',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center',
-                            format: function (row) {
-                                return row.state == 0 ? '已签到' : '已签退'
-                            }
                         }]
                     }
 
@@ -148,7 +128,7 @@
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
-                    if (AUTH_ID.showSystemManage_Commute_auth_id == item.auth_id) {
+                    if (AUTH_ID.showSystemManage_CarManage_CarType_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
                         break;
                     }

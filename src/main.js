@@ -13,6 +13,8 @@ import common from './common/js/common'
 import axios from 'axios'
 import BaiduMap from 'vue-baidu-map'
 import QRCode from 'qrcode'
+import './styles/index.scss' // global css
+import './common/js/const.js'
 
 Vue.use(QRCode)
 Vue.use(ElementUI)

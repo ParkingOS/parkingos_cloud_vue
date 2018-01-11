@@ -1,5 +1,5 @@
 <template>
-    <div>员工管理</div>
+    <div>摄像头管理</div>
 </template>
 
 <script>

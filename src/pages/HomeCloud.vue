@@ -59,70 +59,161 @@
                          @select="handleselect"
                          unique-opened v-show="!collapsed">
 
+                    <!--<el-row v-show="common.pageShow('park')">-->
+                    <!--<el-row v-show="park">-->
+                    <!--<el-submenu v-if="common.pageShow('订单管理')" index="/order">-->
+                    <!--<template slot="title"><span class="menuitem">订单管理</span></template>-->
+                    <!--<el-menu-item index="/orderManage_Orders" v-if="common.pageShow('订单记录')">订单记录</el-menu-item>-->
+                    <!--<el-menu-item index="/orderManage_Poles" v-if="common.pageShow('抬杆记录')">抬杆记录</el-menu-item>-->
+                    <!--</el-submenu>-->
+                    <!--<el-submenu v-if="common.pageShow('月卡会员')" index="/month">-->
+                    <!--<template slot="title"><span class="menuitem">月卡会员</span></template>-->
+                    <!--<el-menu-item index="/monthMember_Refill" v-if="common.pageShow('月卡续费记录')">月卡续费记录-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/monthMember_VIP" v-if="common.pageShow('月卡会员')">月卡会员-->
+                    <!--</el-menu-item>-->
+                    <!--</el-submenu>-->
+                    <!--<el-menu-item index="/orderStatistics"><span class="menuitem" v-if="common.pageShow('统计分析')">统计分析</span>-->
+                    <!--</el-menu-item>-->
+                    <!--<el-submenu v-if="common.pageShow('商户管理')" index="/shop">-->
+                    <!--<template slot="title"><span class="menuitem">商户管理</span></template>-->
+                    <!--<el-menu-item index="/shopManage_Coupon" v-if="common.pageShow('优惠券管理')">优惠券管理-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/shopManage_Shop" v-if="common.pageShow('商户管理')">商户管理</el-menu-item>-->
+                    <!--<el-submenu v-if="common.pageShow('流水查询')" index="/shop2">-->
+                    <!--<template slot="title"><span class="menuitem">流水查询</span></template>-->
+                    <!--<el-menu-item index="/shopManage_QueryAccount" v-if="common.pageShow('流水查询')">流水查询-->
+                    <!--</el-menu-item>-->
+                    <!--</el-submenu>-->
+                    <!--</el-submenu>-->
+                    <!--<el-submenu  index="/equipment" v-if="common.pageShow('设备管理')">-->
+                    <!--<template slot="title"><span class="menuitem">设备管理</span></template>-->
+                    <!--<el-menu-item index="/equipmentManage_Monitor" v-if="common.pageShow('监控管理')">监控管理-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/equipmentManage_Intercom" v-if="common.pageShow('对讲管理')">对讲管理-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/equipmentManage_WorkStation" v-if="common.pageShow('工作站管理')">工作站管理-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/equipmentManage_Channel" v-if="common.pageShow('通道管理')">通道管理-->
+                    <!--</el-menu-item>-->
+                    <!--</el-submenu>-->
+                    <!--<el-submenu v-if="common.pageShow('员工权限')" index="/employee">-->
+                    <!--<template slot="title"><span class="menuitem">员工权限</span></template>-->
+                    <!--<el-menu-item index="/employeePermission_Role" v-if="common.pageShow('角色管理')">角色管理-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/employeePermission_Manage" v-if="common.pageShow('员工管理')">员工管理-->
+                    <!--</el-menu-item>-->
+                    <!--</el-submenu>-->
+                    <!--<el-submenu v-if="common.pageShow('系统管理')" index="/system">-->
+                    <!--<template slot="title"><span class="menuitem">系统管理</span></template>-->
+                    <!--<el-menu-item index="/systemManage_BlachList" v-if="common.pageShow('黑名单管理')">黑名单管理-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/systemManage_Commute" v-if="common.pageShow('上下班记录')">上下班记录-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/systemManage_Account" v-if="common.pageShow('账户管理')">账户管理-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/systemManage_Params" v-if="common.pageShow('参数设置')">参数设置-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/systemManage_FreeReason" v-if="common.pageShow('免费原因')">免费原因-->
+                    <!--</el-menu-item>-->
+                    <!--<el-submenu index="/system_cartype" v-if="common.pageShow('车型管理')">-->
+                    <!--<template slot="title"><span class="menuitem">车型管理</span></template>-->
+                    <!--<el-menu-item index="/systemManage_CarType" v-if="common.pageShow('车型设定')">车型设定-->
+                    <!--</el-menu-item>-->
+                    <!--</el-submenu>-->
+                    <!--<el-menu-item index="/systemManage_Price" v-if="common.pageShow('时租价格管理')">时租价格管理-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/systemManage_MonthCard" v-if="common.pageShow('月卡套餐管理')">月卡套餐管理-->
+                    <!--</el-menu-item>-->
+                    <!--<el-menu-item index="/systemManage_Logs" v-if="common.pageShow('系统日志')">系统日志</el-menu-item>-->
+                    <!--</el-submenu>-->
+                    <!--</el-row>-->
+
                     <el-row v-show="park">
-                        <el-submenu v-if="true" index="/order">
+                        <el-submenu v-if="showOrderManage" index="/order">
                             <template slot="title"><span class="menuitem">订单管理</span></template>
-                            <el-menu-item index="/orderManage_Orders">订单记录</el-menu-item>
-                            <el-menu-item index="/orderManage_Poles">抬杆记录</el-menu-item>
+                            <el-menu-item index="/orderManage_Orders" v-if="showOrderManage_Orders">订单记录</el-menu-item>
+                            <el-menu-item index="/orderManage_Poles" v-if="showOrderManage_Poles">抬杆记录</el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="true" index="/month">
+                        <el-submenu v-if="showMonthMember" index="/month">
                             <template slot="title"><span class="menuitem">月卡会员</span></template>
-                            <el-menu-item index="/monthMember_Refill">月卡续费记录</el-menu-item>
-                            <el-menu-item index="/monthMember_VIP">月卡会员管理</el-menu-item>
+                            <el-menu-item index="/monthMember_Refill" v-if="showMonthMember_Refill">月卡续费记录
+                            </el-menu-item>
+                            <el-menu-item index="/monthMember_VIP" v-if="showMonthMember_VIP">月卡会员
+                            </el-menu-item>
                         </el-submenu>
-                        <el-menu-item index="/orderStatistics"><span class="menuitem">统计分析</span></el-menu-item>
-                        <el-submenu v-if="true" index="/shop">
+                        <el-submenu v-if="showOnlinePay" index="/onlinepay">
+                            <template slot="title"><span class="menuitem">电子支付</span></template>
+                            <el-menu-item index="/onlinePay_CashManage" v-if="showOnlinePay_CashManage">提现管理
+                            </el-menu-item>
+                            <el-menu-item index="/onlinePay_Income" v-if="showOnlinePay_Income">电子收款
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu v-if="showOrderStatistics" index="/orderstatistics">
+                            <template slot="title"><span class="menuitem">统计分析</span></template>
+                            <el-menu-item index="/orderStatistics_HourRent" v-if="showOrderStatistics_HourRent">时租订单统计
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu v-if="showShopManage" index="/shop">
                             <template slot="title"><span class="menuitem">商户管理</span></template>
-                            <el-menu-item index="/shopManage_Coupon">优惠券管理</el-menu-item>
-                            <el-menu-item index="/shopManage_Shop">商户管理</el-menu-item>
-                            <el-submenu v-if="true" index="/shop2">
-                                <template slot="title"><span class="menuitem">流水查询</span></template>
-                                <el-menu-item index="/shopManage_QueryAccount">流水查询</el-menu-item>
-                            </el-submenu>
+                            <el-menu-item index="/shopManage_Shop" v-if="showShopManage_Shop">商户管理</el-menu-item>
+                            <el-menu-item index="/shopManage_QueryAccount" v-if="showShopManage_QueryAccount">流水查询
+                            </el-menu-item>
+                            <el-menu-item index="/shopManage_Coupon" v-if="showShopManage_Coupon">优惠券管理
+                            </el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="true" index="/equipment">
+                        <el-submenu index="/equipment" v-if="showEquipmentManage_Monitor">
                             <template slot="title"><span class="menuitem">设备管理</span></template>
-                            <el-menu-item index="/equipmentManage_Monitor">监控管理</el-menu-item>
-                            <el-menu-item index="/equipmentManage_Intercom">对讲管理</el-menu-item>
-                            <el-menu-item index="/equipmentManage_WorkStation">工作站管理</el-menu-item>
-                            <el-menu-item index="/equipmentManage_Channel">通道管理</el-menu-item>
+                            <el-menu-item index="/equipmentManage_Monitor" v-if="showEquipmentManage_Monitor">监控管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_Intercom" v-if="showEquipmentManage_Intercom">对讲管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_WorkStation" v-if="showEquipmentManage_WorkStation">
+                                工作站管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_Channel" v-if="showEquipmentManage_Channel">通道管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_Camera" v-if="showEquipmentManage_Camera">摄像头管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_LED" v-if="showEquipmentManage_LED">LED屏管理
+                            </el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="true" index="/employee">
+                        <el-submenu v-if="showEmployeePermission" index="/employee">
                             <template slot="title"><span class="menuitem">员工权限</span></template>
-                            <el-menu-item index="/employeePermission_Role">角色管理</el-menu-item>
-                            <el-menu-item index="/employeePermission_Manage">员工管理</el-menu-item>
+                            <el-menu-item index="/employeePermission_Manage" v-if="showEmployeePermission_Manage">角色管理
+                            </el-menu-item>
+                            <el-menu-item index="/employeePermission_Role" v-if="showEmployeePermission_Role">员工管理
+                            </el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="true" index="/system">
+                        <el-submenu v-if="showSystemManage" index="/system">
                             <template slot="title"><span class="menuitem">系统管理</span></template>
-                            <el-menu-item index="/systemManage_BlachList">黑名单管理</el-menu-item>
-                            <el-menu-item index="/systemManage_Commute">上下班记录</el-menu-item>
-                            <el-menu-item index="/systemManage_Account">账户管理</el-menu-item>
-                            <el-menu-item index="/systemManage_Params">参数设置</el-menu-item>
-                            <el-menu-item index="/systemManage_FreeReason">免费原因</el-menu-item>
-                            <el-submenu v-if="true" index="/system_cartype">
+                            <el-menu-item index="/systemManage_BlachList" v-if="showSystemManage_BlachList">黑名单管理
+                            </el-menu-item>
+                            <el-menu-item index="/systemManage_Commute" v-if="showSystemManage_Commute">上下班记录
+                            </el-menu-item>
+                            <el-menu-item index="/systemManage_Account" v-if="showSystemManage_Account">账户管理
+                            </el-menu-item>
+                            <el-menu-item index="/systemManage_Params" v-if="showSystemManage_Params">参数设置
+                            </el-menu-item>
+                            <el-menu-item index="/systemManage_FreeReason" v-if="showSystemManage_FreeReason">免费原因
+                            </el-menu-item>
+                            <el-submenu index="/system_cartype" v-if="showSystemManage_CarManage">
                                 <template slot="title"><span class="menuitem">车型管理</span></template>
-                                <el-menu-item index="/systemManage_CarType">车型设定</el-menu-item>
+                                <el-menu-item index="/systemManage_CarManage_CarType"
+                                              v-if="showSystemManage_CarManage_CarType">车型设定
+                                </el-menu-item>
+                                <el-menu-item index="/systemManage_CarManage_BindType"
+                                              v-if="showSystemManage_CarManage_BindType">绑定车型
+                                </el-menu-item>
                             </el-submenu>
-                            <el-menu-item index="/systemManage_Price">时租价格管理</el-menu-item>
-                            <el-menu-item index="/systemManage_MonthCard">月卡套餐管理</el-menu-item>
-                            <el-menu-item index="/systemManage_Logs">系统日志</el-menu-item>
+                            <el-menu-item index="/systemManage_Price" v-if="showSystemManage_Price">时租价格管理
+                            </el-menu-item>
+                            <el-menu-item index="/systemManage_MonthCard" v-if="showSystemManage_MonthCard">月卡套餐管理
+                            </el-menu-item>
+                            <el-menu-item index="/systemManage_Logs" v-if="showSystemManage_Logs">系统日志</el-menu-item>
                         </el-submenu>
-                        <!--<el-menu-item index="/parkaccount"><span class="menuitem">我的账户</span></el-menu-item>-->
-                        <!--<el-menu-item index="/parktrade"><span class="menuitem">交易订单</span></el-menu-item>-->
-                        <!--<el-menu-item index="/daily"><span class="menuitem">车场日报</span></el-menu-item>-->
-                        <!--<el-submenu v-if="true" index="/auto">-->
-                            <!--<template slot="title"><span class="menuitem">自助缴费机</span></template>-->
-                            <!--<el-menu-item index="/centerpayment">设备管理</el-menu-item>-->
-                            <!--<el-menu-item index="/centerpaymentaccount">缴费机明细</el-menu-item>-->
-                        <!--</el-submenu>-->
-                        <!--<el-menu-item index="/withdraws"><span class="menuitem">账户明细</span></el-menu-item>-->
-                        <!--<el-menu-item index="/Zpark"><span class="menuitem">zPark</span></el-menu-item>-->
                     </el-row>
-
-
                 </el-menu>
-
-
             </aside>
             <section class="content-container">
                 <div class="grid-content bg-purple-light">
@@ -140,6 +231,8 @@
 
 <script>
     import {path} from '../api/api'
+    import common from '../common/js/common'
+    import {AUTH_ID} from '../common/js/const'
 
     export default {
         data() {
@@ -167,6 +260,46 @@
                     desc: ''
                 },
                 secureVisible: false,
+                //根据权限控制页面是否显示
+                showOrderManage: false,
+                showOrderManage_Orders: false,
+                showOrderManage_Orders: false,
+                showOrderManage_Poles: false,
+                showMonthMember: false,
+                showMonthMember_Refill: false,
+                showMonthMember_VIP: false,
+                showOrderStatistics: false,
+                showOrderStatistics_HourRent: false,
+                showOnlinePay: false,
+                showOnlinePay_Income: false,
+                showOnlinePay_CashManage: false,
+                showShopManage: false,
+                showShopManage_Coupon: false,
+                showShopManage_Shop: false,
+                showShopManage_QueryAccount: false,
+                showEquipmentManage: false,
+                showEquipmentManage_Monitor: false,
+                showEquipmentManage_Intercom: false,
+                showEquipmentManage_WorkStation: false,
+                showEquipmentManage_Channel: false,
+                showEquipmentManage_Camera: false,
+                showEquipmentManage_LED: false,
+                showEmployeePermission: false,
+                showEmployeePermission_Role: false,
+                showEmployeePermission_Manage: false,
+                showSystemManage: false,
+                showSystemManage_BlachList: false,
+                showSystemManage_Commute: false,
+                showSystemManage_Account: false,
+                showSystemManage_Params: false,
+                showSystemManage_FreeReason: false,
+                showSystemManage_CarManage: false,
+                showSystemManage_CarManage_CarType: false,
+                showSystemManage_CarManage_BindType: false,
+                showSystemManage_Price: false,
+                showSystemManage_MonthCard: false,
+                showSystemManage_Logs: false,
+
             }
         },
         methods: {
@@ -284,24 +417,50 @@
                 } else {
                     this.active = cpath;
                 }
-                if (user.roleid == 2) {
-                    this.nickname = "厂商平台";
-                    this.platform = true;
-                }
-                if (user.roleid == 1) {
-                    this.nickname = "泊链";
-                    this.bolink = true;
-                }
-                if (user.roleid == 4) {
+                if (user.roleid == 30) {
                     this.nickname = "车场";
                     this.park = true;
                 }
-                if (user.roleid == 3) {
-                    this.nickname = "服务商";
-                    this.server = true;
-                }
 
             }
+            //遍历返回的页面列表赋值
+            this.showOrderManage = common.pageShow(user, AUTH_ID.showOrderManage_auth_id);
+            this.showOrderManage_Orders = common.pageShow(user, AUTH_ID.showOrderManage_Orders_auth_id);
+            this.showOrderManage_Poles = common.pageShow(user, AUTH_ID.showOrderManage_Poles_auth_id);
+            this.showMonthMember = common.pageShow(user, AUTH_ID.showMonthMember_auth_id);
+            this.showMonthMember_Refill = common.pageShow(user, AUTH_ID.showMonthMember_Refill_auth_id);
+            this.showMonthMember_VIP = common.pageShow(user, AUTH_ID.showMonthMember_VIP_auth_id);
+            this.showOrderStatistics = common.pageShow(user, AUTH_ID.showOrderStatistics_auth_id);
+            this.showOrderStatistics_HourRent = common.pageShow(user, AUTH_ID.showOrderStatistics_HourRent_auth_id);
+            this.showShopManage = common.pageShow(user, AUTH_ID.showShopManage_auth_id);
+            this.showShopManage_Coupon = common.pageShow(user, AUTH_ID.showShopManage_Coupon_auth_id);
+            this.showShopManage_Shop = common.pageShow(user, AUTH_ID.showShopManage_Shop_auth_id);
+            this.showShopManage_QueryAccount = common.pageShow(user, AUTH_ID.showShopManage_QueryAccount_auth_id);
+            this.showEquipmentManage = common.pageShow(user, AUTH_ID.showEquipmentManage_auth_id);
+            this.showEquipmentManage_Monitor = common.pageShow(user, AUTH_ID.showEquipmentManage_Monitor_auth_id);
+            this.showEquipmentManage_Intercom = common.pageShow(user, AUTH_ID.showEquipmentManage_Intercom_auth_id);
+            this.showEquipmentManage_WorkStation = common.pageShow(user, AUTH_ID.showEquipmentManage_WorkStation_auth_id);
+            this.showEquipmentManage_Channel = common.pageShow(user, AUTH_ID.showEquipmentManage_Channel_auth_id);
+            this.showEquipmentManage_Camera = common.pageShow(user, AUTH_ID.showEquipmentManage_Camera_auth_id);
+            this.showEquipmentManage_LED = common.pageShow(user, AUTH_ID.showEquipmentManage_LED_auth_id);
+            this.showEmployeePermission = common.pageShow(user, AUTH_ID.showEmployeePermission_auth_id);
+            this.showEmployeePermission_Role = common.pageShow(user, AUTH_ID.showEmployeePermission_Role_auth_id);
+            this.showEmployeePermission_Manage = common.pageShow(user, AUTH_ID.showEmployeePermission_Manage_auth_id);
+            this.showSystemManage = common.pageShow(user, AUTH_ID.showSystemManage_auth_id);
+            this.showSystemManage_BlachList = common.pageShow(user, AUTH_ID.showSystemManage_BlachList_auth_id);
+            this.showSystemManage_Commute = common.pageShow(user, AUTH_ID.showSystemManage_Commute_auth_id);
+            this.showSystemManage_Account = common.pageShow(user, AUTH_ID.showSystemManage_Account_auth_id);
+            this.showSystemManage_Params = common.pageShow(user, AUTH_ID.showSystemManage_Params_auth_id);
+            this.showSystemManage_FreeReason = common.pageShow(user, AUTH_ID.showSystemManage_FreeReason_auth_id);
+            this.showSystemManage_CarManage = common.pageShow(user, AUTH_ID.showSystemManage_CarManage_auth_id);
+            this.showSystemManage_CarManage_CarType = common.pageShow(user, AUTH_ID.showSystemManage_CarManage_CarType_auth_id);
+            this.showSystemManage_CarManage_BindType = common.pageShow(user, AUTH_ID.showSystemManage_CarManage_BindType_auth_id);
+            this.showSystemManage_Price = common.pageShow(user, AUTH_ID.showSystemManage_Price_auth_id);
+            this.showSystemManage_MonthCard = common.pageShow(user, AUTH_ID.showSystemManage_MonthCard_auth_id);
+            this.showSystemManage_Logs = common.pageShow(user, AUTH_ID.showSystemManage_Logs_auth_id);
+            this.showOnlinePay = common.pageShow(user, AUTH_ID.showOnlinePay_auth_id);
+            this.showOnlinePay_Income = common.pageShow(user, AUTH_ID.showOnlinePay_Income_auth_id);
+            this.showOnlinePay_CashManage = common.pageShow(user, AUTH_ID.showOnlinePay_CashManage_auth_id);
         },
         watch: {
             ulist: function (val) {

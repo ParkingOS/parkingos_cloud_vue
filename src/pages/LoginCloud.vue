@@ -51,6 +51,7 @@
     import {path, checkPass} from '../api/api'
     import MD5 from 'crypto-js/md5'
     import common from '../common/js/common'
+    import {ROLE_ID} from '../common/js/const'
 
     var key = CryptoJS.enc.Utf8.parse("zldboink20170613");
     var iv = CryptoJS.enc.Utf8.parse('zldboink20170613');
@@ -324,7 +325,6 @@
                             success: function (result) {
 
                                 var ret = eval('(' + result + ')')
-
                                 if (ret.state) {
                                     var u = ret.user;
                                     console.log(u)
@@ -332,16 +332,48 @@
                                     sessionStorage.setItem('user', JSON.stringify(u));
                                     sessionStorage.setItem('token', ret.token)
 
-                                    if (u.roleid == 1) {
-                                        _this.$router.push({path: '/bolinkunion'});
-                                    } else if (u.roleid == 2) {
-                                        _this.$router.push({path: '/account'});
-                                    } else if (u.roleid == 3) {
-                                        _this.$router.push({path: '/account'});
-                                    } else if (u.roleid == 4) {
+                                    // if (u.roleid == 1) {
+                                    //     _this.$router.push({path: '/bolinkunion'});
+                                    // } else if (u.roleid == 2) {
+                                    //     _this.$router.push({path: '/account'});
+                                    // } else if (u.roleid == 3) {
+                                    //     _this.$router.push({path: '/account'});
+                                    // } else if (u.roleid == 4) {
+                                    //     // _this.$router.push({path: '/parkaccount'});
+                                    //     _this.$router.push({path: '/orderManage_Orders'});
+                                    //     // _this.$router.push({path: '/monthMember_Refill'});
+                                    // }
+
+                                    // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
+                                    if (u.roleid == ROLE_ID.GROUP) {
+                                        // _this.$router.push({path: '/bolinkunion'});
+                                    } else if (u.roleid == ROLE_ID.CHANNEL) {
+                                        // _this.$router.push({path: '/account'});
+                                    } else if (u.roleid == ROLE_ID.UNION) {
+                                        // _this.$router.push({path: '/account'});
+                                    }  else if (u.roleid == ROLE_ID.CITY) {
+                                        // _this.$router.push({path: '/account'});
+                                    } else if (u.roleid == ROLE_ID.PARK) {
                                         // _this.$router.push({path: '/parkaccount'});
                                         _this.$router.push({path: '/orderManage_Orders'});
                                         // _this.$router.push({path: '/monthMember_Refill'});
+                                    }
+                                    // 还有一种没有roleid,它是根据另一种判断登录的
+                                    //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员
+                                    else if(u.role ==0){
+
+                                    }else if(u.role ==1){
+
+                                    }else if(u.role ==2){
+
+                                    }else if(u.role ==3){
+
+                                    }else if(u.role ==4){
+
+                                    }else if(u.role ==5){
+
+                                    }else if(u.role ==6 ){
+
                                     }
                                 } else {
                                     _this.logining = false;
