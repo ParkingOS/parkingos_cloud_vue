@@ -57,7 +57,7 @@
                             label: '编号',
                             prop: 'id',
                             width: '100',
-                            type: 'number',
+                            type: 'link',
                             editable: true,
                             searchable: true,
                             addable: true,

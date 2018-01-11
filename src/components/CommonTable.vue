@@ -22,16 +22,16 @@
                             </el-option>
                         </el-select>
                     </div>
-                    <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
+                    <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search" >高级查询
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
                         <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
                     </el-tooltip>
                     <el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
 
-                    <div v-if="showParkInfo" style="float: left;width: 370px;">
+                    <div v-if="showParkInfo" style="float: left;width: 170px; ">
 
-                        <el-input v-model="money" style="width:257px;background:white" disabled>
+                        <el-input v-model="money" style="width:150px;background:white" disabled>
                             <template slot="prepend">总计</template>
                         </el-input>
                     </div>
@@ -50,7 +50,7 @@
                     <span style="font-size:15px;font-weight:bold" v-if="showLeftTitle">{{leftTitle}}</span>
                 </el-col>
                 <el-col :span="20" align="right">
-                    <el-button type="primary" @click="handleSearch" size="small" v-if="!hideSearch">高级查询</el-button>
+                    <el-button type="primary" @click="handleSearch" size="small" v-if="!hideSearch" align="center">高级查询</el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
                         <el-button type="primary" @click="handleExport" size="small" v-if="!hideExport">导出</el-button>
                     </el-tooltip>
@@ -73,7 +73,9 @@
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">
-                    <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)">
+                        编辑
+                    </el-button>
                     <el-button v-if="showresetpwd" size="small" type="text"
                                @click="handleresetpwd(scope.$index, scope.row)"><span style="color:#008F4C">重置密码</span>
                     </el-button>
@@ -134,16 +136,19 @@
                             :width="tableitem.width"
                             :formatter="tableitem.format"
                     >
+                        <!--<template scope="scope" v-if="items.hasSubs">-->
+                            <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row )">123333</span>-->
+                        <!--</template>-->
                     </el-table-column>
                 </div>
-
             </div>
-            <el-table-column label="操作" :width="btswidth" v-if="hideImg" align="center" fixed="left">
+            <el-table-column label="操作" :width="btswidth" v-if="hideImg" align="center" >
                 <!--<el-button @click.native="showDetail(row)">查看详情</el-button>-->
                 <template scope="scope">
-                <el-button v-if="showImg" size="small" type="text"
-                           @click="handleShowImg(scope.$index, scope.row)"><span
-                        style="color:#008F4C">查看图片</span></el-button>
+                    <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row)" v-if="showImg">123</span>-->
+                    <el-button v-if="showImg" size="small" type="text"
+                               @click="handleShowImg(scope.$index, scope.row)"><span
+                            style="color:#008F4C">查看图片</span></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -257,7 +262,13 @@
 				<el-button type="primary" size="small" @click="resetPwd" :loading="resetloading">确 定</el-button>
 			</span>
         </el-dialog>
-
+        <el-dialog title="车辆图片" v-model="imgDialog">
+            <img src="imgdialog_url" />
+            <span slot="footer" class="dialog-footer">
+				<el-button @click="resetPwdVisible = false" size="small">取 消</el-button>
+				<el-button type="primary" size="small" @click="resetPwd" :loading="resetloading">确 定</el-button>
+			</span>
+        </el-dialog>
     </section>
 </template>
 
@@ -393,6 +404,8 @@
                         }]
                 },
                 resetPwdVisible: false,
+                imgDialog:false,
+                imgdialog_url:'',
                 pwd1: '',
                 pwd2: '',
             }
@@ -400,7 +413,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showParkInfo', 'hideTool', 'showCenterInfo', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
-            'showModifyCarNumber','showmRefill','showEdit','hideImg','showImg'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'hideImg', 'showImg'],
         methods: {
             //控制表格样式
             rowstyle(row, index) {
@@ -504,7 +517,7 @@
                             vm.totalCount = 0;
                         } else {
                             vm.table = ret.rows;
-                            vm.money = ret.money + '元';
+                            vm.money = ret.total + '元';
                             vm.totalCount = ret.totalCount;
                         }
                         vm.total = ret.total;
@@ -897,8 +910,9 @@
                 this.mapVisible = true
                 console.log(this.center.lat, this.center.lng)
             },
-            handleShowImg(index, row){
-                alert(index+'>'+row.id)
+            handleShowImg(index, row) {
+                // alert(index + '>' + row.id)
+                this.imgDialog = true
             },
             handleModifyCarNumber(index, row) {
                 //修改车牌号

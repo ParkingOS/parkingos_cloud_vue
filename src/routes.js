@@ -9,7 +9,9 @@ import OrderManage_Orders from './pages/park/OrderManage_Orders.vue'
 import OrderManage_Poles from './pages/park/OrderManage_Poles.vue'
 import MonthMember_Refill from './pages/park/MonthMember_Refill.vue'
 import MonthMember_VIP from './pages/park/MonthMember_VIP.vue'
-import OrderStatistics from './pages/park/OrderStatistics.vue'
+import OnlinePay_CashManage from './pages/park/OnlinePay_CashManage.vue'
+import OnlinePay_Income from './pages/park/OnlinePay_Income.vue'
+import OrderStatistics_HourRent from './pages/park/OrderStatistics_HourRent.vue'
 import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue'
 import ShopManage_Shop from './pages/park/ShopManage_Shop.vue'
 import ShopManage_QueryAccount from './pages/park/ShopManage_QueryAccount.vue'
@@ -17,14 +19,17 @@ import EquipmentManage_Monitor from './pages/park/EquipmentManage_Monitor.vue'
 import EquipmentManage_Intercom from './pages/park/EquipmentManage_Intercom.vue'
 import EquipmentManage_WorkStation from './pages/park/EquipmentManage_WorkStation.vue'
 import EquipmentManage_Channel from './pages/park/EquipmentManage_Channel.vue'
-import EmployeePermission_Role from './pages/park/EmployeePermission_Role.vue'
-import EmployeePermission_Manage from './pages/park/EmployeePermission_Manage.vue'
+import EquipmentManage_Camera from './pages/park/EquipmentManage_Camera.vue'
+import EquipmentManage_LED from './pages/park/EquipmentManage_LED.vue'
+import EmployeePermission_Role from './pages/park/EmployeePermission_EmployeeManage.vue'
+import EmployeePermission_Manage from './pages/park/EmployeePermission_RoleManage.vue'
 import SystemManage_BlachList from './pages/park/SystemManage_BlachList.vue'
 import SystemManage_Commute from './pages/park/SystemManage_Commute.vue'
 import SystemManage_Account from './pages/park/SystemManage_Account.vue'
 import SystemManage_Params from './pages/park/SystemManage_Params.vue'
 import SystemManage_FreeReason from './pages/park/SystemManage_FreeReason.vue'
-import SystemManage_CarType from './pages/park/SystemManage_CarType.vue'
+import SystemManage_CarManage_CarType from './pages/park/SystemManage_CarManage_CarType.vue'
+import SystemManage_CarManage_BindType from './pages/park/SystemManage_CarManage_BindType.vue'
 import SystemManage_Price from './pages/park/SystemManage_Price.vue'
 import SystemManage_MonthCard from './pages/park/SystemManage_MonthCard.vue'
 import SystemManage_Logs from './pages/park/SystemManage_Logs.vue'
@@ -106,15 +111,30 @@ let routes = [
         children: [
             {path: '/monthMember_VIP', component: MonthMember_VIP, name: '月卡会员'},
         ]
+    },{
+        path: '/',
+        component: HomeCloud,
+        name: '电子支付',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/onlinePay_CashManage', component: OnlinePay_CashManage, name: '提现管理'},
+        ]
+    },{
+        path: '/',
+        component: HomeCloud,
+        name: '电子支付',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/onlinePay_Income', component: OnlinePay_Income, name: '电子收款'},
+        ]
     },
     {
         path: '/',
         component: HomeCloud,
         name: '统计分析',
         iconCls: 'el-icon-document',
-        leaf: true,//只有一个节点
         children: [
-            {path: '/orderStatistics', component: OrderStatistics, name: '统计分析'},
+            {path: '/orderStatistics_HourRent', component: OrderStatistics_HourRent, name: '时租订单统计'},
         ]
     },
     {
@@ -176,6 +196,22 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/equipmentManage_Channel', component: EquipmentManage_Channel, name: '通道管理'},
+        ]
+    },{
+        path: '/',
+        component: HomeCloud,
+        name: '设备管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/equipmentManage_Camera', component: EquipmentManage_Camera, name: '摄像头管理'},
+        ]
+    },{
+        path: '/',
+        component: HomeCloud,
+        name: '设备管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/equipmentManage_LED', component: EquipmentManage_LED, name: 'LED屏管理'},
         ]
     },
     {
@@ -242,7 +278,15 @@ let routes = [
         name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/systemManage_CarType', component: SystemManage_CarType, name: '车型管理'},
+            {path: '/systemManage_CarManage_CarType', component: SystemManage_CarManage_CarType, name: '车型管理'},
+        ]
+    },{
+        path: '/',
+        component: HomeCloud,
+        name: '系统管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/systemManage_CarManage_BindType', component: SystemManage_CarManage_BindType, name: '车型管理'},
         ]
     },{
         path: '/',

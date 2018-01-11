@@ -19,7 +19,6 @@
                 :showmRefill="showmRefill"
                 :showModifyCarNumber="showModifyCarNumber"
                 :hideOptions="hideOptions"
-
                 ref="bolinkuniontable"
         ></common-table>
     </section>

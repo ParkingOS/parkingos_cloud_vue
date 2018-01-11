@@ -47,9 +47,9 @@
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
-                queryapi: '/parklog/query',
+                queryapi: '/member/query',
                 btswidth: '100',
-                fieldsstr: 'id__log_id__operate_time__content__operate_user__remark',
+                fieldsstr: 'id__nickname__strid__phone__mobile__role_id__reg_time__sex__logon_time__isview',
                 tableitems: [
                     {
 
@@ -69,8 +69,64 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '日志编号',
-                                prop: 'log_id',
+                                label: '姓名',
+                                prop: 'nickname',
+                                width: '123',
+                                type: 'str',
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },{
+                        hasSubs: false, subs: [
+                            {
+                                label: '登录账号',
+                                prop: 'strid',
+                                width: '123',
+                                type: 'str',
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },{
+                        hasSubs: false, subs: [
+                            {
+                                label: '电话',
+                                prop: 'phone',
+                                width: '123',
+                                type: 'str',
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },{
+                        hasSubs: false, subs: [
+                            {
+                                label: '手机',
+                                prop: 'mobile',
+                                width: '123',
+                                type: 'str',
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },{
+                        hasSubs: false, subs: [
+                            {
+                                label: '角色',
+                                prop: 'role_id',
                                 width: '123',
                                 type: 'str',
                                 editable: false,
@@ -85,8 +141,8 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '操作时间',
-                            prop: 'operate_time',
+                            label: '创建时间',
+                            prop: 'reg_time',
                             width: '180',
                             type: 'date',
                             editable: true,
@@ -95,44 +151,47 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return common.dateformat(row.operate_time)
+                                return common.dateformat(row.reg_time)
                             }
                         }]
                     }, {
+                        hasSubs: false, subs: [
+                            {
+                                label: '性别',
+                                prop: 'sex',
+                                width: '100',
+                                type: 'str',
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },{
 
                         hasSubs: false,
                         subs: [{
-                            label: '操作内容',
-                            prop: 'content',
+                            label: '最近登录时间',
+                            prop: 'logon_time',
                             width: '180',
-                            type: 'str',
+                            type: 'date',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: function (row) {
+                                return common.dateformat(row.logon_time)
+                            }
                         }]
-                    }, {
+                    },  {
 
                         hasSubs: false,
                         subs: [{
-                            label: '收费员',
-                            prop: 'operate_user',
+                            label: '收费',
+                            prop: 'isview',
                             width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '备注',
-                            prop: 'remark',
-                            width: '150',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -158,11 +217,12 @@
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
-                    if (AUTH_ID.showSystemManage_Logs_auth_id == item.auth_id) {
+                    if (AUTH_ID.showEmployeePermission_Manage_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
                         break;
                     }
                 }
+
             }
         },
         activated() {

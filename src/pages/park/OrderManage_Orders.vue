@@ -26,6 +26,7 @@
     import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
+    import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
 
     export default {
@@ -70,7 +71,7 @@
                         subs: [{
                             label: '进场方式',
                             prop: 'c_type',
-                            width: '200',
+                            width: '123',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -84,7 +85,7 @@
                             {
                                 label: '车牌号码',
                                 prop: 'car_number',
-                                width: '150',
+                                width: '123',
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
@@ -392,6 +393,18 @@
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
+            var user = sessionStorage.getItem('user');
+            this.user = user
+            if (user) {
+                user = JSON.parse(user);
+                for (var item of user.authlist) {
+                    if (AUTH_ID.showOrderManage_Orders_auth_id == item.auth_id) {
+                        console.log(item.sub_auth)
+                        break;
+                    }
+                }
+
+            }
         },
         activated() {
             window.onresize = () => {
