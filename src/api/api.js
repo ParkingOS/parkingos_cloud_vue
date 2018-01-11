@@ -1,10 +1,32 @@
 
-// export const path = "http://192.168.199.122:8000/cloud"
-export const path = "http://192.168.199.205:8000/cloud"
+ export const path = "http://192.168.199.122:8000/cloud"
+//export const path = "http://localhost:8080/cloud"
 
 export const phonewidth = '150'
 //beta设置为5   s.bolink设置为2 
 export const percision = 5
+
+export const channlManager = [
+    {'value_no':0,'value_name':'默认车场设置'},
+    {'value_no':1,'value_name':'不限制'},
+    {'value_no':2,'value_name':'禁止进入'}
+]
+
+export const channlManagerType = [
+    {'value_no':0,'value_name':'出'},
+    {'value_no':1,'value_name':'入'},
+    {'value_no':2,'value_name':'出入'}
+]
+
+export const monitorType = [
+    {'value_no':0,'value_name':'显示'},
+    {'value_no':1,'value_name':'隐藏'}
+]
+
+export const workStation = [
+    {'value_no':0,'value_name':'流量'},
+    {'value_no':1,'value_name':'宽带'}
+]
 
 export const payType = [
     {'value_no':0,'value_name':'现金'},
