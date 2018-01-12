@@ -16,6 +16,10 @@
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
                 :showdelete="showdelete"
+                :showPermission="showPermission"
+                :showSettingFee="showSettingFee"
+                :showCommutime="showCommutime"
+                :addtitle="addtitle"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -37,9 +41,9 @@
             return {
                 loading: false,
                 hideExport: true,
-                hideSearch: false,
+                hideSearch: true,
                 showdateSelector: true,
-                hideAdd: true,
+                hideAdd: false,
                 tableheight: '',
                 showdelete: true,
                 hideOptions: false,
@@ -47,8 +51,11 @@
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
+                showSettingFee:true,
+                showCommutime:true,
+                showPermission:true,
                 queryapi: '/adminrole/query',
-                btswidth: '100',
+                btswidth: '300',
                 fieldsstr: 'id__role_name__func__resume',
                 tableitems: [
                     {
@@ -111,8 +118,8 @@
 
 
                 ],
-                searchtitle: '查询明细',
-
+                searchtitle: '高级查询',
+                addtitle: '添加角色',
             }
         },
         mounted() {
@@ -126,7 +133,11 @@
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
                     if (AUTH_ID.showEmployeePermission_Role_auth_id == item.auth_id) {
-                        console.log(item.sub_auth)
+                        // console.log(item.sub_auth)
+                        this.showdelete= common.showSubDel(item.sub_auth)
+                        this.showEdit= common.showSubEdit(item.sub_auth)
+                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        this.showPermission= common.showSubPermission(item.sub_auth)
                         break;
                     }
                 }

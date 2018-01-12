@@ -16,6 +16,7 @@
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
                 :showdelete="showdelete"
+                :addtitle="addtitle"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -176,8 +177,8 @@
 
 
                 ],
-                searchtitle: '查询明细',
-
+                searchtitle: '高级查询',
+                addtitle:'添加套餐'
             }
         },
         mounted() {
@@ -192,6 +193,11 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showSystemManage_MonthCard_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
+                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        this.hideExport = !common.showSubExport(item.sub_auth)
+                        this.showEdit= common.showSubEdit(item.sub_auth)
+                        this.showdelete= common.showSubDel(item.sub_auth)
                         break;
                     }
                 }

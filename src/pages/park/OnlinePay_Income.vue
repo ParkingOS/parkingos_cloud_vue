@@ -174,7 +174,8 @@
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
                     if (AUTH_ID.showOnlinePay_Income_auth_id == item.auth_id) {
-                        console.log(item.sub_auth)
+                        // console.log(item.sub_auth)
+                        this.hideSearch= !common.showSubSearch(item.sub_auth)
                         break;
                     }
                 }

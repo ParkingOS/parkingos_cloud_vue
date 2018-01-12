@@ -10,12 +10,14 @@
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
                 :showdateSelector="showdateSelector"
+                :addtitle="addtitle"
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
                 :showdelete="showdelete"
+                :showresetpwd="showresetpwd"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -41,14 +43,17 @@
                 showdateSelector: true,
                 hideAdd: true,
                 tableheight: '',
-                showdelete: true,
+                showresetpwd:true,
                 hideOptions: false,
                 showParkInfo: false,
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
+                // showSettingFee:true,
+                // showCommutime:true,
+                // showPermission:true,
                 queryapi: '/member/query',
-                btswidth: '100',
+                btswidth: '180',
                 fieldsstr: 'id__nickname__strid__phone__mobile__role_id__reg_time__sex__logon_time__isview',
                 tableitems: [
                     {
@@ -203,8 +208,8 @@
 
 
                 ],
-                searchtitle: '查询明细',
-
+                searchtitle: '高级查询',
+                addtitle: '注册员工',
             }
         },
         mounted() {
@@ -219,6 +224,13 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showEmployeePermission_Manage_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
+                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                        this.showdelete= common.showSubDel(item.sub_auth)
+                        this.showresetpwd = common.showSubReset(item.sub_auth)
+                        // this.showEdit= common.showSubEdit(item.sub_auth)
+                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        // this.showPermission= common.showSubPermission(item.sub_auth)
+                        // this.showSettingFee= common.showSubSetFee(item.sub_auth)
                         break;
                     }
                 }

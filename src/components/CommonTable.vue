@@ -22,7 +22,7 @@
                             </el-option>
                         </el-select>
                     </div>
-                    <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search" >高级查询
+                    <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
                         <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
@@ -50,7 +50,9 @@
                     <span style="font-size:15px;font-weight:bold" v-if="showLeftTitle">{{leftTitle}}</span>
                 </el-col>
                 <el-col :span="20" align="right">
-                    <el-button type="primary" @click="handleSearch" size="small" v-if="!hideSearch" align="center">高级查询</el-button>
+                    <el-button type="primary" @click="handleSearch" size="small" v-if="!hideSearch" align="center">
+                        高级查询
+                    </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
                         <el-button type="primary" @click="handleExport" size="small" v-if="!hideExport">导出</el-button>
                     </el-tooltip>
@@ -96,6 +98,15 @@
                     <el-button v-if="showmRefill" size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">续费</span>
                     </el-button>
+                    <el-button v-if="showPermission" size="small" type="text"
+                               @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">编辑权限</span>
+                    </el-button>
+                    <el-button v-if="showSettingFee" size="small" type="text"
+                               @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">收费设置</span>
+                    </el-button>
+                    <el-button v-if="showCommutime" size="small" type="text"
+                               @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">上班时间</span>
+                    </el-button>
                     <!--
                     <el-button
                         v-for="bt in bts"
@@ -137,12 +148,12 @@
                             :formatter="tableitem.format"
                     >
                         <!--<template scope="scope" v-if="items.hasSubs">-->
-                            <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row )">123333</span>-->
+                        <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row )">123333</span>-->
                         <!--</template>-->
                     </el-table-column>
                 </div>
             </div>
-            <el-table-column label="操作" :width="btswidth" v-if="hideImg" align="center" >
+            <el-table-column label="操作" :width="btswidth" v-if="hideImg" align="center">
                 <!--<el-button @click.native="showDetail(row)">查看详情</el-button>-->
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row)" v-if="showImg">123</span>-->
@@ -263,7 +274,7 @@
 			</span>
         </el-dialog>
         <el-dialog title="车辆图片" v-model="imgDialog">
-            <img src="imgdialog_url" />
+            <img src="imgdialog_url"/>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="resetPwdVisible = false" size="small">取 消</el-button>
 				<el-button type="primary" size="small" @click="resetPwd" :loading="resetloading">确 定</el-button>
@@ -404,8 +415,8 @@
                         }]
                 },
                 resetPwdVisible: false,
-                imgDialog:false,
-                imgdialog_url:'',
+                imgDialog: false,
+                imgdialog_url: '',
                 pwd1: '',
                 pwd2: '',
             }
@@ -413,7 +424,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showParkInfo', 'hideTool', 'showCenterInfo', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'hideImg', 'showImg'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'hideImg', 'showImg','showCommutime','showSettingFee','showPermission'],
         methods: {
             //控制表格样式
             rowstyle(row, index) {
@@ -489,6 +500,11 @@
                 this.$extend(sform, {'orderby': this.orderby})
                 this.$extend(sform, {'orderfield': this.orderfield})
                 this.$extend(sform, {'fieldsstr': this.fieldsstr})
+                this.$extend(sform, {'comid': sessionStorage.getItem('comid')})
+                this.$extend(sform, {'groupid': sessionStorage.getItem('groupid')})
+                this.$extend(sform, {'cityid': sessionStorage.getItem('cityid')})
+                this.$extend(sform, {'unionid': sessionStorage.getItem('unionid')})
+                this.$extend(sform, {'channelid': sessionStorage.getItem('channelid')})
                 this.$extend(sform, this.queryparams)
                 this.$extend(sform, {'token': sessionStorage.getItem('token')})
                 vm.$post(path + api, sform, function (ret) {

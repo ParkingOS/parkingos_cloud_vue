@@ -26,6 +26,7 @@
     import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
+    import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
 
     export default {
@@ -181,6 +182,21 @@
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
+            var user = sessionStorage.getItem('user');
+            this.user = user
+            if (user) {
+                user = JSON.parse(user);
+                console.log(user.authlist.length)
+                for (var item of user.authlist) {
+                    if (AUTH_ID.showOrderManage_Poles_auth_id == item.auth_id) {
+                        // console.log(item.sub_auth)
+                        this.hideExport= !common.showSubExport(item.sub_auth)
+                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                        break;
+                    }
+                }
+
+            }
         },
         activated() {
             window.onresize = () => {
