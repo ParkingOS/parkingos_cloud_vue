@@ -2,6 +2,7 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :addapi="addapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -20,6 +21,7 @@
                 :showSettingFee="showSettingFee"
                 :showCommutime="showCommutime"
                 :addtitle="addtitle"
+                :addFormRules="addFormRules"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -27,7 +29,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
+    import {path, checkURL, checkUpload, checkNumber, payType, RoleFuncion} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
@@ -51,9 +53,10 @@
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
-                showSettingFee:true,
-                showCommutime:true,
-                showPermission:true,
+                showSettingFee: true,
+                showCommutime: true,
+                showPermission: true,
+                addapi: '/adminrole/addrole',
                 queryapi: '/adminrole/query',
                 btswidth: '300',
                 fieldsstr: 'id__role_name__func__resume',
@@ -93,12 +96,16 @@
                                 label: '功能',
                                 prop: 'func',
                                 width: '123',
-                                type: 'str',
+                                type: 'selection',
+                                selectlist: 'RoleFuncion',
                                 editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
+                                format: function (row) {
+                                    return common.funcformat(row.is_collector, row.is_inspect, row.is_opencard)
+                                }
                             },
                         ]
                     }, {
@@ -120,6 +127,20 @@
                 ],
                 searchtitle: '高级查询',
                 addtitle: '添加角色',
+                addFormRules: {
+                    id: [
+                        {required: true, message: '请输入编号', trigger: 'blur'}
+                    ],
+                    name: [
+                        {required: true, message: '请输入名称', trigger: 'blur'}
+                    ],
+                    func: [
+                        {required: true, message: '请输入功能', trigger: 'change'}
+                    ],
+                    province_abbr: [
+                        {required: true, message: '请输入默认省份缩写', trigger: 'change'}
+                    ],
+                },
             }
         },
         mounted() {
@@ -134,10 +155,10 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showEmployeePermission_Role_auth_id == item.auth_id) {
                         // console.log(item.sub_auth)
-                        this.showdelete= common.showSubDel(item.sub_auth)
-                        this.showEdit= common.showSubEdit(item.sub_auth)
-                        this.hideAdd= !common.showSubAdd(item.sub_auth)
-                        this.showPermission= common.showSubPermission(item.sub_auth)
+                        this.showdelete = common.showSubDel(item.sub_auth)
+                        this.showEdit = common.showSubEdit(item.sub_auth)
+                        this.hideAdd = !common.showSubAdd(item.sub_auth)
+                        this.showPermission = common.showSubPermission(item.sub_auth)
                         break;
                     }
                 }

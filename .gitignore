@@ -5,3 +5,5 @@ npm-debug.log
 user/
 .idea/workspace.xml
 .idea/vcs.xml
+.idea/workspace.xml
+package-lock.json

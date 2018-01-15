@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {path} from '../../api/api'
+import {path,RoleFuncion} from '../../api/api'
 
 export default {
 
@@ -126,6 +126,9 @@ export default {
     },
     nameformat: function (row, list, col) {
         for (var x in list) {
+            console.log('for '+x)
+            console.log('value_no '+list[x].value_no)
+            console.log('row '+row[col])
             if (row[col] == null) {
                 if (col == 'com_id') {
                     return '(未知车场)'
@@ -135,10 +138,23 @@ export default {
                     return '(无服务商)'
                 }
             }
+
             if (list[x].value_no == row[col]) {
                 return list[x].value_name
             }
         }
+    },
+    funcformat:function (is_collector,is_inspect,is_opencard) {
+        if(is_collector==1){
+            return RoleFuncion[1].value_name
+        }
+        if(is_inspect==1){
+            return RoleFuncion[2].value_name
+        }
+        if(is_opencard==1){
+            return RoleFuncion[3].value_name
+        }
+        return RoleFuncion[0].value_name
     },
     getUnionList: function (params) {
         let param = '?token=' + sessionStorage.getItem('token')

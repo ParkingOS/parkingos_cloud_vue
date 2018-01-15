@@ -505,6 +505,7 @@
                 this.$extend(sform, {'cityid': sessionStorage.getItem('cityid')})
                 this.$extend(sform, {'unionid': sessionStorage.getItem('unionid')})
                 this.$extend(sform, {'channelid': sessionStorage.getItem('channelid')})
+                this.$extend(sform, {'loginuin': sessionStorage.getItem('loginuin')})
                 this.$extend(sform, this.queryparams)
                 this.$extend(sform, {'token': sessionStorage.getItem('token')})
                 vm.$post(path + api, sform, function (ret) {
