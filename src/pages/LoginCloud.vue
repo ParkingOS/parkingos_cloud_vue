@@ -331,6 +331,11 @@
 
                                     sessionStorage.setItem('user', JSON.stringify(u));
                                     sessionStorage.setItem('token', ret.token)
+                                    sessionStorage.setItem('comid', u.comid)
+                                    sessionStorage.setItem('groupid', u.groupid)
+                                    sessionStorage.setItem('channelid', u.channelid)
+                                    sessionStorage.setItem('unionid', u.unionid)
+                                    sessionStorage.setItem('cityid', u.cityid)
 
                                     // if (u.roleid == 1) {
                                     //     _this.$router.push({path: '/bolinkunion'});

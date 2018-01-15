@@ -239,5 +239,71 @@ export default {
         }
 
         return false
-    }
+    },
+    showSubSearch: function (sub_auth) {
+        //显示高级查询
+        if (sub_auth.indexOf('查看') > -1) {
+            return true
+        }
+        return false
+    },
+    showSubExport: function (sub_auth) {
+        //显示导出
+        if (sub_auth.indexOf('导出') > -1) {
+            return true
+        }
+        return false
+    },
+    showSubAdd: function (sub_auth) {
+        //显示新增
+        if (sub_auth.indexOf('注册') > -1) {
+            return true
+        }
+        if (sub_auth.indexOf('添加') > -1) {
+            return true
+        }
+        return false
+    },
+    showSubEdit: function (sub_auth) {
+        if (sub_auth.indexOf('编辑') > -1) {
+            return true
+        }
+        return false
+    },
+    showSubDel: function (sub_auth) {
+        if (sub_auth.indexOf('删除') > -1) {
+            return true
+        }
+        return false
+    },
+    showSubUpdate: function (sub_auth) {
+        if (sub_auth.indexOf('修改') > -1) {
+            return true
+        }
+        return false
+    },
+    showSubReFill: function (sub_auth) {
+        if (sub_auth.indexOf('续费') > -1) {
+            return true
+        }
+        return false
+    },
+    showSubPermission: function (sub_auth) {
+        if (sub_auth.indexOf('权限') > -1) {
+            return true
+        }
+        return false
+    },
+    showSubSetFee: function (sub_auth) {
+        if (sub_auth.indexOf('收费设置') > -1) {
+            return true
+        }
+        return false
+    },
+    showSubReset: function (sub_auth) {
+        if (sub_auth.indexOf('修改密码') > -1) {
+            return true
+        }
+        return false
+    },
 }

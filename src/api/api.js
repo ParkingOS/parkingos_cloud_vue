@@ -1,5 +1,5 @@
 
- export const path = "http://192.168.199.122:8000/cloud"
+ export const path = "http://192.168.199.205:8000/cloud"
 //export const path = "http://localhost:8080/cloud"
 
 export const phonewidth = '150'

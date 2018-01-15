@@ -16,6 +16,7 @@
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
                 :showdelete="showdelete"
+                :addtitle="addtitle"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -46,7 +47,7 @@
                 showParkInfo: false,
                 hideTool: false,
                 showEdit: true,
-                showdelete: true,
+
                 queryapi: '/bindcartype/query',
                 btswidth: '100',
                 fieldsstr: 'id__car_number__typeid__update_time',
@@ -116,8 +117,8 @@
 
 
                 ],
-                searchtitle: '查询明细',
-
+                searchtitle: '高级查询',
+                addtitle:'绑定车型'
             }
         },
         mounted() {
@@ -132,6 +133,11 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showSystemManage_CarManage_BindType_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
+                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        this.hideExport = !common.showSubExport(item.sub_auth)
+                        this.showEdit= common.showSubEdit(item.sub_auth)
+                        this.showdelete= common.showSubDel(item.sub_auth)
                         break;
                     }
                 }
