@@ -21,6 +21,8 @@
                 :showSettingFee="showSettingFee"
                 :showCommutime="showCommutime"
                 :addtitle="addtitle"
+                :delapi="delapi"
+                :editapi="editapi"
                 :addFormRules="addFormRules"
                 ref="bolinkuniontable"
         ></common-table>
@@ -57,6 +59,8 @@
                 showCommutime: true,
                 showPermission: true,
                 addapi: '/adminrole/addrole',
+                delapi: '/adminrole/deleterole',
+                editapi: '/adminrole/editrole',
                 queryapi: '/adminrole/query',
                 btswidth: '300',
                 fieldsstr: 'id__role_name__func__resume',
@@ -68,9 +72,9 @@
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+                            editable: false,
                             searchable: true,
-                            addable: true,
+                            addable: false,
                             unsortable: true,
                             align: 'center'
                         }]
@@ -82,7 +86,7 @@
                                 prop: 'role_name',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
@@ -97,14 +101,15 @@
                                 prop: 'func',
                                 width: '123',
                                 type: 'selection',
-                                selectlist: 'RoleFuncion',
-                                editable: false,
+                                selectlist: RoleFuncion,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
                                 format: function (row) {
                                     return common.funcformat(row.is_collector, row.is_inspect, row.is_opencard)
+                                    // return RoleFuncion[1].value_name
                                 }
                             },
                         ]
@@ -116,7 +121,7 @@
                             width: '180',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -127,19 +132,11 @@
                 ],
                 searchtitle: '高级查询',
                 addtitle: '添加角色',
+
                 addFormRules: {
-                    id: [
-                        {required: true, message: '请输入编号', trigger: 'blur'}
-                    ],
-                    name: [
+                    role_name: [
                         {required: true, message: '请输入名称', trigger: 'blur'}
-                    ],
-                    func: [
-                        {required: true, message: '请输入功能', trigger: 'change'}
-                    ],
-                    province_abbr: [
-                        {required: true, message: '请输入默认省份缩写', trigger: 'change'}
-                    ],
+                    ]
                 },
             }
         },
