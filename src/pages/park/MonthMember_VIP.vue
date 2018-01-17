@@ -19,6 +19,8 @@
                 :showmRefill="showmRefill"
                 :showModifyCarNumber="showModifyCarNumber"
                 :hideOptions="hideOptions"
+                :showEdit="showEdit"
+                :hideAdd="hideAdd"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -42,6 +44,7 @@
     } from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
+    import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
 
     export default {
@@ -55,16 +58,17 @@
                 hideExport: false,
                 tableheight: '',
                 hideOptions: false,
-
+                showEdit:true,
                 showdelete: true,
                 showModifyCarNumber: true,
                 showmRefill: true,
+                hideAdd:false,
                 queryapi: '/vip/query',
                 addapi: '/vip/add',
                 editapi: '/vip/edit',
                 delapi: '/vip/remove',
                 parkid: '',
-                btswidth: '180',
+                btswidth: '220',
                 fieldsstr: 'id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
                 tableitems: [
                     {
@@ -291,7 +295,7 @@
                         ]
                     },
                 ],
-                searchtitle: '查询缴费机',
+                searchtitle: '高级查询',
                 addtitle: '注册会员',
                 addFormRules: {
                     name: [
@@ -334,6 +338,26 @@
                 this.tableheight = common.gwh() - 135;
             }
             this.tableheight = common.gwh() - 135;
+            var user = sessionStorage.getItem('user');
+            this.user = user
+            if (user) {
+                user = JSON.parse(user);
+                console.log(user.authlist.length)
+                for (var item of user.authlist) {
+                    if (AUTH_ID.showMonthMember_VIP_auth_id == item.auth_id) {
+                        // console.log(item.sub_auth)
+                        this.hideExport= !common.showSubExport(item.sub_auth)
+                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                        this.showdelete= common.showSubDel(item.sub_auth)
+                        this.showmRefill= common.showSubReFill(item.sub_auth)
+                        this.showModifyCarNumber= common.showSubUpdate(item.sub_auth)
+                        this.showEdit= common.showSubEdit(item.sub_auth)
+                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        break;
+                    }
+                }
+
+            }
         },
         activated() {
             console.log('active')

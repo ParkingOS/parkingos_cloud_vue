@@ -261,9 +261,8 @@
                 },
                 secureVisible: false,
                 //根据权限控制页面是否显示
-                showOrderManage: false,
-                showOrderManage_Orders: false,
-                showOrderManage_Orders: false,
+                showOrderManage: true,
+                showOrderManage_Orders: true,
                 showOrderManage_Poles: false,
                 showMonthMember: false,
                 showMonthMember_Refill: false,
@@ -466,7 +465,11 @@
             ulist: function (val) {
                 this.sysUserName = val.nickname
             }
-        }
+        },
+        // activated(){
+        //     this.showOrderManage = true;
+        //     this.showOrderManage_Orders = true;
+        // }
     }
 
 </script>
