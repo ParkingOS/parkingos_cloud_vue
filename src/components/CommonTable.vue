@@ -514,6 +514,7 @@
                 this.$extend(sform, {'cityid': sessionStorage.getItem('cityid')})
                 this.$extend(sform, {'unionid': sessionStorage.getItem('unionid')})
                 this.$extend(sform, {'channelid': sessionStorage.getItem('channelid')})
+                this.$extend(sform, {'loginuin': sessionStorage.getItem('loginuin')})
                 this.$extend(sform, this.queryparams)
                 this.$extend(sform, {'token': sessionStorage.getItem('token')})
                 vm.$post(path + api, sform, function (ret) {
@@ -753,7 +754,7 @@
                                     vm.alertInfo('登录异常,请重新登录!')
                                 }, 100)
                             } else {
-                                if (ret > 0) {
+                                if (ret > 0||ret.state==1) {
                                     //更新成功
                                     vm.getTableData(qform);
                                     vm.$message({
@@ -820,6 +821,8 @@
                 var qform = this.sform;
                 var msg = this.addfailmsg;
                 this.$extend(aform, {'token': sessionStorage.getItem('token')})
+                this.$extend(aform, {'loginuin': sessionStorage.getItem('loginuin')})
+                this.$extend(aform, {'oid': sessionStorage.getItem('oid')})
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
                         vm.addloading = true
@@ -835,7 +838,7 @@
                                     vm.alertInfo('登录异常,请重新登录!')
                                 }, 100)
                             } else {
-                                if (ret > 0) {
+                                if (ret > 0||ret.state==1) {
                                     //更新成功
                                     vm.getTableData(qform);
                                     vm.$message({
@@ -886,7 +889,9 @@
                             vm.alertInfo('登录异常,请重新登录!')
                         }, 100)
                     } else {
-                        if (ret > 0) {
+                        console.log(ret)
+                        if (ret > 0||ret.state==1) {
+                        // if (ret > 0) {
                             //删除成功
                             vm.getTableData(qform);
                             vm.$message({

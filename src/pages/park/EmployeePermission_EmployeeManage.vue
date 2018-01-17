@@ -52,6 +52,7 @@
                 // showSettingFee:true,
                 // showCommutime:true,
                 // showPermission:true,
+
                 queryapi: '/member/query',
                 btswidth: '180',
                 fieldsstr: 'id__nickname__strid__phone__mobile__role_id__reg_time__sex__logon_time__isview',

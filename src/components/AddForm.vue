@@ -1,7 +1,7 @@
 <template>
   <div class="complexadd">
     <el-dialog :title="addtitle" custom-class="dialog" v-model="addVisible" top="8%" @open="onopen"  @close="onclose" :close-on-click-modal="false" :size="(typeof(this.dialogsize)=='undefined')?'tiny':this.dialogsize">
-	
+
 		<el-form :model="addForm" label-width="100px" :rules="addFormRules" ref="addForm" style="width:98%;">
 			<el-input v-model="addForm.id" style="display:none"></el-input>
 			<div v-for="items in additems">

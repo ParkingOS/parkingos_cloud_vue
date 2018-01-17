@@ -1,5 +1,4 @@
-
- export const path = "http://192.168.199.205:8000/cloud"
+export const path = "http://192.168.199.205:8000/cloud"
 //export const path = "http://localhost:8080/cloud"
 
 export const phonewidth = '150'
@@ -7,31 +6,39 @@ export const phonewidth = '150'
 export const percision = 5
 
 export const channlManager = [
-    {'value_no':0,'value_name':'默认车场设置'},
-    {'value_no':1,'value_name':'不限制'},
-    {'value_no':2,'value_name':'禁止进入'}
+    {'value_no': 0, 'value_name': '默认车场设置'},
+    {'value_no': 1, 'value_name': '不限制'},
+    {'value_no': 2, 'value_name': '禁止进入'}
 ]
 
 export const channlManagerType = [
-    {'value_no':0,'value_name':'出'},
-    {'value_no':1,'value_name':'入'},
-    {'value_no':2,'value_name':'出入'}
+    {'value_no': 0, 'value_name': '出'},
+    {'value_no': 1, 'value_name': '入'},
+    {'value_no': 2, 'value_name': '出入'}
 ]
 
 export const monitorType = [
-    {'value_no':0,'value_name':'显示'},
-    {'value_no':1,'value_name':'隐藏'}
+    {'value_no': 0, 'value_name': '显示'},
+    {'value_no': 1, 'value_name': '隐藏'}
 ]
 
 export const workStation = [
-    {'value_no':0,'value_name':'流量'},
-    {'value_no':1,'value_name':'宽带'}
+    {'value_no': 0, 'value_name': '流量'},
+    {'value_no': 1, 'value_name': '宽带'}
 ]
 
 export const payType = [
-    {'value_no':0,'value_name':'现金'},
-    {'value_no':1,'value_name':'电子支付'}
+    {'value_no': 0, 'value_name': '现金'},
+    {'value_no': 1, 'value_name': '电子支付'}
 ]
+export const RoleFuncion = [
+    {'value_no': 0, 'value_name': '无'},
+    {'value_no': 1, 'value_name': '收费功能'},
+    {'value_no': 2, 'value_name': '巡查功能'},
+    {'value_no': 3, 'value_name': '开卡功能'}
+    ,
+]
+
 
 export var checkPhone = (rule, value, callback) => {
     if (typeof(value) == 'undefined' || value == '') {

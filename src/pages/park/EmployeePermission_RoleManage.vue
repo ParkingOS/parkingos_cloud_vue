@@ -2,6 +2,7 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :addapi="addapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -20,6 +21,9 @@
                 :showSettingFee="showSettingFee"
                 :showCommutime="showCommutime"
                 :addtitle="addtitle"
+                :delapi="delapi"
+                :editapi="editapi"
+                :addFormRules="addFormRules"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -27,7 +31,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
+    import {path, checkURL, checkUpload, checkNumber, payType, RoleFuncion} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
@@ -51,9 +55,12 @@
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
-                showSettingFee:true,
-                showCommutime:true,
-                showPermission:true,
+                showSettingFee: true,
+                showCommutime: true,
+                showPermission: true,
+                addapi: '/adminrole/addrole',
+                delapi: '/adminrole/deleterole',
+                editapi: '/adminrole/editrole',
                 queryapi: '/adminrole/query',
                 btswidth: '300',
                 fieldsstr: 'id__role_name__func__resume',
@@ -65,9 +72,9 @@
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+                            editable: false,
                             searchable: true,
-                            addable: true,
+                            addable: false,
                             unsortable: true,
                             align: 'center'
                         }]
@@ -79,7 +86,7 @@
                                 prop: 'role_name',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
@@ -93,12 +100,17 @@
                                 label: '功能',
                                 prop: 'func',
                                 width: '123',
-                                type: 'str',
-                                editable: false,
+                                type: 'selection',
+                                selectlist: RoleFuncion,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
+                                format: function (row) {
+                                    return common.funcformat(row.is_collector, row.is_inspect, row.is_opencard)
+                                    // return RoleFuncion[1].value_name
+                                }
                             },
                         ]
                     }, {
@@ -109,7 +121,7 @@
                             width: '180',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -120,6 +132,12 @@
                 ],
                 searchtitle: '高级查询',
                 addtitle: '添加角色',
+
+                addFormRules: {
+                    role_name: [
+                        {required: true, message: '请输入名称', trigger: 'blur'}
+                    ]
+                },
             }
         },
         mounted() {
@@ -134,10 +152,10 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showEmployeePermission_Role_auth_id == item.auth_id) {
                         // console.log(item.sub_auth)
-                        this.showdelete= common.showSubDel(item.sub_auth)
-                        this.showEdit= common.showSubEdit(item.sub_auth)
-                        this.hideAdd= !common.showSubAdd(item.sub_auth)
-                        this.showPermission= common.showSubPermission(item.sub_auth)
+                        this.showdelete = common.showSubDel(item.sub_auth)
+                        this.showEdit = common.showSubEdit(item.sub_auth)
+                        this.hideAdd = !common.showSubAdd(item.sub_auth)
+                        this.showPermission = common.showSubPermission(item.sub_auth)
                         break;
                     }
                 }
