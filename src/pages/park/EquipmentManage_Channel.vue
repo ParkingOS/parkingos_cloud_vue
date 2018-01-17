@@ -9,13 +9,13 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :addtitle="addtitle"
-                :searchtitle="searchtitle"
                 :showdateSelector="showdateSelector"
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
+                :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -41,7 +41,7 @@
                 hideAdd: false,         //隐藏添加
                 tableheight: '',        //表格高度
                 showdelete: true,       //显示删除
-                hideOptions: true,      //隐藏多选框
+                hideOptions: false,      //隐藏多选框
                 showParkInfo: false,     //显示停车信息
                 hideTool: false,        //隐藏工具栏
                 showEdit:true,
@@ -50,7 +50,7 @@
                 editapi: '/EQ_channel/edit',
                 delapi: '/EQ_channel/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'id__trade_no__card_id__pay_time__amount_receivable__amount_pay__collector__pay_type__car_number__user_id__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'id__passname__passtype__worksite_id__month_set__month2_set__description__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
 
@@ -71,8 +71,8 @@
                         hasSubs: false,
                         subs: [{
                             label: '名称',
-                            prop: 'trade_no',
-                            width: '100',
+                            prop: 'passname',
+                            width: '160',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -85,7 +85,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '通道类型',
-                            prop: 'card_id',
+                            prop: 'passtype',
                             width: '150',
                             type: 'selection',
                             selectlist:channlManagerType,
@@ -100,7 +100,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '所属工作站',
-                            prop: 'pay_time',
+                            prop: 'worksite_id',
                             width: '190',
                             type: 'selection',
                             //selectlist:channlManager,选项为工作站管理页面的名称栏
@@ -115,7 +115,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '非月卡车',
-                            prop: 'amount_receivable',
+                            prop: 'month_set',
                             width: '150',
                             type: 'selection',
                             selectlist:channlManager,
@@ -130,7 +130,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '月卡第二辆车',
-                            prop: 'amount_pay',
+                            prop: 'month2_set',
                             width: '150',
                             type: 'selection',
                             selectlist:channlManager,
@@ -145,7 +145,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '说明',
-                            prop: 'amount_pay',
+                            prop: 'description',
                             width: '300',
                             type: 'str',
                             editable: false,

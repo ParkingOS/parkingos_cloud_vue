@@ -2,6 +2,7 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :addapi="addapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -9,13 +10,13 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :addtitle="addtitle"
-                :searchtitle="searchtitle"
                 :showdateSelector="showdateSelector"
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
+                :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -41,7 +42,7 @@
                 hideAdd: false,         //隐藏添加
                 tableheight: '',        //表格高度
                 showdelete: true,       //显示删除
-                hideOptions: true,      //隐藏多选框
+                hideOptions: false,      //隐藏多选框
                 showParkInfo: false,     //显示停车信息
                 hideTool: false,        //隐藏工具栏
                 showEdit:true,
@@ -50,14 +51,14 @@
                 editapi: '/EQ_workStation/edit',
                 delapi: '/EQ_workStation/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'id__trade_no__card_id__pay_time__amount_receivable__amount_pay__collector__pay_type__car_number__user_id__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'worksite_name__description__net_type__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
 
                         hasSubs: false,
                         subs: [{
                             label: '名称',          //页面表格显示
-                            prop: 'id',             //对应表中字段
+                            prop: 'worksite_name',             //对应表中字段
                             width: '300',           //列宽度
                             type: 'number',         //对应表中字段类型
                             editable: true,         //是否可编辑
@@ -71,7 +72,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '说明',
-                            prop: 'trade_no',
+                            prop: 'description',
                             width: '500',
                             type: 'str',
                             editable: true,
@@ -85,7 +86,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '网络类型',
-                            prop: 'card_id',
+                            prop: 'net_type',
                             width: '150',
                             type: 'selection',
                             selectlist:workStation,//流量、宽带

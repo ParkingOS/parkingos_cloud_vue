@@ -353,7 +353,7 @@
                                         // _this.$router.push({path: '/account'});
                                     }  else if (u.roleid == ROLE_ID.CITY) {
                                         // _this.$router.push({path: '/account'});
-                                    } else if (u.roleid == ROLE_ID.PARK) {
+                                    } else if (u.roleid == 0) {
                                         // _this.$router.push({path: '/parkaccount'});
                                         _this.$router.push({path: '/orderManage_Orders'});
                                         // _this.$router.push({path: '/monthMember_Refill'});
