@@ -18,6 +18,11 @@
                 :showEdit="showEdit"
                 :showdelete="showdelete"
                 :showresetpwd="showresetpwd"
+                :addFormRules="addFormRules"
+                :addapi="addapi"
+                :delapi="delapi"
+                :editapi="editapi"
+                :resetapi="resetapi"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -25,11 +30,11 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
-    import util from '../../common/js/util'
+    import {genderType, collectType} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
+    import axios from 'axios'
 
     export default {
         components: {
@@ -38,12 +43,13 @@
         data() {
             return {
                 loading: false,
+
                 hideExport: true,
                 hideSearch: false,
                 showdateSelector: true,
                 hideAdd: true,
                 tableheight: '',
-                showresetpwd:true,
+                showresetpwd: true,
                 hideOptions: false,
                 showParkInfo: false,
                 hideTool: false,
@@ -52,22 +58,25 @@
                 // showSettingFee:true,
                 // showCommutime:true,
                 // showPermission:true,
-
+                addapi: '/member/createmember',
+                delapi: '/member/delmember',
+                editapi: '/member/editmember',
                 queryapi: '/member/query',
+                resetapi: '/member/editpass',
                 btswidth: '180',
                 fieldsstr: 'id__nickname__strid__phone__mobile__role_id__reg_time__sex__logon_time__isview',
+
                 tableitems: [
                     {
-
                         hasSubs: false,
                         subs: [{
                             label: '编号',
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+                            editable: false,
                             searchable: true,
-                            addable: true,
+                            addable: false,
                             unsortable: true,
                             align: 'center'
                         }]
@@ -79,14 +88,14 @@
                                 prop: 'nickname',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
                             },
                         ]
-                    },{
+                    }, {
                         hasSubs: false, subs: [
                             {
                                 label: '登录账号',
@@ -100,63 +109,71 @@
                                 align: 'center',
                             },
                         ]
-                    },{
+                    }, {
                         hasSubs: false, subs: [
                             {
                                 label: '电话',
                                 prop: 'phone',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
                             },
                         ]
-                    },{
+                    }, {
                         hasSubs: false, subs: [
                             {
                                 label: '手机',
                                 prop: 'mobile',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
                             },
                         ]
-                    },{
+                    }, {
                         hasSubs: false, subs: [
                             {
                                 label: '角色',
                                 prop: 'role_id',
                                 width: '123',
-                                type: 'str',
-                                editable: false,
+                                type: 'selection',
+                                selectlist: this.aroles,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
+                                format: (row) => {
+                                    // console.log(this.aroles)
+                                    //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
+                                    //也就是data中的this,可以获取到this.aroles
+                                    //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
+                                    return common.nameformat(row, this.aroles, 'role_id')
+                                }
                             },
                         ]
                     },
                     {
-
                         hasSubs: false,
                         subs: [{
                             label: '创建时间',
                             prop: 'reg_time',
                             width: '180',
                             type: 'date',
-                            editable: true,
+                            editable: false,
                             searchable: true,
-                            addable: true,
+                            addable: false,
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
+
                                 return common.dateformat(row.reg_time)
                             }
                         }]
@@ -166,15 +183,19 @@
                                 label: '性别',
                                 prop: 'sex',
                                 width: '100',
-                                type: 'str',
-                                editable: false,
+                                type: 'selection',
+                                selectlist: genderType,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
+                                format: function (row) {
+                                    return common.nameformat(row, genderType, 'sex')
+                                }
                             },
                         ]
-                    },{
+                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -182,28 +203,32 @@
                             prop: 'logon_time',
                             width: '180',
                             type: 'date',
-                            editable: true,
+                            editable: false,
                             searchable: true,
-                            addable: true,
+                            addable: false,
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
                                 return common.dateformat(row.logon_time)
                             }
                         }]
-                    },  {
+                    }, {
 
                         hasSubs: false,
                         subs: [{
                             label: '收费',
                             prop: 'isview',
                             width: '123',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist: collectType,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: function (row) {
+                                return common.nameformat(row, collectType, 'isview')
+                            }
                         }]
                     }
 
@@ -211,6 +236,19 @@
                 ],
                 searchtitle: '高级查询',
                 addtitle: '注册员工',
+                addFormRules: {
+                    nickname: [
+                        {required: true, message: '请输入姓名', trigger: 'blur'}
+                    ],
+                    strid: [
+                        {required: true, message: '请输入登录账号', trigger: 'blur'}
+                    ],
+                    // isview: [
+                    //     {required: true, message: '请选择是否可收费', trigger: 'change'}
+                    // ],
+
+                },
+                aroles: [{value_no: "-1", value_name: "未设置"}],
             }
         },
         mounted() {
@@ -225,11 +263,11 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showEmployeePermission_Manage_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
-                        this.hideSearch= !common.showSubSearch(item.sub_auth)
-                        this.showdelete= common.showSubDel(item.sub_auth)
+                        this.hideSearch = !common.showSubSearch(item.sub_auth)
+                        this.showdelete = common.showSubDel(item.sub_auth)
                         this.showresetpwd = common.showSubReset(item.sub_auth)
-                        // this.showEdit= common.showSubEdit(item.sub_auth)
-                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        this.showEdit = common.showSubEdit(item.sub_auth)
+                        this.hideAdd = !common.showSubAdd(item.sub_auth)
                         // this.showPermission= common.showSubPermission(item.sub_auth)
                         // this.showSettingFee= common.showSubSetFee(item.sub_auth)
                         break;
@@ -237,14 +275,29 @@
                 }
 
             }
+            console.log(this.aroles)
         },
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
             }
+
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
+
+            let _this = this
+            axios.all([common.getEmployeeRole()])
+                .then(axios.spread(function (ret) {
+                    _this.aroles = _this.aroles.concat(ret.data);
+                    console.log(_this.aroles)
+                }))
+            console.log(this.aroles)
+        },
+        watch: {
+            aroles: function (val) {
+                this.tableitems[5].subs[0].selectlist = val
+            }
         }
     }
 

@@ -1,12 +1,12 @@
 <template>
   <div class="complexedit">
     <el-dialog title="编辑" v-model="editVisible" custom-class="dialog" @close="onclose" @open="onopen" :close-on-click-modal="false" top="8%" :size="typeof(this.dialogsize)=='undefined'?'tiny':this.dialogsize">
-	
+
 		<el-form :model="editForm" label-width="100px" :rules="editFormRules" ref="editForm" style="width:98%">
 			<el-input v-model="editForm.id" style="display:none"></el-input>
 			<div v-for="items in edititems">
 				<el-form-item v-for="item in items.subs" v-if="item.editable" :label="item.label" :prop="item.prop">
-					<p 
+					<p
 						:is="item.type"
 						:id="item.prop"
 						:ref="item.prop"
@@ -17,7 +17,7 @@
 					></p>
 				</el-form-item>
 			</div>
-		</el-form>	
+		</el-form>
 
 			<el-col :span="24" align="right" style="margin-bottom: 15px;">
 				<el-button @click="resetEdit" size="small">清空</el-button>
@@ -36,7 +36,7 @@ import EditText from './edit-subs/EditText'
 import EditTextarea from './edit-subs/EditTextarea'
 import EditSelect from './edit-subs/EditSelect'
 import EditUpload from './edit-subs/EditUpload'
-
+import AddEmployeeRole from './add-subs/AddEmployeeRole'
 export default {
 	components:{
 		number:EditNumber,
@@ -44,7 +44,8 @@ export default {
 		date:EditDate,
 		selection:EditSelect,
 		upload:EditUpload,
-		multitext:EditTextarea
+		multitext:EditTextarea,
+        employeerole:AddEmployeeRole,
 	},
 	data () {
 		return {

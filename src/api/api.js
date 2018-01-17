@@ -38,6 +38,17 @@ export const RoleFuncion = [
     {'value_no': 3, 'value_name': '开卡功能'}
     ,
 ]
+//文字放前面，编辑的时候显示文字。否则显示编号
+export const genderType = [
+    {'value_name': '未设置', 'value_no': '-1',},
+    {'value_name': '女', 'value_no': '0',},
+    {'value_name': '男', 'value_no': '1',}
+]
+export const collectType = [
+    {'value_name': '未设置', 'value_no': '-1'},
+    {'value_name': '不可收费', 'value_no': '0'},
+    {'value_name': '可收费', 'value_no': '1'}
+]
 
 
 export var checkPhone = (rule, value, callback) => {

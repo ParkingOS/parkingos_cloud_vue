@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {path,RoleFuncion} from '../../api/api'
+import {path, RoleFuncion} from '../../api/api'
 
 export default {
 
@@ -126,9 +126,9 @@ export default {
     },
     nameformat: function (row, list, col) {
         for (var x in list) {
-            console.log('for '+x)
-            console.log('value_no '+list[x].value_no)
-            console.log('row '+row[col])
+            // console.log('for '+x)
+            // console.log('value_no '+list[x].value_no)
+            // console.log('row '+row[col])
             if (row[col] == null) {
                 if (col == 'com_id') {
                     return '(未知车场)'
@@ -136,6 +136,8 @@ export default {
                     return '-'
                 } else if (col == 'server_id') {
                     return '(无服务商)'
+                } else {
+                    return ''
                 }
             }
 
@@ -144,17 +146,20 @@ export default {
             }
         }
     },
-    funcformat:function (is_collector,is_inspect,is_opencard) {
-        if(is_collector==1){
+    funcformat: function (is_collector, is_inspect, is_opencard) {
+        if (is_collector == 1) {
             return RoleFuncion[1].value_name
         }
-        if(is_inspect==1){
+        if (is_inspect == 1) {
             return RoleFuncion[2].value_name
         }
-        if(is_opencard==1){
+        if (is_opencard == 1) {
             return RoleFuncion[3].value_name
         }
         return RoleFuncion[0].value_name
+    },
+    genderformat: function (row) {
+
     },
     getUnionList: function (params) {
         let param = '?token=' + sessionStorage.getItem('token')
@@ -199,6 +204,12 @@ export default {
     getEventLists() {
         let param = '?token=' + sessionStorage.getItem('token')
         return axios.get(path + '/getdata/geteventlist' + param)
+    },
+    getEmployeeRole() {
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid')
+            + '&loginuin=' + sessionStorage.getItem('loginuin')
+        return axios.get(path + '/member/getrole' + param)
     },
     getLength: function (obj) {
         var count = 0;

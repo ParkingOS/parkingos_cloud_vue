@@ -255,7 +255,7 @@
             </el-col>
         </el-dialog>
 
-        <!--重置缴费机密码-->
+        <!--重置密码-->
         <el-dialog
                 title="重置密码"
                 v-model="resetPwdVisible"
@@ -422,9 +422,9 @@
             }
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
-            'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
+            'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showParkInfo', 'hideTool', 'showCenterInfo', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'hideImg', 'showImg','showCommutime','showSettingFee','showPermission'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'hideImg', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission'],
         methods: {
             //控制表格样式
             rowstyle(row, index) {
@@ -730,6 +730,12 @@
                 var api = this.editapi;
                 var qform = this.sform;
                 this.$extend(eform, {'token': sessionStorage.getItem('token')})
+                this.$extend(eform, {'comid': sessionStorage.getItem('comid')})
+                this.$extend(eform, {'groupid': sessionStorage.getItem('groupid')})
+                this.$extend(eform, {'cityid': sessionStorage.getItem('cityid')})
+                this.$extend(eform, {'unionid': sessionStorage.getItem('unionid')})
+                this.$extend(eform, {'channelid': sessionStorage.getItem('channelid')})
+                this.$extend(eform, {'loginuin': sessionStorage.getItem('loginuin')})
                 this.$refs.editref.$refs.editForm.validate((valid) => {
                     if (valid) {
                         vm.editloading = true;
@@ -745,7 +751,7 @@
                                     vm.alertInfo('登录异常,请重新登录!')
                                 }, 100)
                             } else {
-                                if (ret > 0||ret.state==1) {
+                                if (ret > 0 || ret.state == 1) {
                                     //更新成功
                                     vm.getTableData(qform);
                                     vm.$message({
@@ -812,8 +818,13 @@
                 var qform = this.sform;
                 var msg = this.addfailmsg;
                 this.$extend(aform, {'token': sessionStorage.getItem('token')})
-                this.$extend(aform, {'loginuin': sessionStorage.getItem('loginuin')})
                 this.$extend(aform, {'oid': sessionStorage.getItem('oid')})
+                this.$extend(aform, {'comid': sessionStorage.getItem('comid')})
+                this.$extend(aform, {'groupid': sessionStorage.getItem('groupid')})
+                this.$extend(aform, {'cityid': sessionStorage.getItem('cityid')})
+                this.$extend(aform, {'unionid': sessionStorage.getItem('unionid')})
+                this.$extend(aform, {'channelid': sessionStorage.getItem('channelid')})
+                this.$extend(aform, {'loginuin': sessionStorage.getItem('loginuin')})
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
                         vm.addloading = true
@@ -829,7 +840,7 @@
                                     vm.alertInfo('登录异常,请重新登录!')
                                 }, 100)
                             } else {
-                                if (ret > 0||ret.state==1) {
+                                if (ret > 0 || ret.state == 1) {
                                     //更新成功
                                     vm.getTableData(qform);
                                     vm.$message({
@@ -881,8 +892,8 @@
                         }, 100)
                     } else {
                         console.log(ret)
-                        if (ret > 0||ret.state==1) {
-                        // if (ret > 0) {
+                        if (ret > 0 || ret.state == 1) {
+                            // if (ret > 0) {
                             //删除成功
                             vm.getTableData(qform);
                             vm.$message({
@@ -950,6 +961,7 @@
 
                 var qform = this.sform;
                 var vm = this
+                var api = this.resetapi;
                 if (this.pwd1 == '' || this.pwd2 == '') {
                     this.$message.error('密码不能为空!');
                     return;
@@ -963,8 +975,9 @@
                     return
                 }
                 this.resetloading = true
-                vm.$post(path + '/centralpaymentweb/resetpwd', {
-                    'pwd': this.pwd1,
+                vm.$post(path + api, {
+                    'newpass': this.pwd1,
+                    'confirmpass': this.pwd2,
                     'id': this.rowid,
                     'token': sessionStorage.getItem('token')
                 }, function (ret) {
@@ -979,7 +992,7 @@
                             vm.alertInfo('登录异常,请重新登录!')
                         }, 100)
                     } else {
-                        if (ret > 0) {
+                        if (ret > 0 || ret.state == 1) {
                             //更新成功
                             vm.getTableData(qform);
                             vm.$message({
