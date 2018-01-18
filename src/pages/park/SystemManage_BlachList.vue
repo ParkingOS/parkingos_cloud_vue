@@ -17,6 +17,10 @@
                 :showEdit="showEdit"
                 :showdelete="showdelete"
                 :addtitle="addtitle"
+                :addapi="addapi"
+                :delapi="delapi"
+                :editapi="editapi"
+                :addFormRules="addFormRules"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -24,8 +28,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
-    import util from '../../common/js/util'
+    import {blackStateType} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
@@ -49,6 +52,9 @@
                 showEdit: true,
                 showdelete: true,
                 queryapi: '/blackuser/query',
+                addapi: '/blackuser/add',
+                delapi: '/blackuser/delete',
+                editapi: '/blackuser/edit',
                 btswidth: '100',
                 fieldsstr: 'id__car_number__ctime__utime__remark__operator__state',
                 tableitems: [
@@ -60,9 +66,9 @@
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -74,7 +80,7 @@
                                 prop: 'car_number',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
@@ -90,9 +96,9 @@
                             prop: 'ctime',
                             width: '180',
                             type: 'date',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
@@ -107,9 +113,9 @@
                             prop: 'utime',
                             width: '180',
                             type: 'date',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
@@ -151,14 +157,14 @@
                             label: '状态',
                             prop: 'state',
                             width: '123',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist: blackStateType,
                             editable: true,
                             searchable: true,
-                            addable: true,
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return row.state == 0 ? '正常' : '漂白'
+                                return common.nameformat(row, blackStateType, 'state')
                             }
                         }]
                     }
@@ -167,6 +173,14 @@
                 ],
                 searchtitle: '高级查询',
                 addtitle: '添加黑名单',
+                addFormRules: {
+                    car_number: [
+                        {required: true, message: '请输入车牌号', trigger: 'blur'}
+                    ],
+                    operator: [
+                        {required: true, message: '请输入操作人', trigger: 'blur'}
+                    ],
+                }
             }
         },
         mounted() {
@@ -181,11 +195,11 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showSystemManage_BlachList_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
-                        this.hideSearch= !common.showSubSearch(item.sub_auth)
-                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        this.hideSearch = !common.showSubSearch(item.sub_auth)
+                        this.hideAdd = !common.showSubAdd(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth)
-                        this.showEdit= common.showSubEdit(item.sub_auth)
-                        this.showdelete= common.showSubDel(item.sub_auth)
+                        this.showEdit = common.showSubEdit(item.sub_auth)
+                        this.showdelete = common.showSubDel(item.sub_auth)
                         break;
                     }
                 }

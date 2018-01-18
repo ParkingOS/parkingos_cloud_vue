@@ -17,6 +17,8 @@
                 :showEdit="showEdit"
                 :showdelete="showdelete"
                 :addtitle="addtitle"
+                :addapi="addapi"
+                :addFormRules="addFormRules"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -47,7 +49,7 @@
                 showParkInfo: false,
                 hideTool: false,
                 showEdit: true,
-
+                addapi: '/bindcartype/add',
                 queryapi: '/bindcartype/query',
                 btswidth: '100',
                 fieldsstr: 'id__car_number__typeid__update_time',
@@ -60,9 +62,9 @@
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -74,7 +76,7 @@
                                 prop: 'car_number',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
@@ -91,7 +93,7 @@
                             width: '123',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -104,9 +106,9 @@
                             prop: 'update_time',
                             width: '123',
                             type: 'date',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center',
                             format:function (row) {
@@ -118,7 +120,15 @@
 
                 ],
                 searchtitle: '高级查询',
-                addtitle:'绑定车型'
+                addtitle:'绑定车型',
+                addFormRules: {
+                    car_number: [
+                        {required: true, message: '请输入车牌号', trigger: 'blur'}
+                    ],
+                    typeid: [
+                        {required: true, message: '请输入车型', trigger: 'blur'}
+                    ],
+                }
             }
         },
         mounted() {

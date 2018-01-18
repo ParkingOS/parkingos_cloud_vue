@@ -17,6 +17,10 @@
                 :showEdit="showEdit"
                 :addtitle="addtitle"
                 :showdelete="showdelete"
+                :addapi="addapi"
+                :delapi="delapi"
+                :editapi="editapi"
+                :addFormRules="addFormRules"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -48,6 +52,9 @@
                 showEdit: true,
                 showdelete: true,
                 queryapi: '/price/query',
+                addapi: '/price/add',
+                delapi: '/price/delete',
+                editapi: '/price/edit',
                 btswidth: '100',
                 fieldsstr: 'id__create_time__update_time__car_type_zh__describe',
                 tableitems: [
@@ -59,9 +66,9 @@
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -69,13 +76,13 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '进场时间',
+                            label: '创建时间',
                             prop: 'create_time',
                             width: '180',
                             type: 'date',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center',
                             format:function (row) {
@@ -90,9 +97,9 @@
                             prop: 'update_time',
                             width: '180',
                             type: 'date',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center',
                             format:function (row) {
@@ -108,7 +115,7 @@
                             width: '100',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -120,7 +127,7 @@
                             prop: 'describe',
                             width: '200',
                             type: 'str',
-                            editable: false,
+                            editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
@@ -130,7 +137,15 @@
 
                 ],
                 searchtitle: '高级查询',
-                addtitle:'添加价格'
+                addtitle:'添加价格',
+                addFormRules: {
+                    car_type_zh: [
+                        {required: true, message: '请输入车辆类型', trigger: 'blur'}
+                    ],
+                    describe: [
+                        {required: true, message: '请输入价格描述', trigger: 'blur'}
+                    ],
+                }
             }
         },
         mounted() {

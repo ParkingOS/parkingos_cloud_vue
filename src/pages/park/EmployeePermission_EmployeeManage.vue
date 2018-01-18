@@ -173,7 +173,6 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-
                                 return common.dateformat(row.reg_time)
                             }
                         }]

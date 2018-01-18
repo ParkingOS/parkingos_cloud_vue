@@ -1,4 +1,4 @@
-export const path = "http://192.168.199.205:8000/cloud"
+export const path = "http://192.168.199.205:12306/cloud"
 //export const path = "http://localhost:8080/cloud"
 
 export const phonewidth = '150'
@@ -48,6 +48,14 @@ export const collectType = [
     {'value_name': '未设置', 'value_no': '-1'},
     {'value_name': '不可收费', 'value_no': '0'},
     {'value_name': '可收费', 'value_no': '1'}
+]
+export const blackStateType = [
+    {'value_name': '正常', 'value_no': '0'},
+    {'value_name': '漂白', 'value_no': '1'}
+]
+export const commuteStateType = [
+    {'value_name': '已签到', 'value_no': '0'},
+    {'value_name': '已签退', 'value_no': '1'}
 ]
 
 

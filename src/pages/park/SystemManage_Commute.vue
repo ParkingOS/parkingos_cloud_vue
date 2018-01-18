@@ -22,8 +22,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
-    import util from '../../common/js/util'
+    import {commuteStateType} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
@@ -58,7 +57,7 @@
                             label: '编号',
                             prop: 'id',
                             width: '123',
-                            type: 'number',
+                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -120,14 +119,15 @@
                             label: '状态',
                             prop: 'state',
                             width: '123',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist:commuteStateType,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return row.state == 0 ? '已签到' : '已签退'
+                                return common.nameformat(row, commuteStateType, 'state')
                             }
                         }]
                     }
