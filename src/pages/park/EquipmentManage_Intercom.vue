@@ -16,6 +16,7 @@
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
+                :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -27,6 +28,7 @@
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
+    import {httpUrl} from '../../api/http_url'
 
     export default {
         components: {       //组件加载
@@ -41,7 +43,7 @@
                 hideAdd: false,         //隐藏添加
                 tableheight: '',        //表格高度
                 showdelete: true,       //显示删除
-                hideOptions: true,      //隐藏多选框
+                hideOptions: false,      //隐藏多选框
                 showParkInfo: false,     //显示停车信息
                 hideTool: false,        //隐藏工具栏
                 showEdit:true,
@@ -158,7 +160,8 @@
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({})
         },
-        methods: {}
+        methods: {},
+
     }
 </script>
 

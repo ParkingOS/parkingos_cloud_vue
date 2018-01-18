@@ -64,22 +64,19 @@
         <!--列表-->
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
                   v-loading="loading" @sort-change="sortChange">
-            <el-table-column
+            <!--<el-table-column
                     align="center"
                     type="index"
                     width="83"
-                    label=" "
+                    label="索引"
                     fixed="left"
             >
-            </el-table-column>
+            </el-table-column>-->
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">
                     <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)">
                         编辑
-                    </el-button>
-                    <el-button v-if="showresetpwd" size="small" type="text"
-                               @click="handleresetpwd(scope.$index, scope.row)"><span style="color:#008F4C">重置密码</span>
                     </el-button>
                     <el-button v-if="showModifyCarNumber" size="small" type="text"
                                @click="handleModifyCarNumber(scope.$index, scope.row)"><span
@@ -94,6 +91,9 @@
                         <span style="color:red">删除</span></el-button>
                     <el-button v-if="showmapdialog" size="small" type="text"
                                @click="handlemap(scope.$index, scope.row)"><span style="color:#008F4C">车场定位</span>
+                    </el-button>
+                    <el-button v-if="showresetpwd" size="small" type="text"
+                               @click="handleresetpwd(scope.$index, scope.row)"><span style="color:#008F4C">重置密码</span>
                     </el-button>
                     <el-button v-if="showmRefill" size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">续费</span>
@@ -114,6 +114,15 @@
                     >{{bt.name}}</el-button>
                     -->
                 </template>
+            </el-table-column>
+
+            <el-table-column
+                    align="center"
+                    type="index"
+                    width="83"
+                    label="索引"
+                    fixed="left"
+            >
             </el-table-column>
 
             <div v-for="items in tableitems">
