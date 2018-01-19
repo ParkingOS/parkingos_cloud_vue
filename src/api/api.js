@@ -1,9 +1,27 @@
-export const path = "http://192.168.199.205:12306/cloud"
+export const path = "http://localhost:8085"
 //export const path = "http://localhost:8080/cloud"
 
 export const phonewidth = '150'
 //beta设置为5   s.bolink设置为2 
 export const percision = 5
+
+export const operateType = [
+	{'value_no':0,'value_name':'全部'},
+    {'value_no':1,'value_name':'续费'},
+	{'value_no':2,'value_name':'回收充值'}
+]
+export const ticketType = [
+	{'value_no':0,'value_name':'全部'},
+    {'value_no':1,'value_name':'时长减免'},
+	{'value_no':2,'value_name':'金额减免'}
+]
+
+export const statType = [
+    {'value_no':-1,'value_name':'全部'},
+	{'value_no':0,'value_name':'未使用'},
+	{'value_no':1,'value_name':'已使用'},
+	{'value_no':2,'value_name':'回收作废'}
+]
 
 export const channlManager = [
     {'value_no': 0, 'value_name': '默认车场设置'},
