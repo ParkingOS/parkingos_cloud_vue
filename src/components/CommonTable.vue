@@ -95,6 +95,9 @@
                     <el-button v-if="showresetpwd" size="small" type="text"
                                @click="handleresetpwd(scope.$index, scope.row)"><span style="color:#008F4C">重置密码</span>
                     </el-button>
+                    <!--<el-button v-if="showbrake" size="small" type="text"
+                               @click="handlebrake(scope.$index, scope.row)"><span style="color:#008F4C">道闸</span>
+                    </el-button>-->
                     <el-button v-if="showmRefill" size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">续费</span>
                     </el-button>

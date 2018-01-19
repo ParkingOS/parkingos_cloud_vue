@@ -2,6 +2,9 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :addapi="addapi"
+                :editapi="editapi"
+                :delapi="delapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -60,7 +63,7 @@
                             prop: 'id',             //对应表中字段
                             width: '100',           //列宽度
                             type: 'number',         //对应表中字段类型
-                            editable: true,         //是否可编辑
+                            editable: false,         //是否可编辑
                             searchable: true,       //是否可查询
                             addable: false,          //是否可添加
                             unsortable: true,       //是否可排序
@@ -134,7 +137,7 @@
                             width: '150',
                             type: 'selection',
                             selectlist:channlManager,
-                            editable: false,
+                            editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
@@ -148,7 +151,7 @@
                             prop: 'description',
                             width: '300',
                             type: 'str',
-                            editable: false,
+                            editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,

@@ -2,6 +2,9 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :addapi="addapi"
+                :editapi="editapi"
+                :delapi="delapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -18,6 +21,7 @@
                 :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
+
     </section>
 </template>
 
@@ -62,7 +66,7 @@
                             label: 'IP地址',          //页面表格显示
                             prop: 'ledip',             //对应表中字段
                             width: '130',           //列宽度
-                            type: 'number',         //对应表中字段类型
+                            type: 'str',         //对应表中字段类型
                             editable: true,         //是否可编辑
                             searchable: true,       //是否可查询
                             addable: true,          //是否可添加
@@ -216,7 +220,7 @@
                         subs: [{
                             label: '宽',
                             prop: 'width',
-                            width: '60',
+                            width: '100',
                             type: 'number',
                             editable: true,
                             searchable: true,
@@ -229,7 +233,7 @@
                         subs: [{
                             label: '高',
                             prop: 'height',
-                            width: '60',
+                            width: '100',
                             type: 'number',
                             editable: true,
                             searchable: true,

@@ -3,6 +3,8 @@
         <common-table
                 :queryapi="queryapi"
                 :addapi="addapi"
+                :editapi="editapi"
+                :delapi="delapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -19,6 +21,7 @@
                 :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
+
     </section>
 </template>
 
@@ -51,8 +54,22 @@
                 editapi: '/EQ_workStation/edit',
                 delapi: '/EQ_workStation/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'worksite_name__description__net_type__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'id__worksite_name__description__net_type',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '编号',          //页面表格显示
+                            prop: 'id',             //对应表中字段
+                            width: '100',           //列宽度
+                            type: 'number',         //对应表中字段类型
+                            editable: false,         //是否可编辑
+                            searchable: true,       //是否可查询
+                            addable: true,          //是否可添加
+                            unsortable: true,       //是否可排序
+                            align: 'center'         //页面表格内容显示位置
+                        }]
+                    },
                     {
 
                         hasSubs: false,
@@ -60,7 +77,7 @@
                             label: '名称',          //页面表格显示
                             prop: 'worksite_name',             //对应表中字段
                             width: '300',           //列宽度
-                            type: 'number',         //对应表中字段类型
+                            type: 'str',         //对应表中字段类型
                             editable: true,         //是否可编辑
                             searchable: true,       //是否可查询
                             addable: true,          //是否可添加
