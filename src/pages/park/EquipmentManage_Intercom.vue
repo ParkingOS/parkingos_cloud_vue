@@ -19,6 +19,9 @@
                 :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
+        <!--:addapi="addapi"-->
+        <!--:editapi="editapi"-->
+        <!--:delapi="delapi"-->
     </section>
 </template>
 
