@@ -17,6 +17,10 @@
                 :showEdit="showEdit"
                 :showdelete="showdelete"
                 :addtitle="addtitle"
+                :addapi="addapi"
+                :delapi="delapi"
+                :editapi="editapi"
+                :addFormRules="addFormRules"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -49,6 +53,9 @@
                 showEdit: true,
                 showdelete: true,
                 queryapi: '/product/query',
+                addapi: '/product/add',
+                delapi: '/product/delete',
+                editapi: '/product/edit',
                 btswidth: '100',
                 fieldsstr: 'id__p_name__price__create_time__update_time__car_type_id__describe__period',
                 tableitems: [
@@ -60,9 +67,9 @@
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -74,7 +81,7 @@
                                 prop: 'p_name',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
@@ -89,7 +96,7 @@
                                 prop: 'price',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
@@ -105,9 +112,9 @@
                             prop: 'create_time',
                             width: '180',
                             type: 'date',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
@@ -122,9 +129,9 @@
                             prop: 'update_time',
                             width: '180',
                             type: 'date',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
@@ -140,7 +147,7 @@
                             width: '123',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -154,7 +161,7 @@
                             width: '123',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -178,7 +185,21 @@
 
                 ],
                 searchtitle: '高级查询',
-                addtitle:'添加套餐'
+                addtitle: '添加套餐',
+                addFormRules: {
+                    p_name: [
+                        {required: true, message: '请输入名称', trigger: 'blur'}
+                    ],
+                    price: [
+                        {required: true, message: '请输入价格', trigger: 'blur'}
+                    ],
+                    car_type_id: [
+                        {required: true, message: '请输入车型类型', trigger: 'blur'}
+                    ],
+                    period: [
+                        {required: true, message: '请输入续费周期', trigger: 'blur'}
+                    ]
+                }
             }
         },
         mounted() {
@@ -193,11 +214,11 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showSystemManage_MonthCard_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
-                        this.hideSearch= !common.showSubSearch(item.sub_auth)
-                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        this.hideSearch = !common.showSubSearch(item.sub_auth)
+                        this.hideAdd = !common.showSubAdd(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth)
-                        this.showEdit= common.showSubEdit(item.sub_auth)
-                        this.showdelete= common.showSubDel(item.sub_auth)
+                        this.showEdit = common.showSubEdit(item.sub_auth)
+                        this.showdelete = common.showSubDel(item.sub_auth)
                         break;
                     }
                 }

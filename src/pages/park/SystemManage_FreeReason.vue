@@ -14,7 +14,8 @@
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
-
+                :addapi="addapi"
+                :addtitle="addtitle"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -46,6 +47,7 @@
                 hideTool: false,
 
                 queryapi: '/freereason/query',
+                addapi: '/freereason/add',
                 btswidth: '100',
                 fieldsstr: 'id__name__sort',
                 tableitems: [
@@ -58,7 +60,7 @@
                             type: 'number',
                             editable: true,
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -94,7 +96,13 @@
 
 
                 ],
-                searchtitle: '查询明细',
+                searchtitle: '高级查询',
+                addtitle: '添加免费原因',
+                addFormRules: {
+                    name: [
+                        {required: true, message: '请输入名称', trigger: 'blur'}
+                    ]
+                },
 
             }
         },
@@ -111,7 +119,7 @@
                     if (AUTH_ID.showSystemManage_Commute_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
                         this.hideSearch= !common.showSubSearch(item.sub_auth)
-                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        // this.hideAdd= !common.showSubAdd(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth)
                         break;
                     }

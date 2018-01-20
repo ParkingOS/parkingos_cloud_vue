@@ -1,5 +1,6 @@
-//export const path = "http://192.168.199.205:8000/cloud"
-export const path = "http://localhost:8080/cloud"
+export const path = "http://192.168.199.205:12306/cloud"
+//export const path = "http://localhost:8080/cloud"
+
 
 export const phonewidth = '150'
 //beta设置为5   s.bolink设置为2 
@@ -119,6 +120,25 @@ export const RoleFuncion = [
     {'value_no': 2, 'value_name': '巡查功能'},
     {'value_no': 3, 'value_name': '开卡功能'}
     ,
+]
+//文字放前面，编辑的时候显示文字。否则显示编号
+export const genderType = [
+    {'value_name': '未设置', 'value_no': '-1',},
+    {'value_name': '女', 'value_no': '0',},
+    {'value_name': '男', 'value_no': '1',}
+]
+export const collectType = [
+    {'value_name': '未设置', 'value_no': '-1'},
+    {'value_name': '不可收费', 'value_no': '0'},
+    {'value_name': '可收费', 'value_no': '1'}
+]
+export const blackStateType = [
+    {'value_name': '正常', 'value_no': '0'},
+    {'value_name': '漂白', 'value_no': '1'}
+]
+export const commuteStateType = [
+    {'value_name': '已签到', 'value_no': '0'},
+    {'value_name': '已签退', 'value_no': '1'}
 ]
 
 

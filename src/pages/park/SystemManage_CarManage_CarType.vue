@@ -17,6 +17,10 @@
                 :showEdit="showEdit"
                 :showdelete="showdelete"
                 :addtitle="addtitle"
+                :addapi="addapi"
+                :delapi="delapi"
+                :editapi="editapi"
+                :addFormRules="addFormRules"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -49,6 +53,9 @@
                 showEdit: true,
 
                 queryapi: '/cartype/query',
+                addapi: '/cartype/add',
+                delapi: '/cartype/delete',
+                editapi: '/cartype/edit',
                 btswidth: '100',
                 fieldsstr: 'id__name__cartype_id__sort',
                 tableitems: [
@@ -60,9 +67,9 @@
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -74,7 +81,7 @@
                                 prop: 'name',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+                                editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
@@ -86,12 +93,12 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '收费系统编号',
+                            label: '系统编号',
                             prop: 'cartype_id',
                             width: '123',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -116,7 +123,15 @@
 
                 ],
                 searchtitle: '高级查询',
-                addtitle:'添加车型'
+                addtitle:'添加车型',
+                addFormRules: {
+                    name: [
+                        {required: true, message: '请输入名称', trigger: 'blur'}
+                    ],
+                    cartype_id: [
+                        {required: true, message: '请输入收费系统编号', trigger: 'blur'}
+                    ],
+                }
 
             }
         },
