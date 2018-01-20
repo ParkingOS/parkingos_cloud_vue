@@ -14,8 +14,9 @@
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
-                :hideImg="hideImg"
                 :showImg="showImg"
+
+                :imgapi="imgapi"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -45,9 +46,10 @@
                 hideOptions: true,
                 showParkInfo: false,
                 hideTool: false,
-                hideImg:true,
                 showImg:true,
+
                 queryapi: '/liftRod/query',
+                imgapi:'/liftRod/getLiftRodPicture',
                 btswidth: '100',
                 fieldsstr: 'id__liftrod_id__ctime__uin__out_channel_id__reason__resume__url',
                 tableitems: [
@@ -59,9 +61,9 @@
                             prop: 'id',
                             width: '100',
                             type: 'link',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -73,9 +75,9 @@
                             prop: 'liftrod_id',
                             width: '200',
                             type: 'number',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -87,9 +89,9 @@
                             prop: 'ctime',
                             width: '180',
                             type: 'date',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center',
                             format:function (row) {
@@ -105,7 +107,7 @@
                             width: '100',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -119,7 +121,7 @@
                             width: '100',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -133,7 +135,7 @@
                             width: '200',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -161,7 +163,7 @@
                             width: '123',
                             type: 'number',
                             editable: true,
-                            searchable: true,
+                            searchable: false,
                             addable: true,
                             unsortable: true,
                             hidden:true,

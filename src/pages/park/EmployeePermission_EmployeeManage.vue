@@ -285,13 +285,13 @@
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
 
-            let _this = this
-            axios.all([common.getEmployeeRole()])
-                .then(axios.spread(function (ret) {
-                    _this.aroles = _this.aroles.concat(ret.data);
-                    console.log(_this.aroles)
-                }))
-            console.log(this.aroles)
+            // let _this = this
+            // axios.all([common.getEmployeeRole()])
+            //     .then(axios.spread(function (ret) {
+            //         _this.aroles = _this.aroles.concat(ret.data);
+            //         console.log(_this.aroles)
+            //     }))
+            // console.log(this.aroles)
         },
         watch: {
             aroles: function (val) {
