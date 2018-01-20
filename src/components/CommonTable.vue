@@ -713,7 +713,8 @@
             //单击设置触发
             handlesetting(index, row) {
                 //调用父组件的方法,传row
-                connect.$emit('setting',row);  
+		this.$emit('setting', row.id)
+                //connect.$emit('setting',row);  
             },
             //导出表格数据
             handleExport() {
