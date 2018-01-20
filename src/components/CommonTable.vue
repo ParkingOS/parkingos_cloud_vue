@@ -302,6 +302,7 @@
     import EditForm from './EditForm'
     import AddForm from './AddForm'
     import axios from 'axios'
+    import connect from '../common/js/connector'
 
     export default {
         components: {
@@ -712,7 +713,8 @@
             //单击设置触发
             handlesetting(index, row) {
                 //调用父组件的方法,传row
-                this.$emit('setting', row.id)
+		this.$emit('setting', row.id)
+                //connect.$emit('setting',row);  
             },
             //导出表格数据
             handleExport() {
@@ -878,7 +880,7 @@
             },
             handleRefill(index, row) {
                 //月卡续费
-                alert('功能正在开发，请耐心等待')
+                connect.$emit('renew',row);
             },
             openDelete(index, row) {
                 this.rowid = row.id
