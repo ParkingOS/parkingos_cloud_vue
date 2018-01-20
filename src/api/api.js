@@ -1,4 +1,5 @@
-export const path = "http://localhost:8085"
+export const path = "http://192.168.199.205:12306/cloud"
+//export const path = "http://localhost:8085"
 //export const path = "http://localhost:8080/cloud"
 
 
