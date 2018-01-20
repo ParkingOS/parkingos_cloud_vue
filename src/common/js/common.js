@@ -206,10 +206,36 @@ export default {
         return axios.get(path + '/getdata/geteventlist' + param)
     },
     getEmployeeRole() {
+        //获取员工角色
         let param = '?token=' + sessionStorage.getItem('token')
             + '&comid=' + sessionStorage.getItem('comid')
             + '&loginuin=' + sessionStorage.getItem('loginuin')
         return axios.get(path + '/member/getrole' + param)
+    },
+    getPName() {
+        //获得月卡套餐
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid')
+            + '&loginuin=' + sessionStorage.getItem('loginuin')
+        return axios.get(path + '/getdata/getpname' + param)
+    },
+    getProdSum(p_name,month){
+        //通过续费月数和月卡套餐获取金额
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid')
+            + '&loginuin=' + sessionStorage.getItem('loginuin')
+            + '&p_name=' + p_name
+            + '&month=' + month
+        return axios.get(path + '/getdata/getprodsum' + param)
+    },
+    reNewProduct(p_name,month){
+        //月卡续费
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid')
+            + '&loginuin=' + sessionStorage.getItem('loginuin')
+            + '&p_name=' + p_name
+            + '&month=' + month
+        return axios.get(path + '/getdata/renewproduct' + param)
     },
     getLength: function (obj) {
         var count = 0;

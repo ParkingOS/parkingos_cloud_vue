@@ -24,7 +24,7 @@ export const statType = [
 	{'value_no':0,'value_name':'未使用'},
 	{'value_no':1,'value_name':'已使用'},
 	{'value_no':2,'value_name':'回收作废'}
-
+]
 export const moveStyle = [
     {'value_no': 0, 'value_name': '自适应'},
     {'value_no': 1, 'value_name': '从右向左移动'},

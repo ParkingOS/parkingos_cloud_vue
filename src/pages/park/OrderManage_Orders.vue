@@ -14,8 +14,9 @@
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
-                :hideImg="hideImg"
                 :showImg="showImg"
+
+                :imgapi="imgapi"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -45,9 +46,10 @@
                 hideOptions: true,
                 showParkInfo: false,
                 hideTool: false,
-                hideImg:true,
                 showImg:true,
+
                 queryapi: '/order/query',
+                imgapi:'/liftRod/getLiftRodPicture',
                 btswidth: '100',
                 fieldsstr: 'id__c_type__car_number__car_type__create_time__end_time__duration__pay_type__freereasons__amount_receivable__total__electronic_prepay__cash_prepay__electronic_pay__cash_pay__reduce_amount__uid__out_uid__state__url__in_passid__out_passid__order_id_local',
                 tableitems: [

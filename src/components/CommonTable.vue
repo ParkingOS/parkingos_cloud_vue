@@ -99,7 +99,7 @@
                                @click="handlebrake(scope.$index, scope.row)"><span style="color:#008F4C">道闸</span>
                     </el-button>-->
                     <el-button v-if="showmRefill" size="small" type="text"
-                               @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">续费</span>
+                               @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">月卡续费</span>
                     </el-button>
                     <el-button v-if="showPermission" size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">编辑权限</span>
@@ -165,11 +165,11 @@
                     </el-table-column>
                 </div>
             </div>
-            <el-table-column label="操作" :width="btswidth" v-if="hideImg" align="center">
+            <el-table-column label="操作" :width="btswidth" v-if="showImg" align="center">
                 <!--<el-button @click.native="showDetail(row)">查看详情</el-button>-->
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row)" v-if="showImg">123</span>-->
-                    <el-button v-if="showImg" size="small" type="text"
+                    <el-button size="small" type="text"
                                @click="handleShowImg(scope.$index, scope.row)"><span
                             style="color:#008F4C">查看图片</span></el-button>
                 </template>
@@ -285,11 +285,12 @@
 				<el-button type="primary" size="small" @click="resetPwd" :loading="resetloading">确 定</el-button>
 			</span>
         </el-dialog>
+
         <el-dialog title="车辆图片" v-model="imgDialog">
-            <img src="imgdialog_url"/>
+            <img v-bind:src="imgdialog_url" width="400px" height="300px"/>
+            <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
             <span slot="footer" class="dialog-footer">
-				<el-button @click="resetPwdVisible = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="resetPwd" :loading="resetloading">确 定</el-button>
+				<el-button @click="imgDialog = false" size="small">确 认</el-button>
 			</span>
         </el-dialog>
     </section>
@@ -302,7 +303,6 @@
     import EditForm from './EditForm'
     import AddForm from './AddForm'
     import axios from 'axios'
-    import connect from '../common/js/connector'
 
     export default {
         components: {
@@ -437,7 +437,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showParkInfo', 'hideTool', 'showCenterInfo', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'hideImg', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi'],
         methods: {
             //控制表格样式
             rowstyle(row, index) {
@@ -713,8 +713,8 @@
             //单击设置触发
             handlesetting(index, row) {
                 //调用父组件的方法,传row
-		this.$emit('setting', row.id)
-                //connect.$emit('setting',row);  
+                this.$emit('setting', row.id)
+                //connect.$emit('setting',row);
             },
             //导出表格数据
             handleExport() {
@@ -878,10 +878,7 @@
                     }
                 });
             },
-            handleRefill(index, row) {
-                //月卡续费
-                connect.$emit('renew',row);
-            },
+
             openDelete(index, row) {
                 this.rowid = row.id
                 this.delVisible = true
@@ -958,11 +955,19 @@
             },
             handleShowImg(index, row) {
                 // alert(index + '>' + row.id)
+
+                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
+                console.log(this.imgdialog_url)
                 this.imgDialog = true
             },
             handleModifyCarNumber(index, row) {
                 //修改车牌号
-                alert('功能正在开发，请耐心等待')
+                this.$emit('showreset', index, row)
+            },
+            handleRefill(index, row) {
+                //月卡续费
+                // alert('功能正在开发，请耐心等待')
+                this.$emit('showrefill', index, row)
             },
             handleresetpwd(index, row) {
                 this.rowid = row.id

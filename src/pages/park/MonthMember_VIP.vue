@@ -21,19 +21,72 @@
                 :hideOptions="hideOptions"
                 :showEdit="showEdit"
                 :hideAdd="hideAdd"
+                v-on:showreset="showreset"
+                v-on:showrefill="showrefill"
                 ref="bolinkuniontable"
         ></common-table>
+        <!--修改车牌-->
+        <el-dialog
+                title="修改车牌"
+                v-model="showResetCarnumber"
+                size="tiny">
+            <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
+                <el-form-item label="车牌号码">
+                    <el-input v-model="resetCarnumber" style="width:90%" placeholder="多个车牌,用英文','隔开"></el-input>
+                </el-form-item>
+
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+				<el-button @click="showResetCarnumber = false" size="small">取 消</el-button>
+				<el-button type="primary" size="small" @click="handlereset" :loading="resetloading">确 定</el-button>
+			</span>
+        </el-dialog>
+        <el-dialog
+                title="月卡续费"
+                v-model="showRefill"
+                size="tiny">
+            <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
+                <el-form-item label="包月产品">
+                    <el-select v-model="pnameno"  filterable @change="getRefillTotal" style="width:90%">
+                        <el-option
+                                v-for="item in pname"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="起始日期">
+                    <AddDate v-model="Btime"  placeholder="" ></AddDate>
+                </el-form-item>
+                <el-form-item label="续费月数">
+                    <el-select v-model="refillcount"  filterable @change="getRefillTotal" style="width:90%">
+                        <el-option
+                                v-for="item in [1,2,3,4,5,6,7,8,9,10,11,12]"
+                                :label="item"
+                                :value="item"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="应收金额">
+                    <el-input v-model="RefillTotal" style="width:90%" placeholder="" ></el-input>
+                </el-form-item>
+                <el-form-item label="实收金额">
+                    <el-input v-model="RefillTotalact" style="width:90%" placeholder=""></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+				<el-button @click="showRefill = false" size="small">取 消</el-button>
+				<el-button type="primary" size="small" @click="handleRefill" :loading="resetloading">确 定</el-button>
+			</span>
+        </el-dialog>
     </section>
 </template>
 
 <script>
 
     import {
-        path,
-        checkURL,
-        checkUpload,
-        checkNumber,
-        percision,
         parktypelist,
         distinctslist,
         checkCityInfo,
@@ -46,14 +99,17 @@
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
-
+    import AddDate from '../../components/add-subs/AddDate'
+    import axios from 'axios'
     export default {
         components: {
-            CommonTable
+            CommonTable,
+            AddDate
         },
         data() {
             return {
                 loading: false,
+                resetloading:false,
                 showresetpwd: false,
                 hideExport: false,
                 tableheight: '',
@@ -68,6 +124,11 @@
                 editapi: '/vip/edit',
                 delapi: '/vip/remove',
                 parkid: '',
+                currentIndex:0,
+                currentRow:'',
+                showResetCarnumber:false,
+                showRefill:false,
+                resetCarnumber:'',
                 btswidth: '220',
                 fieldsstr: 'id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
                 tableitems: [
@@ -331,7 +392,56 @@
                         {required: true, message: '请输入默认省份缩写', trigger: 'change'}
                     ],
                 },
+                pname:[],
+                pnameno:'',
+                refillcount:'',
+                RefillTotal:'',
+                RefillTotalact:'',
+                Btime:''
             }
+        },
+        methods:{
+            showreset:function (index,row) {
+                this.currentIndex=index;
+                this.currentRow=row;
+                this.showResetCarnumber = true;
+            },
+            showrefill:function (index,row) {
+                this.currentIndex=index;
+                this.currentRow=row;
+                this.showRefill = true;
+            },
+            handlereset:function () {
+                console.log('>>>>>>>>>>'+this.currentIndex)
+                console.log(this.currentRow)
+                this.resetloading = true
+
+            },
+            handleRefill:function () {
+                console.log('>>>>>>>>>>'+this.currentIndex)
+                console.log(this.currentRow)
+                this.showRefill = true
+                let _this = this
+                axios.all([common.reNewProduct(this.pnameno,this.refillcount),row.name,this.Btime,row.pid,])
+                    .then(axios.spread(function (ret) {
+
+                        // console.log(ret.data)
+                        this.resetloading = false
+                    }))
+            },
+            getRefillTotal:function () {
+                console.log('计算续费金额'+this.pnameno+'  '+this.refillcount)
+                if(this.pnameno==''||this.refillcount=='')
+                    return;
+                let _this = this
+                axios.all([common.getProdSum(this.pnameno,this.refillcount)])
+                    .then(axios.spread(function (ret) {
+                        _this.RefillTotal = ret.data.total;
+                        _this.RefillTotalact = ret.data.total;
+                        // console.log(ret.data)
+                    }))
+            },
+
         },
         mounted() {
             window.onresize = () => {
@@ -345,7 +455,7 @@
                 console.log(user.authlist.length)
                 for (var item of user.authlist) {
                     if (AUTH_ID.showMonthMember_VIP_auth_id == item.auth_id) {
-                        // console.log(item.sub_auth)
+                        console.log(item.sub_auth)
                         this.hideExport= !common.showSubExport(item.sub_auth)
                         this.hideSearch= !common.showSubSearch(item.sub_auth)
                         this.showdelete= common.showSubDel(item.sub_auth)
@@ -368,9 +478,19 @@
             this.tableheight = common.gwh() - 135;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
-            //所有厂商,所有服务商
-            this.axios.all([common.getServerList(), common.getUnionList(), common.getBankInfo(), common.getBaPayUnionList()])
-        }
+            let _this = this
+            axios.all([common.getPName()])
+                .then(axios.spread(function (ret) {
+                    _this.pname = ret.data;
+                    // console.log(ret.data)
+                    console.log(_this.pname)
+                }))
+        },
+        // watch: {
+        //     aroles: function (val) {
+        //         this.tableitems[5].subs[0].selectlist = val
+        //     }
+        // }
     }
 
 </script>
