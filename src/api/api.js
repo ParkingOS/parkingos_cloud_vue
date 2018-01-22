@@ -1,4 +1,4 @@
-export const path = "http://192.168.199.205:12306/cloud"
+export const path = "http://192.168.199.205:12305"
 //export const path = "http://localhost:8085"
 //export const path = "http://localhost:8080/cloud"
 
@@ -159,6 +159,10 @@ export const blackStateType = [
 export const commuteStateType = [
     {'value_name': '已签到', 'value_no': '0'},
     {'value_name': '已签退', 'value_no': '1'}
+]
+export const singleDoubleType = [
+    {'value_name': '不限制', 'value_no': '0'},
+    {'value_name': '限制', 'value_no': '1'}
 ]
 
 

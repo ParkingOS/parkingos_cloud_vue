@@ -338,6 +338,7 @@
                                     sessionStorage.setItem('cityid', u.cityid)
                                     sessionStorage.setItem('loginuin', u.loginuin)
                                     sessionStorage.setItem('oid', u.oid)
+                                    sessionStorage.setItem('nickname', u.nickname)
 
                                     // if (u.roleid == 1) {
                                     //     _this.$router.push({path: '/bolinkunion'});

@@ -219,23 +219,38 @@ export default {
             + '&loginuin=' + sessionStorage.getItem('loginuin')
         return axios.get(path + '/getdata/getpname' + param)
     },
+    editCarNum(carnumber,id){
+        //更改车牌号
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid')
+            + '&id=' + id
+            + '&carnumber=' + encodeURI(encodeURI(carnumber))
+        return axios.get(path + '/vip/editCarNum' + param)
+    },
     getProdSum(p_name,month){
         //通过续费月数和月卡套餐获取金额
         let param = '?token=' + sessionStorage.getItem('token')
             + '&comid=' + sessionStorage.getItem('comid')
             + '&loginuin=' + sessionStorage.getItem('loginuin')
             + '&p_name=' + p_name
-            + '&month=' + month
+            + '&months=' + month
         return axios.get(path + '/getdata/getprodsum' + param)
     },
-    reNewProduct(p_name,month){
+    reNewProduct(p_name,month,name,b_time,id,remark,act_total,nickname){
+    // reNewProduct(this.pnameno,this.refillcount,this.currentRow.name,this.Btime,this.currentRow.pid,this.currentRow.remark,this.RefillTotalact,roleid==30?'车场':roleid){
         //月卡续费
         let param = '?token=' + sessionStorage.getItem('token')
             + '&comid=' + sessionStorage.getItem('comid')
             + '&loginuin=' + sessionStorage.getItem('loginuin')
             + '&p_name=' + p_name
-            + '&month=' + month
-        return axios.get(path + '/getdata/renewproduct' + param)
+            + '&months=' + month
+            + '&name=' + name
+            + '&b_time=' + b_time
+            + '&id=' + id
+            + '&remark=' + remark
+            + '&act_total=' + act_total
+            + '&nickname=' + nickname
+        return axios.get(path + '/vip/renewproduct' + param)
     },
     getLength: function (obj) {
         var count = 0;
@@ -258,10 +273,6 @@ export default {
         if (paychennel == 1) return "支付宝"
         if (paychennel == 2) return "余额"
         if (paychennel == 3) return "银联"
-    },
-    singelDoubleFormat: function (limit) {
-        if (limit == 0) return '不限制'
-        if (limit == 1) return '限制'
     },
     // pageShow: function (pageName,pagename2) {
     //     var user = sessionStorage.getItem('user');

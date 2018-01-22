@@ -22,6 +22,7 @@
                             </el-option>
                         </el-select>
                     </div>
+                    <el-button type="primary" size="small" @click="handleCustomizeAdd" v-if="showCustomizeAdd">{{addtitle}}</el-button>
                     <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
@@ -434,7 +435,7 @@
                 pwd2: '',
             }
         },
-        props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
+        props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd','showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showParkInfo', 'hideTool', 'showCenterInfo', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi'],
@@ -789,6 +790,9 @@
                     }
                 });
             },
+            handleCustomizeAdd(){
+                this.$emit('customizeadd')
+            },
             handleAdd() {
                 var vm = this
                 var user = sessionStorage.getItem('user')
@@ -839,6 +843,7 @@
                 this.$extend(aform, {'unionid': sessionStorage.getItem('unionid')})
                 this.$extend(aform, {'channelid': sessionStorage.getItem('channelid')})
                 this.$extend(aform, {'loginuin': sessionStorage.getItem('loginuin')})
+
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
                         vm.addloading = true
