@@ -2,6 +2,7 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :exportapi="exportapi"
                 :addapi="addapi"
                 :editapi="editapi"
                 :delapi="delapi"
@@ -176,14 +177,14 @@
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
     import AddDate from '../../components/add-subs/AddDate'
-    import AddMonthVIP from '../../components/add-subs/AddMonthVIP'
+
     import axios from 'axios'
 
     export default {
         components: {
             CommonTable,
             AddDate,
-            AddMonthVIP
+
         },
         data() {
             return {
@@ -200,6 +201,7 @@
                 showCustomizeAdd: false,
                 hideAdd: true,
                 queryapi: '/vip/query',
+                exportapi: '/vip/exportExcel',
                 addapi: '/vip/add',
                 editapi: '/vip/edit',
                 delapi: '/vip/delete',
@@ -232,10 +234,14 @@
                                 label: '套餐名称',
                                 prop: 'pid',
                                 width: '100',
-                                type: 'str',
+                                type: 'selection',
+                                selectlist:this.pname,
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center',
+                                format:(row)=> {
+                                    return common.nameformat(row,this.pname,'pid')
+                                }
                             },
                         ]
                     },
@@ -265,21 +271,6 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
-                        ]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '续费模板',
-                                prop: 'refill_model',
-                                width: '150',
-                                type: 'AddMonthVIP',
-                                editable: false,
-                                searchable: true,
-                                addable: false,
-                                unsortable: true,
-                                hidden: true,
                                 align: 'center',
                             },
                         ]
@@ -394,12 +385,13 @@
                                 label: '车型类型',
                                 prop: 'car_type_id',
                                 width: '175',
-                                type: 'str',
+                                type: 'selection',
+                                selectlist:this.cartype,
                                 searchable: true,
                                 align: 'center',
                                 unsortable: true,
-                                format: function (row) {
-                                    return row.car_type_id == -1 ? '' : row.car_type_id;
+                                format:  (row)=> {
+                                    return common.nameformat(row,this.cartype,'car_type_id');
                                 }
 
                             },
@@ -412,7 +404,7 @@
                                 prop: 'create_time',
                                 width: '175',
                                 type: 'date',
-                                searchable: true,
+
                                 align: 'center',
                                 format: function (row) {
                                     return common.dateformat(row.create_time);
@@ -448,7 +440,7 @@
                                 type: 'number',
                                 addable: true,
                                 editable: true,
-                                searchable: false,
+                                searchable: true,
                                 unsortable: true,
                                 align: 'center'
                             },
@@ -491,7 +483,7 @@
 
                 },
                 pname: [],
-
+                cartype:[],
                 refillForm: {
                     name: '',
                     car_number: '',
@@ -707,18 +699,22 @@
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
             let _this = this
-            axios.all([common.getPName()])
-                .then(axios.spread(function (ret) {
-                    _this.pname = ret.data;
+            axios.all([common.getPName(),common.getCarType()])
+                .then(axios.spread(function (retpname,retcartype) {
+                    _this.pname = retpname.data;
+                    _this.cartype = retcartype.data;
                     // console.log(ret.data)
                     // console.log(_this.pname)
                 }))
         },
-        // watch: {
-        //     aroles: function (val) {
-        //         this.tableitems[5].subs[0].selectlist = val
-        //     }
-        // }
+        watch: {
+            pname: function (val) {
+                this.tableitems[1].subs[0].selectlist = val
+            },
+            cartype: function (val) {
+                this.tableitems[10].subs[0].selectlist = val
+            }
+        }
     }
 
 </script>

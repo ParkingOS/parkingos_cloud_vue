@@ -23,8 +23,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
-    import util from '../../common/js/util'
+    //import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'

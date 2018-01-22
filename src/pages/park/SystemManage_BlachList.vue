@@ -9,7 +9,7 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-                :showdateSelector="showdateSelector"
+
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
@@ -42,7 +42,7 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
-                showdateSelector: true,
+
                 hideAdd: false,
                 tableheight: '',
                 showdelete: true,

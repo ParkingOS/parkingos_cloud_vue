@@ -39,8 +39,6 @@ import AddTextarea from './add-subs/AddTextarea'
 import AddSelect from './add-subs/addSelect'
 import AddUpload from './add-subs/AddUpload'
 import AddCityInfo from './add-subs/AddCityInfo'
-import AddEmployeeRole from './add-subs/AddEmployeeRole'
-import AddMonthVIP from './add-subs/AddMonthVIP'
 
 export default {
 	components:{
@@ -51,7 +49,6 @@ export default {
 		upload:AddUpload,
 		multitext:AddTextarea,
 		cityinfo:AddCityInfo,
-        AddMonthVIP:AddMonthVIP,
 	},
 	data () {
 		return {

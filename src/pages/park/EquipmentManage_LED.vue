@@ -13,7 +13,7 @@
                 :hide-options="hideOptions"
                 :addtitle="addtitle"
                 :showEdit="showEdit"
-                :showdateSelector="showdateSelector"
+
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
@@ -43,7 +43,7 @@
                 loading: false,         //loading页面是否显示
                 hideExport: true,       //隐藏导出
                 hideSearch: true,      //隐藏查询
-                showdateSelector: true,//显示日期查询
+                 //显示日期查询
                 hideAdd: false,         //隐藏添加
                 tableheight: '',        //表格高度
                 showdelete: true,       //显示删除

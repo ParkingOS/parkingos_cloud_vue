@@ -9,11 +9,12 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-                :showdateSelector="showdateSelector"
+
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
+                :exportapi="exportapi"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -36,7 +37,7 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: false,
-                showdateSelector: true,
+
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
@@ -44,6 +45,7 @@
                 showParkInfo: true,
                 hideTool: false,
                 queryapi: '/carrenew/query',
+                exportapi: '/carrenew/exportExcel',
                 btswidth: '100',
                 fieldsstr: 'id__trade_no__card_id__pay_time__amount_receivable__amount_pay__collector__pay_type__car_number__user_id__limit_time__resume',
                 tableitems: [
@@ -68,7 +70,7 @@
                             label: '购买流水号',
                             prop: 'trade_no',
                             width: '200',
-                            type: 'number',
+                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -82,7 +84,7 @@
                             label: '月卡编号',
                             prop: 'card_id',
                             width: '100',
-                            type: 'number',
+                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -115,7 +117,7 @@
                             width: '100',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -129,7 +131,7 @@
                             width: '100',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -143,7 +145,7 @@
                             width: '123',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -155,13 +157,17 @@
                             label: '缴费类型',
                             prop: 'pay_type',
                             width: '123',
-                            type: 'selection',
-                            selectlist:payType,
+                            type: 'str',
+                            // type: 'selection',
+                            // selectlist:payType,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            // format:function (row) {
+                            //     return common.nameformat(row,payType,'pay_type')
+                            // }
                         }]
                     }, {
 
@@ -184,7 +190,7 @@
                             label: '用户编号',
                             prop: 'user_id',
                             width: '123',
-                            type: 'number',
+                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -199,7 +205,7 @@
                             width: '180',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center',

@@ -2,6 +2,7 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :exportapi="exportapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -9,16 +10,27 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-                :showdateSelector="showdateSelector"
+
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showImg="showImg"
-
+                v-on:showImg_Pole="showImgDialog"
                 :imgapi="imgapi"
                 ref="bolinkuniontable"
         ></common-table>
+        <el-dialog title="抬杆图片" v-model="imgDialog">
+            <!--<p>入场图片：</p>-->
+            <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
+            <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
+            <!--<p>出场图片：</p>-->
+            <img v-bind:src="imgdialog_url" width="600px" height="450px"/>
+            <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
+            <span slot="footer" class="dialog-footer">
+				<el-button @click="imgDialog = false" size="small">确 认</el-button>
+			</span>
+        </el-dialog>
     </section>
 </template>
 
@@ -39,7 +51,7 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: false,
-                showdateSelector: true,
+
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
@@ -49,6 +61,7 @@
                 showImg:true,
 
                 queryapi: '/liftRod/query',
+                exportapi: '/liftRod/exportExcel',
                 imgapi:'/liftRod/getLiftRodPicture',
                 btswidth: '100',
                 fieldsstr: 'id__liftrod_id__ctime__uin__out_channel_id__reason__resume__url',
@@ -60,7 +73,7 @@
                             label: '编号',
                             prop: 'id',
                             width: '100',
-                            type: 'link',
+                            type: 'number',
 
                             searchable: true,
 
@@ -74,7 +87,7 @@
                             label: '抬杆编号',
                             prop: 'liftrod_id',
                             width: '200',
-                            type: 'number',
+                            type: 'str',
 
                             searchable: true,
 
@@ -176,7 +189,15 @@
 
                 ],
                 searchtitle: '查询明细',
-
+                imgDialog: false,
+                imgdialog_url: '',
+            }
+        },
+        methods:{
+            showImgDialog:function (index,row) {
+                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
+                console.log(this.imgdialog_url)
+                this.imgDialog = true
             }
         },
         mounted() {

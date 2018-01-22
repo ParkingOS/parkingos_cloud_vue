@@ -37,7 +37,20 @@
                         </el-input>
                     </div>
 
-
+                    <div v-if="showdateSelector" style="float: left;">
+                        <span class="demonstration">日期</span>
+                        <el-date-picker
+                                v-model="datesselector"
+                                type="datetimerange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :picker-options="pickerOptions2"
+                                @change="changeanalysisdate">
+                        </el-date-picker>
+                    </div>
                 </el-col>
 
                 <el-col :span="6" align="right">
@@ -287,13 +300,13 @@
 			</span>
         </el-dialog>
 
-        <el-dialog title="车辆图片" v-model="imgDialog">
-            <img v-bind:src="imgdialog_url" width="400px" height="300px"/>
-            <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
-            <span slot="footer" class="dialog-footer">
-				<el-button @click="imgDialog = false" size="small">确 认</el-button>
-			</span>
-        </el-dialog>
+        <!--<el-dialog title="车辆图片" v-model="imgDialog">-->
+            <!--<img v-bind:src="imgdialog_url" width="400px" height="300px"/>-->
+            <!--&lt;!&ndash;<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>&ndash;&gt;-->
+            <!--<span slot="footer" class="dialog-footer">-->
+				<!--<el-button @click="imgDialog = false" size="small">确 认</el-button>-->
+			<!--</span>-->
+        <!--</el-dialog>-->
     </section>
 </template>
 
@@ -429,8 +442,8 @@
                         }]
                 },
                 resetPwdVisible: false,
-                imgDialog: false,
-                imgdialog_url: '',
+                // imgDialog: false,
+                // imgdialog_url: '',
                 pwd1: '',
                 pwd2: '',
             }
@@ -520,6 +533,7 @@
                 this.$extend(sform, {'unionid': sessionStorage.getItem('unionid')})
                 this.$extend(sform, {'channelid': sessionStorage.getItem('channelid')})
                 this.$extend(sform, {'loginuin': sessionStorage.getItem('loginuin')})
+                this.$extend(sform, {'ishdorder': sessionStorage.getItem('ishdorder')})
                 this.$extend(sform, this.queryparams)
                 this.$extend(sform, {'token': sessionStorage.getItem('token')})
                 vm.$post(path + api, sform, function (ret) {
@@ -731,7 +745,7 @@
                     }
                 }
                 console.log(params)
-                window.open(path + api + '?' + params);
+                window.open(path + api + '?' + params+'&comid='+sessionStorage.getItem('comid'));
                 //window.location.href(path+api + '?fieldsstr='+this.fieldsstr)
                 //this.$.get(path+api,params)
             },
@@ -960,10 +974,17 @@
             },
             handleShowImg(index, row) {
                 // alert(index + '>' + row.id)
+                if(row.liftrod_id == undefined){
+                    //订单图片
+                    this.$emit('showImg_Order', index, row)
+                }else{
+                    //抬杆图片
+                    this.$emit('showImg_Pole', index, row)
+                }
 
-                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
-                console.log(this.imgdialog_url)
-                this.imgDialog = true
+                // this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
+                // console.log(this.imgdialog_url)
+                // this.imgDialog = true
             },
             handleModifyCarNumber(index, row) {
                 //修改车牌号

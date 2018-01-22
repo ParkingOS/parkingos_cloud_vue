@@ -2,6 +2,7 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :exportapi="exportapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -9,16 +10,31 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-                :showdateSelector="showdateSelector"
+
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showImg="showImg"
-
+                v-on:showImg_Order="showImgDialog"
                 :imgapi="imgapi"
                 ref="bolinkuniontable"
         ></common-table>
+        <el-dialog title="车辆图片" v-model="imgDialog">
+            <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
+            <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
+            <p>进场图片</p>
+            <div v-for="img in img_in">
+                <img v-bind:src="imgpath+img" width="600px" height="450px"/>
+            </div>
+            <p>出场图片</p>
+            <div v-for="img in img_out">
+                <img v-bind:src="imgpath+img" width="600px" height="450px"/>
+            </div>
+            <span slot="footer" class="dialog-footer">
+				<el-button @click="imgDialog = false" size="small">确 认</el-button>
+			</span>
+        </el-dialog>
     </section>
 </template>
 
@@ -29,6 +45,7 @@
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
+    import axios from 'axios'
 
     export default {
         components: {
@@ -39,17 +56,18 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: false,
-                showdateSelector: true,
+
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
                 showParkInfo: false,
                 hideTool: false,
-                showImg:true,
+                showImg: true,
 
                 queryapi: '/order/query',
-                imgapi:'/liftRod/getLiftRodPicture',
+                exportapi: '/order/exportExcel',
+                imgapi: '/order/getOrderPicture ',
                 btswidth: '100',
                 fieldsstr: 'id__c_type__car_number__car_type__create_time__end_time__duration__pay_type__freereasons__amount_receivable__total__electronic_prepay__cash_prepay__electronic_pay__cash_pay__reduce_amount__uid__out_uid__state__url__in_passid__out_passid__order_id_local',
                 tableitems: [
@@ -61,9 +79,9 @@
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -75,9 +93,9 @@
                             prop: 'c_type',
                             width: '123',
                             type: 'str',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -89,9 +107,9 @@
                                 prop: 'car_number',
                                 width: '123',
                                 type: 'str',
-                                editable: false,
+
                                 searchable: true,
-                                addable: true,
+
                                 unsortable: true,
                                 align: 'center',
                             },
@@ -105,9 +123,9 @@
                             prop: 'car_type',
                             width: '100',
                             type: 'str',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
+
+                            searchable: false,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -122,13 +140,13 @@
                             editable: true,
                             searchable: true,
                             addable: true,
-                            unsortable: true,
+                            unsortable: false,
                             align: 'center',
-                            format:function (row) {
+                            format: function (row) {
                                 return common.dateformat(row.create_time)
                             }
                         }]
-                    },{
+                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -139,9 +157,9 @@
                             editable: true,
                             searchable: true,
                             addable: true,
-                            unsortable: true,
+                            unsortable: false,
                             align: 'center',
-                            format:function (row) {
+                            format: function (row) {
                                 return common.dateformat(row.end_time)
                             }
                         }]
@@ -168,12 +186,12 @@
                             width: '100',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
                         }]
-                    },  {
+                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -194,9 +212,9 @@
                             label: '应收金额',
                             prop: 'amount_receivable',
                             width: '100',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -208,14 +226,14 @@
                             label: '实收金额',
                             prop: 'total',
                             width: '100',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
+                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -229,7 +247,7 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
+                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -243,7 +261,7 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
+                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -308,7 +326,7 @@
                             width: '123',
                             type: 'str',
                             editable: true,
-                            searchable: false,
+                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -335,11 +353,9 @@
                             prop: 'url',
                             width: '123',
                             type: 'str',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
+
                             unsortable: true,
-                            hidden:true,
+                            hidden: true,
                             align: 'center'
                         }]
                     }, {
@@ -356,7 +372,7 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
+                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -377,7 +393,7 @@
                             prop: 'order_id_local',
                             width: '200',
                             type: 'str',
-                            editable: false,
+                            editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
@@ -387,7 +403,29 @@
 
                 ],
                 searchtitle: '高级查询',
+                imgDialog: false,
+                imgdialog_url: '',
+                img_in: [],
+                img_out: [],
+                imgpath: '',
+            }
+        },
+        methods: {
+            showImgDialog: function (index, row) {
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
+                console.log(this.imgdialog_url)
 
+                let _this = this
+                axios.all([axios.get(this.imgdialog_url)])
+                    .then(axios.spread(function (ret) {
+                        _this.img_in = ret.data.in;
+                        _this.img_out = ret.data.out;
+                        _this.imgpath = path
+                        console.log(_this.img_in)
+                        console.log(_this.img_out)
+                    }))
+
+                this.imgDialog = true
             }
         },
         mounted() {
@@ -403,8 +441,8 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showOrderManage_Orders_auth_id == item.auth_id) {
                         // console.log(item.sub_auth)
-                        this.hideExport= !common.showSubExport(item.sub_auth)
-                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                        this.hideExport = !common.showSubExport(item.sub_auth)
+                        this.hideSearch = !common.showSubSearch(item.sub_auth)
                         break;
                     }
                 }

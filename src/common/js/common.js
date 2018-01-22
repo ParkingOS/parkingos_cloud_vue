@@ -219,6 +219,13 @@ export default {
             + '&loginuin=' + sessionStorage.getItem('loginuin')
         return axios.get(path + '/getdata/getpname' + param)
     },
+    getCarType() {
+        //获得车型类型
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid')
+            + '&groupid=' + sessionStorage.getItem('groupid')
+        return axios.get(path + '/getdata/getcartype' + param)
+    },
     editCarNum(carnumber,id){
         //更改车牌号
         let param = '?token=' + sessionStorage.getItem('token')
