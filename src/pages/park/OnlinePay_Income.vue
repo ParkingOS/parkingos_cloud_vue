@@ -11,7 +11,7 @@
                 :searchtitle="searchtitle"
 
                 :hideTool="hideTool"
-                :showParkInfo="showParkInfo"
+
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
@@ -43,7 +43,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-                showParkInfo: false,
+
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,

@@ -9,21 +9,21 @@ export const percision = 5
 
 
 export const operateType = [
-	{'value_no':0,'value_name':'全部'},
-    {'value_no':1,'value_name':'续费'},
-	{'value_no':2,'value_name':'回收充值'}
+    {'value_no': 0, 'value_name': '全部'},
+    {'value_no': 1, 'value_name': '续费'},
+    {'value_no': 2, 'value_name': '回收充值'}
 ]
 export const ticketType = [
-	{'value_no':0,'value_name':'全部'},
-    {'value_no':1,'value_name':'时长减免'},
-	{'value_no':2,'value_name':'金额减免'}
+    {'value_no': 0, 'value_name': '全部'},
+    {'value_no': 1, 'value_name': '时长减免'},
+    {'value_no': 2, 'value_name': '金额减免'}
 ]
 
 export const statType = [
-    {'value_no':-1,'value_name':'全部'},
-	{'value_no':0,'value_name':'未使用'},
-	{'value_no':1,'value_name':'已使用'},
-	{'value_no':2,'value_name':'回收作废'}
+    {'value_no': -1, 'value_name': '全部'},
+    {'value_no': 0, 'value_name': '未使用'},
+    {'value_no': 1, 'value_name': '已使用'},
+    {'value_no': 2, 'value_name': '回收作废'}
 ]
 export const moveStyle = [
     {'value_no': 0, 'value_name': '自适应'},
@@ -134,6 +134,18 @@ export const payType = [
     {'value_no': 0, 'value_name': '现金'},
     {'value_no': 1, 'value_name': '电子支付'}
 ]
+export const orderPayType = [
+    //0:帐户支付,1:现金支付,2:手机支付 3:包月 4:现金预支付 5：银联卡(中央预支付，后面废弃) 6：商家卡(中央预支付，后面废弃) 8：免费放行 9：刷卡
+    {'value_name': '账户支付', 'value_no': 0},
+    {'value_name': '现金支付', 'value_no': 1,},
+    {'value_name': '手机支付', 'value_no': 2,},
+    {'value_name': '包月', 'value_no': 3},
+    {'value_name': '现金预支付', 'value_no': 4,},
+    {'value_name': '银联卡支付', 'value_no': 5,},
+    {'value_name': '商家卡支付', 'value_no': 6,},
+    {'value_name': '免费放行', 'value_no': 8,},
+    {'value_name': '刷卡', 'value_no': 9}
+]
 export const RoleFuncion = [
     {'value_no': 0, 'value_name': '无'},
     {'value_no': 1, 'value_name': '收费功能'},
@@ -163,6 +175,11 @@ export const commuteStateType = [
 export const singleDoubleType = [
     {'value_name': '不限制', 'value_no': '0'},
     {'value_name': '限制', 'value_no': '1'}
+]
+export const orderStateType = [
+    {'value_name': '未结算', 'value_no': '0'},
+    {'value_name': '已结算', 'value_no': '1'},
+    {'value_name': '逃单', 'value_no': '2'}
 ]
 
 

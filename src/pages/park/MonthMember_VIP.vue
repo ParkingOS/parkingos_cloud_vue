@@ -212,7 +212,7 @@
                 showRefill: false,
                 showRegis: false,
                 resetCarnumber: '',
-                btswidth: '220',
+                btswidth: '200',
                 fieldsstr: 'id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
                 tableitems: [
                     {
@@ -285,7 +285,7 @@
 
                                 searchable: true,
 
-                                unsortable: true,
+                                unsortable: false,
                                 align: 'center',
                                 format: function (row) {
                                     return common.dateformat(row.create_time);
@@ -303,7 +303,7 @@
 
                                 searchable: true,
                                 addable: true,
-                                unsortable: true,
+                                unsortable: false,
                                 align: 'center',
                                 format: function (row) {
                                     return common.dateformat(row.b_time);
@@ -322,7 +322,7 @@
 
                                 searchable: true,
 
-                                unsortable: true,
+                                unsortable: false,
                                 align: 'center'
                                 ,
                                 format: function (row) {

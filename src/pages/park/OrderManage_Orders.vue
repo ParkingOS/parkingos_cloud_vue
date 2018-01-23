@@ -40,7 +40,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
+    import {path, orderStateType,orderPayType} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
@@ -61,7 +61,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-                showParkInfo: false,
+                showParkInfo:true,
                 hideTool: false,
                 showImg: true,
 
@@ -184,12 +184,16 @@
                             label: '支付方式',
                             prop: 'pay_type',
                             width: '100',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist:orderPayType,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function (row) {
+                                return common.nameformat(row,orderPayType,'pay_type')
+                            }
                         }]
                     }, {
 
@@ -310,12 +314,16 @@
                             label: '入场收费员',
                             prop: 'uid',
                             width: '123',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist:this.collectors,
                             editable: true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:(row)=>{
+                                return common.nameformat(row,this.collectors,'uid')
+                            }
                         }]
                     }, {
 
@@ -324,12 +332,16 @@
                             label: '收款人',
                             prop: 'out_uid',
                             width: '123',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist:this.collectors,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:(row)=>{
+                                return common.nameformat(row,this.collectors,'out_uid')
+                            }
                         }]
                     }, {
 
@@ -338,12 +350,16 @@
                             label: '状态',
                             prop: 'state',
                             width: '123',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist:orderStateType,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function (row) {
+                                return common.nameformat(row,orderStateType,'state')
+                            }
                         }]
                     }, {
 
@@ -408,6 +424,7 @@
                 img_in: [],
                 img_out: [],
                 imgpath: '',
+                collectors:'',
             }
         },
         methods: {
@@ -456,6 +473,19 @@
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
+            // getCollector
+            let _this = this
+            axios.all([common.getCollector()])
+                .then(axios.spread(function (ret) {
+                    _this.collectors = ret.data;
+                    // console.log(ret.data)
+                }))
+        },
+        watch:{
+            collectors:function (val) {
+                this.tableitems[16].subs[0].selectlist = val
+                this.tableitems[17].subs[0].selectlist = val
+            }
         }
     }
 

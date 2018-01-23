@@ -596,6 +596,11 @@
                         float: left;
                         color: #475669;
                     }
+                    .title2 {
+                        width: 160px;
+                        float: left;
+                        color: #475669;
+                    }
                     .breadcrumb-inner {
                         float: right;
                     }

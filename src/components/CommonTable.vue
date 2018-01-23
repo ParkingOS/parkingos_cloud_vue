@@ -5,24 +5,45 @@
             <el-col :span="24" v-if="!showRight" align="left">
                 <el-col :span="18" align="left">
 
-                    <div v-if="showCenterInfo" style="display:inline;margin-right:400px;float: left">
-                        <el-input v-model="todayTotal" style="width:150px;background:white" disabled>
-                            <template slot="prepend">今日收钞</template>
-                        </el-input>&nbsp;&nbsp;&nbsp;
-                        <el-input v-model="balance" style="width:150px;background:white" disabled>
-                            <template slot="prepend">钱箱余额</template>
+                    <!--<div v-if="showCenterInfo" style="display:inline;margin-right:400px;float: left">-->
+                    <!--<el-input v-model="todayTotal" style="width:150px;background:white" disabled>-->
+                    <!--<template slot="prepend">今日收钞</template>-->
+                    <!--</el-input>&nbsp;&nbsp;&nbsp;-->
+                    <!--<el-input v-model="balance" style="width:150px;background:white" disabled>-->
+                    <!--<template slot="prepend">钱箱余额</template>-->
+                    <!--</el-input>-->
+                    <!--&nbsp;&nbsp;收款人:-->
+                    <!--<el-select v-model="centralpayment" @change="getCentralPaymentMoney" placeholder="全部"-->
+                    <!--style="width:150px;margin-left:20px">-->
+                    <!--<el-option-->
+                    <!--v-for="item in centralpaymentlist"-->
+                    <!--:label="item.value_name"-->
+                    <!--:value="item.value_no">-->
+                    <!--</el-option>-->
+                    <!--</el-select>-->
+                    <!--</div>-->
+                    <div v-if="showRefillInfo" style="display:inline;margin-right:100px;float: left">
+                        <el-input v-model="shouldpay" style="width:180px;background:white;" disabled>
+                            <template slot="prepend">应收</template>
                         </el-input>
-                        &nbsp;&nbsp;收款人:
-                        <el-select v-model="centralpayment" @change="getCentralPaymentMoney" placeholder="全部"
-                                   style="width:150px;margin-left:20px">
-                            <el-option
-                                    v-for="item in centralpaymentlist"
-                                    :label="item.value_name"
-                                    :value="item.value_no">
-                            </el-option>
-                        </el-select>
+                        <el-input v-model="actualpay" style="width:180px;background:white;" disabled>
+                            <template slot="prepend">实收</template>
+                        </el-input>
                     </div>
-                    <el-button type="primary" size="small" @click="handleCustomizeAdd" v-if="showCustomizeAdd">{{addtitle}}</el-button>
+                    <div v-if="showParkInfo" style="display:inline;margin-right:100px;float: left">
+                        <el-input v-model="parkspace_park" style="width:150px;background:white;margin-right: 0.5px;" disabled >
+                            <template slot="prepend">场内停车</template>
+                        </el-input>
+                        <el-input v-model="parkspace_park" style="width:150px;background:white;" disabled>
+                            <template slot="prepend">临停车</template>
+                        </el-input>
+                        <el-input v-model="parkspace_blank" style="width:150px;background:white;" disabled>
+                            <template slot="prepend">空车位</template>
+                        </el-input>
+                    </div>
+                    <el-button type="primary" size="small" @click="handleCustomizeAdd" v-if="showCustomizeAdd">
+                        {{addtitle}}
+                    </el-button>
                     <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
@@ -30,14 +51,8 @@
                     </el-tooltip>
                     <el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
 
-                    <div v-if="showParkInfo" style="float: left;width: 170px; ">
 
-                        <el-input v-model="money" style="width:150px;background:white" disabled>
-                            <template slot="prepend">总计</template>
-                        </el-input>
-                    </div>
-
-                    <div v-if="showdateSelector" style="float: left;">
+                    <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
                         <span class="demonstration">日期</span>
                         <el-date-picker
                                 v-model="datesselector"
@@ -116,7 +131,7 @@
                                @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">月卡续费</span>
                     </el-button>
                     <el-button v-if="showPermission" size="small" type="text"
-                               @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">编辑权限</span>
+                               @click="handlePermission(scope.$index, scope.row)"><span style="color:#008F4C">编辑权限</span>
                     </el-button>
                     <el-button v-if="showSettingFee" size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">收费设置</span>
@@ -301,11 +316,11 @@
         </el-dialog>
 
         <!--<el-dialog title="车辆图片" v-model="imgDialog">-->
-            <!--<img v-bind:src="imgdialog_url" width="400px" height="300px"/>-->
-            <!--&lt;!&ndash;<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>&ndash;&gt;-->
-            <!--<span slot="footer" class="dialog-footer">-->
-				<!--<el-button @click="imgDialog = false" size="small">确 认</el-button>-->
-			<!--</span>-->
+        <!--<img v-bind:src="imgdialog_url" width="400px" height="300px"/>-->
+        <!--&lt;!&ndash;<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>&ndash;&gt;-->
+        <!--<span slot="footer" class="dialog-footer">-->
+        <!--<el-button @click="imgDialog = false" size="small">确 认</el-button>-->
+        <!--</span>-->
         <!--</el-dialog>-->
     </section>
 </template>
@@ -365,8 +380,10 @@
                 ps: 1,
                 keyword: '',
                 cityName: '',
-                money: '0.00 元',
-                totalCount: '0',
+                shouldpay: '0.00 元',
+                actualpay: '0.00 元',
+                parkspace_blank: '0辆',
+                parkspace_park: '0辆',
                 label: {content: 'Marker Label', opts: {offset: {width: 20, height: -10}}},
                 centralpayment: -3,
                 todayTotal: '',
@@ -448,9 +465,9 @@
                 pwd2: '',
             }
         },
-        props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd','showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
+        props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showParkInfo', 'hideTool', 'showCenterInfo', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
+            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi'],
         methods: {
             //控制表格样式
@@ -462,9 +479,7 @@
             //刷新页面
             refresh() {
                 console.log('refresh')
-                if (this.showCenterInfo) {
-                    this.getCentralPaymentMoney()
-                } else if (this.showdateSelector) {
+                if (this.showdateSelector) {
 
                     //this.$extend(this.sform,{'date':this.datesselector})
                     this.sform.date = this.searchDate
@@ -517,11 +532,9 @@
             },
             //拉取表格数据
             getTableData(sform) {
-                console.log('getdata')
                 var vm = this;
                 this.loading = true;
                 var api = this.queryapi;
-                //alert(sform);
                 this.$extend(sform, {'rp': this.pageSize})
                 this.$extend(sform, {'page': this.currentPage})
                 this.$extend(sform, {'orderby': this.orderby})
@@ -558,12 +571,26 @@
                     } else {
                         if (ret.total == 0) {
                             vm.table = [];
-                            vm.money = '0元';
-                            vm.totalCount = 0;
                         } else {
                             vm.table = ret.rows;
-                            vm.money = ret.total + '元';
-                            vm.totalCount = ret.totalCount;
+                        }
+
+
+                        if (ret.actReceivable != undefined) {
+                            //月卡续费记录实收
+                            vm.actualpay = ret.actReceivable + '元'
+                        }
+                        if (ret.amountReceivable != undefined) {
+                            //月卡续费记录应收
+                            vm.shouldpay = ret.amountReceivable + '元'
+                        }
+                        if (ret.blank != undefined) {
+                            //订单记录 车位统计-空车位
+                            vm.parkspace_blank = ret.blank
+                        }
+                        if (ret.parktotal != undefined) {
+                            //订单记录 车位统计-场内停车
+                            vm.parkspace_park = ret.parktotal
                         }
                         vm.total = ret.total;
                         vm.loading = false;
@@ -572,54 +599,56 @@
                 }, "json");
             },
             //拉取表格数据
-            getTableDataCloud(sform) {
-                console.log('getdata')
-                var vm = this;
-                this.loading = true;
-                var api = this.queryapi;
-                //alert(sform);
-                this.$extend(sform, {'rp': this.pageSize})
-                this.$extend(sform, {'page': this.currentPage})
-                this.$extend(sform, {'orderby': this.orderby})
-                this.$extend(sform, {'orderfield': this.orderfield})
-                this.$extend(sform, {'fieldsstr': this.fieldsstr})
-                this.$extend(sform, this.queryparams)
-                this.$extend(sform, {'token': sessionStorage.getItem('token')})
-                vm.$post(api, sform, function (ret) {
-                    if (ret.validate != 'undefined' && ret.validate == '0') {
-                        vm.loading = false;
-                        //未携带令牌.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('未携带令牌,请重新登录!')
-                        }, 150)
-                    } else if (ret.validate != 'undefined' && ret.validate == '1') {
-                        vm.loading = false;
-                        //过期.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 150)
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
-                        vm.loading = false;
-                        //令牌无效.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 150)
-                    } else {
-                        if (ret.total == 0) {
-                            vm.table = [];
-                            vm.money = '0元';
-                            vm.totalCount = 0;
-                        } else {
-                            vm.table = ret.rows;
-                            vm.money = ret.money + '元';
-                            vm.totalCount = ret.totalCount;
-                        }
-                        vm.total = ret.total;
-                        vm.loading = false;
-                    }
-
-                }, "json");
-            },
+            // getTableDataCloud(sform) {
+            //     console.log('getdata')
+            //     var vm = this;
+            //     this.loading = true;
+            //     var api = this.queryapi;
+            //     //alert(sform);
+            //     this.$extend(sform, {'rp': this.pageSize})
+            //     this.$extend(sform, {'page': this.currentPage})
+            //     this.$extend(sform, {'orderby': this.orderby})
+            //     this.$extend(sform, {'orderfield': this.orderfield})
+            //     this.$extend(sform, {'fieldsstr': this.fieldsstr})
+            //     this.$extend(sform, this.queryparams)
+            //     this.$extend(sform, {'token': sessionStorage.getItem('token')})
+            //     vm.$post(api, sform, function (ret) {
+            //         if (ret.validate != 'undefined' && ret.validate == '0') {
+            //             vm.loading = false;
+            //             //未携带令牌.重新登录
+            //             setTimeout(() => {
+            //                 vm.alertInfo('未携带令牌,请重新登录!')
+            //             }, 150)
+            //         } else if (ret.validate != 'undefined' && ret.validate == '1') {
+            //             vm.loading = false;
+            //             //过期.重新登录
+            //             setTimeout(() => {
+            //                 vm.alertInfo('登录过期,请重新登录!')
+            //             }, 150)
+            //         } else if (ret.validate != 'undefined' && ret.validate == '2') {
+            //             vm.loading = false;
+            //             //令牌无效.重新登录
+            //             setTimeout(() => {
+            //                 vm.alertInfo('登录异常,请重新登录!')
+            //             }, 150)
+            //         } else {
+            //             if (ret.total == 0) {
+            //                 vm.table = [];
+            //             } else {
+            //                 vm.table = ret.rows;
+            //             }
+            //             if(ret.actReceivable!=undefined){
+            //                 vm.actualpay = ret.actReceivable+'元'
+            //             }
+            //             if(ret.amountReceivable!=undefined){
+            //                 vm.shouldpay = ret.amountReceivable+'元'
+            //             }
+            //             vm.total = ret.total;
+            //             vm.loading = false;
+            //         }
+            //
+            //     }, "json");
+            // },
             //高级查询
             handleSearch() {
                 //弹出高级查询界面
@@ -745,7 +774,7 @@
                     }
                 }
                 console.log(params)
-                window.open(path + api + '?' + params+'&comid='+sessionStorage.getItem('comid'));
+                window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
                 //window.location.href(path+api + '?fieldsstr='+this.fieldsstr)
                 //this.$.get(path+api,params)
             },
@@ -804,7 +833,7 @@
                     }
                 });
             },
-            handleCustomizeAdd(){
+            handleCustomizeAdd() {
                 this.$emit('customizeadd')
             },
             handleAdd() {
@@ -974,10 +1003,10 @@
             },
             handleShowImg(index, row) {
                 // alert(index + '>' + row.id)
-                if(row.liftrod_id == undefined){
+                if (row.liftrod_id == undefined) {
                     //订单图片
                     this.$emit('showImg_Order', index, row)
-                }else{
+                } else {
                     //抬杆图片
                     this.$emit('showImg_Pole', index, row)
                 }
@@ -994,6 +1023,11 @@
                 //月卡续费
                 // alert('功能正在开发，请耐心等待')
                 this.$emit('showrefill', index, row)
+            },
+            handlePermission(index, row) {
+                //员工权限-角色管理-编辑权限
+                // alert('功能正在开发，请耐心等待')
+                this.$emit('showRolePermission', index, row)
             },
             handleresetpwd(index, row) {
                 this.rowid = row.id
@@ -1187,15 +1221,15 @@
         activated() {
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             var _this = this
-            if (this.showCenterInfo) {
-                //发送请求
-                axios.all([common.getCentralPaymentList()])
-                    .then(axios.spread(function (union, server, park) {
-                        _this.centralpaymentlist = union.data
-                        _this.centralpayment = '-3'
-                    }))
-                this.getCentralPaymentMoney()
-            }
+            // if (this.showCenterInfo) {
+            //     //发送请求
+            //     axios.all([common.getCentralPaymentList()])
+            //         .then(axios.spread(function (union, server, park) {
+            //             _this.centralpaymentlist = union.data
+            //             _this.centralpayment = '-3'
+            //         }))
+            //     this.getCentralPaymentMoney()
+            // }
             this.analysisdate = Date.now()
             this.mapheight = common.gwh() * 0.5
             this.mapstyle = 'width:inherit;height:' + 420 + 'px'

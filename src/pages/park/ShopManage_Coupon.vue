@@ -11,7 +11,7 @@
                 :searchtitle="searchtitle"
 
                 :hideTool="hideTool"
-                :showParkInfo="showParkInfo"
+
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :hideImg="hideImg"
@@ -46,7 +46,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-                showParkInfo: false,
+
                 hideTool: false,
                 queryapi: '/shopticket/quickquery',
                 btswidth: '100',

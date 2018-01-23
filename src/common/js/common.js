@@ -205,6 +205,13 @@ export default {
         let param = '?token=' + sessionStorage.getItem('token')
         return axios.get(path + '/getdata/geteventlist' + param)
     },
+    getCollector() {
+        //获取收费员
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid')
+            + '&groupid=' + sessionStorage.getItem('groupid')
+        return axios.get(path + '/getdata/getalluser' + param)
+    },
     getEmployeeRole() {
         //获取员工角色
         let param = '?token=' + sessionStorage.getItem('token')

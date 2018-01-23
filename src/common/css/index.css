@@ -680,8 +680,10 @@
 .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item, .el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title {
     color: #48576a
 }
+/*el-menu-item选中加粗*/
 .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active, .el-menu-item.is-active {
-    color: #20a0ff
+    color: #20a0ff;
+    font-weight: bold;
 }
 .el-menu--collapse {
     width: 64px

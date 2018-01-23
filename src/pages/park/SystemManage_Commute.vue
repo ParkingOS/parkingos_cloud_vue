@@ -11,7 +11,7 @@
                 :searchtitle="searchtitle"
 
                 :hideTool="hideTool"
-                :showParkInfo="showParkInfo"
+
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
 
@@ -41,7 +41,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-                showParkInfo: false,
+
                 hideTool: false,
 
                 queryapi: '/workrecord/query',

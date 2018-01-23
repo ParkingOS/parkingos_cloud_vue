@@ -11,7 +11,7 @@
                 :searchtitle="searchtitle"
                 :showdateSelector="showdateSelector"
                 :hideTool="hideTool"
-                :showParkInfo="showParkInfo"
+
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
@@ -42,7 +42,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: false,
-                showParkInfo: false,
+
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
@@ -115,16 +115,13 @@
                         subs: [{
                             label: '日期',
                             prop: 'sdate',
-                            width: '180',
-                            type: 'date',
+                            width: '320',
+                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.sdate)
-                            }
+                            align: 'center'
                         }]
                     },  {
 

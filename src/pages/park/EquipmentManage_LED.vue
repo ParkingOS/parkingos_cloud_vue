@@ -15,7 +15,7 @@
                 :showEdit="showEdit"
 
                 :hideTool="hideTool"
-                :showParkInfo="showParkInfo"
+
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showdelete="showdelete"
@@ -48,7 +48,7 @@
                 tableheight: '',        //表格高度
                 showdelete: true,       //显示删除
                 hideOptions: false,      //隐藏多选框
-                showParkInfo: false,     //显示停车信息
+                       //显示停车信息
                 hideTool: false,        //隐藏工具栏
                 showEdit:true,
                 queryapi: '/EQ_LED/query',    //数据请求路径

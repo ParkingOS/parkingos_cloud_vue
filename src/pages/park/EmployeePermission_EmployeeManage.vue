@@ -12,7 +12,7 @@
 
                 :addtitle="addtitle"
                 :hideTool="hideTool"
-                :showParkInfo="showParkInfo"
+
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
@@ -51,7 +51,7 @@
                 tableheight: '',
                 showresetpwd: true,
                 hideOptions: false,
-                showParkInfo: false,
+
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
@@ -247,7 +247,8 @@
                     // ],
 
                 },
-                aroles: [{value_no: "-1", value_name: "未设置"}],
+                // aroles: [{value_no: "-1", value_name: "未设置"}],
+                aroles: [],
             }
         },
         mounted() {
@@ -285,12 +286,13 @@
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
 
-            // let _this = this
-            // axios.all([common.getEmployeeRole()])
-            //     .then(axios.spread(function (ret) {
-            //         _this.aroles = _this.aroles.concat(ret.data);
-            //         console.log(_this.aroles)
-            //     }))
+            let _this = this
+            axios.all([common.getEmployeeRole()])
+                .then(axios.spread(function (ret) {
+                    // _this.aroles = _this.aroles.concat(ret.data);
+                    _this.aroles = ret.data;
+                    // console.log(_this.aroles)
+                }))
             // console.log(this.aroles)
         },
         watch: {

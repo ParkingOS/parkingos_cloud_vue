@@ -9,9 +9,8 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-
                 :hideTool="hideTool"
-                :showParkInfo="showParkInfo"
+                :showRefillInfo="showRefillInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :exportapi="exportapi"
@@ -42,7 +41,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-                showParkInfo: true,
+                showRefillInfo: true,
                 hideTool: false,
                 queryapi: '/carrenew/query',
                 exportapi: '/carrenew/exportExcel',
@@ -104,7 +103,7 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:function (row) {
+                            format: function (row) {
                                 return common.dateformat(row.pay_time)
                             }
                         }]
@@ -209,7 +208,7 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:function (row) {
+                            format: function (row) {
                                 return common.dateformat(row.limit_time)
                             }
                         }]
@@ -246,8 +245,8 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showMonthMember_Refill_auth_id == item.auth_id) {
                         // console.log(item.sub_auth)
-                        this.hideExport= !common.showSubExport(item.sub_auth)
-                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                        this.hideExport = !common.showSubExport(item.sub_auth)
+                        this.hideSearch = !common.showSubSearch(item.sub_auth)
                         break;
                     }
                 }

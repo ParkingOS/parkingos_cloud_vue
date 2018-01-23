@@ -12,26 +12,43 @@
                 :searchtitle="searchtitle"
 
                 :hideTool="hideTool"
-                :showParkInfo="showParkInfo"
+
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
                 :showdelete="showdelete"
                 :showPermission="showPermission"
-                :showSettingFee="showSettingFee"
-                :showCommutime="showCommutime"
+
                 :addtitle="addtitle"
                 :delapi="delapi"
                 :editapi="editapi"
                 :addFormRules="addFormRules"
+                v-on:showRolePermission="showRolePermission"
                 ref="bolinkuniontable"
         ></common-table>
+        <el-dialog title="权限设置" v-model="isShowPermission">
+                <div>
+                    <el-checkbox>订单管理</el-checkbox>
+                    <div style="margin-left: 20px;">
+                        <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>-->
+                        <!--<div style="margin: 15px 0;"></div>-->
+                        <!--<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">-->
+                            <!--<el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>-->
+                        <!--</el-checkbox-group>-->
+                    </div>
+                </div>
+                <span slot="footer" class="dialog-footer">
+				<el-button @click="isShowPermission = false" size="small">取 消</el-button>
+				<el-button type="primary" size="small" @click="handleSavePermission"
+                           :loading="dialogloading">确 定</el-button>
+            </span>
+        </el-dialog>
     </section>
 </template>
 
 
 <script>
-    import { RoleFuncion} from '../../api/api';
+    import {RoleFuncion} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
@@ -50,18 +67,18 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: false,
-                showParkInfo: false,
+
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
-                showSettingFee: true,
-                showCommutime: true,
+                // showSettingFee: true,
+                // showCommutime: true,
                 showPermission: true,
                 addapi: '/adminrole/addrole',
                 delapi: '/adminrole/deleterole',
                 editapi: '/adminrole/editrole',
                 queryapi: '/adminrole/query',
-                btswidth: '300',
+                btswidth: '180',
                 fieldsstr: 'id__role_name__func__resume',
                 tableitems: [
                     {
@@ -101,9 +118,9 @@
                                 width: '123',
                                 type: 'selection',
                                 selectlist: RoleFuncion,
-                                editable: true,
+                                editable: false,
                                 searchable: true,
-                                addable: true,
+                                addable: false,
                                 unsortable: true,
                                 align: 'center',
                                 format: function (row) {
@@ -137,6 +154,16 @@
                         {required: true, message: '请输入名称', trigger: 'blur'}
                     ]
                 },
+                isShowPermission: false,
+                dialogloading: false,
+            }
+        },
+        methods: {
+            showRolePermission: function (index, row) {
+                this.isShowPermission = true;
+            },
+            handleSavePermission:function () {
+
             }
         },
         mounted() {
