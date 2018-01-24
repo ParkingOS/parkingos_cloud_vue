@@ -96,7 +96,10 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,channlManagerType,'passtype')
+                            }
                         }]
                     }, {
 
@@ -127,6 +130,9 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,channlManager,'month_set')
+                            }
                         }]
                     }, {
 
@@ -141,7 +147,10 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,channlManager,'month2_set')
+                            }
                         }]
                     },{
 

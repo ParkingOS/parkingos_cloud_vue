@@ -1,6 +1,5 @@
-export const path = "http://192.168.199.205:12305"
-//export const path = "http://localhost:8085"
-//export const path = "http://localhost:8080/cloud"
+//export const path = "http://192.168.199.205:12305"
+export const path = "http://localhost:8080/cloud"
 
 
 export const phonewidth = '150'

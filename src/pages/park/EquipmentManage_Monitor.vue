@@ -54,7 +54,7 @@
                 editapi: '/EQ_monitor/edit',
                 delapi: '/EQ_monitor/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'id__trade_no__card_id__pay_time__amount_receivable__amount_pay__collector__pay_type__car_number__user_id__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: '',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
 
