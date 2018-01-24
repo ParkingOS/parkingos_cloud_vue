@@ -26,6 +26,7 @@ Vue.use(BaiduMap,{
 
 Vue.prototype.QRCode=QRCode
 Vue.prototype.axios=axios
+// Vue.prototype.$axios=axios
 Vue.prototype.$=jQuery
 Vue.prototype.$post=jQuery.post
 Vue.prototype.$ajax=jQuery.ajax
