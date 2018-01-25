@@ -2,6 +2,9 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :addapi="addapi"
+                :editapi="editapi"
+                :delapi="delapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -19,9 +22,6 @@
                 :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
-        <!--:addapi="addapi"-->
-        <!--:editapi="editapi"-->
-        <!--:delapi="delapi"-->
     </section>
 </template>
 
@@ -54,7 +54,7 @@
                 editapi: '/EQ_monitor/edit',
                 delapi: '/EQ_monitor/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'id__trade_no__card_id__pay_time__amount_receivable__amount_pay__collector__pay_type__car_number__user_id__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'id__monitor_name__channel__net_state__screen_show__order_by__address__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
 
@@ -64,9 +64,9 @@
                             prop: 'id',             //对应表中字段
                             width: '100',           //列宽度
                             type: 'number',         //对应表中字段类型
-                            editable: true,         //是否可编辑
+                            editable: false,         //是否可编辑
                             searchable: true,       //是否可查询
-                            addable: true,          //是否可添加
+                            addable: false,          //是否可添加
                             unsortable: false,       //是否可排序
                             align: 'center'         //页面表格内容显示位置
                         }]
@@ -75,7 +75,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '名称',
-                            prop: 'trade_no',
+                            prop: 'monitor_name',
                             width: '150',
                             type: 'str',
                             editable: true,
@@ -89,7 +89,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '通道',
-                            prop: 'card_id',
+                            prop: 'channel',
                             width: '100',
                             type: 'selection',
                             //selectlist:payType,//此处引用通道管理的名称栏
@@ -104,8 +104,8 @@
                         hasSubs: false,
                         subs: [{
                             label: '网络状态',
-                            prop: 'pay_time',
-                            width: '140',
+                            prop: 'net_state',
+                            width: '120',
                             type: 'str',
                             editable: false,
                             searchable: true,
@@ -118,7 +118,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '是否显示',
-                            prop: 'amount_receivable',
+                            prop: 'screen_show',
                             width: '100',
                             type: 'selection',
                             editable: true,
@@ -127,13 +127,16 @@
                             selectlist:monitorType,
                             unsortable: true,
                             align: 'center',
+                            format:function (row) {
+                                return common.nameformat(row,monitorType,'screen_show')
+                            }
                         }]
                     }, {
 
                         hasSubs: false,
                         subs: [{
                             label: '排序',
-                            prop: 'amount_pay',
+                            prop: 'order_by',
                             width: '100',
                             type: 'str',
                             editable: false,
@@ -147,7 +150,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '地址',
-                            prop: 'collector',
+                            prop: 'address',
                             width: '200',
                             type: 'str',
                             editable: true,

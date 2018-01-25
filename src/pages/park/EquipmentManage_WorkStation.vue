@@ -111,7 +111,10 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,workStation,'net_type')
+                            }
                         }]
                     },
                 ],

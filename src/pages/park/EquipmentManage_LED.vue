@@ -107,7 +107,7 @@
                         subs: [{
                             label: '移动方式',
                             prop: 'movemode',
-                            width: '100',
+                            width: '130',
                             type: 'selection',
                             selectlist:moveStyle,
                             editable: true,
@@ -115,6 +115,9 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,moveStyle,'movemode')
+                            }
                         }]
                     }, {
 
@@ -130,6 +133,9 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,moveSpeed,'movespeed')
+                            }
                         }]
                     }, {
 
@@ -144,7 +150,10 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,waitingTime,'dwelltime')
+                            }
                         }]
                     },{
                         hasSubs: false,
@@ -158,7 +167,10 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,LEDColor,'ledcolor')
+                            }
                         }]
                     },{
                         hasSubs: false,
@@ -172,7 +184,10 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,color,'showcolor')
+                            }
                         }]
                     },{
                         hasSubs: false,
@@ -186,21 +201,27 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,fontStyle,'typeface')
+                            }
                         }]
                     },{
                         hasSubs: false,
                         subs: [{
                             label: '字号',
                             prop: 'typesize',
-                            width: '70',
+                            width: '100',
                             type: 'selection',
                             selectlist:fontSize,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,fontSize,'typesize')
+                            }
                         }]
                     },{
                         hasSubs: false,
@@ -246,14 +267,17 @@
                         subs: [{
                             label: '类型',
                             prop: 'type',
-                            width: '70',
+                            width: '100',
                             type: 'selection',
                             selectlist:LEDStyle,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,LEDStyle,'type')
+                            }
                         }]
                     },{
                         hasSubs: false,
@@ -267,7 +291,10 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                                return common.nameformat(row,redirectPort,'rsport')
+                            }
                         }]
                     },{
                         hasSubs: false,
