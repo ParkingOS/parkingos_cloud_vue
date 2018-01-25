@@ -2,6 +2,9 @@
     <section>
         <common-table
                 :queryapi="queryapi"
+                :addapi="addapi"
+                :editapi="editapi"
+                :delapi="delapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -19,9 +22,6 @@
                 :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
-        <!--:addapi="addapi"-->
-        <!--:editapi="editapi"-->
-        <!--:delapi="delapi"-->
     </section>
 </template>
 
@@ -55,7 +55,7 @@
                 editapi: '/EQ_intercom/edit',
                 delapi: '/EQ_intercom/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: '',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'id__intercom_name__extension__yard_number__group_number__monitor_name__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
 
@@ -65,7 +65,7 @@
                             prop: 'id',             //对应表中字段
                             width: '100',           //列宽度
                             type: 'number',         //对应表中字段类型
-                            editable: true,         //是否可编辑
+                            editable: false,         //是否可编辑
                             searchable: true,       //是否可查询
                             addable: false,          //是否可添加
                             unsortable: false,       //是否可排序
@@ -76,8 +76,8 @@
                         hasSubs: false,
                         subs: [{
                             label: '名称',
-                            prop: 'trade_no',
-                            width: '100',
+                            prop: 'intercom_name',
+                            width: '150',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -90,9 +90,9 @@
                         hasSubs: false,
                         subs: [{
                             label: '分机号',
-                            prop: 'card_id',
+                            prop: 'extension',
                             width: '150',
-                            type: 'number',
+                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -104,9 +104,9 @@
                         hasSubs: false,
                         subs: [{
                             label: '车场主机号',
-                            prop: 'pay_time',
-                            width: '190',
-                            type: 'number',
+                            prop: 'yard_number',
+                            width: '150',
+                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -118,7 +118,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '集团主机号',
-                            prop: 'amount_receivable',
+                            prop: 'group_number',
                             width: '150',
                             type: 'str',
                             editable: true,
@@ -132,7 +132,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '监控名称',
-                            prop: 'amount_pay',
+                            prop: 'monitor_name',
                             width: '150',
                             type: 'selection',
                             //selectlist:showType,//该处引用监控管理中的名称作为下拉选项
