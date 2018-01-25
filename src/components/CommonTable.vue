@@ -549,6 +549,17 @@
                 this.$extend(sform, {'ishdorder': sessionStorage.getItem('ishdorder')})
                 this.$extend(sform, this.queryparams)
                 this.$extend(sform, {'token': sessionStorage.getItem('token')})
+
+                // vm.$axios.post(path + api,sform,{
+                //     headers:{
+                //         'Content-Type': 'application/x-www-form-urlencoded'
+                //     }
+                // }).then(function (ret) {
+                //     console.log('aaaaaaaaaaaaa')
+                // }).catch(function (error) {
+                //     console.log('aaaaaaaaaaaaa')
+                // })
+
                 vm.$post(path + api, sform, function (ret) {
                     if (ret.validate != 'undefined' && ret.validate == '0') {
                         vm.loading = false;
@@ -574,8 +585,6 @@
                         } else {
                             vm.table = ret.rows;
                         }
-
-
                         if (ret.actReceivable != undefined) {
                             //月卡续费记录实收
                             vm.actualpay = ret.actReceivable + '元'
@@ -598,57 +607,6 @@
 
                 }, "json");
             },
-            //拉取表格数据
-            // getTableDataCloud(sform) {
-            //     console.log('getdata')
-            //     var vm = this;
-            //     this.loading = true;
-            //     var api = this.queryapi;
-            //     //alert(sform);
-            //     this.$extend(sform, {'rp': this.pageSize})
-            //     this.$extend(sform, {'page': this.currentPage})
-            //     this.$extend(sform, {'orderby': this.orderby})
-            //     this.$extend(sform, {'orderfield': this.orderfield})
-            //     this.$extend(sform, {'fieldsstr': this.fieldsstr})
-            //     this.$extend(sform, this.queryparams)
-            //     this.$extend(sform, {'token': sessionStorage.getItem('token')})
-            //     vm.$post(api, sform, function (ret) {
-            //         if (ret.validate != 'undefined' && ret.validate == '0') {
-            //             vm.loading = false;
-            //             //未携带令牌.重新登录
-            //             setTimeout(() => {
-            //                 vm.alertInfo('未携带令牌,请重新登录!')
-            //             }, 150)
-            //         } else if (ret.validate != 'undefined' && ret.validate == '1') {
-            //             vm.loading = false;
-            //             //过期.重新登录
-            //             setTimeout(() => {
-            //                 vm.alertInfo('登录过期,请重新登录!')
-            //             }, 150)
-            //         } else if (ret.validate != 'undefined' && ret.validate == '2') {
-            //             vm.loading = false;
-            //             //令牌无效.重新登录
-            //             setTimeout(() => {
-            //                 vm.alertInfo('登录异常,请重新登录!')
-            //             }, 150)
-            //         } else {
-            //             if (ret.total == 0) {
-            //                 vm.table = [];
-            //             } else {
-            //                 vm.table = ret.rows;
-            //             }
-            //             if(ret.actReceivable!=undefined){
-            //                 vm.actualpay = ret.actReceivable+'元'
-            //             }
-            //             if(ret.amountReceivable!=undefined){
-            //                 vm.shouldpay = ret.amountReceivable+'元'
-            //             }
-            //             vm.total = ret.total;
-            //             vm.loading = false;
-            //         }
-            //
-            //     }, "json");
-            // },
             //高级查询
             handleSearch() {
                 //弹出高级查询界面
