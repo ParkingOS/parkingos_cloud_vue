@@ -36,7 +36,7 @@ import AddNumber from './add-subs/AddNumber'
 import AddDate from './add-subs/AddDate'
 import AddText from './add-subs/AddText'
 import AddTextarea from './add-subs/AddTextarea'
-// import AddSelect from './add-subs/AddSelect'
+import AddSelect from './add-subs/AddSelect'
 import AddUpload from './add-subs/AddUpload'
 import AddCityInfo from './add-subs/AddCityInfo'
 
@@ -45,7 +45,7 @@ export default {
 		number:AddNumber,
 		str:AddText,
 		date:AddDate,
-		// selection:AddSelect,
+		selection:AddSelect,
 		upload:AddUpload,
 		multitext:AddTextarea,
 		cityinfo:AddCityInfo,

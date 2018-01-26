@@ -202,7 +202,7 @@
                             label: '有效期',
                             prop: 'limit_time',
                             width: '180',
-                            type: 'str',
+                            type: 'date',
                             editable: true,
                             searchable: true,
                             addable: true,

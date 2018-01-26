@@ -36,11 +36,11 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
-    import util from '../../common/js/util'
+    import {path} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
+    import axios from 'axios'
 
     export default {
         components: {
@@ -58,11 +58,11 @@
                 hideOptions: true,
 
                 hideTool: false,
-                showImg:true,
+                showImg: true,
 
                 queryapi: '/liftRod/query',
                 exportapi: '/liftRod/exportExcel',
-                imgapi:'/liftRod/getLiftRodPicture',
+                imgapi: '/liftRod/getLiftRodPicture',
                 btswidth: '100',
                 fieldsstr: 'id__liftrod_id__ctime__uin__out_channel_id__reason__resume__url',
                 tableitems: [
@@ -107,7 +107,7 @@
 
                             unsortable: true,
                             align: 'center',
-                            format:function (row) {
+                            format: function (row) {
                                 return common.dateformat(row.ctime)
                             }
                         }]
@@ -118,12 +118,17 @@
                             label: '收费员',
                             prop: 'uin',
                             width: '100',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist: this.collectors,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                let uidstr = common.nameformat(row, this.collectors, 'uin')
+                                return uidstr == '' || uidstr == undefined ? row.uid : uidstr
+                            }
                         }]
                     }, {
 
@@ -146,14 +151,23 @@
                             label: '抬杆原因',
                             prop: 'reason',
                             width: '200',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist: this.reasons,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                // console.log(this.reasons)
+
+                                // let reasss = common.nameformat(row, this.reasons, 'reason')
+                                // console.log(row.reason)
+                                // return reasss
+                                return common.nameformat(row,this.reasons,'reason')
+                            }
                         }]
-                    },  {
+                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -179,22 +193,24 @@
                             searchable: false,
                             addable: true,
                             unsortable: true,
-                            hidden:true,
+                            hidden: true,
                             align: 'center',
-                            format:function (row) {
+                            format: function (row) {
                                 return "查看抬杆图片"
                             }
                         }]
                     },
 
                 ],
-                searchtitle: '查询明细',
+                searchtitle: '高级查询',
                 imgDialog: false,
                 imgdialog_url: '',
+                collectors: [],
+                reasons: []
             }
         },
-        methods:{
-            showImgDialog:function (index,row) {
+        methods: {
+            showImgDialog: function (index, row) {
                 this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
                 console.log(this.imgdialog_url)
                 this.imgDialog = true
@@ -213,13 +229,15 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.showOrderManage_Poles_auth_id == item.auth_id) {
                         // console.log(item.sub_auth)
-                        this.hideExport= !common.showSubExport(item.sub_auth)
-                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                        this.hideExport = !common.showSubExport(item.sub_auth)
+                        this.hideSearch = !common.showSubSearch(item.sub_auth)
                         break;
                     }
                 }
 
             }
+
+
         },
         activated() {
             window.onresize = () => {
@@ -228,6 +246,20 @@
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
+            let _this = this
+            axios.all([common.getCollector(), common.getLiftReason()])
+                .then(axios.spread(function (collector, reason) {
+                    _this.collectors = collector.data;
+                    _this.reasons = reason.data;
+                }))
+        },
+        watch: {
+            collectors: function (val) {
+                this.tableitems[3].subs[0].selectlist = val
+            },
+            reasons: function (val) {
+                this.tableitems[5].subs[0].selectlist = val
+            }
         }
     }
 

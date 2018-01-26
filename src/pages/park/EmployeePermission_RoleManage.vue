@@ -30,6 +30,8 @@
                 <div>
                     <el-checkbox>订单管理</el-checkbox>
                     <div style="margin-left: 20px;">
+
+
                         <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>-->
                         <!--<div style="margin: 15px 0;"></div>-->
                         <!--<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">-->
@@ -143,15 +145,12 @@
                             align: 'center'
                         }]
                     }
-
-
                 ],
                 searchtitle: '高级查询',
                 addtitle: '添加角色',
-
                 addFormRules: {
                     role_name: [
-                        {required: true, message: '请输入名称', trigger: 'blur'}
+                        {required: true, message: '请输入名称',trigger: 'blur'}
                     ]
                 },
                 isShowPermission: false,
@@ -185,7 +184,6 @@
                         break;
                     }
                 }
-
             }
         },
         activated() {

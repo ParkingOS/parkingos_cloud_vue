@@ -612,6 +612,7 @@
                         this.$extend(aform, {'unionid': sessionStorage.getItem('unionid')})
                         this.$extend(aform, {'channelid': sessionStorage.getItem('channelid')})
                         this.$extend(aform, {'loginuin': sessionStorage.getItem('loginuin')})
+                        this.$extend(aform, {'nickname': sessionStorage.getItem('nickname')})
 
                         _this.$post(path + _this.addapi, aform, function (ret) {
                             
@@ -624,6 +625,8 @@
                                         duration: 600
                                     });
                                     _this.showRegis = false;
+                                    _this.refillForm = [];
+                                    _this.resetloading = false;
                                 } else {
                                     //更新失败
                                     _this.$message({
@@ -631,6 +634,7 @@
                                         type: 'error',
                                         duration: 1200
                                     });
+                                    _this.resetloading = false;
                                 }
                             _this.resetloading = false
 

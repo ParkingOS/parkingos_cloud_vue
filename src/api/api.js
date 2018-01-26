@@ -1,4 +1,3 @@
-// export const path = "http://10.116.136.29:8080/cloud"
 export const path = "http://120.25.121.204:8080/cloud"
 // export const path = "http://192.168.199.205:12305"
 //export const path = "http://localhost:8085"
@@ -139,15 +138,15 @@ export const payType = [
 ]
 export const orderPayType = [
     //0:帐户支付,1:现金支付,2:手机支付 3:包月 4:现金预支付 5：银联卡(中央预支付，后面废弃) 6：商家卡(中央预支付，后面废弃) 8：免费放行 9：刷卡
-    {'value_name': '账户支付', 'value_no': 0},
+    // {'value_name': '账户支付', 'value_no': 0},
     {'value_name': '现金支付', 'value_no': 1,},
     {'value_name': '手机支付', 'value_no': 2,},
     {'value_name': '包月', 'value_no': 3},
-    {'value_name': '现金预支付', 'value_no': 4,},
-    {'value_name': '银联卡支付', 'value_no': 5,},
-    {'value_name': '商家卡支付', 'value_no': 6,},
+    // {'value_name': '现金预支付', 'value_no': 4,},
+    // {'value_name': '银联卡支付', 'value_no': 5,},
+    // {'value_name': '商家卡支付', 'value_no': 6,},
     {'value_name': '免费放行', 'value_no': 8,},
-    {'value_name': '刷卡', 'value_no': 9}
+    // {'value_name': '刷卡', 'value_no': 9}
 ]
 export const RoleFuncion = [
     {'value_no': 0, 'value_name': '无'},
@@ -182,7 +181,7 @@ export const singleDoubleType = [
 export const orderStateType = [
     {'value_name': '未结算', 'value_no': '0'},
     {'value_name': '已结算', 'value_no': '1'},
-    {'value_name': '逃单', 'value_no': '2'}
+    // {'value_name': '逃单', 'value_no': '2'}
 ]
 
 

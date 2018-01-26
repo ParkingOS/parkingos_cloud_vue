@@ -23,7 +23,8 @@ export default {
 	props:['id','rowdata'],
   methods:{
 		uptoeditdialog:function(){
-			this.upForm[this.id]=Number(String.trim(this.numberForm.number+''));
+			// this.upForm[this.id]=Number(String.trim(this.numberForm.number+''));
+			this.upForm[this.id]=Number((this.numberForm.number+'').trim());
 			this.$emit('fromedititem',this.upForm)
 		},
 		setValue:function(){

@@ -482,6 +482,8 @@
         .header {
             height: 50px;
             line-height: 50px;
+
+
             background: #008F4C; //#324157;//#0080dd;//#35495E;//#1F2D3D
             color: #fff;
             .userinfo {

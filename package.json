@@ -36,6 +36,7 @@
     "compression-webpack-plugin": "^0.3.2",
     "connect-history-api-fallback": "^1.1.0",
     "css-loader": "^0.26.1",
+    "element-theme-default": "^1.4.13",
     "element-ui": "^1.4.2",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.13.3",

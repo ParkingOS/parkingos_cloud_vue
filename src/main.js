@@ -1,4 +1,5 @@
 import babelpolyfill from 'babel-polyfill'
+import '../theme/index.css'
 import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
@@ -16,8 +17,8 @@ import QRCode from 'qrcode'
 import './styles/index.scss' // global css
 import './common/js/const.js'
 
-Vue.use(QRCode)
 Vue.use(ElementUI)
+Vue.use(QRCode)
 Vue.use(VueRouter)
 Vue.use(BaiduMap,{
   ak:'Ona5elzlpSrwOeeAI1k0EE2yHtpLoxlN'
@@ -25,8 +26,9 @@ Vue.use(BaiduMap,{
 //Vue.use(Vuex)
 
 Vue.prototype.QRCode=QRCode
-Vue.prototype.axios=axios
-// Vue.prototype.$axios=axios
+// Vue.prototype.axios=axios
+Vue.prototype.$axios=axios
+Vue.prototype.$qs=require('qs')
 Vue.prototype.$=jQuery
 Vue.prototype.$post=jQuery.post
 Vue.prototype.$ajax=jQuery.ajax

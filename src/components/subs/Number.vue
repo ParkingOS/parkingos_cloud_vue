@@ -66,8 +66,10 @@ export default {
 		},
 		uptosearchdialog:function(){
 			this.upForm[this.id]=this.numberForm.number
-			this.upForm[this.id+'_start']=String.trim(this.numberForm.number_start)
-			this.upForm[this.id+'_end']=String.trim(this.numberForm.number_end)
+			// this.upForm[this.id+'_start']=String.trim(this.numberForm.number_start)
+			this.upForm[this.id+'_start']=this.numberForm.number_start.trim()
+			// this.upForm[this.id+'_end']=String.trim(this.numberForm.number_end)
+			this.upForm[this.id+'_end']=this.numberForm.number_end.trim()
 			this.$emit('fromsearchitem',this.upForm)
 		},
 		cleanf:function(val){

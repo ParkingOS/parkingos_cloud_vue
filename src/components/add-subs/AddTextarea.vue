@@ -23,7 +23,8 @@ export default {
 
   methods:{
 		uptoeditdialog:function(){
-			this.upForm[this.id]=String.trim(this.textareaForm.textarea)
+			// this.upForm[this.id]=String.trim(this.textareaForm.textarea)
+			this.upForm[this.id]=this.textareaForm.textarea.trim()
 			this.$emit('fromedititem',this.upForm)
 		},
 		setValue:function(){

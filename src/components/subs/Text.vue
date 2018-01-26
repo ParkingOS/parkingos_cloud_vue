@@ -34,7 +34,8 @@ export default {
 	props:['title','id'],
   methods:{
 		uptosearchdialog:function(){
-			this.upForm[this.id]=String.trim(this.textForm.text)
+			// this.upForm[this.id]=String.trim(this.textForm.text)
+			this.upForm[this.id]=this.textForm.text.trim()
 			this.$emit('fromsearchitem',this.upForm)
 		},
 		cleanf:function(val){

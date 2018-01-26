@@ -31,7 +31,8 @@
                         </el-input>
                     </div>
                     <div v-if="showParkInfo" style="display:inline;margin-right:100px;float: left">
-                        <el-input v-model="parkspace_park" style="width:150px;background:white;margin-right: 0.5px;" disabled >
+                        <el-input v-model="parkspace_park" style="width:150px;background:white;margin-right: 0.5px;"
+                                  disabled>
                             <template slot="prepend">场内停车</template>
                         </el-input>
                         <el-input v-model="parkspace_park" style="width:150px;background:white;" disabled>
@@ -102,14 +103,15 @@
             >
             </el-table-column>-->
 
+
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">
                     <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
                     <el-button v-if="showModifyCarNumber" size="small" type="text"
-                               @click="handleModifyCarNumber(scope.$index, scope.row)"><span
-                            style="color:#008F4C">修改车牌</span></el-button>
+                               @click="handleModifyCarNumber(scope.$index, scope.row)">修改车牌
+                    </el-button>
                     <el-button v-if="showsetting" size="small" type="text"
                                @click="handlesetting(scope.$index, scope.row)">设置
                     </el-button>
@@ -119,25 +121,25 @@
                     <el-button v-if="showdelete" size="small" type="text" @click="openDelete(scope.$index, scope.row)">
                         <span style="color:red">删除</span></el-button>
                     <el-button v-if="showmapdialog" size="small" type="text"
-                               @click="handlemap(scope.$index, scope.row)"><span style="color:#008F4C">车场定位</span>
+                               @click="handlemap(scope.$index, scope.row)">车场定位
                     </el-button>
                     <el-button v-if="showresetpwd" size="small" type="text"
-                               @click="handleresetpwd(scope.$index, scope.row)"><span style="color:#008F4C">重置密码</span>
+                               @click="handleresetpwd(scope.$index, scope.row)">重置密码
                     </el-button>
                     <!--<el-button v-if="showbrake" size="small" type="text"
                                @click="handlebrake(scope.$index, scope.row)"><span style="color:#008F4C">道闸</span>
                     </el-button>-->
                     <el-button v-if="showmRefill" size="small" type="text"
-                               @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">月卡续费</span>
+                               @click="handleRefill(scope.$index, scope.row)">月卡续费
                     </el-button>
                     <el-button v-if="showPermission" size="small" type="text"
-                               @click="handlePermission(scope.$index, scope.row)"><span style="color:#008F4C">编辑权限</span>
+                               @click="handlePermission(scope.$index, scope.row)">编辑权限
                     </el-button>
                     <el-button v-if="showSettingFee" size="small" type="text"
-                               @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">收费设置</span>
+                               @click="handleRefill(scope.$index, scope.row)">收费设置
                     </el-button>
                     <el-button v-if="showCommutime" size="small" type="text"
-                               @click="handleRefill(scope.$index, scope.row)"><span style="color:#008F4C">上班时间</span>
+                               @click="handleRefill(scope.$index, scope.row)">上班时间
                     </el-button>
                     <!--
                     <el-button
@@ -199,8 +201,9 @@
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row)" v-if="showImg">123</span>-->
                     <el-button size="small" type="text"
-                               @click="handleShowImg(scope.$index, scope.row)"><span
-                            style="color:#008F4C">查看图片</span></el-button>
+                               @click="handleShowImg(scope.$index, scope.row)">
+                        查看图片
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -535,32 +538,28 @@
                 var vm = this;
                 this.loading = true;
                 var api = this.queryapi;
-                this.$extend(sform, {'rp': this.pageSize})
-                this.$extend(sform, {'page': this.currentPage})
-                this.$extend(sform, {'orderby': this.orderby})
-                this.$extend(sform, {'orderfield': this.orderfield})
-                this.$extend(sform, {'fieldsstr': this.fieldsstr})
-                this.$extend(sform, {'comid': sessionStorage.getItem('comid')})
-                this.$extend(sform, {'groupid': sessionStorage.getItem('groupid')})
-                this.$extend(sform, {'cityid': sessionStorage.getItem('cityid')})
-                this.$extend(sform, {'unionid': sessionStorage.getItem('unionid')})
-                this.$extend(sform, {'channelid': sessionStorage.getItem('channelid')})
-                this.$extend(sform, {'loginuin': sessionStorage.getItem('loginuin')})
-                this.$extend(sform, {'ishdorder': sessionStorage.getItem('ishdorder')})
-                this.$extend(sform, this.queryparams)
-                this.$extend(sform, {'token': sessionStorage.getItem('token')})
 
-                // vm.$axios.post(path + api,sform,{
-                //     headers:{
-                //         'Content-Type': 'application/x-www-form-urlencoded'
-                //     }
-                // }).then(function (ret) {
-                //     console.log('aaaaaaaaaaaaa')
-                // }).catch(function (error) {
-                //     console.log('aaaaaaaaaaaaa')
-                // })
+                sform.rp = this.pageSize
+                sform.page = this.currentPage
+                sform.orderby = this.orderby
+                sform.orderfield = this.orderfield
+                sform.fieldsstr = this.fieldsstr
+                sform.comid = sessionStorage.getItem('comid')
+                sform.groupid = sessionStorage.getItem('groupid')
+                sform.cityid = sessionStorage.getItem('cityid')
+                sform.unionid = sessionStorage.getItem('unionid')
+                sform.channelid = sessionStorage.getItem('channelid')
+                sform.loginuin = sessionStorage.getItem('loginuin')
+                sform.ishdorder = sessionStorage.getItem('ishdorder')
+                sform.token = sessionStorage.getItem('token')
 
-                vm.$post(path + api, sform, function (ret) {
+                vm.$axios.post(path + api, vm.$qs.stringify(sform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    // console.log(ret)
+                    let ret = response.data;
                     if (ret.validate != 'undefined' && ret.validate == '0') {
                         vm.loading = false;
                         //未携带令牌.重新登录
@@ -604,8 +603,12 @@
                         vm.total = ret.total;
                         vm.loading = false;
                     }
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error)
+                    }, 150)
+                })
 
-                }, "json");
             },
             //高级查询
             handleSearch() {
@@ -732,7 +735,12 @@
                     }
                 }
                 console.log(params)
-                window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
+                if (params.indexOf('comid') > -1) {
+                    window.open(path + api + '?' + params);
+                } else {
+                    window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
+                }
+                // window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
                 //window.location.href(path+api + '?fieldsstr='+this.fieldsstr)
                 //this.$.get(path+api,params)
             },
@@ -745,17 +753,26 @@
                 var vm = this;
                 var api = this.editapi;
                 var qform = this.sform;
-                this.$extend(eform, {'token': sessionStorage.getItem('token')})
-                this.$extend(eform, {'comid': sessionStorage.getItem('comid')})
-                this.$extend(eform, {'groupid': sessionStorage.getItem('groupid')})
-                this.$extend(eform, {'cityid': sessionStorage.getItem('cityid')})
-                this.$extend(eform, {'unionid': sessionStorage.getItem('unionid')})
-                this.$extend(eform, {'channelid': sessionStorage.getItem('channelid')})
-                this.$extend(eform, {'loginuin': sessionStorage.getItem('loginuin')})
+
+                eform.token = sessionStorage.getItem('token')
+                eform.comid = sessionStorage.getItem('comid')
+                eform.groupid = sessionStorage.getItem('groupid')
+                eform.cityid = sessionStorage.getItem('cityid')
+                eform.unionid = sessionStorage.getItem('unionid')
+                eform.channelid = sessionStorage.getItem('channelid')
+                eform.loginuin = sessionStorage.getItem('loginuin')
+
+
                 this.$refs.editref.$refs.editForm.validate((valid) => {
                     if (valid) {
                         vm.editloading = true;
-                        vm.$post(path + api, eform, function (ret) {
+
+                        vm.$axios.post(path + api, vm.$qs.stringify(eform), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            }
+                        }).then(function (response) {
+                            let ret = response.data;
                             if (ret.validate != 'undefined' && ret.validate == '1') {
                                 //过期.重新登录
                                 setTimeout(() => {
@@ -786,8 +803,11 @@
                                 }
                                 setTimeout('vm.editloading=false', 5000)
                             }
-
-                        }, "json")
+                        }).catch(function (error) {
+                            setTimeout(() => {
+                                vm.alertInfo('请求失败!' + error)
+                            }, 150)
+                        })
                     }
                 });
             },
@@ -836,19 +856,37 @@
                 var api = this.addapi;
                 var qform = this.sform;
                 var msg = this.addfailmsg;
-                this.$extend(aform, {'token': sessionStorage.getItem('token')})
-                this.$extend(aform, {'oid': sessionStorage.getItem('oid')})
-                this.$extend(aform, {'comid': sessionStorage.getItem('comid')})
-                this.$extend(aform, {'groupid': sessionStorage.getItem('groupid')})
-                this.$extend(aform, {'cityid': sessionStorage.getItem('cityid')})
-                this.$extend(aform, {'unionid': sessionStorage.getItem('unionid')})
-                this.$extend(aform, {'channelid': sessionStorage.getItem('channelid')})
-                this.$extend(aform, {'loginuin': sessionStorage.getItem('loginuin')})
+
+                // this.$extend(aform, {'token': sessionStorage.getItem('token')})
+                // this.$extend(aform, {'oid': sessionStorage.getItem('oid')})
+                // this.$extend(aform, {'comid': sessionStorage.getItem('comid')})
+                // this.$extend(aform, {'groupid': sessionStorage.getItem('groupid')})
+                // this.$extend(aform, {'cityid': sessionStorage.getItem('cityid')})
+                // this.$extend(aform, {'unionid': sessionStorage.getItem('unionid')})
+                // this.$extend(aform, {'channelid': sessionStorage.getItem('channelid')})
+                // this.$extend(aform, {'loginuin': sessionStorage.getItem('loginuin')})
+
+
+                aform.token = sessionStorage.getItem('token')
+                aform.oid = sessionStorage.getItem('oid')
+                aform.comid = sessionStorage.getItem('comid')
+                aform.groupid = sessionStorage.getItem('groupid')
+                aform.cityid = sessionStorage.getItem('cityid')
+                aform.unionid = sessionStorage.getItem('unionid')
+                aform.channelid = sessionStorage.getItem('channelid')
+                aform.loginuin = sessionStorage.getItem('loginuin')
+
 
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
                         vm.addloading = true
-                        vm.$post(path + api, aform, function (ret) {
+
+                        vm.$axios.post(path + api, vm.$qs.stringify(aform), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            }
+                        }).then(function (response) {
+                            let ret = response.data;
                             if (ret.validate != 'undefined' && ret.validate == '1') {
                                 //过期.重新登录
                                 setTimeout(() => {
@@ -879,8 +917,45 @@
                                     });
                                 }
                             }
+                        }).catch(function (error) {
+                            setTimeout(() => {
+                                vm.alertInfo('请求失败!' + error)
+                            }, 150)
+                        })
 
-                        }, "json")
+                        // vm.$post(path + api, aform, function (ret) {
+                        //     if (ret.validate != 'undefined' && ret.validate == '1') {
+                        //         //过期.重新登录
+                        //         setTimeout(() => {
+                        //             vm.alertInfo('登录过期,请重新登录!')
+                        //         }, 100)
+                        //     } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                        //         //令牌无效.重新登录
+                        //         setTimeout(() => {
+                        //             vm.alertInfo('登录异常,请重新登录!')
+                        //         }, 100)
+                        //     } else {
+                        //         if (ret > 0 || ret.state == 1) {
+                        //             //更新成功
+                        //             vm.getTableData(qform);
+                        //             vm.$message({
+                        //                 message: '添加成功!',
+                        //                 type: 'success',
+                        //                 duration: 600
+                        //             });
+                        //             vm.addFormVisible = false;
+                        //             vm.addloading = false
+                        //         } else {
+                        //             //更新失败
+                        //             vm.$message({
+                        //                 message: msg,
+                        //                 type: 'error',
+                        //                 duration: 1200
+                        //             });
+                        //         }
+                        //     }
+                        //
+                        // }, "json")
                     }
                 });
             },

@@ -140,7 +140,8 @@ export default {
                     return ''
                 }
             }
-
+            // console.log(list)
+            // console.log(x+'?'+list[x].value_no+'?'+row[col])
             if (list[x].value_no == row[col]) {
                 return list[x].value_name
             }
@@ -211,6 +212,11 @@ export default {
             + '&comid=' + sessionStorage.getItem('comid')
             + '&groupid=' + sessionStorage.getItem('groupid')
         return axios.get(path + '/getdata/getalluser' + param)
+    },
+    getLiftReason() {
+        //获取收费员
+        let param = '?token=' + sessionStorage.getItem('token')
+        return axios.get(path + '/liftRod/getLiftReason' + param)
     },
     getEmployeeRole() {
         //获取员工角色

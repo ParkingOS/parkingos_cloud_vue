@@ -172,7 +172,7 @@
                             width: '180',
                             type: 'number',
                             editable: true,
-                            searchable: true,
+
                             addable: true,
                             unsortable: true,
                             align: 'center',
@@ -322,7 +322,8 @@
                             unsortable: true,
                             align: 'center',
                             format:(row)=>{
-                                return common.nameformat(row,this.collectors,'uid')
+                                let uidstr = common.nameformat(row,this.collectors,'uid')
+                                return uidstr==''||uidstr==undefined?row.uid:uidstr
                             }
                         }]
                     }, {
@@ -340,6 +341,8 @@
                             unsortable: true,
                             align: 'center',
                             format:(row)=>{
+                                let uidstr = common.nameformat(row,this.collectors,'out_uid')
+                                return uidstr==''||uidstr==undefined?row.uid:uidstr
                                 return common.nameformat(row,this.collectors,'out_uid')
                             }
                         }]
