@@ -94,15 +94,6 @@
         <!--列表-->
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
                   v-loading="loading" @sort-change="sortChange">
-            <!--<el-table-column
-                    align="center"
-                    type="index"
-                    width="83"
-                    label="索引"
-                    fixed="left"
-            >
-            </el-table-column>-->
-
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">

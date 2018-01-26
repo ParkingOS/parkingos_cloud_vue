@@ -137,9 +137,9 @@
                         </el-submenu>
                         <el-submenu v-if="showMonthMember" index="/month">
                             <template slot="title"><span class="menuitem">月卡会员</span></template>
-                            <el-menu-item index="/monthMember_Refill" v-if="showMonthMember_Refill">月卡续费记录
-                            </el-menu-item>
                             <el-menu-item index="/monthMember_VIP" v-if="showMonthMember_VIP">月卡会员
+                            </el-menu-item>
+                            <el-menu-item index="/monthMember_Refill" v-if="showMonthMember_Refill">月卡续费记录
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu v-if="showOnlinePay" index="/onlinepay">
@@ -482,7 +482,6 @@
         .header {
             height: 50px;
             line-height: 50px;
-
 
             background: #008F4C; //#324157;//#0080dd;//#35495E;//#1F2D3D
             color: #fff;

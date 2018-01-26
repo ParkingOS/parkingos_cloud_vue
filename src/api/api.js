@@ -139,8 +139,9 @@ export const payType = [
 export const orderPayType = [
     //0:帐户支付,1:现金支付,2:手机支付 3:包月 4:现金预支付 5：银联卡(中央预支付，后面废弃) 6：商家卡(中央预支付，后面废弃) 8：免费放行 9：刷卡
     // {'value_name': '账户支付', 'value_no': 0},
-    {'value_name': '现金支付', 'value_no': 1,},
-    {'value_name': '手机支付', 'value_no': 2,},
+    {'value_name': '无', 'value_no': -1},
+    {'value_name': '现金支付', 'value_no': 1},
+    {'value_name': '手机支付', 'value_no': 2},
     {'value_name': '包月', 'value_no': 3},
     // {'value_name': '现金预支付', 'value_no': 4,},
     // {'value_name': '银联卡支付', 'value_no': 5,},

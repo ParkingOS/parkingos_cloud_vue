@@ -207,7 +207,11 @@
                             searchable: false,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function (row) {
+                                let pass = row.freereasons
+                                return pass==''||pass==undefined?'无':pass
+                            }
                         }]
                     }, {
 
@@ -389,7 +393,11 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function (row) {
+                                let pass = row.in_passid
+                                return pass==''||pass==undefined?'无':pass
+                            }
                         }]
                     }, {
 
@@ -403,7 +411,11 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function (row) {
+                                let pass = row.out_passid
+                                return pass==''||pass==undefined?'无':pass
+                            }
                         }]
                     }, {
                         hasSubs: false,
