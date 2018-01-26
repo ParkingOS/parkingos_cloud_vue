@@ -23,7 +23,8 @@
 	                :hideSearch="hideSearch"
 	                :showEdit="showEdit"
 	                :showsetting="showsetting"
-	
+	                v-on:showrefill="showrefill"
+					v-on:showSetting="showSetting"
 	                ref="bolinkuniontable"
 	        ></common-table>
 	    </section>
@@ -47,7 +48,7 @@
         </el-dialog>
         <!--注册员工-->
         <el-dialog
-                title="添加员工"
+                :title="regUserTitle"
                 v-model="regUserVisible"
                 size="tiny">
             <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
@@ -155,7 +156,7 @@
 				    <el-table-column
 				      prop="phone"
 				      label="电话"
-				      width="120">
+				      width="130">
 				    </el-table-column>
 				    <el-table-column
 				      prop="mobile"
@@ -176,6 +177,7 @@
 				      width="180">
 				    </el-table-column>
 				    <el-table-column
+				      :formatter="dateFormat"
 				      prop="logon_time"
 				      label="最近登陆时间"
 				      width="180">
@@ -193,16 +195,23 @@
 		</el-dialog>
 		<!--renewDialog-->
 		<el-dialog
-		  title="减免券购买(时长)"
+		  :title="renewTitle"
 		  :visible.sync="renewVisible"
 		  width="10%"
 		  :before-close="handleClose">
 		  <form name="renewForm" style="font-size: 2em;">
-		  	<el-row>
+		  	<el-row v-if="showTicketTime">
 			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
 				  <el-col :span="5"><div  class="grid-content bg-purple">减免小时(时):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input v-model="ticket_time" placeholder="请输入内容"></el-input></div></el-col>
+				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input v-model="ticket_val" placeholder="请输入内容"></el-input></div></el-col>
 				  <el-col :span="6"><div class="grid-content bg-purple-light">(每小时{{discount_money}}元)</div></el-col>
+				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
+			  </el-row>
+			  <el-row v-if="showTicketMoney">
+			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
+				  <el-col :span="5"><div  class="grid-content bg-purple">减免券(元):</div></el-col>
+				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input v-model="ticket_val" placeholder="请输入内容"></el-input></div></el-col>
+				  <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
 				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
 			  </el-row>
 			  <input type="hidden" name="shop_id" v_model="id" />
@@ -274,7 +283,6 @@
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
-    import connect from '../../common/js/connector'
 
     export default {
         components: {
@@ -282,10 +290,22 @@
         },
         data() {
             return {
+            	ticket_type:'',
+            	showTicketMoney:false,
+            	showTicketTime:false,
+            	renewTitle:'',
+            	regUserTitle:'',
             	page:1,
             	total:0,
             	showInput:false,
-            	user:{},
+            	user:{
+            		id:'11',
+            		auth_flag :14,
+            		mobile :'',
+            		phone :'',
+            		nickname :'1234',
+            		comid  :''
+            	},
             	delVisible:false,
             	rowid:0,
             	resetPwdVisible:false,
@@ -295,7 +315,7 @@
             	discount_percent:0,
             	totalMoney:0,
             	renewVisible:false,
-            	ticket_time:0,
+            	ticket_val:0,
             	employeeVisible:false,
             	showEdit:true,
             	showsetting:true,
@@ -387,6 +407,34 @@
                             editable: true,
                             searchable: true,
                             addable: true,
+                            unsortable: true,
+                            align: 'center',
+                        }]
+                    } ,{
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '优惠券额度(小时)',
+                            prop: 'ticket_limit',
+                            width: '180',
+                            type: 'str',
+                            editable: false,
+                            searchable: false,
+                            addable: false,
+                            unsortable: true,
+                            align: 'center',
+                        }]
+                    } ,{
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '优惠券额度(元)',
+                            prop: 'ticket_money',
+                            width: '180',
+                            type: 'str',
+                            editable: false,
+                            searchable: false,
+                            addable: false,
                             unsortable: true,
                             align: 'center',
                         }]
@@ -489,6 +537,36 @@
 	        }
         },
         methods :{
+        	showSetting:function(row){
+        		this.shop_id=row.id;
+
+        		//请求员工数据
+        		var user = sessionStorage.getItem('user')
+                user = JSON.parse(user)
+                this.loadData();
+        		//设置
+				this.employeeVisible=true;
+        	},
+        	showrefill: function (index, row) {
+        		this.ticket_type=row.ticket_type;
+        		if(row.ticket_type==1){
+        			//时长减免
+        			this.renewTitle="减免券购买(时长)";
+        			this.showTicketTime=true;
+        			this.showTicketMoney=false;
+        		}else{
+        			//金额减免
+        			this.renewTitle="减免券购买(金额)";
+        			this.showTicketTime=false;
+        			this.showTicketMoney=true;
+        		}
+                this.ticket_val=0;
+	    		this.id=row.id;
+	    		this.ticket_money=row.ticket_money;
+	    		this.discount_percent=row.discount_percent;
+	    		this.discount_money=row.discount_money;
+				this.renewVisible=true;
+           },
         	handleCurrentChange(val){
         		this.page=val;
         		this.loadData();
@@ -501,26 +579,29 @@
 
                 var formObj = { }
                 formObj.shop_id=this.id;
-    			formObj.ticket_time=this.ticket_time;
-    			formObj.addmoney=this.addmoney;
+    			formObj.addmoney=this.addmoney;   			
 				formObj.operator=user.userid;
 				formObj.parkid=user.parkid;
-                //发起修改位置
-                vm.maploading = true;
-                vm.$post(path + '/shop/addmoney', formObj, function (ret) {
-                	
-                    if (ret.validate != 'undefined' && ret.validate == '1') {
+				if(this.ticket_type==1){
+					formObj.ticket_time=this.ticket_val;
+    				formObj.ticket_money="";
+				}else{
+					formObj.ticket_val="";
+    				formObj.ticket_money=this.ticket_val;
+				}
+				common.addMoney(formObj).then(function(ret){
+					if (ret.data.validate != 'undefined' && ret.data.validate == '1') {
                         //过期.重新登录
                         setTimeout(() => {
                             vm.alertInfo('登录过期,请重新登录!')
                         }, 100)
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                    } else if (ret.data.validate != 'undefined' && ret.data.validate == '2') {
                         //令牌无效.重新登录
                         setTimeout(() => {
                             vm.alertInfo('登录异常,请重新登录!')
                         }, 100)
                     } else {
-                        if (ret.state === 1) {
+                        if (ret.data.state === 1) {
                             //更新成功
                             vm.$message({
                                 message: '续费成功!',
@@ -536,9 +617,11 @@
                                 duration: 600
                             });
                         }
-                        vm.renewVisible = false
+                       	
+                        vm.renewVisible = false;
                     }
-                }, "json")
+				});
+                
             },
             resetPassword(row){
             	this.rowid = row.id
@@ -549,20 +632,17 @@
             },
             loadData(){
             	var vm = this;
-                var api = this.editapi;
-                var user = sessionStorage.getItem('user');
-            	user = JSON.parse(user)
 
                 var formObj = { }
                 formObj.shop_id=this.shop_id;
   				formObj.page=this.page;
-                //发起修改位置
-                vm.maploading = true;
-                vm.$post(path + '/shopmember/quickquery', formObj, function (ret) {             	
-                    	vm.employeeData=ret.rows;
-                    	vm.total=ret.total;
-                    	vm.page=ret.page;
-                }, "json")
+               
+              	common.getShopMemberList(formObj).then(function(ret){
+ 					vm.employeeData=ret.data.rows;
+                    vm.total=ret.data.total;
+                    vm.page=ret.data.page;
+              	});
+               
             },
             saveUser(userId){
             	
@@ -577,29 +657,26 @@
     			formObj.mobile=this.user.mobile;
     			formObj.auth_flag=this.user.auth_flag;
 				formObj.userId=this.user.id;
-                //发起修改位置
-                vm.$post(path + '/shopmember/create', formObj, function (ret) {
-                	
-                    if (ret.validate != 'undefined' && ret.validate == '1') {
-                        //过期.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 100)
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
-                        //令牌无效.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 100)
-                    } else {
-                        if (ret.state === 1) {
+				if(formObj.nickname==undefined){
+					formObj.nickname='';
+				}
+				if(formObj.phone==undefined){
+					formObj.phone="";
+				}
+				if(formObj.mobile==undefined){
+					formObj.mobile='';
+				}
+				if(formObj.auth_flag==undefined){
+					formObj.auth_flag=14;
+				}
+				common.saveShopMember(formObj).then(function(ret){
+					if (ret.data.state === 1) {
                             //更新成功
                             vm.$message({
                                 message: '操作成功!',
                                 type: 'success',
                                 duration: 600,
                             });
-                             vm.loadData();
-                            
                         } else {
                             //更新失败
                             vm.$message({
@@ -608,9 +685,9 @@
                                 duration: 600
                             });
                         }
+                        vm.loadData();
                         vm.regUserVisible = false
-                    }
-                }, "json");
+				})
                 
             },
             deleteRow(row){           	
@@ -620,22 +697,9 @@
             //删除
             handledelete() {
                 var vm = this;
-                var dform = {'id': this.rowid}
-                //发送请求,删除id为row.id的数据
-                vm.$post(path +'/shopmember/delete', dform, function (ret) {
-                    if (ret.validate != 'undefined' && ret.validate == '1') {
-                        //过期.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 100)
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
-                        //令牌无效.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 100)
-                    } else {
-                        console.log(ret)
-                        if (ret > 0 || ret.state == 1) {
+
+                common.deleteShopMember(this.rowid).then(function(ret){
+                	if (ret.data.state == 1) {
                             vm.loadData();
                             //删除成功
                             vm.$message({
@@ -653,9 +717,8 @@
                                 duration: 1200
                             });
                         }
-                    }
-
-                }, "json")
+                });
+              
             },
             resetPwd() {
                 var vm = this
@@ -671,23 +734,23 @@
                     this.$message.error('两次输入密码不一致!');
                     return
                 }
-                vm.$post(path + "/shopmember/editpass", {
-                    'newpass': this.pwd1,
-                    'confirmpass': this.pwd2,
-                    'id': this.rowid,
-                }, function (ret) {
-                    if (ret.validate != 'undefined' && ret.validate == '1') {
+                var formObj={};
+                formObj.newpass=this.pwd1;
+                formObj.confirmpass=this.pwd2;
+                formObj.id=this.rowid;
+                common.editPass(formObj).then(function(ret){
+                	if (ret.data.validate != 'undefined' && ret.data.validate == '1') {
                         //过期.重新登录
                         setTimeout(() => {
                             vm.alertInfo('登录过期,请重新登录!')
                         }, 100)
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                    } else if (ret.data.validate != 'undefined' && ret.data.validate == '2') {
                         //令牌无效.重新登录
                         setTimeout(() => {
                             vm.alertInfo('登录异常,请重新登录!')
                         }, 100)
                     } else {
-                        if (ret > 0 || ret.state == 1) {
+                        if ( ret.data.state == 1) {
                             //更新成功
                             vm.loadData()
                             vm.$message({
@@ -705,18 +768,21 @@
                             });
                         }
                     }
-                }, "json")
+                });
+                
 
             },
             handleEdit(row){
             	this.user=row;
+            	this.user.reg_time=common.dateformat(row.reg_time);
+            	this.regUserTitle='编辑',
             	this.showInput=true;
-            	this.regUserVisible=true;
-            	
+            	this.regUserVisible=true;            	
             },
             regUser(){
             	this.user={};
             	this.showInput=false;
+            	this.regUserTitle='注册员工',
             	this.regUserVisible=true;
             },
             dateFormat:function(row, column) {  
@@ -732,9 +798,6 @@
 	        	}else{
 	        		return "工作人员"
 	        	}
-	        },
-	        prev(){
-	        	alert("aaa");
 	        }
         }
         ,
@@ -757,34 +820,19 @@
             this.axios.all([common.getServerList(), common.getUnionList(), common.getBankInfo(), common.getBaPayUnionList()])
         },
         created(){
-        	var vm = this;
-        	connect.$on('setting',function(row){
-        		vm.shop_id=row.id;
-
-        		//请求员工数据
-        		var user = sessionStorage.getItem('user')
-                user = JSON.parse(user)
-                vm.loadData();
-        		//设置
-				vm.employeeVisible=true;
-			})
-        	connect.$on('renew',function(row){
-					//续费
-	                vm.ticket_time=0;
-		    		vm.id=row.id;
-		    		vm.ticket_money=row.ticket_money;
-		    		vm.discount_percent=row.discount_percent;
-		    		vm.discount_money=row.discount_money;
-					vm.renewVisible=true;
-			})
+        	
         },
         watch:{
         	     	
-	     	ticket_time(curVal,oldVal){
-	     		
+	     	ticket_val(curVal,oldVal){
 	　　　　　　　　　　if(!isNaN(curVal)){
-						this.totalMoney=curVal*this.discount_money;
-						this.addmoney=curVal*this.discount_money*this.discount_percent/100;
+						if(this.ticket_type==1){
+							this.totalMoney=curVal*this.discount_money;
+							this.addmoney=curVal*this.discount_money*this.discount_percent/100;
+						}else{
+							this.totalMoney=curVal;
+							this.addmoney=curVal*this.discount_percent/100;
+						}
 					}else{
 						this.totalMoney=0;
 						this.addmoney=0;
