@@ -15,7 +15,6 @@
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :hideImg="hideImg"
-                :showImg="showImg"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
