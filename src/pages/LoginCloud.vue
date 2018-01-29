@@ -313,82 +313,69 @@
                     if (valid) {
                         this.logining = true;
                         var _this = this;
-                        // console.log("iouio")
                         var loginParams = {'username': this.ruleForm.account, 'password': pwd}
-                        // _this.$router.push({path: '/orderManage_Orders'});
-                        // console.log("uiuyiuy")
-                        this.$.ajax({
-                            url: path + "/user/dologin",
-                            method: "POST",
-                            //headers:{"Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"POST,GET"},
-                            data: loginParams,
-                            success: function (result) {
 
-                                var ret = eval('(' + result + ')')
-                                if (ret.state) {
-                                    var u = ret.user;
-                                    console.log(u)
-
-                                    sessionStorage.setItem('user', JSON.stringify(u));
-                                    sessionStorage.setItem('token', ret.token)
-                                    sessionStorage.setItem('comid', u.comid)
-                                    sessionStorage.setItem('groupid', u.groupid)
-                                    sessionStorage.setItem('channelid', u.channelid)
-                                    sessionStorage.setItem('unionid', u.unionid)
-                                    sessionStorage.setItem('cityid', u.cityid)
-                                    sessionStorage.setItem('loginuin', u.loginuin)
-                                    sessionStorage.setItem('oid', u.oid)
-                                    sessionStorage.setItem('nickname', u.nickname)
-                                    sessionStorage.setItem('ishdorder', u.ishdorder)
-
-                                    // if (u.roleid == 1) {
-                                    //     _this.$router.push({path: '/bolinkunion'});
-                                    // } else if (u.roleid == 2) {
-                                    //     _this.$router.push({path: '/account'});
-                                    // } else if (u.roleid == 3) {
-                                    //     _this.$router.push({path: '/account'});
-                                    // } else if (u.roleid == 4) {
-                                    //     // _this.$router.push({path: '/parkaccount'});
-                                    //     _this.$router.push({path: '/orderManage_Orders'});
-                                    //     // _this.$router.push({path: '/monthMember_Refill'});
-                                    // }
-
-                                    // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
-                                    if (u.roleid == ROLE_ID.GROUP) {
-                                        // _this.$router.push({path: '/bolinkunion'});
-                                    } else if (u.roleid == ROLE_ID.CHANNEL) {
-                                        // _this.$router.push({path: '/account'});
-                                    } else if (u.roleid == ROLE_ID.UNION) {
-                                        // _this.$router.push({path: '/account'});
-                                    }  else if (u.roleid == ROLE_ID.CITY) {
-                                        // _this.$router.push({path: '/account'});
-                                    } else if (u.roleid == ROLE_ID.PARK) {
-                                        // _this.$router.push({path: '/parkaccount'});
-                                        _this.$router.push({path: '/orderManage_Orders'});
-                                        // _this.$router.push({path: '/monthMember_Refill'});
-                                    }
-                                    // 还有一种没有roleid,它是根据另一种判断登录的
-                                    //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员
-                                    else if(u.role ==0){
-
-                                    }else if(u.role ==1){
-
-                                    }else if(u.role ==2){
-
-                                    }else if(u.role ==3){
-
-                                    }else if(u.role ==4){
-
-                                    }else if(u.role ==5){
-
-                                    }else if(u.role ==6 ){
-
-                                    }
-                                } else {
-                                    _this.logining = false;
-                                    _this.$message.error(ret.msg);
-                                }
+                        _this.$axios.post(path + "/user/dologin",_this.$qs.stringify(loginParams),{
+                            headers:{
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
+                        }).then(function (response) {
+                            let ret = response.data;
+                            if (ret.state) {
+                                var u = ret.user;
+                                sessionStorage.setItem('user', JSON.stringify(u));
+                                sessionStorage.setItem('token', ret.token)
+                                sessionStorage.setItem('comid', u.comid)
+                                sessionStorage.setItem('groupid', u.groupid)
+                                sessionStorage.setItem('channelid', u.channelid)
+                                sessionStorage.setItem('unionid', u.unionid)
+                                sessionStorage.setItem('cityid', u.cityid)
+                                sessionStorage.setItem('loginuin', u.loginuin)
+                                sessionStorage.setItem('oid', u.oid)
+                                sessionStorage.setItem('nickname', u.nickname)
+                                sessionStorage.setItem('ishdorder', u.ishdorder)
+
+
+                                // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
+                                if (u.roleid == ROLE_ID.GROUP) {
+                                    // _this.$router.push({path: '/bolinkunion'});
+                                } else if (u.roleid == ROLE_ID.CHANNEL) {
+                                    // _this.$router.push({path: '/account'});
+                                } else if (u.roleid == ROLE_ID.UNION) {
+                                    // _this.$router.push({path: '/account'});
+                                }  else if (u.roleid == ROLE_ID.CITY) {
+                                    // _this.$router.push({path: '/account'});
+                                } else if (u.roleid == ROLE_ID.PARK) {
+                                    // _this.$router.push({path: '/parkaccount'});
+                                    _this.$router.push({path: '/orderManage_Orders'});
+                                    // _this.$router.push({path: '/monthMember_Refill'});
+                                }
+                                // 还有一种没有roleid,它是根据另一种判断登录的
+                                //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员
+                                else if(u.role ==0){
+
+                                }else if(u.role ==1){
+
+                                }else if(u.role ==2){
+
+                                }else if(u.role ==3){
+
+                                }else if(u.role ==4){
+
+                                }else if(u.role ==5){
+
+                                }else if(u.role ==6 ){
+
+                                }
+                            } else {
+                                _this.logining = false;
+                                _this.$message.error(ret.msg);
+                            }
+                        }).catch(function (error) {
+                            // setTimeout(() => {
+                            //     _this.alertInfo('请求失败!'+error)
+                            // }, 150)
+                            _this.$message.error(error.data.msg);
                         })
                     }
                 })

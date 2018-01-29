@@ -59,8 +59,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="起始日期">
-                    <!--<el-input v-model="common.dateformat(currentRow.e_time)" style="width:90%" readonly="true"></el-input>-->
-                    <el-input v-model="refillstartDate" style="width:90%" readonly="true"></el-input>
+                    <el-input v-model="refillstartDate" style="width:90%" :readonly="datereadonly"></el-input>
                 </el-form-item>
                 <el-form-item label="续费月数" :prop="months">
                     <el-select v-model="refillForm.months" @change="getRefillTotal" style="width:90%">
@@ -74,13 +73,16 @@
                 </el-form-item>
                 <el-form-item label="应收金额" :prop="total">
                     <!--<el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.total" style="width:90%" placeholder="" readonly="true"></el-input>
+                    <el-input v-model="refillForm.total" style="width:90%" placeholder=""
+                              :readonly="readonly"></el-input>
                 </el-form-item>
                 <el-form-item label="实收金额" :prop="act_total">
                     <!--<el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>-->
                     <el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-
+                <el-form-item label="备注">
+                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
+                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="showRefill = false" size="small">取 消</el-button>
@@ -126,7 +128,8 @@
                 </el-form-item>
                 <el-form-item label="应收金额" :prop="total">
                     <!--<el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.total" style="width:90%" placeholder="" readonly="true"></el-input>
+                    <el-input v-model="refillForm.total" style="width:90%" placeholder=""
+                              :readonly="readonly"></el-input>
                 </el-form-item>
                 <el-form-item label="实收金额" :prop="act_total">
                     <!--<el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>-->
@@ -147,7 +150,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model="refillForm.remark" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -216,13 +219,26 @@
                 btswidth: '200',
                 fieldsstr: 'id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
                 tableitems: [
+                    // {
+                    //     hasSubs: false, subs: [
+                    //         {
+                    //             label: '编号',
+                    //             prop: 'id',
+                    //             width: '100',
+                    //             type: 'number',
+                    //             searchable: true,
+                    //             unsortable: true,
+                    //             align: 'center',
+                    //         },
+                    //     ]
+                    // },
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '编号',
-                                prop: 'id',
-                                width: '100',
-                                type: 'number',
+                                label: '月卡编号',
+                                prop: 'card_id',
+                                width: '123',
+                                type: 'str',
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center',
@@ -450,7 +466,8 @@
                 ],
                 searchtitle: '高级查询',
                 addtitle: '注册会员',
-
+                readonly: true,
+                datereadonly:true,
                 refillFormRules: {
                     total: [
                         {required: true, message: '应收金额不能为空', trigger: 'blur'}
@@ -465,9 +482,9 @@
                     months: [
                         {required: true, message: '请选择购买月数', trigger: 'change', type: 'number'}
                     ],
-                    p_name: [
-                        {required: true, message: '请选择包月产品', trigger: 'change',}
-                    ],
+                    // p_name: [
+                    //     {required: true, message: '请选择包月产品', trigger: 'change',}
+                    // ],
                     b_time: [
                         {required: true, message: '请选择起始日期', trigger: 'change', type: 'date'}
                     ],
@@ -501,7 +518,7 @@
                     {'value_name': '不限制', 'value_no': 0},
                     {'value_name': '限制', 'value_no': 1}
                 ],
-                refillstartDate:0,
+                refillstartDate: 0,
             }
         },
         methods: {
@@ -516,14 +533,30 @@
                 this.showRefill = true;
                 let now = new Date().getTime();
                 let endtime = row.e_time;
-                if(now/1000>endtime){
-                    this.refillstartDate = common.dateformat(now/1000)
-                }else{
+                this.refillForm.remark = '云平台续费'
+                if (now / 1000 > endtime) {
+                    this.refillstartDate = common.dateformat(now / 1000)
+                } else {
                     this.refillstartDate = common.dateformat(endtime)
                 }
+
+                for (let item of this.pname) {
+                    if (row.pid == item.value_no) {
+                        this.refillForm.p_name = item.value_name;
+                        this.readonly = true;
+                        return;
+                    }
+                }
+                //如果当前套餐在套餐列表中，则应收是readonly
+                //当前套餐不存在，则应收可以自由填写
+                this.readonly = false;
+
             },
             showadd: function () {
                 this.showRegis = true;
+                this.refillForm.p_name = '';
+                this.readonly = false;
+                this.refillForm.remark = '云平台注册'
             },
             handlereset: function () {
                 this.resetloading = true
@@ -540,6 +573,7 @@
                                 duration: 600
                             });
                             _this.showResetCarnumber = false;
+                            _this.resetCarnumber = '';
                         } else {
                             //更新失败
                             _this.$message({
@@ -555,18 +589,18 @@
                 this.refillForm.b_time = time
             },
             handleRefill: function () {
-                console.log('开始验证')
+                // console.log('开始验证')
                 let _this = this
                 this.$refs.refillForm.validate((valid) => {
-                    console.log(valid)
+                    // console.log(valid)
                     console.log(_this.refillForm)
                     if (valid) {
                         _this.resetloading = true
-
-                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, _this.currentRow.name, _this.currentRow.e_time, _this.currentRow.id, _this.currentRow.remark, _this.refillForm.act_total, sessionStorage.getItem('nickname'))])
+                        // console.log(_this.refillForm.p_name)
+                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))))])
                             .then(axios.spread(function (ret) {
                                 let data = ret.data
-                                console.log(data)
+                                // console.log(data)
                                 if (data.state == 1) {
                                     _this.$refs['bolinkuniontable'].getTableData({})
                                     _this.$message({
@@ -577,6 +611,7 @@
                                     _this.showRefill = false;
                                     // _this.refillForm.resetFields()
                                     _this.$refs['refillForm'].resetFields()
+                                    _this.refillForm.p_name = ''
                                 } else {
                                     //更新失败
                                     _this.$message({
@@ -591,10 +626,26 @@
                 })
 
             },
-            getRefillTotal: function () {
-                console.log('计算续费金额' + this.refillForm.p_name + ' -- ' + this.refillForm.months)
-                if (this.refillForm.p_name == '' || this.refillForm.months == '')
+             getRefillTotal: function () {
+                // console.log('计算续费金额' + this.refillForm.p_name + ' -- ' + this.refillForm.months)
+                // if (this.refillForm.p_name == '' || this.refillForm.months == '')
+                //     return;
+
+                this.readonly = false;
+                for (let item of this.pname) {
+                    // console.log(this.refillForm.p_name+'  '+item.value_name)
+                    if (this.refillForm.p_name == item.value_name || this.refillForm.p_name == item.value_no) {
+                        this.refillForm.p_name = item.value_no;
+                        this.readonly = true;
+                        // console.log('rrrrrreadonly true')
+                        break;
+                    }
+                }
+
+                if (this.refillForm.months == '')
                     return;
+
+
                 let _this = this
                 axios.all([common.getProdSum(this.refillForm.p_name, this.refillForm.months)])
                     .then(axios.spread(function (ret) {
@@ -619,7 +670,6 @@
                         aform.loginuin = sessionStorage.getItem('loginuin')
                         aform.nickname = sessionStorage.getItem('nickname')
                         aform.oid = sessionStorage.getItem('oid')
-
 
                         _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
                             headers: {
@@ -676,10 +726,10 @@
             this.user = user
             if (user) {
                 user = JSON.parse(user);
-                console.log(user.authlist.length)
+                // console.log(user.authlist.length)
                 for (var item of user.authlist) {
                     if (AUTH_ID.showMonthMember_VIP_auth_id == item.auth_id) {
-                        console.log(item.sub_auth)
+                        // console.log(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth)
                         this.hideSearch = !common.showSubSearch(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)

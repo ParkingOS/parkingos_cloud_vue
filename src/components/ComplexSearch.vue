@@ -50,7 +50,8 @@ export default {
   	methods:{
 		listensearchitem:function(formitem){
 			//searchForm中存在则覆盖，不存在则加入该属性
-			this.$extend(this.searchForm,formitem)
+			// this.$extend(this.searchForm,formitem)
+            Object.assign(this.searchForm,formitem)
 		},
 		onclose(){
 			//是否查询了

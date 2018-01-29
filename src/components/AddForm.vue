@@ -38,7 +38,6 @@ import AddText from './add-subs/AddText'
 import AddTextarea from './add-subs/AddTextarea'
 import AddSelect from './add-subs/AddSelect'
 import AddUpload from './add-subs/AddUpload'
-import AddCityInfo from './add-subs/AddCityInfo'
 
 export default {
 	components:{
@@ -48,7 +47,6 @@ export default {
 		selection:AddSelect,
 		upload:AddUpload,
 		multitext:AddTextarea,
-		cityinfo:AddCityInfo,
 	},
 	data () {
 		return {
@@ -60,7 +58,9 @@ export default {
   	methods:{
 		listenadditem:function(formitem){
 			//addForm中存在则覆盖，不存在则加入该属性
-			this.$extend(this.addForm,formitem)
+			// this.$extend(this.addForm,formitem)
+			// console.log('------------------')
+            Object.assign(this.addForm,formitem)
 		},
 		onclose(){
 			this.addloading=false

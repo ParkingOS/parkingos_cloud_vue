@@ -52,23 +52,9 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '编号',
-                            prop: 'id',
-                            width: '100',
-                            type: 'number',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '购买流水号',
-                            prop: 'trade_no',
-                            width: '200',
+                            label: '月卡编号',
+                            prop: 'card_id',
+                            width: '123',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -76,13 +62,29 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    }, {
+                    },
+                    // {
+                    //
+                    //     hasSubs: false,
+                    //     subs: [{
+                    //         label: '编号',
+                    //         prop: 'id',
+                    //         width: '100',
+                    //         type: 'number',
+                    //         editable: true,
+                    //         searchable: true,
+                    //         addable: true,
+                    //         unsortable: true,
+                    //         align: 'center'
+                    //     }]
+                    // },
+                    {
 
                         hasSubs: false,
                         subs: [{
-                            label: '月卡编号',
-                            prop: 'card_id',
-                            width: '100',
+                            label: '购买流水号',
+                            prop: 'trade_no',
+                            width: '200',
                             type: 'str',
                             editable: true,
                             searchable: true,

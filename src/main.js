@@ -1,4 +1,3 @@
-import babelpolyfill from 'babel-polyfill'
 import '../theme/index.css'
 import Vue from 'vue'
 import App from './App'
@@ -9,31 +8,32 @@ import VueRouter from 'vue-router'
 import routes from './routes'
 import './common/css/common.css'
 import './common/css/index.css'
-import jQuery from 'jquery'
+// import jQuery from 'jquery'
 import common from './common/js/common'
 import axios from 'axios'
 import BaiduMap from 'vue-baidu-map'
-import QRCode from 'qrcode'
+// import QRCode from 'qrcode'
 import './styles/index.scss' // global css
 import './common/js/const.js'
 
 Vue.use(ElementUI)
-Vue.use(QRCode)
+// Vue.use(QRCode)
 Vue.use(VueRouter)
 Vue.use(BaiduMap,{
   ak:'Ona5elzlpSrwOeeAI1k0EE2yHtpLoxlN'
 })
 //Vue.use(Vuex)
 
-Vue.prototype.QRCode=QRCode
-// Vue.prototype.axios=axios
+
+
 Vue.prototype.$axios=axios
 Vue.prototype.$qs=require('qs')
-Vue.prototype.$=jQuery
-Vue.prototype.$post=jQuery.post
-Vue.prototype.$ajax=jQuery.ajax
-Vue.prototype.$getJSON=jQuery.getJSON
-Vue.prototype.$extend=jQuery.extend
+// Vue.prototype.$=jQuery
+// Vue.prototype.$post=jQuery.post
+// Vue.prototype.$ajax=jQuery.ajax
+// Vue.prototype.$getJSON=jQuery.getJSON
+// Vue.prototype.$extend=jQuery.extend
+// Vue.prototype.QRCode=QRCode
 
 Vue.prototype.common=common
 

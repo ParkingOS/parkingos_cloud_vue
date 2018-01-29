@@ -58,7 +58,8 @@ export default {
   	methods:{
 		listenedititem:function(formitem){
 			//editForm中存在则覆盖，不存在则加入该属性
-			this.$extend(this.editForm,formitem)
+			// this.$extend(this.editForm,formitem)
+            Object.assign(this.editForm,formitem)
 		},
 		onopen(){
 			console.log('onopen')
@@ -69,7 +70,7 @@ export default {
 			this.rowdata=common.clone(this.rowdata)
 		},
 		onclose(){
-			this.editloading=false
+			// this.editloading=false
 			this.cleanSubs()
 			//关闭对话框
 			setTimeout(()=>{this.$emit('editdialog',false)},0)
@@ -85,7 +86,8 @@ export default {
 			this.editForm=common.clone(this.tempeditForm)
 		},
 		editSubmit(){
-			this.$extend(this.editForm,{'id':this.rowdata.id})
+			// this.$extend(this.editForm,{'id':this.rowdata.id})
+            Object.assign(this.editForm,{'id':this.rowdata.id})
 			//将editForm传递给父组件,在父组件调用ajax保存数据
 			this.$emit('edit',this.editForm)
 		},

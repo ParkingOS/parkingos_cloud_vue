@@ -5,23 +5,6 @@
             <el-col :span="24" v-if="!showRight" align="left">
                 <el-col :span="18" align="left">
 
-                    <!--<div v-if="showCenterInfo" style="display:inline;margin-right:400px;float: left">-->
-                    <!--<el-input v-model="todayTotal" style="width:150px;background:white" disabled>-->
-                    <!--<template slot="prepend">今日收钞</template>-->
-                    <!--</el-input>&nbsp;&nbsp;&nbsp;-->
-                    <!--<el-input v-model="balance" style="width:150px;background:white" disabled>-->
-                    <!--<template slot="prepend">钱箱余额</template>-->
-                    <!--</el-input>-->
-                    <!--&nbsp;&nbsp;收款人:-->
-                    <!--<el-select v-model="centralpayment" @change="getCentralPaymentMoney" placeholder="全部"-->
-                    <!--style="width:150px;margin-left:20px">-->
-                    <!--<el-option-->
-                    <!--v-for="item in centralpaymentlist"-->
-                    <!--:label="item.value_name"-->
-                    <!--:value="item.value_no">-->
-                    <!--</el-option>-->
-                    <!--</el-select>-->
-                    <!--</div>-->
                     <div v-if="showRefillInfo" style="display:inline;margin-right:100px;float: left">
                         <el-input v-model="shouldpay" style="width:180px;background:white;" disabled>
                             <template slot="prepend">应收</template>
@@ -607,6 +590,7 @@
                 //全平台服务商
                 var vm = this
                 var user = sessionStorage.getItem('user')
+                // console.log('-----------------------')
                 user = JSON.parse(user)
                 for (var i = 0; i < this.tableitems.length; i++) {
                     if (this.tableitems[i].customSelect == 'parkserver') {
@@ -623,13 +607,25 @@
                                 params = {'query': 1, 'token': sessionStorage.getItem('token')}
                             }
                         }
-                        this.$ajax({
-                            url: path + '/getdata/serverlist',
-                            data: params,
-                            async: false,
-                            success: function (ret) {
-                                vm.tableitems[i].selectlist = ret
+                        // this.$ajax({
+                        //     url: path + '/getdata/serverlist',
+                        //     data: params,
+                        //     async: false,
+                        //     success: function (ret) {
+                        //         vm.tableitems[i].selectlist = ret
+                        //     }
+                        // })
+                        vm.$axios.post(path + '/getdata/serverlist', vm.$qs.stringify(params), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
+                        }).then(function (response) {
+                            let ret = response.data;
+                            vm.tableitems[i].selectlist = ret
+                        }).catch(function (error) {
+                            setTimeout(() => {
+                                vm.alertInfo('请求失败!' + error)
+                            }, 150)
                         })
                     } else if (this.tableitems[i].customSelect == 'park') {
                         var params;
@@ -646,13 +642,26 @@
                                 params = {'token': sessionStorage.getItem('token')}
                             }
                         }
-                        this.$ajax({
-                            url: path + '/getdata/parklist',
-                            data: params,
-                            async: false,
-                            success: function (ret) {
-                                vm.tableitems[i].selectlist = ret
+                        // this.$ajax({
+                        //     url: path + '/getdata/parklist',
+                        //     data: params,
+                        //     async: false,
+                        //     success: function (ret) {
+                        //         vm.tableitems[i].selectlist = ret
+                        //     }
+                        // })
+                        // console.log('-----------------------')
+                        vm.$axios.post(path + '/getdata/parklist', vm.$qs.stringify(params), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
+                        }).then(function (response) {
+                            let ret = response.data;
+                            vm.tableitems[i].selectlist = ret
+                        }).catch(function (error) {
+                            setTimeout(() => {
+                                vm.alertInfo('请求失败!' + error)
+                            }, 150)
                         })
                     }
                 }
@@ -688,13 +697,25 @@
                                 params = {'state': 1, 'token': sessionStorage.getItem('token')}
                             }
                         }
-                        this.$ajax({
-                            url: path + '/getdata/serverlist',
-                            data: params,
-                            async: false,
-                            success: function (ret) {
-                                vm.tableitems[i].selectlist = ret
+                        // this.$ajax({
+                        //     url: path + '/getdata/serverlist',
+                        //     data: params,
+                        //     async: false,
+                        //     success: function (ret) {
+                        //         vm.tableitems[i].selectlist = ret
+                        //     }
+                        // })
+                        vm.$axios.post(path + '/getdata/serverlist', vm.$qs.stringify(params), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
+                        }).then(function (response) {
+                            let ret = response.data;
+                            vm.tableitems[i].selectlist = ret
+                        }).catch(function (error) {
+                            setTimeout(() => {
+                                vm.alertInfo('请求失败!' + error)
+                            }, 150)
                         })
                     }
                 }
@@ -709,8 +730,7 @@
             //单击设置触发
             handlesetting(index, row) {
                 //调用父组件的方法,传row
-               this.$emit('setting', row.id)
- 	       this.$emit('showSetting', row)
+                this.$emit('showSetting', row)
             },
             //导出表格数据
             handleExport() {
@@ -824,13 +844,25 @@
                                 params = {'state': 1, 'token': sessionStorage.getItem('token')}
                             }
                         }
-                        this.$ajax({
-                            url: path + '/getdata/serverlist',
-                            data: params,
-                            async: false,
-                            success: function (ret) {
-                                vm.tableitems[i].selectlist = ret
+                        // this.$ajax({
+                        //     url: path + '/getdata/serverlist',
+                        //     data: params,
+                        //     async: false,
+                        //     success: function (ret) {
+                        //         vm.tableitems[i].selectlist = ret
+                        //     }
+                        // })
+                        vm.$axios.post(path + '/getdata/serverlist', vm.$qs.stringify(params), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
+                        }).then(function (response) {
+                            let ret = response.data;
+                            vm.tableitems[i].selectlist = ret
+                        }).catch(function (error) {
+                            setTimeout(() => {
+                                vm.alertInfo('请求失败!' + error)
+                            }, 150)
                         })
                     }
                 }
@@ -848,16 +880,6 @@
                 var qform = this.sform;
                 var msg = this.addfailmsg;
 
-                // this.$extend(aform, {'token': sessionStorage.getItem('token')})
-                // this.$extend(aform, {'oid': sessionStorage.getItem('oid')})
-                // this.$extend(aform, {'comid': sessionStorage.getItem('comid')})
-                // this.$extend(aform, {'groupid': sessionStorage.getItem('groupid')})
-                // this.$extend(aform, {'cityid': sessionStorage.getItem('cityid')})
-                // this.$extend(aform, {'unionid': sessionStorage.getItem('unionid')})
-                // this.$extend(aform, {'channelid': sessionStorage.getItem('channelid')})
-                // this.$extend(aform, {'loginuin': sessionStorage.getItem('loginuin')})
-
-
                 aform.token = sessionStorage.getItem('token')
                 aform.oid = sessionStorage.getItem('oid')
                 aform.comid = sessionStorage.getItem('comid')
@@ -866,7 +888,6 @@
                 aform.unionid = sessionStorage.getItem('unionid')
                 aform.channelid = sessionStorage.getItem('channelid')
                 aform.loginuin = sessionStorage.getItem('loginuin')
-
 
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
@@ -913,40 +934,6 @@
                                 vm.alertInfo('请求失败!' + error)
                             }, 150)
                         })
-
-                        // vm.$post(path + api, aform, function (ret) {
-                        //     if (ret.validate != 'undefined' && ret.validate == '1') {
-                        //         //过期.重新登录
-                        //         setTimeout(() => {
-                        //             vm.alertInfo('登录过期,请重新登录!')
-                        //         }, 100)
-                        //     } else if (ret.validate != 'undefined' && ret.validate == '2') {
-                        //         //令牌无效.重新登录
-                        //         setTimeout(() => {
-                        //             vm.alertInfo('登录异常,请重新登录!')
-                        //         }, 100)
-                        //     } else {
-                        //         if (ret > 0 || ret.state == 1) {
-                        //             //更新成功
-                        //             vm.getTableData(qform);
-                        //             vm.$message({
-                        //                 message: '添加成功!',
-                        //                 type: 'success',
-                        //                 duration: 600
-                        //             });
-                        //             vm.addFormVisible = false;
-                        //             vm.addloading = false
-                        //         } else {
-                        //             //更新失败
-                        //             vm.$message({
-                        //                 message: msg,
-                        //                 type: 'error',
-                        //                 duration: 1200
-                        //             });
-                        //         }
-                        //     }
-                        //
-                        // }, "json")
                     }
                 });
             },
@@ -962,7 +949,13 @@
                 var qform = this.sform;
                 var dform = {'id': this.rowid, 'token': sessionStorage.getItem('token')}
                 //发送请求,删除id为row.id的数据
-                vm.$post(path + api, dform, function (ret) {
+
+                vm.$axios.post(path + api, vm.$qs.stringify(dform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
                     if (ret.validate != 'undefined' && ret.validate == '1') {
                         //过期.重新登录
                         setTimeout(() => {
@@ -994,8 +987,11 @@
                             });
                         }
                     }
-
-                }, "json")
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error)
+                    }, 150)
+                })
             },
             alertInfo(msg) {
                 this.$alert(msg, '提示', {
@@ -1078,12 +1074,18 @@
                     return
                 }
                 this.resetloading = true
-                vm.$post(path + api, {
+                var rform = {
                     'newpass': this.pwd1,
                     'confirmpass': this.pwd2,
                     'id': this.rowid,
                     'token': sessionStorage.getItem('token')
-                }, function (ret) {
+                }
+                vm.$axios.post(path + api, vm.$qs.stringify(rform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
                     if (ret.validate != 'undefined' && ret.validate == '1') {
                         //过期.重新登录
                         setTimeout(() => {
@@ -1114,8 +1116,11 @@
                             });
                         }
                     }
-                }, "json")
-
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error)
+                    }, 150)
+                })
             },
             modifyPosition() {
                 var vm = this;
@@ -1129,7 +1134,13 @@
                 var qform = this.sform;
                 //发起修改位置
                 vm.maploading = true;
-                vm.$post(path + api, eform, function (ret) {
+
+                vm.$axios.post(path + api, vm.$qs.stringify(eform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
                     if (ret.validate != 'undefined' && ret.validate == '1') {
                         //过期.重新登录
                         setTimeout(() => {
@@ -1160,7 +1171,12 @@
                             });
                         }
                     }
-                }, "json")
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error)
+                    }, 150)
+                })
+
             },
             makePoint(type) {
                 this.showMarker = false
@@ -1213,18 +1229,6 @@
             mapSearch() {
 
             },
-            getCentralPaymentMoney() {
-                var _this = this
-                this.$extend(this.sform, {machine_id: this.centralpayment, machine_id_start: this.centralpayment})
-                this.getTableData(this.sform)
-                this.$post(path + '/centralpaymentweb/getcentralpaymentmoney', {
-                    machine_id: this.centralpayment,
-                    token: sessionStorage.getItem('token')
-                }, function (ret) {
-                    _this.balance = ret.balance + ' 元'
-                    _this.todayTotal = ret.today_total + ' 元'
-                })
-            },
             changeanalysisdate(input) {
                 //修改车场统计分析日期
                 console.log(input)
@@ -1245,15 +1249,6 @@
         activated() {
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             var _this = this
-            // if (this.showCenterInfo) {
-            //     //发送请求
-            //     axios.all([common.getCentralPaymentList()])
-            //         .then(axios.spread(function (union, server, park) {
-            //             _this.centralpaymentlist = union.data
-            //             _this.centralpayment = '-3'
-            //         }))
-            //     this.getCentralPaymentMoney()
-            // }
             this.analysisdate = Date.now()
             this.mapheight = common.gwh() * 0.5
             this.mapstyle = 'width:inherit;height:' + 420 + 'px'
