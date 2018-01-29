@@ -31,6 +31,7 @@
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
+    import axios from 'axios'
 
     export default {
         components: {       //组件加载
@@ -54,10 +55,9 @@
                 editapi: '/EQ_monitor/edit',
                 delapi: '/EQ_monitor/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'id__monitor_name__channel__net_state__screen_show__order_by__address__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'id__name__channel_id__net_status__is_show__show_order__play_src__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
-
                         hasSubs: false,
                         subs: [{
                             label: '编号',          //页面表格显示
@@ -75,8 +75,8 @@
                         hasSubs: false,
                         subs: [{
                             label: '名称',
-                            prop: 'monitor_name',
-                            width: '150',
+                            prop: 'name',
+                            width: '100',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -89,24 +89,27 @@
                         hasSubs: false,
                         subs: [{
                             label: '通道',
-                            prop: 'channel',
-                            width: '100',
+                            prop: 'channel_id',
+                            width: '150',
                             type: 'selection',
-                            //selectlist:payType,//此处引用通道管理的名称栏
+                            selectlist:this.channelType,//此处引用通道管理的名称栏
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                return common.nameformat(row, this.channelType, 'channel_id')
+                            }
                         }]
                     }, {
 
                         hasSubs: false,
                         subs: [{
                             label: '网络状态',
-                            prop: 'net_state',
+                            prop: 'net_status',
                             width: '120',
-                            type: 'str',
+                            type: 'number',
                             editable: false,
                             searchable: true,
                             addable: false,
@@ -118,7 +121,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '是否显示',
-                            prop: 'screen_show',
+                            prop: 'is_show',
                             width: '100',
                             type: 'selection',
                             editable: true,
@@ -128,7 +131,7 @@
                             unsortable: true,
                             align: 'center',
                             format:function (row) {
-                                return common.nameformat(row,monitorType,'screen_show')
+                                return common.nameformat(row,monitorType,'is_show')
                             }
                         }]
                     }, {
@@ -136,9 +139,9 @@
                         hasSubs: false,
                         subs: [{
                             label: '排序',
-                            prop: 'order_by',
+                            prop: 'show_order',
                             width: '100',
-                            type: 'str',
+                            type: 'number',
                             editable: false,
                             searchable: false,
                             addable: false,
@@ -150,7 +153,7 @@
                         hasSubs: false,
                         subs: [{
                             label: '地址',
-                            prop: 'address',
+                            prop: 'play_src',
                             width: '200',
                             type: 'str',
                             editable: true,
@@ -163,6 +166,7 @@
                 ],
                 addtitle: '添加监控器',
                 searchtitle: '搜索监控器',
+                channelType:'',
             }
         },
         mounted() {
@@ -177,9 +181,24 @@
             };
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.$refs['bolinkuniontable'].getTableData({});
+
+            let _this = this
+            axios.all([common.getChannelType()])
+                .then(axios.spread(function (ret) {
+                    _this.channelType = ret.data;
+                    //console.log(ret.data);
+                }))
         },
-        methods: {}
+        watch: {
+            channelType: function (val) {
+                this.tableitems[2].subs[0].selectlist = val;
+                console.log(val);
+            }
+        },
+        methods: {
+
+        }
     }
 </script>
 

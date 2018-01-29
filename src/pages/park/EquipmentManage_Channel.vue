@@ -30,6 +30,7 @@
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
+    import axios from 'axios'
 
     export default {
         components: {       //组件加载
@@ -109,12 +110,15 @@
                             prop: 'worksite_id',
                             width: '190',
                             type: 'selection',
-                            //selectlist:channlManager,选项为工作站管理页面的名称栏
+                            selectlist:this.worksite_id,//选项为工作站管理页面的名称栏
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
+                            format:(row)=>{
+                                return common.nameformat(row, this.worksite_id, 'worksite_id')
+                            }
                         }]
                     }, {
 
@@ -170,6 +174,7 @@
                 ],
 
                 addtitle: '添加通道',
+                worksite_id:'',
             }
         },
         mounted() {
@@ -185,6 +190,20 @@
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({})
+
+            let _this = this
+            axios.all([common.getWorkSite_id()])
+                .then(axios.spread(function (ret) {
+                    _this.worksite_id = ret.data;
+                    //console.log(ret.data);
+                }))
+
+        },
+        watch: {
+            worksite_id: function (val) {
+                this.tableitems[3].subs[0].selectlist = val;
+                //console.log(val);
+            }
         },
         methods: {}
     }

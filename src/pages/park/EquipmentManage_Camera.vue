@@ -32,6 +32,7 @@
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
+    import axios from 'axios'
 
     export default {
         components: {
@@ -109,7 +110,6 @@
                             prop: 'port',
                             width: '100',
                             type: 'str',
-                            //selectlist:channlManagerType,
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -152,12 +152,15 @@
                             prop: 'worksite_id',
                             width: '160',
                             type: 'selection',
-                            //selectlist:channlManager,//引用通道管理的所属工作站数据
-                            editable: false,
+                            selectlist:this.worksite_id,//引用通道管理的所属工作站数据
+                            editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:(row)=>{
+                                return common.nameformat(row, this.worksite_id, 'worksite_id')
+                            }
                         }]
                     },{
 
@@ -167,17 +170,23 @@
                             prop: 'passname',
                             width: '160',
                             type: 'selection',
-                            //selectlist:channlManager,//引用通道管理的名称数据
-                            editable: false,
+                            selectlist:this.channelType,//引用通道管理的名称数据
+                            editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                return common.nameformat(row, this.channelType, 'passname')
+                            }
                         }]
                     },
                 ],
 
                 addtitle: '添加摄像头',
+                worksite_id:'',
+                channelType:'',
+
 
             }
         },
@@ -195,6 +204,28 @@
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({})
+
+            let _this = this
+            axios.all([common.getWorkSite_id()])
+                .then(axios.spread(function (ret) {
+                    _this.worksite_id = ret.data;
+                    //console.log(ret.data);
+                }))
+            axios.all([common.getChannelType()])
+                .then(axios.spread(function (ret) {
+                    _this.channelType = ret.data;
+                    //console.log(ret.data);
+                }))
+        },
+        watch: {
+            worksite_id: function (val) {
+                this.tableitems[5].subs[0].selectlist = val;
+                //console.log(val);
+            },
+            channelType: function (val) {
+                this.tableitems[6].subs[0].selectlist = val;
+                //console.log(val);
+            }
         },
         methods: {}
     }
