@@ -718,7 +718,8 @@
             //单击设置触发
             handlesetting(index, row) {
                 //调用父组件的方法,传row
-                this.$emit('showSetting', row)
+               this.$emit('setting', row.id)
+ 	       this.$emit('showSetting', row)
             },
             //导出表格数据
             handleExport() {
