@@ -27,11 +27,12 @@
 
 <script>
 
-    import {path, checkURL, checkUpload, checkNumber, showType} from '../../api/api';
+    import {path, checkURL, checkUpload, checkNumber} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
     import {httpUrl} from '../../api/http_url'
+    import axios from 'axios'
 
     export default {
         components: {       //组件加载
@@ -55,7 +56,7 @@
                 editapi: '/EQ_intercom/edit',
                 delapi: '/EQ_intercom/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'id__intercom_name__extension__yard_number__group_number__monitor_name__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'id__name__tele_phone__park_phone__group_phone__monitor_id__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
 
@@ -76,8 +77,8 @@
                         hasSubs: false,
                         subs: [{
                             label: '名称',
-                            prop: 'intercom_name',
-                            width: '150',
+                            prop: 'name',
+                            width: '100',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -90,9 +91,9 @@
                         hasSubs: false,
                         subs: [{
                             label: '分机号',
-                            prop: 'extension',
+                            prop: 'tele_phone',
                             width: '150',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -104,9 +105,9 @@
                         hasSubs: false,
                         subs: [{
                             label: '车场主机号',
-                            prop: 'yard_number',
+                            prop: 'park_phone',
                             width: '150',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -118,9 +119,9 @@
                         hasSubs: false,
                         subs: [{
                             label: '集团主机号',
-                            prop: 'group_number',
+                            prop: 'group_phone',
                             width: '150',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -132,21 +133,26 @@
                         hasSubs: false,
                         subs: [{
                             label: '监控名称',
-                            prop: 'monitor_name',
+                            prop: 'monitor_id',
                             width: '150',
                             type: 'selection',
-                            //selectlist:showType,//该处引用监控管理中的名称作为下拉选项
-                            editable: false,
+                            selectlist:this.showType,
+                            editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: false,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                return common.nameformat(row, this.showType, 'monitor_id')
+                            }
                         }]
                     },
                 ],
 
                 addtitle: '添加对讲',
                 searchtitle: '搜索对讲',
+                showType:'',
+
             }
         },
         mounted() {
@@ -154,6 +160,7 @@
                 this.tableheight = common.gwh() - 143;
             };
             this.tableheight = common.gwh() - 143;
+            //console.log(this.showType);
         },
         activated() {
             window.onresize = () => {
@@ -161,9 +168,25 @@
             };
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.$refs['bolinkuniontable'].getTableData({});
+
+            let _this = this
+            axios.all([common.getMonitorName()])
+                .then(axios.spread(function (ret) {
+                    _this.showType = ret.data;
+                    //console.log(ret.data);
+                }))
+
         },
-        methods: {},
+        watch: {
+            showType: function (val) {
+                this.tableitems[5].subs[0].selectlist = val;
+                //console.log(val);
+            }
+        },
+        methods: {
+
+        },
 
     }
 </script>

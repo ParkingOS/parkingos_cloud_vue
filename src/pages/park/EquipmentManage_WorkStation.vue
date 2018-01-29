@@ -54,7 +54,7 @@
                 editapi: '/EQ_workStation/edit',
                 delapi: '/EQ_workStation/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'id__worksite_name__description__net_type',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'id__worksite_name__description__net_type__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
                         hasSubs: false,

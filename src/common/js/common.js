@@ -162,6 +162,22 @@ export default {
     genderformat: function (row) {
 
     },
+    getWorkSite_id(){
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid');
+        return axios.get(path + '/getdata/getWorkSiteId' + param)
+    },
+    getChannelType(){
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid');
+        return axios.get(path + '/getdata/getChannelType' + param)
+    },
+    getMonitorName() {
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&comid=' + sessionStorage.getItem('comid');
+        return axios.get(path + '/getdata/getMonitorName' + param)
+
+    },
     getUnionList: function (params) {
         let param = '?token=' + sessionStorage.getItem('token')
         if (typeof(params) != 'undefined') {

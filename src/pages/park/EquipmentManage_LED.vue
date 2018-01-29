@@ -33,6 +33,7 @@
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
+    import axios from 'axios'
 
     export default {
         components: {
@@ -303,12 +304,15 @@
                             prop: 'worksite_id',
                             width: '120',
                             type: 'selection',
-                            //selectlist:channlManager,
+                            selectlist:this.worksite_id,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:(row)=>{
+                                return common.nameformat(row, this.worksite_id, 'worksite_id')
+                            }
                         }]
                     },{
                         hasSubs: false,
@@ -317,18 +321,23 @@
                             prop: 'passid',
                             width: '100',
                             type: 'selection',
-                            //selectlist:channlManager,
+                            selectlist:this.channelType,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                return common.nameformat(row, this.channelType, 'passid')
+                            }
                         }]
                     },
                 ],
 
                 addtitle: '添加LED屏',
                 searchtitle: '查询明细',
+                worksite_id:'',
+                channelType:'',
 
 
             }
@@ -347,6 +356,29 @@
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({})
+
+            let _this = this
+            axios.all([common.getWorkSite_id()])
+                .then(axios.spread(function (ret) {
+                    _this.worksite_id = ret.data;
+                    //console.log(ret.data);
+                }))
+            axios.all([common.getChannelType()])
+                .then(axios.spread(function (ret) {
+                    _this.channelType = ret.data;
+                    //console.log(ret.data);
+                }))
+
+        },
+        watch: {
+            worksite_id: function (val) {
+                this.tableitems[15].subs[0].selectlist = val;
+                //console.log(val);
+            },
+            channelType: function (val) {
+                this.tableitems[16].subs[0].selectlist = val;
+                //console.log(val);
+            }
         },
         methods: {}
     }
