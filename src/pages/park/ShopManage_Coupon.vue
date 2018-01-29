@@ -9,9 +9,9 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-
+                :showdateSelector="showdateSelector"
                 :hideTool="hideTool"
-
+                :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :hideImg="hideImg"
@@ -41,12 +41,12 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: false,
-
+                showdateSelector: true,
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-
+                showParkInfo: false,
                 hideTool: false,
                 queryapi: '/shopticket/quickquery',
                 btswidth: '100',
@@ -122,7 +122,10 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                            	return common.dateformat(row.limit_day);;
+                            }
                         }]
                     }, {
 
@@ -177,10 +180,12 @@
                             unsortable: true,
                             align: 'center',
                             format:function (row) {
-                                if(row.type==1){
+                                if(row.type==3){
                                 	return "时长减免"
-                                }else{
+                                }else if(row.type==5){
                                 	return "金额减免";
+                                }else{
+                                	return row.type;
                                 }
                             }
                         }]

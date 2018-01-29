@@ -121,7 +121,7 @@
                                @click="handlebrake(scope.$index, scope.row)"><span style="color:#008F4C">道闸</span>
                     </el-button>-->
                     <el-button v-if="showmRefill" size="small" type="text"
-                               @click="handleRefill(scope.$index, scope.row)">月卡续费
+                               @click="handleRefill(scope.$index, scope.row)">续费
                     </el-button>
                     <el-button v-if="showPermission" size="small" type="text"
                                @click="handlePermission(scope.$index, scope.row)">编辑权限
@@ -709,8 +709,8 @@
             //单击设置触发
             handlesetting(index, row) {
                 //调用父组件的方法,传row
-                this.$emit('setting', row.id)
-                //connect.$emit('setting',row);
+               this.$emit('setting', row.id)
+ 	       this.$emit('showSetting', row)
             },
             //导出表格数据
             handleExport() {
