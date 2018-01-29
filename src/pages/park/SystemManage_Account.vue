@@ -213,8 +213,15 @@
                 this.bodyloading = true;
                 let qform = {comid: ''}
                 qform.comid = sessionStorage.getItem('comid')
-                let vm = this
-                vm.$post(path + vm.queryapi, qform, function (ret) {
+                var vm = this
+
+                vm.$axios.post(path + vm.queryapi,vm.$qs.stringify(qform),{
+                    headers:{
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
+
                     vm.bodyloading = false;
                     if (ret.validate != 'undefined' && ret.validate == '0') {
                         vm.loading = false;
@@ -235,7 +242,7 @@
                             vm.alertInfo('登录异常,请重新登录!')
                         }, 150)
                     } else {
-                        console.log(ret)
+                        // console.log(ret)
                         // vm.accountinfo = ret
                         vm.parkid = ret[41].value;              //id
                         vm.parkname = ret[12].value;            //company_name
@@ -248,7 +255,12 @@
                         vm.telephone = ret[3].value;            //phone
                     }
 
-                }, "json");
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!'+error)
+                    }, 150)
+                })
+
             },
             saveModify:function () {
                 this.bodyloading = true;
@@ -275,7 +287,13 @@
                 eform.phone = this.telephone
 
                 let vm = this
-                vm.$post(path + vm.editapi, eform, function (ret) {
+
+                vm.$axios.post(path + vm.editapi,vm.$qs.stringify(eform),{
+                    headers:{
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
                     vm.bodyloading = false;
                     if (ret.validate != 'undefined' && ret.validate == '0') {
                         vm.loading = false;
@@ -318,8 +336,12 @@
                         }
 
                     }
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!'+error)
+                    }, 150)
+                })
 
-                }, "json");
             },
             alertInfo(msg) {
                 this.$alert(msg, '提示', {

@@ -13,8 +13,6 @@
                 :hide-export="hideExport"
                 :searchtitle="searchtitle"
                 :addtitle="addtitle"
-                :addFormRules="addFormRules"
-
                 :showdelete="showdelete"
                 :showresetpwd="showresetpwd"
                 :showmRefill="showmRefill"
@@ -50,7 +48,7 @@
                 size="tiny">
             <el-form ref="refillForm" label-width="120px" style="margin-bottom:-30px" :rules="refillFormRules"
                      :model="refillForm">
-                <el-form-item label="包月产品">
+                <el-form-item label="包月产品" :prop="p_name">
                     <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" style="width:90%">
                         <el-option
                                 v-for="item in pname"
@@ -61,10 +59,10 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="起始日期">
-                    <AddDate v-model="refillForm.b_time" placeholder="" v-on:selectdata="getTime"></AddDate>
+                    <el-input v-model="refillstartDate" style="width:90%" :readonly="datereadonly"></el-input>
                 </el-form-item>
-                <el-form-item label="续费月数">
-                    <el-select v-model="refillForm.months" filterable @change="getRefillTotal" style="width:90%">
+                <el-form-item label="续费月数" :prop="months">
+                    <el-select v-model="refillForm.months" @change="getRefillTotal" style="width:90%">
                         <el-option
                                 v-for="item in [1,2,3,4,5,6,7,8,9,10,11,12]"
                                 :label="item"
@@ -75,13 +73,16 @@
                 </el-form-item>
                 <el-form-item label="应收金额" :prop="total">
                     <!--<el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="refillForm.total" style="width:90%" placeholder=""
+                              :readonly="readonly"></el-input>
                 </el-form-item>
                 <el-form-item label="实收金额" :prop="act_total">
                     <!--<el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>-->
                     <el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-
+                <el-form-item label="备注">
+                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
+                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="showRefill = false" size="small">取 消</el-button>
@@ -100,7 +101,7 @@
                 <el-form-item label="车牌号码" :prop="car_number">
                     <el-input v-model="refillForm.car_number" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="包月产品">
+                <el-form-item label="包月产品" :prop="p_name">
                     <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" style="width:90%">
                         <el-option
                                 v-for="item in pname"
@@ -110,11 +111,13 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="起始日期">
-                    <AddDate v-model="refillForm.b_time" placeholder="" v-on:selectdata="getTime"></AddDate>
+                <el-form-item label="起始日期" :prop="b_time">
+                    <!--<AddDate v-model="refillForm.b_time" placeholder="" v-on:selectdata="getTime"></AddDate>-->
+                    <el-date-picker type="date" placeholder="选择日期时间" v-model="refillForm.b_time"
+                                    style="width: 90%"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="购买月数">
-                    <el-select v-model="refillForm.months" filterable @change="getRefillTotal" style="width:90%">
+                <el-form-item label="购买月数" :prop="months">
+                    <el-select v-model="refillForm.months" @change="getRefillTotal" style="width:90%">
                         <el-option
                                 v-for="item in [1,2,3,4,5,6,7,8,9,10,11,12]"
                                 :label="item"
@@ -125,7 +128,8 @@
                 </el-form-item>
                 <el-form-item label="应收金额" :prop="total">
                     <!--<el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="refillForm.total" style="width:90%" placeholder=""
+                              :readonly="readonly"></el-input>
                 </el-form-item>
                 <el-form-item label="实收金额" :prop="act_total">
                     <!--<el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>-->
@@ -135,8 +139,8 @@
                     <el-input v-model="refillForm.mobile" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
-                <el-form-item label="单双日限行">
-                    <el-select v-model="refillForm.limit_day_type" filterable  style="width:90%">
+                <el-form-item label="单双日限行" :prop="limit_day_type">
+                    <el-select v-model="refillForm.limit_day_type" filterable style="width:90%">
                         <el-option
                                 v-for="item in singleDoubleType"
                                 :label="item.value_name"
@@ -146,7 +150,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model="refillForm.remark" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -215,13 +219,26 @@
                 btswidth: '200',
                 fieldsstr: 'id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
                 tableitems: [
+                    // {
+                    //     hasSubs: false, subs: [
+                    //         {
+                    //             label: '编号',
+                    //             prop: 'id',
+                    //             width: '100',
+                    //             type: 'number',
+                    //             searchable: true,
+                    //             unsortable: true,
+                    //             align: 'center',
+                    //         },
+                    //     ]
+                    // },
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '编号',
-                                prop: 'id',
-                                width: '100',
-                                type: 'number',
+                                label: '月卡编号',
+                                prop: 'card_id',
+                                width: '123',
+                                type: 'str',
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center',
@@ -235,12 +252,12 @@
                                 prop: 'pid',
                                 width: '100',
                                 type: 'selection',
-                                selectlist:this.pname,
+                                selectlist: this.pname,
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center',
-                                format:(row)=> {
-                                    return common.nameformat(row,this.pname,'pid')
+                                format: (row) => {
+                                    return common.nameformat(row, this.pname, 'pid')
                                 }
                             },
                         ]
@@ -386,12 +403,12 @@
                                 prop: 'car_type_id',
                                 width: '175',
                                 type: 'selection',
-                                selectlist:this.cartype,
+                                selectlist: this.cartype,
                                 searchable: true,
                                 align: 'center',
                                 unsortable: true,
-                                format:  (row)=> {
-                                    return common.nameformat(row,this.cartype,'car_type_id');
+                                format: (row) => {
+                                    return common.nameformat(row, this.cartype, 'car_type_id');
                                 }
 
                             },
@@ -449,26 +466,8 @@
                 ],
                 searchtitle: '高级查询',
                 addtitle: '注册会员',
-                addFormRules: {
-                    name: [
-                        {required: true, message: '请输入名称', trigger: 'blur'}
-                    ],
-                    distincts: [
-                        {required: true, validator: checkCityInfo, trigger: 'change'}
-                    ],
-                    address: [
-                        {required: true, message: '请输入缴费机安置详细地址', trigger: 'blur'}
-                    ],
-                    // model: [
-                    // 	{ required: true, message: '请输入缴费机型号', trigger: 'blur' }
-                    // ],
-                    password: [
-                        {required: true, validator: checkPass, trigger: 'blur'}
-                    ],
-                    province_abbr: [
-                        {required: true, message: '请输入默认省份缩写', trigger: 'change'}
-                    ],
-                },
+                readonly: true,
+                datereadonly:true,
                 refillFormRules: {
                     total: [
                         {required: true, message: '应收金额不能为空', trigger: 'blur'}
@@ -480,10 +479,22 @@
                     car_number: [
                         {required: true, message: '请填写车牌号码', trigger: 'blur'}
                     ],
+                    months: [
+                        {required: true, message: '请选择购买月数', trigger: 'change', type: 'number'}
+                    ],
+                    // p_name: [
+                    //     {required: true, message: '请选择包月产品', trigger: 'change',}
+                    // ],
+                    b_time: [
+                        {required: true, message: '请选择起始日期', trigger: 'change', type: 'date'}
+                    ],
+                    limit_day_type: [
+                        {required: true, message: '请选择限行限制', trigger: 'change', type: 'number'}
+                    ],
 
                 },
                 pname: [],
-                cartype:[],
+                cartype: [],
                 refillForm: {
                     name: '',
                     car_number: '',
@@ -493,16 +504,21 @@
                     total: '',
                     act_total: '',
                     mobile: '',
-                    limit_day_type:'',
+                    limit_day_type: '',
                     remark: ''
                 },
+                p_name: 'p_name',
+                months: 'months',
+                b_time: 'b_time',
                 total: 'total',
                 act_total: 'act_total',
-                car_number:'car_number',
-                singleDoubleType : [
-                    {'value_name': '不限制', 'value_no': '0'},
-                    {'value_name': '限制', 'value_no': '1'}
-                ]
+                car_number: 'car_number',
+                limit_day_type: 'limit_day_type',
+                singleDoubleType: [
+                    {'value_name': '不限制', 'value_no': 0},
+                    {'value_name': '限制', 'value_no': 1}
+                ],
+                refillstartDate: 0,
             }
         },
         methods: {
@@ -515,9 +531,32 @@
                 this.currentIndex = index;
                 this.currentRow = row;
                 this.showRefill = true;
+                let now = new Date().getTime();
+                let endtime = row.e_time;
+                this.refillForm.remark = '云平台续费'
+                if (now / 1000 > endtime) {
+                    this.refillstartDate = common.dateformat(now / 1000)
+                } else {
+                    this.refillstartDate = common.dateformat(endtime)
+                }
+
+                for (let item of this.pname) {
+                    if (row.pid == item.value_no) {
+                        this.refillForm.p_name = item.value_name;
+                        this.readonly = true;
+                        return;
+                    }
+                }
+                //如果当前套餐在套餐列表中，则应收是readonly
+                //当前套餐不存在，则应收可以自由填写
+                this.readonly = false;
+
             },
             showadd: function () {
                 this.showRegis = true;
+                this.refillForm.p_name = '';
+                this.readonly = false;
+                this.refillForm.remark = '云平台注册'
             },
             handlereset: function () {
                 this.resetloading = true
@@ -525,7 +564,7 @@
                 axios.all([common.editCarNum(this.resetCarnumber, this.currentRow.id)])
                     .then(axios.spread(function (ret) {
                         let data = ret.data
-                        console.log(data)
+                        _this.resetloading = false
                         if (data.state == 1) {
                             _this.$refs['bolinkuniontable'].getTableData({})
                             _this.$message({
@@ -534,6 +573,7 @@
                                 duration: 600
                             });
                             _this.showResetCarnumber = false;
+                            _this.resetCarnumber = '';
                         } else {
                             //更新失败
                             _this.$message({
@@ -549,18 +589,18 @@
                 this.refillForm.b_time = time
             },
             handleRefill: function () {
-                console.log('开始验证')
+                // console.log('开始验证')
                 let _this = this
                 this.$refs.refillForm.validate((valid) => {
-                    console.log(valid)
+                    // console.log(valid)
                     console.log(_this.refillForm)
                     if (valid) {
                         _this.resetloading = true
-
-                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, _this.currentRow.name, _this.refillForm.b_time, _this.currentRow.id, _this.currentRow.remark, _this.refillForm.act_total, sessionStorage.getItem('nickname'))])
+                        // console.log(_this.refillForm.p_name)
+                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))))])
                             .then(axios.spread(function (ret) {
                                 let data = ret.data
-                                console.log(data)
+                                // console.log(data)
                                 if (data.state == 1) {
                                     _this.$refs['bolinkuniontable'].getTableData({})
                                     _this.$message({
@@ -569,7 +609,9 @@
                                         duration: 600
                                     });
                                     _this.showRefill = false;
-                                    // _this.refillForm = {}
+                                    // _this.refillForm.resetFields()
+                                    _this.$refs['refillForm'].resetFields()
+                                    _this.refillForm.p_name = ''
                                 } else {
                                     //更新失败
                                     _this.$message({
@@ -584,10 +626,26 @@
                 })
 
             },
-            getRefillTotal: function () {
-                console.log('计算续费金额' + this.refillForm.p_name + '  ' + this.refillForm.months)
-                if (this.refillForm.p_name == '' || this.refillForm.months == '')
+             getRefillTotal: function () {
+                // console.log('计算续费金额' + this.refillForm.p_name + ' -- ' + this.refillForm.months)
+                // if (this.refillForm.p_name == '' || this.refillForm.months == '')
+                //     return;
+
+                this.readonly = false;
+                for (let item of this.pname) {
+                    // console.log(this.refillForm.p_name+'  '+item.value_name)
+                    if (this.refillForm.p_name == item.value_name || this.refillForm.p_name == item.value_no) {
+                        this.refillForm.p_name = item.value_no;
+                        this.readonly = true;
+                        // console.log('rrrrrreadonly true')
+                        break;
+                    }
+                }
+
+                if (this.refillForm.months == '')
                     return;
+
+
                 let _this = this
                 axios.all([common.getProdSum(this.refillForm.p_name, this.refillForm.months)])
                     .then(axios.spread(function (ret) {
@@ -596,73 +654,64 @@
                         // console.log(ret.data)
                     }))
             },
-            handleRegis:function () {
+            handleRegis: function () {
                 let _this = this
                 this.$refs.refillForm.validate((valid) => {
-
                     if (valid) {
                         _this.resetloading = true
                         let aform = _this.refillForm
 
-                        this.$extend(aform, {'token': sessionStorage.getItem('token')})
-                        this.$extend(aform, {'oid': sessionStorage.getItem('oid')})
-                        this.$extend(aform, {'comid': sessionStorage.getItem('comid')})
-                        this.$extend(aform, {'groupid': sessionStorage.getItem('groupid')})
-                        this.$extend(aform, {'cityid': sessionStorage.getItem('cityid')})
-                        this.$extend(aform, {'unionid': sessionStorage.getItem('unionid')})
-                        this.$extend(aform, {'channelid': sessionStorage.getItem('channelid')})
-                        this.$extend(aform, {'loginuin': sessionStorage.getItem('loginuin')})
-                        this.$extend(aform, {'nickname': sessionStorage.getItem('nickname')})
+                        aform.token = sessionStorage.getItem('token')
+                        aform.comid = sessionStorage.getItem('comid')
+                        aform.groupid = sessionStorage.getItem('groupid')
+                        aform.cityid = sessionStorage.getItem('cityid')
+                        aform.unionid = sessionStorage.getItem('unionid')
+                        aform.channelid = sessionStorage.getItem('channelid')
+                        aform.loginuin = sessionStorage.getItem('loginuin')
+                        aform.nickname = sessionStorage.getItem('nickname')
+                        aform.oid = sessionStorage.getItem('oid')
 
-                        _this.$post(path + _this.addapi, aform, function (ret) {
-                            
-                                if (ret > 0 || ret.state == 1) {
-                                    //更新成功
-                                    _this.$refs['bolinkuniontable'].getTableData({})
-                                    _this.$message({
-                                        message: '添加成功!',
-                                        type: 'success',
-                                        duration: 600
-                                    });
-                                    _this.showRegis = false;
-                                    _this.refillForm = [];
-                                    _this.resetloading = false;
-                                } else {
-                                    //更新失败
-                                    _this.$message({
-                                        message: ret.msg,
-                                        type: 'error',
-                                        duration: 1200
-                                    });
-                                    _this.resetloading = false;
-                                }
+                        _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            }
+                        }).then(function (response) {
+                            let ret = response.data;
+
+                            if (ret > 0 || ret.state == 1) {
+                                //更新成功
+                                _this.$refs['bolinkuniontable'].getTableData({})
+                                _this.$message({
+                                    message: '添加成功!',
+                                    type: 'success',
+                                    duration: 600
+                                });
+                                _this.showRegis = false;
+                                // _this.refillForm.resetFields();
+                                _this.refillForm.name = '';
+                                _this.$refs['refillForm'].resetFields()
+                            } else {
+                                //更新失败
+                                _this.$message({
+                                    message: ret.msg,
+                                    type: 'error',
+                                    duration: 1200
+                                });
+                            }
                             _this.resetloading = false
 
-                        }, "json")
-
-                        // axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, _this.currentRow.name, _this.refillForm.b_time, _this.currentRow.id, _this.currentRow.remark, _this.refillForm.act_total, sessionStorage.getItem('nickname'))])
-                        //     .then(axios.spread(function (ret) {
-                        //         let data = ret.data
-                        //         console.log(data)
-                        //         if (data.state == 1) {
-                        //             _this.$refs['bolinkuniontable'].getTableData({})
-                        //             _this.$message({
-                        //                 message: '续费成功!',
-                        //                 type: 'success',
-                        //                 duration: 600
-                        //             });
-                        //             _this.showRefill = false;
-                        //             // _this.refillForm = {}
-                        //         } else {
-                        //             //更新失败
-                        //             _this.$message({
-                        //                 message: data.msg + '!',
-                        //                 type: 'error',
-                        //                 duration: 600
-                        //             });
-                        //         }
-                        //         _this.resetloading = false
-                        //     }))
+                        }).catch(function (error) {
+                            // setTimeout(() => {
+                            //     _this.alertInfo('请求失败!'+error)
+                            // }, 150)
+                            //更新失败
+                            // _this.$message({
+                            //     message: '请求失败!'+error.data,
+                            //     type: 'error',
+                            //     duration: 1200
+                            // });
+                            _this.resetloading = false;
+                        })
                     }
                 })
             }
@@ -677,10 +726,10 @@
             this.user = user
             if (user) {
                 user = JSON.parse(user);
-                console.log(user.authlist.length)
+                // console.log(user.authlist.length)
                 for (var item of user.authlist) {
                     if (AUTH_ID.showMonthMember_VIP_auth_id == item.auth_id) {
-                        console.log(item.sub_auth)
+                        // console.log(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth)
                         this.hideSearch = !common.showSubSearch(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)
@@ -703,8 +752,8 @@
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
             let _this = this
-            axios.all([common.getPName(),common.getCarType()])
-                .then(axios.spread(function (retpname,retcartype) {
+            axios.all([common.getPName(), common.getCarType()])
+                .then(axios.spread(function (retpname, retcartype) {
                     _this.pname = retpname.data;
                     _this.cartype = retcartype.data;
                     // console.log(ret.data)
