@@ -1,5 +1,7 @@
 <template>
-    <section style="padding: 10px;" v-loading.body="bodyloading" v-loading.target="document.querySelector">
+    <section style="padding: 10px;"  >
+        <!--v-loading.body="bodyloading"-->
+        <!--<el-dialog v-model="bodyloading"></el-dialog>-->
         <el-row>
             <!--<el-col> 历史总收入:0.00，账号当前余额：0.00，账号可提现余额：0.00</el-col>-->
             <el-col style="margin-left: 10px;">

@@ -43,5 +43,5 @@ export const ROLE_ID={
     CHANNEL:27,
     UNION:28,
     CITY:29,
-    PARK:0,
+    PARK:30,
 }
