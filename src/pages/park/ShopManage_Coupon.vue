@@ -9,14 +9,12 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-                :showdateSelector="showdateSelector"
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
-                :hideImg="hideImg"
-                :showImg="showImg"
                 :dialogVisible="dialogVisible"
+                :exportapi="exportapi"
                 ref="bolinkuniontable"
         ></common-table>      	
     </section>
@@ -41,7 +39,6 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: false,
-                showdateSelector: true,
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
@@ -50,6 +47,7 @@
                 hideTool: false,
                 queryapi: '/shopticket/quickquery',
                 btswidth: '100',
+                exportapi: '/shopticket/exportExcel',
                 fieldsstr: 'id__money__umoney__limit_day__car_number',
                 tableitems: [
                     {

@@ -9,13 +9,11 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-                :showdateSelector="showdateSelector"
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :hideImg="hideImg"
-                :showImg="showImg"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -39,7 +37,6 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: false,
-                showdateSelector:false ,
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
