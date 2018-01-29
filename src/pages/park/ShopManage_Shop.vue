@@ -11,7 +11,6 @@
 	                :tableitems="tableitems"
 	                :btswidth="btswidth"
 	                :hide-export="hideExport"
-	                :searchtitle="searchtitle"
 	                :addtitle="addtitle"
 	                :addFormRules="addFormRules"
 	                :editFormRules="editFormRules"
@@ -156,7 +155,7 @@
 				    <el-table-column
 				      prop="phone"
 				      label="电话"
-				      width="130">
+				      width="120">
 				    </el-table-column>
 				    <el-table-column
 				      prop="mobile"
@@ -177,7 +176,7 @@
 				      width="180">
 				    </el-table-column>
 				    <el-table-column
-				      :formatter="dateFormat"
+				     :formatter="dateFormat"
 				      prop="logon_time"
 				      label="最近登陆时间"
 				      width="180">
@@ -304,7 +303,8 @@
             		mobile :'',
             		phone :'',
             		nickname :'1234',
-            		comid  :''
+            		comid  :'',
+            		reg_time:'',
             	},
             	delVisible:false,
             	rowid:0,
@@ -769,12 +769,15 @@
                         }
                     }
                 });
-                
-
             },
             handleEdit(row){
-            	this.user=row;
-            	this.user.reg_time=common.dateformat(row.reg_time);
+            	this.user=row;           	
+            	if(!isNaN(row.reg_time)){
+            		this.user.reg_time=common.dateformat(row.reg_time);
+            	}
+            	if(!isNaN(row.logon_time)){
+            		this.user.logon_time=common.dateformat(row.logon_time);
+            	}
             	this.regUserTitle='编辑',
             	this.showInput=true;
             	this.regUserVisible=true;            	
@@ -789,7 +792,10 @@
           	  var date = row[column.property];  
 	          if (date == undefined) {  
 	             return "";  
-	         }          
+	          } 
+	          if(isNaN(date)){
+	          	return date;
+	          }
 	         return common.dateformat(row.reg_time);
 	        },  
 	        strFormat(row, column){
