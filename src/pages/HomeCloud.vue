@@ -416,7 +416,7 @@
                 } else {
                     this.active = cpath;
                 }
-                if (user.roleid === 0) {
+                if (user.roleid == 0 || user.roleid == 30) {
                     this.nickname = "车场";
                     this.park = true;
                 }
