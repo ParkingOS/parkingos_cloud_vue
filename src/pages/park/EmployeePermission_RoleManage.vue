@@ -26,20 +26,34 @@
                 v-on:showRolePermission="showRolePermission"
                 ref="bolinkuniontable"
         ></common-table>
-        <el-dialog title="权限设置" v-model="isShowPermission">
-                <div>
-                    <el-checkbox>订单管理</el-checkbox>
+        <el-dialog title="权限设置" v-model="isShowPermission" style="overflow: scroll">
+            <!--<div>-->
+
+            <!--<el-checkbox>订单管理</el-checkbox>-->
+            <!--<div style="margin-left: 20px;">-->
+
+
+            <!--&lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div style="margin: 15px 0;"></div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">&ndash;&gt;-->
+            <!--&lt;!&ndash;<el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-checkbox-group>&ndash;&gt;-->
+            <!--</div>-->
+            <!--</div>-->
+            <div v-for="sub of permissions">
+
+                <el-checkbox @change="subchange(sub)" v-model="sub.ischeck">{{sub.subname}}</el-checkbox>
+
+                <div style="margin-left: 20px;" v-for="sub_ of sub.subpermission">
+                    <el-checkbox @change="sub_change(sub,sub_)" v-model="sub_.ischeck">{{sub_.subname}}</el-checkbox>
                     <div style="margin-left: 20px;">
-
-
-                        <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>-->
-                        <!--<div style="margin: 15px 0;"></div>-->
-                        <!--<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">-->
-                            <!--<el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>-->
-                        <!--</el-checkbox-group>-->
+                        <el-checkbox v-for="sub__ of sub_.subpermission" @change="sub__change(sub,sub_,sub__)"
+                                     v-model="sub__.ischeck">{{sub__.subname}}
+                        </el-checkbox>
                     </div>
                 </div>
-                <span slot="footer" class="dialog-footer">
+            </div>
+            <span slot="footer" class="dialog-footer">
 				<el-button @click="isShowPermission = false" size="small">取 消</el-button>
 				<el-button type="primary" size="small" @click="handleSavePermission"
                            :loading="dialogloading">确 定</el-button>
@@ -64,12 +78,10 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
-
                 hideAdd: false,
                 tableheight: '',
                 showdelete: true,
                 hideOptions: false,
-
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
@@ -150,19 +162,90 @@
                 addtitle: '添加角色',
                 addFormRules: {
                     role_name: [
-                        {required: true, message: '请输入名称',trigger: 'blur'}
+                        {required: true, message: '请输入名称', trigger: 'blur'}
                     ]
                 },
                 isShowPermission: false,
                 dialogloading: false,
+
+                permissions: [
+                    {
+                        subname: '订单管理',
+                        ischeck: false,
+                        subpermission: [
+                            {
+                                subname: '订单记录',
+                                ischeck: false,
+                                subpermission: [
+                                    {subname: '查看', ischeck: false},
+                                    {subname: '导出', ischeck: false}
+                                ]
+                            }, {
+                                subname: '抬杆记录',
+                                ischeck: false,
+                                subpermission: [
+                                    {subname: '查看', ischeck: false},
+                                    {subname: '导出', ischeck: false}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        subname: '月卡会员',
+                        ischeck: false,
+                        subpermission: [
+                            {
+                                subname: '月卡续费记录',
+                                ischeck: false,
+                                subpermission: [
+                                    {subname: '查看', ischeck: false},
+                                    {subname: '导出', ischeck: false}
+                                ]
+                            }, {
+                                subname: '月卡会员',
+                                ischeck: false,
+                                subpermission: [
+                                    {subname: '查看', ischeck: false},
+                                    {subname: '导出', ischeck: false},
+                                    {subname: '注册会员修改车牌', ischeck: false},
+                                    {subname: '删除', ischeck: false},
+                                    {subname: '续费', ischeck: false}
+                                ]
+                            }
+                        ]
+                    },
+                ],
+                checksub: false,
             }
         },
         methods: {
             showRolePermission: function (index, row) {
                 this.isShowPermission = true;
             },
-            handleSavePermission:function () {
-
+            handleSavePermission: function () {
+                console.log(this.permissions)
+            },
+            subchange: function (sub) {
+                for (let item of sub.subpermission) {
+                    item.ischeck = sub.ischeck;
+                    for (let item_ of item.subpermission) {
+                        item_.ischeck = sub.ischeck;
+                    }
+                }
+            },
+            sub_change: function (sub, sub1) {
+                if (sub1.ischeck) {
+                    sub.ischeck = true;
+                }
+                for (let item of sub1.subpermission) {
+                    item.ischeck = sub1.ischeck;
+                }
+            },
+            sub__change: function (sub, sub1, sub2) {
+                if (sub2.ischeck) {
+                    sub1.ischeck = true;
+                    sub.ischeck = true;
+                }
             }
         },
         mounted() {

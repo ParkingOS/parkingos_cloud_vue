@@ -308,11 +308,10 @@
     import ComplexSearch from './ComplexSearch'
     import EditForm from './EditForm'
     import AddForm from './AddForm'
-    import axios from 'axios'
-
+    import buttons from './add-subs/AddButton'
     export default {
         components: {
-            ComplexSearch, EditForm, AddForm
+            ComplexSearch, EditForm, AddForm,buttons
         },
         data() {
             return {

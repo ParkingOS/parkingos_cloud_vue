@@ -11,11 +11,8 @@
                 :searchtitle="searchtitle"
                 :showdateSelector="showdateSelector"
                 :hideTool="hideTool"
-
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
-                :showEdit="showEdit"
-                :showdelete="showdelete"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -40,12 +37,8 @@
                 showdateSelector: true,
                 hideAdd: true,
                 tableheight: '',
-                showdelete: true,
-                hideOptions: false,
-
+                hideOptions: true,
                 hideTool: false,
-                showEdit: true,
-                showdelete: true,
 
                 queryapi: '/parkorder/query',
                 btswidth: '100',
@@ -58,7 +51,7 @@
                             label: '集团',
                             prop: 'groupid',
                             width: '123',
-                            type: 'number',
+                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -86,7 +79,7 @@
                                 label: '收费员',
                                 prop: 'name',
                                 width: '123',
-                                type: 'str',
+                                type: 'buttons',
                                 editable: false,
                                 searchable: true,
                                 addable: true,
@@ -248,18 +241,18 @@
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
-            var user = sessionStorage.getItem('user');
-            this.user = user
-            if (user) {
-                user = JSON.parse(user);
-                for (var item of user.authlist) {
-                    if (AUTH_ID.showOrderStatistics_HourRent_auth_id == item.auth_id) {
-                        console.log(item.sub_auth)
-                        break;
-                    }
-                }
-
-            }
+            // var user = sessionStorage.getItem('user');
+            // this.user = user
+            // if (user) {
+            //     user = JSON.parse(user);
+            //     for (var item of user.authlist) {
+            //         if (AUTH_ID.showOrderStatistics_HourRent_auth_id == item.auth_id) {
+            //             console.log(item.sub_auth)
+            //             break;
+            //         }
+            //     }
+            //
+            // }
         },
         activated() {
             window.onresize = () => {

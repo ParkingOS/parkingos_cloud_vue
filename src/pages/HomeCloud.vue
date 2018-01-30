@@ -24,30 +24,28 @@
             </el-col>-->
 
             <el-col :span="7" style="padding-right:10px">
+                <!--<div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute">{{nickname}}:-->
+                <!--{{sysUserName}}-->
+                <!--</div>-->
+                <!--<el-menu style="height:50px" :default-active="active" theme="dark"-->
+                <!--mode="horizontal" @select="selectTop">-->
+
+                <!--<el-menu-item index="/loginCloud"><span style="color:#fff;font-size:13px">退出登录</span></el-menu-item>-->
+
+                <!--</el-menu>-->
                 <div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute">{{nickname}}:
                     {{sysUserName}}
                 </div>
-                <el-menu style="background:#008F4C;height:50px" :default-active="active" theme="dark"
-                         class="el-menu-demo" mode="horizontal" @select="selectTop">
-                    <!--<el-menu-item index="/securitycenter"><span style="color:#fff;font-size:15px">安全中心</span>-->
-                    <!--</el-menu-item>-->
-                    <el-menu-item index="/loginCloud"><span style="color:#fff;font-size:13px">退出登录</span></el-menu-item>
+                <el-menu style="height:50px;width: 100px;float: right;" :default-active="active" theme="dark"
+                         @select="selectTop">
 
-                    <!--<el-submenu index="2">
-                        <template slot="title"><span style="color:#fff;font-size:15px">设置</span></template>
-                        <el-menu-item  index="/login" style="text-align:center" >退出登录</el-menu-item>
-                    </el-submenu>-->
+                    <el-menu-item index="/loginCloud"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>
+                    </el-menu-item>
+
                 </el-menu>
 
-                <!--
-                <el-dropdown :hide-on-click="false">
-                    <span class="el-dropdown-link userinfo-inner">{{nickname}}: {{sysUserName}}</span>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>安全中心</el-dropdown-item>
-                        <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
-                -->
+
+
             </el-col>
 
         </el-col>
@@ -58,76 +56,6 @@
                 <el-menu :default-active="active" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose"
                          @select="handleselect"
                          unique-opened v-show="!collapsed">
-
-                    <!--<el-row v-show="common.pageShow('park')">-->
-                    <!--<el-row v-show="park">-->
-                    <!--<el-submenu v-if="common.pageShow('订单管理')" index="/order">-->
-                    <!--<template slot="title"><span class="menuitem">订单管理</span></template>-->
-                    <!--<el-menu-item index="/orderManage_Orders" v-if="common.pageShow('订单记录')">订单记录</el-menu-item>-->
-                    <!--<el-menu-item index="/orderManage_Poles" v-if="common.pageShow('抬杆记录')">抬杆记录</el-menu-item>-->
-                    <!--</el-submenu>-->
-                    <!--<el-submenu v-if="common.pageShow('月卡会员')" index="/month">-->
-                    <!--<template slot="title"><span class="menuitem">月卡会员</span></template>-->
-                    <!--<el-menu-item index="/monthMember_Refill" v-if="common.pageShow('月卡续费记录')">月卡续费记录-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/monthMember_VIP" v-if="common.pageShow('月卡会员')">月卡会员-->
-                    <!--</el-menu-item>-->
-                    <!--</el-submenu>-->
-                    <!--<el-menu-item index="/orderStatistics"><span class="menuitem" v-if="common.pageShow('统计分析')">统计分析</span>-->
-                    <!--</el-menu-item>-->
-                    <!--<el-submenu v-if="common.pageShow('商户管理')" index="/shop">-->
-                    <!--<template slot="title"><span class="menuitem">商户管理</span></template>-->
-                    <!--<el-menu-item index="/shopManage_Coupon" v-if="common.pageShow('优惠券管理')">优惠券管理-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/shopManage_Shop" v-if="common.pageShow('商户管理')">商户管理</el-menu-item>-->
-                    <!--<el-submenu v-if="common.pageShow('流水查询')" index="/shop2">-->
-                    <!--<template slot="title"><span class="menuitem">流水查询</span></template>-->
-                    <!--<el-menu-item index="/shopManage_QueryAccount" v-if="common.pageShow('流水查询')">流水查询-->
-                    <!--</el-menu-item>-->
-                    <!--</el-submenu>-->
-                    <!--</el-submenu>-->
-                    <!--<el-submenu  index="/equipment" v-if="common.pageShow('设备管理')">-->
-                    <!--<template slot="title"><span class="menuitem">设备管理</span></template>-->
-                    <!--<el-menu-item index="/equipmentManage_Monitor" v-if="common.pageShow('监控管理')">监控管理-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/equipmentManage_Intercom" v-if="common.pageShow('对讲管理')">对讲管理-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/equipmentManage_WorkStation" v-if="common.pageShow('工作站管理')">工作站管理-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/equipmentManage_Channel" v-if="common.pageShow('通道管理')">通道管理-->
-                    <!--</el-menu-item>-->
-                    <!--</el-submenu>-->
-                    <!--<el-submenu v-if="common.pageShow('员工权限')" index="/employee">-->
-                    <!--<template slot="title"><span class="menuitem">员工权限</span></template>-->
-                    <!--<el-menu-item index="/employeePermission_Role" v-if="common.pageShow('角色管理')">角色管理-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/employeePermission_Manage" v-if="common.pageShow('员工管理')">员工管理-->
-                    <!--</el-menu-item>-->
-                    <!--</el-submenu>-->
-                    <!--<el-submenu v-if="common.pageShow('系统管理')" index="/system">-->
-                    <!--<template slot="title"><span class="menuitem">系统管理</span></template>-->
-                    <!--<el-menu-item index="/systemManage_BlachList" v-if="common.pageShow('黑名单管理')">黑名单管理-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/systemManage_Commute" v-if="common.pageShow('上下班记录')">上下班记录-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/systemManage_Account" v-if="common.pageShow('账户管理')">账户管理-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/systemManage_Params" v-if="common.pageShow('参数设置')">参数设置-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/systemManage_FreeReason" v-if="common.pageShow('免费原因')">免费原因-->
-                    <!--</el-menu-item>-->
-                    <!--<el-submenu index="/system_cartype" v-if="common.pageShow('车型管理')">-->
-                    <!--<template slot="title"><span class="menuitem">车型管理</span></template>-->
-                    <!--<el-menu-item index="/systemManage_CarType" v-if="common.pageShow('车型设定')">车型设定-->
-                    <!--</el-menu-item>-->
-                    <!--</el-submenu>-->
-                    <!--<el-menu-item index="/systemManage_Price" v-if="common.pageShow('时租价格管理')">时租价格管理-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/systemManage_MonthCard" v-if="common.pageShow('月卡套餐管理')">月卡套餐管理-->
-                    <!--</el-menu-item>-->
-                    <!--<el-menu-item index="/systemManage_Logs" v-if="common.pageShow('系统日志')">系统日志</el-menu-item>-->
-                    <!--</el-submenu>-->
-                    <!--</el-row>-->
 
                     <el-row v-show="park">
                         <el-submenu v-if="showOrderManage" index="/order">
@@ -230,7 +158,6 @@
 </template>
 
 <script>
-    import {path} from '../api/api'
     import common from '../common/js/common'
     import {AUTH_ID} from '../common/js/const'
 
@@ -474,16 +401,19 @@
 
 </script>
 <style lang="scss" scoped>
+
+    $bg: #2d3a4b; //#008F4C; //#324157;//#0080dd;//#35495E;//#1F2D3D
     .container {
         position: absolute;
         top: 0px;
         bottom: 0px;
+
         width: 100%;
         .header {
             height: 50px;
             line-height: 50px;
 
-            background: #008F4C; //#324157;//#0080dd;//#35495E;//#1F2D3D
+            background: $bg;
             color: #fff;
             .userinfo {
                 text-align: right;
@@ -549,7 +479,9 @@
                 // bottom: 0px;
                 .el-menu {
                     height: 100%;
+
                 }
+
                 .collapsed {
                     width: 60px;
                     .item {
@@ -577,7 +509,7 @@
             }
             .menu-expanded {
                 flex: 0 0 180px;
-                width: 180px;
+                width: 80px;
             }
             .content-container {
                 // background: #f1f2f7;

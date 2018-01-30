@@ -327,7 +327,7 @@
                             align: 'center',
                             format:(row)=>{
                                 let uidstr = common.nameformat(row,this.collectors,'uid')
-                                return uidstr==''||uidstr==undefined?row.uid:uidstr
+                                return uidstr==''||uidstr==undefined?(row.uid==-1?'无':row.uid):uidstr
                             }
                         }]
                     }, {
@@ -345,8 +345,8 @@
                             unsortable: true,
                             align: 'center',
                             format:(row)=>{
-                                let uidstr = common.nameformat(row,this.collectors,'out_uid')
-                                return uidstr==''||uidstr==undefined?row.uid:uidstr
+                                // let uidstr = common.nameformat(row,this.collectors,'out_uid')
+                                // return uidstr==''||uidstr==undefined?row.uid:uidstr
                                 return common.nameformat(row,this.collectors,'out_uid')
                             }
                         }]

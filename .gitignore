@@ -7,3 +7,4 @@ user/
 .idea/vcs.xml
 .idea/workspace.xml
 package-lock.json
+package-lock.json.*

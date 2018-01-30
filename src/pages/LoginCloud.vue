@@ -1,47 +1,38 @@
 <template>
-    <div style="width: 100%;width: 100%;">
-        <div :style="top">
-            <div style="font-family: STXinwei;color:#008F4C;margin-left:10px;font-size:30px;postition:relative;line-height:60px;vertical-align:middle;font-weight:bold">
+    <div style="width: 100%;height: 100%; display: flex;flex-direction: column;align-items: center;justify-content: center;">
+        <div style="flex: 1;width: 100%;">
+            <div style="font-family: STXinwei;margin-left:10px;font-size:30px;postition:relative;line-height:60px;vertical-align:middle;font-weight:bold">
                 智慧停车云 · 行业领导者
             </div>
         </div>
-        <div class="bg" :style="bgheight">
+        <div class="login-container" style="flex: 18;display: flex;align-items: center;justify-content: center">
 
-            <div :style="content">
-
-                <!--<a href="http://localhost:8080/cms-web/resource/user/static/logo3.png" style="color:black">下载接口文档</a>-->
-                <div style="margin-top:60px;margin-left:50px;float:left">
-                    <img src="../assets/login_logo.png">
+            <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="rules2" ref="loginForm"
+                     label-position="left">
+                <div class="title-container">
+                    <h3 class="title">管理后台</h3>
                 </div>
 
-                <div style="width:300px;float:right;position:relative;margin-top:80px;">
-                    <el-form :model="ruleForm" :rules="rules2" ref="ruleForm" label-position="left" label-width="0px"
-                             class="login-container">
-                        <h3 class="title">智慧停车云</h3>
-                        <el-form-item prop="account">
-                            <el-input type="text" v-model="ruleForm.account" placeholder="账号"></el-input>
-                        </el-form-item>
-                        <el-form-item prop="checkPass">
-                            <el-input type="password" v-model="ruleForm.checkPass" placeholder="密码"></el-input>
-                        </el-form-item>
-                        <!--<el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>-->
-                        <el-form-item style="width:100%;">
-                            <el-button type="primary" style="width:100%;" @click.native.prevent="onSubmit"
-                                       :loading="logining">登 录
-                            </el-button>
-                            <!--<div align="right">-->
-                            <!--<el-button @click="handleReset" size="small" type="text" style="color:white" >忘记密码?</el-button>-->
-                            <!--</div>-->
-                        </el-form-item>
-                    </el-form>
+                <el-form-item prop="username">
+                    <span class="svg-container svg-container_login"><img src="../assets/user.png"
+                                                                         style="padding-top: 5px;width: 25px;height: 25px;"/></span>
+                    <el-input type="text" v-model="loginForm.username" autoComplete="on" placeholder="账 号" style="font-size: 16px;"/>
+                </el-form-item>
 
-                </div>
-            </div>
+                <el-form-item prop="password">
+                    <span class="svg-container"><img src="../assets/pwd.png" style="padding-top: 5px;width: 25px;height: 25px;"/></span>
+                    <el-input :type="passwordType" @keyup.enter.native="handleSubmit2"
+                              v-model="loginForm.password" autoComplete="on" placeholder="密 码" style="font-size: 16px;"/>
+                    <span class="show-pwd" @click="showPwd"><img src="../assets/eye.png"/></span>
+                </el-form-item>
 
-            <div style="clear:both;text-align:center;font-size:15px;background:#fff;padding:5px">
-                © 2014 - 2017 All Rights Reserved
-            </div>
-
+                <el-button type="primary" style="width:100%;margin-bottom:30px;background: #109EFF;height: 47px;font-size: 16px;" :loading="loading"
+                           @click.native.prevent="handleSubmit2">登  录
+                </el-button>
+            </el-form>
+        </div>
+        <div style="flex: 1;width: 100%;display: flex;align-items: center;justify-content: center;">
+            © 2014 - 2018 All Rights Reserved
         </div>
     </div>
 </template>
@@ -56,7 +47,11 @@
     var key = CryptoJS.enc.Utf8.parse("zldboink20170613");
     var iv = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var timer;
+
+    // import SvgIcon from '../components/SvgIcon/index.vue'// svg组件
+
     export default {
+        // components: {svgicon: SvgIcon},
         data() {
             return {
                 logining: false,
@@ -72,16 +67,14 @@
                 form: '',
                 wrap: '',
                 bg: '',
-                ruleForm: {
-                    account: '',
-                    checkPass: '',
-                },
+                // account:'account',
+                // checkPass:'checkPass',
                 rules2: {
-                    account: [
+                    username: [
                         {required: true, message: '请输入账号', trigger: 'blur'},
                         //{ validator: validaePass }
                     ],
-                    checkPass: [
+                    password: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
                         //{ validator: validaePass2 }
                     ]
@@ -121,8 +114,16 @@
                         {validator: checkPass, required: true, trigger: 'blur'}
                     ],
                 },
-                time: ''
+                time: '',
 
+
+                loginForm: {
+                    username: '',
+                    password: ''
+                },
+                passwordType: 'password',
+                loading: false,
+                showDialog: false
             }
         },
         mounted() {
@@ -141,6 +142,13 @@
             }, false)
         },
         methods: {
+            showPwd() {
+                if (this.passwordType === 'password') {
+                    this.passwordType = ''
+                } else {
+                    this.passwordType = 'password'
+                }
+            },
             handleReset() {
                 console.log('忘记密码')
                 this.getPassVisible = true
@@ -304,19 +312,19 @@
             },
             handleSubmit2: function () {
                 var _this = this;
-                var pwd = CryptoJS.AES.encrypt(this.ruleForm.checkPass, key, {
+                var pwd = CryptoJS.AES.encrypt(this.loginForm.password, key, {
                     iv: iv,
                     mode: CryptoJS.mode.CBC
                 }).toString()
                 console.log(pwd)
-                this.$refs.ruleForm.validate((valid) => {
+                this.$refs.loginForm.validate((valid) => {
                     if (valid) {
                         this.logining = true;
                         var _this = this;
-                        var loginParams = {'username': this.ruleForm.account, 'password': pwd}
+                        var loginParams = {'username': this.loginForm.username, 'password': pwd}
 
-                        _this.$axios.post(path + "/user/dologin",_this.$qs.stringify(loginParams),{
-                            headers:{
+                        _this.$axios.post(path + "/user/dologin", _this.$qs.stringify(loginParams), {
+                            headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
                         }).then(function (response) {
@@ -343,28 +351,28 @@
                                     // _this.$router.push({path: '/account'});
                                 } else if (u.roleid == ROLE_ID.UNION) {
                                     // _this.$router.push({path: '/account'});
-                                }  else if (u.roleid == ROLE_ID.CITY) {
+                                } else if (u.roleid == ROLE_ID.CITY) {
                                     // _this.$router.push({path: '/account'});
-                                } else if (u.roleid == ROLE_ID.PARK||u.roleid == 0) {
+                                } else if (u.roleid == ROLE_ID.PARK || u.roleid == 0) {
                                     // _this.$router.push({path: '/parkaccount'});
                                     _this.$router.push({path: '/orderManage_Orders'});
                                     // _this.$router.push({path: '/monthMember_Refill'});
                                 }
                                 // 还有一种没有roleid,它是根据另一种判断登录的
                                 //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员
-                                else if(u.role ==0){
+                                else if (u.role == 0) {
 
-                                }else if(u.role ==1){
+                                } else if (u.role == 1) {
 
-                                }else if(u.role ==2){
+                                } else if (u.role == 2) {
 
-                                }else if(u.role ==3){
+                                } else if (u.role == 3) {
 
-                                }else if(u.role ==4){
+                                } else if (u.role == 4) {
 
-                                }else if(u.role ==5){
+                                } else if (u.role == 5) {
 
-                                }else if(u.role ==6 ){
+                                } else if (u.role == 6) {
 
                                 }
                             } else {
@@ -383,46 +391,96 @@
         }
     }
 </script>
+<style rel="stylesheet/scss" lang="scss">
+    $bg: #2d3a4b;
+    $light_gray: #eee;
 
-<style lang="scss" scoped>
-
-    .bg {
-        background: url('../assets/bg.png') no-repeat center;
-        background-size: cover;
+    /* reset element-ui css */
+    .login-container {
+        .el-input {
+            display: inline-block;
+            height: 47px;
+            width: 55%;
+            input {
+                background: transparent;
+                border: 0px;
+                -webkit-appearance: none;
+                border-radius: 0px;
+                padding: 12px 5px 12px 0px;
+                color: $light_gray;
+                height: 47px;
+                &:-webkit-autofill {
+                    -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+                    -webkit-text-fill-color: #fff !important;
+                }
+            }
+        }
+        .el-form-item {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            color: #454545;
+        }
     }
+</style>
+<style rel="stylesheet/scss" lang="scss" >
+    @import "../styles/mixin.scss";
+    $bg: #2d3a4b;
+    $dark_gray: #889aa4;
+    $light_gray: #eee;
 
     .login-container {
-        padding: 30px 40px 10px 40px;
-        background-color: white;
-        background-color: rgba(255, 255, 255, 0.22);
-        box-shadow: 0 0 2px #cac6c6;
-        .title {
-            margin: 0px auto 30px auto;
-            text-align: left;
-            color: white;
-        }
-        .remember {
-            margin: 0px 0px 35px 0px;
-        }
-    }
+        @include relative;
+        height: 100vh;
+        background-color: $bg;
+        .login-form {
 
-    .code {
-        background: url(../assets/code.png);
-        font-family: Arial;
-        font-style: italic;
-        color: blue;
-        font-size: 30px;
-        border: 0;
-        padding: 2px 3px;
-        letter-spacing: 3px;
-        font-weight: bolder;
-        float: left;
-        cursor: pointer;
-        width: 100px;
-        height: 36px;
-        line-height: 36px;
-        text-align: center;
-        vertical-align: middle;
-    }
+            left: 0;
+            right: 0;
+            width: 450px;
 
+            padding-bottom: 100px;
+        }
+        .tips {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 10px;
+            span {
+                &:first-of-type {
+                    margin-right: 16px;
+                }
+            }
+        }
+        .svg-container {
+            padding: 0px 0px 0px 15px;
+            color: $dark_gray;
+            vertical-align: middle;
+            width: 30px;
+            display: inline-block;
+            &_login {
+                font-size: 20px;
+            }
+        }
+        .title-container {
+            position: relative;
+            .title {
+                font-size: 26px;
+                font-weight: 400;
+                color: $light_gray;
+                margin: 0px auto 40px auto;
+                text-align: center;
+                font-weight: bold;
+            }
+        }
+        .show-pwd {
+            position: absolute;
+            right: 10px;
+            top: 7px;
+            font-size: 16px;
+            color: $dark_gray;
+            cursor: pointer;
+            user-select: none;
+        }
+
+    }
 </style>
