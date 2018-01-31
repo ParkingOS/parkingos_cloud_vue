@@ -46,7 +46,7 @@ export default {
 		date:AddDate,
 		selection:AddSelect,
 		upload:AddUpload,
-		multitext:AddTextarea,
+		multitext:AddTextarea
 	},
 	data () {
 		return {

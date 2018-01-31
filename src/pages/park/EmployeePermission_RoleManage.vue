@@ -64,7 +64,7 @@
 
 
 <script>
-    import {RoleFuncion} from '../../api/api';
+    import {path,RoleFuncion} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
@@ -92,6 +92,7 @@
                 delapi: '/adminrole/deleterole',
                 editapi: '/adminrole/editrole',
                 queryapi: '/adminrole/query',
+                permissionapi:'/adminrole/getroleauth',
                 btswidth: '180',
                 fieldsstr: 'id__role_name__func__resume',
                 tableitems: [
@@ -169,58 +170,68 @@
                 dialogloading: false,
 
                 permissions: [
-                    {
-                        subname: '订单管理',
-                        ischeck: false,
-                        subpermission: [
-                            {
-                                subname: '订单记录',
-                                ischeck: false,
-                                subpermission: [
-                                    {subname: '查看', ischeck: false},
-                                    {subname: '导出', ischeck: false}
-                                ]
-                            }, {
-                                subname: '抬杆记录',
-                                ischeck: false,
-                                subpermission: [
-                                    {subname: '查看', ischeck: false},
-                                    {subname: '导出', ischeck: false}
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        subname: '月卡会员',
-                        ischeck: false,
-                        subpermission: [
-                            {
-                                subname: '月卡续费记录',
-                                ischeck: false,
-                                subpermission: [
-                                    {subname: '查看', ischeck: false},
-                                    {subname: '导出', ischeck: false}
-                                ]
-                            }, {
-                                subname: '月卡会员',
-                                ischeck: false,
-                                subpermission: [
-                                    {subname: '查看', ischeck: false},
-                                    {subname: '导出', ischeck: false},
-                                    {subname: '注册会员修改车牌', ischeck: false},
-                                    {subname: '删除', ischeck: false},
-                                    {subname: '续费', ischeck: false}
-                                ]
-                            }
-                        ]
-                    },
+                    // {
+                    //     subname: '订单管理',
+                    //     ischeck: false,
+                    //     subpermission: [
+                    //         {
+                    //             subname: '订单记录',
+                    //             ischeck: false,
+                    //             subpermission: [
+                    //                 {subname: '查看', ischeck: false},
+                    //                 {subname: '导出', ischeck: false}
+                    //             ]
+                    //         }, {
+                    //             subname: '抬杆记录',
+                    //             ischeck: false,
+                    //             subpermission: [
+                    //                 {subname: '查看', ischeck: false},
+                    //                 {subname: '导出', ischeck: false}
+                    //             ]
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     subname: '月卡会员',
+                    //     ischeck: false,
+                    //     subpermission: [
+                    //         {
+                    //             subname: '月卡续费记录',
+                    //             ischeck: false,
+                    //             subpermission: [
+                    //                 {subname: '查看', ischeck: false},
+                    //                 {subname: '导出', ischeck: false}
+                    //             ]
+                    //         }, {
+                    //             subname: '月卡会员',
+                    //             ischeck: false,
+                    //             subpermission: [
+                    //                 {subname: '查看', ischeck: false},
+                    //                 {subname: '导出', ischeck: false},
+                    //                 {subname: '注册会员修改车牌', ischeck: false},
+                    //                 {subname: '删除', ischeck: false},
+                    //                 {subname: '续费', ischeck: false}
+                    //             ]
+                    //         }
+                    //     ]
+                    // },
                 ],
                 checksub: false,
+
             }
         },
         methods: {
             showRolePermission: function (index, row) {
                 this.isShowPermission = true;
+                let _this = this;
+                _this.$axios.get(path+_this.permissionapi+'?loginroleid='+sessionStorage.getItem('loginroleid')+'&id='+row.id)
+                    .then(function (response) {
+                        // console.log(response)
+                        _this.permissions = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
             },
             handleSavePermission: function () {
                 console.log(this.permissions)

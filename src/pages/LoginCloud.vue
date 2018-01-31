@@ -342,6 +342,7 @@
                                 sessionStorage.setItem('oid', u.oid)
                                 sessionStorage.setItem('nickname', u.nickname)
                                 sessionStorage.setItem('ishdorder', u.ishdorder)
+                                sessionStorage.setItem('loginroleid', u.loginroleid)
 
 
                                 // 26集团,,,27渠道,,28联盟,,,29城市,30 车场

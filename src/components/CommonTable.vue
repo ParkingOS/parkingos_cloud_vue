@@ -13,7 +13,7 @@
                             <template slot="prepend">实收</template>
                         </el-input>
                     </div>
-                    <div v-if="showParkInfo" style="display:inline;margin-right:100px;float: left">
+                    <div v-if="showParkInfo" style="display:inline;margin-right:50px;float: left">
                         <el-input v-model="parkspace_park" style="width:150px;background:white;margin-right: 0.5px;"
                                   disabled>
                             <template slot="prepend">场内停车</template>
@@ -34,6 +34,7 @@
                         <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
                     </el-tooltip>
                     <el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
+                    <!--<el-button type="primary" size="small" @click="handlePrint()" >打印</el-button>-->
 
 
                     <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
@@ -129,8 +130,7 @@
                     type="index"
                     width="83"
                     label="索引"
-                    fixed="left"
-            >
+                    fixed="left">
             </el-table-column>
 
             <div v-for="items in tableitems">
@@ -174,7 +174,7 @@
                 <!--<el-button @click.native="showDetail(row)">查看详情</el-button>-->
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row)" v-if="showImg">123</span>-->
-                    <el-button size="small" type="text"
+                    <el-button size="small" type="text" style="color: #109EFF;"
                                @click="handleShowImg(scope.$index, scope.row)">
                         查看图片
                     </el-button>
@@ -308,10 +308,10 @@
     import ComplexSearch from './ComplexSearch'
     import EditForm from './EditForm'
     import AddForm from './AddForm'
-    import buttons from './add-subs/AddButton'
+
     export default {
         components: {
-            ComplexSearch, EditForm, AddForm,buttons
+            ComplexSearch, EditForm, AddForm
         },
         data() {
             return {
@@ -454,7 +454,6 @@
             },
             //刷新页面
             refresh() {
-                console.log('refresh')
                 if (this.showdateSelector) {
 
                     //this.$extend(this.sform,{'date':this.datesselector})
@@ -823,6 +822,24 @@
             },
             handleCustomizeAdd() {
                 this.$emit('customizeadd')
+            },
+            handlePrint(elem){
+                var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+                // mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+                // mywindow.document.write('</head><body >');
+                // mywindow.document.write('<h1>' + document.title  + '</h1>');
+                // mywindow.document.write(document.getElementById(elem).innerHTML);
+                // mywindow.document.write('</body></html>');
+
+                mywindow.document.write(this.$el.innerHTML);
+
+                mywindow.document.close(); // necessary for IE >= 10
+                mywindow.focus(); // necessary for IE >= 10*/
+
+                mywindow.print();
+                mywindow.close();
+
             },
             handleAdd() {
                 var vm = this

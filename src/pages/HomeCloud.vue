@@ -1,6 +1,6 @@
 <template>
     <el-row class="container">
-        <el-col :span="24" class="header">
+        <el-col :span="24" class="header not-print">
             <!--
             <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'" style="text-align: center">
                 {{collapsed?'':sysName}}
@@ -49,11 +49,11 @@
             </el-col>
 
         </el-col>
-        <el-col :span="24" class="main">
+        <el-col :span="24" class="main ">
             <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
 
                 <!--厂商平台导航菜单-->
-                <el-menu :default-active="active" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose"
+                <el-menu :default-active="active" class="el-menu-vertical-demo not-print" @open="handleopen" @close="handleclose"
                          @select="handleselect"
                          unique-opened v-show="!collapsed">
 
@@ -543,6 +543,15 @@
                     box-sizing: border-box;
                 }
             }
+        }
+    }
+    /*el-menu-item选中加粗 左侧item*/
+    .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active, .el-menu-item.is-active {
+        font-weight: bold;
+    }
+    @media print {
+        .not-print {
+            opacity: 0
         }
     }
 </style>

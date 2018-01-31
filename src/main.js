@@ -6,7 +6,7 @@ import ElementUI from 'element-ui'
 
 import VueRouter from 'vue-router'
 import routes from './routes'
-import './common/css/common.css'
+
 import common from './common/js/common'
 import axios from 'axios'
 import BaiduMap from 'vue-baidu-map'

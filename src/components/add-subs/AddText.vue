@@ -1,9 +1,6 @@
 <template>
   <div class="number" style="margin-right: 15px">
 				<el-input v-model="textForm.text" @blur="uptoeditdialog"></el-input>
-      <!--<el-button type="primary"  @click="itemclick">-->
-          <!--{{textForm.text}}-->
-      <!--</el-button>-->
   </div>
 </template>
 
