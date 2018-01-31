@@ -13,7 +13,6 @@
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
-                :hideImg="hideImg"
                 ref="bolinkuniontable"
         ></common-table>
     </section>

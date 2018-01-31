@@ -12,12 +12,9 @@
 	                :btswidth="btswidth"
 	                :hide-export="hideExport"
 	                :addtitle="addtitle"
-	                :addFormRules="addFormRules"
-	                :editFormRules="editFormRules"
 	                :showdelete="showdelete"
 	                :showresetpwd="showresetpwd"
 	                :showmRefill="showmRefill"
-	                :showModifyCarNumber="showModifyCarNumber"
 	                :hideOptions="hideOptions"
 	                :hideSearch="hideSearch"
 	                :showEdit="showEdit"
@@ -42,7 +39,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="resetPwdVisible = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="resetPwd" :loading="resetloading">确 定</el-button>
+				<el-button type="primary" size="small" @click="resetPwd" >确 定</el-button>
 			</span>
         </el-dialog>
         <!--注册员工-->
@@ -93,8 +90,7 @@
 			<el-dialog
 			  title="商户设置-员工管理"
 			  :visible.sync="employeeVisible"
-			  width="10%"
-			  :before-close="handleClose">
+			  width="10%">
 			  
 			  <div>
 			  		<el-button type="primary" size="small" @click="regUser">注册员工</el-button>
@@ -134,8 +130,7 @@
 				     <el-table-column
 				      type="index" 
 				      label="索引"
-				      width="100"
-				      :index="indexMethod">
+				      width="100">
 				    </el-table-column>
 				    <el-table-column
 				      prop="id"
@@ -196,8 +191,7 @@
 		<el-dialog
 		  :title="renewTitle"
 		  :visible.sync="renewVisible"
-		  width="10%"
-		  :before-close="handleClose">
+		  width="10%">
 		  <form name="renewForm" style="font-size: 2em;">
 		  	<el-row v-if="showTicketTime">
 			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
@@ -335,7 +329,7 @@
                 delapi: '/shop/delete',
                 parkid: '',
                 btswidth: '180',
-                fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__validite_time',
+                fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__discount_percent',
                 tableitems:  [{
                         hasSubs: false, subs: [
                             {
@@ -455,8 +449,10 @@
                             format:function (row) {
                                 if(row.ticket_type==1){
                                 	return "时长减免"
-                                }else{
+                                }else if(row.ticket_type==2){
                                 	return "金额减免";
+                                }else{
+                                	return row.ticket_type;
                                 }
                             }
                         }]
@@ -481,7 +477,7 @@
                             label: '商户折扣/%',
                             prop: 'discount_percent',
                             width: '123',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -498,7 +494,7 @@
                             label: '每小时/元',
                             prop: 'discount_money',
                             width: '100',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
                             searchable: false,
                             addable: true,
@@ -512,7 +508,7 @@
                             label: '有效期/小时',
                             prop: 'validite_time',
                             width: '100',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
                             searchable: false,
                             addable: true,
@@ -528,10 +524,10 @@
                 pwd1:'',
                 pwd2:'',
                 options: [{
-		          value: '14',
+		          value: 14,
 		          label: '负责人'
 		        }, {
-		          value: '15',
+		          value: 15,
 		          label: '工作人员'
 		        }]
 	        }
