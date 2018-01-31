@@ -23,7 +23,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, ticketType,statType} from '../../api/api';
+    import {path, checkURL, checkUpload, checkNumber, ticketQueryType,statType} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
@@ -171,7 +171,7 @@
                             prop: 'type',
                             width: '100',
                             type: 'selection',
-                            selectlist:ticketType,
+                            selectlist:ticketQueryType,
                             editable: true,
                             searchable: true,
                             addable: true,
