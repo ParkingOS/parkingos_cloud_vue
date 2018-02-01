@@ -1,101 +1,159 @@
 <template>
     <section>
-        <common-table
-        :queryapi="queryapi"
-        :tableheight="tableheight"
-        :fieldsstr="fieldsstr"
-        :tableitems="tableitems"
-        :btswidth="btswidth"
-        :hide-export="hideExport"
-        :hide-options="hideOptions"
-        :searchtitle="searchtitle"
-        :showdateSelector="showdateSelector"
-        :hideTool="hideTool"
-        :hideSearch="hideSearch"
-        :hideAdd="hideAdd"
-        ref="bolinkuniontable"
-        ></common-table>
+        <!--<common-table-->
+        <!--:queryapi="queryapi"-->
+        <!--:tableheight="tableheight"-->
+        <!--:fieldsstr="fieldsstr"-->
+        <!--:tableitems="tableitems"-->
+        <!--:btswidth="btswidth"-->
+        <!--:hide-export="hideExport"-->
+        <!--:hide-options="hideOptions"-->
+        <!--:searchtitle="searchtitle"-->
+        <!--:showdateSelector="showdateSelector"-->
+        <!--:hideTool="hideTool"-->
+        <!--:hideSearch="hideSearch"-->
+        <!--:hideAdd="hideAdd"-->
+        <!--ref="bolinkuniontable"-->
+        <!--&gt;</common-table>-->
 
-        <!--<el-row style="margin-bottom:8px">-->
-            <!--<el-col :span="24" align="left">-->
-                <!--<el-col :span="18" align="left">-->
-                    <!--<div v-if="showdateSelector" style="float: left;margin-right: 10px;">-->
-                        <!--<span class="demonstration">日期</span>-->
-                        <!--<el-date-picker-->
-                                <!--v-model="datesselector"-->
-                                <!--type="datetimerange"-->
-                                <!--align="right"-->
-                                <!--unlink-panels-->
-                                <!--range-separator="至"-->
-                                <!--start-placeholder="开始日期"-->
-                                <!--end-placeholder="结束日期"-->
-                                <!--:picker-options="pickerOptions2"-->
-                                <!--@change="changeanalysisdate">-->
-                        <!--</el-date-picker>-->
-                    <!--</div>-->
-                <!--</el-col>-->
+        <el-row style="margin-bottom:8px">
+            <el-col :span="24" align="left">
+                <el-col :span="18" align="left">
+                    <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
+                        <span class="demonstration">日期</span>
+                        <el-date-picker
+                                v-model="datesselector"
+                                type="datetimerange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :picker-options="pickerOptions2"
+                                @change="changeanalysisdate">
+                        </el-date-picker>
+                    </div>
+                </el-col>
 
-                <!--<el-col :span="6" align="right">-->
-                    <!--<el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>-->
-                <!--</el-col>-->
-            <!--</el-col>-->
+                <el-col :span="6" align="right">
+                    <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>
+                </el-col>
+            </el-col>
 
-        <!--</el-row>-->
-        <!--<el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"-->
-                  <!--v-loading="loading" @sort-change="sortChange">-->
+        </el-row>
+        <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
+                  v-loading="loading" @sort-change="sortChange">
 
 
-            <!--<el-table-column-->
-                    <!--align="center"-->
-                    <!--type="index"-->
-                    <!--width="83"-->
-                    <!--label="索引"-->
-                    <!--fixed="left">-->
-            <!--</el-table-column>-->
-
-            <!--<div v-for="items in tableitems">-->
-
-                <!--<div v-if="!items.hasSubs">-->
-                    <!--<el-table-column-->
-                            <!--v-for="tableitem in items.subs"-->
-                            <!--v-if="!tableitem.hidden"-->
-                            <!--:prop="tableitem.prop"-->
-                            <!--:label="tableitem.label"-->
-                            <!--header-align="center"-->
-                            <!--:align="tableitem.align"-->
-                            <!--:sortable="!tableitem.unsortable"-->
-                            <!--:width="tableitem.width"-->
-                            <!--:formatter="tableitem.format"-->
-                    <!--&gt;-->
-                        <!--<template scope="scope">-->
-                            <!--&lt;!&ndash;<span class="link-type" @click="handleShowImg(scope.$index, scope.row)" v-if="showImg">123</span>&ndash;&gt;-->
-                            <!--<el-button size="small" type="text" style="color: #109EFF;"-->
-                                       <!--@click="handleShowImg(scope.$index, scope.row)">-->
-                                <!--查看图片-->
-                            <!--</el-button>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                <!--</div>-->
+            <el-table-column
+                    align="center"
+                    type="index"
+                    width="83"
+                    label="索引"
+                    fixed="left">
+            </el-table-column>
+            <!--<div>-->
+            <el-table-column
+                    label="集团"
+                    prop="groupid"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="车场"
+                    prop="comid"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="收费员"
+                    width="123"
+                    align="center">
+                <template slot-scope="scope">
+                    <el-button size="small" type="text" style="color: #109EFF;"
+                               @click="handleWorkDetail(scope.$index, scope.row)">
+                        {{scope.row.name}}
+                    </el-button>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="账号"
+                    prop="out_uid"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="日期"
+                    prop="sdate"
+                    align="center"
+                    width="320">
+            </el-table-column>
+            <el-table-column
+                    label="总订单数"
+                    width="100"
+                    align="center">
+                <template slot-scope="scope">
+                    <el-button size="small" type="text" style="color: #109EFF;"
+                               @click="handleOrderDetail(scope.$index, scope.row)">
+                        {{scope.row.scount}}
+                    </el-button>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="月卡订单数"
+                    prop="monthcount"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="现金结算"
+                    prop="cash_pay"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="现金预付"
+                    prop="cash_prepay"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="电子支付"
+                    prop="electronic_pay"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="免费金额"
+                    prop="free_pay"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="减免券支付"
+                    prop="reduce_pay"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="合计"
+                    prop="amount_receivable"
+                    align="center"
+                    width="123">
+            </el-table-column>
             <!--</div>-->
-            <!--&lt;!&ndash;<div v-for="items in tableitems">&ndash;&gt;-->
-                <!--&lt;!&ndash;&ndash;&gt;-->
-                <!--&lt;!&ndash;<div v-if="!items.hasSubs">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<el-table-column&ndash;&gt;-->
-                            <!--&lt;!&ndash;v-for="tableitem in items.subs"&ndash;&gt;-->
-                            <!--&lt;!&ndash;v-if="!tableitem.hidden"&ndash;&gt;-->
-                            <!--&lt;!&ndash;:prop="tableitem.prop"&ndash;&gt;-->
-                            <!--&lt;!&ndash;:label="tableitem.label"&ndash;&gt;-->
-                            <!--&lt;!&ndash;header-align="center"&ndash;&gt;-->
-                            <!--&lt;!&ndash;:align="tableitem.align"&ndash;&gt;-->
-                            <!--&lt;!&ndash;:sortable="!tableitem.unsortable"&ndash;&gt;-->
-                            <!--&lt;!&ndash;:width="tableitem.width"&ndash;&gt;-->
-                            <!--&lt;!&ndash;:formatter="tableitem.format"&ndash;&gt;-->
-                    <!--&lt;!&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;</el-table-column>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-        <!--</el-table>-->
+        </el-table>
+        <el-dialog title="工作详情" v-model="showWorkDetail" size="large">
+            <span slot="footer" class="dialog-footer">
+				<el-button type="primary" size="small" @click="showWorkDetail = false">确 定</el-button>
+			</span>
+        </el-dialog>
+        <el-dialog title="订单详情" v-model="showOrderDetail">
+            <span slot="footer" class="dialog-footer">
+				<el-button type="primary" size="small" @click="showOrderDetail = false">确 定</el-button>
+			</span>
+        </el-dialog>
     </section>
 </template>
 
@@ -103,7 +161,6 @@
 <script>
     import {path} from '../../api/api';
     import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
 
     export default {
@@ -122,6 +179,8 @@
                 hideTool: false,
 
                 queryapi: '/parkorder/query',
+                workdetailapi: '/parkorder/workdetail',
+                orderdetailapi: '/parkorder/orderdetail',
                 btswidth: '100',
                 fieldsstr: 'groupid__comid__name__out_uid__sdate__scount__monthcount__cash_pay__cash_prepay__electronic_pay__free_pay__reduce_pay__amount_receivable',
                 tableitems: [
@@ -315,7 +374,7 @@
                 ],
                 searchtitle: '高级查询',
 
-                datesselector:'',
+                datesselector: '',
                 pickerOptions2: {
                     shortcuts: [
                         {
@@ -385,10 +444,40 @@
                 orderfield: 'id',
                 table: [],
                 sform: {},
+                showWorkDetail: false,
+                showOrderDetail: false,
+                currentRow:'',
             }
         },
         methods: {
+            handleWorkDetail:function (index,row) {
+                this.showWorkDetail = true;
+                let _this = this;
+                _this.currentRow = row;
+                _this.$axios.get(path + _this.workdetailapi + '?out_uid=' + row.out_uid)
+                    .then(function (response) {
+                        console.log(response)
+                        // let ret = response.data;
 
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+            },
+            handleOrderDetail:function (index,row) {
+                this.showOrderDetail = true;
+                let _this = this;
+                _this.currentRow = row;
+                _this.$axios.get(path + _this.orderdetailapi + '?out_uid=' + row.out_uid)
+                    .then(function (response) {
+                        console.log(response)
+                        // let ret = response.data;
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+            },
             changeanalysisdate: function (input) {
                 //修改车场统计分析日期
                 console.log(input)

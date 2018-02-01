@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section >
         <!--工具条-->
         <el-row style="margin-bottom:8px" v-if="!hideTool">
             <el-col :span="24" v-if="!showRight" align="left">
@@ -34,7 +34,7 @@
                         <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
                     </el-tooltip>
                     <el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
-                    <!--<el-button type="primary" size="small" @click="handlePrint()" >打印</el-button>-->
+                    <!--<el-button type="primary" size="small" @click="handlePrint()">打印</el-button>-->
 
 
                     <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
@@ -72,12 +72,13 @@
                     </el-tooltip>
                     <el-button type="primary" @click="handleAdd" size="small" v-if="!hideAdd">{{addtitle}}</el-button>
                     <el-button @click="refresh" type="text" size="small">刷新</el-button>
+
                 </el-col>
             </el-col>
         </el-row>
         <!--列表-->
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
-                  v-loading="loading" @sort-change="sortChange">
+                  v-loading="loading" @sort-change="sortChange" id="tablearea">
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">
@@ -116,6 +117,7 @@
                     <el-button v-if="showCommutime" size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)">上班时间
                     </el-button>
+
                     <!--
                     <el-button
                         v-for="bt in bts"
@@ -133,7 +135,7 @@
                     fixed="left">
             </el-table-column>
 
-            <div v-for="items in tableitems">
+            <div v-for="items in tableitems" >
                 <div v-if="items.hasSubs">
                     <el-table-column
                             :label="items.label"
@@ -824,22 +826,32 @@
                 this.$emit('customizeadd')
             },
             handlePrint(elem){
-                var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+                // var mywindow = window.open('', 'PRINT', 'height=800,width=1200');
+                //
+                // // mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+                // // mywindow.document.write('</head><body >');
+                // // mywindow.document.write('<h1>' + document.title  + '</h1>');
+                // // mywindow.document.write(document.getElementById(elem).innerHTML);
+                // // mywindow.document.write('</body></html>');
+                //
+                // mywindow.document.write(this.$el.innerHTML);
+                //
+                // mywindow.document.close(); // necessary for IE >= 10
+                // mywindow.focus(); // necessary for IE >= 10*/
+                //
+                // mywindow.print();
+                // mywindow.close();
 
-                // mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-                // mywindow.document.write('</head><body >');
-                // mywindow.document.write('<h1>' + document.title  + '</h1>');
-                // mywindow.document.write(document.getElementById(elem).innerHTML);
-                // mywindow.document.write('</body></html>');
 
-                mywindow.document.write(this.$el.innerHTML);
-
-                mywindow.document.close(); // necessary for IE >= 10
-                mywindow.focus(); // necessary for IE >= 10*/
-
-                mywindow.print();
-                mywindow.close();
-
+                let subOutputRankPrint = document.getElementById('tablearea');
+                console.log(subOutputRankPrint.innerHTML);
+                let newContent =subOutputRankPrint.innerHTML;
+                let oldContent = document.body.innerHTML;
+                document.body.innerHTML = newContent;
+                window.print();
+                window.location.reload();
+                document.body.innerHTML = oldContent;
+                return false;
             },
             handleAdd() {
                 var vm = this

@@ -64,7 +64,7 @@
 
 
 <script>
-    import {path,RoleFuncion} from '../../api/api';
+    import {path, RoleFuncion} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
@@ -92,7 +92,8 @@
                 delapi: '/adminrole/deleterole',
                 editapi: '/adminrole/editrole',
                 queryapi: '/adminrole/query',
-                permissionapi:'/adminrole/getroleauth',
+                permissionapi: '/adminrole/getroleauth',
+                permissioneditapi: '/adminrole/editroleauth',
                 btswidth: '180',
                 fieldsstr: 'id__role_name__func__resume',
                 tableitems: [
@@ -168,8 +169,10 @@
                 },
                 isShowPermission: false,
                 dialogloading: false,
-
-                permissions: [
+                permissions: [],
+                authlist: {
+                    // nickname:'',
+                    // allAuth:[
                     // {
                     //     subname: '订单管理',
                     //     ischeck: false,
@@ -215,26 +218,76 @@
                     //         }
                     //     ]
                     // },
-                ],
+                    // ]
+                },
+                nickname: '',
                 checksub: false,
-
+                currentRow: ''
             }
         },
         methods: {
             showRolePermission: function (index, row) {
                 this.isShowPermission = true;
                 let _this = this;
-                _this.$axios.get(path+_this.permissionapi+'?loginroleid='+sessionStorage.getItem('loginroleid')+'&id='+row.id)
+                _this.currentRow = row;
+                _this.$axios.get(path + _this.permissionapi + '?loginroleid=' + sessionStorage.getItem('loginroleid') + '&id=' + row.id)
                     .then(function (response) {
                         // console.log(response)
-                        _this.permissions = response.data;
+                        let ret = response.data;
+                        _this.authlist = response.data;
+                        console.log(_this.authlist)
+                        _this.permissions = _this.authlist.allAuth;
+                        _this.nickname = _this.authlist.nickname;
                     })
                     .catch(function (error) {
                         console.log(error)
                     })
+
             },
             handleSavePermission: function () {
-                console.log(this.permissions)
+
+                let _this = this;
+                _this.$axios.post(path + _this.permissioneditapi, _this.$qs.stringify({
+                    id: _this.currentRow.id,
+                    auths: JSON.stringify(_this.authlist)
+                }), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    // console.log(ret)
+                    let ret = response.data;
+                    if (ret.state == 1) {
+                        _this.$message({
+                            message: '更新成功!',
+                            type: 'success',
+                            duration: 600
+                        });
+                        _this.isShowPermission = false;
+                    } else {
+                        _this.$message({
+                            message: '更新失败!' + ret.msg,
+                            type: 'error',
+                            duration: 600
+                        });
+                    }
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        _this.alertInfo('请求失败!' + error)
+                    }, 150)
+                })
+
+            },
+            alertInfo(msg) {
+                this.$alert(msg, '提示', {
+                    confirmButtonText: '确定',
+                    type: 'warning',
+                    callback: action => {
+                        sessionStorage.removeItem('user');
+                        sessionStorage.removeItem('token');
+                        this.$router.push('/login');
+                    }
+                });
             },
             subchange: function (sub) {
                 for (let item of sub.subpermission) {

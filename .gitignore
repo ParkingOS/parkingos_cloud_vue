@@ -8,3 +8,4 @@ user/
 .idea/workspace.xml
 package-lock.json
 package-lock.json.*
+.idea/dictionaries

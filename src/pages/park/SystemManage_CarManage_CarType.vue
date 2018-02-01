@@ -21,6 +21,7 @@
                 :delapi="delapi"
                 :editapi="editapi"
                 :addFormRules="addFormRules"
+                :editFormRules="editFormRules"
                 ref="bolinkuniontable"
         ></common-table>
     </section>
@@ -97,9 +98,9 @@
                             prop: 'cartype_id',
                             width: '123',
                             type: 'str',
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center'
                         }]
@@ -127,11 +128,14 @@
                 addFormRules: {
                     name: [
                         {required: true, message: '请输入名称', trigger: 'blur'}
-                    ],
-                    cartype_id: [
-                        {required: true, message: '请输入收费系统编号', trigger: 'blur'}
-                    ],
+                    ]
+                },
+                editFormRules: {
+                    name: [
+                        {required: true, message: '请输入名称', trigger: 'blur'}
+                    ]
                 }
+
 
             }
         },

@@ -1,12 +1,6 @@
 <template>
   <div class="number" style="margin-right: 15px">
 				<el-input v-model="textForm.text" @blur="uptoeditdialog"></el-input>
-      <template scope="scope">
-          <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row)" v-if="showImg">123</span>-->
-          <el-button size="small" type="text" style="color: #109EFF;">
-              查看图片
-          </el-button>
-      </template>
   </div>
 </template>
 
