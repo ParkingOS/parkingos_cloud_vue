@@ -401,13 +401,13 @@
         .el-input {
             display: inline-block;
             height: 47px;
-            width: 55%;
+            width: 75%;
             input {
-                background: transparent;
+                background: $bg;
                 border: 0px;
                 -webkit-appearance: none;
                 border-radius: 0px;
-                padding: 12px 5px 12px 0px;
+                padding: 12px 5px 12px 20px;
                 color: $light_gray;
                 height: 47px;
                 &:-webkit-autofill {
@@ -420,7 +420,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(0, 0, 0, 0.1);
             border-radius: 5px;
-            color: #454545;
+            color:$bg;
         }
     }
 </style>

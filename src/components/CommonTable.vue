@@ -1,5 +1,5 @@
 <template>
-    <section >
+    <section id="tablearea">
         <!--工具条-->
         <el-row style="margin-bottom:8px" v-if="!hideTool">
             <el-col :span="24" v-if="!showRight" align="left">
@@ -38,6 +38,15 @@
 
 
                     <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
+                        <el-select v-model="currentcollect" placeholder="请选择收费员" @change="changeanalysisdatecollect"
+                                   style="float: left;margin-right: 30px;">
+                            <el-option
+                                    v-for="item in collectors"
+                                    :key="item.value_no"
+                                    :label="item.value_name"
+                                    :value="item.value_no">
+                            </el-option>
+                        </el-select>
                         <span class="demonstration">日期</span>
                         <el-date-picker
                                 v-model="datesselector"
@@ -51,6 +60,7 @@
                                 @change="changeanalysisdate">
                         </el-date-picker>
                     </div>
+
                 </el-col>
 
                 <el-col :span="6" align="right">
@@ -78,7 +88,7 @@
         </el-row>
         <!--列表-->
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
-                  v-loading="loading" @sort-change="sortChange" id="tablearea">
+                  v-loading="loading" @sort-change="sortChange">
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">
@@ -135,11 +145,49 @@
                     fixed="left">
             </el-table-column>
 
-            <div v-for="items in tableitems" >
+            <div v-for="items in tableitems">
                 <div v-if="items.hasSubs">
                     <el-table-column
                             :label="items.label"
                             header-align="center">
+
+                        <!--<div v-for="item in items" >-->
+                        <!--<div v-if="item.hasSubs">-->
+                        <!--<el-table-column-->
+                        <!--:label="item.label"-->
+                        <!--header-align="center">-->
+
+                        <!--<el-table-column-->
+                        <!--v-for="tableitem in item.subs"-->
+                        <!--v-if="!tableitem.hidden"-->
+                        <!--:prop="tableitem.prop"-->
+                        <!--:label="tableitem.label"-->
+                        <!--header-align="center"-->
+                        <!--:align="tableitem.align"-->
+                        <!--:sortable="!tableitem.unsortable"-->
+                        <!--:width="tableitem.width"-->
+                        <!--:formatter="tableitem.format"-->
+                        <!--&gt;-->
+                        <!--</el-table-column>-->
+                        <!--</el-table-column>-->
+                        <!--</div>-->
+                        <!--<div v-if="!item.hasSubs">-->
+                        <!--<el-table-column-->
+                        <!--v-for="tableitem in item.subs"-->
+                        <!--v-if="!tableitem.hidden"-->
+                        <!--:prop="tableitem.prop"-->
+                        <!--:label="tableitem.label"-->
+                        <!--header-align="center"-->
+                        <!--:align="tableitem.align"-->
+                        <!--:sortable="!tableitem.unsortable"-->
+                        <!--:width="tableitem.width"-->
+                        <!--:formatter="tableitem.format"-->
+                        <!--&gt;-->
+
+                        <!--</el-table-column>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
                         <el-table-column
                                 v-for="tableitem in items.subs"
                                 v-if="!tableitem.hidden"
@@ -310,6 +358,7 @@
     import ComplexSearch from './ComplexSearch'
     import EditForm from './EditForm'
     import AddForm from './AddForm'
+    import Printd from 'printd'
 
     export default {
         components: {
@@ -340,6 +389,8 @@
                 centralpaymentlist: '',
                 searchForm: {},
                 tempSearchForm: {},
+                collectors: [],
+                currentcollect: '',
                 sform: {},
                 rowdata: {},
 
@@ -441,6 +492,8 @@
                 // imgdialog_url: '',
                 pwd1: '',
                 pwd2: '',
+                currentdate: '',
+                currentcollect: ''
             }
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
@@ -825,7 +878,7 @@
             handleCustomizeAdd() {
                 this.$emit('customizeadd')
             },
-            handlePrint(elem){
+            handlePrint(elem) {
                 // var mywindow = window.open('', 'PRINT', 'height=800,width=1200');
                 //
                 // // mywindow.document.write('<html><head><title>' + document.title  + '</title>');
@@ -843,15 +896,21 @@
                 // mywindow.close();
 
 
-                let subOutputRankPrint = document.getElementById('tablearea');
-                console.log(subOutputRankPrint.innerHTML);
-                let newContent =subOutputRankPrint.innerHTML;
-                let oldContent = document.body.innerHTML;
-                document.body.innerHTML = newContent;
-                window.print();
-                window.location.reload();
-                document.body.innerHTML = oldContent;
-                return false;
+                // let subOutputRankPrint = document.getElementById('tablearea');
+                // console.log(subOutputRankPrint.innerHTML);
+                // let newContent =subOutputRankPrint.innerHTML;
+                // let oldContent = document.body.innerHTML;
+                // document.body.innerHTML = newContent;
+                // window.print();
+                // window.location.reload();
+                // document.body.innerHTML = oldContent;
+                // return false;
+
+                const cssText = 'tablearea {font-size: 85%;font-family: sans-serif;border-spacing: 0;border-collapse: collapse;}'
+                const d = new Printd()
+
+                // opens the "print dialog" of your browser to print the element
+                d.print(document.getElementById('tablearea'), cssText)
             },
             handleAdd() {
                 var vm = this
@@ -1257,10 +1316,23 @@
             mapSearch() {
 
             },
+            changeanalysisdatecollect(val) {
+                console.log(val);
+                this.currentcollect = val;
+                if (this.currentdate == '') {
+                    let start = new Date();
+                    this.currentdate = start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDay()>9?start.getDay():'0'+start.getDay())+' 00:00:00至'
+                        + start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDay()>9?start.getDay():'0'+start.getDay())+' 23:59:59'
+                }
+                let form = {'date': this.currentdate, 'out_uid': val};
+                this.currentPage = 1;
+                this.getTableData(form);
+            },
             changeanalysisdate(input) {
                 //修改车场统计分析日期
-                console.log(input)
-                var date = {'date': input}
+                console.log(input);
+                this.currentdate = input;
+                let date = {'date': input, 'out_uid': this.currentcollect};
                 this.searchDate = input;
                 this.currentPage = 1;
                 this.getTableData(date)
@@ -1273,6 +1345,7 @@
             console.log('commontable mount')
             //拷贝查询表单,用来在重置时清空表单内容
             this.tempSearchForm = common.clone(this.searchForm)
+
         },
         activated() {
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
@@ -1284,6 +1357,13 @@
             this.currentPage = 1
             this.sform = {}
             //this.date_selector ='123434342'
+            if (this.showdateSelector) {
+                let _this = this
+                _this.$axios.all([common.getCollector()])
+                    .then(_this.$axios.spread(function (ret) {
+                        _this.collectors = ret.data;
+                    }))
+            }
         },
     }
 

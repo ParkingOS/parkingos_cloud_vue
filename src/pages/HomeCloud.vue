@@ -1,5 +1,5 @@
 <template>
-    <el-row class="container">
+    <el-row class="container" id="tablearea">
         <el-col :span="24" class="header not-print">
             <!--
             <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'" style="text-align: center">
@@ -40,6 +40,7 @@
                          @select="selectTop">
 
                     <el-menu-item index="/loginCloud"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>
+                    <!--<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>-->
                     </el-menu-item>
 
                 </el-menu>
@@ -79,7 +80,8 @@
                         </el-submenu>
                         <el-submenu v-if="showOrderStatistics" index="/orderstatistics">
                             <template slot="title"><span class="menuitem">统计分析</span></template>
-                            <el-menu-item index="/orderStatistics_HourRent" v-if="showOrderStatistics_HourRent">时租订单统计
+                            <!--<el-menu-item index="/orderStatistics_HourRent" v-if="showOrderStatistics_HourRent">时租订单统计-->
+                            <el-menu-item index="/orderStatistics_Settlement" v-if="showOrderStatistics_HourRent">时租订单统计
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu v-if="showShopManage" index="/shop">
@@ -295,6 +297,15 @@
             },
             //退出登录
             logout: function () {
+
+
+                // const cssText = 'tablearea {font-size: 85%;font-family: sans-serif;border-spacing: 0;border-collapse: collapse;}'
+                // const d = new Printd()
+                //
+                // // opens the "print dialog" of your browser to print the element
+                // d.print( document.getElementById('tablearea'), cssText )
+
+
                 var _this = this;
                 let user = sessionStorage.getItem('user');
                 let u = JSON.parse(user);
@@ -551,7 +562,7 @@
     }
     @media print {
         .not-print {
-            opacity: 0
+            /*opacity: 0*/
         }
     }
 </style>

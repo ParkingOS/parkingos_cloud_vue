@@ -15,7 +15,7 @@
         <!--:hideAdd="hideAdd"-->
         <!--ref="bolinkuniontable"-->
         <!--&gt;</common-table>-->
-
+        <el-button type="primary" size="small" @click="handlePrint()">打印</el-button>
         <el-row style="margin-bottom:8px">
             <el-col :span="24" align="left">
                 <el-col :span="18" align="left">
@@ -42,7 +42,7 @@
 
         </el-row>
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
-                  v-loading="loading" @sort-change="sortChange">
+                  v-loading="loading" @sort-change="sortChange" id="tablearea">
 
 
             <el-table-column
@@ -162,7 +162,7 @@
     import {path} from '../../api/api';
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
-
+    import Printd from 'printd'
     export default {
         components: {
             CommonTable
@@ -450,6 +450,40 @@
             }
         },
         methods: {
+            handlePrint(elem){
+                // var mywindow = window.open('', 'PRINT', 'height=800,width=1200');
+                //
+                // // mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+                // // mywindow.document.write('</head><body >');
+                // // mywindow.document.write('<h1>' + document.title  + '</h1>');
+                // // mywindow.document.write(document.getElementById(elem).innerHTML);
+                // // mywindow.document.write('</body></html>');
+                //
+                // mywindow.document.write(this.$el.innerHTML);
+                //
+                // mywindow.document.close(); // necessary for IE >= 10
+                // mywindow.focus(); // necessary for IE >= 10*/
+                //
+                // mywindow.print();
+                // mywindow.close();
+
+
+                // let subOutputRankPrint = document.getElementById('tablearea');
+                // console.log(subOutputRankPrint.innerHTML);
+                // let newContent =subOutputRankPrint.innerHTML;
+                // let oldContent = document.body.innerHTML;
+                // document.body.innerHTML = newContent;
+                // window.print();
+                // window.location.reload();
+                // document.body.innerHTML = oldContent;
+                // return false;
+
+                const cssText = 'tablearea {font-size: 85%;font-family: sans-serif;border-spacing: 0;border-collapse: collapse;}'
+                const d = new Printd()
+
+                // opens the "print dialog" of your browser to print the element
+                d.print( document.getElementById('tablearea'), cssText )
+            },
             handleWorkDetail:function (index,row) {
                 this.showWorkDetail = true;
                 let _this = this;

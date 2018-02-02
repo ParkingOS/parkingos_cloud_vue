@@ -12,6 +12,7 @@ import MonthMember_VIP from './pages/park/MonthMember_VIP.vue'
 import OnlinePay_CashManage from './pages/park/OnlinePay_CashManage.vue'
 import OnlinePay_Income from './pages/park/OnlinePay_Income.vue'
 import OrderStatistics_HourRent from './pages/park/OrderStatistics_HourRent.vue'
+import OrderStatistics_Settlement from './pages/park/OrderStatistics_Settlement.vue'
 import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue'
 import ShopManage_Shop from './pages/park/ShopManage_Shop.vue'
 import ShopManage_QueryAccount from './pages/park/ShopManage_QueryAccount.vue'
@@ -135,6 +136,8 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/orderStatistics_HourRent', component: OrderStatistics_HourRent, name: '时租订单统计'},
+            {path: '/orderStatistics_Settlement', component: OrderStatistics_Settlement, name: '结算'},
+            // {path: '/orderStatistics_HourRent', component: OrderStatistics_Commute, name: '订单'},
         ]
     },
     {
