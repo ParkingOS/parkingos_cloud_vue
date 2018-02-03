@@ -244,15 +244,43 @@
                     } else {
                         // console.log(ret)
                         // vm.accountinfo = ret
-                        vm.parkid = ret[41].value;              //id
-                        vm.parkname = ret[12].value;            //company_name
-                        vm.parkspacenums = ret[1].value;        //parking_total
-                        vm.address = ret[59].value;             //address
-                        vm.lng = ret[16].value;                 //longitude latitude
-                        vm.lat = ret[33].value;                 //longitude latitude
-                        vm.latlng = ret[16].value + ' , ' + ret[33].value;
-                        vm.mobilephone = ret[34].value;         //mobile
-                        vm.telephone = ret[3].value;            //phone
+                        for(let item of ret){
+                            if(item.name=='id'){
+                                vm.parkid = item.value;
+                            }
+                            if(item.name=='company_name'){
+                                vm.parkname = item.value;
+                            }
+                            if(item.name=='parking_total'){
+                                vm.parkspacenums = item.value;
+                            }
+                            if(item.name=='address'){
+                                vm.address = item.value;
+                            }
+                            if(item.name=='longitude'){
+                                vm.lng = item.value;
+                            }
+                            if(item.name=='latitude'){
+                                vm.lat = item.value;
+                            }
+                            if(item.name=='mobile'){
+                                vm.mobilephone = item.value;
+                            }
+                            if(item.name=='phone'){
+                                vm.telephone = item.value;
+                            }
+
+                        }
+                        // vm.parkid = ret[41].value;              //id
+                        // vm.parkname = ret[12].value;            //company_name
+                        // vm.parkspacenums = ret[1].value;        //parking_total
+                        // vm.address = ret[59].value;             //address
+                        // vm.lng = ret[16].value;                 //longitude latitude
+                        // vm.lat = ret[33].value;                 //longitude latitude
+                        // vm.latlng = ret[16].value + ' , ' + ret[33].value;
+                        // vm.mobilephone = ret[34].value;         //mobile
+                        // vm.telephone = ret[3].value;            //phone
+                        vm.latlng = vm.lng+' , '+vm.lat;
                     }
 
                 }).catch(function (error) {

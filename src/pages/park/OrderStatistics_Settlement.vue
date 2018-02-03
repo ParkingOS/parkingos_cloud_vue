@@ -241,7 +241,7 @@
             }
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.$refs['bolinkuniontable'].getTableData({date:'',out_uid:''})
             // this.getTableData(this.sform);
         }
     }

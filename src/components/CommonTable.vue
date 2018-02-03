@@ -1360,7 +1360,10 @@
             this.sform = {}
             //this.date_selector ='123434342'
             if (this.showdateSelector) {
-                let _this = this
+                let _this = this;
+                _this.currentcollect = '';
+                _this.currentdate = '';
+                _this.datesselector = ''
                 _this.$axios.all([common.getCollector()])
                     .then(_this.$axios.spread(function (ret) {
                         _this.collectors = [{value_no:'',value_name:'全部'}];
