@@ -145,12 +145,17 @@
                             label: '车型类型',
                             prop: 'car_type_id',
                             width: '123',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist:this.cartype,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:(row)=>{
+                                let str = common.nameformat(row,this.cartype,'car_type_id')
+                                return str==''||str==undefined?row.car_type_id:str;
+                            }
                         }]
                     }, {
 
@@ -174,10 +179,10 @@
                             prop: 'period',
                             width: '123',
                             type: 'str',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
+
+
                             unsortable: true,
+                            hidden:true,
                             align: 'center'
                         }]
                     }
@@ -194,12 +199,13 @@
                         {required: true, message: '请输入价格', trigger: 'blur'}
                     ],
                     car_type_id: [
-                        {required: true, message: '请输入车型类型', trigger: 'blur'}
+                        {required: true, message: '请输入车型类型', trigger: 'change'}
                     ],
                     period: [
                         {required: true, message: '请输入续费周期', trigger: 'blur'}
                     ]
-                }
+                },
+                cartype:'',
             }
         },
         mounted() {
@@ -232,6 +238,19 @@
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
+            let _this = this
+            _this.$axios.all([common.getCarType()])
+                .then(_this.$axios.spread(function (retcartype) {
+                    _this.cartype = retcartype.data;
+                    // console.log(ret.data)
+                    // console.log(_this.pname)
+                }))
+        },
+        watch: {
+
+            cartype: function (val) {
+                this.tableitems[5].subs[0].selectlist = val
+            }
         }
     }
 

@@ -197,7 +197,7 @@
                         console.log(item.sub_auth)
                         this.hideSearch = !common.showSubSearch(item.sub_auth)
                         this.hideAdd = !common.showSubAdd(item.sub_auth)
-                        this.hideExport = !common.showSubExport(item.sub_auth)
+                        // this.hideExport = !common.showSubExport(item.sub_auth)
                         this.showEdit = common.showSubEdit(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)
                         break;

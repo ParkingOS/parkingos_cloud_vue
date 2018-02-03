@@ -19,6 +19,7 @@
                 :showdelete="showdelete"
                 :showresetpwd="showresetpwd"
                 :addFormRules="addFormRules"
+                :editFormRules="editFormRules"
                 :addapi="addapi"
                 :delapi="delapi"
                 :editapi="editapi"
@@ -104,7 +105,7 @@
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
-                                addable: true,
+
                                 unsortable: true,
                                 align: 'center',
                             },
@@ -220,9 +221,9 @@
                             width: '123',
                             type: 'selection',
                             selectlist: collectType,
-                            editable: true,
+
                             searchable: true,
-                            addable: true,
+
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
@@ -239,15 +240,16 @@
                     nickname: [
                         {required: true, message: '请输入姓名', trigger: 'blur'}
                     ],
-                    strid: [
-                        {required: true, message: '请输入登录账号', trigger: 'blur'}
-                    ],
-                    // isview: [
-                    //     {required: true, message: '请选择是否可收费', trigger: 'change'}
-                    // ],
-
+                    role_id: [
+                        {required: true, message: '请选择角色', trigger: 'change'}
+                    ]
                 },
-                // aroles: [{value_no: "-1", value_name: "未设置"}],
+                editFormRules: {
+                    nickname: [
+                        {required: true, message: '请输入姓名', trigger: 'blur'}
+                    ]
+                },
+
                 aroles: [],
             }
         },

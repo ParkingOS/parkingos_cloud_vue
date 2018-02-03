@@ -23,6 +23,7 @@
                 :delapi="delapi"
                 :editapi="editapi"
                 :addFormRules="addFormRules"
+                :editFormRules="editFormRules"
                 v-on:showRolePermission="showRolePermission"
                 ref="bolinkuniontable"
         ></common-table>
@@ -138,6 +139,7 @@
                                 searchable: true,
                                 addable: false,
                                 unsortable: true,
+                                hidden:true,
                                 align: 'center',
                                 format: function (row) {
                                     return common.funcformat(row.is_collector, row.is_inspect, row.is_opencard)
@@ -163,6 +165,11 @@
                 searchtitle: '高级查询',
                 addtitle: '添加角色',
                 addFormRules: {
+                    role_name: [
+                        {required: true, message: '请输入名称', trigger: 'blur'}
+                    ]
+                },
+                editFormRules: {
                     role_name: [
                         {required: true, message: '请输入名称', trigger: 'blur'}
                     ]

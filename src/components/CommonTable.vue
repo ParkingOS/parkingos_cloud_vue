@@ -63,7 +63,7 @@
 
                 </el-col>
 
-                <el-col :span="6" align="right">
+                <el-col :span="6" align="right" style="float: right">
                     <!--<span style="color:red;font-size:8px">提示:刷新后会重置高级查询</span>-->
                     <!--<el-button @click="reset" type="primary" size="small">清空高级查询</el-button>-->
                     <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>

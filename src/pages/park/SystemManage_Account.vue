@@ -35,17 +35,17 @@
                     <div>
                         <el-row>
                             <el-form style="width:90%;margin-top: 20px;" label-width="100px">
-                                <el-form-item label="经纬度">
-                                    <el-input v-model="latlng" :readonly="paridreadonly"></el-input>
-                                </el-form-item>
+                                <!--<el-form-item label="经纬度">-->
+                                    <!--<el-input v-model="latlng" :readonly="paridreadonly"></el-input>-->
+                                <!--</el-form-item>-->
                                 <el-form-item label="详细地址">
                                     <el-input v-model="address"></el-input>
                                 </el-form-item>
                             </el-form>
                         </el-row>
-                        <el-row>
-                            <el-button type="primary" @click="clicklocate" size="small">定位</el-button>
-                        </el-row>
+                        <!--<el-row>-->
+                            <!--<el-button type="primary" @click="clicklocate" size="small">定位</el-button>-->
+                        <!--</el-row>-->
                     </div>
                 </el-card>
             </el-col>
