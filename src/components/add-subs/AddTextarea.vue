@@ -7,7 +7,7 @@
 <script>
 import common from '../../common/js/common.js'
 export default {
-  name: 'text',
+  name: 'text_vue',
   data () {
     return {
 			textareaForm:{

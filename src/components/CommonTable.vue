@@ -1,5 +1,5 @@
 <template>
-    <section id="tablearea">
+    <section>
         <!--工具条-->
         <el-row style="margin-bottom:8px" v-if="!hideTool">
             <el-col :span="24" v-if="!showRight" align="left">
@@ -88,7 +88,7 @@
         </el-row>
         <!--列表-->
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
-                  v-loading="loading" @sort-change="sortChange">
+                  v-loading="loading" @sort-change="sortChange" id="tablearea">
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">
@@ -145,7 +145,7 @@
                     fixed="left">
             </el-table-column>
 
-            <div v-for="items in tableitems">
+            <div v-for="items in tableitems" >
                 <div v-if="items.hasSubs">
                     <el-table-column
                             :label="items.label"
@@ -220,6 +220,7 @@
                     </el-table-column>
                 </div>
             </div>
+
             <el-table-column label="操作" :width="btswidth" v-if="showImg" align="center">
                 <!--<el-button @click.native="showDetail(row)">查看详情</el-button>-->
                 <template scope="scope">
@@ -512,7 +513,8 @@
                 if (this.showdateSelector) {
 
                     //this.$extend(this.sform,{'date':this.datesselector})
-                    this.sform.date = this.searchDate
+                    this.sform.date = this.searchDate;
+                    this.sform.out_uid = this.currentcollect;
                     this.getTableData(this.sform);
                 } else {
                     this.getTableData(this.sform);
@@ -1361,7 +1363,8 @@
                 let _this = this
                 _this.$axios.all([common.getCollector()])
                     .then(_this.$axios.spread(function (ret) {
-                        _this.collectors = ret.data;
+                        _this.collectors = [{value_no:'',value_name:'全部'}];
+                        _this.collectors = _this.collectors.concat(ret.data);
                     }))
             }
         },

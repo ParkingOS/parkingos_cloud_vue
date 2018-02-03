@@ -384,7 +384,7 @@
                             // setTimeout(() => {
                             //     _this.alertInfo('请求失败!'+error)
                             // }, 150)
-                            _this.$message.error(error.data.msg);
+                            _this.$message.error(error.data);
                         })
                     }
                 })

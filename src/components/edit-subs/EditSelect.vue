@@ -15,7 +15,7 @@
 import common from '../../common/js/common.js'
 
 export default {
-  name: 'select',
+  name: 'select_vue',
   data () {
     return {
 			selectForm:{

@@ -1,5 +1,5 @@
 <template>
-    <el-row class="container" id="tablearea">
+    <el-row class="container">
         <el-col :span="24" class="header not-print">
             <!--
             <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'" style="text-align: center">

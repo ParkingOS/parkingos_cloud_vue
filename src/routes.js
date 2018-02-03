@@ -80,7 +80,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '订单管理',
+        // name: '订单管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/orderManage_Orders', component: OrderManage_Orders, name: '订单记录'},
@@ -89,7 +89,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '订单管理',
+        // name: '订单管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/orderManage_Poles', component: OrderManage_Poles, name: '抬杆记录'},
@@ -98,7 +98,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '月卡会员管理',
+        // name: '月卡会员管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/monthMember_Refill', component: MonthMember_Refill, name: '月卡续费记录'},
@@ -107,7 +107,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '月卡会员管理',
+        // name: '月卡会员管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/monthMember_VIP', component: MonthMember_VIP, name: '月卡会员'},
@@ -115,7 +115,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '电子支付',
+        // name: '电子支付',
         iconCls: 'el-icon-document',
         children: [
             {path: '/onlinePay_CashManage', component: OnlinePay_CashManage, name: '提现管理'},
@@ -123,7 +123,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '电子支付',
+        // name: '电子支付',
         iconCls: 'el-icon-document',
         children: [
             {path: '/onlinePay_Income', component: OnlinePay_Income, name: '电子收款'},
@@ -132,7 +132,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '统计分析',
+        // name: '统计分析',
         iconCls: 'el-icon-document',
         children: [
             {path: '/orderStatistics_HourRent', component: OrderStatistics_HourRent, name: '时租订单统计'},
@@ -143,34 +143,34 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '商户管理',
+        // name: '商户管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/shopManage_Coupon', component: ShopManage_Coupon, name: '统计分析'},
+            {path: '/shopManage_Coupon', component: ShopManage_Coupon, name: '商户管理'},
         ]
     },
     {
         path: '/',
         component: HomeCloud,
-        name: '商户管理',
+        // name: '商户管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/shopManage_Shop', component: ShopManage_Shop, name: '统计分析'},
+            {path: '/shopManage_Shop', component: ShopManage_Shop, name: '流水查询'},
         ]
     },
     {
         path: '/',
         component: HomeCloud,
-        name: '商户管理',
+        // name: '商户管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/shopManage_QueryAccount', component: ShopManage_QueryAccount, name: '统计分析'},
+            {path: '/shopManage_QueryAccount', component: ShopManage_QueryAccount, name: '优惠券管理'},
         ]
     },
     {
         path: '/',
         component: HomeCloud,
-        name: '设备管理',
+        // name: '设备管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/equipmentManage_Monitor', component: EquipmentManage_Monitor, name: '监控管理'},
@@ -178,7 +178,7 @@ let routes = [
     }, {
         path: '/',
         component: HomeCloud,
-        name: '设备管理',
+        // name: '设备管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/equipmentManage_Intercom', component: EquipmentManage_Intercom, name: '对讲管理'},
@@ -186,7 +186,7 @@ let routes = [
     }, {
         path: '/',
         component: HomeCloud,
-        name: '设备管理',
+        // name: '设备管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/equipmentManage_WorkStation', component: EquipmentManage_WorkStation, name: '工作站管理'},
@@ -195,7 +195,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '设备管理',
+        // name: '设备管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/equipmentManage_Channel', component: EquipmentManage_Channel, name: '通道管理'},
@@ -203,7 +203,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '设备管理',
+        // name: '设备管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/equipmentManage_Camera', component: EquipmentManage_Camera, name: '摄像头管理'},
@@ -211,7 +211,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '设备管理',
+        // name: '设备管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/equipmentManage_LED', component: EquipmentManage_LED, name: 'LED屏管理'},
@@ -220,7 +220,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '员工权限',
+        // name: '员工权限',
         iconCls: 'el-icon-document',
         children: [
             {path: '/employeePermission_Role', component: EmployeePermission_Role, name: '角色管理'},
@@ -229,7 +229,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '员工权限',
+        // name: '员工权限',
         iconCls: 'el-icon-document',
         children: [
             {path: '/employeePermission_Manage', component: EmployeePermission_Manage, name: '员工管理'},
@@ -238,7 +238,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/systemManage_BlachList', component: SystemManage_BlachList, name: '黑名单管理'},
@@ -246,7 +246,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/systemManage_Commute', component: SystemManage_Commute, name: '上下班记录'},
@@ -254,7 +254,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/systemManage_Account', component: SystemManage_Account, name: '账户管理'},
@@ -262,7 +262,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/systemManage_Params', component: SystemManage_Params, name: '参数管理'},
@@ -270,7 +270,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/systemManage_FreeReason', component: SystemManage_FreeReason, name: '免费原因'},
@@ -278,23 +278,23 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/systemManage_CarManage_CarType', component: SystemManage_CarManage_CarType, name: '车型管理'},
+            {path: '/systemManage_CarManage_CarType', component: SystemManage_CarManage_CarType, name: '车型管理dad'},
         ]
     },{
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/systemManage_CarManage_BindType', component: SystemManage_CarManage_BindType, name: '车型管理'},
+            {path: '/systemManage_CarManage_BindType', component: SystemManage_CarManage_BindType, name: '车型管理son'},
         ]
     },{
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/systemManage_Price', component: SystemManage_Price, name: '价格管理'},
@@ -302,7 +302,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/systemManage_MonthCard', component: SystemManage_MonthCard, name: '月卡套餐管理'},
@@ -310,7 +310,7 @@ let routes = [
     },{
         path: '/',
         component: HomeCloud,
-        name: '系统管理',
+        // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'},
