@@ -610,7 +610,8 @@
                     if (valid) {
                         _this.resetloading = true
                         // console.log(_this.refillForm.p_name)
-                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, _this.currentRow.name, _this.currentRow.e_time, _this.currentRow.id, _this.refillForm.remark, _this.refillForm.act_total, sessionStorage.getItem('nickname'))])
+                        // axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, _this.currentRow.name, _this.currentRow.e_time, _this.currentRow.id, _this.refillForm.remark, _this.refillForm.act_total, sessionStorage.getItem('nickname'))])
+                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))))])
                             .then(axios.spread(function (ret) {
                                 let data = ret.data
                                 // console.log(data)
