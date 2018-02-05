@@ -95,6 +95,9 @@
                     <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
+                    <el-button v-if="showShopEdit" size="small" type="text" @click="editShop(scope.$index, scope.row)">
+                        编辑
+                    </el-button>
                     <el-button v-if="showModifyCarNumber" size="small" type="text"
                                @click="handleModifyCarNumber(scope.$index, scope.row)">修改车牌
                     </el-button>
@@ -500,7 +503,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi','showShopEdit'],
         methods: {
             //控制表格样式
             rowstyle(row, index) {
@@ -1132,6 +1135,9 @@
                 //月卡续费
                 // alert('功能正在开发，请耐心等待')
                 this.$emit('showrefill', index, row)
+            },
+            editShop(index,row){
+            	this.$emit('showeditshop', index, row)
             },
             handlePermission(index, row) {
                 //员工权限-角色管理-编辑权限

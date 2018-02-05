@@ -4,7 +4,9 @@
         <common-table
 	                :queryapi="queryapi"
 	                :addapi="addapi"
+	                :showCustomizeAdd="showCustomizeAdd"
 	                :editapi="editapi"
+	                :hideAdd="hideAdd"
 	                :delapi="delapi"
 	                :tableheight="tableheight"
 	                :fieldsstr="fieldsstr"
@@ -17,10 +19,12 @@
 	                :showmRefill="showmRefill"
 	                :hideOptions="hideOptions"
 	                :hideSearch="hideSearch"
-	                :showEdit="showEdit"
+	                :showShopEdit="showShopEdit"
 	                :showsetting="showsetting"
 	                v-on:showrefill="showrefill"
 					v-on:showSetting="showSetting"
+					v-on:customizeadd="showadd"
+					v-on:showeditshop="showeditshop"
 	                ref="bolinkuniontable"
 	        ></common-table>
 	    </section>
@@ -250,11 +254,75 @@
 				<el-button type="primary" @click="handledelete" size="small">确 定</el-button>
 			</span>
         </el-dialog>
+        
+        <!--添加商户-->
+        <el-dialog
+                :title="shopTitle"
+                v-model="showRegis"
+                size="tiny">
+            <el-form ref="shopForm" label-width="120px" style="margin-bottom:-30px" 
+                     :model="shopForm">
+                <el-form-item label="编号" >
+                    <el-input :disabled="true" v-model="shopForm.id" style="width:90%" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="商户名称" >
+                    <el-input v-model="shopForm.name" style="width:90%" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="地址" >
+                    <el-input v-model="shopForm.address" style="width:90%" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="手机" >
+                    <el-input v-model="shopForm.mobile" style="width:90%" placeholder=""></el-input>
+                </el-form-item>
+               <el-form-item label="优惠券类型" >
+                    <el-select v-model="shop_ticket_type" filterable style="width:90%">
+                        <el-option
+                                v-for="item in ticketType"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="优惠券单位" >
+                    <el-select v-model="unit" filterable style="width:90%">
+                        <el-option
+                                v-for="item in ticketUnit"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="默认显示额度" >
+                    <el-input v-model="shopForm.default_limit" style="width:90%" placeholder=""
+                              ></el-input>
+                </el-form-item>
+                <el-form-item label="商户折扣/%" >
+                    <el-input v-model="shopForm.discount_percent" style="width:90%" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item :label="discount_money_name" v-if="showDiscountMoney" >
+                    <el-input v-model="shopForm.discount_money" style="width:90%" placeholder=""></el-input>
+                </el-form-item>
+
+                <el-form-item label="全免每张/元" >
+                    <el-input v-model="shopForm.free_money" style="width:90%" placeholder=""></el-input>
+                </el-form-item>
+               
+                <el-form-item label="有效期/小时" >
+                    <el-input v-model="shopForm.validite_time" style="width:90%" placeholder="" ></el-input>
+                </el-form-item>
+
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+				<el-button @click="showRegis = false" size="small">取 消</el-button>
+				<el-button type="primary" size="small" @click="handleRegis" >确 定</el-button>
+			</span>
+        </el-dialog>
 		
     </div>
     
 </template>
-
 
 <script>
 
@@ -283,6 +351,36 @@
         },
         data() {
             return {
+            	hideAdd:true,
+            	shopTitle:'添加商户',
+            	showDiscountMoney:true,
+            	shop_ticket_type:'',
+            	unit:'',
+            	discount_money_name:'每分钟/元',
+            	ticketUnit:[
+            		{'value_name': '分钟', 'value_no': 1},
+				    {'value_name': '小时', 'value_no': 2},
+				    {'value_name': '天', 'value_no': 3}
+            	],
+            	ticketType : [
+				    {'value_name': '时长减免', 'value_no': 1},
+				    {'value_name': '金额减免', 'value_no': 2}
+				],
+            	shopForm:{
+            		id:'3',
+					name:'2',
+					address:'',
+					mobile:'',
+					shop_ticket_type:'1',
+					unit:'1',
+					default_limit:'5,10,20',
+					discount_percent:'100',
+					discount_money:'1',
+					free_money:'1',
+					validite_time:'24'
+            	},
+            	showRegis:false,
+            	showCustomizeAdd: true,
             	ticket_type:'',
             	showTicketMoney:false,
             	showTicketTime:false,
@@ -292,7 +390,7 @@
             	total:0,
             	showInput:false,
             	user:{
-            		id:'11',
+            		id:'',
             		auth_flag :14,
             		mobile :'',
             		phone :'',
@@ -311,7 +409,6 @@
             	renewVisible:false,
             	ticket_val:0,
             	employeeVisible:false,
-            	showEdit:true,
             	showsetting:true,
             	hideSearch:true,
                 loading: false,
@@ -319,9 +416,8 @@
                 hideExport: true,
                 tableheight: '',
                 hideOptions: false,
-				hideAdd:false,
                 showdelete: true,
-                showEdit: true,
+                showShopEdit: true,
                 showmRefill: true,
                 queryapi: '/shop/quickquery',
                 addapi: '/shop/create',
@@ -405,11 +501,73 @@
                             align: 'center',
                         }]
                     } ,{
-
+                        hasSubs: false,
+                        subs: [{
+                            label: '优惠券额度(分钟)',
+                            prop: 'ticket_limit',
+                            width: '180',
+                            type: 'str',
+                            editable: false,
+                            searchable: false,
+                            addable: false,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                            	if(row.ticket_unit==1){
+                            		return row.ticket_limit;
+                            	}else{
+                            		return "";
+                            	}
+                            }
+                        }]
+                    } ,
+                    {
                         hasSubs: false,
                         subs: [{
                             label: '优惠券额度(小时)',
                             prop: 'ticket_limit',
+                            width: '180',
+                            type: 'str',
+                            editable: false,
+                            searchable: false,
+                            addable: false,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                            	if(row.ticket_unit==2){
+                            		return row.ticket_limit;
+                            	}else{
+                            		return "";
+                            	}
+                            }
+                        }]
+                    } ,
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '优惠券额度(天)',
+                            prop: 'ticket_limit',
+                            width: '180',
+                            type: 'str',
+                            editable: false,
+                            searchable: false,
+                            addable: false,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                            	if(row.ticket_unit==3){
+                            		return row.ticket_limit;
+                            	}else{
+                            		return "";
+                            	}
+                            }
+                        }]
+                    } ,
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '优惠券额度(张)',
+                            prop: 'ticketfree_limit',
                             width: '180',
                             type: 'str',
                             editable: false,
@@ -457,7 +615,30 @@
                             }
                         }]
                     }, {
-
+                        hasSubs: false,
+                        subs: [{
+                            label: '优惠券单位',
+                            prop: 'ticket_unit',
+                            width: '180',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                            	if(row.ticket_unit==1){
+                            		return "分钟";
+                            	}else if(row.ticket_unit==2){
+                            		return "小时";
+                            	}else if(row.ticket_unit==3){
+                            		return "天";
+                            	}else{
+                            		return "元";
+                            	}
+                            }
+                        }]
+                    }, {
                         hasSubs: false,
                         subs: [{
                             label: '默认显示额度',
@@ -470,38 +651,8 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '商户折扣/%',
-                            prop: 'discount_percent',
-                            width: '123',
-                            type: 'number',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center',
-                        }]
-                    }  
-                    
-                    
+                    }
                     ,{
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '每小时/元',
-                            prop: 'discount_money',
-                            width: '100',
-                            type: 'number',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    },{
 
                         hasSubs: false,
                         subs: [{
@@ -800,7 +951,92 @@
 	        	}else{
 	        		return "工作人员"
 	        	}
-	        }
+	        },
+	        showadd: function () {
+	        	this.shopForm={
+            		id:'',
+					name:'',
+					address:'',
+					mobile:'',
+					shop_ticket_type:1,
+					unit:1,
+					default_limit:'5,10,20',
+					discount_percent:'100',
+					discount_money:'1',
+					free_money:'1',
+					validite_time:'24'
+            	}
+	        	this.shopTitle='添加商户'
+	        	this.showRegis=true;
+           },
+           handleRegis:function(){
+           		let _this = this
+ 
+                let aform = {}
+				
+                aform.token = sessionStorage.getItem('token')
+                aform.comid = sessionStorage.getItem('comid')
+                aform.groupid = sessionStorage.getItem('groupid')
+                aform.cityid = sessionStorage.getItem('cityid')
+                aform.unionid = sessionStorage.getItem('unionid')
+                aform.channelid = sessionStorage.getItem('channelid')
+                aform.loginuin = sessionStorage.getItem('loginuin')
+                aform.nickname = sessionStorage.getItem('nickname')
+                aform.oid = sessionStorage.getItem('oid')
+                
+                aform.id=this.shopForm.id;
+                aform.name=this.shopForm.name;
+                aform.address=this.shopForm.address;
+                aform.mobile=this.shopForm.mobile;
+                aform.ticket_type=this.shop_ticket_type;
+                aform.ticket_unit=this.unit
+                aform.default_limit=this.shopForm.default_limit
+                aform.discount_percent=this.shopForm.discount_percent
+                aform.discount_money=this.shopForm.discount_money
+                aform.free_money=this.shopForm.free_money
+                aform.validite_time=this.shopForm.validite_time
+
+                _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
+
+                    if (ret > 0 || ret.state == 1) {
+                        //更新成功
+                        _this.$refs['bolinkuniontable'].getTableData({})
+                        _this.$message({
+                            message: '添加成功!',
+                            type: 'success',
+                            duration: 600
+                        });
+                        _this.showRegis = false;
+                        // _this.refillForm.resetFields();
+                        _this.refillForm.name = '';
+                        _this.$refs['refillForm'].resetFields()
+                    } else {
+                        //更新失败
+                        _this.$message({
+                            message: ret.msg,
+                            type: 'error',
+                            duration: 1200
+                        });
+                    }
+                    _this.resetloading = false
+
+                }).catch(function (error) {
+                    _this.resetloading = false;
+                })                           
+           },
+           showeditshop:function(index,row){
+           	console.log(row)
+           	this.shopForm=row
+           	this.shopTitle="编辑"
+           	this.shop_ticket_type=row.ticket_type
+           	this.unit=row.ticket_unit
+           	this.showRegis=true
+           }
         }
         ,
         mounted() {
@@ -840,7 +1076,33 @@
 						this.addmoney=0;
 						this.curVal=0;
 					}
-	　　　　　}
+	　　　　　},
+			shop_ticket_type(curVal,oldVal){
+				if(curVal==2){
+					this.ticketUnit=[
+						{'value_name': '元', 'value_no': 4},
+					],
+					this.showDiscountMoney=false,
+					this.unit=4
+				}else{
+					this.ticketUnit=[
+	            		{'value_name': '分', 'value_no': 1},
+					    {'value_name': '时', 'value_no': 2},
+					    {'value_name': '天', 'value_no': 3}
+	            	],
+	            	this.showDiscountMoney=true,
+	            	this.unit=1
+				}
+			},
+			unit(curVal,oldVal){
+				if(curVal==1){
+					this.discount_money_name="每分钟/元";
+				}else if(curVal==2){
+					this.discount_money_name="每小时/元";
+				}else{
+					this.discount_money_name="每天/元";
+				}
+			}
 	     }
     }
 
