@@ -182,6 +182,8 @@
                                 	return "时长减免"
                                 }else if(row.type==5){
                                 	return "金额减免";
+                                }else if(row.type==4){
+                                	return "全免券";
                                 }else{
                                 	return row.type;
                                 }
