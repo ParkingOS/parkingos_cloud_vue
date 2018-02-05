@@ -71,6 +71,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
+
                 <el-form-item label="应收金额" :prop="total">
                     <!--<el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>-->
                     <el-input v-model="refillForm.total" style="width:90%" placeholder=""
@@ -101,6 +102,16 @@
                 <el-form-item label="车牌号码" :prop="car_number">
                     <el-input v-model="refillForm.car_number" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
+                <el-form-item label="车辆类型">
+                    <el-select v-model="refillForm.car_type_id" style="width:90%">
+                        <el-option
+                                v-for="item in cartype"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="包月产品" :prop="p_name">
                     <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" style="width:90%">
                         <el-option
@@ -126,6 +137,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
+
                 <el-form-item label="应收金额" :prop="total">
                     <!--<el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>-->
                     <el-input v-model="refillForm.total" style="width:90%" placeholder=""
@@ -505,7 +517,8 @@
                     act_total: '',
                     mobile: '',
                     limit_day_type: '',
-                    remark: ''
+                    remark: '',
+                    car_type_id:'',
                 },
                 p_name: 'p_name',
                 months: 'months',
@@ -597,7 +610,7 @@
                     if (valid) {
                         _this.resetloading = true
                         // console.log(_this.refillForm.p_name)
-                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))))])
+                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, _this.currentRow.name, _this.currentRow.e_time, _this.currentRow.id, _this.refillForm.remark, _this.refillForm.act_total, sessionStorage.getItem('nickname'))])
                             .then(axios.spread(function (ret) {
                                 let data = ret.data
                                 // console.log(data)

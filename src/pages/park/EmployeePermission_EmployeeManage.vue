@@ -221,8 +221,8 @@
                             width: '123',
                             type: 'selection',
                             selectlist: collectType,
+                            hidden:true,
 
-                            searchable: true,
 
                             unsortable: true,
                             align: 'center',

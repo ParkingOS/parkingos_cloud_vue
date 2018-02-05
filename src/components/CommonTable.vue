@@ -862,7 +862,7 @@
                                 } else {
                                     //更新失败
                                     vm.$message({
-                                        message: '更新失败!',
+                                        message: '更新失败!'+ret.msg,
                                         type: 'error',
                                         duration: 600
                                     });
@@ -1070,7 +1070,7 @@
                         } else {
                             //更新失败
                             vm.$message({
-                                message: "更新失败",
+                                message: "更新失败"+ret.msg,
                                 type: 'error',
                                 duration: 1200
                             });
@@ -1199,7 +1199,7 @@
                         } else {
                             //更新失败
                             vm.$message({
-                                message: '更新失败!',
+                                message: '更新失败!'+ret.msg,
                                 type: 'error',
                                 duration: 2000
                             });
@@ -1254,7 +1254,7 @@
                         } else {
                             //更新失败
                             vm.$message({
-                                message: '更新失败!',
+                                message: '更新失败!'+ret.msg,
                                 type: 'error',
                                 duration: 600
                             });

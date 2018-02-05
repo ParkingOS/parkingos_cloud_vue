@@ -95,7 +95,7 @@
                                 label: '价格',
                                 prop: 'price',
                                 width: '123',
-                                type: 'str',
+                                type: 'number',
                                 editable: true,
                                 searchable: true,
                                 addable: true,
