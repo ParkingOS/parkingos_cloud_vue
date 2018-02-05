@@ -229,7 +229,7 @@
                 showRegis: false,
                 resetCarnumber: '',
                 btswidth: '200',
-                fieldsstr: 'id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
+                fieldsstr: 'id__card_id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
                 tableitems: [
                     // {
                     //     hasSubs: false, subs: [
