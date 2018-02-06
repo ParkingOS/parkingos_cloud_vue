@@ -516,6 +516,9 @@
 
                     //this.$extend(this.sform,{'date':this.datesselector})
                     this.sform.date = this.searchDate;
+                    if (this.sform.date == '') {
+                        this.sform.date = this.currentFormatDate()
+                    }
                     this.sform.out_uid = this.currentcollect;
                     this.getTableData(this.sform);
                 } else {
@@ -1327,9 +1330,7 @@
                 console.log(val);
                 this.currentcollect = val;
                 if (this.currentdate == '') {
-                    let start = new Date();
-                    this.currentdate = start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDay()>9?start.getDay():'0'+start.getDay())+' 00:00:00至'
-                        + start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDay()>9?start.getDay():'0'+start.getDay())+' 23:59:59'
+                    this.currentdate = this.currentFormatDate()
                 }
                 let form = {'date': this.currentdate, 'out_uid': val};
                 this.currentPage = 1;
@@ -1343,6 +1344,12 @@
                 this.searchDate = input;
                 this.currentPage = 1;
                 this.getTableData(date)
+            },
+            currentFormatDate(){
+                let start = new Date();
+                let formatdate = start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate()>9?start.getDate():'0'+start.getDate())+' 00:00:00至'
+                    + start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate()>9?start.getDate():'0'+start.getDate())+' 23:59:59'
+                return formatdate
             }
         },
         mounted() {
