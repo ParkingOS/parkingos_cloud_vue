@@ -420,7 +420,8 @@ export default {
     	return axios.get(path + '/shop/addmoney' + '?token=' + sessionStorage.getItem('token')
 	    	+'&shop_id='+obj.shop_id+'&addmoney='+obj.addmoney
 	    	+'&operator='+obj.operator+'&parkid='+obj.parkid
-	    	+'&ticket_time='+obj.ticket_time+'&ticket_money='+obj.ticket_money);
+	    	+'&ticket_time='+obj.ticket_time+'&ticket_money='+obj.ticket_money
+    		+'&ticketfree_limit='+obj.ticketfree_limit);
     },
     editPass(obj){
     	return axios.get(path + '/shopmember/editpass' + '?token=' + sessionStorage.getItem('token')
