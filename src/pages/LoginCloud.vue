@@ -346,7 +346,7 @@
 
 
                                 // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
-                                if (u.roleid == ROLE_ID.GROUP) {
+                                if (u.oid == ROLE_ID.GROUP) {
                                     // _this.$router.push({path: '/bolinkunion'});
                                 } else if (u.oid == ROLE_ID.CHANNEL) {
                                     // _this.$router.push({path: '/account'});
@@ -418,11 +418,13 @@
         }
         .el-form-item {
             border: 1px solid rgba(255, 255, 255, 0.1);
-
-            background: $bg;
+            background: rgba(0, 0, 0, 0.1);
             border-radius: 5px;
             color:$bg;
+            background-color: $bg;
         }
+
+
     }
 </style>
 <style rel="stylesheet/scss" lang="scss" >

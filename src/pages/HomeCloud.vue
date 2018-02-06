@@ -40,7 +40,7 @@
                          @select="selectTop">
 
                     <el-menu-item index="/loginCloud"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>
-                    <!--<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>-->
+                        <!--<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>-->
                     </el-menu-item>
 
                 </el-menu>
@@ -161,7 +161,7 @@
 
 <script>
     import common from '../common/js/common'
-    import {AUTH_ID} from '../common/js/const'
+    import {AUTH_ID,ROLE_ID} from '../common/js/const'
 
     export default {
         data() {
@@ -354,7 +354,7 @@
                 } else {
                     this.active = cpath;
                 }
-                if (user.roleid == 0 || user.roleid == 30) {
+                if (user.oid == 0 || user.oid == ROLE_ID.PARK) {
                     this.nickname = "车场";
                     this.park = true;
                 }
@@ -398,6 +398,7 @@
             this.showOnlinePay = common.pageShow(user, AUTH_ID.showOnlinePay_auth_id);
             this.showOnlinePay_Income = common.pageShow(user, AUTH_ID.showOnlinePay_Income_auth_id);
             this.showOnlinePay_CashManage = common.pageShow(user, AUTH_ID.showOnlinePay_CashManage_auth_id);
+
         },
         watch: {
             ulist: function (val) {
