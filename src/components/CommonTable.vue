@@ -148,7 +148,7 @@
                     fixed="left">
             </el-table-column>
 
-            <div v-for="items in tableitems" >
+            <div v-for="items in tableitems">
                 <div v-if="items.hasSubs">
                     <el-table-column
                             :label="items.label"
@@ -503,7 +503,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi','showShopEdit'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showShopEdit'],
         methods: {
             //控制表格样式
             rowstyle(row, index) {
@@ -868,7 +868,7 @@
                                 } else {
                                     //更新失败
                                     vm.$message({
-                                        message: '更新失败!'+ret.msg,
+                                        message: '更新失败!' + ret.msg,
                                         type: 'error',
                                         duration: 600
                                     });
@@ -1076,7 +1076,7 @@
                         } else {
                             //更新失败
                             vm.$message({
-                                message: "更新失败"+ret.msg,
+                                message: "更新失败" + ret.msg,
                                 type: 'error',
                                 duration: 1200
                             });
@@ -1139,8 +1139,8 @@
                 // alert('功能正在开发，请耐心等待')
                 this.$emit('showrefill', index, row)
             },
-            editShop(index,row){
-            	this.$emit('showeditshop', index, row)
+            editShop(index, row) {
+                this.$emit('showeditshop', index, row)
             },
             handlePermission(index, row) {
                 //员工权限-角色管理-编辑权限
@@ -1208,7 +1208,7 @@
                         } else {
                             //更新失败
                             vm.$message({
-                                message: '更新失败!'+ret.msg,
+                                message: '更新失败!' + ret.msg,
                                 type: 'error',
                                 duration: 2000
                             });
@@ -1263,7 +1263,7 @@
                         } else {
                             //更新失败
                             vm.$message({
-                                message: '更新失败!'+ret.msg,
+                                message: '更新失败!' + ret.msg,
                                 type: 'error',
                                 duration: 600
                             });
@@ -1346,10 +1346,10 @@
                 this.currentPage = 1;
                 this.getTableData(date)
             },
-            currentFormatDate(){
+            currentFormatDate() {
                 let start = new Date();
-                let formatdate = start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate()>9?start.getDate():'0'+start.getDate())+' 00:00:00至'
-                    + start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate()>9?start.getDate():'0'+start.getDate())+' 23:59:59'
+                let formatdate = start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate() > 9 ? start.getDate() : '0' + start.getDate()) + ' 00:00:00至'
+                    + start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate() > 9 ? start.getDate() : '0' + start.getDate()) + ' 23:59:59'
                 return formatdate
 
             }
@@ -1380,7 +1380,7 @@
                 _this.datesselector = ''
                 _this.$axios.all([common.getCollector()])
                     .then(_this.$axios.spread(function (ret) {
-                        _this.collectors = [{value_no:'',value_name:'全部'}];
+                        _this.collectors = [{value_no: '', value_name: '全部'}];
                         _this.collectors = _this.collectors.concat(ret.data);
                     }))
             }

@@ -143,9 +143,9 @@
                             <el-menu-item index="/systemManage_Logs" v-if="showSystemManage_Logs">系统日志</el-menu-item>
 
                         </el-submenu>
-                        <!--<el-menu-item v-if="showCenterMonitor" index="http://test.bolink.club/tcbcloud/monitor.do?authid=309">-->
-                            <!--<template slot="title"><span class="menuitem">中央监控</span></template>-->
-                        <!--</el-menu-item>-->
+                        <el-menu-item v-if="showCenterMonitor" index="centermonitor" style="font-weight: normal">
+                            <template slot="title"><span class="menuitem">中央监控</span></template>
+                        </el-menu-item>
                     </el-row>
                 </el-menu>
             </aside>
@@ -256,10 +256,14 @@
                 console.log(this.active)
             },
             handleselect: function (a, b) {
-                console.log(this.active)
-                //console.log(a)
-                //console.log(this)
-                //console.log(this.$router)
+                // console.log(this.active)
+                // console.log(a)
+                // console.log(b)
+                // console.log(this.$router)
+                if(a=='centermonitor'){
+                    window.open('http://test.bolink.club/tcbcloud/monitor.do?authid=309');
+                    return;
+                }
                 var cpath = this.$router.currentRoute.fullPath
                 //console.log(a)
                 //console.log(cpath)

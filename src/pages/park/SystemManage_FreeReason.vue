@@ -9,12 +9,14 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-
                 :hideTool="hideTool"
-
+                :showEdit="showEdit"
+                :showdelete="showdelete"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :addapi="addapi"
+                :editapi="editapi"
+                :delapi="delapi"
                 :addtitle="addtitle"
                 ref="bolinkuniontable"
         ></common-table>
@@ -38,16 +40,16 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
-
+                showEdit: false,
+                showdelete: false,
                 hideAdd: false,
                 tableheight: '',
-                showdelete: true,
-                hideOptions: true,
-
+                hideOptions: false,
                 hideTool: false,
-
                 queryapi: '/freereason/query',
                 addapi: '/freereason/add',
+                editapi: '/freereason/edit',
+                delapi: '/freereason/delete',
                 btswidth: '100',
                 fieldsstr: 'id__name__sort',
                 tableitems: [
@@ -58,13 +60,13 @@
                             prop: 'id',
                             width: '123',
                             type: 'number',
-                            editable: true,
+
                             searchable: true,
 
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
+                    }, {
                         hasSubs: false,
                         subs: [{
                             label: '名称',
@@ -77,14 +79,14 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
+                    }, {
 
                         hasSubs: false,
                         subs: [{
                             label: '排序',
                             prop: 'sort',
                             width: '123',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -116,11 +118,14 @@
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
-                    if (AUTH_ID.showSystemManage_Commute_auth_id == item.auth_id) {
+                    if (AUTH_ID.showSystemManage_FreeReason_auth_id == item.auth_id) {
                         console.log(item.sub_auth)
                         // this.hideSearch= !common.showSubSearch(item.sub_auth)
                         // this.hideAdd= !common.showSubAdd(item.sub_auth)
                         // this.hideExport = !common.showSubExport(item.sub_auth)
+                        this.showEdit = common.showSubEdit(item.sub_auth)
+                        this.showdelete = common.showSubDel(item.sub_auth)
+
                         break;
                     }
                 }
