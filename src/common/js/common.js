@@ -310,30 +310,10 @@ export default {
         if (paychennel == 2) return "余额"
         if (paychennel == 3) return "银联"
     },
-    // pageShow: function (pageName,pagename2) {
-    //     var user = sessionStorage.getItem('user');
-    //     this.user = user
-    //     if (user) {
-    //         user = JSON.parse(user)
-    //         this.sysUserName = user.nickname || ''
-    //         // console.log(user.authlist.length)
-    //         // OrderManage_auth_id:2,//订单管理
-    //         for (var item of user.authlist) {
-    //
-    //             if (pageName == item.nname) {
-    //             // if (pageName == item.auth_id) {
-    //                 console.log(pagename2+'_auth_id:'+item.auth_id+',//'+pageName)
-    //                 return true
-    //             }
-    //         }
-    //     }
-    //     return false
-    // }
     pageShow: function (user, pageName) {
-        // console.log(user.authlist.length)
-        // OrderManage_auth_id:2,//订单管理
         for (var item of user.authlist) {
             if (pageName == item.auth_id) {
+                // console.log(item.nname)
                 return true
             }
         }
