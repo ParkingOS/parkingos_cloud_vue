@@ -40,11 +40,10 @@
                          @select="selectTop">
 
                     <el-menu-item index="/loginCloud"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>
-                    <!--<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>-->
+                        <!--<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>-->
                     </el-menu-item>
 
                 </el-menu>
-
 
 
             </el-col>
@@ -54,7 +53,8 @@
             <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
 
                 <!--厂商平台导航菜单-->
-                <el-menu :default-active="active" class="el-menu-vertical-demo not-print" @open="handleopen" @close="handleclose"
+                <el-menu :default-active="active" class="el-menu-vertical-demo not-print" @open="handleopen"
+                         @close="handleclose"
                          @select="handleselect"
                          unique-opened v-show="!collapsed">
 
@@ -141,7 +141,11 @@
                             <el-menu-item index="/systemManage_MonthCard" v-if="showSystemManage_MonthCard">月卡套餐管理
                             </el-menu-item>
                             <el-menu-item index="/systemManage_Logs" v-if="showSystemManage_Logs">系统日志</el-menu-item>
+
                         </el-submenu>
+                        <!--<el-menu-item v-if="showCenterMonitor" index="http://test.bolink.club/tcbcloud/monitor.do?authid=309">-->
+                            <!--<template slot="title"><span class="menuitem">中央监控</span></template>-->
+                        <!--</el-menu-item>-->
                     </el-row>
                 </el-menu>
             </aside>
@@ -161,7 +165,7 @@
 
 <script>
     import common from '../common/js/common'
-    import {AUTH_ID,ROLE_ID} from '../common/js/const'
+    import {AUTH_ID, ROLE_ID} from '../common/js/const'
 
     export default {
         data() {
@@ -227,6 +231,7 @@
                 showSystemManage_Price: false,
                 showSystemManage_MonthCard: false,
                 showSystemManage_Logs: false,
+                showCenterMonitor: false,
 
             }
         },
@@ -392,6 +397,7 @@
             this.showSystemManage_CarManage = common.pageShow(user, AUTH_ID.showSystemManage_CarManage_auth_id);
             this.showSystemManage_CarManage_CarType = common.pageShow(user, AUTH_ID.showSystemManage_CarManage_CarType_auth_id);
             this.showSystemManage_CarManage_BindType = common.pageShow(user, AUTH_ID.showSystemManage_CarManage_BindType_auth_id);
+            this.showCenterMonitor = common.pageShow(user, AUTH_ID.showCenterMonitor_auth_id);
             this.showSystemManage_Price = common.pageShow(user, AUTH_ID.showSystemManage_Price_auth_id);
             this.showSystemManage_MonthCard = common.pageShow(user, AUTH_ID.showSystemManage_MonthCard_auth_id);
             this.showSystemManage_Logs = common.pageShow(user, AUTH_ID.showSystemManage_Logs_auth_id);
@@ -557,10 +563,12 @@
             }
         }
     }
+
     /*el-menu-item选中加粗 左侧item*/
     .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active, .el-menu-item.is-active {
         font-weight: bold;
     }
+
     @media print {
         .not-print {
             /*opacity: 0*/

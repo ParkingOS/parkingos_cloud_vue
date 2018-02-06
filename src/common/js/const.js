@@ -36,6 +36,7 @@ export const AUTH_ID = {
     showOnlinePay_auth_id: 8,                   //电子支付
     showOnlinePay_Income_auth_id: 10,           //电子收款
     showOnlinePay_CashManage_auth_id: 9,        //提现管理
+    showCenterMonitor_auth_id:309,              //中央监控
 }
 export const ROLE_ID={
     // 30 车场,26集团,,,27渠道,,28联盟,,,29城市
