@@ -193,60 +193,35 @@
 		</el-dialog>
 		<!--renewDialog-->
 		<el-dialog
-		  :title="renewTitle"
-		  :visible.sync="renewVisible"
-		  width="10%">
-		  <form name="renewForm" style="font-size: 2em;">
-		  	  <el-row v-if="showTicketTime">
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div  class="grid-content bg-purple">{{discount_money_title}}</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input v-model="ticket_val" placeholder="请输入内容"></el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light">{{discount_money_body}}</div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-			  
-			  <el-row v-if="showTicketMoney">
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div  class="grid-content bg-purple">减免券(元):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input v-model="ticket_val" placeholder="请输入内容"></el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-			  <el-row >
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div  class="grid-content bg-purple">全免券(张):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input v-model="ticketfree_limit" placeholder="请输入内容"></el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light">(每张{{free_money}}元)</div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-			  <input type="hidden" name="shop_id" v_model="id" />
-			   <el-row>
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div class="grid-content bg-purple">应收金额(元):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input placeholder="" v-model="totalMoney" :disabled="true"> </el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-			   <el-row>
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div class="grid-content bg-purple">当前折扣(%):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input placeholder=""  v-model="discount_percent" :disabled="true"> </el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-			   <el-row>
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div class="grid-content bg-purple">实收金额(元):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input placeholder="" name="addmoney" v-model="addmoney" :disabled="true"> </el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-		  </form>
-		  		  
-		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" @click="renewSub">确 定</el-button>
-		  </span>
-		</el-dialog>
+                :title="renewTitle"
+                v-model="renewVisible"
+                size="tiny">
+            <el-form  label-width="120px" style="margin-bottom:-30px" >
+                     
+                <el-form-item :label="discount_money_title" v-if="showTicketTime" >
+                    <el-input  v-model="ticket_val" style="width:70%" ></el-input><span>{{discount_money_body}}</span>
+                </el-form-item>
+                <el-form-item label="减免券(元):" v-if="showTicketMoney">
+                    <el-input v-model="ticket_val" style="width:70%" ></el-input>
+                </el-form-item>
+                <el-form-item label="全免券(张):" >
+                    <el-input v-model="ticketfree_limit" style="width:70%" ></el-input><span>(每张{{free_money}}元)</span>
+                </el-form-item>
+                <el-form-item label="应收金额(元):" >
+                    <el-input v-model="totalMoney" :disabled="true" style="width:70%" ></el-input>
+                </el-form-item>
+               <el-form-item label="当前折扣(%):" >
+                    <el-input v-model="discount_percent" :disabled="true" style="width:70%" ></el-input>
+                </el-form-item>
+                <el-form-item label="实收金额(元):" >
+                    <el-input v-model="addmoney" :disabled="true" style="width:70%" ></el-input>
+                </el-form-item>
+                
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+			    <el-button type="primary" @click="renewSub">确 定</el-button>
+			</span>
+        </el-dialog>
 		
 		<!--删除提示框-->
         <el-dialog
@@ -322,10 +297,9 @@
                 </el-form-item>
 
             </el-form>
-            <span slot="footer" class="dialog-footer">
-				<el-button type="primary" size="small" @click="handleRegis" >保 存</el-button>
+            <span slot="footer" class="dialog-footer">				
 				<el-button type="primary" size="small" @click="loadDefaultData" >重 置</el-button>
-				<el-button @click="showRegis = false" size="small">取 消</el-button>
+				<el-button type="primary" size="small" @click="handleRegis" >保 存</el-button>
 			</span>
         </el-dialog>
         
