@@ -348,13 +348,13 @@
                                 // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                                 if (u.roleid == ROLE_ID.GROUP) {
                                     // _this.$router.push({path: '/bolinkunion'});
-                                } else if (u.roleid == ROLE_ID.CHANNEL) {
+                                } else if (u.oid == ROLE_ID.CHANNEL) {
                                     // _this.$router.push({path: '/account'});
-                                } else if (u.roleid == ROLE_ID.UNION) {
+                                } else if (u.oid == ROLE_ID.UNION) {
                                     // _this.$router.push({path: '/account'});
-                                } else if (u.roleid == ROLE_ID.CITY) {
+                                } else if (u.oid == ROLE_ID.CITY) {
                                     // _this.$router.push({path: '/account'});
-                                } else if (u.roleid == ROLE_ID.PARK || u.roleid == 0) {
+                                } else if (u.oid == ROLE_ID.PARK || u.roleid == 0) {
                                     // _this.$router.push({path: '/parkaccount'});
                                     _this.$router.push({path: '/orderManage_Orders'});
                                     // _this.$router.push({path: '/monthMember_Refill'});

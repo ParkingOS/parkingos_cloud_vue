@@ -39,9 +39,10 @@ export const AUTH_ID = {
 }
 export const ROLE_ID={
     // 30 车场,26集团,,,27渠道,,28联盟,,,29城市
-    GROUP:26,
+    //2018.2.6修改 2 集团...............8 车场 ........   7城市
+    GROUP:2,
     CHANNEL:27,
     UNION:28,
-    CITY:29,
-    PARK:30,
+    CITY:7,
+    PARK:8,
 }
