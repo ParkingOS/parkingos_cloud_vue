@@ -20,7 +20,7 @@
                 :imgapi="imgapi"
                 ref="bolinkuniontable"
         ></common-table>
-        <el-dialog title="抬杆图片" v-model="imgDialog">
+        <el-dialog title="抬杆图片" :visible.sync="imgDialog" width="40%">
             <!--<p>入场图片：</p>-->
             <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
             <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->

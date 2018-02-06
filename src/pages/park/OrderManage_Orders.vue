@@ -20,7 +20,7 @@
                 :imgapi="imgapi"
                 ref="bolinkuniontable"
         ></common-table>
-        <el-dialog title="车辆图片" v-model="imgDialog">
+        <el-dialog title="车辆图片" :visible.sync="imgDialog" width="40%">
             <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
             <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
             <p>进场图片</p>

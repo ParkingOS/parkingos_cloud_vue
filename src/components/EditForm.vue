@@ -1,6 +1,6 @@
 <template>
   <div class="complexedit">
-    <el-dialog title="编辑" v-model="editVisible" custom-class="dialog" @close="onclose" @open="onopen" :close-on-click-modal="false" top="8%" :size="typeof(this.dialogsize)=='undefined'?'tiny':this.dialogsize">
+    <el-dialog title="编辑" :visible.sync="editVisible" custom-class="dialog" @close="onclose" @open="onopen" :close-on-click-modal="false" top="8%" width="30%">
 
 		<el-form :model="editForm" label-width="100px" :rules="editFormRules" ref="editForm" style="width:98%">
 			<el-input v-model="editForm.id" style="display:none"></el-input>
@@ -19,10 +19,10 @@
 			</div>
 		</el-form>
 
-			<el-col :span="24" align="right" style="margin-bottom: 15px;">
+		<span slot="footer" class="dialog-footer">
 				<el-button @click="resetEdit" size="small">清空</el-button>
-				<el-button type="primary" @click="editSubmit" :loading="editloading" size="small">保存</el-button>
-			</el-col>
+				<el-button type="primary" @click="editSubmit" :loading="editloading" size="small" >保存</el-button>
+			</span>
 
 		</el-dialog>
   </div>

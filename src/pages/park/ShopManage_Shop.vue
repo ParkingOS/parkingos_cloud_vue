@@ -31,8 +31,8 @@
 	    <!--重置密码-->
         <el-dialog
                 title="重置密码"
-                v-model="resetPwdVisible"
-                size="tiny">
+				:visible.sync="resetPwdVisible"
+                width="30%">
             <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
                 <el-form-item label="请输入新密码">
                     <el-input v-model="pwd1" style="width:90%"></el-input>
@@ -49,8 +49,8 @@
         <!--注册员工-->
         <el-dialog
                 :title="regUserTitle"
-                v-model="regUserVisible"
-                size="tiny">
+				:visible.sync="regUserVisible"
+                width="30%">
             <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
             	<el-form-item label="编号" v-if="showInput">
                     <el-input :disabled="true" v-model="user.id" style="width:90%"></el-input>
@@ -94,7 +94,7 @@
 			<el-dialog
 			  title="商户设置-员工管理"
 			  :visible.sync="employeeVisible"
-			  width="10%">
+			  width="80%">
 			  
 			  <div>
 			  		<el-button type="primary" size="small" @click="regUser">注册员工</el-button>
@@ -195,7 +195,7 @@
 		<el-dialog
 		  :title="renewTitle"
 		  :visible.sync="renewVisible"
-		  width="10%">
+		  width="30%">
 		  <form name="renewForm" style="font-size: 2em;">
 		  	<el-row v-if="showTicketTime">
 			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
@@ -243,11 +243,11 @@
 		<!--删除提示框-->
         <el-dialog
                 title="提示"
-                v-model="delVisible"
-                size="tiny"
+				:visible.sync="delVisible"
+                width="30%"
                 custom-class="deleteTip">
-            <div class="el-message-box__status el-icon-warning"></div>
-            <br/>
+            <div class="el-message-box__status el-icon-warning" style="padding-bottom: 10px;"></div>
+
             <div style="margin-left:50px;vertical-align:middle;">确定删除吗?此操作不可恢复!</div>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="delVisible = false" size="small">取 消</el-button>
@@ -258,8 +258,8 @@
         <!--添加商户-->
         <el-dialog
                 :title="shopTitle"
-                v-model="showRegis"
-                size="tiny">
+				:visible.sync="showRegis"
+                width="30%">
             <el-form ref="shopForm" label-width="120px" style="margin-bottom:-30px" 
                      :model="shopForm">
                 <el-form-item label="编号" >
