@@ -87,7 +87,7 @@
             </el-col>
         </el-row>
         <!--列表-->
-        <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
+        <el-table :data="table" border highlight-current-row style="width:100%;" height="806"
                   v-loading="loading" @sort-change="sortChange" id="tablearea">
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
