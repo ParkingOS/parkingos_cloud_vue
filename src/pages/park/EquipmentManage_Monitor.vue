@@ -27,7 +27,7 @@
 
 <script>
 
-    import {path, checkURL, checkUpload, checkNumber, monitorType} from '../../api/api';
+    import {path, checkURL, checkUpload, checkNumber, monitorType, net_status} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
@@ -102,21 +102,25 @@
                                 return common.nameformat(row, this.channelType, 'channel_id')
                             }
                         }]
-                    }, {
+                    }, /*{
 
                         hasSubs: false,
                         subs: [{
                             label: '网络状态',
                             prop: 'net_status',
                             width: '120',
-                            type: 'number',
+                            type: 'selection',
+                            selectlist:net_status,
                             editable: false,
                             searchable: true,
                             addable: false,
                             unsortable: false,
                             align: 'center',
+                            format: function (row) {
+                                return common.nameformat(row, net_status, 'net_status')
+                            }
                         }]
-                    }, {
+                    },*/ {
 
                         hasSubs: false,
                         subs: [{

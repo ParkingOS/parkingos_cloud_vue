@@ -128,6 +128,11 @@ export const channlManagerType = [
     {'value_name': '出人','value_no': '2' }
 ]
 
+export const net_status = [
+    {'value_name': '异常', 'value_no': '0'},
+    {'value_name': '正常', 'value_no': '1'}
+]
+
 export const monitorType = [
     {'value_name': '隐藏', 'value_no': '0'},
     {'value_name': '显示', 'value_no': '1'}
