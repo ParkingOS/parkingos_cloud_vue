@@ -5,6 +5,7 @@ import NotFound from './pages/404.vue'
 import HomeCloud from './pages/HomeCloud.vue'
 
 //云平台页面
+import index from './pages/park/index.vue'
 import OrderManage_Orders from './pages/park/OrderManage_Orders.vue'
 import OrderManage_Poles from './pages/park/OrderManage_Poles.vue'
 import MonthMember_Refill from './pages/park/MonthMember_Refill.vue'
@@ -77,6 +78,16 @@ let routes = [
     * 以下是云平台页面
     *
     * */
+
+    {
+        path: '/',
+        component: HomeCloud,
+        // name: '订单管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/index', component: index, name: '空页面'},
+        ]
+    },
     {
         path: '/',
         component: HomeCloud,

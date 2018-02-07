@@ -356,8 +356,12 @@
                                     // _this.$router.push({path: '/account'});
                                 } else if (u.oid == ROLE_ID.PARK || u.roleid == 0) {
                                     // _this.$router.push({path: '/parkaccount'});
-                                    _this.$router.push({path: '/orderManage_Orders'});
-                                    // _this.$router.push({path: '/monthMember_Refill'});
+                                    // if(u.authlist.length==0){
+                                        //如果没有任何权限，则跳转空页面
+                                        _this.$router.push({path: '/index'});
+                                    //     return;
+                                    // }
+                                    // _this.$router.push({path: '/orderManage_Orders'});
                                 }
                                 // 还有一种没有roleid,它是根据另一种判断登录的
                                 //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员

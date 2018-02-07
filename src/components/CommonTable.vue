@@ -587,6 +587,7 @@
                 sform.loginuin = sessionStorage.getItem('loginuin')
                 sform.ishdorder = sessionStorage.getItem('ishdorder')
                 sform.token = sessionStorage.getItem('token')
+                sform.roleid = sessionStorage.getItem('loginroleid')
 
                 vm.$axios.post(path + api, vm.$qs.stringify(sform), {
                     headers: {

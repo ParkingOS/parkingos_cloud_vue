@@ -10,15 +10,12 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-
                 :hideTool="hideTool"
-
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
                 :showdelete="showdelete"
                 :showPermission="showPermission"
-
                 :addtitle="addtitle"
                 :delapi="delapi"
                 :editapi="editapi"
