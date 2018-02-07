@@ -158,7 +158,7 @@
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
-                    if (AUTH_ID.showSystemManage_Logs_auth_id == item.auth_id) {
+                    if (AUTH_ID.systemManage_Logs == item.auth_id) {
                         console.log(item.sub_auth)
                         // this.hideSearch= !common.showSubSearch(item.sub_auth)
                         // this.hideExport = !common.showSubExport(item.sub_auth)

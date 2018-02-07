@@ -53,27 +53,29 @@
             <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
 
                 <!--厂商平台导航菜单-->
-                <el-menu :default-active="active" class="el-menu-vertical-demo not-print" @open="handleopen"
+                <el-menu  class="el-menu-vertical-demo not-print" @open="handleopen"
                          @close="handleclose"
                          @select="handleselect"
-                         unique-opened v-show="!collapsed">
+                         unique-opened v-show="!collapsed"
+                         :default-openeds=[expandindex]
+                         :default-active="highlightindex">
 
                     <el-row v-show="park">
-                        <el-submenu v-if="this.showItem.orderManage" index="/order">
+                        <el-submenu v-if="this.showItem.orderManage" index="/orderManage">
                             <template slot="title"><span class="menuitem">订单管理</span></template>
                             <el-menu-item index="/orderManage_Orders" v-if="this.showItem.orderManage_Orders">订单记录
                             </el-menu-item>
                             <el-menu-item index="/orderManage_Poles" v-if="this.showItem.orderManage_Poles">抬杆记录
                             </el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="this.showItem.monthMember" index="/month">
+                        <el-submenu v-if="this.showItem.monthMember" index="/monthMember">
                             <template slot="title"><span class="menuitem">月卡会员</span></template>
                             <el-menu-item index="/monthMember_VIP" v-if="this.showItem.monthMember_VIP">月卡会员
                             </el-menu-item>
                             <el-menu-item index="/monthMember_Refill" v-if="this.showItem.monthMember_Refill">月卡续费记录
                             </el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="this.showItem.onlinePay" index="/onlinepay">
+                        <el-submenu v-if="this.showItem.onlinePay" index="/onlinePay">
                             <template slot="title"><span class="menuitem">电子支付</span></template>
                             <el-menu-item index="/onlinePay_CashManage" v-if="this.showItem.onlinePay_CashManage">提现管理
                             </el-menu-item>
@@ -87,7 +89,7 @@
                                           v-if="this.showItem.orderStatistics_HourRent">时租订单统计
                             </el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="this.showItem.shopManage" index="/shop">
+                        <el-submenu v-if="this.showItem.shopManage" index="/shopManage">
                             <template slot="title"><span class="menuitem">商户管理</span></template>
                             <el-menu-item index="/shopManage_Shop" v-if="this.showItem.shopManage_Shop">商户管理
                             </el-menu-item>
@@ -97,7 +99,7 @@
                             <el-menu-item index="/shopManage_Coupon" v-if="this.showItem.shopManage_Coupon">优惠券管理
                             </el-menu-item>
                         </el-submenu>
-                        <el-submenu index="/equipment" v-if="this.showItem.equipmentManage_Monitor">
+                        <el-submenu index="/equipmentManage" v-if="this.showItem.equipmentManage">
                             <template slot="title"><span class="menuitem">设备管理</span></template>
                             <el-menu-item index="/equipmentManage_Monitor" v-if="this.showItem.equipmentManage_Monitor">
                                 监控管理
@@ -118,7 +120,7 @@
                             <el-menu-item index="/equipmentManage_LED" v-if="this.showItem.equipmentManage_LED">LED屏管理
                             </el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="this.showItem.employeePermission" index="/employee">
+                        <el-submenu v-if="this.showItem.employeePermission" index="/employeePermission">
                             <template slot="title"><span class="menuitem">员工权限</span></template>
                             <el-menu-item index="/employeePermission_Manage"
                                           v-if="this.showItem.employeePermission_Manage">角色管理
@@ -127,7 +129,7 @@
                                 员工管理
                             </el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="this.showItem.systemManage" index="/system">
+                        <el-submenu v-if="this.showItem.systemManage" index="/systemManage">
                             <template slot="title"><span class="menuitem">系统管理</span></template>
                             <el-menu-item index="/systemManage_BlachList" v-if="this.showItem.systemManage_BlachList">
                                 黑名单管理
@@ -250,7 +252,9 @@
                     systemManage_MonthCard: false,
                     systemManage_Logs: false,
                     centerMonitor: false,
-                }
+                },
+                expandindex:'',   //'/order',//展开的sub_menu
+                highlightindex:'',//'/orderManage_Poles',//高亮的item
             }
         },
         methods: {
@@ -286,19 +290,12 @@
                 //console.log(a)
                 //console.log(cpath)
                 var options = this.$router.options.routes
-                this.active = a
+                this.highlightindex = a;
+                this.expandindex = a.split('_')[0];
                 this.$router.push(a);
             },
             //退出登录
             logout: function () {
-
-
-                // const cssText = 'tablearea {font-size: 85%;font-family: sans-serif;border-spacing: 0;border-collapse: collapse;}'
-                // const d = new Printd()
-                //
-                // // opens the "print dialog" of your browser to print the element
-                // d.print( document.getElementById('tablearea'), cssText )
-
 
                 var _this = this;
                 let user = sessionStorage.getItem('user');
@@ -332,6 +329,7 @@
             },
         },
         mounted() {
+            console.log('home  mounted')
             var vm = this;
             var user = sessionStorage.getItem('user');
             this.user = user
@@ -370,6 +368,9 @@
                                 if (this.showItem[item]) {
                                     //导航到该页面
                                     this.$router.push('/' + item);
+                                    //高亮当前页item
+                                    this.highlightindex = '/' + item;
+                                    this.expandindex = '/' + item.split('_')[0];
                                     //导航到了某个界面，则停止检测
                                     isroute = true;
                                 }
@@ -380,14 +381,15 @@
                 }
             }
         },
+        activated(){
+            console.log('home active')
+        },
         watch: {
             ulist: function (val) {
                 this.sysUserName = val.nickname
             }
         },
-        // activated(){
-        //
-        // }
+
     }
 
 </script>

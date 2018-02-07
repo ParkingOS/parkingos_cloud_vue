@@ -263,7 +263,7 @@
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
-                    if (AUTH_ID.showEmployeePermission_Manage_auth_id == item.auth_id) {
+                    if (AUTH_ID.employeePermission_Manage == item.auth_id) {
                         console.log(item.sub_auth)
                         this.hideSearch = !common.showSubSearch(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)

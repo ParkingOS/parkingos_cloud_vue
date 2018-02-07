@@ -245,7 +245,7 @@
                 user = JSON.parse(user);
                 console.log(user.authlist.length)
                 for (var item of user.authlist) {
-                    if (AUTH_ID.showMonthMember_Refill_auth_id == item.auth_id) {
+                    if (AUTH_ID.monthMember_Refill == item.auth_id) {
                         // console.log(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth)
                         this.hideSearch = !common.showSubSearch(item.sub_auth)

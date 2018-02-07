@@ -16,18 +16,23 @@
                 <el-form-item prop="username">
                     <span class="svg-container svg-container_login"><img src="../assets/user.png"
                                                                          style="padding-top: 5px;width: 25px;height: 25px;"/></span>
-                    <el-input type="text" v-model="loginForm.username" autoComplete="on" placeholder="账 号" style="font-size: 16px;"/>
+                    <el-input type="text" v-model="loginForm.username" autoComplete="on" placeholder="账 号"
+                              style="font-size: 16px;"/>
                 </el-form-item>
 
                 <el-form-item prop="password">
-                    <span class="svg-container"><img src="../assets/pwd.png" style="padding-top: 5px;width: 25px;height: 25px;"/></span>
+                    <span class="svg-container"><img src="../assets/pwd.png"
+                                                     style="padding-top: 5px;width: 25px;height: 25px;"/></span>
                     <el-input :type="passwordType" @keyup.enter.native="handleSubmit2"
-                              v-model="loginForm.password" autoComplete="on" placeholder="密 码" style="font-size: 16px;"/>
+                              v-model="loginForm.password" autoComplete="on" placeholder="密 码"
+                              style="font-size: 16px;"/>
                     <span class="show-pwd" @click="showPwd"><img src="../assets/eye.png"/></span>
                 </el-form-item>
 
-                <el-button type="primary" style="width:100%;margin-bottom:30px;background: #109EFF;height: 47px;font-size: 16px;" :loading="loading"
-                           @click.native.prevent="handleSubmit2">登  录
+                <el-button type="primary"
+                           style="width:100%;margin-bottom:30px;background: #109EFF;height: 47px;font-size: 16px;"
+                           :loading="loading"
+                           @click.native.prevent="handleSubmit2">登 录
                 </el-button>
             </el-form>
         </div>
@@ -355,12 +360,8 @@
                                 } else if (u.oid == ROLE_ID.CITY) {
                                     // _this.$router.push({path: '/account'});
                                 } else if (u.oid == ROLE_ID.PARK || u.roleid == 0) {
-                                    // _this.$router.push({path: '/parkaccount'});
-                                    // if(u.authlist.length==0){
-                                        //如果没有任何权限，则跳转空页面
-                                        _this.$router.push({path: '/index'});
-                                    //     return;
-                                    // }
+                                    //先跳转空页面，然后再根据数据情况显示页面再跳转
+                                    _this.$router.push({path: '/index'});
                                     // _this.$router.push({path: '/orderManage_Orders'});
                                 }
                                 // 还有一种没有roleid,它是根据另一种判断登录的
@@ -424,15 +425,15 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(0, 0, 0, 0.1);
             border-radius: 5px;
-            color:$bg;
+            color: $bg;
             background-color: $bg;
         }
 
-
     }
 </style>
-<style rel="stylesheet/scss" lang="scss" >
+<style rel="stylesheet/scss" lang="scss">
     @import "../styles/mixin.scss";
+
     $bg: #2d3a4b;
     $dark_gray: #889aa4;
     $light_gray: #eee;
