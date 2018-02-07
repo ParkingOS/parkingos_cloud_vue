@@ -310,30 +310,10 @@ export default {
         if (paychennel == 2) return "余额"
         if (paychennel == 3) return "银联"
     },
-    // pageShow: function (pageName,pagename2) {
-    //     var user = sessionStorage.getItem('user');
-    //     this.user = user
-    //     if (user) {
-    //         user = JSON.parse(user)
-    //         this.sysUserName = user.nickname || ''
-    //         // console.log(user.authlist.length)
-    //         // OrderManage_auth_id:2,//订单管理
-    //         for (var item of user.authlist) {
-    //
-    //             if (pageName == item.nname) {
-    //             // if (pageName == item.auth_id) {
-    //                 console.log(pagename2+'_auth_id:'+item.auth_id+',//'+pageName)
-    //                 return true
-    //             }
-    //         }
-    //     }
-    //     return false
-    // }
     pageShow: function (user, pageName) {
-        // console.log(user.authlist.length)
-        // OrderManage_auth_id:2,//订单管理
         for (var item of user.authlist) {
             if (pageName == item.auth_id) {
+                // console.log(item.nname)
                 return true
             }
         }
@@ -420,7 +400,8 @@ export default {
     	return axios.get(path + '/shop/addmoney' + '?token=' + sessionStorage.getItem('token')
 	    	+'&shop_id='+obj.shop_id+'&addmoney='+obj.addmoney
 	    	+'&operator='+obj.operator+'&parkid='+obj.parkid
-	    	+'&ticket_time='+obj.ticket_time+'&ticket_money='+obj.ticket_money);
+	    	+'&ticket_time='+obj.ticket_time+'&ticket_money='+obj.ticket_money
+    		+'&ticketfree_limit='+obj.ticketfree_limit);
     },
     editPass(obj){
     	return axios.get(path + '/shopmember/editpass' + '?token=' + sessionStorage.getItem('token')

@@ -193,52 +193,35 @@
 		</el-dialog>
 		<!--renewDialog-->
 		<el-dialog
-		  :title="renewTitle"
-		  :visible.sync="renewVisible"
-		  width="10%">
-		  <form name="renewForm" style="font-size: 2em;">
-		  	<el-row v-if="showTicketTime">
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div  class="grid-content bg-purple">减免小时(时):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input v-model="ticket_val" placeholder="请输入内容"></el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light">(每小时{{discount_money}}元)</div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-			  <el-row v-if="showTicketMoney">
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div  class="grid-content bg-purple">减免券(元):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input v-model="ticket_val" placeholder="请输入内容"></el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-			  <input type="hidden" name="shop_id" v_model="id" />
-			   <el-row>
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div class="grid-content bg-purple">应收金额(元):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input placeholder="" v-model="totalMoney" :disabled="true"> </el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-			   <el-row>
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div class="grid-content bg-purple">当前折扣(%):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input placeholder=""  v-model="discount_percent" :disabled="true"> </el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-			   <el-row>
-			  	  <el-col :span="5"><div class="grid-content bg-purple">&nbsp;</div></el-col>
-				  <el-col :span="5"><div class="grid-content bg-purple">实收金额(元):</div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light"><el-input placeholder="" name="addmoney" v-model="addmoney" :disabled="true"> </el-input></div></el-col>
-				  <el-col :span="6"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-				  <el-col :span="2"><div class="grid-content bg-purple-light">&nbsp;</div></el-col>
-			  </el-row>
-		  </form>
-		  		  
-		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" @click="renewSub">确 定</el-button>
-		  </span>
-		</el-dialog>
+                :title="renewTitle"
+                v-model="renewVisible"
+                size="tiny">
+            <el-form  label-width="120px" style="margin-bottom:-30px" >
+                     
+                <el-form-item :label="discount_money_title" v-if="showTicketTime" >
+                    <el-input  v-model="ticket_val" style="width:70%" ></el-input><span>{{discount_money_body}}</span>
+                </el-form-item>
+                <el-form-item label="减免券(元):" v-if="showTicketMoney">
+                    <el-input v-model="ticket_val" style="width:70%" ></el-input>
+                </el-form-item>
+                <el-form-item label="全免券(张):" >
+                    <el-input v-model="ticketfree_limit" style="width:70%" ></el-input><span>(每张{{free_money}}元)</span>
+                </el-form-item>
+                <el-form-item label="应收金额(元):" >
+                    <el-input v-model="totalMoney" :disabled="true" style="width:70%" ></el-input>
+                </el-form-item>
+               <el-form-item label="当前折扣(%):" >
+                    <el-input v-model="discount_percent" :disabled="true" style="width:70%" ></el-input>
+                </el-form-item>
+                <el-form-item label="实收金额(元):" >
+                    <el-input v-model="addmoney" :disabled="true" style="width:70%" ></el-input>
+                </el-form-item>
+                
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+			    <el-button type="primary" @click="renewSub">确 定</el-button>
+			</span>
+        </el-dialog>
 		
 		<!--删除提示框-->
         <el-dialog
@@ -260,12 +243,12 @@
                 :title="shopTitle"
                 v-model="showRegis"
                 size="tiny">
-            <el-form ref="shopForm" label-width="120px" style="margin-bottom:-30px" 
+            <el-form ref="shopForm" label-width="120px" style="margin-bottom:-30px" :rules="shopFormRules"
                      :model="shopForm">
                 <el-form-item label="编号" >
                     <el-input :disabled="true" v-model="shopForm.id" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="商户名称" >
+                <el-form-item label="商户名称" :prop="name">
                     <el-input v-model="shopForm.name" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="地址" >
@@ -294,32 +277,32 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="默认显示额度" >
+                <el-form-item label="默认显示额度" :prop="default_limit">
                     <el-input v-model="shopForm.default_limit" style="width:90%" placeholder=""
                               ></el-input>
                 </el-form-item>
-                <el-form-item label="商户折扣/%" >
-                    <el-input v-model="shopForm.discount_percent" style="width:90%" placeholder=""></el-input>
+                <el-form-item label="商户折扣/%" :prop="v_discount_percent">
+                    <el-input v-model="shopForm.v_discount_percent" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item :label="discount_money_name" v-if="showDiscountMoney" >
-                    <el-input v-model="shopForm.discount_money" style="width:90%" placeholder=""></el-input>
+                <el-form-item :label="discount_money_name" v-if="showDiscountMoney" :prop="v_discount_money">
+                    <el-input v-model="shopForm.v_discount_money" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
                 <el-form-item label="全免每张/元" >
                     <el-input v-model="shopForm.free_money" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                
-                <el-form-item label="有效期/小时" >
+                <el-form-item label="有效期/小时" :prop="validite_time">
                     <el-input v-model="shopForm.validite_time" style="width:90%" placeholder="" ></el-input>
                 </el-form-item>
 
             </el-form>
-            <span slot="footer" class="dialog-footer">
-				<el-button @click="showRegis = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="handleRegis" >确 定</el-button>
+            <span slot="footer" class="dialog-footer">				
+				<el-button type="primary" size="small" @click="loadDefaultData" >重 置</el-button>
+				<el-button type="primary" size="small" @click="handleRegis" >保 存</el-button>
 			</span>
         </el-dialog>
-		
+        
     </div>
     
 </template>
@@ -351,11 +334,36 @@
         },
         data() {
             return {
+            	ticketfree_limit:0,
+            	validite_time:'validite_time',
+            	name: 'name',
+            	default_limit : 'default_limit',
+            	v_discount_percent:'v_discount_percent',
+            	v_discount_money:'v_discount_money',
+            	shopFormRules: {
+                    
+                    default_limit: [
+                        {required: true, message: '默认额度不能为空', trigger: 'blur'}
+                    ],
+                    name: [
+                        {required: true, message: '商户名称不能为空', trigger: 'blur'}
+                    ],
+                    v_discount_percent: [
+                        {required: true, message: '商户折扣不能为空', trigger: 'blur'}
+                    ],
+                    
+                    validite_time: [
+                        {required: true, message: '有效期不能为空', trigger: 'blur'}
+                    ],
+               		v_discount_money: [
+                        {required: true, message: '单价不能为空', trigger: 'blur'}
+                    ],
+                },
             	hideAdd:true,
             	shopTitle:'添加商户',
             	showDiscountMoney:true,
-            	shop_ticket_type:'',
-            	unit:'',
+            	shop_ticket_type:1,
+            	unit:1,
             	discount_money_name:'每分钟/元',
             	ticketUnit:[
             		{'value_name': '分钟', 'value_no': 1},
@@ -367,17 +375,6 @@
 				    {'value_name': '金额减免', 'value_no': 2}
 				],
             	shopForm:{
-            		id:'3',
-					name:'2',
-					address:'',
-					mobile:'',
-					shop_ticket_type:'1',
-					unit:'1',
-					default_limit:'5,10,20',
-					discount_percent:'100',
-					discount_money:'1',
-					free_money:'1',
-					validite_time:'24'
             	},
             	showRegis:false,
             	showCustomizeAdd: true,
@@ -394,7 +391,7 @@
             		auth_flag :14,
             		mobile :'',
             		phone :'',
-            		nickname :'1234',
+            		nickname :'',
             		comid  :'',
             		reg_time:'',
             	},
@@ -419,6 +416,7 @@
                 showdelete: true,
                 showShopEdit: true,
                 showmRefill: true,
+                resetloading: false,
                 queryapi: '/shop/quickquery',
                 addapi: '/shop/create',
                 editapi: '/shop/create',
@@ -680,7 +678,10 @@
 		        }, {
 		          value: 15,
 		          label: '工作人员'
-		        }]
+		        }],
+		        free_money:0,
+		        discount_money_body:'',
+		        discount_money_title:'减免分钟(分):'
 	        }
         },
         methods :{
@@ -707,7 +708,25 @@
         			this.showTicketTime=false;
         			this.showTicketMoney=true;
         		}
+        		if(row.ticket_unit==1){
+        			this.discount_money_title='减免分钟(分):'
+        			this.discount_money_body="(每分钟"+row.discount_money+"元)"
+        		}else if(row.ticket_unit==2){
+        			this.discount_money_title='减免小时(时):'
+        			this.discount_money_body="(每小时"+row.discount_money+"元)"
+        		}else if(row.ticket_unit==3){
+        			this.discount_money_title='减免天数(天):'
+        			this.discount_money_body="(每天"+row.discount_money+"元)"
+        		}else if(row.ticket_unit==4){
+        			//金额减免
+        			this.renewTitle="减免券购买(金额)";
+        			this.showTicketTime=false;
+        			this.showTicketMoney=true;
+        		}
+        		this.free_money=row.free_money;
                 this.ticket_val=0;
+                this.ticketfree_limit=0;
+                this.free_money=row.free_money;
 	    		this.id=row.id;
 	    		this.ticket_money=row.ticket_money;
 	    		this.discount_percent=row.discount_percent;
@@ -729,6 +748,7 @@
     			formObj.addmoney=this.addmoney;   			
 				formObj.operator=user.userid;
 				formObj.parkid=user.parkid;
+				formObj.ticketfree_limit=this.ticketfree_limit;
 				if(this.ticket_type==1){
 					formObj.ticket_time=this.ticket_val;
     				formObj.ticket_money="";
@@ -953,7 +973,15 @@
 	        	}
 	        },
 	        showadd: function () {
-	        	this.shopForm={
+	        	this.loadDefaultData();
+	        	this.shopForm.id='';
+	        	this.shopTitle='添加商户'
+	        	this.showRegis=true;
+	        	
+           },
+           loadDefaultData:function(row){
+           		var id =this.shopForm.id
+           		this.shopForm={
             		id:'',
 					name:'',
 					address:'',
@@ -961,82 +989,117 @@
 					shop_ticket_type:1,
 					unit:1,
 					default_limit:'5,10,20',
-					discount_percent:'100',
-					discount_money:'1',
-					free_money:'1',
+					v_discount_percent:'100',
+					v_discount_money:'1',
+					free_money:1,
 					validite_time:'24'
             	}
-	        	this.shopTitle='添加商户'
-	        	this.showRegis=true;
+           		this.shopForm.id=id;
            },
            handleRegis:function(){
-           		let _this = this
- 
-                let aform = {}
-				
-                aform.token = sessionStorage.getItem('token')
-                aform.comid = sessionStorage.getItem('comid')
-                aform.groupid = sessionStorage.getItem('groupid')
-                aform.cityid = sessionStorage.getItem('cityid')
-                aform.unionid = sessionStorage.getItem('unionid')
-                aform.channelid = sessionStorage.getItem('channelid')
-                aform.loginuin = sessionStorage.getItem('loginuin')
-                aform.nickname = sessionStorage.getItem('nickname')
-                aform.oid = sessionStorage.getItem('oid')
-                
-                aform.id=this.shopForm.id;
-                aform.name=this.shopForm.name;
-                aform.address=this.shopForm.address;
-                aform.mobile=this.shopForm.mobile;
-                aform.ticket_type=this.shop_ticket_type;
-                aform.ticket_unit=this.unit
-                aform.default_limit=this.shopForm.default_limit
-                aform.discount_percent=this.shopForm.discount_percent
-                aform.discount_money=this.shopForm.discount_money
-                aform.free_money=this.shopForm.free_money
-                aform.validite_time=this.shopForm.validite_time
+           	let _this = this
+                this.$refs.shopForm.validate((valid) => {
+                    if (valid) {
+                        _this.resetloading = true
+                        let aform = {}
+						aform.token = sessionStorage.getItem('token')
+		                aform.comid = sessionStorage.getItem('comid')
+		                aform.groupid = sessionStorage.getItem('groupid')
+		                aform.cityid = sessionStorage.getItem('cityid')
+		                aform.unionid = sessionStorage.getItem('unionid')
+		                aform.channelid = sessionStorage.getItem('channelid')
+		                aform.loginuin = sessionStorage.getItem('loginuin')
+		                aform.nickname = sessionStorage.getItem('nickname')
+		                aform.oid = sessionStorage.getItem('oid')
+		                
+		                aform.id=this.shopForm.id;
+		                aform.name=this.shopForm.name;
+		                aform.address=this.shopForm.address;
+		                aform.mobile=this.shopForm.mobile;
+		                aform.ticket_type=this.shop_ticket_type;
+		                aform.ticket_unit=this.unit
+		                aform.default_limit=this.shopForm.default_limit
+		                aform.discount_percent=this.shopForm.v_discount_percent
+		                aform.discount_money=this.shopForm.v_discount_money
+		                aform.free_money=this.shopForm.free_money
+		                aform.validite_time=this.shopForm.validite_time
 
-                _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            }
+                        }).then(function (response) {
+                            let ret = response.data;
+
+                            if (ret > 0 || ret.state == 1) {
+                                //更新成功
+                                _this.$refs['bolinkuniontable'].getTableData({})
+                                _this.$message({
+                                    message: '添加成功!',
+                                    type: 'success',
+                                    duration: 600
+                                });
+                                _this.showRegis = false;
+                                // _this.refillForm.resetFields();
+                                _this.refillForm.name = '';
+                                _this.$refs['refillForm'].resetFields()
+                            } else {
+                                //更新失败
+                                _this.$message({
+                                    message: ret.msg,
+                                    type: 'error',
+                                    duration: 1200
+                                });
+                            }
+                            _this.resetloading = false
+
+                        }).catch(function (error) {
+                            // setTimeout(() => {
+                            //     _this.alertInfo('请求失败!'+error)
+                            // }, 150)
+                            //更新失败
+                            // _this.$message({
+                            //     message: '请求失败!'+error.data,
+                            //     type: 'error',
+                            //     duration: 1200
+                            // });
+                            _this.resetloading = false;
+                        })
                     }
-                }).then(function (response) {
-                    let ret = response.data;
-
-                    if (ret > 0 || ret.state == 1) {
-                        //更新成功
-                        _this.$refs['bolinkuniontable'].getTableData({})
-                        _this.$message({
-                            message: '添加成功!',
-                            type: 'success',
-                            duration: 600
-                        });
-                        _this.showRegis = false;
-                        // _this.refillForm.resetFields();
-                        _this.refillForm.name = '';
-                        _this.$refs['refillForm'].resetFields()
-                    } else {
-                        //更新失败
-                        _this.$message({
-                            message: ret.msg,
-                            type: 'error',
-                            duration: 1200
-                        });
-                    }
-                    _this.resetloading = false
-
-                }).catch(function (error) {
-                    _this.resetloading = false;
-                })                           
+                })
+           		
            },
            showeditshop:function(index,row){
            	console.log(row)
            	this.shopForm=row
+           	this.shopForm.validite_time=row.validite_time+""
+           	this.shopForm.ticket_limit=row.ticket_limit+""
+           	this.shopForm.v_discount_money=row.discount_money+""
+           	this.shopForm.v_discount_percent=row.discount_percent+""
            	this.shopTitle="编辑"
            	this.shop_ticket_type=row.ticket_type
            	this.unit=row.ticket_unit
            	this.showRegis=true
-           }
+           },
+           getAddMoney(){
+	           	this.totalMoney=0;
+	           	this.addmoney=0;
+	           	var ticket_val=Number(this.ticket_val);
+	           	var ticketfree_limit=this.ticketfree_limit;
+	           	if(!isNaN(ticket_val)){
+					if(this.ticket_type==1){
+						this.totalMoney=ticket_val*this.discount_money;
+						this.addmoney=ticket_val*this.discount_money*this.discount_percent/100;
+					}else{
+						this.totalMoney=ticket_val;
+						this.addmoney=ticket_val*this.discount_percent/100;
+					}
+				}
+	           	if(!isNaN(ticketfree_limit)){
+	           		this.totalMoney=ticketfree_limit*this.free_money+this.totalMoney;
+	           		this.addmoney+=ticketfree_limit*this.free_money
+	           	}
+            }
         }
         ,
         mounted() {
@@ -1061,21 +1124,11 @@
         	
         },
         watch:{
-        	     	
+        	ticketfree_limit(curVal,oldVal){
+        		this.getAddMoney();
+        	},
 	     	ticket_val(curVal,oldVal){
-	　　　　　　　　　　if(!isNaN(curVal)){
-						if(this.ticket_type==1){
-							this.totalMoney=curVal*this.discount_money;
-							this.addmoney=curVal*this.discount_money*this.discount_percent/100;
-						}else{
-							this.totalMoney=curVal;
-							this.addmoney=curVal*this.discount_percent/100;
-						}
-					}else{
-						this.totalMoney=0;
-						this.addmoney=0;
-						this.curVal=0;
-					}
+	　　　　　　　this.getAddMoney();　　　
 	　　　　　},
 			shop_ticket_type(curVal,oldVal){
 				if(curVal==2){
