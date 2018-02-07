@@ -124,14 +124,14 @@
                             prop: 'is_show',
                             width: '100',
                             type: 'selection',
+                            selectlist:monitorType,
                             editable: true,
                             searchable: false,
                             addable: true,
-                            selectlist:monitorType,
                             unsortable: true,
                             align: 'center',
-                            format:function (row) {
-                                return common.nameformat(row,monitorType,'is_show')
+                            format: function (row) {
+                                return common.nameformat(row, monitorType, 'is_show')
                             }
                         }]
                     }, {
@@ -142,9 +142,9 @@
                             prop: 'show_order',
                             width: '100',
                             type: 'number',
-                            editable: false,
+                            editable: true,
                             searchable: false,
-                            addable: false,
+                            addable: true,
                             unsortable: false,
                             align: 'center'
                         }]
