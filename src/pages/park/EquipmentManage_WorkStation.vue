@@ -54,9 +54,9 @@
                 editapi: '/EQ_workStation/edit',
                 delapi: '/EQ_workStation/remove',
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'id__worksite_name__description__net_type__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'worksite_name__description__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
-                    {
+                    /*{
                         hasSubs: false,
                         subs: [{
                             label: '编号',          //页面表格显示
@@ -69,7 +69,7 @@
                             unsortable: true,       //是否可排序
                             align: 'center'         //页面表格内容显示位置
                         }]
-                    },
+                    },*/
                     {
 
                         hasSubs: false,
@@ -98,7 +98,7 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    }, {
+                    }, /*{
 
                         hasSubs: false,
                         subs: [{
@@ -116,7 +116,7 @@
                                 return common.nameformat(row,workStation,'net_type')
                             }
                         }]
-                    },
+                    },*/
                 ],
 
                 addtitle: '添加工作站',
