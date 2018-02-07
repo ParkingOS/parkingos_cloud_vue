@@ -196,25 +196,25 @@
                 :title="renewTitle"
                 v-model="renewVisible"
                 size="tiny">
-           <el-form  label-width="150px" style="margin-bottom:-30px" >
+           <el-form  label-width="150px"  style="margin-bottom:-30px" >
                    
                 <el-form-item :label="discount_money_title" v-if="showTicketTime" >
-                    <el-input  v-model="ticket_val" style="width:75%" ></el-input><span>{{discount_money_body}}</span>
+                    <el-input  v-model="ticket_val" style="width:70%" ></el-input><span>{{discount_money_body}}</span>
                 </el-form-item>
                 <el-form-item label="减免券(元):" v-if="showTicketMoney">
-                    <el-input v-model="ticket_val" style="width:75%" ></el-input>
+                    <el-input v-model="ticket_val" style="width:70%" ></el-input>
                 </el-form-item>
-                <el-form-item label="全免券(张):" style="font-size:2em">
-                    <el-input v-model="ticketfree_limit" style="width:75%" ></el-input><span>(每张{{free_money}}元)</span>
+                <el-form-item label="全免券(张):" >
+                    <el-input v-model="ticketfree_limit" style="width:70%" ></el-input><span>(每张{{free_money}}元)</span>
                 </el-form-item>
                 <el-form-item label="应收金额(元):" >
-                    <el-input v-model="totalMoney" :disabled="true" style="width:75%" ></el-input>
+                    <el-input v-model="totalMoney" :disabled="true" style="width:70%" ></el-input>
                 </el-form-item>
                <el-form-item label="当前折扣(%):" >
-                    <el-input v-model="discount_percent" :disabled="true" style="width:75%" ></el-input>
+                    <el-input v-model="discount_percent" :disabled="true" style="width:70%" ></el-input>
                 </el-form-item>
                 <el-form-item label="实收金额(元):" >
-                    <el-input v-model="addmoney" :disabled="true" style="width:75%" ></el-input>
+                    <el-input v-model="addmoney" :disabled="true" style="width:70%" ></el-input>
                 </el-form-item>
         
             </el-form>
