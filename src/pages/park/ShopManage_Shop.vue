@@ -196,8 +196,8 @@
                 :title="renewTitle"
                 v-model="renewVisible"
                 size="tiny">
-            <el-form  label-width="120px" style="margin-bottom:-30px" >
-                     
+           <el-form  label-width="150px"  style="margin-bottom:-30px" >
+                   
                 <el-form-item :label="discount_money_title" v-if="showTicketTime" >
                     <el-input  v-model="ticket_val" style="width:70%" ></el-input><span>{{discount_money_body}}</span>
                 </el-form-item>
@@ -216,8 +216,9 @@
                 <el-form-item label="实收金额(元):" >
                     <el-input v-model="addmoney" :disabled="true" style="width:70%" ></el-input>
                 </el-form-item>
-                
+        
             </el-form>
+          		
             <span slot="footer" class="dialog-footer">
 			    <el-button type="primary" @click="renewSub">确 定</el-button>
 			</span>
@@ -288,8 +289,8 @@
                     <el-input v-model="shopForm.v_discount_money" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
-                <el-form-item label="全免每张/元" >
-                    <el-input v-model="shopForm.free_money" style="width:90%" placeholder=""></el-input>
+                <el-form-item label="全免每张/元" :prop="v_free_money" >
+                    <el-input v-model="shopForm.v_free_money" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                
                 <el-form-item label="有效期/小时" :prop="validite_time">
@@ -338,6 +339,7 @@
             	validite_time:'validite_time',
             	name: 'name',
             	default_limit : 'default_limit',
+            	v_free_money:'v_free_money',
             	v_discount_percent:'v_discount_percent',
             	v_discount_money:'v_discount_money',
             	shopFormRules: {
@@ -358,6 +360,9 @@
                		v_discount_money: [
                         {required: true, message: '单价不能为空', trigger: 'blur'}
                     ],
+                    v_free_money: [
+                        {required: true, message: '全免券单价不能为空', trigger: 'blur'}
+                    ]
                 },
             	hideAdd:true,
             	shopTitle:'添加商户',
@@ -564,7 +569,7 @@
                     {
                         hasSubs: false,
                         subs: [{
-                            label: '优惠券额度(张)',
+                            label: '全免券额度(张)',
                             prop: 'ticketfree_limit',
                             width: '180',
                             type: 'str',
@@ -587,6 +592,13 @@
                             addable: false,
                             unsortable: true,
                             align: 'center',
+                            format:function(row){
+                            	if(row.ticket_type==1){
+                            		return "";
+                            	}else{
+                            		return row.ticket_money;
+                            	}
+                            }
                         }]
                     },  {
 
@@ -775,6 +787,7 @@
                                 type: 'success',
                                 duration: 600,
                             });
+                            vm.$refs.bolinkuniontable.getTableData({});
                             
                         } else {
                             //更新失败
@@ -991,7 +1004,7 @@
 					default_limit:'5,10,20',
 					v_discount_percent:'100',
 					v_discount_money:'1',
-					free_money:1,
+					v_free_money:'1',
 					validite_time:'24'
             	}
            		this.shopForm.id=id;
@@ -1021,7 +1034,7 @@
 		                aform.default_limit=this.shopForm.default_limit
 		                aform.discount_percent=this.shopForm.v_discount_percent
 		                aform.discount_money=this.shopForm.v_discount_money
-		                aform.free_money=this.shopForm.free_money
+		                aform.free_money=this.shopForm.v_free_money
 		                aform.validite_time=this.shopForm.validite_time
 
                         _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
@@ -1071,7 +1084,12 @@
            },
            showeditshop:function(index,row){
            	console.log(row)
-           	this.shopForm=row
+			this.shopForm.id = row.id
+           	this.shopForm.name = row.name
+           	this.shopForm.address = row.address
+           	this.shopForm.mobile = row.mobile
+           	this.shopForm.v_free_money = row.free_money+""
+           	this.shopForm.default_limit = row.default_limit 
            	this.shopForm.validite_time=row.validite_time+""
            	this.shopForm.ticket_limit=row.ticket_limit+""
            	this.shopForm.v_discount_money=row.discount_money+""
@@ -1089,16 +1107,14 @@
 	           	if(!isNaN(ticket_val)){
 					if(this.ticket_type==1){
 						this.totalMoney=ticket_val*this.discount_money;
-						this.addmoney=ticket_val*this.discount_money*this.discount_percent/100;
 					}else{
 						this.totalMoney=ticket_val;
-						this.addmoney=ticket_val*this.discount_percent/100;
 					}
 				}
 	           	if(!isNaN(ticketfree_limit)){
 	           		this.totalMoney=ticketfree_limit*this.free_money+this.totalMoney;
-	           		this.addmoney+=ticketfree_limit*this.free_money
 	           	}
+	           	this.addmoney=this.totalMoney*this.discount_percent/100;
             }
         }
         ,
