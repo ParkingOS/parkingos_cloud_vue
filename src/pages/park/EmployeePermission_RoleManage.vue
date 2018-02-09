@@ -47,6 +47,12 @@
                     <div style="margin-left: 20px;">
                         <el-checkbox v-for="sub__ of sub_.subpermission" @change="sub__change(sub,sub_,sub__)"
                                      v-model="sub__.ischeck">{{sub__.subname}}
+                            <div style="margin-left: 20px;">
+                                <el-checkbox v-for="sub___ of sub__.subpermission"
+                                             @change="sub___change(sub,sub_,sub__,sub___)"
+                                             v-model="sub___.ischeck">{{sub___.subname}}
+                                </el-checkbox>
+                            </div>
                         </el-checkbox>
                     </div>
                 </div>
@@ -136,7 +142,7 @@
                                 searchable: true,
                                 addable: false,
                                 unsortable: true,
-                                hidden:true,
+                                hidden: true,
                                 align: 'center',
                                 format: function (row) {
                                     return common.funcformat(row.is_collector, row.is_inspect, row.is_opencard)
@@ -293,11 +299,27 @@
                     }
                 });
             },
+            vertifyArray: function (array) {
+                //确认是合法数组
+                if (array != null && array != '' && array.length > 0) {
+                    return true;
+                }
+                return false;
+            },
             subchange: function (sub) {
+                if (!this.vertifyArray(sub.subpermission))
+                    return;
                 for (let item of sub.subpermission) {
                     item.ischeck = sub.ischeck;
+                    if (!this.vertifyArray(item.subpermission))
+                        continue;
                     for (let item_ of item.subpermission) {
                         item_.ischeck = sub.ischeck;
+                        if (!this.vertifyArray(item_.subpermission))
+                            continue;
+                        for (let item__ of item_.subpermission) {
+                            item__.ischeck = item_.ischeck;
+                        }
                     }
                 }
             },
@@ -305,12 +327,19 @@
                 if (sub1.ischeck) {
                     sub.ischeck = true;
                 }
-                for (let item of sub1.subpermission) {
-                    item.ischeck = sub1.ischeck;
-                }
+                this.subchange(sub1)
+
             },
             sub__change: function (sub, sub1, sub2) {
                 if (sub2.ischeck) {
+                    sub1.ischeck = true;
+                    sub.ischeck = true;
+                }
+                this.sub_change(sub1,sub2)
+            },
+            sub___change: function (sub, sub1, sub2, sub3) {
+                if (sub3.ischeck) {
+                    sub2.ischeck = true;
                     sub1.ischeck = true;
                     sub.ischeck = true;
                 }

@@ -25,7 +25,7 @@ import EquipmentManage_Camera from './pages/park/EquipmentManage_Camera.vue'
 import EquipmentManage_LED from './pages/park/EquipmentManage_LED.vue'
 import EmployeePermission_Role from './pages/park/EmployeePermission_EmployeeManage.vue'
 import EmployeePermission_Manage from './pages/park/EmployeePermission_RoleManage.vue'
-import SystemManage_BlachList from './pages/park/SystemManage_BlachList.vue'
+import SystemManage_BlackList from './pages/park/SystemManage_BlackList.vue'
 import SystemManage_Commute from './pages/park/SystemManage_Commute.vue'
 import SystemManage_Account from './pages/park/SystemManage_Account.vue'
 import SystemManage_Params from './pages/park/SystemManage_Params.vue'
@@ -252,7 +252,7 @@ let routes = [
         // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/systemManage_BlachList', component: SystemManage_BlachList, name: '黑名单管理'},
+            {path: '/systemManage_BlackList', component: SystemManage_BlackList, name: '黑名单管理'},
         ]
     },{
         path: '/',

@@ -49,15 +49,21 @@
             </el-col>
 
         </el-col>
-        <el-col :span="24" class="main ">
-            <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
+        <el-col :span="24" class="main">
+            <aside :class="collapsed?'menu-collapsed':'menu-expanded'" style="overflow-y: auto">
 
                 <!--厂商平台导航菜单-->
-                <el-menu  class="el-menu-vertical-demo not-print" @open="handleopen"
+                <!--<el-menu class="el-menu-vertical-demo not-print" @open="handleopen"-->
+                <!--@close="handleclose"-->
+                <!--@select="handleselect"-->
+                <!--unique-opened v-show="!collapsed"-->
+                <!--:default-openeds=[expandindex]-->
+                <!--:default-active="highlightindex">-->
+                <el-menu class="el-menu-vertical-demo not-print" @open="handleopen"
                          @close="handleclose"
                          @select="handleselect"
                          unique-opened v-show="!collapsed"
-                         :default-openeds=[expandindex]
+
                          :default-active="highlightindex">
 
                     <el-row v-show="park">
@@ -129,9 +135,9 @@
                                 员工管理
                             </el-menu-item>
                         </el-submenu>
-                        <el-submenu v-if="this.showItem.systemManage" index="/systemManage">
+                        <el-submenu index="/systemManage" v-if="this.showItem.systemManage">
                             <template slot="title"><span class="menuitem">系统管理</span></template>
-                            <el-menu-item index="/systemManage_BlachList" v-if="this.showItem.systemManage_BlachList">
+                            <el-menu-item index="/systemManage_BlackList" v-if="this.showItem.systemManage_BlackList">
                                 黑名单管理
                             </el-menu-item>
                             <el-menu-item index="/systemManage_Commute" v-if="this.showItem.systemManage_Commute">上下班记录
@@ -190,14 +196,14 @@
         data() {
             return {
                 active: '',
-                bolink: false,
-                park: false,
-                platform: false,
+                bolink:false,
+                park:false,
+                platform:false,
                 left: true,
-                right: false,
+                right:false,
                 sysName: '联盟管理后台',
                 server: '',
-                collapsed: false,
+                collapsed:false,
                 sysUserName: '',
                 nickname: '',
                 user: '',
@@ -206,55 +212,57 @@
                     region: '',
                     date1: '',
                     date2: '',
-                    delivery: false,
+                    delivery:false,
                     type: [],
                     resource: '',
                     desc: ''
                 },
-                secureVisible: false,
+                secureVisible:false,
                 //根据权限控制页面是否显示
-                showItem: {
-                    orderManage: true,
-                    orderManage_Orders: true,
-                    orderManage_Poles: false,
-                    monthMember: false,
-                    monthMember_Refill: false,
-                    monthMember_VIP: false,
-                    orderStatistics: false,
-                    orderStatistics_HourRent: false,
-                    onlinePay: false,
-                    onlinePay_Income: false,
-                    onlinePay_CashManage: false,
-                    shopManage: false,
-                    shopManage_Coupon: false,
-                    shopManage_Shop: false,
-                    shopManage_QueryAccount: false,
-                    equipmentManage: false,
-                    equipmentManage_Monitor: false,
-                    equipmentManage_Intercom: false,
-                    equipmentManage_WorkStation: false,
-                    equipmentManage_Channel: false,
-                    equipmentManage_Camera: false,
-                    equipmentManage_LED: false,
-                    employeePermission: false,
-                    employeePermission_Role: false,
-                    employeePermission_Manage: false,
-                    systemManage: false,
-                    systemManage_BlachList: false,
-                    systemManage_Commute: false,
-                    systemManage_Account: false,
-                    systemManage_Params: false,
-                    systemManage_FreeReason: false,
-                    systemManage_CarManage: false,
-                    systemManage_CarManage_CarType: false,
-                    systemManage_CarManage_BindType: false,
-                    systemManage_Price: false,
-                    systemManage_MonthCard: false,
-                    systemManage_Logs: false,
-                    centerMonitor: false,
-                },
-                expandindex:'',   //'/order',//展开的sub_menu
-                highlightindex:'',//'/orderManage_Poles',//高亮的item
+                showItem: JSON.parse(sessionStorage.getItem('showItem')),
+
+                //     showItem: {
+                //         orderManage:true,
+                //         orderManage_Orders:true,
+                //         orderManage_Poles:true,
+                //         monthMember:true,
+                //         monthMember_Refill:true,
+                //         monthMember_VIP:true,
+                //         orderStatistics:true,
+                //         orderStatistics_HourRent:true,
+                //         onlinePay:true,
+                //         onlinePay_Income:true,
+                //         onlinePay_CashManage:true,
+                //         shopManage:true,
+                //         shopManage_Coupon:true,
+                //         shopManage_Shop:true,
+                //         shopManage_QueryAccount:true,
+                //         equipmentManage:true,
+                //         equipmentManage_Monitor:true,
+                //         equipmentManage_Intercom:true,
+                //         equipmentManage_WorkStation:true,
+                //         equipmentManage_Channel:true,
+                //         equipmentManage_Camera:true,
+                //         equipmentManage_LED:true,
+                //         employeePermission:true,
+                //         employeePermission_Role:true,
+                //         employeePermission_Manage:true,
+                //         systemManage:true,
+                //         systemManage_BlackList:true,
+                //         systemManage_Commute:true,
+                //         systemManage_Account:true,
+                //         systemManage_Params:true,
+                //         systemManage_FreeReason:true,
+                //         systemManage_CarManage:true,
+                //         systemManage_CarManage_CarType:true,
+                //         systemManage_CarManage_BindType:true,
+                //         systemManage_Price:true,
+                //         systemManage_MonthCard:true,
+                //         systemManage_Logs:true,
+                //         centerMonitor:true,
+                //     },
+                expandindex: '',   //'/order',//展开的sub_menu
+                highlightindex: sessionStorage.getItem('highlightindex'),//'/orderManage_Poles',//高亮的item
             }
         },
         methods: {
@@ -287,11 +295,13 @@
                     return;
                 }
                 var cpath = this.$router.currentRoute.fullPath
-                //console.log(a)
+
                 //console.log(cpath)
                 var options = this.$router.options.routes
-                this.highlightindex = a;
+                // this.highlightindex = a;
                 this.expandindex = a.split('_')[0];
+                console.log('>>>' + a)
+                console.log('>>>' + a.split('_')[0])
                 this.$router.push(a);
             },
             //退出登录
@@ -353,35 +363,44 @@
 
             }
 
-            let isroute = false;
-            for (let item in this.showItem) {
-               //第一层循环，取出标签的 v-if
-                for(let p in AUTH_ID){
-                    //第二层循环，取出AUTH_ID的item
-                    if(p==item){
-                        //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
-                        this.showItem[item] = common.pageShow(user,AUTH_ID[p])
-                        if(!isroute){
-                            //没有导航到任意界面，则继续检测
-                            if (item.indexOf('_') > -1) {
-                                //带下划线的才是页面
-                                if (this.showItem[item]) {
-                                    //导航到该页面
-                                    this.$router.push('/' + item);
-                                    //高亮当前页item
-                                    this.highlightindex = '/' + item;
-                                    this.expandindex = '/' + item.split('_')[0];
-                                    //导航到了某个界面，则停止检测
-                                    isroute = true;
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
+            // this.highlightindex = sessionStorage.getItem('highlightindex')
+            //
+            // console.log(sessionStorage.getItem('showItem'))
+            // console.log(this.showItem)
+            // let isroute = false;
+            // for (let item in this.showItem) {
+            //     //第一层循环，取出标签的 v-if
+            //     for (let p in AUTH_ID) {
+            //         //第二层循环，取出AUTH_ID的item
+            //         if (p == item) {
+            //             //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
+            //             this.showItem[item] = common.pageShow(user, AUTH_ID[p])
+            //             // if (!isroute) {
+            //             //     //没有导航到任意界面，则继续检测
+            //             //     if (item.indexOf('_') > -1) {
+            //             //         //带下划线的才是页面
+            //             //         if (this.showItem[item]) {
+            //             //             // this.highlightindex = '/' + item;
+            //             //             //导航到该页面
+            //             //             this.$router.push('/' + item);
+            //             //             //高亮当前页item
+            //             //
+            //             //             this.expandindex = '/' + item.split('_')[0];
+            //             //             console.log('========' + this.highlightindex)
+            //             //             console.log('========' + this.expandindex)
+            //             //             //导航到了某个界面，则停止检测
+            //             //             isroute = true;
+            //             //         }
+            //             //     }
+            //             // }
+            //
+            //         }
+            //     }
+            // }
+            // this.highlightindex = '/orderManage_Orders';
+            // console.log('========' + this.highlightindex)
         },
-        activated(){
+        activated() {
             console.log('home active')
         },
         watch: {

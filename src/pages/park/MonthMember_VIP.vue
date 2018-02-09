@@ -737,14 +737,13 @@
             }
             this.tableheight = common.gwh() - 135;
             var user = sessionStorage.getItem('user');
-            this.user = user;
-            console.log(user)
+            // console.log(user)
             if (user) {
                 user = JSON.parse(user);
                 // console.log(user.authlist.length)
                 for (var item of user.authlist) {
                     if (AUTH_ID.monthMember_VIP == item.auth_id) {
-                        console.log(item.sub_auth)
+                        // console.log(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth)
                         this.hideSearch = !common.showSubSearch(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)

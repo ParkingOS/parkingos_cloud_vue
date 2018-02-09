@@ -22,7 +22,7 @@ export const AUTH_ID = {
     employeePermission_Role : 22,    //角色管理
     employeePermission_Manage : 23,  //员工管理
     systemManage : 24,               //系统管理
-    systemManage_BlachList : 303,    //黑名单管理
+    systemManage_BlackList : 303,    //黑名单管理
     systemManage_Commute : 304,      //上下班记录
     systemManage_Account : 25,       //账户管理
     systemManage_Params : 26,        //参数设置
