@@ -80,6 +80,31 @@
 
                         hasSubs: false,
                         subs: [{
+                            label: '额度(分钟)',
+                            prop: 'ticket_limit',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                            	 if(row.ticket_unit==1){
+                            	 	if(row.ticket_limit==0){
+                            	 		return "";
+                            	 	}else{
+                            	 		return row.ticket_limit;
+                            	 	}
+                            	 }else{
+                            	 	return "";
+                            	 }
+                            }
+                        }]
+                    },{
+
+                        hasSubs: false,
+                        subs: [{
                             label: '额度(小时)',
                             prop: 'ticket_limit',
                             width: '123',
@@ -88,9 +113,67 @@
                             searchable: false,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                            	 if(row.ticket_unit==2){
+                            	 	if(row.ticket_limit==0){
+                            	 		return "";
+                            	 	}else{
+                            	 		return row.ticket_limit;
+                            	 	}
+                            	 }else{
+                            	 	return "";
+                            	 }
+                            }
                         }]
                     }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '额度(天)',
+                            prop: 'ticket_limit',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                            	 if(row.ticket_unit==3){
+                            	 	if(row.ticket_limit==0){
+                            	 		return "";
+                            	 	}else{
+                            	 		return row.ticket_limit;
+                            	 	}
+                            	 }else{
+                            	 	return "";
+                            	 }
+                            }
+                        }]
+                    },{
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '额度(张)',
+                            prop: 'ticketfree_limit',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format:function (row) {
+                                if(row.ticketfree_limit==0){
+                                	return ""
+                                }else{
+                                	return row.ticketfree_limit;
+                                }
+                            }
+                        }]
+                    },
+                    {
 
                         hasSubs: false,
                         subs: [{
@@ -102,7 +185,14 @@
                             searchable: false,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function (row) {
+                                if(row.ticket_money==0){
+                                	return ""
+                                }else{
+                                	return row.ticket_money;
+                                }
+                            }
                         }]
                     },{
 
@@ -177,7 +267,7 @@
                 searchtitle: '流水查询',
 
             }
-        },
+        },      
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
