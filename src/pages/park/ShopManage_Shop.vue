@@ -154,7 +154,7 @@
 				    <el-table-column
 				      prop="phone"
 				      label="电话"
-				      width="120">
+				      width="150">
 				    </el-table-column>
 				    <el-table-column
 				      prop="mobile"
@@ -668,7 +668,7 @@
                         subs: [{
                             label: '有效期/小时',
                             prop: 'validite_time',
-                            width: '100',
+                            width: '123',
                             type: 'number',
                             editable: true,
                             searchable: false,

@@ -84,15 +84,66 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '优惠时长',
+                            label: '优惠时长(分钟)',
                             prop: 'money',
-                            width: '123',
+                            width: '180',
                             type: 'number',
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                            	 if(row.ticket_unit==1&&row.money!=0){
+                            	 		return row.money;
+                            	 }else{
+                            	 	return "";
+                            	 }
+                            }
+                        }]
+                    },
+                    {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '优惠时长(小时)',
+                            prop: 'money',
+                            width: '180',
+                            type: 'number',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                            	 if(row.ticket_unit==2&&row.money!=0){
+                            	 		return row.money;
+                            	 }else{
+                            	 	return "";
+                            	 }
+                            }
+                        }]
+                    },
+                    {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '优惠时长(分钟)',
+                            prop: 'money',
+                            width: '180',
+                            type: 'number',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                            	 if(row.ticket_unit==3&&row.money!=0){
+                            	 		return row.money;
+                            	 }else{
+                            	 	return "";
+                            	 }
+                            }
                         }]
                     }, {
 
@@ -106,7 +157,14 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:function(row){
+                            	 if(row.ticket_unit==4&&row.umoney!=0){
+                            	 		return row.umoney;
+                            	 }else{
+                            	 	return "";
+                            	 }
+                            }
                         }]
                     },{
 
