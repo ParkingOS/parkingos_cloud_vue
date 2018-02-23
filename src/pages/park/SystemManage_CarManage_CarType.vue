@@ -96,7 +96,7 @@
                         subs: [{
                             label: '系统编号',
                             prop: 'cartype_id',
-                            width: '123',
+                            width: '150',
                             type: 'str',
 
                             searchable: true,
@@ -145,7 +145,6 @@
             }
             this.tableheight = common.gwh() - 143;
             var user = sessionStorage.getItem('user');
-            this.user = user
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
