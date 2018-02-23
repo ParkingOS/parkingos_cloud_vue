@@ -36,10 +36,12 @@
                 <div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute">{{nickname}}:
                     {{sysUserName}}
                 </div>
-                <el-menu style="height:50px;width: 100px;float: right;" :default-active="active" theme="dark"
-                         @select="selectTop">
+                <el-menu
+                        style="height:50px;width: 100px;float: right;background-color:#2d3a4b;border-left: solid 1px #e6e6e6;"
+                        @select="selectTop">
 
-                    <el-menu-item index="/loginCloud"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>
+                    <el-menu-item index="/loginCloud" style="height:50px;"><span
+                            style="color:#fff;font-size:13px;float: right;height:50px;color: #109EFF">退出登录</span>
                         <!--<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>-->
                     </el-menu-item>
 
@@ -195,15 +197,16 @@
     export default {
         data() {
             return {
+                activeIndex: '/loginCloud',
                 active: '',
-                bolink:false,
-                park:false,
-                platform:false,
+                bolink: false,
+                park: false,
+                platform: false,
                 left: true,
-                right:false,
+                right: false,
                 sysName: '联盟管理后台',
                 server: '',
-                collapsed:false,
+                collapsed: false,
                 sysUserName: '',
                 nickname: '',
                 user: '',
@@ -212,12 +215,12 @@
                     region: '',
                     date1: '',
                     date2: '',
-                    delivery:false,
+                    delivery: false,
                     type: [],
                     resource: '',
                     desc: ''
                 },
-                secureVisible:false,
+                secureVisible: false,
                 //根据权限控制页面是否显示
                 showItem: JSON.parse(sessionStorage.getItem('showItem')),
 
@@ -291,7 +294,9 @@
                 // console.log(b)
                 // console.log(this.$router)
                 if (a == 'centerMonitor') {
-                    window.open('http://test.bolink.club/tcbcloud/monitor.do?authid=309');
+                    let routetocm = 'http://test.bolink.club/tcbcloud/monitor.do?loginuin=' + sessionStorage.getItem('loginuin') + '&comid=' + sessionStorage.getItem('comid') + '&groupid=' + sessionStorage.getItem('groupid')
+                    console.log(routetocm)
+                    window.open(routetocm);
                     return;
                 }
                 var cpath = this.$router.currentRoute.fullPath
@@ -306,7 +311,6 @@
             },
             //退出登录
             logout: function () {
-
                 var _this = this;
                 let user = sessionStorage.getItem('user');
                 let u = JSON.parse(user);
