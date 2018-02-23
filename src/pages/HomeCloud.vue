@@ -294,7 +294,17 @@
                 // console.log(b)
                 // console.log(this.$router)
                 if (a == 'centerMonitor') {
-                    let routetocm = 'http://test.bolink.club/tcbcloud/monitor.do?loginuin=' + sessionStorage.getItem('loginuin') + '&comid=' + sessionStorage.getItem('comid') + '&groupid=' + sessionStorage.getItem('groupid')
+                    let routetocm = 'http://test.bolink.club/tcbcloud/monitor.do?loginuin=' + sessionStorage.getItem('loginuin');
+                    let comid = sessionStorage.getItem('comid');
+                    let groupid = sessionStorage.getItem('groupid');
+                    if(comid!=''&&comid!='undefined'){
+                        console.log(comid)
+                        routetocm = routetocm+'&comid=' +comid;
+                    }
+                    if(groupid!=''&&groupid!='undefined'){
+                        console.log(groupid)
+                        routetocm = routetocm+'&groupid=' +groupid;
+                    }
                     console.log(routetocm)
                     window.open(routetocm);
                     return;
