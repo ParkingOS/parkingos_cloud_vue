@@ -87,7 +87,7 @@
             </el-col>
         </el-row>
         <!--列表-->
-        <el-table :data="table" border highlight-current-row style="width:100%;" height="806"
+        <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight2"
                   v-loading="loading" @sort-change="sortChange" id="tablearea">
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
@@ -496,7 +496,8 @@
                 pwd1: '',
                 pwd2: '',
                 currentdate: '',
-                currentcollect: ''
+                currentcollect: '',
+                tableheight2:common.gwh() - 143,
             }
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
@@ -1362,6 +1363,11 @@
 
         },
         activated() {
+            window.onresize = () => {
+                this.tableheight2 = common.gwh() - 143;
+            }
+
+            this.tableheight2 = common.gwh() - 143;
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             var _this = this
             this.analysisdate = Date.now()
