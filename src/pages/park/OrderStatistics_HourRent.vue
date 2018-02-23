@@ -144,12 +144,12 @@
             <!--</div>-->
 
         </el-table>
-        <el-dialog title="工作详情" v-model="showWorkDetail" size="large">
+        <el-dialog title="工作详情" :visible.sync="showWorkDetail" width="80%">
             <span slot="footer" class="dialog-footer">
 				<el-button type="primary" size="small" @click="showWorkDetail = false">确 定</el-button>
 			</span>
         </el-dialog>
-        <el-dialog title="订单详情" v-model="showOrderDetail">
+        <el-dialog title="订单详情" :visible.sync="showOrderDetail" width="80%">
             <span slot="footer" class="dialog-footer">
 				<el-button type="primary" size="small" @click="showOrderDetail = false">确 定</el-button>
 			</span>

@@ -29,8 +29,8 @@
         <!--修改车牌-->
         <el-dialog
                 title="修改车牌"
-                v-model="showResetCarnumber"
-                size="tiny">
+                :visible.sync="showResetCarnumber"
+                width="30%">
             <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
                 <el-form-item label="车牌号码">
                     <el-input v-model="resetCarnumber" style="width:90%" placeholder="多个车牌,用英文','隔开"></el-input>
@@ -44,8 +44,8 @@
         </el-dialog>
         <el-dialog
                 title="月卡续费"
-                v-model="showRefill"
-                size="tiny">
+                :visible.sync="showRefill"
+                width="30%">
             <el-form ref="refillForm" label-width="120px" style="margin-bottom:-30px" :rules="refillFormRules"
                      :model="refillForm">
                 <el-form-item label="包月产品" :prop="p_name">
@@ -92,8 +92,8 @@
         </el-dialog>
         <el-dialog
                 title="注册会员"
-                v-model="showRegis"
-                size="tiny">
+                :visible.sync="showRegis"
+                width="30%">
             <el-form ref="refillForm" label-width="120px" style="margin-bottom:-30px" :rules="refillFormRules"
                      :model="refillForm">
                 <el-form-item label="车主姓名">

@@ -24,20 +24,7 @@
                 v-on:showRolePermission="showRolePermission"
                 ref="bolinkuniontable"
         ></common-table>
-        <el-dialog title="权限设置" v-model="isShowPermission" style="overflow: scroll">
-            <!--<div>-->
-
-            <!--<el-checkbox>订单管理</el-checkbox>-->
-            <!--<div style="margin-left: 20px;">-->
-
-
-            <!--&lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>&ndash;&gt;-->
-            <!--&lt;!&ndash;<div style="margin: 15px 0;"></div>&ndash;&gt;-->
-            <!--&lt;!&ndash;<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">&ndash;&gt;-->
-            <!--&lt;!&ndash;<el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>&ndash;&gt;-->
-            <!--&lt;!&ndash;</el-checkbox-group>&ndash;&gt;-->
-            <!--</div>-->
-            <!--</div>-->
+        <el-dialog title="权限设置" :visible.sync="isShowPermission" style="overflow: scroll" width="50%">
             <div v-for="sub of permissions">
 
                 <el-checkbox @change="subchange(sub)" v-model="sub.ischeck">{{sub.subname}}</el-checkbox>

@@ -444,7 +444,6 @@
                                         sessionStorage.setItem('highlightindex', _this.highlightindex)
                                     }
 
-
                                 }
                                 // 还有一种没有roleid,它是根据另一种判断登录的
                                 //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员
@@ -507,10 +506,10 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(0, 0, 0, 0.1);
             border-radius: 5px;
+
             color: $bg;
             background-color: $bg;
         }
-
     }
 </style>
 <style rel="stylesheet/scss" lang="scss">

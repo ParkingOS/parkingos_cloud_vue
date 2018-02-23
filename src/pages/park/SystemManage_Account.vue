@@ -71,7 +71,7 @@
 
         <input v-show="false" v-model.number="center.lng">
         <input v-show="false" v-model.number="center.lat">
-        <el-dialog v-model="mapVisible" @close="dclose" top="10%">
+        <el-dialog :visible.sync="mapVisible" @close="dclose" top="10%" width="50%">
             <div>
                 <baidu-map v-if="showMap" :style="mapstyle" :center="center" :zoom="16" @click="clickmap"
                            style="width: inherit;height: 420px"

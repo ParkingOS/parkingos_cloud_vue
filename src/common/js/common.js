@@ -273,7 +273,7 @@ export default {
         return axios.get(path + '/getdata/getprodsum' + param)
     },
     reNewProduct(p_name,month,name,b_time,id,remark,act_total,nickname){
-    // reNewProduct(this.pnameno,this.refillcount,this.currentRow.name,this.Btime,this.currentRow.pid,this.currentRow.remark,this.RefillTotalact,roleid==30?'车场':roleid){
+        // reNewProduct(this.pnameno,this.refillcount,this.currentRow.name,this.Btime,this.currentRow.pid,this.currentRow.remark,this.RefillTotalact,roleid==30?'车场':roleid){
         //月卡续费
         let param = '?token=' + sessionStorage.getItem('token')
             + '&comid=' + sessionStorage.getItem('comid')
@@ -387,14 +387,14 @@ export default {
         return false
     },
     getShopMemberList(obj){
-       	return axios.get(path + '/shopmember/quickquery' + '?token=' + sessionStorage.getItem('token')+'&shop_id='+obj.shop_id+'&page='+obj.page);
+        return axios.get(path + '/shopmember/quickquery' + '?token=' + sessionStorage.getItem('token')+'&shop_id='+obj.shop_id+'&page='+obj.page);
     },
     saveShopMember(obj){
-    	return axios.get(path + '/shopmember/create' + '?token=' + sessionStorage.getItem('token')
-	    	+'&shop_id='+obj.shop_id+'&comid='+obj.comid
-	    	+'&nickname='+obj.nickname+'&phone='+obj.phone
-	    	+'&mobile='+obj.mobile+'&auth_flag='+obj.auth_flag
-	    	+'&userId='+obj.userId);
+        return axios.get(path + '/shopmember/create' + '?token=' + sessionStorage.getItem('token')
+            +'&shop_id='+obj.shop_id+'&comid='+obj.comid
+            +'&nickname='+obj.nickname+'&phone='+obj.phone
+            +'&mobile='+obj.mobile+'&auth_flag='+obj.auth_flag
+            +'&userId='+obj.userId);
     },
     addMoney(obj){
     	return axios.get(path + '/shop/addmoney' + '?token=' + sessionStorage.getItem('token')
@@ -404,12 +404,12 @@ export default {
     		+'&ticketfree_limit='+obj.ticketfree_limit);
     },
     editPass(obj){
-    	return axios.get(path + '/shopmember/editpass' + '?token=' + sessionStorage.getItem('token')
-	    	+'&newpass='+obj.newpass+'&confirmpass='+obj.confirmpass
-	    	+'&id='+obj.id);
+        return axios.get(path + '/shopmember/editpass' + '?token=' + sessionStorage.getItem('token')
+            +'&newpass='+obj.newpass+'&confirmpass='+obj.confirmpass
+            +'&id='+obj.id);
     }
     ,
     deleteShopMember(id){
-    	return axios.get(path + '/shopmember/delete' + '?token=' + sessionStorage.getItem('token')+'&id='+id);
+        return axios.get(path + '/shopmember/delete' + '?token=' + sessionStorage.getItem('token')+'&id='+id);
     }
 }

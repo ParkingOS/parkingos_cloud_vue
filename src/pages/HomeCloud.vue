@@ -363,6 +363,7 @@
 
             }
 
+
             // this.highlightindex = sessionStorage.getItem('highlightindex')
             //
             // console.log(sessionStorage.getItem('showItem'))

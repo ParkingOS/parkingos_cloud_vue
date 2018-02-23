@@ -87,7 +87,7 @@
             </el-col>
         </el-row>
         <!--列表-->
-        <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
+        <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight2"
                   v-loading="loading" @sort-change="sortChange" id="tablearea">
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
@@ -284,11 +284,10 @@
         <!--删除提示框-->
         <el-dialog
                 title="提示"
-                v-model="delVisible"
-                size="tiny"
+                :visible.sync="delVisible"
+                width="30%"
                 custom-class="deleteTip">
-            <div class="el-message-box__status el-icon-warning"></div>
-            <br/>
+            <div class="el-message-box__status el-icon-warning" style="padding-bottom: 10px;"></div>
             <div style="margin-left:50px;vertical-align:middle;">确定删除吗?此操作不可恢复!</div>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="delVisible = false" size="small">取 消</el-button>
@@ -300,7 +299,7 @@
         <input v-show="false" v-model.number="center.lng">
         <input v-show="false" v-model.number="center.lat">
 
-        <el-dialog v-model="mapVisible" @close="dclose" top="10%">
+        <el-dialog :visible.sync="mapVisible" @close="dclose" top="10%">
             <div>
                 <baidu-map v-if="showMap" :style="mapstyle" :center="center" :zoom="16" @click="clickmap"
                            @dblclick="makePoint" :scroll-wheel-zoom="true" :double-click-zoom="false">
@@ -330,8 +329,8 @@
         <!--重置密码-->
         <el-dialog
                 title="重置密码"
-                v-model="resetPwdVisible"
-                size="tiny">
+                :visible.sync="resetPwdVisible"
+                width="30%">
             <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
                 <el-form-item label="请输入新密码">
                     <el-input v-model="pwd1" style="width:90%"></el-input>
@@ -497,7 +496,8 @@
                 pwd1: '',
                 pwd2: '',
                 currentdate: '',
-                currentcollect: ''
+                currentcollect: '',
+                tableheight2:common.gwh() - 143,
             }
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
@@ -1352,7 +1352,6 @@
                 let formatdate = start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate() > 9 ? start.getDate() : '0' + start.getDate()) + ' 00:00:00至'
                     + start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate() > 9 ? start.getDate() : '0' + start.getDate()) + ' 23:59:59'
                 return formatdate
-
             }
         },
         mounted() {
@@ -1365,6 +1364,11 @@
 
         },
         activated() {
+            window.onresize = () => {
+                this.tableheight2 = common.gwh() - 143;
+            }
+
+            this.tableheight2 = common.gwh() - 143;
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             var _this = this
             this.analysisdate = Date.now()

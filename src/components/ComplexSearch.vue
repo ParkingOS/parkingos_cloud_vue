@@ -1,6 +1,6 @@
 <template>
   <div class="complexsearch">
-    <el-dialog :title="title" v-model="searchVisible" @close="onclose" :close-on-click-modal="false" top="8%"  size="tiny">
+    <el-dialog :title="title" :visible.sync="searchVisible" @close="onclose" :close-on-click-modal="false" top="8%"  width="30%">
 			<div v-for="items in searchitems">
 				<p 
 					v-for="item in items.subs"
@@ -13,11 +13,11 @@
 					v-on:fromsearchitem="listensearchitem"
 				></p>
 			</div>
-			
-			<el-col :span="24" align="right" style="margin-bottom: 12px;margin-top: 5px">
+
+		<span slot="footer" class="dialog-footer">
 				<el-button @click="resetSearch" size="small">清空</el-button>
 				<el-button type="primary" @click="searchSubmit" :loading="addLoading" size="small">搜索</el-button>
-			</el-col>
+				</span>
 		</el-dialog>
   </div>
 </template>
