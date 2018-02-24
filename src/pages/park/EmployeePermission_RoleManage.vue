@@ -29,19 +29,28 @@
 
                 <el-checkbox @change="subchange(sub)" v-model="sub.ischeck">{{sub.subname}}</el-checkbox>
 
-                <div style="margin-left: 20px;" v-for="sub_ of sub.subpermission">
+                <div style="margin-left: 40px;" v-for="sub_ of sub.subpermission">
+
                     <el-checkbox @change="sub_change(sub,sub_)" v-model="sub_.ischeck">{{sub_.subname}}</el-checkbox>
-                    <div style="margin-left: 20px;">
-                        <el-checkbox v-for="sub__ of sub_.subpermission" @change="sub__change(sub,sub_,sub__)"
-                                     v-model="sub__.ischeck">{{sub__.subname}}
-                            <div style="margin-left: 20px;">
+                    <div style="margin-left: 20px;display: flex;flex-direction: row;">
+                        <div style="margin-left: 20px;"
+                             v-for="sub__ of sub_.subpermission">
+
+                            <el-checkbox @change="sub__change(sub,sub_,sub__)"
+                                         v-model="sub__.ischeck">{{sub__.subname}}
+                            </el-checkbox>
+                            <div style="margin-left: 20px;display: flex;flex-direction: row;"><div style="margin-left: 20px">
+
                                 <el-checkbox v-for="sub___ of sub__.subpermission"
                                              @change="sub___change(sub,sub_,sub__,sub___)"
                                              v-model="sub___.ischeck">{{sub___.subname}}
                                 </el-checkbox>
-                            </div>
-                        </el-checkbox>
+                            </div></div>
+
+                            <!--</el-checkbox>-->
+                        </div>
                     </div>
+
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -322,7 +331,7 @@
                     sub1.ischeck = true;
                     sub.ischeck = true;
                 }
-                this.sub_change(sub1,sub2)
+                this.sub_change(sub1, sub2)
             },
             sub___change: function (sub, sub1, sub2, sub3) {
                 if (sub3.ischeck) {
@@ -348,6 +357,9 @@
                         this.showEdit = common.showSubEdit(item.sub_auth)
                         this.hideAdd = !common.showSubAdd(item.sub_auth)
                         this.showPermission = common.showSubPermission(item.sub_auth)
+                        if(!this.showEdit&&!this.showdelete&&!this.showPermission){
+                            this.hideOptions = true;
+                        }
                         break;
                     }
                 }

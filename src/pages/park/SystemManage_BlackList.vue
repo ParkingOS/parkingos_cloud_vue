@@ -193,13 +193,17 @@
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
-                    if (AUTH_ID.systemManage_BlachList == item.auth_id) {
+                    // if (AUTH_ID.systemManage_BlachList == item.auth_id) {
+                    if (AUTH_ID.systemManage_BlackList == item.auth_id) {
                         console.log(item.sub_auth)
                         this.hideSearch = !common.showSubSearch(item.sub_auth)
                         this.hideAdd = !common.showSubAdd(item.sub_auth)
                         // this.hideExport = !common.showSubExport(item.sub_auth)
                         this.showEdit = common.showSubEdit(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)
+                        if(!this.showEdit&&!this.showdelete){
+                            this.hideOptions = true;
+                        }
                         break;
                     }
                 }

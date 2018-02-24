@@ -26,7 +26,7 @@ export const AUTH_ID = {
     systemManage_Commute : 304,      //上下班记录
     systemManage_Account : 25,       //账户管理
     systemManage_Params : 26,        //参数设置
-    systemManage_FreeReasoon : 72,    //免费原因
+    systemManage_FreeReason : 72,    //免费原因
     systemManage_CarManage_BindType : 260,      //绑定车型
     systemManage_CarManage_CarType : 259,       //车型设定
     systemManage_CarManage : 27,     //车型管理

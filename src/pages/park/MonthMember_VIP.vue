@@ -751,6 +751,9 @@
                         this.showModifyCarNumber = common.showSubUpdate(item.sub_auth)
                         this.showEdit = common.showSubEdit(item.sub_auth)
                         this.showCustomizeAdd = common.showSubAdd(item.sub_auth)
+                        if(!this.showModifyCarNumber&&!this.showdelete&&!this.showmRefill){
+                            this.hideOptions = true;
+                        }
                         break;
                     }
                 }

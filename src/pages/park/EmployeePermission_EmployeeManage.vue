@@ -272,6 +272,9 @@
                         this.hideAdd = !common.showSubAdd(item.sub_auth)
                         // this.showPermission= common.showSubPermission(item.sub_auth)
                         // this.showSettingFee= common.showSubSetFee(item.sub_auth)
+                        if(!this.showEdit&&!this.showdelete&&!this.showresetpwd){
+                            this.hideOptions = true;
+                        }
                         break;
                     }
                 }

@@ -225,6 +225,9 @@
                         this.hideExport = !common.showSubExport(item.sub_auth)
                         this.showEdit = common.showSubEdit(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)
+                        if(!this.showEdit&&!this.showdelete){
+                            this.hideOptions = true;
+                        }
                         break;
                     }
                 }
