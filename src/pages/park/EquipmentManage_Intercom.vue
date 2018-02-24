@@ -78,7 +78,7 @@
                         subs: [{
                             label: '名称',
                             prop: 'name',
-                            width: '100',
+                            width: '200',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -92,7 +92,7 @@
                         subs: [{
                             label: '分机号',
                             prop: 'tele_phone',
-                            width: '150',
+                            width: '200',
                             type: 'number',
                             editable: true,
                             searchable: true,
@@ -106,7 +106,7 @@
                         subs: [{
                             label: '车场主机号',
                             prop: 'park_phone',
-                            width: '150',
+                            width: '200',
                             type: 'number',
                             editable: true,
                             searchable: true,
@@ -120,7 +120,7 @@
                         subs: [{
                             label: '集团主机号',
                             prop: 'group_phone',
-                            width: '150',
+                            width: '200',
                             type: 'number',
                             editable: true,
                             searchable: true,
@@ -134,7 +134,7 @@
                         subs: [{
                             label: '监控名称',
                             prop: 'monitor_id',
-                            width: '150',
+                            width: '250',
                             type: 'selection',
                             selectlist:this.showType,
                             editable: true,
@@ -161,6 +161,23 @@
             };
             this.tableheight = common.gwh() - 143;
             //console.log(this.showType);
+            var user = sessionStorage.getItem('user');
+            this.user = user
+            if (user) {
+                user = JSON.parse(user);
+                console.log(user.authlist.length)
+                for (var item of user.authlist) {
+                    if (AUTH_ID.showEquipmentManage_Intercom_auth_id == item.auth_id) {
+                        // console.log(item.sub_auth)
+                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                        this.hideAdd= !common.showSubAdd(item.sub_auth)
+                        this.showEdit= common.showSubEdit(item.sub_auth)
+                        this.showdelete= common.showSubDel(item.sub_auth)
+                        break;
+                    }
+                }
+
+            }
         },
         activated() {
             window.onresize = () => {
