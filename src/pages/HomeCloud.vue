@@ -130,10 +130,10 @@
                         </el-submenu>
                         <el-submenu v-if="this.showItem.employeePermission" index="/employeePermission">
                             <template slot="title"><span class="menuitem">员工权限</span></template>
-                            <el-menu-item index="/employeePermission_Manage"
-                                          v-if="this.showItem.employeePermission_Manage">角色管理
-                            </el-menu-item>
                             <el-menu-item index="/employeePermission_Role" v-if="this.showItem.employeePermission_Role">
+                                角色管理
+                            </el-menu-item>
+                            <el-menu-item index="/employeePermission_Manage" v-if="this.showItem.employeePermission_Manage">
                                 员工管理
                             </el-menu-item>
                         </el-submenu>
