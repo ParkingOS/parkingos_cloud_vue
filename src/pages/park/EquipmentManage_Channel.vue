@@ -31,6 +31,7 @@
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
     import axios from 'axios'
+    import {AUTH_ID} from "../../common/js/const";
 
     export default {
         components: {       //组件加载
@@ -40,7 +41,7 @@
             return {
                 loading: false,         //loading页面是否显示
                 hideExport: true,       //隐藏导出
-                hideSearch: true,      //隐藏查询
+                hideSearch: false,      //隐藏查询
                  //显示日期查询
                 hideAdd: false,         //隐藏添加
                 tableheight: '',        //表格高度
