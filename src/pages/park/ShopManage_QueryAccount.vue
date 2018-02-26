@@ -35,7 +35,7 @@
             	
                 loading: false,
                 hideExport: true,
-                hideSearch: false,
+                hideSearch: true,
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
@@ -271,21 +271,18 @@
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             var user = sessionStorage.getItem('user');
-            this.user = user
             if (user) {
                 user = JSON.parse(user);
-                console.log(user.authlist.length)
                 for (var item of user.authlist) {
-                    if (AUTH_ID.monthMember_Refill == item.auth_id) {
-                        // console.log(item.sub_auth)
-                        this.hideSearch= !common.showSubSearch(item.sub_auth)
+                	
+                    if (AUTH_ID.shopManage_QueryAccount == item.auth_id) {
+                        this.hideSearch = !common.showSubSearch(item.sub_auth)                       
                         break;
                     }
                 }
-
             }
         },
         activated() {

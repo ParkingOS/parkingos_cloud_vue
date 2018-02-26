@@ -21,6 +21,7 @@
                     :hideSearch="hideSearch"
                     :showShopEdit="showShopEdit"
                     :showsetting="showsetting"
+                    
                     v-on:showrefill="showrefill"
                     v-on:showSetting="showSetting"
                     v-on:customizeadd="showadd"
@@ -31,7 +32,8 @@
         <!--重置密码-->
         <el-dialog
                 title="重置密码"
-                v-model="resetPwdVisible"
+                :visible.sync="resetPwdVisible"
+                width="30%"
                 size="tiny">
             <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
                 <el-form-item label="请输入新密码">
@@ -49,7 +51,8 @@
         <!--注册员工-->
         <el-dialog
                 :title="regUserTitle"
-                v-model="regUserVisible"
+                :visible.sync="regUserVisible"
+                width="30%"
                 size="tiny">
             <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
                 <el-form-item label="编号" v-if="showInput">
@@ -58,8 +61,8 @@
                 <el-form-item label="姓名">
                     <el-input v-model="user.nickname" style="width:90%"></el-input>
                 </el-form-item>
-                <el-form-item label="登陆账号" v-if="showInput">
-                    <el-input v-model="user.strid" style="width:90%"></el-input>
+                <el-form-item label="登陆账号"  v-if="showInput">
+                    <el-input v-model="user.strid" :disabled="true" style="width:90%"></el-input>
                 </el-form-item>
                 <el-form-item label="电话">
                     <el-input v-model="user.phone" style="width:90%"></el-input>
@@ -94,7 +97,7 @@
         <el-dialog
                 title="商户设置-员工管理"
                 :visible.sync="employeeVisible"
-                width="10%">
+                >
 
             <div>
                 <el-button type="primary" size="small" @click="regUser">注册员工</el-button>
@@ -195,7 +198,8 @@
         <!--renewDialog-->
         <el-dialog
                 :title="renewTitle"
-                v-model="renewVisible"
+                :visible.sync="renewVisible"
+                width="30%"
                 size="tiny">
             <el-form label-width="150px" style="margin-bottom:-30px">
 
@@ -231,8 +235,9 @@
         <!--删除提示框-->
         <el-dialog
                 title="提示"
-                v-model="delVisible"
+                :visible.sync="delVisible"
                 size="tiny"
+                width="30%"
                 custom-class="deleteTip">
             <div class="el-message-box__status el-icon-warning"></div>
             <br/>
@@ -247,7 +252,8 @@
         <!--添加商户-->
         <el-dialog
                 :title="shopTitle"
-                v-model="showRegis"
+                :visible.sync="showRegis"
+                width="30%"
                 size="tiny">
             <el-form ref="shopForm" label-width="120px" style="margin-bottom:-30px" :rules="shopFormRules"
                      :model="shopForm">
@@ -334,6 +340,7 @@
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
+    import {AUTH_ID} from '../../common/js/const'
 
     export default {
         components: {
@@ -341,6 +348,7 @@
         },
         data() {
             return {
+            	showEmployeeEdit:false,
                 ticketfree_limit: 0,
                 validite_time: 'validite_time',
                 name: 'name',
@@ -414,16 +422,16 @@
                 renewVisible: false,
                 ticket_val: 0,
                 employeeVisible: false,
-                showsetting: true,
+                showsetting: false,
                 hideSearch: true,
                 loading: false,
                 showresetpwd: false,
                 hideExport: true,
                 tableheight: '',
                 hideOptions: false,
-                showdelete: true,
-                showShopEdit: true,
-                showmRefill: true,
+                showdelete: false,
+                showShopEdit: false,
+                showmRefill: false,
                 resetloading: false,
                 queryapi: '/shop/quickquery',
                 addapi: '/shop/create',
@@ -754,6 +762,14 @@
             },
 
             renewSub() {
+            	if(this.ticket_val%1 != 0 || this.ticketfree_limit%1 != 0||this.ticket_val<0||this.ticketfree_limit<0){
+            		this.$message({
+                                message: '续费数据必须为正整数!',
+                                type: 'error',
+                                duration: 800,
+                            });
+            		return;
+            	}
                 var vm = this;
                 var api = this.editapi;
                 var user = sessionStorage.getItem('user');
@@ -1129,10 +1145,24 @@
         }
         ,
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 135;
+        	window.onresize = () => {
+                this.tableheight = common.gwh() - 143;
+            };
+            this.tableheight = common.gwh() - 143;
+            var user = sessionStorage.getItem('user');
+            if (user) {
+                user = JSON.parse(user);
+                for (var item of user.authlist) {
+                	
+                    if (AUTH_ID.shopManage_Shop == item.auth_id) {
+                        this.showShopEdit = common.showSubEdit(item.sub_auth)
+                        this.showsetting = common.showSetting(item.sub_auth)
+                        this.showdelete = common.showSubReFill(item.sub_auth)
+                        this.showmRefill = common.showSubReFill(item.sub_auth)
+                        break;
+                    }
+                }
             }
-            this.tableheight = common.gwh() - 135;
         },
         activated() {
             console.log('active')
