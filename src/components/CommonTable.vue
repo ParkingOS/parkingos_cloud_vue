@@ -56,6 +56,7 @@
                                 range-separator="至"
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期"
+                                value-format="yyyy-MM-dd"
                                 :picker-options="pickerOptions2"
                                 @change="changeanalysisdate">
                         </el-date-picker>
@@ -1367,14 +1368,18 @@
                 this.currentPage = 1;
                 this.getTableData(form);
             },
-            changeanalysisdate(input) {
+            changeanalysisdate(input2) {
                 //修改车场统计分析日期
-                console.log(input);
-                this.currentdate = input;
-                let date = {'date': input, 'out_uid': this.currentcollect};
-                this.searchDate = input;
-                this.currentPage = 1;
-                this.getTableData(date)
+                console.log(input2);
+                if(input2.length>0){
+                    let input = input2[0]+'至'+input2[1];
+                    this.currentdate = input;
+                    let date = {'date': input, 'out_uid': this.currentcollect};
+                    this.searchDate = input;
+                    this.currentPage = 1;
+                    this.getTableData(date)
+                }
+
             },
             currentFormatDate() {
                 let start = new Date();
