@@ -266,7 +266,7 @@
                 	
                     if (AUTH_ID.shopManage_Coupon == item.auth_id) {
                         this.hideSearch = !common.showSubSearch(item.sub_auth) 
-                        this.hideExport = common.showSubExport(item.sub_auth)
+                        //this.hideExport = common.showSubExport(item.sub_auth)
                         break;
                     }
                 }
