@@ -393,7 +393,7 @@
                 ],
                 shopForm: {},
                 showRegis: false,
-                showCustomizeAdd: true,
+                showCustomizeAdd: false,
                 ticket_type: '',
                 showTicketMoney: false,
                 showTicketTime: false,
@@ -1155,6 +1155,7 @@
                 for (var item of user.authlist) {
                 	
                     if (AUTH_ID.shopManage_Shop == item.auth_id) {
+                    	this.showCustomizeAdd = common.showSubAdd(item.sub_auth)
                         this.showShopEdit = common.showSubEdit(item.sub_auth)
                         this.showsetting = common.showSetting(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)
