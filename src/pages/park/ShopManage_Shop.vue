@@ -1159,6 +1159,9 @@
                         this.showsetting = common.showSetting(item.sub_auth)
                         this.showdelete = common.showSubReFill(item.sub_auth)
                         this.showmRefill = common.showSubReFill(item.sub_auth)
+                        if(this.showShopEdit==false&&this.showsetting==false&&this.showdelete==false&&this.showmRefill==false){
+                        	this.hideOptions=true;
+                        }
                         break;
                     }
                 }
