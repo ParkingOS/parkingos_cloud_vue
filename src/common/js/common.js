@@ -373,6 +373,11 @@ export default {
             return true
         }
         return false
+    },showSetting: function (sub_auth) {
+        if (sub_auth.indexOf('设置') > -1) {
+            return true
+        }
+        return false
     },
     showSubSetFee: function (sub_auth) {
         if (sub_auth.indexOf('收费设置') > -1) {
