@@ -191,6 +191,9 @@
                         this.hideAdd= !common.showSubAdd(item.sub_auth)
                         this.showEdit= common.showSubEdit(item.sub_auth)
                         this.showdelete= common.showSubDel(item.sub_auth)
+                        if(this.showEdit==false&&this.showdelete==false){
+                            this.hideOptions= true
+                        }
                         break;
                     }
                 }
