@@ -12,7 +12,8 @@ import MonthMember_Refill from './pages/park/MonthMember_Refill.vue'
 import MonthMember_VIP from './pages/park/MonthMember_VIP.vue'
 import OnlinePay_CashManage from './pages/park/OnlinePay_CashManage.vue'
 import OnlinePay_Income from './pages/park/OnlinePay_Income.vue'
-import OrderStatistics_HourRent from './pages/park/OrderStatistics_HourRent.vue'
+import OrderStatistics_DailyReport from './pages/park/OrderStatistics_DailyReport.vue'
+import OrderStatistics_MonthReport from './pages/park/OrderStatistics_MonthReport.vue'
 import OrderStatistics_Settlement from './pages/park/OrderStatistics_Settlement.vue'
 import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue'
 import ShopManage_Shop from './pages/park/ShopManage_Shop.vue'
@@ -146,9 +147,10 @@ let routes = [
         // name: '统计分析',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/orderStatistics_HourRent', component: OrderStatistics_HourRent, name: '时租订单统计'},
-            {path: '/orderStatistics_Settlement', component: OrderStatistics_Settlement, name: '结算'},
-            // {path: '/orderStatistics_HourRent', component: OrderStatistics_Commute, name: '订单'},
+            {path: '/orderStatistics_DailyReport', component: OrderStatistics_DailyReport, name: '时租订单统计'},
+            {path: '/orderStatistics_Settlement', component: OrderStatistics_Settlement, name: '日报'},
+            {path: '/orderStatistics_MonthReport', component: OrderStatistics_MonthReport, name: '月报'},
+            // {path: '/orderStatistics_DailyReport', component: OrderStatistics_Commute, name: '订单'},
         ]
     },
     {

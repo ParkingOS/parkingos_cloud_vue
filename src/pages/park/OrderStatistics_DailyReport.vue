@@ -646,7 +646,7 @@
             // if (user) {
             //     user = JSON.parse(user);
             //     for (var item of user.authlist) {
-            //         if (AUTH_ID.showOrderStatistics_HourRent_auth_id == item.auth_id) {
+            //         if (AUTH_ID.showOrderStatistics_DailyReport_auth_id == item.auth_id) {
             //             console.log(item.sub_auth)
             //             break;
             //         }

@@ -6,7 +6,8 @@ export const AUTH_ID = {
     monthMember_Refill : 297,        //月卡续费记录
     monthMember_VIP : 298,           //月卡会员-小菜单
     orderStatistics : 11,            //统计分析
-    orderStatistics_HourRent : 12,   //统计分析-时租订单统计
+    orderStatistics_DailyReport : 12,   //统计分析-时租订单统计-日报
+    orderStatistics_MonthReport : 318,   //统计分析-时租订单统计-日报
     shopManage : 71,                 //商户管理-大菜单
     shopManage_Coupon : 305,         //优惠券管理
     shopManage_Shop : 299,           //商户管理-小菜单

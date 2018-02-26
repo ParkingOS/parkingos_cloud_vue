@@ -9,7 +9,7 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-                :showdateSelector="showdateSelector"
+                :showdateSelectorMonth="showdateSelectorMonth"
                 :hideTool="hideTool"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
@@ -35,23 +35,21 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
-                showdateSelector: true,
+                showdateSelectorMonth: true,
                 hideAdd: true,
                 tableheight: '',
                 hideOptions: true,
                 hideTool: false,
-                hidePagination:true,
-                queryapi: '/parkorder/query',
-                workdetailapi: '/parkorder/workdetail',
-                orderdetailapi: '/parkorder/orderdetail',
+                hidePagination: true,
+                queryapi: '/monthparkorder/query',
                 btswidth: '100',
-                fieldsstr: 'groupid__comid__name__out_uid__sdate__scount__monthcount__cash_pay__cash_prepay__electronic_pay__free_pay__reduce_pay__amount_receivable',
+                fieldsstr: 'sdate__scount__amount_receivable__cash_pay__electronic_pay__free_pay',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '收费员',
-                                prop: 'name',
+                                label: '日期',
+                                prop: 'sdate',
                                 width: '123',
                                 type: 'str',
                                 editable: false,
@@ -64,34 +62,20 @@
                     }, {
                         hasSubs: false, subs: [
                             {
-                                label: '账号',
-                                prop: 'out_uid',
+                                label: '总订单数',
+                                prop: 'scount',
                                 width: '123',
-                                type: 'str',
+                                type: 'number',
                                 editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                hidden:true,
+                                hidden: true,
                                 align: 'center',
                             },
                         ]
                     },
                     {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '总订单数',
-                            prop: 'scount',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    },{
 
                         hasSubs: false,
                         subs: [{
@@ -105,88 +89,39 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },
-                    {
-                        label: '实收金额',
-                        hasSubs: true,
-                        subs: [
-
-                            {
-                                // label: 'aha',
-                                // hasSubs: true,
-                                // subs: [{
-                                    label: '现金支付',
-                                    prop: 'cash_pay',
-                                    width: '123',
-                                    type: 'str',
-                                    editable: true,
-                                    searchable: true,
-                                    addable: true,
-                                    unsortable: true,
-                                    align: 'center'
-                                // }, {
-                                //
-                                //     hasSubs: false,
-                                //
-                                //     label: '免费金额',
-                                //     prop: 'free_pay',
-                                //     width: '123',
-                                //     type: 'str',
-                                //     editable: true,
-                                //     searchable: true,
-                                //     addable: true,
-                                //     unsortable: true,
-                                //     align: 'center'
-                                //
-                                // }, {
-                                //
-                                //     hasSubs: false,
-                                //
-                                //     label: '减免券支付',
-                                //     prop: 'reduce_pay',
-                                //     width: '123',
-                                //     type: 'str',
-                                //     editable: true,
-                                //     searchable: true,
-                                //     addable: true,
-                                //     unsortable: true,
-                                //     align: 'center'
-                                //
-                                // }]
-                            }, {
-
-                                hasSubs: false,
-
-                                label: '电子支付',
-                                prop: 'electronic_pay',
-                                width: '123',
-                                type: 'str',
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-
-                            }, {
-
-                                hasSubs: false,
-
-                                label: '合计',
-                                prop: 'act_total',
-                                width: '123',
-                                type: 'str',
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-
-                            }]
                     }, {
 
                         hasSubs: false,
                         subs: [{
-                            label: '减免金额',
+                            label: '现金支付',
+                            prop: 'cash_pay',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '电子支付',
+                            prop: 'electronic_pay',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '免费金额',
                             prop: 'free_pay',
                             width: '123',
                             type: 'str',
@@ -241,7 +176,7 @@
             }
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({date:'',out_uid:''})
+            this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''})
             // this.getTableData(this.sform);
         }
     }

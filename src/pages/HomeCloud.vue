@@ -92,9 +92,10 @@
                         </el-submenu>
                         <el-submenu v-if="this.showItem.orderStatistics" index="/orderStatistics">
                             <template slot="title"><span class="menuitem">统计分析</span></template>
-                            <!--<el-menu-item index="/orderStatistics_HourRent" v-if="this.showItem.orderStatistics_HourRent">时租订单统计-->
-                            <el-menu-item index="/orderStatistics_Settlement"
-                                          v-if="this.showItem.orderStatistics_HourRent">时租订单统计
+                            <!--<el-menu-item index="/orderStatistics_DailyReport" v-if="this.showItem.orderStatistics_DailyReport">时租订单统计-->
+                            <el-menu-item index="/orderStatistics_Settlement" v-if="this.showItem.orderStatistics_DailyReport">日报统计
+                            </el-menu-item>
+                            <el-menu-item index="/orderStatistics_MonthReport" v-if="this.showItem.orderStatistics_MonthReport">月报统计
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu v-if="this.showItem.shopManage" index="/shopManage">
@@ -232,7 +233,7 @@
                 //         monthMember_Refill:true,
                 //         monthMember_VIP:true,
                 //         orderStatistics:true,
-                //         orderStatistics_HourRent:true,
+                //         orderStatistics_DailyReport:true,
                 //         onlinePay:true,
                 //         onlinePay_Income:true,
                 //         onlinePay_CashManage:true,

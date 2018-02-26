@@ -60,6 +60,25 @@
                                 @change="changeanalysisdate">
                         </el-date-picker>
                     </div>
+                    <div v-if="showdateSelectorMonth" style="float: left;margin-right: 10px;">
+                        <!--<div style="float: left;margin-right: 10px;">-->
+                        <el-date-picker
+                                v-model="monthReportStart"
+                                type="month"
+                                value-format="yyyy-MM"
+                                placeholder="开始月">
+                        </el-date-picker>
+                        <span> 至 </span>
+                        <el-date-picker
+                                v-model="monthReportEnd"
+                                type="month"
+                                value-format="yyyy-MM"
+                                placeholder="结束月">
+                        </el-date-picker>
+                        <el-button type="primary" @click="handleSearchMonthReport" size="small" align="center">查询
+                        </el-button>
+                        <span style="color: red">(最多支持12个月的数据查询)</span>
+                    </div>
 
                 </el-col>
 
@@ -422,6 +441,8 @@
                 balance: '',
                 analysisdate: '',
                 datesselector: '',
+                monthReportStart: '',
+                monthReportEnd: '',
                 searchDate: '',
                 analysisdateopt: {
                     disabledDate(time) {
@@ -497,12 +518,12 @@
                 pwd2: '',
                 currentdate: '',
                 currentcollect: '',
-                tableheight2:common.gwh() - 143,
+                tableheight2: common.gwh() - 143,
             }
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector',
+            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showdateSelectorMonth',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showShopEdit'],
         methods: {
             //控制表格样式
@@ -568,6 +589,13 @@
                 console.log('sort change')
                 this.getTableData(this.sform);
             },
+            handleSearchMonthReport() {
+                this.sform.btime = this.monthReportStart;
+                this.sform.etime = this.monthReportEnd;
+                this.currentPage = 1;
+                this.getTableData(this.sform);
+            },
+
             //拉取表格数据
             getTableData(sform) {
                 var vm = this;
@@ -638,6 +666,8 @@
                         }
                         vm.total = ret.total;
                         vm.loading = false;
+                        vm.monthReportStart = '';
+                        vm.monthReportEnd = '';
                     }
                 }).catch(function (error) {
                     setTimeout(() => {
@@ -690,7 +720,6 @@
                             }, 150)
                         })
                     } else if (this.tableitems[i].customSelect == 'park') {
-                        var params;
                         var params;
                         if (user.roleid == 1) {
                         } else if (user.roleid == 2) {
