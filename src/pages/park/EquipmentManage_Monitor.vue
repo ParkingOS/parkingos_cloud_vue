@@ -32,6 +32,7 @@
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
     import axios from 'axios'
+    import {AUTH_ID} from "../../common/js/const";
 
     export default {
         components: {       //组件加载
