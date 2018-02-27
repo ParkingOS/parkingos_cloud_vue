@@ -54,8 +54,8 @@
                                 align="right"
                                 unlink-panels
                                 range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期"
+                                :start-placeholder="start_placeholder"
+                                :end-placeholder="end_placeholder"
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 :picker-options="pickerOptions2"
                                 @change="changeanalysisdate">
@@ -67,14 +67,14 @@
                                 v-model="monthReportStart"
                                 type="month"
                                 value-format="yyyy-MM"
-                                placeholder="开始月">
+                                :placeholder="start_month_placeholder">
                         </el-date-picker>
                         <span> 至 </span>
                         <el-date-picker
                                 v-model="monthReportEnd"
                                 type="month"
                                 value-format="yyyy-MM"
-                                placeholder="结束月">
+                                :placeholder="start_month_placeholder">
                         </el-date-picker>
                         <el-button type="primary" @click="handleSearchMonthReport" size="small" align="center">查询
                         </el-button>
@@ -450,6 +450,10 @@
                         return time.getTime() > Date.now();
                     }
                 },
+                start_placeholder: '1',
+                end_placeholder: '1',
+                start_month_placeholder:'',
+
                 pickerOptions2: {
                     shortcuts: [
                         {
@@ -667,8 +671,6 @@
                         }
                         vm.total = ret.total;
                         vm.loading = false;
-                        vm.monthReportStart = '';
-                        vm.monthReportEnd = '';
                     }
                 }).catch(function (error) {
                     setTimeout(() => {
@@ -1371,8 +1373,8 @@
             changeanalysisdate(input2) {
                 //修改车场统计分析日期
                 console.log(input2);
-                if(input2.length>0){
-                    let input = input2[0]+'至'+input2[1];
+                if (input2.length > 0) {
+                    let input = input2[0] + '至' + input2[1];
                     this.currentdate = input;
                     let date = {'date': input, 'out_uid': this.currentcollect};
                     this.searchDate = input;
@@ -1382,10 +1384,21 @@
 
             },
             currentFormatDate() {
+                return this.currentDate() + ' 00:00:00至' + this.currentDate() + ' 23:59:59';
+            },
+            currentMonth(){
                 let start = new Date();
-                let formatdate = start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate() > 9 ? start.getDate() : '0' + start.getDate()) + ' 00:00:00至'
-                    + start.getFullYear() + '-' + (start.getMonth() + 1 > 9 ? start.getMonth() + 1 : '0' + (start.getMonth() + 1)) + '-' + (start.getDate() > 9 ? start.getDate() : '0' + start.getDate()) + ' 23:59:59'
-                return formatdate
+                return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1);
+            },
+            currentDate(){
+                let start = new Date();
+                return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1) + '-' + this.formatNumber(start.getDate());
+            },
+            formatNumber(num) {
+                if (num > 9)
+                    return num;
+                else
+                    return '0' + num;
             }
         },
         mounted() {
@@ -1397,6 +1410,7 @@
             this.tempSearchForm = common.clone(this.searchForm)
 
         },
+
         activated() {
             window.onresize = () => {
                 this.tableheight2 = common.gwh() - 143;
@@ -1414,14 +1428,23 @@
             //this.date_selector ='123434342'
             if (this.showdateSelector) {
                 let _this = this;
+                _this.start_placeholder = _this.currentDate() + ' 00:00:00';
+                _this.end_placeholder =_this.currentDate() + ' 23:59:59';
                 _this.currentcollect = '';
                 _this.currentdate = '';
-                _this.datesselector = ''
+                _this.datesselector = '';
+                _this.searchDate = '';
                 _this.$axios.all([common.getCollector()])
                     .then(_this.$axios.spread(function (ret) {
                         _this.collectors = [{value_no: '', value_name: '全部'}];
                         _this.collectors = _this.collectors.concat(ret.data);
                     }))
+            }
+            if (this.showdateSelectorMonth) {
+                let _this = this;
+                _this.monthReportStart = '';
+                _this.monthReportEnd = '';
+                _this.start_month_placeholder = _this.currentMonth();
             }
         },
     }

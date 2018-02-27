@@ -52,7 +52,7 @@
 
         </el-col>
         <el-col :span="24" class="main">
-            <aside :class="collapsed?'menu-collapsed':'menu-expanded'" style="overflow-y: auto">
+            <aside :class="collapsed?'menu-collapsed':'menu-expanded'" style="overflow-y: auto;margin-left: 12px">
 
                 <!--厂商平台导航菜单-->
                 <!--<el-menu class="el-menu-vertical-demo not-print" @open="handleopen"-->
@@ -528,7 +528,7 @@
             }
             .menuitem {
                 font-size: 16px;
-                margin-left: 12px;
+                /*margin-left: 12px;*/
                 //color:black
             }
             .menu-collapsed {
