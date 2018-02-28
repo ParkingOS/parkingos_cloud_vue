@@ -316,8 +316,8 @@
                 var options = this.$router.options.routes
                 // this.highlightindex = a;
                 this.expandindex = a.split('_')[0];
-                console.log('>>>' + a)
-                console.log('>>>' + a.split('_')[0])
+                // console.log('>>>' + a)
+                // console.log('>>>' + a.split('_')[0])
                 this.$router.push(a);
             },
             //退出登录
@@ -364,6 +364,7 @@
 
                 var cpath = this.$router.currentRoute.fullPath;
                 console.log(cpath)
+                this.highlightindex = cpath;
                 if (cpath == '/query/queryout') {
                     this.active = '/query/queryin'
                 } else if (cpath == '/order/orderout') {
