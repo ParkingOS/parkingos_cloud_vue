@@ -85,12 +85,18 @@ export const AUTH_ID_UNION = {
     businessOrder_Cars: 208,                        //在场车辆
     businessOrder_Orders: 104,                      //订单记录
     businessOrder_Poles: 106,                       //抬杆记录
+    member:212,                                     //会员
+    member_MonthVIP:214,                            //月卡会员
+    member_BlackList:215,                           //黑名单管理
 };
 export const showUnionItem_const={
     businessOrder:false,
     businessOrder_Cars:false,
     businessOrder_Orders:false,
     businessOrder_Poles:false,
+    member:false,
+    member_MonthVIP:false,
+    member_BlackList:false,
 }
 export const ROLE_ID = {
     // 30 车场,26集团,,,27渠道,,28联盟,,,29城市

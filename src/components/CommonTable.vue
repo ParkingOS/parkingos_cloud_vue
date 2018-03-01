@@ -6,13 +6,14 @@
                 <el-col :span="18" align="left">
 
                     <div v-if="showRefillInfo" style="display:inline;margin-right:100px;float: left">
-                        <el-input v-model="shouldpay" style="width:180px;background:white;" disabled>
+                        <el-input v-model="shouldpay" style="width:200px;background:white;" disabled>
                             <template slot="prepend">应收</template>
                         </el-input>
-                        <el-input v-model="actualpay" style="width:180px;background:white;" disabled>
+                        <el-input v-model="actualpay" style="width:200px;background:white;" disabled>
                             <template slot="prepend">实收</template>
                         </el-input>
                     </div>
+
                     <div v-if="showParkInfo" style="display:inline;margin-right:50px;float: left">
                         <el-input v-model="parkspace_park" style="width:150px;background:white;margin-right: 0.5px;"
                                   disabled>
@@ -25,7 +26,17 @@
                             <template slot="prepend">空车位</template>
                         </el-input>
                     </div>
-
+                    <div v-if="showBusinessOrder" style="display:inline;margin-right:100px;float: left">
+                        <el-input v-model="shouldpay" style="width:200px;background:white;" disabled>
+                            <template slot="prepend">订单总金额</template>
+                        </el-input>
+                        <el-input v-model="actualpay" style="width:200px;background:white;" disabled>
+                            <template slot="prepend">现金支付</template>
+                        </el-input>
+                        <el-input v-model="actualpay" style="width:200px;background:white;" disabled>
+                            <template slot="prepend">手机支付</template>
+                        </el-input>
+                    </div>
                     <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
                         <el-select v-model="currentcollect" placeholder="请选择收费员" @change="changeanalysisdatecollect"
                                    style="float: left;margin-right: 30px;">
@@ -372,6 +383,9 @@
                 actualpay: '0.00 元',
                 parkspace_blank: '0辆',
                 parkspace_park: '0辆',
+                cashpay: '0.00 元',
+                elepay: '0.00 元',
+                sumtotal: '0.00 元',
                 label: {content: 'Marker Label', opts: {offset: {width: 20, height: -10}}},
                 centralpayment: -3,
                 todayTotal: '',
@@ -388,7 +402,7 @@
                 },
                 start_placeholder: '',
                 end_placeholder: '',
-                start_month_placeholder:'',
+                start_month_placeholder: '',
 
                 pickerOptions2: {
                     shortcuts: [
@@ -464,7 +478,7 @@
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showdateSelectorMonth',
+            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showdateSelectorMonth',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showShopEdit'],
         methods: {
             //控制表格样式
@@ -548,15 +562,16 @@
                 sform.orderby = this.orderby
                 sform.orderfield = this.orderfield
                 sform.fieldsstr = this.fieldsstr
-                sform.comid = sessionStorage.getItem('comid')
-                sform.groupid = sessionStorage.getItem('groupid')
-                sform.cityid = sessionStorage.getItem('cityid')
-                sform.unionid = sessionStorage.getItem('unionid')
-                sform.channelid = sessionStorage.getItem('channelid')
-                sform.loginuin = sessionStorage.getItem('loginuin')
-                sform.ishdorder = sessionStorage.getItem('ishdorder')
-                sform.token = sessionStorage.getItem('token')
-                sform.roleid = sessionStorage.getItem('loginroleid')
+                sform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid')
+                sform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid')
+                sform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid')
+
+                sform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid')
+                sform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid')
+                sform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin')
+                sform.ishdorder = sessionStorage.getItem('ishdorder') == 'undefined' ? '' : sessionStorage.getItem('ishdorder')
+                sform.token = sessionStorage.getItem('token') == 'undefined' ? '' : sessionStorage.getItem('token')
+                sform.roleid = sessionStorage.getItem('loginroleid') == 'undefined' ? '' : sessionStorage.getItem('loginroleid')
 
                 vm.$axios.post(path + api, vm.$qs.stringify(sform), {
                     headers: {
@@ -605,6 +620,19 @@
                             //订单记录 车位统计-场内停车
                             vm.parkspace_park = ret.parktotal
                         }
+                        if (ret.cashpay != undefined) {
+                            //集团 业务订单-订单记录-现金支付
+                            vm.cashpay = ret.cashpay + '元'
+                        }
+                        if (ret.elepay != undefined) {
+                            //集团 业务订单-订单记录-手机支付
+                            vm.elepay = ret.elepay + '元'
+                        }
+                        if (ret.sumtotal != undefined) {
+                            //集团 业务订单-订单记录-订单总金额
+                            vm.sumtotal = ret.sumtotal + '元'
+                        }
+
                         vm.total = ret.total;
                         vm.loading = false;
                     }
@@ -624,7 +652,7 @@
                 // console.log('-----------------------')
                 user = JSON.parse(user)
                 for (var i = 0; i < this.tableitems.length; i++) {
-                    console.log('>>'+this.tableitems[i].customSelect)
+                    // console.log('>>'+this.tableitems[i].customSelect)
 
                     if (this.tableitems[i].customSelect == 'parkserver') {
                         //重置该selectlist,根据
@@ -705,6 +733,8 @@
             onSearch: function (sform) {
                 //在这里得到表单项,提交查询
                 this.sform = sform
+                console.log(sform)
+                console.log(this.sform)
                 this.getTableData(sform)
             },
             //表格编辑
@@ -798,13 +828,12 @@
                 var qform = this.sform;
 
                 eform.token = sessionStorage.getItem('token')
-                eform.comid = sessionStorage.getItem('comid')
-                eform.groupid = sessionStorage.getItem('groupid')
-                eform.cityid = sessionStorage.getItem('cityid')
-                eform.unionid = sessionStorage.getItem('unionid')
-                eform.channelid = sessionStorage.getItem('channelid')
-                eform.loginuin = sessionStorage.getItem('loginuin')
-
+                eform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid')
+                eform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid')
+                eform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid')
+                eform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid')
+                eform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid')
+                eform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin')
 
                 this.$refs.editref.$refs.editForm.validate((valid) => {
                     if (valid) {
@@ -948,12 +977,12 @@
 
                 aform.token = sessionStorage.getItem('token')
                 aform.oid = sessionStorage.getItem('oid')
-                aform.comid = sessionStorage.getItem('comid')
-                aform.groupid = sessionStorage.getItem('groupid')
-                aform.cityid = sessionStorage.getItem('cityid')
-                aform.unionid = sessionStorage.getItem('unionid')
-                aform.channelid = sessionStorage.getItem('channelid')
-                aform.loginuin = sessionStorage.getItem('loginuin')
+                aform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid')
+                aform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid')
+                aform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid')
+                aform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid')
+                aform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid')
+                aform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin')
 
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
@@ -1324,11 +1353,11 @@
             currentFormatDate() {
                 return this.currentDate() + ' 00:00:00至' + this.currentDate() + ' 23:59:59';
             },
-            currentMonth(){
+            currentMonth() {
                 let start = new Date();
                 return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1);
             },
-            currentDate(){
+            currentDate() {
                 let start = new Date();
                 return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1) + '-' + this.formatNumber(start.getDate());
             },
@@ -1367,7 +1396,7 @@
             if (this.showdateSelector) {
                 let _this = this;
                 _this.start_placeholder = _this.currentDate() + ' 00:00:00';
-                _this.end_placeholder =_this.currentDate() + ' 23:59:59';
+                _this.end_placeholder = _this.currentDate() + ' 23:59:59';
                 _this.currentcollect = '';
                 _this.currentdate = '';
                 _this.datesselector = '';

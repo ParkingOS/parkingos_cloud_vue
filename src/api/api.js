@@ -1,10 +1,9 @@
-export const path = "http://120.25.121.204:8080/cloud"
+// export const path = "http://120.25.121.204:8080/cloud"
 
 // export const path = "http://localhost:8086"
-// export const path = "http://192.168.199.206:12305"
+export const path = "http://192.168.199.206:12305"
 //export const path = "http://localhost:8085"
 // export const path = "http://localhost:8080/cloud"
-
 
 
 export const phonewidth = '150'
@@ -117,15 +116,15 @@ export const color = [
 ]
 
 export const channlManager = [
-    {'value_name': '默认车场设置','value_no': '0'},
-    { 'value_name': '不限制','value_no': '1'},
-    {'value_name': '禁止进入','value_no': '2'}
+    {'value_name': '默认车场设置', 'value_no': '0'},
+    {'value_name': '不限制', 'value_no': '1'},
+    {'value_name': '禁止进入', 'value_no': '2'}
 ]
 
 export const channlManagerType = [
-    {'value_name': '出','value_no': '0' },
-    {'value_name': '入','value_no': '1' },
-    {'value_name': '出人','value_no': '2' }
+    {'value_name': '出', 'value_no': '0'},
+    {'value_name': '入', 'value_no': '1'},
+    {'value_name': '出人', 'value_no': '2'}
 ]
 
 export const net_status = [
@@ -195,7 +194,30 @@ export const orderStateType = [
     {'value_name': '已结算', 'value_no': '1'},
     // {'value_name': '逃单', 'value_no': '2'}
 ]
-
+/**
+ * 集团固定类型
+ * @type {*[]}
+ */
+export const inparkType = [
+    //进场方式
+    {"value_name": "全部", "value_no": "-1"},
+    {"value_name": "通道扫牌", "value_no": ""},
+    {"value_name": "NFC刷卡", "value_no": "0"},
+    {"value_name": "Ibeacon", "value_no": "1"},
+    {"value_name": "手机扫牌", "value_no": "2"},
+    {"value_name": "通道扫牌", "value_no": "3"},
+    {"value_name": "直付", "value_no": "4"},
+    {"value_name": "月卡", "value_no": "5"},
+    {"value_name": "车位二维码", "value_no": "6"},
+    {"value_name": "月卡第二辆车", "value_no": "7"}
+]
+export const parkType = [
+    //车场类型
+    {"value_name": "全部", "value_no": -1},
+    {"value_name": "地面", "value_no": 0},
+    {"value_name": "地下", "value_no": 1},
+    {"value_name": "占道", "value_no": 2}
+]
 
 export var checkPhone = (rule, value, callback) => {
     if (typeof(value) == 'undefined' || value == '') {

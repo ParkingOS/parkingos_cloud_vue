@@ -17,7 +17,7 @@
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showImg="showImg"
-
+                :showBusinessOrder="showBusinessOrder"
                 v-on:showImg_Order="showImgDialog"
                 :imgapi="imgapi"
                 ref="bolinkuniontable"
@@ -63,7 +63,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-
+                showBusinessOrder:true,
                 hideTool: false,
                 showImg: true,
                 showBusinessCars: true,
@@ -93,25 +93,58 @@
                         subs: [{
                             label: '车场名称',
                             prop: 'comid',
-                            width: '123',
-                            type: 'str',
+                            width: '150',
+                            type: 'selection',
+                            selectlist: this.parklist,
                             searchable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                let result = common.nameformat(row, this.parklist, 'comid');
+                                if (result == '请选择')
+                                    result = '';
+                                return result;
+                            }
                         }]
                     }, {
 
                         hasSubs: false,
                         subs: [{
                             label: '收款人账号',
-                            prop: 'collector',
+                            prop: 'out_uid',
                             width: '123',
-                            type: 'str',
-
+                            type: 'selection',
+                            selectlist: this.collectors,
                             searchable: true,
 
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                let result = common.nameformat(row, this.collectors, 'out_uid');
+                                if (result == '请选择')
+                                    result = '';
+                                return result;
+                            }
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '收款人名称',
+                            prop: 'out_uid',
+                            width: '123',
+                            type: 'selection',
+                            selectlist: this.collectors,
+                            searchable: true,
+
+                            unsortable: true,
+                            align: 'center',
+                            format: (row) => {
+                                let result = common.nameformat(row, this.collectors, 'out_uid');
+                                if (result == '请选择')
+                                    result = '';
+                                return result;
+                            }
                         }]
                     }, {
 
@@ -443,6 +476,7 @@
                 img_out: [],
                 imgpath: '',
                 collectors: '',
+                parklist:'',
             }
         },
         methods: {
@@ -493,16 +527,20 @@
             this.$refs['bolinkuniontable'].getTableData({})
             // getCollector
             let _this = this
-            axios.all([common.getCollector()])
-                .then(axios.spread(function (ret) {
+            axios.all([common.getAllCollector(), common.getAllParks()])
+                .then(axios.spread(function (ret, parks) {
                     _this.collectors = ret.data;
+                    _this.parklist = parks.data;
                     // console.log(ret.data)
                 }))
         },
         watch: {
             collectors: function (val) {
-                this.tableitems[16].subs[0].selectlist = val
-                this.tableitems[17].subs[0].selectlist = val
+                this.tableitems[2].subs[0].selectlist = val
+                // this.tableitems[17].subs[0].selectlist = val
+            },
+            parklist: function (val) {
+                this.tableitems[1].subs[0].selectlist = val
             }
         }
     }

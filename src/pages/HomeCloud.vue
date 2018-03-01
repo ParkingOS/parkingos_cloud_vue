@@ -167,7 +167,8 @@
                                 免费原因
                             </el-menu-item>
                             <el-submenu index="/system_cartype" v-if="this.showParkItem.systemManage_CarManage">
-                                <template slot="title"><span class="menuitem" style="font-size: 14px;">车型管理</span></template>
+                                <template slot="title"><span class="menuitem" style="font-size: 14px;">车型管理</span>
+                                </template>
                                 <el-menu-item index="/systemManage_CarManage_CarType"
                                               v-if="this.showParkItem.systemManage_CarManage_CarType">车型设定
                                 </el-menu-item>
@@ -200,6 +201,15 @@
                             </el-menu-item>
                             <el-menu-item index="/businessOrder_Poles" v-if="this.showUnionItem.businessOrder_Poles">
                                 抬杆记录
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu v-if="this.showUnionItem.member" index="/member">
+                            <template slot="title"><span class="menuitem">会员</span></template>
+                            <el-menu-item index="/member_MonthVIP" v-if="this.showUnionItem.member_MonthVIP">
+                                月卡会员
+                            </el-menu-item>
+                            <el-menu-item index="/member_BlackList" v-if="this.showUnionItem.member_BlackList">
+                                黑名单管理
                             </el-menu-item>
                         </el-submenu>
                     </el-row>

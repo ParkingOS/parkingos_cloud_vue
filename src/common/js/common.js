@@ -162,12 +162,12 @@ export default {
     genderformat: function (row) {
 
     },
-    getWorkSite_id(){
+    getWorkSite_id() {
         let param = '?token=' + sessionStorage.getItem('token')
             + '&comid=' + sessionStorage.getItem('comid');
         return axios.get(path + '/getdata/getWorkSiteId' + param)
     },
-    getChannelType(){
+    getChannelType() {
         let param = '?token=' + sessionStorage.getItem('token')
             + '&comid=' + sessionStorage.getItem('comid');
         return axios.get(path + '/getdata/getChannelType' + param)
@@ -222,6 +222,28 @@ export default {
         let param = '?token=' + sessionStorage.getItem('token')
         return axios.get(path + '/getdata/geteventlist' + param)
     },
+    /**
+     * 集团接口
+     * @returns {AxiosPromise}
+     */
+    getAllParks() {
+        // 获得集团和城市下的所有车场
+        let param = '?token=' + sessionStorage.getItem('token')
+        + '&cityid=' + (sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid'))
+        + '&groupid=' + (sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid'))
+        return axios.get(path + '/getdata/cityparks' + param)
+    },
+    getAllCollector(){
+        // 获得集团和城市下面所有的收费员
+        let param = '?token=' + sessionStorage.getItem('token')
+            + '&cityid=' + (sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid'))
+            + '&groupid=' + (sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid'))
+        return axios.get(path + '/getdata/allcollectors' + param)
+    },
+    /**
+     * 车场接口
+     * @returns {AxiosPromise}
+     */
     getCollector() {
         //获取收费员
         let param = '?token=' + sessionStorage.getItem('token')
@@ -255,7 +277,7 @@ export default {
             + '&groupid=' + sessionStorage.getItem('groupid')
         return axios.get(path + '/getdata/getcartype' + param)
     },
-    editCarNum(carnumber,id){
+    editCarNum(carnumber, id) {
         //更改车牌号
         let param = '?token=' + sessionStorage.getItem('token')
             + '&comid=' + sessionStorage.getItem('comid')
@@ -263,7 +285,7 @@ export default {
             + '&carnumber=' + encodeURI(encodeURI(carnumber))
         return axios.get(path + '/vip/editCarNum' + param)
     },
-    getProdSum(p_name,month){
+    getProdSum(p_name, month) {
         //通过续费月数和月卡套餐获取金额
         let param = '?token=' + sessionStorage.getItem('token')
             + '&comid=' + sessionStorage.getItem('comid')
@@ -272,7 +294,7 @@ export default {
             + '&months=' + month
         return axios.get(path + '/getdata/getprodsum' + param)
     },
-    reNewProduct(p_name,month,name,b_time,id,remark,act_total,nickname){
+    reNewProduct(p_name, month, name, b_time, id, remark, act_total, nickname) {
         // reNewProduct(this.pnameno,this.refillcount,this.currentRow.name,this.Btime,this.currentRow.pid,this.currentRow.remark,this.RefillTotalact,roleid==30?'车场':roleid){
         //月卡续费
         let param = '?token=' + sessionStorage.getItem('token')
@@ -373,7 +395,7 @@ export default {
             return true
         }
         return false
-    },showSetting: function (sub_auth) {
+    }, showSetting: function (sub_auth) {
         if (sub_auth.indexOf('设置') > -1) {
             return true
         }
@@ -391,30 +413,30 @@ export default {
         }
         return false
     },
-    getShopMemberList(obj){
-        return axios.get(path + '/shopmember/quickquery' + '?token=' + sessionStorage.getItem('token')+'&shop_id='+obj.shop_id+'&page='+obj.page);
+    getShopMemberList(obj) {
+        return axios.get(path + '/shopmember/quickquery' + '?token=' + sessionStorage.getItem('token') + '&shop_id=' + obj.shop_id + '&page=' + obj.page);
     },
-    saveShopMember(obj){
+    saveShopMember(obj) {
         return axios.get(path + '/shopmember/create' + '?token=' + sessionStorage.getItem('token')
-            +'&shop_id='+obj.shop_id+'&comid='+obj.comid
-            +'&nickname='+obj.nickname+'&phone='+obj.phone
-            +'&mobile='+obj.mobile+'&auth_flag='+obj.auth_flag
-            +'&userId='+obj.userId);
+            + '&shop_id=' + obj.shop_id + '&comid=' + obj.comid
+            + '&nickname=' + obj.nickname + '&phone=' + obj.phone
+            + '&mobile=' + obj.mobile + '&auth_flag=' + obj.auth_flag
+            + '&userId=' + obj.userId);
     },
-    addMoney(obj){
-    	return axios.get(path + '/shop/addmoney' + '?token=' + sessionStorage.getItem('token')
-	    	+'&shop_id='+obj.shop_id+'&addmoney='+obj.addmoney
-	    	+'&operator='+obj.operator+'&parkid='+obj.parkid
-	    	+'&ticket_time='+obj.ticket_time+'&ticket_money='+obj.ticket_money
-    		+'&ticketfree_limit='+obj.ticketfree_limit);
+    addMoney(obj) {
+        return axios.get(path + '/shop/addmoney' + '?token=' + sessionStorage.getItem('token')
+            + '&shop_id=' + obj.shop_id + '&addmoney=' + obj.addmoney
+            + '&operator=' + obj.operator + '&parkid=' + obj.parkid
+            + '&ticket_time=' + obj.ticket_time + '&ticket_money=' + obj.ticket_money
+            + '&ticketfree_limit=' + obj.ticketfree_limit);
     },
-    editPass(obj){
+    editPass(obj) {
         return axios.get(path + '/shopmember/editpass' + '?token=' + sessionStorage.getItem('token')
-            +'&newpass='+obj.newpass+'&confirmpass='+obj.confirmpass
-            +'&id='+obj.id);
+            + '&newpass=' + obj.newpass + '&confirmpass=' + obj.confirmpass
+            + '&id=' + obj.id);
     }
     ,
-    deleteShopMember(id){
-        return axios.get(path + '/shopmember/delete' + '?token=' + sessionStorage.getItem('token')+'&id='+id);
+    deleteShopMember(id) {
+        return axios.get(path + '/shopmember/delete' + '?token=' + sessionStorage.getItem('token') + '&id=' + id);
     }
 }

@@ -60,7 +60,7 @@
                 hideTool: false,
                 showImg: true,
                 showBusinessPoles: true,
-                queryapi: '/liftRod/query',
+                queryapi: '/cityliftRod/query',
                 exportapi: '/liftRod/exportExcel',
                 imgapi: '/liftRod/getLiftRodPicture',
                 btswidth: '100',
@@ -247,7 +247,7 @@
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
             let _this = this
-            axios.all([common.getCollector(), common.getLiftReason()])
+            axios.all([common.getAllCollector(), common.getLiftReason()])
                 .then(axios.spread(function (collector, reason) {
                     _this.collectors = collector.data;
                     _this.reasons = reason.data;

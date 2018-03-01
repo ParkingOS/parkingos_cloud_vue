@@ -40,7 +40,7 @@
 
 
 <script>
-    import {path, orderStateType, orderPayType} from '../../api/api';
+    import {path, orderStateType, orderPayType,parkType} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID_UNION} from '../../common/js/const'
@@ -92,11 +92,19 @@
                         subs: [{
                             label: '所属车场',
                             prop: 'comid',
-                            width: '123',
-                            type: 'str',
+                            width: '150',
+                            type: 'selection',
+                            selectlist: this.parklist,
                             searchable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                let result = common.nameformat(row, this.parklist, 'comid');
+                                if (result == '请选择')
+                                    result = '';
+                                return result;
+                            }
+
                         }]
                     }, {
 
@@ -133,12 +141,18 @@
                             label: '进场收费员',
                             prop: 'uid',
                             width: '123',
-                            type: 'str',
-
+                            type: 'selection',
+                            selectlist: this.collectors,
                             searchable: true,
 
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format: (row) => {
+                                let result = common.nameformat(row, this.collectors, 'uid');
+                                if (result == '请选择')
+                                    result = '';
+                                return result;
+                            }
                         }]
                     }, {
 
@@ -161,12 +175,15 @@
                             label: '车场类型',
                             prop: 'parking_type',
                             width: '123',
-                            type: 'str',
-
+                            type: 'selection',
+                            selectlist:parkType,
                             searchable: true,
 
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:(row)=>{
+                                return common.nameformat(row,parkType,'parking_type')
+                            }
                         }]
                     }, {
 
@@ -300,6 +317,7 @@
                 img_out: [],
                 imgpath: '',
                 collectors: '',
+                parklist: '',
             }
         },
         methods: {
@@ -349,17 +367,21 @@
             this.$refs['bolinkuniontable'].getTableData({})
             // getCollector
             let _this = this
-            axios.all([common.getCollector()])
-                .then(axios.spread(function (ret) {
+            axios.all([common.getAllCollector(), common.getAllParks()])
+                .then(axios.spread(function (ret, parks) {
                     _this.collectors = ret.data;
+                    _this.parklist = parks.data;
                     // console.log(ret.data)
                 }))
         },
         watch: {
-            // collectors: function (val) {
-            //     this.tableitems[16].subs[0].selectlist = val
-            //     this.tableitems[17].subs[0].selectlist = val
-            // }
+            collectors: function (val) {
+                this.tableitems[4].subs[0].selectlist = val
+
+            },
+            parklist: function (val) {
+                this.tableitems[1].subs[0].selectlist = val
+            }
         }
     }
 
