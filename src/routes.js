@@ -4,7 +4,7 @@ import NotFound from './pages/404.vue'
 // import Home from './pages/Home.vue'
 import HomeCloud from './pages/HomeCloud.vue'
 
-//云平台页面
+//云平台页面-车场
 import index from './pages/park/index.vue'
 import OrderManage_Orders from './pages/park/OrderManage_Orders.vue'
 import OrderManage_Poles from './pages/park/OrderManage_Poles.vue'
@@ -37,8 +37,10 @@ import SystemManage_Price from './pages/park/SystemManage_Price.vue'
 import SystemManage_MonthCard from './pages/park/SystemManage_MonthCard.vue'
 import SystemManage_Logs from './pages/park/SystemManage_Logs.vue'
 
-
-
+//云平台页面-集团
+import BusinessOrder_Cars from './pages/union/BusinessOrder_Cars.vue'
+import BusinessOrder_Orders from './pages/union/BusinessOrder_Orders.vue'
+import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue'
 
 let routes = [
 
@@ -48,42 +50,23 @@ let routes = [
         name: '',
         hidden: true
     },
-    // {
-    //     path: '/login',
-    //     component: Login,
-    //     name: '',
-    //     hidden: true
-    // },
+
     {
         path: '/404',
         component: NotFound,
         name: '',
         hidden: true
     },
-
-    /*
-     {
-         path: '/',
-         component: Home,
-         name: '控制台',
-         iconCls: 'el-icon-menu',
-         hidden:true,
-         children: [
-             { path: '/echarts1', component: Echarts, name: '收费趋势图' },
-                   { path: '/echarts2', component: Echarts, name: '车位利用率' },
-                   { path: '/echarts3', component: Echarts, name: '人员设备概况' },
-         ]
-     },
-     */
     /*
     * 以下是云平台页面
+    * 车场
     *
     * */
 
     {
         path: '/',
         component: HomeCloud,
-        // name: '订单管理',
+        // name: 'home',
         iconCls: 'el-icon-document',
         children: [
             {path: '/index', component: index, name: '空页面'},
@@ -124,7 +107,7 @@ let routes = [
         children: [
             {path: '/monthMember_VIP', component: MonthMember_VIP, name: '月卡会员'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '电子支付',
@@ -132,7 +115,7 @@ let routes = [
         children: [
             {path: '/onlinePay_CashManage', component: OnlinePay_CashManage, name: '提现管理'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '电子支付',
@@ -213,7 +196,7 @@ let routes = [
         children: [
             {path: '/equipmentManage_Channel', component: EquipmentManage_Channel, name: '通道管理'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '设备管理',
@@ -221,7 +204,7 @@ let routes = [
         children: [
             {path: '/equipmentManage_Camera', component: EquipmentManage_Camera, name: '摄像头管理'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '设备管理',
@@ -256,7 +239,7 @@ let routes = [
         children: [
             {path: '/systemManage_BlackList', component: SystemManage_BlackList, name: '黑名单管理'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '系统管理',
@@ -264,7 +247,7 @@ let routes = [
         children: [
             {path: '/systemManage_Commute', component: SystemManage_Commute, name: '上下班记录'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '系统管理',
@@ -272,7 +255,7 @@ let routes = [
         children: [
             {path: '/systemManage_Account', component: SystemManage_Account, name: '账户管理'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '系统管理',
@@ -280,7 +263,7 @@ let routes = [
         children: [
             {path: '/systemManage_Params', component: SystemManage_Params, name: '参数管理'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '系统管理',
@@ -288,7 +271,7 @@ let routes = [
         children: [
             {path: '/systemManage_FreeReason', component: SystemManage_FreeReason, name: '免费原因'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '系统管理',
@@ -296,7 +279,7 @@ let routes = [
         children: [
             {path: '/systemManage_CarManage_CarType', component: SystemManage_CarManage_CarType, name: '车型管理dad'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '系统管理',
@@ -304,7 +287,7 @@ let routes = [
         children: [
             {path: '/systemManage_CarManage_BindType', component: SystemManage_CarManage_BindType, name: '车型管理son'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '系统管理',
@@ -312,7 +295,7 @@ let routes = [
         children: [
             {path: '/systemManage_Price', component: SystemManage_Price, name: '价格管理'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '系统管理',
@@ -320,13 +303,46 @@ let routes = [
         children: [
             {path: '/systemManage_MonthCard', component: SystemManage_MonthCard, name: '月卡套餐管理'},
         ]
-    },{
+    }, {
         path: '/',
         component: HomeCloud,
         // name: '系统管理',
         iconCls: 'el-icon-document',
         children: [
             {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'},
+        ]
+    },
+
+    /*
+    * 以下是云平台页面
+    * 集团
+    *
+    * */
+    {
+        path: '/',
+        component: HomeCloud,
+        // name: '业务订单',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/businessOrder_Orders', component: BusinessOrder_Orders, name: '订单记录'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        // name: '业务订单',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/businessOrder_Poles', component: BusinessOrder_Poles, name: '抬杆记录'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        // name: '业务订单',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/businessOrder_Cars', component: BusinessOrder_Cars, name: '在场车辆'},
         ]
     },
 

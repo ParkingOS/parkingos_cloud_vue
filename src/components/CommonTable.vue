@@ -2,7 +2,7 @@
     <section>
         <!--工具条-->
         <el-row style="margin-bottom:8px" v-if="!hideTool">
-            <el-col :span="24" v-if="!showRight" align="left">
+            <el-col :span="24" align="left">
                 <el-col :span="18" align="left">
 
                     <div v-if="showRefillInfo" style="display:inline;margin-right:100px;float: left">
@@ -25,17 +25,6 @@
                             <template slot="prepend">空车位</template>
                         </el-input>
                     </div>
-                    <el-button type="primary" size="small" @click="handleCustomizeAdd" v-if="showCustomizeAdd">
-                        {{addtitle}}
-                    </el-button>
-                    <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
-                    </el-button>
-                    <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                        <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
-                    </el-tooltip>
-                    <el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
-                    <!--<el-button type="primary" size="small" @click="handlePrint()">打印</el-button>-->
-
 
                     <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
                         <el-select v-model="currentcollect" placeholder="请选择收费员" @change="changeanalysisdatecollect"
@@ -81,6 +70,17 @@
                         <span style="color: red">(最多支持12个月的数据查询)</span>
                     </div>
 
+                    <el-button type="primary" size="small" @click="handleCustomizeAdd" v-if="showCustomizeAdd">
+                        {{addtitle}}
+                    </el-button>
+                    <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
+                    </el-button>
+                    <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
+                        <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
+                    </el-tooltip>
+                    <el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
+                    <!--<el-button type="primary" size="small" @click="handlePrint()">打印</el-button>-->
+
                 </el-col>
 
                 <el-col :span="6" align="right" style="float: right">
@@ -89,22 +89,7 @@
                     <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>
                 </el-col>
             </el-col>
-            <el-col :span="24" v-if="showRight">
-                <el-col :span="4" align="left" style="height:36px;padding-top:8px">
-                    <span style="font-size:15px;font-weight:bold" v-if="showLeftTitle">{{leftTitle}}</span>
-                </el-col>
-                <el-col :span="20" align="right">
-                    <el-button type="primary" @click="handleSearch" size="small" v-if="!hideSearch" align="center">
-                        高级查询
-                    </el-button>
-                    <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                        <el-button type="primary" @click="handleExport" size="small" v-if="!hideExport">导出</el-button>
-                    </el-tooltip>
-                    <el-button type="primary" @click="handleAdd" size="small" v-if="!hideAdd">{{addtitle}}</el-button>
-                    <el-button @click="refresh" type="text" size="small">刷新</el-button>
 
-                </el-col>
-            </el-col>
         </el-row>
         <!--列表-->
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight2"
@@ -173,44 +158,6 @@
                     <el-table-column
                             :label="items.label"
                             header-align="center">
-
-                        <!--<div v-for="item in items" >-->
-                        <!--<div v-if="item.hasSubs">-->
-                        <!--<el-table-column-->
-                        <!--:label="item.label"-->
-                        <!--header-align="center">-->
-
-                        <!--<el-table-column-->
-                        <!--v-for="tableitem in item.subs"-->
-                        <!--v-if="!tableitem.hidden"-->
-                        <!--:prop="tableitem.prop"-->
-                        <!--:label="tableitem.label"-->
-                        <!--header-align="center"-->
-                        <!--:align="tableitem.align"-->
-                        <!--:sortable="!tableitem.unsortable"-->
-                        <!--:width="tableitem.width"-->
-                        <!--:formatter="tableitem.format"-->
-                        <!--&gt;-->
-                        <!--</el-table-column>-->
-                        <!--</el-table-column>-->
-                        <!--</div>-->
-                        <!--<div v-if="!item.hasSubs">-->
-                        <!--<el-table-column-->
-                        <!--v-for="tableitem in item.subs"-->
-                        <!--v-if="!tableitem.hidden"-->
-                        <!--:prop="tableitem.prop"-->
-                        <!--:label="tableitem.label"-->
-                        <!--header-align="center"-->
-                        <!--:align="tableitem.align"-->
-                        <!--:sortable="!tableitem.unsortable"-->
-                        <!--:width="tableitem.width"-->
-                        <!--:formatter="tableitem.format"-->
-                        <!--&gt;-->
-
-                        <!--</el-table-column>-->
-                        <!--</div>-->
-                        <!--</div>-->
-
                         <el-table-column
                                 v-for="tableitem in items.subs"
                                 v-if="!tableitem.hidden"
@@ -237,9 +184,6 @@
                             :width="tableitem.width"
                             :formatter="tableitem.format"
                     >
-                        <!--<template scope="scope" v-if="items.hasSubs">-->
-                        <!--<span class="link-type" @click="handleShowImg(scope.$index, scope.row )">123333</span>-->
-                        <!--</template>-->
                     </el-table-column>
                 </div>
             </div>
@@ -364,14 +308,6 @@
 				<el-button type="primary" size="small" @click="resetPwd" :loading="resetloading">确 定</el-button>
 			</span>
         </el-dialog>
-
-        <!--<el-dialog title="车辆图片" v-model="imgDialog">-->
-        <!--<img v-bind:src="imgdialog_url" width="400px" height="300px"/>-->
-        <!--&lt;!&ndash;<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>&ndash;&gt;-->
-        <!--<span slot="footer" class="dialog-footer">-->
-        <!--<el-button @click="imgDialog = false" size="small">确 认</el-button>-->
-        <!--</span>-->
-        <!--</el-dialog>-->
     </section>
 </template>
 
@@ -450,8 +386,8 @@
                         return time.getTime() > Date.now();
                     }
                 },
-                start_placeholder: '1',
-                end_placeholder: '1',
+                start_placeholder: '',
+                end_placeholder: '',
                 start_month_placeholder:'',
 
                 pickerOptions2: {
@@ -526,7 +462,7 @@
                 tableheight2: common.gwh() - 143,
             }
         },
-        props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showRight', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
+        props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showdateSelectorMonth',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showShopEdit'],
@@ -688,6 +624,8 @@
                 // console.log('-----------------------')
                 user = JSON.parse(user)
                 for (var i = 0; i < this.tableitems.length; i++) {
+                    console.log('>>'+this.tableitems[i].customSelect)
+
                     if (this.tableitems[i].customSelect == 'parkserver') {
                         //重置该selectlist,根据
                         var params;

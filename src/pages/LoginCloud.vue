@@ -47,7 +47,7 @@
     import {path, checkPass} from '../api/api'
     import MD5 from 'crypto-js/md5'
     import common from '../common/js/common'
-    import {ROLE_ID,AUTH_ID} from '../common/js/const'
+    import {ROLE_ID,AUTH_ID,AUTH_ID_UNION,showUnionItem_const,showParkItem_const} from '../common/js/const'
 
     var key = CryptoJS.enc.Utf8.parse("zldboink20170613");
     var iv = CryptoJS.enc.Utf8.parse('zldboink20170613');
@@ -62,47 +62,8 @@
                 expandindex: '',   //'/order',//展开的sub_menu
                 highlightindex: '',//'/orderManage_Poles',//高亮的item
                 //根据权限控制页面是否显示
-                showItem: {
-                    orderManage: false,
-                    orderManage_Orders: false,
-                    orderManage_Poles: false,
-                    monthMember: false,
-                    monthMember_Refill: false,
-                    monthMember_VIP: false,
-                    orderStatistics: false,
-                    orderStatistics_DailyReport: false,
-                    orderStatistics_MonthReport: false,
-                    onlinePay: false,
-                    onlinePay_Income: false,
-                    onlinePay_CashManage: false,
-                    shopManage: false,
-                    shopManage_Coupon: false,
-                    shopManage_Shop: false,
-                    shopManage_QueryAccount: false,
-                    equipmentManage: false,
-                    equipmentManage_Monitor: false,
-                    equipmentManage_Intercom: false,
-                    equipmentManage_WorkStation: false,
-                    equipmentManage_Channel: false,
-                    equipmentManage_Camera: false,
-                    equipmentManage_LED: false,
-                    employeePermission: false,
-                    employeePermission_Role: false,
-                    employeePermission_Manage: false,
-                    systemManage: false,
-                    systemManage_BlackList: false,
-                    systemManage_Commute: false,
-                    systemManage_Account: false,
-                    systemManage_Params: false,
-                    systemManage_FreeReason: false,
-                    systemManage_CarManage: false,
-                    systemManage_CarManage_CarType: false,
-                    systemManage_CarManage_BindType: false,
-                    systemManage_Price: false,
-                    systemManage_MonthCard: false,
-                    systemManage_Logs: false,
-                    centerMonitor: false,
-                },
+                showParkItem: showParkItem_const,
+                showUnionItem:showUnionItem_const,
 
                 logining: false,
                 getPassVisible: false,
@@ -378,6 +339,7 @@
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
                         }).then(function (response) {
+                            console.log(response)
                             let ret = response.data;
                             if (ret.state) {
                                 var u = ret.user;
@@ -394,7 +356,6 @@
                                 sessionStorage.setItem('ishdorder', u.ishdorder)
                                 sessionStorage.setItem('loginroleid', u.loginroleid)
 
-
                                 // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                                 if (u.oid == ROLE_ID.GROUP) {
                                     // _this.$router.push({path: '/bolinkunion'});
@@ -402,27 +363,53 @@
                                     // _this.$router.push({path: '/account'});
                                 } else if (u.oid == ROLE_ID.UNION) {
                                     // _this.$router.push({path: '/account'});
+                                    for (let item in _this.showUnionItem) {
+                                        //第一层循环，取出标签的 v-if
+                                        for (let p in AUTH_ID_UNION) {
+                                            //第二层循环，取出AUTH_ID的item
+                                            if (p == item) {
+                                                //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
+                                                _this.showUnionItem[item] = common.pageShow(u, AUTH_ID_UNION[p])
+                                                if (_this.highlightindex=='') {
+                                                    //没有导航到任意界面，则继续检测
+                                                    if (item.indexOf('_') > -1) {
+                                                        //带下划线的才是页面
+                                                        if (_this.showUnionItem[item]) {
+                                                            _this.highlightindex = '/' + item;
+                                                            _this.expandindex = '/' + item.split('_')[0];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    sessionStorage.setItem('showUnionItem',JSON.stringify(_this.showUnionItem))
+                                    console.log(_this.showUnionItem)
+                                    if(_this.highlightindex==''){
+                                        _this.$router.push({path: '/index'});
+                                    }else{
+                                        _this.$router.push({path: _this.highlightindex});
+                                        sessionStorage.setItem('highlightindex', _this.highlightindex)
+                                    }
                                 } else if (u.oid == ROLE_ID.CITY) {
                                     // _this.$router.push({path: '/account'});
                                 } else if (u.oid == ROLE_ID.PARK || u.roleid == 0) {
                                     //先跳转空页面，然后再根据数据情况显示页面再跳转
                                     // _this.$router.push({path: '/index'});
                                     // _this.$router.push({path: '/orderManage_Orders'});
-
-
-
-                                    for (let item in _this.showItem) {
+                                    for (let item in _this.showParkItem) {
                                         //第一层循环，取出标签的 v-if
                                         for (let p in AUTH_ID) {
                                             //第二层循环，取出AUTH_ID的item
                                             if (p == item) {
                                                 //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
-                                                _this.showItem[item] = common.pageShow(u, AUTH_ID[p])
+                                                _this.showParkItem[item] = common.pageShow(u, AUTH_ID[p])
                                                 if (_this.highlightindex=='') {
                                                     //没有导航到任意界面，则继续检测
                                                     if (item.indexOf('_') > -1) {
                                                         //带下划线的才是页面
-                                                        if (_this.showItem[item]) {
+                                                        if (_this.showParkItem[item]) {
                                                             _this.highlightindex = '/' + item;
                                                             _this.expandindex = '/' + item.split('_')[0];
 
@@ -434,17 +421,14 @@
                                         }
                                     }
 
-                                    sessionStorage.setItem('showItem',JSON.stringify(_this.showItem))
-                                    console.log(_this.showItem)
+                                    sessionStorage.setItem('showParkItem',JSON.stringify(_this.showParkItem))
+                                    console.log(_this.showParkItem)
                                     if(_this.highlightindex==''){
-                                        console.log('00000000')
                                         _this.$router.push({path: '/index'});
                                     }else{
-                                        console.log('2222222')
                                         _this.$router.push({path: _this.highlightindex});
                                         sessionStorage.setItem('highlightindex', _this.highlightindex)
                                     }
-
                                 }
                                 // 还有一种没有roleid,它是根据另一种判断登录的
                                 //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员
