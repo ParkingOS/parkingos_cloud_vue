@@ -85,18 +85,42 @@ export const AUTH_ID_UNION = {
     businessOrder_Cars: 208,                        //在场车辆
     businessOrder_Orders: 104,                      //订单记录
     businessOrder_Poles: 106,                       //抬杆记录
-    member:212,                                     //会员
-    member_MonthVIP:214,                            //月卡会员
-    member_BlackList:215,                           //黑名单管理
+    member: 212,                                     //会员
+    member_MonthVIP: 214,                            //月卡会员
+    member_BlackList: 215,                           //黑名单管理
+    systemSetting: 238,                              //系统设置
+    systemSetting_Company: 240,                      //企业信息
+    systemSetting_Account: 247,                      //账户信息
+    systemSetting_Park: 243,                         //停车场
+    systemSetting_HR: 239,                           //人力资源
+    systemSetting_EmployeeManage: 246,               //员工管理
+    systemSetting_RoleManage: 245,                   //角色管理
+    systemSetting_LogsManage: 244,                   //日志管理
+    systemSetting_LogsOperates: 284,                 //操作日志管理
+    systemSetting_LogsCollector: 283,                //收费员日志
+    strategicAnalysis:219,                           //决策分析
+    strategicAnalysis_DailyReport:225,               //封闭车场订单统计-车场日报
 };
-export const showUnionItem_const={
-    businessOrder:false,
-    businessOrder_Cars:false,
-    businessOrder_Orders:false,
-    businessOrder_Poles:false,
-    member:false,
-    member_MonthVIP:false,
-    member_BlackList:false,
+export const showUnionItem_const = {
+    businessOrder: false,
+    businessOrder_Cars: false,
+    businessOrder_Orders: false,
+    businessOrder_Poles: false,
+    member: false,
+    member_MonthVIP: false,
+    member_BlackList: false,
+    systemSetting: false,
+    systemSetting_Company: false,
+    systemSetting_Account: false,
+    systemSetting_Park: false,
+    systemSetting_HR: false,
+    systemSetting_EmployeeManage: false,
+    systemSetting_RoleManage: false,
+    systemSetting_LogsManage: false,
+    systemSetting_LogsOperates: false,
+    systemSetting_LogsCollector: false,
+    strategicAnalysis:false,
+    strategicAnalysis_DailyReport:false,
 }
 export const ROLE_ID = {
     // 30 车场,26集团,,,27渠道,,28联盟,,,29城市

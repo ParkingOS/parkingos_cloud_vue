@@ -212,6 +212,46 @@
                                 黑名单管理
                             </el-menu-item>
                         </el-submenu>
+                        <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
+                            <template slot="title"><span class="menuitem">决策分析</span></template>
+                            <el-menu-item index="/strategicAnalysis_DailyReport" v-if="this.showUnionItem.strategicAnalysis_DailyReport">
+                                车场日报
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
+                            <template slot="title"><span class="menuitem">系统设置</span></template>
+                            <el-submenu index="/systemSetting_Company" v-if="this.showUnionItem.systemSetting_Company">
+                                <template slot="title"><span class="menuitem" style="font-size: 14px;">企业信息</span>
+                                </template>
+                                <el-menu-item index="/systemSetting_Account"
+                                              v-if="this.showUnionItem.systemSetting_Account">账户信息
+                                </el-menu-item>
+                            </el-submenu>
+                            <el-menu-item index="/systemSetting_Park" v-if="this.showUnionItem.systemSetting_Park">
+                                停车场
+                            </el-menu-item>
+                            <el-submenu index="/systemSetting_HR" v-if="this.showUnionItem.systemSetting_HR">
+                                <template slot="title"><span class="menuitem" style="font-size: 14px;">人力资源</span>
+                                </template>
+                                <el-menu-item index="/systemSetting_RoleManage"
+                                              v-if="this.showUnionItem.systemSetting_RoleManage">角色管理
+                                </el-menu-item>
+                                <el-menu-item index="/systemSetting_EmployeeManage"
+                                              v-if="this.showUnionItem.systemSetting_EmployeeManage">员工管理
+                                </el-menu-item>
+                            </el-submenu>
+                            <el-submenu index="/systemSetting_LogsManage"
+                                        v-if="this.showUnionItem.systemSetting_LogsManage">
+                                <template slot="title"><span class="menuitem" style="font-size: 14px;">日志管理</span>
+                                </template>
+                                <el-menu-item index="/systemSetting_LogsOperates"
+                                              v-if="this.showUnionItem.systemSetting_LogsOperates">操作日志管理
+                                </el-menu-item>
+                                <el-menu-item index="/systemSetting_LogsCollector"
+                                              v-if="this.showUnionItem.systemSetting_LogsCollector">收费员日志
+                                </el-menu-item>
+                            </el-submenu>
+                        </el-submenu>
                     </el-row>
                 </el-menu>
             </aside>

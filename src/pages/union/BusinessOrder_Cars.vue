@@ -21,14 +21,8 @@
                 ref="bolinkuniontable"
         ></CommonTable>
         <el-dialog title="车辆图片" :visible.sync="imgDialog" width="40%">
-            <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
-            <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
             <p>进场图片</p>
             <div v-for="img in img_in">
-                <img v-bind:src="imgpath+img" width="600px" height="450px"/>
-            </div>
-            <p>出场图片</p>
-            <div v-for="img in img_out">
                 <img v-bind:src="imgpath+img" width="600px" height="450px"/>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -40,7 +34,7 @@
 
 
 <script>
-    import {path, orderStateType, orderPayType,parkType} from '../../api/api';
+    import {path, orderStateType, orderPayType, parkType} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID_UNION} from '../../common/js/const'
@@ -106,41 +100,43 @@
                             }
 
                         }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '所属泊位段',
-                            prop: 'berthsec_id',
-                            width: '123',
-                            type: 'str',
-
-                            searchable: true,
-
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '泊位编号',
-                            prop: 'cid',
-                            width: '123',
-                            type: 'str',
-
-                            searchable: true,
-
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
+                    },
+                    // {
+                    //
+                    //     hasSubs: false,
+                    //     subs: [{
+                    //         label: '所属泊位段',
+                    //         prop: 'berthsec_id',
+                    //         width: '123',
+                    //         type: 'str',
+                    //
+                    //         searchable: true,
+                    //
+                    //         unsortable: true,
+                    //         align: 'center'
+                    //     }]
+                    // }, {
+                    //
+                    //     hasSubs: false,
+                    //     subs: [{
+                    //         label: '泊位编号',
+                    //         prop: 'cid',
+                    //         width: '123',
+                    //         type: 'str',
+                    //
+                    //         searchable: true,
+                    //
+                    //         unsortable: true,
+                    //         align: 'center'
+                    //     }]
+                    // },
+                    {
 
                         hasSubs: false,
                         subs: [{
                             label: '进场收费员',
                             prop: 'uid',
-                            width: '123',
+                            width: '150',
                             type: 'selection',
                             selectlist: this.collectors,
                             searchable: true,
@@ -152,6 +148,7 @@
                                 if (result == '请选择')
                                     result = '';
                                 return result;
+                                // return common.nameformat(row, this.collectors, 'uid');
                             }
                         }]
                     }, {
@@ -176,13 +173,13 @@
                             prop: 'parking_type',
                             width: '123',
                             type: 'selection',
-                            selectlist:parkType,
+                            selectlist: parkType,
                             searchable: true,
 
                             unsortable: true,
                             align: 'center',
-                            format:(row)=>{
-                                return common.nameformat(row,parkType,'parking_type')
+                            format: (row) => {
+                                return common.nameformat(row, parkType, 'parking_type')
                             }
                         }]
                     }, {
@@ -376,8 +373,7 @@
         },
         watch: {
             collectors: function (val) {
-                this.tableitems[4].subs[0].selectlist = val
-
+                this.tableitems[2].subs[0].selectlist = val
             },
             parklist: function (val) {
                 this.tableitems[1].subs[0].selectlist = val

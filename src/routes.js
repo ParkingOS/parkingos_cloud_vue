@@ -43,6 +43,13 @@ import BusinessOrder_Orders from './pages/union/BusinessOrder_Orders.vue'
 import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue'
 import Member_MonthVIP from './pages/union/Member_MonthVIP.vue'
 import Member_BlackList from './pages/union/Member_BlackList.vue'
+import SystemSetting_Account from './pages/union/SystemSetting_Account.vue'
+import SystemSetting_Park from './pages/union/SystemSetting_Park.vue'
+import SystemSetting_EmployeeManage from './pages/union/SystemSetting_EmployeeManage.vue'
+import SystemSetting_RoleManage from './pages/union/SystemSetting_RoleManage.vue'
+import SystemSetting_LogsOperate from './pages/union/SystemSetting_LogsOperate.vue'
+import SystemSetting_LogsCollector from './pages/union/SystemSetting_LogsCollector.vue'
+import StrategicAnalysis_DailyReport from './pages/union/StrategicAnalysis_DailyReport.vue'
 
 let routes = [
 
@@ -163,7 +170,7 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        // name: '业务订单',
+        name: '业务订单',
         iconCls: 'el-icon-document',
         children: [
             {path: '/businessOrder_Orders', component: BusinessOrder_Orders, name: '订单记录'},
@@ -175,31 +182,37 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
-        // name: '会员',
+        name: '会员',
         iconCls: 'el-icon-document',
         children: [
             {path: '/member_MonthVIP', component: Member_MonthVIP, name: '月卡会员'},
             {path: '/member_BlackList', component: Member_BlackList, name: '黑名单管理'},
         ]
     },
-    // {
-    //     path: '/',
-    //     component: HomeCloud,
-    //     // name: '系统设置',
-    //     iconCls: 'el-icon-document',
-    //     children: [
-    //         {path: '/systemSetting_Account', component: SystemSetting_Account, name: '账户信息'},
-    //     ]
-    // },
-    // {
-    //     path: '/',
-    //     component: HomeCloud,
-    //     // name: '系统设置',
-    //     iconCls: 'el-icon-document',
-    //     children: [
-    //         {path: '/systemSetting_Park.vue', component: SystemSetting_Park.vue, name: '停车场'},
-    //     ]
-    // },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '决策分析',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/strategicAnalysis_DailyReport', component: StrategicAnalysis_DailyReport, name: '车场日报'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '系统设置',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/systemSetting_Account', component: SystemSetting_Account, name: '账户信息'},
+            {path: '/systemSetting_Park', component: SystemSetting_Park, name: '停车场'},
+            {path: '/systemSetting_EmployeeManage', component: SystemSetting_EmployeeManage, name: '员工管理'},
+            {path: '/systemSetting_RoleManage', component: SystemSetting_RoleManage, name: '角色管理'},
+            {path: '/systemSetting_LogsOperates', component: SystemSetting_LogsOperate, name: '操作日志管理'},
+            {path: '/systemSetting_LogsCollector', component: SystemSetting_LogsCollector, name: '收费员日志'},
+
+        ]
+    },
 
     /*
     * 404保留页面

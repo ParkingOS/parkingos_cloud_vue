@@ -563,6 +563,7 @@
                 sform.orderfield = this.orderfield
                 sform.fieldsstr = this.fieldsstr
                 sform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid')
+                // console.log('>>>>'+sessionStorage.getItem('comid'))
                 sform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid')
                 sform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid')
 
