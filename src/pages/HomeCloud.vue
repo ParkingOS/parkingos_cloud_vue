@@ -214,7 +214,8 @@
                         </el-submenu>
                         <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
                             <template slot="title"><span class="menuitem">决策分析</span></template>
-                            <el-menu-item index="/strategicAnalysis_DailyReport" v-if="this.showUnionItem.strategicAnalysis_DailyReport">
+                            <el-menu-item index="/strategicAnalysis_DailyReport"
+                                          v-if="this.showUnionItem.strategicAnalysis_DailyReport">
                                 车场日报
                             </el-menu-item>
                         </el-submenu>
@@ -252,6 +253,10 @@
                                 </el-menu-item>
                             </el-submenu>
                         </el-submenu>
+                        <el-menu-item v-if="this.showUnionItem.centerMonitor" index="centerMonitor"
+                                      style="font-weight: normal">
+                            <template slot="title"><span class="menuitem">中央监控</span></template>
+                        </el-menu-item>
                     </el-row>
                 </el-menu>
             </aside>

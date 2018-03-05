@@ -82,7 +82,8 @@
                     <el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
+                    <el-input v-model="refillForm.remark" style="width:90%" placeholder=""
+                              :readonly="datereadonly"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -162,7 +163,18 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
+                    <el-input v-model="refillForm.remark" style="width:90%" placeholder=""
+                              :readonly="datereadonly"></el-input>
+                </el-form-item>
+                <el-form-item label="所属车场">
+                    <el-checkbox @change="checkpark()">全部
+                    </el-checkbox>
+                    <div v-for="park of parklist" style="margin-left: 20px;">
+                        <el-checkbox
+                                @change="checkpark()"
+                                v-model="park.ischeck">{{park.value_name}}
+                        </el-checkbox>
+                    </div>
                 </el-form-item>
 
             </el-form>
@@ -190,7 +202,7 @@
     } from '../../api/api';
 
     import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
+    import {AUTH_ID_UNION} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
     import AddDate from '../../components/add-subs/AddDate'
 
@@ -216,11 +228,11 @@
                 showmRefill: true,
                 showCustomizeAdd: false,
                 hideAdd: true,
-                queryapi: '/vip/query',
-                exportapi: '/vip/exportExcel',
-                addapi: '/vip/add',
-                editapi: '/vip/edit',
-                delapi: '/vip/delete',
+                queryapi: '/cityvip/query',
+                exportapi: '/cityvip/exportExcel',
+                addapi: '/cityvip/add',
+                editapi: '/cityvip/edit',
+                delapi: '/cityvip/delete',
                 parkid: '',
                 currentIndex: 0,
                 currentRow: '',
@@ -229,28 +241,15 @@
                 showRegis: false,
                 resetCarnumber: '',
                 btswidth: '200',
-                fieldsstr: 'id__card_id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
+                fieldsstr: 'id__pid__com_id__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
                 tableitems: [
-                    // {
-                    //     hasSubs: false, subs: [
-                    //         {
-                    //             label: '编号',
-                    //             prop: 'id',
-                    //             width: '100',
-                    //             type: 'number',
-                    //             searchable: true,
-                    //             unsortable: true,
-                    //             align: 'center',
-                    //         },
-                    //     ]
-                    // },
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '月卡编号',
-                                prop: 'card_id',
-                                width: '123',
-                                type: 'str',
+                                label: '编号',
+                                prop: 'id',
+                                width: '100',
+                                type: 'number',
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center',
@@ -270,6 +269,25 @@
                                 align: 'center',
                                 format: (row) => {
                                     return common.nameformat(row, this.pname, 'pid')
+                                }
+                            },
+                        ]
+                    }, {
+                        hasSubs: false, subs: [
+                            {
+                                label: '所属车场',
+                                prop: 'com_id',
+                                width: '100',
+                                type: 'selection',
+                                selectlist: this.parklist,
+                                searchable: true,
+                                unsortable: true,
+                                align: 'center',
+                                format: (row) => {
+                                    let result = common.nameformat(row, this.parklist, 'com_id');
+                                    if (result == '请选择')
+                                        result = '';
+                                    return result;
                                 }
                             },
                         ]
@@ -429,21 +447,6 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '创建时间',
-                                prop: 'create_time',
-                                width: '175',
-                                type: 'date',
-
-                                align: 'center',
-                                format: function (row) {
-                                    return common.dateformat(row.create_time);
-                                }
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
                                 label: '单双日限行',
                                 prop: 'limit_day_type',
                                 width: '123',
@@ -479,7 +482,7 @@
                 searchtitle: '高级查询',
                 addtitle: '注册会员',
                 readonly: true,
-                datereadonly:true,
+                datereadonly: true,
                 refillFormRules: {
                     total: [
                         {required: true, message: '应收金额不能为空', trigger: 'blur'}
@@ -518,7 +521,7 @@
                     mobile: '',
                     limit_day_type: '',
                     remark: '',
-                    car_type_id:'',
+                    car_type_id: '',
                 },
                 p_name: 'p_name',
                 months: 'months',
@@ -532,6 +535,7 @@
                     {'value_name': '限制', 'value_no': 1}
                 ],
                 refillstartDate: 0,
+                parklist: '',
             }
         },
         methods: {
@@ -640,7 +644,7 @@
                 })
 
             },
-             getRefillTotal: function () {
+            getRefillTotal: function () {
                 // console.log('计算续费金额' + this.refillForm.p_name + ' -- ' + this.refillForm.months)
                 // if (this.refillForm.p_name == '' || this.refillForm.months == '')
                 //     return;
@@ -742,8 +746,9 @@
                 user = JSON.parse(user);
                 // console.log(user.authlist.length)
                 for (var item of user.authlist) {
-                    if (AUTH_ID.monthMember_VIP == item.auth_id) {
-                        // console.log(item.sub_auth)
+                    if (AUTH_ID_UNION.member_MonthVIP == item.auth_id) {
+                        console.log(item.sub_auth)
+                        // this.hideAdd = !common.showSubAdd(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth)
                         this.hideSearch = !common.showSubSearch(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)
@@ -751,9 +756,10 @@
                         this.showModifyCarNumber = common.showSubUpdate(item.sub_auth)
                         this.showEdit = common.showSubEdit(item.sub_auth)
                         this.showCustomizeAdd = common.showSubAdd(item.sub_auth)
-                        if(!this.showModifyCarNumber&&!this.showdelete&&!this.showmRefill){
+                        if (!this.showModifyCarNumber && !this.showdelete && !this.showmRefill) {
                             this.hideOptions = true;
                         }
+                        this.hideOptions = true;
                         break;
                     }
                 }
@@ -769,10 +775,16 @@
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
             let _this = this
-            axios.all([common.getPName(), common.getCarType()])
-                .then(axios.spread(function (retpname, retcartype) {
+            axios.all([common.getPName(), common.getCarType(), common.getAllParks()])
+                .then(axios.spread(function (retpname, retcartype, parks) {
                     _this.pname = retpname.data;
                     _this.cartype = retcartype.data;
+                    _this.parklist = parks.data;
+                    if (_this.parklist != undefined) {
+                        for (let park of _this.parklist) {
+                            park.ischeck = false;
+                        }
+                    }
                     // console.log(ret.data)
                     // console.log(_this.pname)
                 }))
@@ -783,6 +795,9 @@
             },
             cartype: function (val) {
                 this.tableitems[10].subs[0].selectlist = val
+            },
+            parklist: function (val) {
+                this.tableitems[2].subs[0].selectlist = val
             }
         }
     }

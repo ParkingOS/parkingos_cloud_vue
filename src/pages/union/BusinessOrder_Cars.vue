@@ -182,7 +182,8 @@
                                 return common.nameformat(row, parkType, 'parking_type')
                             }
                         }]
-                    }, {
+                    },
+                    {
 
                         hasSubs: false,
                         subs: [{

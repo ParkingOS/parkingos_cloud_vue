@@ -100,6 +100,7 @@ export const AUTH_ID_UNION = {
     systemSetting_LogsCollector: 283,                //收费员日志
     strategicAnalysis:219,                           //决策分析
     strategicAnalysis_DailyReport:225,               //封闭车场订单统计-车场日报
+    centerMonitor: 310,              //中央监控
 };
 export const showUnionItem_const = {
     businessOrder: false,
@@ -121,6 +122,7 @@ export const showUnionItem_const = {
     systemSetting_LogsCollector: false,
     strategicAnalysis:false,
     strategicAnalysis_DailyReport:false,
+    centerMonitor:false,
 }
 export const ROLE_ID = {
     // 30 车场,26集团,,,27渠道,,28联盟,,,29城市

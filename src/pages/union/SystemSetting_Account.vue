@@ -1,17 +1,17 @@
 <template>
-    <section style="padding: 10px;"  >
+    <section style="padding: 10px;">
         <!--v-loading.body="bodyloading"-->
         <!--<el-dialog v-model="bodyloading"></el-dialog>-->
         <el-row>
             <!--<el-col> 历史总收入:0.00，账号当前余额：0.00，账号可提现余额：0.00</el-col>-->
             <el-col style="margin-left: 10px;">
-                <el-button type="primary" @click="saveModify" >保存信息</el-button>
+                <el-button type="primary" @click="saveModify">保存信息</el-button>
             </el-col>
         </el-row>
-        <el-row style="margin-top:28px"  >
-            <el-col :span="8" style="padding: 10px">
-                <el-card style="height:240px">
-                    <div>基本信息</div>
+        <el-row style="margin-top:28px">
+            <el-col :span="10" style="padding: 10px">
+                <el-card style="height:260px">
+                    <div>运营集团信息</div>
                     <div>
                         <el-row>
                             <el-form style="width:90%;margin-top: 20px;" label-width="100px">
@@ -29,36 +29,25 @@
                     </div>
                 </el-card>
             </el-col>
-            <el-col :span="8" style="padding: 10px">
-                <el-card style="height:240px">
-                    <div>位置信息</div>
+            <el-col :span="10" style="padding: 10px">
+                <el-card style="height:380px">
+                    <div>我的账户信息</div>
                     <div>
                         <el-row>
                             <el-form style="width:90%;margin-top: 20px;" label-width="100px">
-                                <!--<el-form-item label="经纬度">-->
-                                    <!--<el-input v-model="latlng" :readonly="paridreadonly"></el-input>-->
-                                <!--</el-form-item>-->
-                                <el-form-item label="详细地址">
-                                    <el-input v-model="address"></el-input>
+                                <el-form-item label="姓名">
+                                    <el-input v-model="telephone"></el-input>
                                 </el-form-item>
-                            </el-form>
-                        </el-row>
-                        <!--<el-row>-->
-                            <!--<el-button type="primary" @click="clicklocate" size="small">定位</el-button>-->
-                        <!--</el-row>-->
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="8" style="padding: 10px">
-                <el-card style="height:240px">
-                    <div>联系方式</div>
-                    <div>
-                        <el-row>
-                            <el-form style="width:90%;margin-top: 20px;" label-width="100px">
                                 <el-form-item label="电话">
                                     <el-input v-model="telephone"></el-input>
                                 </el-form-item>
                                 <el-form-item label="手机">
+                                    <el-input v-model="mobilephone"></el-input>
+                                </el-form-item>
+                                <el-form-item label="新密码">
+                                    <el-input v-model="mobilephone"></el-input>
+                                </el-form-item>
+                                <el-form-item label="确认密码">
                                     <el-input v-model="mobilephone"></el-input>
                                 </el-form-item>
 
@@ -67,7 +56,37 @@
                     </div>
                 </el-card>
             </el-col>
+
         </el-row>
+        <!--<el-row style="margin-top:28px">-->
+            <!--<el-col :span="10" style="padding: 10px">-->
+                <!--<el-card style="height:380px">-->
+                    <!--<div>我的账户信息</div>-->
+                    <!--<div>-->
+                        <!--<el-row>-->
+                            <!--<el-form style="width:90%;margin-top: 20px;" label-width="100px">-->
+                                <!--<el-form-item label="姓名">-->
+                                    <!--<el-input v-model="telephone"></el-input>-->
+                                <!--</el-form-item>-->
+                                <!--<el-form-item label="电话">-->
+                                    <!--<el-input v-model="telephone"></el-input>-->
+                                <!--</el-form-item>-->
+                                <!--<el-form-item label="手机">-->
+                                    <!--<el-input v-model="mobilephone"></el-input>-->
+                                <!--</el-form-item>-->
+                                <!--<el-form-item label="新密码">-->
+                                    <!--<el-input v-model="mobilephone"></el-input>-->
+                                <!--</el-form-item>-->
+                                <!--<el-form-item label="确认密码">-->
+                                    <!--<el-input v-model="mobilephone"></el-input>-->
+                                <!--</el-form-item>-->
+
+                            <!--</el-form>-->
+                        <!--</el-row>-->
+                    <!--</div>-->
+                <!--</el-card>-->
+            <!--</el-col>-->
+        <!--</el-row>-->
 
         <input v-show="false" v-model.number="center.lng">
         <input v-show="false" v-model.number="center.lat">
@@ -142,7 +161,7 @@
                 queryapi: '/park/query',
                 editapi: '/park/edit',
                 accountinfo: [],
-                bodyloading:false
+                bodyloading: false
             }
         },
         methods: {
@@ -209,14 +228,14 @@
                 this.latlng = this.lng + ' , ' + this.lat
                 this.mapVisible = false
             },
-            getInfo:function () {
+            getInfo: function () {
                 this.bodyloading = true;
                 let qform = {comid: ''}
                 qform.comid = sessionStorage.getItem('comid')
                 var vm = this
 
-                vm.$axios.post(path + vm.queryapi,vm.$qs.stringify(qform),{
-                    headers:{
+                vm.$axios.post(path + vm.queryapi, vm.$qs.stringify(qform), {
+                    headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
                 }).then(function (response) {
@@ -244,29 +263,29 @@
                     } else {
                         // console.log(ret)
                         // vm.accountinfo = ret
-                        for(let item of ret){
-                            if(item.name=='id'){
+                        for (let item of ret) {
+                            if (item.name == 'id') {
                                 vm.parkid = item.value;
                             }
-                            if(item.name=='company_name'){
+                            if (item.name == 'company_name') {
                                 vm.parkname = item.value;
                             }
-                            if(item.name=='parking_total'){
+                            if (item.name == 'parking_total') {
                                 vm.parkspacenums = item.value;
                             }
-                            if(item.name=='address'){
+                            if (item.name == 'address') {
                                 vm.address = item.value;
                             }
-                            if(item.name=='longitude'){
+                            if (item.name == 'longitude') {
                                 vm.lng = item.value;
                             }
-                            if(item.name=='latitude'){
+                            if (item.name == 'latitude') {
                                 vm.lat = item.value;
                             }
-                            if(item.name=='mobile'){
+                            if (item.name == 'mobile') {
                                 vm.mobilephone = item.value;
                             }
-                            if(item.name=='phone'){
+                            if (item.name == 'phone') {
                                 vm.telephone = item.value;
                             }
 
@@ -280,28 +299,28 @@
                         // vm.latlng = ret[16].value + ' , ' + ret[33].value;
                         // vm.mobilephone = ret[34].value;         //mobile
                         // vm.telephone = ret[3].value;            //phone
-                        vm.latlng = vm.lng+' , '+vm.lat;
+                        vm.latlng = vm.lng + ' , ' + vm.lat;
                     }
 
                 }).catch(function (error) {
                     setTimeout(() => {
-                        vm.alertInfo('请求失败!'+error)
+                        vm.alertInfo('请求失败!' + error)
                     }, 150)
                 })
 
             },
-            saveModify:function () {
+            saveModify: function () {
                 this.bodyloading = true;
-                let eform={
-                    comid:'',
-                    id:'',
-                    company_name:'',
-                    parking_total:'',
-                    address:'',
-                    longitude:'',
-                    latitude:'',
-                    mobile:'',
-                    phone:''
+                let eform = {
+                    comid: '',
+                    id: '',
+                    company_name: '',
+                    parking_total: '',
+                    address: '',
+                    longitude: '',
+                    latitude: '',
+                    mobile: '',
+                    phone: ''
                 }
 
                 eform.comid = sessionStorage.getItem('comid')
@@ -316,8 +335,8 @@
 
                 let vm = this
 
-                vm.$axios.post(path + vm.editapi,vm.$qs.stringify(eform),{
-                    headers:{
+                vm.$axios.post(path + vm.editapi, vm.$qs.stringify(eform), {
+                    headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
                 }).then(function (response) {
@@ -366,7 +385,7 @@
                     }
                 }).catch(function (error) {
                     setTimeout(() => {
-                        vm.alertInfo('请求失败!'+error)
+                        vm.alertInfo('请求失败!' + error)
                     }, 150)
                 })
 

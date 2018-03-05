@@ -216,7 +216,7 @@
                 showmRefill: true,
                 showCustomizeAdd: false,
                 hideAdd: true,
-                queryapi: '/vip/query',
+                queryapi: '/cityblackuser/query',
                 exportapi: '/vip/exportExcel',
                 addapi: '/vip/add',
                 editapi: '/vip/edit',
