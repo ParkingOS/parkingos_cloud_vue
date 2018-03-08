@@ -61,7 +61,7 @@
                 showImg: true,
                 showBusinessCars: true,
                 queryapi: '/unorder/query',
-                exportapi: '/order/exportExcel',
+                exportapi: '/unorder/exportExcel',
                 imgapi: '/order/getOrderPicture ',
                 btswidth: '100',
                 fieldsstr: 'id__groupid__comid__berthsec_id__cid__uid__prepaid__parking_type__c_type__car_number__create_time__duration__state__id__in_passid__order_id_local',
@@ -320,7 +320,7 @@
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local+ '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
                 console.log(this.imgdialog_url)
 
                 let _this = this
@@ -347,8 +347,8 @@
                 console.log(user.authlist.length)
                 for (var item of user.authlist) {
                     if (AUTH_ID_UNION.businessOrder_Cars == item.auth_id) {
-                        // console.log(item.sub_auth)
-                        // this.hideExport = !common.showSubExport(item.sub_auth)
+                        console.log(item.sub_auth)
+                        this.hideExport = !common.showSubExport(item.sub_auth)
                         // this.hideSearch = !common.showSubSearch(item.sub_auth)
                         break;
                     }

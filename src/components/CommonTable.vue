@@ -27,13 +27,13 @@
                         </el-input>
                     </div>
                     <div v-if="showBusinessOrder" style="display:inline;margin-right:100px;float: left">
-                        <el-input v-model="shouldpay" style="width:200px;background:white;" disabled>
+                        <el-input v-model="sumtotal" style="width:200px;background:white;" disabled>
                             <template slot="prepend">订单总金额</template>
                         </el-input>
-                        <el-input v-model="actualpay" style="width:200px;background:white;" disabled>
+                        <el-input v-model="cashpay" style="width:200px;background:white;" disabled>
                             <template slot="prepend">现金支付</template>
                         </el-input>
-                        <el-input v-model="actualpay" style="width:200px;background:white;" disabled>
+                        <el-input v-model="elepay" style="width:200px;background:white;" disabled>
                             <template slot="prepend">手机支付</template>
                         </el-input>
                     </div>
@@ -86,6 +86,9 @@
                     </el-button>
                     <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
+                    <el-button type="primary" size="small" @click="handleSearch" v-if="showUploadMonthCard"
+                               icon="search">上传月卡
+                    </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
                         <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
                     </el-tooltip>
@@ -104,7 +107,7 @@
         </el-row>
         <!--列表-->
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight2"
-                  v-loading="loading" @sort-change="sortChange" id="tablearea">
+                  v-loading="loading" @sort-change="sortChange" id="tablearea" :row-style="tableRowStyle">
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">
@@ -472,25 +475,17 @@
                 pwd1: '',
                 pwd2: '',
                 currentdate: '',
-                currentcollect: '',
                 tableheight2: common.gwh() - 143,
             }
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showdateSelectorMonth',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showShopEdit'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showShopEdit', 'showUploadMonthCard'],
         methods: {
-            //控制表格样式
-            rowstyle(row, index) {
-                if (index == 0) {
-                    return 'indextext'
-                }
-            },
             //刷新页面
             refresh() {
                 if (this.showdateSelector) {
-
                     //this.$extend(this.sform,{'date':this.datesselector})
                     this.sform.date = this.searchDate;
                     if (this.sform.date == '') {
@@ -510,11 +505,11 @@
             },
             //重置高级查询
             reset() {
-                console.log('reset')
+                console.log('reset');
                 this.getTableData({});
                 //清空高级查询表单项内容
-                this.$refs['search'].resetSearch()
-                this.sform = common.clone(this.tempSearchForm)
+                this.$refs['search'].resetSearch();
+                this.sform = common.clone(this.tempSearchForm);
                 this.$message({
                     message: '清空成功!',
                     type: 'success',
@@ -524,13 +519,13 @@
             //分页变动
             handleSizeChange(val) {
                 this.pageSize = val;
-                console.log('size change')
+                // console.log('size change');
                 this.getTableData(this.sform);
             },
             handleCurrentChange(val) {
                 this.currentPage = val;
-                console.log('page change')
-                this.sform.date = this.searchDate
+                // console.log('page change');
+                this.sform.date = this.searchDate;
                 this.getTableData(this.sform);
             },
             //排序变动
@@ -541,7 +536,7 @@
                     this.orderby = "desc";
                 }
                 this.orderfield = val.prop;
-                console.log('sort change')
+                console.log('sort change');
                 this.getTableData(this.sform);
             },
             handleSearchMonthReport() {
@@ -553,26 +548,24 @@
 
             //拉取表格数据
             getTableData(sform) {
-                var vm = this;
+                let vm = this;
                 this.loading = true;
-                var api = this.queryapi;
+                let api = this.queryapi;
 
-                sform.rp = this.pageSize
-                sform.page = this.currentPage
-                sform.orderby = this.orderby
-                sform.orderfield = this.orderfield
-                sform.fieldsstr = this.fieldsstr
-                sform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid')
-                // console.log('>>>>'+sessionStorage.getItem('comid'))
-                sform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid')
-                sform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid')
-
-                sform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid')
-                sform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid')
-                sform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin')
-                sform.ishdorder = sessionStorage.getItem('ishdorder') == 'undefined' ? '' : sessionStorage.getItem('ishdorder')
-                sform.token = sessionStorage.getItem('token') == 'undefined' ? '' : sessionStorage.getItem('token')
-                sform.roleid = sessionStorage.getItem('loginroleid') == 'undefined' ? '' : sessionStorage.getItem('loginroleid')
+                sform.rp = this.pageSize;
+                sform.page = this.currentPage;
+                sform.orderby = this.orderby;
+                sform.orderfield = this.orderfield;
+                sform.fieldsstr = this.fieldsstr;
+                sform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid');
+                sform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid');
+                sform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid');
+                sform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid');
+                sform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid');
+                sform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin');
+                sform.ishdorder = sessionStorage.getItem('ishdorder') == 'undefined' ? '' : sessionStorage.getItem('ishdorder');
+                sform.token = sessionStorage.getItem('token') == 'undefined' ? '' : sessionStorage.getItem('token');
+                sform.roleid = sessionStorage.getItem('loginroleid') == 'undefined' ? '' : sessionStorage.getItem('loginroleid');
 
                 vm.$axios.post(path + api, vm.$qs.stringify(sform), {
                     headers: {
@@ -600,6 +593,7 @@
                             vm.alertInfo('登录异常,请重新登录!')
                         }, 150)
                     } else {
+                        console.log(ret);
                         if (ret.total == 0) {
                             vm.table = [];
                         } else {
@@ -607,31 +601,31 @@
                         }
                         if (ret.actReceivable != undefined) {
                             //月卡续费记录实收
-                            vm.actualpay = ret.actReceivable + '元'
+                            vm.actualpay = ret.actReceivable + '元';
                         }
                         if (ret.amountReceivable != undefined) {
                             //月卡续费记录应收
-                            vm.shouldpay = ret.amountReceivable + '元'
+                            vm.shouldpay = ret.amountReceivable + '元';
                         }
                         if (ret.blank != undefined) {
                             //订单记录 车位统计-空车位
-                            vm.parkspace_blank = ret.blank
+                            vm.parkspace_blank = ret.blank;
                         }
                         if (ret.parktotal != undefined) {
                             //订单记录 车位统计-场内停车
-                            vm.parkspace_park = ret.parktotal
+                            vm.parkspace_park = ret.parktotal;
                         }
                         if (ret.cashpay != undefined) {
                             //集团 业务订单-订单记录-现金支付
-                            vm.cashpay = ret.cashpay + '元'
+                            vm.cashpay = ret.cashpay + '元';
                         }
                         if (ret.elepay != undefined) {
                             //集团 业务订单-订单记录-手机支付
-                            vm.elepay = ret.elepay + '元'
+                            vm.elepay = ret.elepay + '元';
                         }
                         if (ret.sumtotal != undefined) {
                             //集团 业务订单-订单记录-订单总金额
-                            vm.sumtotal = ret.sumtotal + '元'
+                            vm.sumtotal = ret.sumtotal + '元';
                         }
 
                         vm.total = ret.total;
@@ -648,11 +642,11 @@
             handleSearch() {
                 //弹出高级查询界面
                 //全平台服务商
-                var vm = this
-                var user = sessionStorage.getItem('user')
+                let vm = this;
+                let user = sessionStorage.getItem('user');
                 // console.log('-----------------------')
-                user = JSON.parse(user)
-                for (var i = 0; i < this.tableitems.length; i++) {
+                user = JSON.parse(user);
+                for (let i = 0; i < this.tableitems.length; i++) {
                     // console.log('>>'+this.tableitems[i].customSelect)
 
                     if (this.tableitems[i].customSelect == 'parkserver') {
@@ -733,31 +727,29 @@
             },
             onSearch: function (sform) {
                 //在这里得到表单项,提交查询
-                this.sform = sform
-                console.log(sform)
-                console.log(this.sform)
-                this.getTableData(sform)
+                this.sform = sform;
+                this.getTableData(sform);
             },
             //表格编辑
             handleEdit(index, row) {
                 //拿到当前行数据row,传递给表单编辑子组件,子组建中包括重置和保存按钮
                 this.rowdata = row;
-                var vm = this
-                var user = sessionStorage.getItem('user')
-                user = JSON.parse(user)
-                for (var i = 0; i < this.tableitems.length; i++) {
+                let vm = this;
+                let user = sessionStorage.getItem('user');
+                user = JSON.parse(user);
+                for (let i = 0; i < this.tableitems.length; i++) {
                     if (this.tableitems[i].customSelect == 'parkserver') {
                         //重置该selectlist,根据
-                        var params;
+                        let params;
                         if (user.roleid == 1) {
                             if (this.tableitems[i].commonSelect == 'local_all') {
-                                params = {'com_id': row.id, 'state': 1, 'token': sessionStorage.getItem('token')}
+                                params = {'com_id': row.id, 'state': 1, 'token': sessionStorage.getItem('token')};
                             } else if (this.tableitems[i].commonSelect == 'all') {
-                                params = {'query': 1, 'token': sessionStorage.getItem('token')}
+                                params = {'query': 1, 'token': sessionStorage.getItem('token')};
                             }
                         } else if (user.roleid == 2) {
                             if (this.tableitems[i].commonSelect == 'local_available') {
-                                params = {'state': 1, 'token': sessionStorage.getItem('token')}
+                                params = {'state': 1, 'token': sessionStorage.getItem('token')};
                             }
                         }
                         // this.$ajax({
@@ -788,18 +780,18 @@
             //
             handleqrurl(index, row) {
                 //调用父组件的方法,传row
-                this.$emit('qrurl', row.park_id)
+                this.$emit('qrurl', row.park_id);
             },
             //单击设置触发
             handlesetting(index, row) {
                 //调用父组件的方法,传row
-                this.$emit('showSetting', row)
+                this.$emit('showSetting', row);
             },
             //导出表格数据
             handleExport() {
-                var vm = this;
-                var api = this.exportapi;
-                var params = ''
+                let vm = this;
+                let api = this.exportapi;
+                let params = '';
                 if (common.getLength(this.sform) == 0) {
                     params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token')
                 } else {
@@ -808,38 +800,43 @@
                         params += x + '=' + this.sform[x] + '&'
                     }
                 }
-                console.log(params)
-                if (params.indexOf('comid') > -1) {
+                let groupid = sessionStorage.getItem('groupid');
+                let cityid = sessionStorage.getItem('cityid');
+                if (groupid != 'undefined'&&!(params.indexOf('groupid=') > -1)) {
+                    params += '&groupid=' + groupid
+                }
+                if (cityid != 'undefined'&&!(params.indexOf('cityid=') > -1)) {
+                    params += '&cityid=' + cityid
+                }
+                // params += '&groupid=' + groupid + '&cityid=' + cityid
+                if (params.indexOf('comid=') > -1) {
                     window.open(path + api + '?' + params);
                 } else {
                     window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
                 }
-                // window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
-                //window.location.href(path+api + '?fieldsstr='+this.fieldsstr)
-                //this.$.get(path+api,params)
+
             },
             closeedit: function (val) {
-                this.editFormVisible = val
-                this.editloading = val
+                this.editFormVisible = val;
+                this.editloading = val;
             },
             onEdit: function (eform) {
                 //发送ajax,提交表单更新
-                var vm = this;
-                var api = this.editapi;
-                var qform = this.sform;
+                let vm = this;
+                let api = this.editapi;
+                let qform = this.sform;
 
-                eform.token = sessionStorage.getItem('token')
-                eform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid')
-                eform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid')
-                eform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid')
-                eform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid')
-                eform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid')
-                eform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin')
+                eform.token = sessionStorage.getItem('token');
+                eform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid');
+                eform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid');
+                eform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid');
+                eform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid');
+                eform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid');
+                eform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin');
 
                 this.$refs.editref.$refs.editForm.validate((valid) => {
                     if (valid) {
                         vm.editloading = true;
-
                         vm.$axios.post(path + api, vm.$qs.stringify(eform), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -885,7 +882,7 @@
                 });
             },
             handleCustomizeAdd() {
-                this.$emit('customizeadd')
+                this.$emit('customizeadd');
             },
             handlePrint(elem) {
                 // var mywindow = window.open('', 'PRINT', 'height=800,width=1200');
@@ -915,20 +912,20 @@
                 // document.body.innerHTML = oldContent;
                 // return false;
 
-                const cssText = 'tablearea {font-size: 85%;font-family: sans-serif;border-spacing: 0;border-collapse: collapse;}'
-                const d = new Printd()
+                const cssText = 'tablearea {font-size: 85%;font-family: sans-serif;border-spacing: 0;border-collapse: collapse;}';
+                const d = new Printd();
 
                 // opens the "print dialog" of your browser to print the element
                 d.print(document.getElementById('tablearea'), cssText)
             },
             handleAdd() {
-                var vm = this
-                var user = sessionStorage.getItem('user')
-                user = JSON.parse(user)
-                for (var i = 0; i < this.tableitems.length; i++) {
+                let vm = this;
+                let user = sessionStorage.getItem('user');
+                user = JSON.parse(user);
+                for (let i = 0; i < this.tableitems.length; i++) {
                     if (this.tableitems[i].customSelect == 'parkserver') {
                         //重置该selectlist,根据
-                        var params;
+                        let params;
                         if (user.roleid == 1) {
                             if (this.tableitems[i].commonSelect == 'local_all') {
                                 params = {'com_id': row.id, 'state': 1, 'token': sessionStorage.getItem('token')}
@@ -962,32 +959,32 @@
                         })
                     }
                 }
-                this.addFormVisible = true
+                this.addFormVisible = true;
             },
             closeadd(val) {
-                this.addFormVisible = val
+                this.addFormVisible = val;
                 this.addLoading = val;
             },
             onAdd(aform) {
-                console.log(aform)
+                console.log(aform);
                 //发送请求,添加一条记录
-                var vm = this;
-                var api = this.addapi;
-                var qform = this.sform;
-                var msg = this.addfailmsg;
+                let vm = this;
+                let api = this.addapi;
+                let qform = this.sform;
+                let msg = this.addfailmsg;
 
-                aform.token = sessionStorage.getItem('token')
-                aform.oid = sessionStorage.getItem('oid')
-                aform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid')
-                aform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid')
-                aform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid')
-                aform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid')
-                aform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid')
-                aform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin')
+                aform.token = sessionStorage.getItem('token');
+                aform.oid = sessionStorage.getItem('oid');
+                aform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid');
+                aform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid');
+                aform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid');
+                aform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid');
+                aform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid');
+                aform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin');
 
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
-                        vm.addloading = true
+                        vm.addloading = true;
 
                         vm.$axios.post(path + api, vm.$qs.stringify(aform), {
                             headers: {
@@ -1035,15 +1032,15 @@
             },
 
             openDelete(index, row) {
-                this.rowid = row.id
-                this.delVisible = true
+                this.rowid = row.id;
+                this.delVisible = true;
             },
             //删除
             handledelete() {
-                var vm = this;
-                var api = this.delapi;
-                var qform = this.sform;
-                var dform = {'id': this.rowid, 'token': sessionStorage.getItem('token')}
+                let vm = this;
+                let api = this.delapi;
+                let qform = this.sform;
+                let dform = {'id': this.rowid, 'token': sessionStorage.getItem('token')};
                 //发送请求,删除id为row.id的数据
 
                 vm.$axios.post(path + api, vm.$qs.stringify(dform), {
@@ -1063,7 +1060,7 @@
                             vm.alertInfo('登录异常,请重新登录!')
                         }, 100)
                     } else {
-                        console.log(ret)
+                        console.log(ret);
                         if (ret > 0 || ret.state == 1) {
                             // if (ret > 0) {
                             //删除成功
@@ -1106,16 +1103,16 @@
                     row.lat = 39.915797;
                     row.lng = 116.404119;
                 }
-                this.rowid = row.id
-                this.label.content = row.name
-                this.center.lat = row.lat
-                this.center.lng = row.lng
-                this.marker.lat = row.lat
-                this.marker.lng = row.lng
-                this.showMap = true
-                this.showMarker = true
-                this.mapVisible = true
-                console.log(this.center.lat, this.center.lng)
+                this.rowid = row.id;
+                this.label.content = row.name;
+                this.center.lat = row.lat;
+                this.center.lng = row.lng;
+                this.marker.lat = row.lat;
+                this.marker.lng = row.lng;
+                this.showMap = true;
+                this.showMarker = true;
+                this.mapVisible = true;
+                // console.log(this.center.lat, this.center.lng);
             },
             handleShowImg(index, row) {
                 // alert(index + '>' + row.id)
@@ -1126,10 +1123,6 @@
                     //抬杆图片
                     this.$emit('showImg_Pole', index, row)
                 }
-
-                // this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
-                // console.log(this.imgdialog_url)
-                // this.imgDialog = true
             },
             handleModifyCarNumber(index, row) {
                 //修改车牌号
@@ -1149,17 +1142,17 @@
                 this.$emit('showRolePermission', index, row)
             },
             handleresetpwd(index, row) {
-                this.rowid = row.id
-                this.pwd1 = ''
-                this.pwd2 = ''
+                this.rowid = row.id;
+                this.pwd1 = '';
+                this.pwd2 = '';
                 //显示充值密码对话框
                 this.resetPwdVisible = true
             },
             resetPwd() {
 
-                var qform = this.sform;
-                var vm = this
-                var api = this.resetapi;
+                let qform = this.sform;
+                let vm = this;
+                let api = this.resetapi;
                 if (this.pwd1 == '' || this.pwd2 == '') {
                     this.$message.error('密码不能为空!');
                     return;
@@ -1172,13 +1165,13 @@
                     this.$message.error('两次输入密码不一致!');
                     return
                 }
-                this.resetloading = true
-                var rform = {
+                this.resetloading = true;
+                let rform = {
                     'newpass': this.pwd1,
                     'confirmpass': this.pwd2,
                     'id': this.rowid,
                     'token': sessionStorage.getItem('token')
-                }
+                };
                 vm.$axios.post(path + api, vm.$qs.stringify(rform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -1204,7 +1197,7 @@
                                 type: 'success',
                                 duration: 1500
                             });
-                            vm.resetPwdVisible = false
+                            vm.resetPwdVisible = false;
                             vm.resetloading = false
                         } else {
                             //更新失败
@@ -1222,15 +1215,15 @@
                 })
             },
             modifyPosition() {
-                var vm = this;
-                var api = this.editapi;
-                var eform = {
+                let vm = this;
+                let api = this.editapi;
+                let eform = {
                     'id': this.rowid,
                     'lng': this.marker.lng,
                     'lat': this.marker.lat,
                     'token': sessionStorage.getItem('token')
-                }
-                var qform = this.sform;
+                };
+                let qform = this.sform;
                 //发起修改位置
                 vm.maploading = true;
 
@@ -1278,35 +1271,35 @@
 
             },
             makePoint(type) {
-                this.showMarker = false
-                this.marker.lat = type.point.lat
-                this.marker.lng = type.point.lng
-                this.showMarker = true
+                this.showMarker = false;
+                this.marker.lat = type.point.lat;
+                this.marker.lng = type.point.lng;
+                this.showMarker = true;
                 //console.log(this.marker.lat,this.marker.lng)
             },
             mouseup(type) {
-                this.marker.lat = type.point.lat
-                this.marker.lng = type.point.lng
+                this.marker.lat = type.point.lat;
+                this.marker.lng = type.point.lng;
                 //console.log(this.marker.lat,this.marker.lng)
             },
             clickmap(type) {
                 //console.log(type.point)
             },
             sclick() {
-                var vm = this
-                var myGeo = new BMap.Geocoder();
+                let vm = this;
+                let myGeo = new BMap.Geocoder();
 
                 myGeo.getPoint(this.keyword, function (point) {
                     if (point) {
                         if (point.lat == vm.center.lat && point.lng == vm.center.lng) {
                             alert("输入的地址相同或地址不正确!");
                         } else {
-                            vm.center.lat = point.lat
-                            vm.center.lng = point.lng
-                            vm.showMarker = false
-                            vm.label.content = vm.keyword
-                            vm.marker.lat = point.lat
-                            vm.marker.lng = point.lng
+                            vm.center.lat = point.lat;
+                            vm.center.lng = point.lng;
+                            vm.showMarker = false;
+                            vm.label.content = vm.keyword;
+                            vm.marker.lat = point.lat;
+                            vm.marker.lng = point.lng;
                             vm.showMarker = true
                         }
                     } else {
@@ -1315,7 +1308,7 @@
                 }, "中国");
             },
             dclose() {
-                console.log('close')
+                // console.log('close')
                 setTimeout(() => {
                     this.showMarker = false;
                     this.showMap = false;
@@ -1367,13 +1360,20 @@
                     return num;
                 else
                     return '0' + num;
+            },
+            tableRowStyle({row, rowIndex}) {
+                let obj = {row, rowIndex};
+                if (obj.rowIndex > 0) {
+                    // return 'display:none'
+                }
+                return '';
             }
         },
         mounted() {
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
-            this.mapheight = common.gwh() * 0.5
-            this.mapstyle = 'width:inherit;height:' + 420 + 'px'
-            console.log('commontable mount')
+            this.mapheight = common.gwh() * 0.5;
+            this.mapstyle = 'width:inherit;height:' + 420 + 'px';
+            console.log('commontable mount');
             //拷贝查询表单,用来在重置时清空表单内容
             this.tempSearchForm = common.clone(this.searchForm)
 
@@ -1382,20 +1382,19 @@
         activated() {
             window.onresize = () => {
                 this.tableheight2 = common.gwh() - 143;
-            }
+            };
 
             this.tableheight2 = common.gwh() - 143;
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
-            var _this = this
-            this.analysisdate = Date.now()
-            this.mapheight = common.gwh() * 0.5
-            this.mapstyle = 'width:inherit;height:' + 420 + 'px'
-            console.log('commontable active')
-            this.currentPage = 1
-            this.sform = {}
+            let _this = this;
+            this.analysisdate = Date.now();
+            this.mapheight = common.gwh() * 0.5;
+            this.mapstyle = 'width:inherit;height:' + 420 + 'px';
+            // console.log('commontable active')
+            this.currentPage = 1;
+            this.sform = {};
             //this.date_selector ='123434342'
             if (this.showdateSelector) {
-                let _this = this;
                 _this.start_placeholder = _this.currentDate() + ' 00:00:00';
                 _this.end_placeholder = _this.currentDate() + ' 23:59:59';
                 _this.currentcollect = '';
@@ -1409,7 +1408,6 @@
                     }))
             }
             if (this.showdateSelectorMonth) {
-                let _this = this;
                 _this.monthReportStart = '';
                 _this.monthReportEnd = '';
                 _this.start_month_placeholder = _this.currentMonth();

@@ -68,7 +68,7 @@
                 showImg: true,
                 showBusinessCars: true,
                 queryapi: '/cityorder/query',
-                exportapi: '/order/exportExcel',
+                exportapi: '/cityorder/exportExcel',
                 imgapi: '/order/getOrderPicture ',
                 btswidth: '100',
                 fieldsstr: 'id__groupid__comid__out_uid__collector__c_type__car_number__create_time__end_time__duration__pay_type__amount_receivable__total__electronic_prepay__cash_prepay__electronic_pay__cash_pay__reduce_amount__state__isclick__id__in_passid__out_passid__order_id_local',
@@ -402,6 +402,7 @@
                             searchable: false,
                             addable: true,
                             unsortable: true,
+                            hidden:true,
                             align: 'center'
                         }]
                     }, {
@@ -481,7 +482,7 @@
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local+ '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
                 console.log(this.imgdialog_url)
 
                 let _this = this

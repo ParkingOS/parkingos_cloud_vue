@@ -61,7 +61,7 @@
                 showImg: true,
                 showBusinessPoles: true,
                 queryapi: '/cityliftRod/query',
-                exportapi: '/liftRod/exportExcel',
+                exportapi: '/cityliftRod/exportExcel',
                 imgapi: '/liftRod/getLiftRodPicture',
                 btswidth: '100',
                 fieldsstr: 'id__liftrod_id__ctime__uin__out_channel_id__reason__resume__url',
@@ -211,7 +211,7 @@
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
+                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
                 console.log(this.imgdialog_url)
                 this.imgDialog = true
             }

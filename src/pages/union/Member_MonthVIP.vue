@@ -21,6 +21,7 @@
                 :showEdit="showEdit"
                 :showCustomizeAdd="showCustomizeAdd"
                 :hideAdd="hideAdd"
+                :showUploadMonthCard="showUploadMonthCard"
                 v-on:showreset="showreset"
                 v-on:showrefill="showrefill"
                 v-on:customizeadd="showadd"
@@ -190,13 +191,7 @@
 <script>
 
     import {
-        parktypelist,
-        distinctslist,
-        checkCityInfo,
-        provincelist,
-        checkPass,
         centerpayset,
-        singleDoubleLimit,
         singleDoubleType,
         path
     } from '../../api/api';
@@ -228,6 +223,7 @@
                 showmRefill: true,
                 showCustomizeAdd: false,
                 hideAdd: true,
+                showUploadMonthCard: true,
                 queryapi: '/cityvip/query',
                 exportapi: '/cityvip/exportExcel',
                 addapi: '/cityvip/add',
@@ -365,7 +361,7 @@
                                 prop: 'e_time',
                                 width: '180',
                                 type: 'date',
-                                selectlist: centerpayset,
+
 
                                 searchable: true,
 
@@ -386,7 +382,7 @@
                                 prop: 'total',
                                 width: '100',
                                 type: 'number',
-                                selectlist: centerpayset,
+
                                 editable: true,
                                 searchable: true,
                                 addable: true,
@@ -417,7 +413,6 @@
                                 prop: 'mobile',
                                 width: '150',
                                 type: 'str',
-                                selectlist: provincelist,
                                 editable: true,
                                 searchable: true,
                                 addable: true,
@@ -755,7 +750,7 @@
                         this.showmRefill = common.showSubReFill(item.sub_auth)
                         this.showModifyCarNumber = common.showSubUpdate(item.sub_auth)
                         this.showEdit = common.showSubEdit(item.sub_auth)
-                        this.showCustomizeAdd = common.showSubAdd(item.sub_auth)
+                        // this.showCustomizeAdd = common.showSubAdd(item.sub_auth)
                         if (!this.showModifyCarNumber && !this.showdelete && !this.showmRefill) {
                             this.hideOptions = true;
                         }

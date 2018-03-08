@@ -1,214 +1,210 @@
 <template>
     <section>
-        <common-table
-                :queryapi="queryapi"
-                :exportapi="exportapi"
-                :addapi="addapi"
-                :editapi="editapi"
-                :delapi="delapi"
-                :tableheight="tableheight"
-                :fieldsstr="fieldsstr"
-                :tableitems="tableitems"
-                :btswidth="btswidth"
-                :hide-export="hideExport"
-                :searchtitle="searchtitle"
-                :addtitle="addtitle"
-                :showdelete="showdelete"
-                :showresetpwd="showresetpwd"
-                :showmRefill="showmRefill"
-                :showModifyCarNumber="showModifyCarNumber"
-                :hideOptions="hideOptions"
-                :showEdit="showEdit"
-                :showCustomizeAdd="showCustomizeAdd"
-                :hideAdd="hideAdd"
-                v-on:showreset="showreset"
-                v-on:showrefill="showrefill"
-                v-on:customizeadd="showadd"
-                ref="bolinkuniontable"
-        ></common-table>
-        <!--修改车牌-->
-        <el-dialog
-                title="修改车牌"
-                :visible.sync="showResetCarnumber"
-                width="30%">
-            <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
-                <el-form-item label="车牌号码">
-                    <el-input v-model="resetCarnumber" style="width:90%" placeholder="多个车牌,用英文','隔开"></el-input>
-                </el-form-item>
+        <!--<common-table-->
+        <!--:queryapi="queryapi"-->
+        <!--:exportapi="exportapi"-->
+        <!--:addapi="addapi"-->
+        <!--:editapi="editapi"-->
+        <!--:delapi="delapi"-->
+        <!--:tableheight="tableheight"-->
+        <!--:fieldsstr="fieldsstr"-->
+        <!--:tableitems="tableitems"-->
+        <!--:btswidth="btswidth"-->
+        <!--:hide-export="hideExport"-->
+        <!--:searchtitle="searchtitle"-->
+        <!--:addtitle="addtitle"-->
+        <!--:showdelete="showdelete"-->
+        <!--:showresetpwd="showresetpwd"-->
+        <!--:showmRefill="showmRefill"-->
+        <!--:showModifyCarNumber="showModifyCarNumber"-->
+        <!--:hideOptions="hideOptions"-->
+        <!--:showEdit="showEdit"-->
+        <!--:showCustomizeAdd="showCustomizeAdd"-->
+        <!--:hideAdd="hideAdd"-->
+        <!--ref="bolinkuniontable"-->
+        <!--&gt;</common-table>-->
+        <!--工具条-->
+        <el-row style="margin-bottom:8px">
+            <el-col :span="24" align="left">
+                <el-col :span="18" align="left">
+                    <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
+                    </el-button>
+                </el-col>
+                <el-col :span="6" align="right" style="float: right">
+                    <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>
+                </el-col>
+            </el-col>
 
+        </el-row>
+        <!--列表-->
+        <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
+                  v-loading="loading" @sort-change="sortChange" id="tablearea">
+
+            <el-table-column
+                    label="操作"
+                    width="83"
+                    v-if="!hideOptions"
+                    align="center"
+                    fixed="left"
+                    prop="id">
+                <template scope="scope">
+                    <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)"
+                               style="color: #109EFF">
+                        {{scope.row.state=='1'?'还原':'漂白'}}
+                    </el-button>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    align="center"
+                    type="index"
+                    width="83"
+                    label="索引"
+                    fixed="left">
+            </el-table-column>
+            <el-table-column
+                    label="编号"
+                    prop="id"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="手机"
+                    prop="phone"
+                    align="center"
+                    width="123">
+            </el-table-column>
+            <el-table-column
+                    label="车牌号"
+                    prop="car_number"
+                    align="center"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    label="序列号"
+                    prop="black_uuid"
+                    align="center"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    label="状态"
+                    prop="state"
+                    align="center"
+                    width="123">
+                <template scope="scope">
+                    {{scope.row.state=='1'?'已漂白':'正常'}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="所属车场"
+                    prop="comid"
+                    align="center"
+                    width="150">
+                <!--<template scope="scope">-->
+                <!--{{nameformatpark(scope.row, this.parklist)}}-->
+                <!--</template>-->
+            </el-table-column>
+
+            <el-table-column
+                    label="新建时间"
+                    prop="ctime"
+                    align="center"
+                    width="180">
+                <template scope="scope">
+                    {{common.dateformat(scope.row.ctime)}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="修改时间"
+                    prop="utime"
+                    align="center"
+                    width="180">
+                <template scope="scope">
+                    {{common.dateformat(scope.row.utime)}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="备注"
+                    prop="remark"
+                    align="center"
+                    width="150">
+            </el-table-column>
+        </el-table>
+
+        <!--工具条-->
+        <el-col :span="24" align="bottom" style="margin-top:5px;margin-bottom:5px">
+            <el-col :span="24" align="right">
+                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                               :current-page="currentPage" :page-sizes="[20, 40, 80]" :page-size="pageSize"
+                               layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
+            </el-col>
+        </el-col>
+
+        <!--高级查询-->
+        <complex-search
+                :searchVisible="searchFormVisible"
+                :title="searchtitle"
+                :searchitems="tableitems"
+                v-on:searchdialog="closesearch"
+                v-on:search="onSearch"
+                ref="search">
+        </complex-search>
+        <!--修改状态-->
+        <el-dialog
+                title="修改状态"
+                :visible.sync="showEditDialog"
+                width="30%">
+            <el-form ref="editform" label-width="120px" style="margin-bottom:-30px">
+                {{this.editText}}
             </el-form>
             <span slot="footer" class="dialog-footer">
-				<el-button @click="showResetCarnumber = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="handlereset" :loading="resetloading">确 定</el-button>
-			</span>
-        </el-dialog>
-        <el-dialog
-                title="月卡续费"
-                :visible.sync="showRefill"
-                width="30%">
-            <el-form ref="refillForm" label-width="120px" style="margin-bottom:-30px" :rules="refillFormRules"
-                     :model="refillForm">
-                <el-form-item label="包月产品" :prop="p_name">
-                    <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" style="width:90%">
-                        <el-option
-                                v-for="item in pname"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="起始日期">
-                    <el-input v-model="refillstartDate" style="width:90%" :readonly="datereadonly"></el-input>
-                </el-form-item>
-                <el-form-item label="续费月数" :prop="months">
-                    <el-select v-model="refillForm.months" @change="getRefillTotal" style="width:90%">
-                        <el-option
-                                v-for="item in [1,2,3,4,5,6,7,8,9,10,11,12]"
-                                :label="item"
-                                :value="item"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="应收金额" :prop="total">
-                    <!--<el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.total" style="width:90%" placeholder=""
-                              :readonly="readonly"></el-input>
-                </el-form-item>
-                <el-form-item label="实收金额" :prop="act_total">
-                    <!--<el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="备注">
-                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-				<el-button @click="showRefill = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="handleRefill" :loading="resetloading">确 定</el-button>
-			</span>
-        </el-dialog>
-        <el-dialog
-                title="注册会员"
-                :visible.sync="showRegis"
-                width="30%">
-            <el-form ref="refillForm" label-width="120px" style="margin-bottom:-30px" :rules="refillFormRules"
-                     :model="refillForm">
-                <el-form-item label="车主姓名">
-                    <el-input v-model="refillForm.name" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="车牌号码" :prop="car_number">
-                    <el-input v-model="refillForm.car_number" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="车辆类型">
-                    <el-select v-model="refillForm.car_type_id" style="width:90%">
-                        <el-option
-                                v-for="item in cartype"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="包月产品" :prop="p_name">
-                    <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" style="width:90%">
-                        <el-option
-                                v-for="item in pname"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="起始日期" :prop="b_time">
-                    <!--<AddDate v-model="refillForm.b_time" placeholder="" v-on:selectdata="getTime"></AddDate>-->
-                    <el-date-picker type="date" placeholder="选择日期时间" v-model="refillForm.b_time"
-                                    style="width: 90%"></el-date-picker>
-                </el-form-item>
-                <el-form-item label="购买月数" :prop="months">
-                    <el-select v-model="refillForm.months" @change="getRefillTotal" style="width:90%">
-                        <el-option
-                                v-for="item in [1,2,3,4,5,6,7,8,9,10,11,12]"
-                                :label="item"
-                                :value="item"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="应收金额" :prop="total">
-                    <!--<el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.total" style="width:90%" placeholder=""
-                              :readonly="readonly"></el-input>
-                </el-form-item>
-                <el-form-item label="实收金额" :prop="act_total">
-                    <!--<el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="联系电话">
-                    <el-input v-model="refillForm.mobile" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
-
-                <el-form-item label="单双日限行" :prop="limit_day_type">
-                    <el-select v-model="refillForm.limit_day_type" filterable style="width:90%">
-                        <el-option
-                                v-for="item in singleDoubleType"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="备注">
-                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
-                </el-form-item>
-
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-				<el-button @click="showRegis = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="handleRegis" :loading="resetloading">确 定</el-button>
-			</span>
+        <el-button @click="showEditDialog = false" size="small">取 消</el-button>
+        <el-button type="primary" size="small" @click="handleEditState" :loading="resetloading">确 定</el-button>
+        </span>
         </el-dialog>
 
     </section>
 </template>
 
 <script>
-
     import {
-        parktypelist,
-        distinctslist,
-        checkCityInfo,
-        provincelist,
-        checkPass,
-        centerpayset,
-        singleDoubleLimit,
-        singleDoubleType,
         path
     } from '../../api/api';
-
     import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
-    import AddDate from '../../components/add-subs/AddDate'
-
+    import {AUTH_ID_UNION} from '../../common/js/const'
+    import ComplexSearch from '../../components/ComplexSearch'
     import axios from 'axios'
 
     export default {
         components: {
-            CommonTable,
-            AddDate,
-
+            ComplexSearch,
         },
         data() {
             return {
+                parklist: [],
+                table: [],
+                orderfield: '',
+                ef: 'editref',
+                af: 'addref',
+                searchFormVisible: false,
+                table: [],
+                pageSize: 20,
+                currentPage: 1,
+                orderby: 'desc',
+                orderfield: 'id',
+                orderby: 'desc',
+                sform: {},
+                loading: false,
+                rowdata: {},
+                total: 0,
+                showEditDialog: false,
+                editform: {},
+
                 loading: false,
                 resetloading: false,
                 showresetpwd: false,
                 hideExport: false,
-                tableheight: '',
+                tableheight: common.gwh() - 143,
                 hideOptions: false,
                 showEdit: true,
                 showdelete: true,
@@ -219,7 +215,7 @@
                 queryapi: '/cityblackuser/query',
                 exportapi: '/vip/exportExcel',
                 addapi: '/vip/add',
-                editapi: '/vip/edit',
+                editapi: '/cityblackuser/edit',
                 delapi: '/vip/delete',
                 parkid: '',
                 currentIndex: 0,
@@ -228,27 +224,28 @@
                 showRefill: false,
                 showRegis: false,
                 resetCarnumber: '',
+                hideSearch: false,
                 btswidth: '200',
-                fieldsstr: 'id__card_id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
+                fieldsstr: 'id__mobile__car_number__black_uuid__state__comid__ctime__utime__remark',
                 tableitems: [
-                    // {
-                    //     hasSubs: false, subs: [
-                    //         {
-                    //             label: '编号',
-                    //             prop: 'id',
-                    //             width: '100',
-                    //             type: 'number',
-                    //             searchable: true,
-                    //             unsortable: true,
-                    //             align: 'center',
-                    //         },
-                    //     ]
-                    // },
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '月卡编号',
-                                prop: 'card_id',
+                                label: '编号',
+                                prop: 'id',
+                                width: '100',
+                                type: 'number',
+                                searchable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '手机',
+                                prop: 'mobile',
                                 width: '123',
                                 type: 'str',
                                 searchable: true,
@@ -257,38 +254,7 @@
                             },
                         ]
                     },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '套餐名称',
-                                prop: 'pid',
-                                width: '100',
-                                type: 'selection',
-                                selectlist: this.pname,
-                                searchable: true,
-                                unsortable: true,
-                                align: 'center',
-                                format: (row) => {
-                                    return common.nameformat(row, this.pname, 'pid')
-                                }
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '车主姓名',
-                                prop: 'name',
-                                width: '180',
-                                type: 'str',
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-                            },
-                        ]
-                    },
+
                     {
                         hasSubs: false, subs: [
                             {
@@ -303,30 +269,59 @@
                                 align: 'center',
                             },
                         ]
-                    },
-                    {
+                    }, {
                         hasSubs: false, subs: [
                             {
-                                label: '购买时间',
-                                prop: 'create_time',
-                                width: '180',
-                                type: 'date',
-
+                                label: '序列号',
+                                prop: 'black_uuid',
+                                width: '150',
+                                type: 'str',
+                                editable: false,
                                 searchable: true,
-
-                                unsortable: false,
+                                addable: true,
+                                unsortable: true,
                                 align: 'center',
-                                format: function (row) {
-                                    return common.dateformat(row.create_time);
+                            },
+                        ]
+                    }, {
+                        hasSubs: false, subs: [
+                            {
+                                label: '状态',
+                                prop: 'state',
+                                width: '150',
+                                type: 'str',
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    }, {
+                        hasSubs: false, subs: [
+                            {
+                                label: '所属车场',
+                                prop: 'comid',
+                                width: '150',
+                                type: 'selection',
+                                selectlist: this.parklist,
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                                format: (row) => {
+                                    return common.nameformat(row, this.parklist, 'comid')
                                 }
                             },
                         ]
                     },
+
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '开始时间',
-                                prop: 'b_time',
+                                label: '新建时间',
+                                prop: 'ctime',
                                 width: '180',
                                 type: 'date',
 
@@ -335,7 +330,7 @@
                                 unsortable: false,
                                 align: 'center',
                                 format: function (row) {
-                                    return common.dateformat(row.b_time);
+                                    return common.dateformat(row.ctime);
                                 }
                             },
                         ]
@@ -343,11 +338,11 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '结束时间',
-                                prop: 'e_time',
+                                label: '修改时间',
+                                prop: 'utime',
                                 width: '180',
                                 type: 'date',
-                                selectlist: centerpayset,
+
 
                                 searchable: true,
 
@@ -355,109 +350,10 @@
                                 align: 'center'
                                 ,
                                 format: function (row) {
-                                    return common.dateformat(row.e_time);
+                                    return common.dateformat(row.utime);
                                 }
                             },
 
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '应收金额',
-                                prop: 'total',
-                                width: '100',
-                                type: 'number',
-                                selectlist: centerpayset,
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '实收金额',
-                                prop: 'act_total',
-                                width: '150',
-                                type: 'number',
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '联系电话',
-                                prop: 'mobile',
-                                width: '150',
-                                type: 'str',
-                                selectlist: provincelist,
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '车型类型',
-                                prop: 'car_type_id',
-                                width: '175',
-                                type: 'selection',
-                                selectlist: this.cartype,
-                                searchable: true,
-                                align: 'center',
-                                unsortable: true,
-                                format: (row) => {
-                                    return common.nameformat(row, this.cartype, 'car_type_id');
-                                }
-
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '创建时间',
-                                prop: 'create_time',
-                                width: '175',
-                                type: 'date',
-
-                                align: 'center',
-                                format: function (row) {
-                                    return common.dateformat(row.create_time);
-                                }
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '单双日限行',
-                                prop: 'limit_day_type',
-                                width: '123',
-                                type: 'selection',
-                                selectlist: singleDoubleType,
-                                editable: true,
-                                addable: true,
-                                searchable: true,
-                                unsortable: true,
-                                align: 'center',
-                                format: function (row) {
-                                    return common.nameformat(row, singleDoubleType, 'limit_day_type')
-                                }
-                            },
                         ]
                     },
                     {
@@ -479,279 +375,206 @@
                 searchtitle: '高级查询',
                 addtitle: '注册会员',
                 readonly: true,
-                datereadonly:true,
-                refillFormRules: {
-                    total: [
-                        {required: true, message: '应收金额不能为空', trigger: 'blur'}
-                    ]
-                    ,
-                    act_total: [
-                        {required: true, message: '实收金额不能为空', trigger: 'blur'}
-                    ],
-                    car_number: [
-                        {required: true, message: '请填写车牌号码', trigger: 'blur'}
-                    ],
-                    months: [
-                        {required: true, message: '请选择购买月数', trigger: 'change', type: 'number'}
-                    ],
-                    // p_name: [
-                    //     {required: true, message: '请选择包月产品', trigger: 'change',}
-                    // ],
-                    b_time: [
-                        {required: true, message: '请选择起始日期', trigger: 'change', type: 'date'}
-                    ],
-                    limit_day_type: [
-                        {required: true, message: '请选择限行限制', trigger: 'change', type: 'number'}
-                    ],
-
-                },
-                pname: [],
-                cartype: [],
-                refillForm: {
-                    name: '',
-                    car_number: '',
-                    p_name: '',
-                    months: '',
-                    b_time: '',
-                    total: '',
-                    act_total: '',
-                    mobile: '',
-                    limit_day_type: '',
-                    remark: '',
-                    car_type_id:'',
-                },
-                p_name: 'p_name',
-                months: 'months',
-                b_time: 'b_time',
-                total: 'total',
-                act_total: 'act_total',
-                car_number: 'car_number',
-                limit_day_type: 'limit_day_type',
-                singleDoubleType: [
-                    {'value_name': '不限制', 'value_no': 0},
-                    {'value_name': '限制', 'value_no': 1}
-                ],
-                refillstartDate: 0,
+                datereadonly: true,
+                editText: '',
+                currentState: '',
+                currentId: '',
             }
         },
         methods: {
-            showreset: function (index, row) {
-                this.currentIndex = index;
-                this.currentRow = row;
-                this.showResetCarnumber = true;
-            },
-            showrefill: function (index, row) {
-                this.currentIndex = index;
-                this.currentRow = row;
-                this.showRefill = true;
-                let now = new Date().getTime();
-                let endtime = row.e_time;
-                this.refillForm.remark = '云平台续费'
-                if (now / 1000 > endtime) {
-                    this.refillstartDate = common.dateformat(now / 1000)
-                } else {
-                    this.refillstartDate = common.dateformat(endtime)
-                }
 
-                for (let item of this.pname) {
-                    if (row.pid == item.value_no) {
-                        this.refillForm.p_name = item.value_name;
-                        this.readonly = true;
-                        return;
-                    }
-                }
-                //如果当前套餐在套餐列表中，则应收是readonly
-                //当前套餐不存在，则应收可以自由填写
-                this.readonly = false;
-
-            },
-            showadd: function () {
-                this.showRegis = true;
-                this.refillForm.p_name = '';
-                this.readonly = false;
-                this.refillForm.remark = '云平台注册'
-            },
-            handlereset: function () {
-                this.resetloading = true
-                let _this = this
-                axios.all([common.editCarNum(this.resetCarnumber, this.currentRow.id)])
-                    .then(axios.spread(function (ret) {
-                        let data = ret.data
-                        _this.resetloading = false
-                        if (data.state == 1) {
-                            _this.$refs['bolinkuniontable'].getTableData({})
+            handleEditState() {
+                let _this = this;
+                this.loading = true;
+                _this.$axios.get(path + _this.editapi + '?state=' + _this.currentState + '&id=' + this.currentId)
+                    .then(function (response) {
+                        _this.loading = false;
+                        if (response.data.state == 1) {
                             _this.$message({
-                                message: '修改成功!',
+                                message: response.data.msg + '!',
                                 type: 'success',
                                 duration: 600
                             });
-                            _this.showResetCarnumber = false;
-                            _this.resetCarnumber = '';
+                            _this.getTableData(_this.sform);
                         } else {
-                            //更新失败
                             _this.$message({
-                                message: data.msg + '!',
+                                message: msg,
                                 type: 'error',
-                                duration: 600
+                                duration: 1200
                             });
                         }
-                        _this.resetloading = false
-                    }))
-            },
-            getTime: function (time) {
-                this.refillForm.b_time = time
-            },
-            handleRefill: function () {
-                // console.log('开始验证')
-                let _this = this
-                this.$refs.refillForm.validate((valid) => {
-                    // console.log(valid)
-                    console.log(_this.refillForm)
-                    if (valid) {
-                        _this.resetloading = true
-                        // console.log(_this.refillForm.p_name)
-                        // axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, _this.currentRow.name, _this.currentRow.e_time, _this.currentRow.id, _this.refillForm.remark, _this.refillForm.act_total, sessionStorage.getItem('nickname'))])
-                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))))])
-                            .then(axios.spread(function (ret) {
-                                let data = ret.data
-                                // console.log(data)
-                                if (data.state == 1) {
-                                    _this.$refs['bolinkuniontable'].getTableData({})
-                                    _this.$message({
-                                        message: '续费成功!',
-                                        type: 'success',
-                                        duration: 600
-                                    });
-                                    _this.showRefill = false;
-                                    // _this.refillForm.resetFields()
-                                    _this.$refs['refillForm'].resetFields()
-                                    _this.refillForm.p_name = ''
-                                } else {
-                                    //更新失败
-                                    _this.$message({
-                                        message: data.msg + '!',
-                                        type: 'error',
-                                        duration: 600
-                                    });
-                                }
-                                _this.resetloading = false
-                            }))
-                    }
-                })
 
+                    })
+                    .catch(function (error) {
+                        _this.loading = false;
+                        _this.$message({
+                            message: error,
+                            type: 'error',
+                            duration: 1200
+                        });
+                    });
+                this.showEditDialog = false;
             },
-             getRefillTotal: function () {
-                // console.log('计算续费金额' + this.refillForm.p_name + ' -- ' + this.refillForm.months)
-                // if (this.refillForm.p_name == '' || this.refillForm.months == '')
-                //     return;
-
-                this.readonly = false;
-                for (let item of this.pname) {
-                    // console.log(this.refillForm.p_name+'  '+item.value_name)
-                    if (this.refillForm.p_name == item.value_name || this.refillForm.p_name == item.value_no) {
-                        this.refillForm.p_name = item.value_no;
-                        this.readonly = true;
-                        // console.log('rrrrrreadonly true')
-                        break;
-                    }
+            handleEdit(index, row) {
+                this.showEditDialog = true;
+                this.currentState = row.state;
+                this.currentId = row.id;
+                if (row.state == 1) {
+                    this.editText = '确定要还原吗？'
+                } else {
+                    this.editText = '确定要漂白吗？'
                 }
-
-                if (this.refillForm.months == '')
-                    return;
-
-
-                let _this = this
-                axios.all([common.getProdSum(this.refillForm.p_name, this.refillForm.months)])
-                    .then(axios.spread(function (ret) {
-                        _this.refillForm.total = ret.data + '';
-                        _this.refillForm.act_total = ret.data + '';
-                        // console.log(ret.data)
-                    }))
             },
-            handleRegis: function () {
-                let _this = this
-                this.$refs.refillForm.validate((valid) => {
-                    if (valid) {
-                        _this.resetloading = true
-                        let aform = _this.refillForm
+            //分页变动
+            handleSizeChange(val) {
+                this.pageSize = val;
+                // console.log('size change');
+                this.getTableData(this.sform);
+            },
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                // console.log('page change');
+                this.sform.date = this.searchDate;
+                this.getTableData(this.sform);
+            },
+            //排序变动
+            sortChange(val) {
+                if (val.order != null && val.order.substring(0, 1) == "a") {
+                    this.orderby = "asc";
+                } else {
+                    this.orderby = "desc";
+                }
+                this.orderfield = val.prop;
+                console.log('sort change');
+                this.getTableData(this.sform);
+            },
+            //拉取表格数据
+            getTableData(sform) {
+                let vm = this;
+                this.loading = true;
+                let api = this.queryapi;
 
-                        aform.token = sessionStorage.getItem('token')
-                        aform.comid = sessionStorage.getItem('comid')
-                        aform.groupid = sessionStorage.getItem('groupid')
-                        aform.cityid = sessionStorage.getItem('cityid')
-                        aform.unionid = sessionStorage.getItem('unionid')
-                        aform.channelid = sessionStorage.getItem('channelid')
-                        aform.loginuin = sessionStorage.getItem('loginuin')
-                        aform.nickname = sessionStorage.getItem('nickname')
-                        aform.oid = sessionStorage.getItem('oid')
+                sform.rp = this.pageSize;
+                sform.page = this.currentPage;
+                sform.orderby = this.orderby;
+                sform.orderfield = this.orderfield;
+                sform.fieldsstr = this.fieldsstr;
+                sform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid');
+                sform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid');
+                sform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid');
+                sform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid');
+                sform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid');
+                sform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin');
+                sform.ishdorder = sessionStorage.getItem('ishdorder') == 'undefined' ? '' : sessionStorage.getItem('ishdorder');
+                sform.token = sessionStorage.getItem('token') == 'undefined' ? '' : sessionStorage.getItem('token');
+                sform.roleid = sessionStorage.getItem('loginroleid') == 'undefined' ? '' : sessionStorage.getItem('loginroleid');
 
-                        _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            }
-                        }).then(function (response) {
-                            let ret = response.data;
-
-                            if (ret > 0 || ret.state == 1) {
-                                //更新成功
-                                _this.$refs['bolinkuniontable'].getTableData({})
-                                _this.$message({
-                                    message: '添加成功!',
-                                    type: 'success',
-                                    duration: 600
-                                });
-                                _this.showRegis = false;
-                                // _this.refillForm.resetFields();
-                                _this.refillForm.name = '';
-                                _this.$refs['refillForm'].resetFields()
-                            } else {
-                                //更新失败
-                                _this.$message({
-                                    message: ret.msg,
-                                    type: 'error',
-                                    duration: 1200
-                                });
-                            }
-                            _this.resetloading = false
-
-                        }).catch(function (error) {
-                            // setTimeout(() => {
-                            //     _this.alertInfo('请求失败!'+error)
-                            // }, 150)
-                            //更新失败
-                            // _this.$message({
-                            //     message: '请求失败!'+error.data,
-                            //     type: 'error',
-                            //     duration: 1200
-                            // });
-                            _this.resetloading = false;
-                        })
+                vm.$axios.post(path + api, vm.$qs.stringify(sform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
+                }).then(function (response) {
+                    // console.log(ret)
+                    let ret = response.data;
+                    if (ret.validate != 'undefined' && ret.validate == '0') {
+                        vm.loading = false;
+                        //未携带令牌.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('未携带令牌,请重新登录!')
+                        }, 150)
+                    } else if (ret.validate != 'undefined' && ret.validate == '1') {
+                        vm.loading = false;
+                        //过期.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录过期,请重新登录!')
+                        }, 150)
+                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                        vm.loading = false;
+                        //令牌无效.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录异常,请重新登录!')
+                        }, 150)
+                    } else {
+                        if (ret.total == 0) {
+                            vm.table = [];
+                        } else {
+                            vm.table = ret.rows;
+                        }
+                        vm.total = ret.total;
+                        vm.loading = false;
+                    }
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error)
+                    }, 150)
                 })
-            }
 
+            },
+            //高级查询
+            handleSearch() {
+                //弹出高级查询界面
+                this.searchFormVisible = true;
+            },
+            //刷新页面
+            refresh() {
+                this.getTableData(this.sform);
+                //清空高级查询表单项内容
+                this.$message({
+                    message: '刷新成功!',
+                    type: 'success',
+                    duration: 600
+                });
+            },
+            alertInfo(msg) {
+                this.$alert(msg, '提示', {
+                    confirmButtonText: '确定',
+                    type: 'warning',
+                    callback: action => {
+                        sessionStorage.removeItem('user');
+                        sessionStorage.removeItem('token');
+                        this.$router.push('/login');
+                    }
+                });
+            },
+            onSearch: function (sform) {
+                //在这里得到表单项,提交查询
+                this.sform = sform
+                this.getTableData(sform)
+            },
+            closesearch: function (val) {
+                this.searchFormVisible = val;
+            },
+            nameformatpark: function (row, list) {
+                console.log(row)
+                console.log(list)
+                // for (let item of list) {
+                //     if (item.value_no == row.state) {
+                //         return item.value_name;
+                //     }
+                // }
+            }
         },
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 135;
-            }
+            };
             this.tableheight = common.gwh() - 135;
             var user = sessionStorage.getItem('user');
             // console.log(user)
             if (user) {
                 user = JSON.parse(user);
                 // console.log(user.authlist.length)
-                for (var item of user.authlist) {
-                    if (AUTH_ID.monthMember_VIP == item.auth_id) {
-                        // console.log(item.sub_auth)
-                        this.hideExport = !common.showSubExport(item.sub_auth)
-                        this.hideSearch = !common.showSubSearch(item.sub_auth)
-                        this.showdelete = common.showSubDel(item.sub_auth)
-                        this.showmRefill = common.showSubReFill(item.sub_auth)
-                        this.showModifyCarNumber = common.showSubUpdate(item.sub_auth)
-                        this.showEdit = common.showSubEdit(item.sub_auth)
-                        this.showCustomizeAdd = common.showSubAdd(item.sub_auth)
-                        if(!this.showModifyCarNumber&&!this.showdelete&&!this.showmRefill){
+                for (let item of user.authlist) {
+                    if (AUTH_ID_UNION.member_BlackList == item.auth_id) {
+                        console.log(item.sub_auth)
+                        // this.hideExport = !common.showSubExport(item.sub_auth);
+                        // this.hideSearch = !common.showSubSearch(item.sub_auth);
+                        // this.showdelete = common.showSubDel(item.sub_auth);
+                        // this.showmRefill = common.showSubReFill(item.sub_auth);
+                        // this.showModifyCarNumber = common.showSubUpdate(item.sub_auth);
+                        this.showEdit = common.showSubEdit(item.sub_auth);
+                        // this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
+                        if (!this.showEdit) {
                             this.hideOptions = true;
                         }
                         break;
@@ -764,25 +587,22 @@
 
             window.onresize = () => {
                 this.tableheight = common.gwh() - 135;
-            }
+            };
             this.tableheight = common.gwh() - 135;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
-            let _this = this
-            axios.all([common.getPName(), common.getCarType()])
-                .then(axios.spread(function (retpname, retcartype) {
-                    _this.pname = retpname.data;
-                    _this.cartype = retcartype.data;
-                    // console.log(ret.data)
-                    // console.log(_this.pname)
+            // this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            // this.$refs['bolinkuniontable'].getTableData({});
+            this.getTableData({});
+            this.sform = {};
+            let _this = this;
+            axios.all([common.getAllParks()])
+                .then(axios.spread(function (ret) {
+                    console.log(ret)
+                    _this.parklist = ret.data;
                 }))
         },
         watch: {
-            pname: function (val) {
-                this.tableitems[1].subs[0].selectlist = val
-            },
-            cartype: function (val) {
-                this.tableitems[10].subs[0].selectlist = val
+            parklist: function (val) {
+                this.tableitems[5].subs[0].selectlist = val
             }
         }
     }
