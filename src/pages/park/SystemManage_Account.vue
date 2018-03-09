@@ -71,8 +71,8 @@
 
         <input v-show="false" v-model.number="center.lng">
         <input v-show="false" v-model.number="center.lat">
-        <el-dialog :visible.sync="mapVisible" @close="dclose" top="10%" width="50%">
-            <div>
+        <el-dialog :visible.sync="mapVisible" @close="dclose" top="10%" width="50%" style="padding-bottom: 50px;height: 800px;">
+            <el-row>
                 <baidu-map v-if="showMap" :style="mapstyle" :center="center" :zoom="16" @click="clickmap"
                            style="width: inherit;height: 420px"
                            @dblclick="makePoint" :scroll-wheel-zoom="true" :double-click-zoom="false">
@@ -82,8 +82,8 @@
                     <!--<bm-local-search :keyword="keyword" :auto-viewport="true" :selectFirstResult="true" :pageCapacity="ps" :resultPanel="false" location="北京"></bm-local-search>-->
 
                 </baidu-map>
-            </div>
-            <el-col :span="24" style="margin-bottom: 10px;margin-top:10px">
+            </el-row>
+            <el-row style="margin-top:10px">
                 <el-col :span="16">
                     <el-input
                             placeholder="请输入关键字"
@@ -97,7 +97,7 @@
                     <el-button @click="mapVisible = false" size="small">取 消</el-button>
                     <el-button type="primary" @click="modifyPosition" size="small" :loading="maploading">保存</el-button>
                 </el-col>
-            </el-col>
+            </el-row>
         </el-dialog>
     </section>
 
@@ -385,12 +385,17 @@
 
         },
         mounted() {
-            this.mapstyle = 'width:inherit;height:' + 420 + 'px'
+            this.mapstyle = 'width:inherit;height:420px'
             this.getInfo()
         }
     }
 </script>
 
 <style scoped>
-
+    .el-dialog__body {
+        padding: 60px 20px;
+        color: #606266;
+        line-height: 24px;
+        font-size: 14px;
+    }
 </style>

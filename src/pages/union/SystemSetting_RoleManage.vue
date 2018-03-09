@@ -66,7 +66,7 @@
 <script>
     import {path, RoleFuncion} from '../../api/api';
     import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
+    import {AUTH_ID_UNION} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
 
     export default {
@@ -88,12 +88,12 @@
                 // showSettingFee: true,
                 // showCommutime: true,
                 showPermission: true,
-                addapi: '/adminrole/addrole',
-                delapi: '/adminrole/deleterole',
-                editapi: '/adminrole/editrole',
-                queryapi: '/adminrole/query',
-                permissionapi: '/adminrole/getroleauth',
-                permissioneditapi: '/adminrole/editroleauth',
+                addapi: '/grouprole/addrole',
+                delapi: '/grouprole/deleterole',
+                editapi: '/grouprole/editrole',
+                queryapi: '/grouprole/query',
+                permissionapi: '/grouprole/getroleauth',
+                permissioneditapi: '/grouprole/editroleauth',
                 btswidth: '180',
                 fieldsstr: 'id__role_name__func__resume',
                 tableitems: [
@@ -351,7 +351,7 @@
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
-                    if (AUTH_ID.employeePermission_Role == item.auth_id) {
+                    if (AUTH_ID_UNION.systemSetting_RoleManage == item.auth_id) {
                         // console.log(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)
                         this.showEdit = common.showSubEdit(item.sub_auth)

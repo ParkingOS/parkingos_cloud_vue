@@ -23,12 +23,10 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
-    import util from '../../common/js/util'
     import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
+    import {AUTH_ID_UNION} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
-
+    import axios from 'axios'
     export default {
         components: {
             CommonTable
@@ -47,7 +45,7 @@
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
-                queryapi: '/parklog/query',
+                queryapi: '/citylog/query',
                 btswidth: '100',
                 fieldsstr: 'id__log_id__operate_time__content__operate_user__remark',
                 tableitems: [
@@ -104,7 +102,7 @@
                         subs: [{
                             label: '操作内容',
                             prop: 'content',
-                            width: '180',
+                            width: '300',
                             type: 'str',
                             editable: true,
                             searchable: false,
@@ -119,12 +117,16 @@
                             label: '收费员',
                             prop: 'operate_user',
                             width: '123',
-                            type: 'str',
+                            type: 'selection',
+                            selectlist:this.collectors,
                             editable: true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            format:(row)=>{
+                                return common.nameformat(row,this.collectors,'operate_user')
+                            }
                         }]
                     }, {
 
@@ -145,20 +147,20 @@
 
                 ],
                 searchtitle: '查询明细',
+                collectors:'',
 
             }
         },
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
-            var user = sessionStorage.getItem('user');
-            this.user = user
+            let user = sessionStorage.getItem('user');
             if (user) {
                 user = JSON.parse(user);
-                for (var item of user.authlist) {
-                    if (AUTH_ID.systemManage_Logs == item.auth_id) {
+                for (let item of user.authlist) {
+                    if (AUTH_ID_UNION.systemSetting_LogsOperates == item.auth_id) {
                         console.log(item.sub_auth)
                         // this.hideSearch= !common.showSubSearch(item.sub_auth)
                         // this.hideExport = !common.showSubExport(item.sub_auth)
@@ -172,8 +174,18 @@
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({});
+            let _this = this;
+            axios.all([common.getAllCollector()])
+                .then(axios.spread(function (collector, reason) {
+                    _this.collectors = collector.data;
+                }))
+        },
+        watch: {
+            collectors: function (val) {
+                this.tableitems[4].subs[0].selectlist = val
+            },
         }
     }
 

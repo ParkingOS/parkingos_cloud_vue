@@ -68,12 +68,12 @@
                     align="center"
                     width="123">
             </el-table-column>
-            <el-table-column
-                    label="手机"
-                    prop="phone"
-                    align="center"
-                    width="123">
-            </el-table-column>
+            <!--<el-table-column-->
+            <!--label="手机"-->
+            <!--prop="phone"-->
+            <!--align="center"-->
+            <!--width="123">-->
+            <!--</el-table-column>-->
             <el-table-column
                     label="车牌号"
                     prop="car_number"
@@ -92,7 +92,7 @@
                     align="center"
                     width="123">
                 <template scope="scope">
-                    {{scope.row.state=='1'?'已漂白':'正常'}}
+                    {{scope.row.state=='1'?'漂白':'正常'}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -100,9 +100,9 @@
                     prop="comid"
                     align="center"
                     width="150">
-                <!--<template scope="scope">-->
-                <!--{{nameformatpark(scope.row, this.parklist)}}-->
-                <!--</template>-->
+                <template scope="scope">
+                    {{nameformatpark(scope.row, parklist)}}
+                </template>
             </el-table-column>
 
             <el-table-column
@@ -168,7 +168,7 @@
 
 <script>
     import {
-        path
+        path, blackStateType
     } from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID_UNION} from '../../common/js/const'
@@ -248,7 +248,8 @@
                                 prop: 'mobile',
                                 width: '123',
                                 type: 'str',
-                                searchable: true,
+                                searchable: false,
+                                hidden: true,
                                 unsortable: true,
                                 align: 'center',
                             },
@@ -289,12 +290,16 @@
                                 label: '状态',
                                 prop: 'state',
                                 width: '150',
-                                type: 'str',
+                                type: 'selection',
+                                selectlist: blackStateType,
                                 editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
+                                format: (row) => {
+                                    return common.nameformat(row, blackStateType, 'state')
+                                }
                             },
                         ]
                     }, {
@@ -362,7 +367,7 @@
                                 label: '备注',
                                 prop: 'remark',
                                 width: '180',
-                                type: 'number',
+                                type: 'str',
                                 addable: true,
                                 editable: true,
                                 searchable: true,
@@ -508,7 +513,6 @@
                         vm.alertInfo('请求失败!' + error)
                     }, 150)
                 })
-
             },
             //高级查询
             handleSearch() {
@@ -545,13 +549,12 @@
                 this.searchFormVisible = val;
             },
             nameformatpark: function (row, list) {
-                console.log(row)
-                console.log(list)
-                // for (let item of list) {
-                //     if (item.value_no == row.state) {
-                //         return item.value_name;
-                //     }
-                // }
+                for (let item of list) {
+                    // console.log(item.value_no+' === '+row.comid)
+                    if (item.value_no == row.comid) {
+                        return item.value_name;
+                    }
+                }
             }
         },
         mounted() {
@@ -559,7 +562,7 @@
                 this.tableheight = common.gwh() - 135;
             };
             this.tableheight = common.gwh() - 135;
-            var user = sessionStorage.getItem('user');
+            let user = sessionStorage.getItem('user');
             // console.log(user)
             if (user) {
                 user = JSON.parse(user);
@@ -593,17 +596,23 @@
             // this.$refs['bolinkuniontable'].getTableData({});
             this.getTableData({});
             this.sform = {};
-            let _this = this;
-            axios.all([common.getAllParks()])
-                .then(axios.spread(function (ret) {
-                    console.log(ret)
-                    _this.parklist = ret.data;
-                }))
+
         },
         watch: {
             parklist: function (val) {
                 this.tableitems[5].subs[0].selectlist = val
             }
+        },
+        created() {
+            let _this = this;
+            _this.$nextTick(function () {
+                axios.all([common.getAllParks()])
+                    .then(axios.spread(function (ret) {
+                        console.log(ret)
+                        _this.parklist = ret.data;
+                    }))
+            })
+
         }
     }
 

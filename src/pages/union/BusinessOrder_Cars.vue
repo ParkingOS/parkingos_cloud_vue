@@ -159,9 +159,8 @@
                             prop: 'prepaid',
                             width: '123',
                             type: 'str',
-
-                            searchable: true,
-
+                            searchable: false,
+                            hidden: true,
                             unsortable: true,
                             align: 'center'
                         }]
@@ -174,8 +173,8 @@
                             width: '123',
                             type: 'selection',
                             selectlist: parkType,
-                            searchable: true,
-
+                            searchable: false,
+                            hidden: true,
                             unsortable: true,
                             align: 'center',
                             format: (row) => {
@@ -320,7 +319,7 @@
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local+ '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
                 console.log(this.imgdialog_url)
 
                 let _this = this

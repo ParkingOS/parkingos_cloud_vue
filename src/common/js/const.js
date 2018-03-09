@@ -97,7 +97,7 @@ export const AUTH_ID_UNION = {
     systemSetting_RoleManage: 245, //角色管理
     systemSetting_LogsManage: 244, //日志管理
     systemSetting_LogsOperates: 284, //操作日志管理
-    systemSetting_LogsCollector: 283, //收费员日志
+    systemSetting_LogsCollector: 2830000, //收费员日志
     strategicAnalysis: 219, //决策分析
     strategicAnalysis_DailyReport: 225, //封闭车场订单统计-车场日报
     centerMonitor: 310 //中央监控

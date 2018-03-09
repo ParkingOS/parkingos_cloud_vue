@@ -464,7 +464,7 @@
                                 label: '备注',
                                 prop: 'remark',
                                 width: '180',
-                                type: 'number',
+                                type: 'str',
                                 addable: true,
                                 editable: true,
                                 searchable: true,
@@ -770,7 +770,7 @@
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
             let _this = this
-            axios.all([common.getPName(), common.getCarType(), common.getAllParks()])
+            axios.all([common.getAllPName(), common.getCarType(), common.getAllParks()])
                 .then(axios.spread(function (retpname, retcartype, parks) {
                     _this.pname = retpname.data;
                     _this.cartype = retcartype.data;
@@ -789,7 +789,7 @@
                 this.tableitems[1].subs[0].selectlist = val
             },
             cartype: function (val) {
-                this.tableitems[10].subs[0].selectlist = val
+                this.tableitems[11].subs[0].selectlist = val
             },
             parklist: function (val) {
                 this.tableitems[2].subs[0].selectlist = val

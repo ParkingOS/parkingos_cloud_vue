@@ -139,7 +139,6 @@ export default {
                 }
             }
             // console.log(list)
-            console.log(x+'?'+list[x].value_no+'?'+row[col])
             if (list[x].value_no == row[col]) {
                 return list[x].value_name;
             }
@@ -159,17 +158,17 @@ export default {
     },
     getWorkSite_id() {
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid');
+            + this.attachParams('comid');
         return axios.get(path + '/getdata/getWorkSiteId' + param);
     },
     getChannelType() {
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid');
+            + this.attachParams('comid');
         return axios.get(path + '/getdata/getChannelType' + param);
     },
     getMonitorName() {
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid');
+            + this.attachParams('comid');
         return axios.get(path + '/getdata/getMonitorName' + param);
 
     },
@@ -224,16 +223,25 @@ export default {
     getAllParks() {
         // 获得集团和城市下的所有车场
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&cityid=' + (sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid'))
-            + '&groupid=' + (sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid'));
+            + this.commonParams();
         return axios.get(path + '/getdata/cityparks' + param);
     },
     getAllCollector() {
         // 获得集团和城市下面所有的收费员
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&cityid=' + (sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid'))
-            + '&groupid=' + (sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid'));
+            + this.commonParams();
         return axios.get(path + '/getdata/allcollectors' + param);
+    },
+    getAllPName() {
+        let param = '?token=' + sessionStorage.getItem('token')
+            + this.commonParams();
+        return axios.get(path + '/getdata/getAllPackage' + param);
+    },
+    getAllEmployeeRole() {
+        //获取员工角色
+        let param = '?token=' + sessionStorage.getItem('token')
+            + this.commonParams();
+        return axios.get(path + '/groupmember/getrole' + param);
     },
     /**
      * 车场接口
@@ -242,8 +250,7 @@ export default {
     getCollector() {
         //获取收费员
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid')
-            + '&groupid=' + sessionStorage.getItem('groupid');
+            + this.commonParams();
         return axios.get(path + '/getdata/getalluser' + param);
     },
     getLiftReason() {
@@ -254,28 +261,26 @@ export default {
     getEmployeeRole() {
         //获取员工角色
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid')
-            + '&loginuin=' + sessionStorage.getItem('loginuin');
+            + this.commonParams();
         return axios.get(path + '/member/getrole' + param);
     },
     getPName() {
         //获得月卡套餐
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid')
-            + '&loginuin=' + sessionStorage.getItem('loginuin');
+            + this.commonParams();
         return axios.get(path + '/getdata/getpname' + param);
     },
+
     getCarType() {
         //获得车型类型
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid')
-            + '&groupid=' + sessionStorage.getItem('groupid');
+            + this.commonParams();
         return axios.get(path + '/getdata/getcartype' + param);
     },
     editCarNum(carnumber, id) {
         //更改车牌号
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid')
+            + this.attachParams('comid')
             + '&id=' + id
             + '&carnumber=' + encodeURI(encodeURI(carnumber));
         return axios.get(path + '/vip/editCarNum' + param);
@@ -283,8 +288,7 @@ export default {
     getProdSum(p_name, month) {
         //通过续费月数和月卡套餐获取金额
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid')
-            + '&loginuin=' + sessionStorage.getItem('loginuin')
+            + this.commonParams()
             + '&p_name=' + p_name
             + '&months=' + month;
         return axios.get(path + '/getdata/getprodsum' + param);
@@ -293,8 +297,7 @@ export default {
         // reNewProduct(this.pnameno,this.refillcount,this.currentRow.name,this.Btime,this.currentRow.pid,this.currentRow.remark,this.RefillTotalact,roleid==30?'车场':roleid){
         //月卡续费
         let param = '?token=' + sessionStorage.getItem('token')
-            + '&comid=' + sessionStorage.getItem('comid')
-            + '&loginuin=' + sessionStorage.getItem('loginuin')
+            + this.commonParams()
             + '&p_name=' + p_name
             + '&months=' + month
             + '&name=' + name
@@ -305,10 +308,10 @@ export default {
             + '&nickname=' + nickname;
         return axios.get(path + '/vip/renewproduct' + param);
     },
-    getLength:function(obj){
-        var count=0;
-        for(var key in obj){
-            console.log(''+key);
+    getLength: function (obj) {
+        var count = 0;
+        for (var key in obj) {
+            console.log('' + key);
             count++;
         }
         return count;
@@ -427,9 +430,29 @@ export default {
         return axios.get(path + '/shopmember/editpass' + '?token=' + sessionStorage.getItem('token')
             + '&newpass=' + obj.newpass + '&confirmpass=' + obj.confirmpass
             + '&id=' + obj.id);
-    }
-    ,
+    },
     deleteShopMember(id) {
         return axios.get(path + '/shopmember/delete' + '?token=' + sessionStorage.getItem('token') + '&id=' + id);
+    },
+    commonParams() {
+        //返回通用的一些参数
+        return this.attachParams('comid')
+            + this.attachParams('groupid')
+            + this.attachParams('cityid')
+            + this.attachParams('loginuin');
+    },
+    attachParams(key,type) {
+        //判断是否是undifined，如果是，则不添加该参数
+        let p = sessionStorage.getItem(key);
+        let params = '';
+        if (p !== undefined && p !== 'undefined') {
+            if(type!==1){
+                //如果不是1，则说明是默认的拼接参数；否则是获得key对应的值
+                params += '&' + key + '=';
+            }
+            params += p;
+        }
+        return params;
     }
+
 };

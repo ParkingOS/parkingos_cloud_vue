@@ -33,7 +33,7 @@
 <script>
     import {genderType, collectType} from '../../api/api';
     import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
+    import {AUTH_ID_UNION} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
     import axios from 'axios'
 
@@ -59,11 +59,11 @@
                 // showSettingFee:true,
                 // showCommutime:true,
                 // showPermission:true,
-                addapi: '/member/createmember',
-                delapi: '/member/delmember',
-                editapi: '/member/editmember',
-                queryapi: '/member/query',
-                resetapi: '/member/editpass',
+                addapi: '/groupmember/createmember',
+                delapi: '/groupmember/delmember',
+                editapi: '/groupmember/editmember',
+                queryapi: '/groupmember/query',
+                resetapi: '/groupmember/editpass',
                 btswidth: '180',
                 fieldsstr: 'id__nickname__strid__phone__mobile__role_id__reg_time__sex__logon_time__isview',
 
@@ -263,7 +263,7 @@
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
-                    if (AUTH_ID.employeePermission_Manage == item.auth_id) {
+                    if (AUTH_ID_UNION.systemSetting_EmployeeManage == item.auth_id) {
                         console.log(item.sub_auth)
                         this.hideSearch = !common.showSubSearch(item.sub_auth)
                         this.showdelete = common.showSubDel(item.sub_auth)
@@ -292,7 +292,7 @@
             this.$refs['bolinkuniontable'].getTableData({})
 
             let _this = this
-            axios.all([common.getEmployeeRole()])
+            axios.all([common.getAllEmployeeRole()])
                 .then(axios.spread(function (ret) {
                     // _this.aroles = _this.aroles.concat(ret.data);
                     _this.aroles = ret.data;

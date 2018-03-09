@@ -107,7 +107,7 @@
         </el-row>
         <!--列表-->
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight2"
-                  v-loading="loading" @sort-change="sortChange" id="tablearea" :row-style="tableRowStyle">
+                  v-loading="loading" @sort-change="sortChange" id="tablearea">
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">
@@ -557,15 +557,7 @@
                 sform.orderby = this.orderby;
                 sform.orderfield = this.orderfield;
                 sform.fieldsstr = this.fieldsstr;
-                sform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid');
-                sform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid');
-                sform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid');
-                sform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid');
-                sform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid');
-                sform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin');
-                sform.ishdorder = sessionStorage.getItem('ishdorder') == 'undefined' ? '' : sessionStorage.getItem('ishdorder');
-                sform.token = sessionStorage.getItem('token') == 'undefined' ? '' : sessionStorage.getItem('token');
-                sform.roleid = sessionStorage.getItem('loginroleid') == 'undefined' ? '' : sessionStorage.getItem('loginroleid');
+                sform = this.generateForm(sform);
 
                 vm.$axios.post(path + api, vm.$qs.stringify(sform), {
                     headers: {
@@ -734,46 +726,6 @@
             handleEdit(index, row) {
                 //拿到当前行数据row,传递给表单编辑子组件,子组建中包括重置和保存按钮
                 this.rowdata = row;
-                let vm = this;
-                let user = sessionStorage.getItem('user');
-                user = JSON.parse(user);
-                for (let i = 0; i < this.tableitems.length; i++) {
-                    if (this.tableitems[i].customSelect == 'parkserver') {
-                        //重置该selectlist,根据
-                        let params;
-                        if (user.roleid == 1) {
-                            if (this.tableitems[i].commonSelect == 'local_all') {
-                                params = {'com_id': row.id, 'state': 1, 'token': sessionStorage.getItem('token')};
-                            } else if (this.tableitems[i].commonSelect == 'all') {
-                                params = {'query': 1, 'token': sessionStorage.getItem('token')};
-                            }
-                        } else if (user.roleid == 2) {
-                            if (this.tableitems[i].commonSelect == 'local_available') {
-                                params = {'state': 1, 'token': sessionStorage.getItem('token')};
-                            }
-                        }
-                        // this.$ajax({
-                        //     url: path + '/getdata/serverlist',
-                        //     data: params,
-                        //     async: false,
-                        //     success: function (ret) {
-                        //         vm.tableitems[i].selectlist = ret
-                        //     }
-                        // })
-                        vm.$axios.post(path + '/getdata/serverlist', vm.$qs.stringify(params), {
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            }
-                        }).then(function (response) {
-                            let ret = response.data;
-                            vm.tableitems[i].selectlist = ret
-                        }).catch(function (error) {
-                            setTimeout(() => {
-                                vm.alertInfo('请求失败!' + error)
-                            }, 150)
-                        })
-                    }
-                }
                 //获取角色编号,获取rowid,
                 this.editFormVisible = true;
             },
@@ -824,16 +776,7 @@
                 //发送ajax,提交表单更新
                 let vm = this;
                 let api = this.editapi;
-                let qform = this.sform;
-
-                eform.token = sessionStorage.getItem('token');
-                eform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid');
-                eform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid');
-                eform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid');
-                eform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid');
-                eform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid');
-                eform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin');
-
+                eform = this.generateForm(eform);
                 this.$refs.editref.$refs.editForm.validate((valid) => {
                     if (valid) {
                         vm.editloading = true;
@@ -856,7 +799,7 @@
                             } else {
                                 if (ret > 0 || ret.state == 1) {
                                     //更新成功
-                                    vm.getTableData(qform);
+                                    vm.getTableData(vm.sform);
                                     vm.$message({
                                         message: '更新成功!',
                                         type: 'success',
@@ -919,46 +862,6 @@
                 d.print(document.getElementById('tablearea'), cssText)
             },
             handleAdd() {
-                let vm = this;
-                let user = sessionStorage.getItem('user');
-                user = JSON.parse(user);
-                for (let i = 0; i < this.tableitems.length; i++) {
-                    if (this.tableitems[i].customSelect == 'parkserver') {
-                        //重置该selectlist,根据
-                        let params;
-                        if (user.roleid == 1) {
-                            if (this.tableitems[i].commonSelect == 'local_all') {
-                                params = {'com_id': row.id, 'state': 1, 'token': sessionStorage.getItem('token')}
-                            } else if (this.tableitems[i].commonSelect == 'all') {
-                                params = {'query': 1, 'token': sessionStorage.getItem('token')}
-                            }
-                        } else if (user.roleid == 2) {
-                            if (this.tableitems[i].commonSelect == 'local_available') {
-                                params = {'state': 1, 'token': sessionStorage.getItem('token')}
-                            }
-                        }
-                        // this.$ajax({
-                        //     url: path + '/getdata/serverlist',
-                        //     data: params,
-                        //     async: false,
-                        //     success: function (ret) {
-                        //         vm.tableitems[i].selectlist = ret
-                        //     }
-                        // })
-                        vm.$axios.post(path + '/getdata/serverlist', vm.$qs.stringify(params), {
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            }
-                        }).then(function (response) {
-                            let ret = response.data;
-                            vm.tableitems[i].selectlist = ret
-                        }).catch(function (error) {
-                            setTimeout(() => {
-                                vm.alertInfo('请求失败!' + error)
-                            }, 150)
-                        })
-                    }
-                }
                 this.addFormVisible = true;
             },
             closeadd(val) {
@@ -970,18 +873,8 @@
                 //发送请求,添加一条记录
                 let vm = this;
                 let api = this.addapi;
-                let qform = this.sform;
                 let msg = this.addfailmsg;
-
-                aform.token = sessionStorage.getItem('token');
-                aform.oid = sessionStorage.getItem('oid');
-                aform.comid = sessionStorage.getItem('comid') == 'undefined' ? '' : sessionStorage.getItem('comid');
-                aform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid');
-                aform.cityid = sessionStorage.getItem('cityid') == 'undefined' ? '' : sessionStorage.getItem('cityid');
-                aform.unionid = sessionStorage.getItem('unionid') == 'undefined' ? '' : sessionStorage.getItem('unionid');
-                aform.channelid = sessionStorage.getItem('channelid') == 'undefined' ? '' : sessionStorage.getItem('channelid');
-                aform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin');
-
+                aform = this.generateForm(aform);
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
                         vm.addloading = true;
@@ -1005,7 +898,7 @@
                             } else {
                                 if (ret > 0 || ret.state == 1) {
                                     //更新成功
-                                    vm.getTableData(qform);
+                                    vm.getTableData(vm.sform);
                                     vm.$message({
                                         message: '添加成功!',
                                         type: 'success',
@@ -1361,12 +1254,19 @@
                 else
                     return '0' + num;
             },
-            tableRowStyle({row, rowIndex}) {
-                let obj = {row, rowIndex};
-                if (obj.rowIndex > 0) {
-                    // return 'display:none'
-                }
-                return '';
+            generateForm(sform) {
+                //用来构建相同的参数
+                sform.token = common.attachParams('token');
+                sform.oid = common.attachParams('oid',1);
+                sform.comid = common.attachParams('comid',1);
+                sform.groupid = common.attachParams('groupid',1);
+                sform.cityid = common.attachParams('cityid',1);
+                sform.unionid = common.attachParams('unionid',1);
+                sform.channelid = common.attachParams('channelid',1);
+                sform.loginuin = common.attachParams('loginuin',1);
+                sform.ishdorder = common.attachParams('ishdorder',1);
+                sform.roleid = common.attachParams('loginroleid',1);
+                return sform;
             }
         },
         mounted() {

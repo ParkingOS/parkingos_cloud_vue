@@ -49,7 +49,7 @@ export const moveStyle = [
     {'value_no': 13, 'value_name': '从上下向中间展开'},
     {'value_no': 14, 'value_name': '闪烁'},
     {'value_no': 15, 'value_name': '右百叶'}
-    
+
 ];
 
 export const moveSpeed = [
@@ -164,7 +164,7 @@ export const RoleFuncion = [
     {'value_no': 1, 'value_name': '收费功能'},
     {'value_no': 2, 'value_name': '巡查功能'},
     {'value_no': 3, 'value_name': '开卡功能'}
-    
+
 ];
 //文字放前面，编辑的时候显示文字。否则显示编号
 export const genderType = [

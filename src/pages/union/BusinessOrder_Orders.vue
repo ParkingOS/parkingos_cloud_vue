@@ -113,17 +113,12 @@
                             label: '收款人账号',
                             prop: 'out_uid',
                             width: '123',
-                            type: 'selection',
-                            selectlist: this.collectors,
+                            type: 'str',
                             searchable: true,
-
                             unsortable: true,
                             align: 'center',
                             format: (row) => {
-                                let result = common.nameformat(row, this.collectors, 'out_uid');
-                                if (result == '请选择')
-                                    result = '';
-                                return result;
+                                return row.out_uid==-1?'':row.out_uid;
                             }
                         }]
                     }, {
@@ -537,7 +532,7 @@
         },
         watch: {
             collectors: function (val) {
-                this.tableitems[2].subs[0].selectlist = val
+                this.tableitems[3].subs[0].selectlist = val
                 // this.tableitems[17].subs[0].selectlist = val
             },
             parklist: function (val) {
