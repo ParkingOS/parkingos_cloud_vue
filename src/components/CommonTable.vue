@@ -87,7 +87,7 @@
                     
                     <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
-                    <el-button type="primary" size="small" @click="handleSearch" v-if="showUploadMonthCard"
+                    <el-button type="primary" size="small" @click="handleUpload" v-if="showUploadMonthCard"
                                icon="search">上传月卡
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
@@ -631,6 +631,7 @@
                 })
 
             },
+
             //高级查询
             handleSearch() {
                 //弹出高级查询界面
@@ -739,6 +740,9 @@
             handlesetting(index, row) {
                 //调用父组件的方法,传row
                 this.$emit('showSetting', row);
+            },
+            handleUpload(){
+                this.$emit('showUpload');
             },
             //导出表格数据
             handleExport() {

@@ -22,9 +22,9 @@
 
 
 <script>
-    import {path} from '../../api/api';
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
+    import axios from 'axios'
 
     export default {
         components: {
@@ -34,62 +34,53 @@
             return {
                 loading: false,
                 hideExport: true,
-                hideSearch: true,
-                showdateSelectorMonth: true,
+                hideSearch: false,
+                showdateSelectorMonth: false,
                 hideAdd: true,
                 tableheight: '',
                 hideOptions: true,
                 hideTool: false,
                 hidePagination: true,
-                queryapi: '/monthparkorder/query',
+                queryapi: '/cityparkorder/query',
                 btswidth: '100',
-                fieldsstr: 'sdate__scount__amount_receivable__cash_pay__electronic_pay__free_pay',
+                fieldsstr: 'time__comid__amount_receivable__cash_pay__electronic_pay__act_total__free_pay',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
                             {
                                 label: '日期',
-                                prop: 'sdate',
+                                prop: 'time',
                                 width: '123',
-                                type: 'str',
+                                type: 'date',
                                 editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
+
                             },
                         ]
                     }, {
                         hasSubs: false, subs: [
                             {
-                                label: '总订单数',
-                                prop: 'scount',
+                                label: '车场',
+                                prop: 'comid',
                                 width: '123',
-                                type: 'number',
+                                type: 'selection',
+                                selection: this.parklist,
                                 editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                hidden: true,
                                 align: 'center',
+                                format: (row) => {
+                                    return common.nameformat(row, this.parklist, 'comid');
+                                }
+
                             },
                         ]
                     },
                     {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '应收金额',
-                            prop: 'amount_receivable',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -121,12 +112,39 @@
 
                         hasSubs: false,
                         subs: [{
+                            label: '应收金额',
+                            prop: 'amount_receivable',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '实收金额',
+                            prop: 'act_total',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
                             label: '免费金额',
                             prop: 'free_pay',
                             width: '123',
                             type: 'str',
                             editable: true,
-                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -149,13 +167,14 @@
                 showWorkDetail: false,
                 showOrderDetail: false,
                 currentRow: '',
+                parklist: [],
             }
         },
         methods: {},
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             // var user = sessionStorage.getItem('user');
             // this.user = user
@@ -173,19 +192,30 @@
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''})
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''});
             // this.getTableData(this.sform);
-        }
+            let _this = this;
+            _this.$nextTick(function () {
+                axios.all([common.getAllParks()])
+                    .then(axios.spread(function (ret) {
+                        console.log(ret);
+                        _this.parklist = ret.data;
+                    }))
+            })
+        },
+        watch: {
+            parklist: function (val) {
+                this.tableitems[1].subs[0].selectlist = val
+            }
+        },
     }
 
 </script>
 
 <style>
-    .gutter {
-        display: none
-    }
+
 </style>
 

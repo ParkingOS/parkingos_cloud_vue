@@ -740,7 +740,7 @@
                 ],
                 searchtitle: '高级查询',
                 addtitle: '注册停车场',
-         
+
                 datereadonly: true,
 
                 company_name: 'company_name',
@@ -845,17 +845,7 @@
 
                     if (valid) {
                         _this.addloading = true;
-                        let aform = _this.addFormPark;
-                        aform.token = sessionStorage.getItem('token');
-                        aform.comid = sessionStorage.getItem('comid');
-                        aform.groupid = sessionStorage.getItem('groupid');
-                        aform.cityid = sessionStorage.getItem('cityid');
-                        aform.unionid = sessionStorage.getItem('unionid');
-                        aform.channelid = sessionStorage.getItem('channelid');
-                        aform.loginuin = sessionStorage.getItem('loginuin');
-                        aform.nickname = sessionStorage.getItem('nickname');
-                        aform.oid = sessionStorage.getItem('oid');
-
+                        let aform = _this.generateForm(_this.addFormPark);
                         _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -902,17 +892,7 @@
                 this.$refs.addFormPark.validate((valid) => {
                     if (valid) {
                         _this.addloading = true;
-                        let aform = _this.addFormPark;
-                        aform.token = sessionStorage.getItem('token');
-                        aform.comid = sessionStorage.getItem('comid');
-                        aform.groupid = sessionStorage.getItem('groupid');
-                        aform.cityid = sessionStorage.getItem('cityid');
-                        aform.unionid = sessionStorage.getItem('unionid');
-                        aform.channelid = sessionStorage.getItem('channelid');
-                        aform.loginuin = sessionStorage.getItem('loginuin');
-                        aform.nickname = sessionStorage.getItem('nickname');
-                        aform.oid = sessionStorage.getItem('oid');
-
+                        let aform = _this.generateForm(_this.addFormPark);
 
                         _this.$axios.post(path + _this.editapi, _this.$qs.stringify(aform), {
                             headers: {
@@ -1362,7 +1342,7 @@
                 //用来构建相同的参数
                 sform.token = common.attachParams('token');
                 sform.oid = common.attachParams('oid', 1);
-                sform.comid = common.attachParams('comid', 1);
+                sform.comid = this.currentRow.id;
                 sform.groupid = common.attachParams('groupid', 1);
                 sform.cityid = common.attachParams('cityid', 1);
                 sform.unionid = common.attachParams('unionid', 1);
