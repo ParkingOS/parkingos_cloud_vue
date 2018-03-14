@@ -161,7 +161,7 @@
                 }
             },
             handleReset() {
-                console.log('忘记密码')
+                // console.log('忘记密码')
                 this.getPassVisible = true
             },
             closegetckey() {
@@ -327,7 +327,7 @@
                     iv: iv,
                     mode: CryptoJS.mode.CBC
                 }).toString()
-                console.log(pwd)
+                // console.log(pwd)
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
                         this.logining = true;
@@ -339,7 +339,7 @@
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
                         }).then(function (response) {
-                            console.log(response)
+                            // console.log(response)
                             let ret = response.data;
                             if (ret.state) {
                                 var u = ret.user;
@@ -385,7 +385,7 @@
                                     }
 
                                     sessionStorage.setItem('showUnionItem',JSON.stringify(_this.showUnionItem))
-                                    console.log(_this.showUnionItem)
+                                    // console.log(_this.showUnionItem)
                                     if(_this.highlightindex==''){
                                         _this.$router.push({path: '/index'});
                                     }else{
@@ -422,7 +422,7 @@
                                     }
 
                                     sessionStorage.setItem('showParkItem',JSON.stringify(_this.showParkItem))
-                                    console.log(_this.showParkItem)
+                                    // console.log(_this.showParkItem)
                                     if(_this.highlightindex==''){
                                         _this.$router.push({path: '/index'});
                                     }else{

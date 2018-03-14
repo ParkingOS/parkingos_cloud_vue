@@ -1,7 +1,7 @@
-export const path = 'http://120.25.121.204:8080/cloud';
+// export const path = 'http://120.25.121.204:8080/cloud';
 
 // export const path = "http://localhost:8086"
-// export const path = 'http://192.168.199.205:12305';
+export const path = 'http://192.168.199.206:12305';
 //export const path = "http://localhost:8085"
 // export const path = "http://localhost:8080/cloud"
 
@@ -218,6 +218,12 @@ export const parkType = [
     {'value_name': '地下', 'value_no': 1},
     {'value_name': '占道', 'value_no': 2}
 ];
+export const parkState = [
+    //车场审核状态
+    {'value_name': '已审核', 'value_no': 0},
+    // {'value_name': '已删除', 'value_no': 1},
+    {'value_name': '未审核', 'value_no': 2}
+];
 
 // export var checkPhone = (rule, value, callback) => {
 //     if (typeof(value) == 'undefined' || value == '') {
@@ -247,7 +253,7 @@ export var checkURL = (rule, value, callback) => {
     // } else {
     //     callback();
     // }
-    console.log(''+callback);
+    console.log('' + callback);
 };
 
 export var checkUpload = (rule, value, callback) => {

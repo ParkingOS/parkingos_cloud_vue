@@ -25,7 +25,7 @@
                     v-on:showrefill="showrefill"
                     v-on:showSetting="showSetting"
                     v-on:customizeadd="showadd"
-                    v-on:showeditshop="showeditshop"
+                    v-on:customizeedit="showeditshop"
                     ref="bolinkuniontable"
             ></common-table>
         </section>

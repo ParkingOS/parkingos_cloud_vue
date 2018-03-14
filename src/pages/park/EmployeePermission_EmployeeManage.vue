@@ -9,10 +9,8 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-
                 :addtitle="addtitle"
                 :hideTool="hideTool"
-
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"

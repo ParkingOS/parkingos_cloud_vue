@@ -179,9 +179,7 @@
                             prop: 'car_type',
                             width: '100',
                             type: 'str',
-
-                            searchable: true,
-
+                            searchable: false,
                             unsortable: true,
                             align: 'center'
                         }]

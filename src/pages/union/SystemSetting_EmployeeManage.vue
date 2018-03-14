@@ -38,6 +38,7 @@
     import axios from 'axios'
 
     export default {
+        name:"employeeManage",
         components: {
             CommonTable
         },
@@ -251,6 +252,25 @@
                 },
 
                 aroles: [],
+            }
+        },
+        methods:{
+            activedialog(){
+                console.log('-------------------------------')
+                // window.onresize = () => {
+                //     this.tableheight = common.gwh() - 143;
+                // }
+                //
+                // this.tableheight = common.gwh() - 143;
+                // this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
+                // this.$refs['bolinkuniontable'].getTableData({})
+                //
+                // let _this = this
+                // axios.all([common.getAllEmployeeRole()])
+                //     .then(axios.spread(function (ret) {
+                //         // _this.aroles = _this.aroles.concat(ret.data);
+                //         _this.aroles = ret.data;
+                //     }))
             }
         },
         mounted() {

@@ -84,6 +84,7 @@
                     <el-button type="primary" size="small" @click="handleCustomizeAdd" v-if="showCustomizeAdd">
                         {{addtitle}}
                     </el-button>
+                    
                     <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
                     <el-button type="primary" size="small" @click="handleSearch" v-if="showUploadMonthCard"
@@ -114,7 +115,7 @@
                     <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
-                    <el-button v-if="showShopEdit" size="small" type="text" @click="editShop(scope.$index, scope.row)">
+                    <el-button v-if="showCustomizeEdit" size="small" type="text" @click="handleCustomizeEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
                     <el-button v-if="showModifyCarNumber" size="small" type="text"
@@ -478,10 +479,10 @@
                 tableheight2: common.gwh() - 143,
             }
         },
-        props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
+        props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showdateSelectorMonth',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showShopEdit', 'showUploadMonthCard'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard'],
         methods: {
             //刷新页面
             refresh() {
@@ -1026,8 +1027,8 @@
                 // alert('功能正在开发，请耐心等待')
                 this.$emit('showrefill', index, row)
             },
-            editShop(index, row) {
-                this.$emit('showeditshop', index, row)
+            handleCustomizeEdit(index, row) {
+                this.$emit('customizeedit', index, row)
             },
             handlePermission(index, row) {
                 //员工权限-角色管理-编辑权限
