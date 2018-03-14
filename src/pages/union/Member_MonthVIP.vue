@@ -190,19 +190,21 @@
                 :visible.sync="showUpload"
                 width="30%">
             <!--<el-upload class="upload-demo" drag :action="uploadapi" multiple :auto-upload="false" ref="upload" :on-success="uploadSuccess">-->
-                <!--<i class="el-icon-upload"></i>-->
-                <!--<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
-                <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
-                <!--<el-button size="small" type="success" @click="submitUpload">确认上传</el-button>-->
+            <!--<i class="el-icon-upload"></i>-->
+            <!--<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
+            <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
+            <!--<el-button size="small" type="success" @click="submitUpload">确认上传</el-button>-->
             <!--</el-upload>-->
-            <el-upload class="upload-demo" ref="upload" :action="uploadapi"  :auto-upload="false" :on-success="uploadSuccess">
+            <el-upload class="upload-demo" ref="upload" :action="uploadapi" :auto-upload="false"
+                       :on-success="uploadSuccess" :on-remove="handleRemove">
                 <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器
+                </el-button>
+                <div slot="tip" class="el-upload__tip">请选择Excel文件，支持xls,xlsx等格式</div>
             </el-upload>
+            <div v-html="uploadMsg"></div>
             <span slot="footer" class="dialog-footer">
-				<el-button @click="showUpload = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="handleRegis" :loading="resetloading">确 定</el-button>
+				<el-button @click="showUpload = false" size="small" type="primary">确 定</el-button>
 			</span>
         </el-dialog>
 
@@ -250,7 +252,7 @@
                 addapi: '/cityvip/add',
                 editapi: '/cityvip/edit',
                 delapi: '/cityvip/delete',
-                uploadapi:path+'/cityvip/importExcel',
+                uploadapi: path + '/cityvip/importExcel?groupid=' + sessionStorage.getItem('groupid'),
                 parkid: '',
                 currentIndex: 0,
                 currentRow: '',
@@ -295,7 +297,7 @@
                             {
                                 label: '所属车场',
                                 prop: 'com_id',
-                                width: '100',
+                                width: '180',
                                 type: 'selection',
                                 selectlist: this.parklist,
                                 searchable: true,
@@ -315,7 +317,7 @@
                             {
                                 label: '车主姓名',
                                 prop: 'name',
-                                width: '180',
+                                width: '123',
                                 type: 'str',
                                 editable: true,
                                 searchable: true,
@@ -553,20 +555,31 @@
                 ],
                 refillstartDate: 0,
                 parklist: '',
-                showUpload:false,
+                showUpload: false,
+                uploadMsg: '',
             }
         },
         methods: {
-            showUploadDialog:function () {
+            showUploadDialog: function () {
                 this.showUpload = true;
+                this.uploadMsg = '';
             },
             submitUpload() {
                 this.$refs.upload.submit();
             },
-            uploadSuccess(response,file,filelist){
-                console.log(response);
-                console.log(file);
-                console.log(filelist);
+            handleRemove(file, fileList) {
+                this.uploadMsg = '';
+            },
+            uploadSuccess(response, file, filelist) {
+                // console.log(response);
+                // console.log(file);
+                // console.log(filelist);
+                this.$message({
+                    message: '上传成功!',
+                    type: 'success',
+                    duration: 600
+                });
+                this.uploadMsg = response.msg;
             },
             showreset: function (index, row) {
                 this.currentIndex = index;
