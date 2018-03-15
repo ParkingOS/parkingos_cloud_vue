@@ -73,10 +73,7 @@
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
-                                format: (row) => {
-                                    return common.nameformat(row, this.parklist, 'comid');
-                                }
-
+                               
                             },
                         ]
                     },
