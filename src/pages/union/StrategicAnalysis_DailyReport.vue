@@ -73,7 +73,7 @@
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
-                               
+
                             },
                         ]
                     },
