@@ -88,7 +88,7 @@
                     <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
                     <el-button type="primary" size="small" @click="handleUpload" v-if="showUploadMonthCard"
-                               icon="search">上传月卡
+                               icon="search">导入月卡
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
                         <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>

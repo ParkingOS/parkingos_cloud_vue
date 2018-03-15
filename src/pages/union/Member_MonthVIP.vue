@@ -186,7 +186,7 @@
 			</span>
         </el-dialog>
         <el-dialog
-                title="上传月卡"
+                title="导入月卡"
                 :visible.sync="showUpload"
                 width="30%">
             <!--<el-upload class="upload-demo" drag :action="uploadapi" multiple :auto-upload="false" ref="upload" :on-success="uploadSuccess">-->
@@ -198,7 +198,7 @@
             <el-upload class="upload-demo" ref="upload" :action="uploadapi" :auto-upload="false"
                        :on-success="uploadSuccess" :on-remove="handleRemove">
                 <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器
+                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定导入
                 </el-button>
                 <div slot="tip" class="el-upload__tip">请选择Excel文件，支持xls,xlsx等格式</div>
             </el-upload>

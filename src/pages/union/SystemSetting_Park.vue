@@ -444,7 +444,7 @@
                                 selectlist: inparkType,
                                 hidden: true,
                                 addable: true,
-                                searchable: true,
+                                searchable: false,
                                 unsortable: true,
                                 align: 'center',
                                 format: (row) => {

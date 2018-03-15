@@ -178,42 +178,45 @@
                                 return common.dateformat(row.reg_time)
                             }
                         }]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '性别',
-                                prop: 'sex',
-                                width: '100',
-                                type: 'selection',
-                                selectlist: genderType,
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center',
-                                format: function (row) {
-                                    return common.nameformat(row, genderType, 'sex')
-                                }
-                            },
-                        ]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '最近登录时间',
-                            prop: 'logon_time',
-                            width: '180',
-                            type: 'date',
-                            editable: false,
-                            searchable: true,
-                            addable: false,
-                            unsortable: true,
-                            align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.logon_time)
-                            }
-                        }]
-                    }, {
+                    },
+                    // {
+                    //     hasSubs: false, subs: [
+                    //         {
+                    //             label: '性别',
+                    //             prop: 'sex',
+                    //             width: '100',
+                    //             type: 'selection',
+                    //             selectlist: genderType,
+                    //             editable: true,
+                    //             searchable: true,
+                    //             addable: true,
+                    //             unsortable: true,
+                    //             align: 'center',
+                    //             format: function (row) {
+                    //                 return common.nameformat(row, genderType, 'sex')
+                    //             }
+                    //         },
+                    //     ]
+                    // },
+                    // {
+                    //
+                    //     hasSubs: false,
+                    //     subs: [{
+                    //         label: '最近登录时间',
+                    //         prop: 'logon_time',
+                    //         width: '180',
+                    //         type: 'date',
+                    //         editable: false,
+                    //         searchable: true,
+                    //         addable: false,
+                    //         unsortable: true,
+                    //         align: 'center',
+                    //         format: function (row) {
+                    //             return common.dateformat(row.logon_time)
+                    //         }
+                    //     }]
+                    // },
+                    {
 
                         hasSubs: false,
                         subs: [{
