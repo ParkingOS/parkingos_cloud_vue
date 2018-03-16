@@ -350,7 +350,6 @@
         data() {
             return {
 
-                loading: false,
                 hideExport: false,
                 tableheight: '',
                 hideOptions: false,
@@ -771,7 +770,6 @@
                 pname: [],
                 cartype: [],
                 addloading: false,
-                addloading: false,
                 addFormPark: {},
 
                 mapVisible: false,
@@ -821,7 +819,7 @@
                 // this.$refs['employeeManage'].activedialog();
                 this.getTableData({});
                 let _this = this;
-                sessionStorage.setItem('comid', row.id)
+                sessionStorage.setItem('comid', row.id);
                 axios.all([common.getEmployeeRole()])
                     .then(axios.spread(function (ret) {
                         _this.aroles = ret.data;
@@ -857,7 +855,7 @@
                         }).then(function (response) {
                             let ret = response.data;
 
-                            if (ret > 0 || ret.state == 1) {
+                            if (ret > 0 || ret.state === 1) {
                                 //更新成功
                                 _this.$refs['bolinkuniontable'].getTableData({});
                                 _this.$message({
@@ -905,7 +903,7 @@
                         }).then(function (response) {
                             let ret = response.data;
 
-                            if (ret > 0 || ret.state == 1) {
+                            if (ret > 0 || ret.state === 1) {
                                 //更新成功
                                 _this.$refs['bolinkuniontable'].getTableData({});
                                 _this.$message({
@@ -985,7 +983,7 @@
                 myGeo.getPoint(this.keyword, function (point) {
                     if (point) {
                         // console.log(point);
-                        if (point.lat == vm.center.lat && point.lng == vm.center.lng) {
+                        if (point.lat === vm.center.lat && point.lng === vm.center.lng) {
                             alert("输入的地址相同或地址不正确!");
                         } else {
                             vm.center.lat = point.lat;
@@ -1038,19 +1036,19 @@
                 }).then(function (response) {
                     // console.log(ret)
                     let ret = response.data;
-                    if (ret.validate != 'undefined' && ret.validate == '0') {
+                    if (ret.validate !== 'undefined' && ret.validate === '0') {
                         vm.loading = false;
                         //未携带令牌.重新登录
                         setTimeout(() => {
                             vm.alertInfo('未携带令牌,请重新登录!')
                         }, 150)
-                    } else if (ret.validate != 'undefined' && ret.validate == '1') {
+                    } else if (ret.validate !== 'undefined' && ret.validate === '1') {
                         vm.loading = false;
                         //过期.重新登录
                         setTimeout(() => {
                             vm.alertInfo('登录过期,请重新登录!')
                         }, 150)
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                    } else if (ret.validate !== 'undefined' && ret.validate === '2') {
                         vm.loading = false;
                         //令牌无效.重新登录
                         setTimeout(() => {
@@ -1058,7 +1056,7 @@
                         }, 150)
                     } else {
                         // console.log(ret);
-                        if (ret.total == 0) {
+                        if (ret.total === 0) {
                             vm.table = [];
                         } else {
                             vm.table = ret.rows;
@@ -1092,7 +1090,7 @@
             },
             //排序变动
             sortChange(val) {
-                if (val.order != null && val.order.substring(0, 1) == "a") {
+                if (val.order != null && val.order.substring(0, 1) === "a") {
                     this.orderby = "asc";
                 } else {
                     this.orderby = "desc";
@@ -1128,19 +1126,19 @@
                     }
                 }).then(function (response) {
                     let ret = response.data;
-                    if (ret.validate != 'undefined' && ret.validate == '1') {
+                    if (ret.validate !== 'undefined' && ret.validate === '1') {
                         //过期.重新登录
                         setTimeout(() => {
                             vm.alertInfo('登录过期,请重新登录!')
                         }, 100)
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                    } else if (ret.validate !== 'undefined' && ret.validate === '2') {
                         //令牌无效.重新登录
                         setTimeout(() => {
                             vm.alertInfo('登录异常,请重新登录!')
                         }, 100)
                     } else {
                         console.log(ret);
-                        if (ret > 0 || ret.state == 1) {
+                        if (ret > 0 || ret.state === 1) {
                             //删除成功
                             vm.getTableData({});
                             vm.$message({
@@ -1173,7 +1171,7 @@
             },
             resetPwd() {
                 let vm = this;
-                if (this.pwd1 == '' || this.pwd2 == '') {
+                if (this.pwd1 === '' || this.pwd2 === '') {
                     this.$message.error('密码不能为空!');
                     return;
                 }
@@ -1181,7 +1179,7 @@
                     this.$message.error('密码为6-12位字母,数字或下划线!');
                     return
                 }
-                if (this.pwd1 != this.pwd2) {
+                if (this.pwd1 !== this.pwd2) {
                     this.$message.error('两次输入密码不一致!');
                     return
                 }
@@ -1198,18 +1196,18 @@
                     }
                 }).then(function (response) {
                     let ret = response.data;
-                    if (ret.validate != 'undefined' && ret.validate == '1') {
+                    if (ret.validate !== 'undefined' && ret.validate === '1') {
                         //过期.重新登录
                         setTimeout(() => {
                             vm.alertInfo('登录过期,请重新登录!')
                         }, 100)
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                    } else if (ret.validate !== 'undefined' && ret.validate === '2') {
                         //令牌无效.重新登录
                         setTimeout(() => {
                             vm.alertInfo('登录异常,请重新登录!')
                         }, 100)
                     } else {
-                        if (ret > 0 || ret.state == 1) {
+                        if (ret > 0 || ret.state === 1) {
                             //更新成功
                             vm.getTableData({});
                             vm.$message({
@@ -1261,7 +1259,7 @@
                         }).then(function (response) {
                             let ret = response.data;
 
-                            if (ret > 0 || ret.state == 1) {
+                            if (ret > 0 || ret.state === 1) {
                                 //更新成功
                                 _this.getTableData({});
                                 _this.$message({
@@ -1311,7 +1309,7 @@
                         }).then(function (response) {
                             let ret = response.data;
 
-                            if (ret > 0 || ret.state == 1) {
+                            if (ret > 0 || ret.state === 1) {
                                 //更新成功
                                 _this.getTableData({});
                                 _this.$message({
@@ -1379,7 +1377,7 @@
                 user = JSON.parse(user);
                 // console.log(user.authlist.length)
                 for (var item of user.authlist) {
-                    if (AUTH_ID_UNION.systemSetting_Park == item.auth_id) {
+                    if (AUTH_ID_UNION.systemSetting_Park === item.auth_id) {
                         // console.log(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth);
                         this.hideSearch = !common.showSubSearch(item.sub_auth);

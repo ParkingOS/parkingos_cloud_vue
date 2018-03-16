@@ -225,8 +225,9 @@ export const parkState = [
 ];
 
 export var checkPhone = (rule, value, callback) => {
-    if (typeof(value) == 'undefined' || value == '') {
-        return callback(new Error('请输入正确的电话号码'));
+    if (typeof(value) === 'undefined' || value === '') {
+        // return callback(new Error('请输入正确的电话号码'));
+        callback();
     // eslint-disable-next-line no-useless-escape
     } else if (!((/^800[0-9]{7}$/.test(value)) || (/^400[0-9]{7}$/.test(value)) || (/^1[34578]\d{9}$/.test(value)) || (/^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})$/.test(value)))) {
         return callback(new Error('请输入手机,座机(区号后加-),或400,800开头号码'));
