@@ -72,13 +72,13 @@
                     <br/>
                     <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                <el-form-item label="停车场电话">
+                <el-form-item label="停车场电话" :prop="mobile">
                     <el-input v-model="addFormPark.mobile" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="备注">
-                    <el-input v-model="addFormPark.remark" style="width:90%" placeholder=""
-                             ></el-input>
-                </el-form-item>
+                <!--<el-form-item label="备注">-->
+                <!--<el-input v-model="addFormPark.remark" style="width:90%" placeholder=""-->
+                <!--&gt;</el-input>-->
+                <!--</el-form-item>-->
 
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -135,17 +135,17 @@
                     <br/>
                     <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                <el-form-item label="停车场电话">
+                <el-form-item label="停车场电话" :prop="mobile">
                     <el-input v-model="addFormPark.mobile" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="备注">
-                    <el-input v-model="addFormPark.remark" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
+                <!--<el-form-item label="备注">-->
+                <!--<el-input v-model="addFormPark.remark" style="width:90%" placeholder=""></el-input>-->
+                <!--</el-form-item>-->
 
             </el-form>
             <span slot="footer" class="dialog-footer">
-				<el-button @click="showRegisPark = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="handleAdd" :loading="addloading">确 定</el-button>
+				<el-button @click="showEditPark = false" size="small">取 消</el-button>
+				<el-button type="primary" size="small" @click="handleEdit" :loading="addloading">确 定</el-button>
 			</span>
         </el-dialog>
 
@@ -180,9 +180,7 @@
             </el-row>
         </el-dialog>
 
-        <el-dialog title="停车场设置" width="60%" :visible.sync="showSetPark">
-
-
+        <el-dialog title="停车场设置-员工管理" width="60%" :visible.sync="showSetPark">
             <el-row style="margin-bottom:8px">
                 <el-col :span="24" align="left">
                     <el-col :span="18" align="left">
@@ -327,7 +325,8 @@
         genderType,
         collectType,
         parkState,
-        inparkType
+        inparkType,
+        checkPhone
     } from '../../api/api';
 
     import common from '../../common/js/common'
@@ -744,7 +743,8 @@
                 datereadonly: true,
 
                 company_name: 'company_name',
-                address:'address',
+                address: 'address',
+                mobile:'mobile',
                 addFormRules: {
                     company_name: [
                         {required: true, message: '请填写停车场名称', trigger: 'blur'}
@@ -752,6 +752,10 @@
                     address: [
                         {required: true, message: '请标注位置', trigger: 'blur'}
                     ],
+                    mobile: [
+                        {validator: checkPhone, trigger: 'blur'}
+                    ]
+
                 },
                 nickname: 'nickname',
                 role_id: 'role_id',

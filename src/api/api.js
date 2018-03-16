@@ -6,7 +6,6 @@ export const path = 'http://120.25.121.204:8080/cloud';
 // export const path = "http://localhost:8080/cloud"
 
 
-export const phonewidth = '150';
 //beta设置为5   s.bolink设置为2 
 export const percision = 5;
 
@@ -225,25 +224,26 @@ export const parkState = [
     {'value_name': '未审核', 'value_no': 2}
 ];
 
-// export var checkPhone = (rule, value, callback) => {
-//     if (typeof(value) == 'undefined' || value == '') {
-//         return callback(new Error('请输入正确的电话号码'));
-//     } else if (!((/^800[0-9]{7}$/.test(value)) || (/^400[0-9]{7}$/.test(value)) || (/^1[34578]\d{9}$/.test(value)) || (/^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})$/.test(value)))) {
-//         return callback(new Error('请输入手机,座机(区号后加-),或400,800开头号码'));
-//     } else {
-//         callback();
-//     }
-// };
-
-export var checkMobile = (rule, value, callback) => {
+export var checkPhone = (rule, value, callback) => {
     if (typeof(value) == 'undefined' || value == '') {
-        return callback(new Error('请输入正确的手机号码'));
-    } else if (!((/^1[34578]\d{9}$/.test(value)))) {
-        return callback(new Error('请输入正确的手机号码'));
+        return callback(new Error('请输入正确的电话号码'));
+    // eslint-disable-next-line no-useless-escape
+    } else if (!((/^800[0-9]{7}$/.test(value)) || (/^400[0-9]{7}$/.test(value)) || (/^1[34578]\d{9}$/.test(value)) || (/^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})$/.test(value)))) {
+        return callback(new Error('请输入手机,座机(区号后加-),或400,800开头号码'));
     } else {
         callback();
     }
 };
+
+// export var checkMobile = (rule, value, callback) => {
+//     if (typeof(value) === 'undefined' || value === '') {
+//         return callback(new Error('请输入正确的手机号码'));
+//     } else if (!((/^1[34578]\d{9}$/.test(value)))) {
+//         return callback(new Error('请输入正确的手机号码'));
+//     } else {
+//         callback();
+//     }
+// };
 
 export var checkURL = (rule, value, callback) => {
     // if (typeof(value) == 'undefined' || value == '') {
@@ -257,7 +257,7 @@ export var checkURL = (rule, value, callback) => {
 };
 
 export var checkUpload = (rule, value, callback) => {
-    if (typeof(value) == 'undefined' || value == '') {
+    if (typeof(value) === 'undefined' || value === '') {
         return callback(new Error('请上传图片'));
     } else {
         return callback();
@@ -265,9 +265,9 @@ export var checkUpload = (rule, value, callback) => {
 };
 
 export var checkNumber = (rule, value, callback) => {
-    if (typeof(value) == 'undefined' || value == '') {
+    if (typeof(value) === 'undefined' || value === '') {
         return callback(new Error('请输入权重'));
-    } else if (!(/^[0-9]{1,2}$/.test(value)) || value == 0) {
+    } else if (!(/^[0-9]{1,2}$/.test(value)) || value === 0) {
         return callback(new Error('权重值在1-99'));
     } else {
         callback();
@@ -284,7 +284,7 @@ export var checkPass = (rule, value, callback) => {
 
 export var checkCityInfo = (rule, value, callback) => {
     console.log('1111=>' + value);
-    if (typeof(value) == 'undefined' || value == '') {
+    if (typeof(value) === 'undefined' || value === '') {
         return callback(new Error('请选择城市信息'));
     } else {
         callback();

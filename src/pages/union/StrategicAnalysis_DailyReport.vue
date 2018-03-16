@@ -137,7 +137,7 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '免费金额',
+                            label: '减免金额',
                             prop: 'free_pay',
                             width: '123',
                             type: 'str',
