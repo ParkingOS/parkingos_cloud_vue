@@ -31,7 +31,7 @@
 
 
 <script>
-    import {genderType, collectType} from '../../api/api';
+    import {genderType, collectType,checkPhone} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID_UNION} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
@@ -246,11 +246,22 @@
                     ],
                     role_id: [
                         {required: true, message: '请选择角色', trigger: 'change'}
+                    ],
+                    mobile: [
+                        {validator: checkPhone, trigger: 'blur'}
+                    ],
+                    phone: [
+                        {validator: checkPhone, trigger: 'blur'}
                     ]
                 },
                 editFormRules: {
                     nickname: [
                         {required: true, message: '请输入姓名', trigger: 'blur'}
+                    ],mobile: [
+                        {validator: checkPhone, trigger: 'blur'}
+                    ],
+                    phone: [
+                        {validator: checkPhone, trigger: 'blur'}
                     ]
                 },
 
