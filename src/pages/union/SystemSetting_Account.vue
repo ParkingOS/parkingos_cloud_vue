@@ -1,5 +1,6 @@
 <template>
-    <section style="padding: 10px;">
+    <section :style="style">
+
         <el-row>
             <!--<el-col> 历史总收入:0.00，账号当前余额：0.00，账号可提现余额：0.00</el-col>-->
             <el-col style="margin-left: 10px;">
@@ -62,14 +63,15 @@
                     <div>我的账户信息</div>
                     <div>
                         <el-row>
-                            <el-form style="width:90%;margin-top: 20px;" label-width="100px">
+                            <el-form style="width:90%;margin-top: 20px;" label-width="100px" :rules="rules"
+                                     ref="group" :model="group">
                                 <el-form-item label="姓名">
                                     <el-input v-model="group.nickname"></el-input>
                                 </el-form-item>
-                                <el-form-item label="电话">
+                                <el-form-item label="电话" :prop="phone">
                                     <el-input v-model="group.phone"></el-input>
                                 </el-form-item>
-                                <el-form-item label="手机">
+                                <el-form-item label="手机" :prop="mobile">
                                     <el-input v-model="group.mobile"></el-input>
                                 </el-form-item>
                                 <el-form-item label="新密码">
@@ -90,8 +92,8 @@
 </template>
 
 <script>
-    import {path} from '../../api/api';
-    import common from '../../common/js/common'
+    import {path, checkTelePhone,checkMobile} from '../../api/api';
+    import common from '../../common/js/common';
 
     export default {
         components: {},
@@ -102,7 +104,20 @@
                 editapi: '/group/edit',
                 bodyloading: false,
                 group: {},
-            }
+                style: '',
+                mobile: 'mobile',
+                phone: 'phone',
+                rules: {
+                    mobile: [
+                        {validator: checkMobile, trigger: 'blur'}
+                    ],
+                    phone: [
+                        {validator: checkTelePhone, trigger: 'blur'}
+                    ]
+                },
+                AccountForm: {}
+
+            };
         },
         methods: {
             getInfo: function () {
@@ -125,22 +140,22 @@
                         vm.loading = false;
                         //未携带令牌.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('未携带令牌,请重新登录!')
-                        }, 150)
+                            vm.alertInfo('未携带令牌,请重新登录!');
+                        }, 150);
                     } else if (ret.validate != 'undefined' && ret.validate == '1') {
                         vm.loading = false;
                         //过期.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 150)
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 150);
                     } else if (ret.validate != 'undefined' && ret.validate == '2') {
                         vm.loading = false;
                         //令牌无效.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 150)
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 150);
                     } else {
-                        console.log(ret)
+                        // console.log(ret);
                         // vm.accountinfo = ret
                         vm.group = ret.group;
                         vm.group.nickname = ret.user.nickname;
@@ -150,91 +165,97 @@
 
                 }).catch(function (error) {
                     setTimeout(() => {
-                        vm.alertInfo('请求失败!' + error)
-                    }, 150)
-                })
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
 
             },
             saveModify: function () {
-                this.bodyloading = true;
-                if (this.group.newpass === undefined || this.group.newpass.length <1 ) {
-                    this.$message({
-                        message: '请填写密码!',
-                        type: 'error',
-                        duration: 2000
-                    });
-                    return;
-                }
-                if (this.group.newpass !== this.group.confirmpass) {
-                    this.$message({
-                        message: '两次填写的密码不一致!',
-                        type: 'error',
-                        duration: 2000
-                    });
-                    return;
-                }
-                if (this.group.newpass.length <6) {
-                    this.$message({
-                        message: '密码长度不应小于6位!',
-                        type: 'error',
-                        duration: 2000
-                    });
-                    return;
-                }
-                let vm = this
-                vm.group.loginuin = common.attachParams('loginuin',1);
-                vm.$axios.post(path + vm.editapi, vm.$qs.stringify(vm.group), {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                    }
-                }).then(function (response) {
-                    let ret = response.data;
-                    vm.bodyloading = false;
-                    if (ret.validate != 'undefined' && ret.validate == '0') {
-                        vm.loading = false;
-                        //未携带令牌.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('未携带令牌,请重新登录!')
-                        }, 150)
-                    } else if (ret.validate != 'undefined' && ret.validate == '1') {
-                        vm.loading = false;
-                        //过期.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 150)
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
-                        vm.loading = false;
-                        //令牌无效.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 150)
-                    } else {
-                        if (ret > 0 || ret.state == 1) {
-                            //更新成功
-                            vm.getInfo();
-                            vm.$message({
-                                message: '保存成功!',
-                                type: 'success',
-                                duration: 1500
-                            });
-                            vm.resetPwdVisible = false
-                            vm.resetloading = false
-                        } else {
-                            //更新失败
-                            vm.$message({
-                                message: '保存失败!',
+                // this.$ref.AccountForm.validate((valid) => {
+                        this.$refs.group.validate((valid) => {
+                    if (valid) {
+
+
+                        this.bodyloading = true;
+                        if (this.group.newpass === undefined || this.group.newpass.length < 1) {
+                            this.$message({
+                                message: '请填写密码!',
                                 type: 'error',
                                 duration: 2000
                             });
+                            return;
                         }
+                        if (this.group.newpass !== this.group.confirmpass) {
+                            this.$message({
+                                message: '两次填写的密码不一致!',
+                                type: 'error',
+                                duration: 2000
+                            });
+                            return;
+                        }
+                        if (this.group.newpass.length < 6) {
+                            this.$message({
+                                message: '密码长度不应小于6位!',
+                                type: 'error',
+                                duration: 2000
+                            });
+                            return;
+                        }
+                        let vm = this;
+                        vm.group.loginuin = common.attachParams('loginuin', 1);
+                        vm.$axios.post(path + vm.editapi, vm.$qs.stringify(vm.group), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            }
+                        }).then(function (response) {
+                            let ret = response.data;
+                            vm.bodyloading = false;
+                            if (ret.validate != 'undefined' && ret.validate == '0') {
+                                vm.loading = false;
+                                //未携带令牌.重新登录
+                                setTimeout(() => {
+                                    vm.alertInfo('未携带令牌,请重新登录!');
+                                }, 150);
+                            } else if (ret.validate != 'undefined' && ret.validate == '1') {
+                                vm.loading = false;
+                                //过期.重新登录
+                                setTimeout(() => {
+                                    vm.alertInfo('登录过期,请重新登录!');
+                                }, 150);
+                            } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                                vm.loading = false;
+                                //令牌无效.重新登录
+                                setTimeout(() => {
+                                    vm.alertInfo('登录异常,请重新登录!');
+                                }, 150);
+                            } else {
+                                if (ret > 0 || ret.state == 1) {
+                                    //更新成功
+                                    vm.getInfo();
+                                    vm.$message({
+                                        message: '保存成功!',
+                                        type: 'success',
+                                        duration: 1500
+                                    });
+                                    vm.resetPwdVisible = false;
+                                    vm.resetloading = false;
+                                } else {
+                                    //更新失败
+                                    vm.$message({
+                                        message: '保存失败!',
+                                        type: 'error',
+                                        duration: 2000
+                                    });
+                                }
 
+                            }
+                        }).catch(function (error) {
+                            setTimeout(() => {
+                                vm.alertInfo('请求失败!' + error);
+                            }, 150);
+                        });
                     }
-                }).catch(function (error) {
-                    setTimeout(() => {
-                        vm.alertInfo('请求失败!' + error)
-                    }, 150)
-                })
-
+                });
             },
             alertInfo(msg) {
                 this.$alert(msg, '提示', {
@@ -246,13 +267,16 @@
                         this.$router.push('/login');
                     }
                 });
-            },
+            }
 
         },
         mounted() {
             this.getInfo();
+            this.tableheight = common.gwh() - 100;
+            console.log('account height = ' + this.tableheight);
+            this.style = 'padding: 10px;overflow-y: auto;height: ' + this.tableheight + 'px;';
         }
-    }
+    };
 </script>
 
 <style scoped>

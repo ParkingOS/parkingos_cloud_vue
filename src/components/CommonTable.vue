@@ -1277,7 +1277,7 @@
         mounted() {
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             this.mapheight = common.gwh() * 0.5;
-            this.mapstyle = 'width:inherit;height:' + 420 + 'px';
+            this.mapstyle = 'width:inherit;height:' + common.gwh()/2 + 'px';
             console.log('commontable mount');
             //拷贝查询表单,用来在重置时清空表单内容
             this.tempSearchForm = common.clone(this.searchForm)
@@ -1294,7 +1294,7 @@
             let _this = this;
             this.analysisdate = Date.now();
             this.mapheight = common.gwh() * 0.5;
-            this.mapstyle = 'width:inherit;height:' + 420 + 'px';
+            this.mapstyle = 'width:inherit;height:' + common.gwh()/2 + 'px';
             // console.log('commontable active')
             this.currentPage = 1;
             this.sform = {};

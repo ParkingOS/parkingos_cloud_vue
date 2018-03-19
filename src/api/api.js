@@ -230,21 +230,31 @@ export var checkPhone = (rule, value, callback) => {
         callback();
     // eslint-disable-next-line no-useless-escape
     } else if (!((/^800[0-9]{7}$/.test(value)) || (/^400[0-9]{7}$/.test(value)) || (/^1[34578]\d{9}$/.test(value)) || (/^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})$/.test(value)))) {
-        return callback(new Error('请输入手机,座机(区号后加-),或400,800开头号码'));
+        return callback(new Error('请输入手机、座机(区号后加-)或400,800开头号码'));
     } else {
         callback();
     }
 };
 
-// export var checkMobile = (rule, value, callback) => {
-//     if (typeof(value) === 'undefined' || value === '') {
-//         return callback(new Error('请输入正确的手机号码'));
-//     } else if (!((/^1[34578]\d{9}$/.test(value)))) {
-//         return callback(new Error('请输入正确的手机号码'));
-//     } else {
-//         callback();
-//     }
-// };
+export var checkMobile = (rule, value, callback) => {
+    if (typeof(value) === 'undefined' || value === '') {
+        callback();
+    } else if (!((/^1[34578]\d{9}$/.test(value)))) {
+        return callback(new Error('请输入正确的手机号码'));
+    } else {
+        callback();
+    }
+};
+export var checkTelePhone = (rule, value, callback) => {
+    if (typeof(value) === 'undefined' || value === '') {
+        callback();
+        // eslint-disable-next-line no-useless-escape
+    } else if (!((/^800[0-9]{7}$/.test(value)) || (/^400[0-9]{7}$/.test(value)) || (/^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})$/.test(value)))) {
+        return callback(new Error('请输入座机(区号后加-)或400,800开头号码'));
+    } else {
+        callback();
+    }
+};
 
 export var checkURL = (rule, value, callback) => {
     // if (typeof(value) == 'undefined' || value == '') {

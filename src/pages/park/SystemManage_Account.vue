@@ -105,7 +105,7 @@
 
 <script>
     import {path} from '../../api/api';
-
+    import common from '../../common/js/common'
     export default {
         components: {},
         data() {
@@ -385,7 +385,7 @@
 
         },
         mounted() {
-            this.mapstyle = 'width:inherit;height:420px'
+            this.mapstyle = 'width:inherit;height:'+common.gwh()/2+'px'
             this.getInfo()
         }
     }

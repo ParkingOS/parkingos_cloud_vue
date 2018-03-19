@@ -32,26 +32,47 @@
                 <div style="margin-left: 40px;" v-for="sub_ of sub.subpermission">
 
                     <el-checkbox @change="sub_change(sub,sub_)" v-model="sub_.ischeck">{{sub_.subname}}</el-checkbox>
-                    <div style="margin-left: 20px;display: flex;flex-direction: row;">
+                    <div v-if="sub_.subname==='收费员收入分析'||sub_.subname==='人力资源'||sub_.subname==='日志管理'" style="margin-left: 20px;display: flex;flex-direction: column;">
                         <div style="margin-left: 20px;"
                              v-for="sub__ of sub_.subpermission">
 
                             <el-checkbox @change="sub__change(sub,sub_,sub__)"
                                          v-model="sub__.ischeck">{{sub__.subname}}
                             </el-checkbox>
-                            <div style="margin-left: 20px;display: flex;flex-direction: row;"><div style="margin-left: 20px">
+                            <div style="margin-left: 20px;display: flex;flex-direction: row;">
+                                <div style="margin-left: 20px">
 
                                 <el-checkbox v-for="sub___ of sub__.subpermission"
                                              @change="sub___change(sub,sub_,sub__,sub___)"
                                              v-model="sub___.ischeck">{{sub___.subname}}
                                 </el-checkbox>
-                            </div></div>
+                                </div>
+                            </div>
 
-                            <!--</el-checkbox>-->
+                        </div>
+                    </div>
+                    <div v-else style="margin-left: 20px;display: flex;flex-direction: row;">
+                        <div style="margin-left: 20px;"
+                             v-for="sub__ of sub_.subpermission">
+
+                            <el-checkbox @change="sub__change(sub,sub_,sub__)"
+                                         v-model="sub__.ischeck">{{sub__.subname}}
+                            </el-checkbox>
+                            <div style="margin-left: 20px;display: flex;flex-direction: row;">
+                                <div style="margin-left: 20px">
+
+                                <el-checkbox v-for="sub___ of sub__.subpermission"
+                                             @change="sub___change(sub,sub_,sub__,sub___)"
+                                             v-model="sub___.ischeck">{{sub___.subname}}
+                                </el-checkbox>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
                 </div>
+                <div style="width: 100%;height: 1px;background-color:black;margin: 20px 0;"></div>
             </div>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="isShowPermission = false" size="small">取 消</el-button>

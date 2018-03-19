@@ -29,11 +29,11 @@
 
 
 <script>
-    import {genderType, collectType,checkPhone} from '../../api/api';
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
-    import axios from 'axios'
+    import {genderType, collectType, checkTelePhone, checkMobile} from '../../api/api';
+    import common from '../../common/js/common';
+    import {AUTH_ID} from '../../common/js/const';
+    import CommonTable from '../../components/CommonTable';
+    import axios from 'axios';
 
     export default {
         components: {
@@ -91,8 +91,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -105,8 +105,8 @@
                                 searchable: true,
 
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -119,8 +119,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -133,8 +133,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -154,9 +154,9 @@
                                     //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
                                     //也就是data中的this,可以获取到this.aroles
                                     //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
-                                    return common.nameformat(row, this.aroles, 'role_id')
+                                    return common.nameformat(row, this.aroles, 'role_id');
                                 }
-                            },
+                            }
                         ]
                     },
                     {
@@ -172,7 +172,7 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return common.dateformat(row.reg_time)
+                                return common.dateformat(row.reg_time);
                             }
                         }]
                     }, {
@@ -189,9 +189,9 @@
                                 unsortable: true,
                                 align: 'center',
                                 format: function (row) {
-                                    return common.nameformat(row, genderType, 'sex')
+                                    return common.nameformat(row, genderType, 'sex');
                                 }
-                            },
+                            }
                         ]
                     }, {
 
@@ -207,7 +207,7 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return common.dateformat(row.logon_time)
+                                return common.dateformat(row.logon_time);
                             }
                         }]
                     }, {
@@ -219,13 +219,13 @@
                             width: '123',
                             type: 'selection',
                             selectlist: collectType,
-                            hidden:true,
+                            hidden: true,
 
 
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return common.nameformat(row, collectType, 'isview')
+                                return common.nameformat(row, collectType, 'isview');
                             }
                         }]
                     }
@@ -242,10 +242,10 @@
                         {required: true, message: '请选择角色', trigger: 'change'}
                     ],
                     mobile: [
-                        {validator: checkPhone, trigger: 'blur'}
+                        {validator: checkMobile, trigger: 'blur'}
                     ],
                     phone: [
-                        {validator: checkPhone, trigger: 'blur'}
+                        {validator: checkTelePhone, trigger: 'blur'}
                     ]
                 },
                 editFormRules: {
@@ -253,36 +253,36 @@
                         {required: true, message: '请输入姓名', trigger: 'blur'}
                     ],
                     mobile: [
-                        {validator: checkPhone, trigger: 'blur'}
+                        {validator: checkMobile, trigger: 'blur'}
                     ],
                     phone: [
-                        {validator: checkPhone, trigger: 'blur'}
+                        {validator: checkTelePhone, trigger: 'blur'}
                     ]
                 },
 
-                aroles: [],
-            }
+                aroles: []
+            };
         },
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             var user = sessionStorage.getItem('user');
-            this.user = user
+            this.user = user;
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
                     if (AUTH_ID.employeePermission_Manage == item.auth_id) {
-                        console.log(item.sub_auth)
-                        this.hideSearch = !common.showSubSearch(item.sub_auth)
-                        this.showdelete = common.showSubDel(item.sub_auth)
-                        this.showresetpwd = common.showSubReset(item.sub_auth)
-                        this.showEdit = common.showSubEdit(item.sub_auth)
-                        this.hideAdd = !common.showSubAdd(item.sub_auth)
+                        console.log(item.sub_auth);
+                        this.hideSearch = !common.showSubSearch(item.sub_auth);
+                        this.showdelete = common.showSubDel(item.sub_auth);
+                        this.showresetpwd = common.showSubReset(item.sub_auth);
+                        this.showEdit = common.showSubEdit(item.sub_auth);
+                        this.hideAdd = !common.showSubAdd(item.sub_auth);
                         // this.showPermission= common.showSubPermission(item.sub_auth)
                         // this.showSettingFee= common.showSubSetFee(item.sub_auth)
-                        if(!this.showEdit&&!this.showdelete&&!this.showresetpwd){
+                        if (!this.showEdit && !this.showdelete && !this.showresetpwd) {
                             this.hideOptions = true;
                         }
                         break;
@@ -290,32 +290,32 @@
                 }
 
             }
-            console.log(this.aroles)
+            console.log(this.aroles);
         },
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
 
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({});
 
-            let _this = this
+            let _this = this;
             axios.all([common.getEmployeeRole()])
                 .then(axios.spread(function (ret) {
                     // _this.aroles = _this.aroles.concat(ret.data);
                     _this.aroles = ret.data;
                     // console.log(_this.aroles)
-                }))
+                }));
             // console.log(this.aroles)
         },
         watch: {
             aroles: function (val) {
-                this.tableitems[5].subs[0].selectlist = val
+                this.tableitems[5].subs[0].selectlist = val;
             }
         }
-    }
+    };
 
 </script>
 

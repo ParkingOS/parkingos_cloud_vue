@@ -823,6 +823,7 @@
                 axios.all([common.getEmployeeRole()])
                     .then(axios.spread(function (ret) {
                         _this.aroles = ret.data;
+                        sessionStorage.setItem('comid', '')
                     }))
             },
             customizeadd: function () {
@@ -1395,7 +1396,7 @@
                 }
 
             }
-            this.mapstyle = 'width:inherit;height:' + 480 + 'px';
+            this.mapstyle = 'width:inherit;height:' + common.gwh()/2 + 'px';
         },
         activated() {
 

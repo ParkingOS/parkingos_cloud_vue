@@ -262,7 +262,6 @@ export default {
         //获取员工角色
         let param = '?token=' + sessionStorage.getItem('token')
             + this.commonParams();
-        sessionStorage.setItem('comid', '')
         return axios.get(path + '/member/getrole' + param);
     },
     getPName() {
