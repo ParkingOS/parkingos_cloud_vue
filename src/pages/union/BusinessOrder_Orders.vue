@@ -27,11 +27,13 @@
             <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
             <p>进场图片</p>
             <div v-for="img in img_in">
-                <img v-bind:src="imgpath+img" width="600px" height="450px"/>
+                <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
+                <!--<img v-bind:src="imgpath+img" width="600px" height="450px"/>-->
             </div>
             <p>出场图片</p>
             <div v-for="img in img_out">
-                <img v-bind:src="imgpath+img" width="600px" height="450px"/>
+                <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
+                <!--<img v-bind:src="imgpath+img" width="600px" height="450px"/>-->
             </div>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="imgDialog = false" size="small">确 认</el-button>
@@ -71,6 +73,7 @@
                 exportapi: '/cityorder/exportExcel',
                 imgapi: '/order/getOrderPicture ',
                 btswidth: '100',
+                imgSize:450,
                 fieldsstr: 'id__groupid__comid__out_uid__collector__c_type__car_number__create_time__end_time__duration__pay_type__amount_receivable__total__electronic_prepay__cash_prepay__electronic_pay__cash_pay__reduce_amount__state__isclick__id__in_passid__out_passid__order_id_local',
                 tableitems: [
                     {
@@ -263,7 +266,7 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                let pass = row.freereasons
+                                let pass = row.freereasons;
                                 return pass == '' || pass == undefined ? '无' : pass
                             }
                         }]
@@ -425,7 +428,7 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                let pass = row.in_passid
+                                let pass = row.in_passid;
                                 return pass == '' || pass == undefined ? '无' : pass
                             }
                         }]
@@ -443,7 +446,7 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                let pass = row.out_passid
+                                let pass = row.out_passid;
                                 return pass == '' || pass == undefined ? '无' : pass
                             }
                         }]
@@ -475,18 +478,18 @@
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local+ '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
-                console.log(this.imgdialog_url)
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local+ '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                console.log(this.imgdialog_url);
 
-                let _this = this
+                let _this = this;
                 axios.all([axios.get(this.imgdialog_url)])
                     .then(axios.spread(function (ret) {
                         _this.img_in = ret.data.in;
                         _this.img_out = ret.data.out;
-                        _this.imgpath = path
-                        console.log(_this.img_in)
+                        _this.imgpath = path;
+                        console.log(_this.img_in);
                         console.log(_this.img_out)
-                    }))
+                    }));
 
                 this.imgDialog = true
             }
@@ -494,17 +497,17 @@
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             var user = sessionStorage.getItem('user');
-            this.user = user
+            this.user = user;
             if (user) {
                 user = JSON.parse(user);
-                console.log(user.authlist.length)
+                console.log(user.authlist.length);
                 for (var item of user.authlist) {
                     if (AUTH_ID_UNION.businessOrder_Orders == item.auth_id) {
-                        console.log(item.sub_auth)
-                        this.hideExport = !common.showSubExport(item.sub_auth)
+                        console.log(item.sub_auth);
+                        this.hideExport = !common.showSubExport(item.sub_auth);
                         // this.hideSearch = !common.showSubSearch(item.sub_auth)
                         break;
                     }
@@ -515,12 +518,13 @@
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.imgSize = common.gww() / 4;
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({});
             // getCollector
-            let _this = this
+            let _this = this;
             axios.all([common.getAllCollector(), common.getAllParks()])
                 .then(axios.spread(function (ret, parks) {
                     _this.collectors = ret.data;

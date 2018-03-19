@@ -29,6 +29,9 @@
                 <el-col :span="18" align="left">
                     <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
+                    <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
+                        <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
+                    </el-tooltip>
                 </el-col>
                 <el-col :span="6" align="right" style="float: right">
                     <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>
@@ -170,14 +173,14 @@
     import {
         path, blackStateType
     } from '../../api/api';
-    import common from '../../common/js/common'
-    import {AUTH_ID_UNION} from '../../common/js/const'
-    import ComplexSearch from '../../components/ComplexSearch'
-    import axios from 'axios'
+    import common from '../../common/js/common';
+    import {AUTH_ID_UNION} from '../../common/js/const';
+    import ComplexSearch from '../../components/ComplexSearch';
+    import axios from 'axios';
 
     export default {
         components: {
-            ComplexSearch,
+            ComplexSearch
         },
         data() {
             return {
@@ -213,7 +216,7 @@
                 showCustomizeAdd: false,
                 hideAdd: true,
                 queryapi: '/cityblackuser/query',
-                exportapi: '/vip/exportExcel',
+                exportapi: '/cityblackuser/exportExcel',
                 addapi: '/vip/add',
                 editapi: '/cityblackuser/edit',
                 delapi: '/vip/delete',
@@ -237,8 +240,8 @@
                                 type: 'number',
                                 searchable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     },
                     {
@@ -251,8 +254,8 @@
                                 searchable: false,
                                 hidden: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     },
 
@@ -267,8 +270,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -281,8 +284,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -298,9 +301,9 @@
                                 unsortable: true,
                                 align: 'center',
                                 format: (row) => {
-                                    return common.nameformat(row, blackStateType, 'state')
+                                    return common.nameformat(row, blackStateType, 'state');
                                 }
-                            },
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -316,9 +319,9 @@
                                 unsortable: true,
                                 align: 'center',
                                 format: (row) => {
-                                    return common.nameformat(row, this.parklist, 'comid')
+                                    return common.nameformat(row, this.parklist, 'comid');
                                 }
-                            },
+                            }
                         ]
                     },
 
@@ -337,7 +340,7 @@
                                 format: function (row) {
                                     return common.dateformat(row.ctime);
                                 }
-                            },
+                            }
                         ]
                     },
                     {
@@ -357,7 +360,7 @@
                                 format: function (row) {
                                     return common.dateformat(row.utime);
                                 }
-                            },
+                            }
 
                         ]
                     },
@@ -373,9 +376,9 @@
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center'
-                            },
+                            }
                         ]
-                    },
+                    }
                 ],
                 searchtitle: '高级查询',
                 addtitle: '注册会员',
@@ -383,8 +386,8 @@
                 datereadonly: true,
                 editText: '',
                 currentState: '',
-                currentId: '',
-            }
+                currentId: ''
+            };
         },
         methods: {
 
@@ -425,9 +428,9 @@
                 this.currentState = row.state;
                 this.currentId = row.id;
                 if (row.state == 1) {
-                    this.editText = '确定要还原吗？'
+                    this.editText = '确定要还原吗？';
                 } else {
-                    this.editText = '确定要漂白吗？'
+                    this.editText = '确定要漂白吗？';
                 }
             },
             //分页变动
@@ -444,10 +447,10 @@
             },
             //排序变动
             sortChange(val) {
-                if (val.order != null && val.order.substring(0, 1) == "a") {
-                    this.orderby = "asc";
+                if (val.order != null && val.order.substring(0, 1) == 'a') {
+                    this.orderby = 'asc';
                 } else {
-                    this.orderby = "desc";
+                    this.orderby = 'desc';
                 }
                 this.orderfield = val.prop;
                 console.log('sort change');
@@ -485,20 +488,20 @@
                         vm.loading = false;
                         //未携带令牌.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('未携带令牌,请重新登录!')
-                        }, 150)
+                            vm.alertInfo('未携带令牌,请重新登录!');
+                        }, 150);
                     } else if (ret.validate != 'undefined' && ret.validate == '1') {
                         vm.loading = false;
                         //过期.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 150)
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 150);
                     } else if (ret.validate != 'undefined' && ret.validate == '2') {
                         vm.loading = false;
                         //令牌无效.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 150)
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 150);
                     } else {
                         if (ret.total == 0) {
                             vm.table = [];
@@ -510,9 +513,9 @@
                     }
                 }).catch(function (error) {
                     setTimeout(() => {
-                        vm.alertInfo('请求失败!' + error)
-                    }, 150)
-                })
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
             },
             //高级查询
             handleSearch() {
@@ -542,8 +545,8 @@
             },
             onSearch: function (sform) {
                 //在这里得到表单项,提交查询
-                this.sform = sform
-                this.getTableData(sform)
+                this.sform = sform;
+                this.getTableData(sform);
             },
             closesearch: function (val) {
                 this.searchFormVisible = val;
@@ -555,6 +558,34 @@
                         return item.value_name;
                     }
                 }
+            },
+            //导出表格数据
+            handleExport() {
+                let vm = this;
+                let api = this.exportapi;
+                let params = '';
+                if (common.getLength(this.sform) == 0) {
+                    params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
+                } else {
+                    for (var x in this.sform) {
+                        //console.log(this.sform[x])
+                        params += x + '=' + this.sform[x] + '&';
+                    }
+                }
+                let groupid = sessionStorage.getItem('groupid');
+                let cityid = sessionStorage.getItem('cityid');
+                if (groupid != 'undefined' && !(params.indexOf('groupid=') > -1)) {
+                    params += '&groupid=' + groupid;
+                }
+                if (cityid != 'undefined' && !(params.indexOf('cityid=') > -1)) {
+                    params += '&cityid=' + cityid;
+                }
+                if (params.indexOf('comid=') > -1) {
+                    window.open(path + api + '?' + params);
+                } else {
+                    window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
+                }
+
             }
         },
         mounted() {
@@ -569,7 +600,7 @@
                 // console.log(user.authlist.length)
                 for (let item of user.authlist) {
                     if (AUTH_ID_UNION.member_BlackList == item.auth_id) {
-                        console.log(item.sub_auth)
+                        console.log(item.sub_auth);
                         // this.hideExport = !common.showSubExport(item.sub_auth);
                         // this.hideSearch = !common.showSubSearch(item.sub_auth);
                         // this.showdelete = common.showSubDel(item.sub_auth);
@@ -600,7 +631,7 @@
         },
         watch: {
             parklist: function (val) {
-                this.tableitems[5].subs[0].selectlist = val
+                this.tableitems[5].subs[0].selectlist = val;
             }
         },
         created() {
@@ -608,12 +639,12 @@
             _this.$nextTick(function () {
                 axios.all([common.getAllParks()])
                     .then(axios.spread(function (ret) {
-                        console.log(ret)
+                        console.log(ret);
                         _this.parklist = ret.data;
-                    }))
-            })
+                    }));
+            });
 
         }
-    }
+    };
 
 </script>

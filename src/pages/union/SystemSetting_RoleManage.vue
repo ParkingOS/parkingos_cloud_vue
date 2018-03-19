@@ -72,7 +72,8 @@
                     </div>
 
                 </div>
-                <div style="width: 100%;height: 1px;background-color:black;margin: 20px 0;"></div>
+                <div style="width: 100%;height: 1px;background-color:#475669;margin: 20px 0;"></div>
+
             </div>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="isShowPermission = false" size="small">取 消</el-button>

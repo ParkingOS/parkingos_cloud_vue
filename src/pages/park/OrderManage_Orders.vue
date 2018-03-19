@@ -25,11 +25,11 @@
             <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
             <p>进场图片</p>
             <div v-for="img in img_in">
-                <img v-bind:src="imgpath+img" width="600px" height="450px"/>
+                <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
             </div>
             <p>出场图片</p>
             <div v-for="img in img_out">
-                <img v-bind:src="imgpath+img" width="600px" height="450px"/>
+                <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
             </div>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="imgDialog = false" size="small">确 认</el-button>
@@ -40,12 +40,12 @@
 
 
 <script>
-    import {path, orderStateType,orderPayType} from '../../api/api';
-    import util from '../../common/js/util'
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
-    import axios from 'axios'
+    import {path, orderStateType, orderPayType} from '../../api/api';
+    import util from '../../common/js/util';
+    import common from '../../common/js/common';
+    import {AUTH_ID} from '../../common/js/const';
+    import CommonTable from '../../components/CommonTable';
+    import axios from 'axios';
 
     export default {
         components: {
@@ -61,10 +61,10 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-                showParkInfo:true,
+                showParkInfo: true,
                 hideTool: false,
                 showImg: true,
-
+                imgSize: 450,
                 queryapi: '/order/query',
                 exportapi: '/order/exportExcel',
                 imgapi: '/order/getOrderPicture ',
@@ -111,8 +111,8 @@
                                 searchable: true,
 
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     },
                     {
@@ -143,7 +143,7 @@
                             unsortable: false,
                             align: 'center',
                             format: function (row) {
-                                return common.dateformat(row.create_time)
+                                return common.dateformat(row.create_time);
                             }
                         }]
                     }, {
@@ -160,7 +160,7 @@
                             unsortable: false,
                             align: 'center',
                             format: function (row) {
-                                return common.dateformat(row.end_time)
+                                return common.dateformat(row.end_time);
                             }
                         }]
                     }, {
@@ -175,7 +175,7 @@
 
                             addable: true,
                             unsortable: true,
-                            align: 'center',
+                            align: 'center'
                         }]
                     }, {
 
@@ -185,14 +185,14 @@
                             prop: 'pay_type',
                             width: '100',
                             type: 'selection',
-                            selectlist:orderPayType,
+                            selectlist: orderPayType,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:function (row) {
-                                return common.nameformat(row,orderPayType,'pay_type')
+                            format: function (row) {
+                                return common.nameformat(row, orderPayType, 'pay_type');
                             }
                         }]
                     }, {
@@ -208,9 +208,9 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:function (row) {
-                                let pass = row.freereasons
-                                return pass==''||pass==undefined?'无':pass
+                            format: function (row) {
+                                let pass = row.freereasons;
+                                return pass == '' || pass == undefined ? '无' : pass;
                             }
                         }]
                     }, {
@@ -319,16 +319,16 @@
                             prop: 'uid',
                             width: '123',
                             type: 'selection',
-                            selectlist:this.collectors,
+                            selectlist: this.collectors,
                             editable: true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:(row)=>{
+                            format: (row) => {
                                 // let uidstr = common.nameformat(row,this.collectors,'uid')
                                 // return uidstr==''||uidstr==undefined?(row.uid==-1?'无':row.uid):uidstr
-                                return common.nameformat(row,this.collectors,'uid')
+                                return common.nameformat(row, this.collectors, 'uid');
                             }
                         }]
                     }, {
@@ -339,16 +339,16 @@
                             prop: 'out_uid',
                             width: '123',
                             type: 'selection',
-                            selectlist:this.collectors,
+                            selectlist: this.collectors,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:(row)=>{
+                            format: (row) => {
                                 // let uidstr = common.nameformat(row,this.collectors,'out_uid')
                                 // return uidstr==''||uidstr==undefined?row.uid:uidstr
-                                return common.nameformat(row,this.collectors,'out_uid')
+                                return common.nameformat(row, this.collectors, 'out_uid');
                             }
                         }]
                     }, {
@@ -359,14 +359,14 @@
                             prop: 'state',
                             width: '123',
                             type: 'selection',
-                            selectlist:orderStateType,
+                            selectlist: orderStateType,
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:function (row) {
-                                return common.nameformat(row,orderStateType,'state')
+                            format: function (row) {
+                                return common.nameformat(row, orderStateType, 'state');
                             }
                         }]
                     }, {
@@ -395,9 +395,9 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:function (row) {
-                                let pass = row.in_passid
-                                return pass==''||pass==undefined?'无':pass
+                            format: function (row) {
+                                let pass = row.in_passid;
+                                return pass == '' || pass == undefined ? '无' : pass;
                             }
                         }]
                     }, {
@@ -413,9 +413,9 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:function (row) {
-                                let pass = row.out_passid
-                                return pass==''||pass==undefined?'无':pass
+                            format: function (row) {
+                                let pass = row.out_passid;
+                                return pass == '' || pass == undefined ? '无' : pass;
                             }
                         }]
                     }, {
@@ -431,7 +431,7 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },
+                    }
 
                 ],
                 searchtitle: '高级查询',
@@ -440,42 +440,42 @@
                 img_in: [],
                 img_out: [],
                 imgpath: '',
-                collectors:'',
-            }
+                collectors: ''
+            };
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
-                console.log(this.imgdialog_url)
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                console.log(this.imgdialog_url);
 
-                let _this = this
+                let _this = this;
                 axios.all([axios.get(this.imgdialog_url)])
                     .then(axios.spread(function (ret) {
                         _this.img_in = ret.data.in;
                         _this.img_out = ret.data.out;
-                        _this.imgpath = path
-                        console.log(_this.img_in)
-                        console.log(_this.img_out)
-                    }))
+                        _this.imgpath = path;
+                        console.log(_this.img_in);
+                        console.log(_this.img_out);
+                    }));
 
-                this.imgDialog = true
+                this.imgDialog = true;
             }
         },
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             var user = sessionStorage.getItem('user');
-            this.user = user
+            this.user = user;
             if (user) {
                 user = JSON.parse(user);
-                console.log(user.authlist.length)
+                console.log(user.authlist.length);
                 for (var item of user.authlist) {
                     if (AUTH_ID.orderManage_Orders == item.auth_id) {
                         // console.log(item.sub_auth)
-                        this.hideExport = !common.showSubExport(item.sub_auth)
-                        this.hideSearch = !common.showSubSearch(item.sub_auth)
+                        this.hideExport = !common.showSubExport(item.sub_auth);
+                        this.hideSearch = !common.showSubSearch(item.sub_auth);
                         break;
                     }
                 }
@@ -485,25 +485,26 @@
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.imgSize = common.gww() / 4;
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({});
             // getCollector
-            let _this = this
+            let _this = this;
             axios.all([common.getCollector()])
                 .then(axios.spread(function (ret) {
                     _this.collectors = ret.data;
                     // console.log(ret.data)
-                }))
+                }));
         },
-        watch:{
-            collectors:function (val) {
-                this.tableitems[16].subs[0].selectlist = val
-                this.tableitems[17].subs[0].selectlist = val
+        watch: {
+            collectors: function (val) {
+                this.tableitems[16].subs[0].selectlist = val;
+                this.tableitems[17].subs[0].selectlist = val;
             }
         }
-    }
+    };
 
 </script>
 

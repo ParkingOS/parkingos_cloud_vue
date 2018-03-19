@@ -10,6 +10,7 @@
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
                 :showdateSelector="showdateSelector"
+                :showCollectorSelector="showCollectorSelector"
                 :hideTool="hideTool"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
@@ -36,6 +37,7 @@
                 hideExport: true,
                 hideSearch: true,
                 showdateSelector: true,
+                showCollectorSelector: true,
                 hideAdd: true,
                 tableheight: '',
                 hideOptions: true,

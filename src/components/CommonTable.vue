@@ -3,7 +3,7 @@
         <!--工具条-->
         <el-row style="margin-bottom:8px" v-if="!hideTool">
             <el-col :span="24" align="left">
-                <el-col :span="18" align="left">
+                <el-col :span="21" align="left">
 
                     <div v-if="showRefillInfo" style="display:inline;margin-right:100px;float: left">
                         <el-input v-model="shouldpay" style="width:200px;background:white;" disabled>
@@ -37,7 +37,7 @@
                             <template slot="prepend">手机支付</template>
                         </el-input>
                     </div>
-                    <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
+                    <div v-if="showCollectorSelector" style="float: left;margin-right: 10px;">
                         <el-select v-model="currentcollect" placeholder="请选择收费员" @change="changeanalysisdatecollect"
                                    style="float: left;margin-right: 30px;">
                             <el-option
@@ -47,6 +47,20 @@
                                     :value="item.value_no">
                             </el-option>
                         </el-select>
+                    </div>
+                    <div v-if="showParkSelector" style="float: left;margin-right: 10px;">
+                        <el-select v-model="currentpark" placeholder="全部车场" @change="changeanalysisdatepark"
+                                   style="float: left;margin-right: 30px;">
+                            <el-option
+                                    v-for="item in parks"
+                                    :key="item.value_no"
+                                    :label="item.value_name"
+                                    :value="item.value_no">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
+
                         <span class="demonstration">日期</span>
                         <el-date-picker
                                 v-model="datesselector"
@@ -58,9 +72,11 @@
                                 :end-placeholder="end_placeholder"
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 :picker-options="pickerOptions2"
-                                @change="changeanalysisdate">
+                                @change="changeanalysisdate"
+                                :default-time="['00:00:00', '23:59:59']">
                         </el-date-picker>
                     </div>
+
                     <div v-if="showdateSelectorMonth" style="float: left;margin-right: 10px;">
                         <!--<div style="float: left;margin-right: 10px;">-->
                         <el-date-picker
@@ -84,7 +100,7 @@
                     <el-button type="primary" size="small" @click="handleCustomizeAdd" v-if="showCustomizeAdd">
                         {{addtitle}}
                     </el-button>
-                    
+
                     <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
                     <el-button type="primary" size="small" @click="handleUpload" v-if="showUploadMonthCard"
@@ -98,7 +114,7 @@
 
                 </el-col>
 
-                <el-col :span="6" align="right" style="float: right">
+                <el-col :span="3" align="right" style="float: right">
                     <!--<span style="color:red;font-size:8px">提示:刷新后会重置高级查询</span>-->
                     <!--<el-button @click="reset" type="primary" size="small">清空高级查询</el-button>-->
                     <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>
@@ -115,7 +131,8 @@
                     <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
-                    <el-button v-if="showCustomizeEdit" size="small" type="text" @click="handleCustomizeEdit(scope.$index, scope.row)">
+                    <el-button v-if="showCustomizeEdit" size="small" type="text"
+                               @click="handleCustomizeEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
                     <el-button v-if="showModifyCarNumber" size="small" type="text"
@@ -328,11 +345,11 @@
 
 <script>
     import {path} from '../api/api';
-    import common from '../common/js/common'
-    import ComplexSearch from './ComplexSearch'
-    import EditForm from './EditForm'
-    import AddForm from './AddForm'
-    import Printd from 'printd'
+    import common from '../common/js/common';
+    import ComplexSearch from './ComplexSearch';
+    import EditForm from './EditForm';
+    import AddForm from './AddForm';
+    import Printd from 'printd';
 
     export default {
         components: {
@@ -365,6 +382,7 @@
                 tempSearchForm: {},
                 collectors: [],
                 currentcollect: '',
+                currentpark: '',
                 sform: {},
                 rowdata: {},
 
@@ -476,12 +494,12 @@
                 pwd1: '',
                 pwd2: '',
                 currentdate: '',
-                tableheight2: common.gwh() - 143,
-            }
+                tableheight2: common.gwh() - 143
+            };
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showdateSelectorMonth',
+            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showCollectorSelector','showParkSelector', 'showdateSelectorMonth',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard'],
         methods: {
             //刷新页面
@@ -490,9 +508,10 @@
                     //this.$extend(this.sform,{'date':this.datesselector})
                     this.sform.date = this.searchDate;
                     if (this.sform.date == '') {
-                        this.sform.date = this.currentFormatDate()
+                        this.sform.date = this.currentFormatDate();
                     }
                     this.sform.out_uid = this.currentcollect;
+                    this.sform.comid_start = this.currentpark;
                     this.getTableData(this.sform);
                 } else {
                     this.getTableData(this.sform);
@@ -531,10 +550,10 @@
             },
             //排序变动
             sortChange(val) {
-                if (val.order != null && val.order.substring(0, 1) == "a") {
-                    this.orderby = "asc";
+                if (val.order != null && val.order.substring(0, 1) == 'a') {
+                    this.orderby = 'asc';
                 } else {
-                    this.orderby = "desc";
+                    this.orderby = 'desc';
                 }
                 this.orderfield = val.prop;
                 console.log('sort change');
@@ -571,20 +590,20 @@
                         vm.loading = false;
                         //未携带令牌.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('未携带令牌,请重新登录!')
-                        }, 150)
+                            vm.alertInfo('未携带令牌,请重新登录!');
+                        }, 150);
                     } else if (ret.validate != 'undefined' && ret.validate == '1') {
                         vm.loading = false;
                         //过期.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 150)
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 150);
                     } else if (ret.validate != 'undefined' && ret.validate == '2') {
                         vm.loading = false;
                         //令牌无效.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 150)
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 150);
                     } else {
                         console.log(ret);
                         if (ret.total == 0) {
@@ -626,9 +645,9 @@
                     }
                 }).catch(function (error) {
                     setTimeout(() => {
-                        vm.alertInfo('请求失败!' + error)
-                    }, 150)
-                })
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
 
             },
 
@@ -648,13 +667,13 @@
                         var params;
                         if (user.roleid == 1) {
                             if (this.tableitems[i].searchSelect == 'all') {
-                                params = {'query': 1, 'token': sessionStorage.getItem('token')}
+                                params = {'query': 1, 'token': sessionStorage.getItem('token')};
                             }
                         } else if (user.roleid == 2) {
                             if (this.tableitems[i].searchSelect == 'local_all') {
-                                params = {'token': sessionStorage.getItem('token')}
+                                params = {'token': sessionStorage.getItem('token')};
                             } else if (this.tableitems[i].searchSelect == 'all') {
-                                params = {'query': 1, 'token': sessionStorage.getItem('token')}
+                                params = {'query': 1, 'token': sessionStorage.getItem('token')};
                             }
                         }
                         // this.$ajax({
@@ -671,24 +690,24 @@
                             }
                         }).then(function (response) {
                             let ret = response.data;
-                            vm.tableitems[i].selectlist = ret
+                            vm.tableitems[i].selectlist = ret;
                         }).catch(function (error) {
                             setTimeout(() => {
-                                vm.alertInfo('请求失败!' + error)
-                            }, 150)
-                        })
+                                vm.alertInfo('请求失败!' + error);
+                            }, 150);
+                        });
                     } else if (this.tableitems[i].customSelect == 'park') {
                         var params;
                         if (user.roleid == 1) {
                         } else if (user.roleid == 2) {
                             if (this.tableitems[i].searchSelect == 'local_all') {
-                                params = {'token': sessionStorage.getItem('token')}
+                                params = {'token': sessionStorage.getItem('token')};
                             } else if (this.tableitems[i].searchSelect == 'all') {
-                                params = {'query': 1, 'token': sessionStorage.getItem('token')}
+                                params = {'query': 1, 'token': sessionStorage.getItem('token')};
                             }
                         } else if (user.roleid == 3) {
                             if (this.tableitems[i].searchSelect == 'local_all') {
-                                params = {'token': sessionStorage.getItem('token')}
+                                params = {'token': sessionStorage.getItem('token')};
                             }
                         }
                         // this.$ajax({
@@ -706,12 +725,12 @@
                             }
                         }).then(function (response) {
                             let ret = response.data;
-                            vm.tableitems[i].selectlist = ret
+                            vm.tableitems[i].selectlist = ret;
                         }).catch(function (error) {
                             setTimeout(() => {
-                                vm.alertInfo('请求失败!' + error)
-                            }, 150)
-                        })
+                                vm.alertInfo('请求失败!' + error);
+                            }, 150);
+                        });
                     }
                 }
                 this.searchFormVisible = true;
@@ -741,7 +760,7 @@
                 //调用父组件的方法,传row
                 this.$emit('showSetting', row);
             },
-            handleUpload(){
+            handleUpload() {
                 this.$emit('showUpload');
             },
             //导出表格数据
@@ -750,20 +769,20 @@
                 let api = this.exportapi;
                 let params = '';
                 if (common.getLength(this.sform) == 0) {
-                    params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token')
+                    params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
                 } else {
                     for (var x in this.sform) {
                         //console.log(this.sform[x])
-                        params += x + '=' + this.sform[x] + '&'
+                        params += x + '=' + this.sform[x] + '&';
                     }
                 }
                 let groupid = sessionStorage.getItem('groupid');
                 let cityid = sessionStorage.getItem('cityid');
-                if (groupid != 'undefined'&&!(params.indexOf('groupid=') > -1)) {
-                    params += '&groupid=' + groupid
+                if (groupid != 'undefined' && !(params.indexOf('groupid=') > -1)) {
+                    params += '&groupid=' + groupid;
                 }
-                if (cityid != 'undefined'&&!(params.indexOf('cityid=') > -1)) {
-                    params += '&cityid=' + cityid
+                if (cityid != 'undefined' && !(params.indexOf('cityid=') > -1)) {
+                    params += '&cityid=' + cityid;
                 }
                 // params += '&groupid=' + groupid + '&cityid=' + cityid
                 if (params.indexOf('comid=') > -1) {
@@ -794,13 +813,13 @@
                             if (ret.validate != 'undefined' && ret.validate == '1') {
                                 //过期.重新登录
                                 setTimeout(() => {
-                                    vm.alertInfo('登录过期,请重新登录!')
-                                }, 100)
+                                    vm.alertInfo('登录过期,请重新登录!');
+                                }, 100);
                             } else if (ret.validate != 'undefined' && ret.validate == '2') {
                                 //令牌无效.重新登录
                                 setTimeout(() => {
-                                    vm.alertInfo('登录异常,请重新登录!')
-                                }, 100)
+                                    vm.alertInfo('登录异常,请重新登录!');
+                                }, 100);
                             } else {
                                 if (ret > 0 || ret.state == 1) {
                                     //更新成功
@@ -819,13 +838,13 @@
                                         duration: 600
                                     });
                                 }
-                                setTimeout('vm.editloading=false', 5000)
+                                setTimeout('vm.editloading=false', 5000);
                             }
                         }).catch(function (error) {
                             setTimeout(() => {
-                                vm.alertInfo('请求失败!' + error)
-                            }, 150)
-                        })
+                                vm.alertInfo('请求失败!' + error);
+                            }, 150);
+                        });
                     }
                 });
             },
@@ -864,7 +883,7 @@
                 const d = new Printd();
 
                 // opens the "print dialog" of your browser to print the element
-                d.print(document.getElementById('tablearea'), cssText)
+                d.print(document.getElementById('tablearea'), cssText);
             },
             handleAdd() {
                 this.addFormVisible = true;
@@ -893,13 +912,13 @@
                             if (ret.validate != 'undefined' && ret.validate == '1') {
                                 //过期.重新登录
                                 setTimeout(() => {
-                                    vm.alertInfo('登录过期,请重新登录!')
-                                }, 100)
+                                    vm.alertInfo('登录过期,请重新登录!');
+                                }, 100);
                             } else if (ret.validate != 'undefined' && ret.validate == '2') {
                                 //令牌无效.重新登录
                                 setTimeout(() => {
-                                    vm.alertInfo('登录异常,请重新登录!')
-                                }, 100)
+                                    vm.alertInfo('登录异常,请重新登录!');
+                                }, 100);
                             } else {
                                 if (ret > 0 || ret.state == 1) {
                                     //更新成功
@@ -910,7 +929,7 @@
                                         duration: 600
                                     });
                                     vm.addFormVisible = false;
-                                    vm.addloading = false
+                                    vm.addloading = false;
                                 } else {
                                     //更新失败
                                     vm.$message({
@@ -922,9 +941,9 @@
                             }
                         }).catch(function (error) {
                             setTimeout(() => {
-                                vm.alertInfo('请求失败!' + error)
-                            }, 150)
-                        })
+                                vm.alertInfo('请求失败!' + error);
+                            }, 150);
+                        });
                     }
                 });
             },
@@ -950,13 +969,13 @@
                     if (ret.validate != 'undefined' && ret.validate == '1') {
                         //过期.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 100)
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 100);
                     } else if (ret.validate != 'undefined' && ret.validate == '2') {
                         //令牌无效.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 100)
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 100);
                     } else {
                         console.log(ret);
                         if (ret > 0 || ret.state == 1) {
@@ -968,11 +987,11 @@
                                 type: 'success',
                                 duration: 600
                             });
-                            vm.delVisible = false
+                            vm.delVisible = false;
                         } else {
                             //更新失败
                             vm.$message({
-                                message: "更新失败" + ret.msg,
+                                message: '更新失败' + ret.msg,
                                 type: 'error',
                                 duration: 1200
                             });
@@ -980,9 +999,9 @@
                     }
                 }).catch(function (error) {
                     setTimeout(() => {
-                        vm.alertInfo('请求失败!' + error)
-                    }, 150)
-                })
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
             },
             alertInfo(msg) {
                 this.$alert(msg, '提示', {
@@ -1016,35 +1035,35 @@
                 // alert(index + '>' + row.id)
                 if (row.liftrod_id == undefined) {
                     //订单图片
-                    this.$emit('showImg_Order', index, row)
+                    this.$emit('showImg_Order', index, row);
                 } else {
                     //抬杆图片
-                    this.$emit('showImg_Pole', index, row)
+                    this.$emit('showImg_Pole', index, row);
                 }
             },
             handleModifyCarNumber(index, row) {
                 //修改车牌号
-                this.$emit('showreset', index, row)
+                this.$emit('showreset', index, row);
             },
             handleRefill(index, row) {
                 //月卡续费
                 // alert('功能正在开发，请耐心等待')
-                this.$emit('showrefill', index, row)
+                this.$emit('showrefill', index, row);
             },
             handleCustomizeEdit(index, row) {
-                this.$emit('customizeedit', index, row)
+                this.$emit('customizeedit', index, row);
             },
             handlePermission(index, row) {
                 //员工权限-角色管理-编辑权限
                 // alert('功能正在开发，请耐心等待')
-                this.$emit('showRolePermission', index, row)
+                this.$emit('showRolePermission', index, row);
             },
             handleresetpwd(index, row) {
                 this.rowid = row.id;
                 this.pwd1 = '';
                 this.pwd2 = '';
                 //显示充值密码对话框
-                this.resetPwdVisible = true
+                this.resetPwdVisible = true;
             },
             resetPwd() {
 
@@ -1057,11 +1076,11 @@
                 }
                 if (!(/^(\w){6,12}$/.test(this.pwd1)) || !(/^(\w){6,12}$/.test(this.pwd2))) {
                     this.$message.error('密码为6-12位字母,数字或下划线!');
-                    return
+                    return;
                 }
                 if (this.pwd1 != this.pwd2) {
                     this.$message.error('两次输入密码不一致!');
-                    return
+                    return;
                 }
                 this.resetloading = true;
                 let rform = {
@@ -1079,13 +1098,13 @@
                     if (ret.validate != 'undefined' && ret.validate == '1') {
                         //过期.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 100)
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 100);
                     } else if (ret.validate != 'undefined' && ret.validate == '2') {
                         //令牌无效.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 100)
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 100);
                     } else {
                         if (ret > 0 || ret.state == 1) {
                             //更新成功
@@ -1096,7 +1115,7 @@
                                 duration: 1500
                             });
                             vm.resetPwdVisible = false;
-                            vm.resetloading = false
+                            vm.resetloading = false;
                         } else {
                             //更新失败
                             vm.$message({
@@ -1108,9 +1127,9 @@
                     }
                 }).catch(function (error) {
                     setTimeout(() => {
-                        vm.alertInfo('请求失败!' + error)
-                    }, 150)
-                })
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
             },
             modifyPosition() {
                 let vm = this;
@@ -1134,13 +1153,13 @@
                     if (ret.validate != 'undefined' && ret.validate == '1') {
                         //过期.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!')
-                        }, 100)
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 100);
                     } else if (ret.validate != 'undefined' && ret.validate == '2') {
                         //令牌无效.重新登录
                         setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!')
-                        }, 100)
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 100);
                     } else {
                         if (ret > 0) {
                             //更新成功
@@ -1163,9 +1182,9 @@
                     }
                 }).catch(function (error) {
                     setTimeout(() => {
-                        vm.alertInfo('请求失败!' + error)
-                    }, 150)
-                })
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
 
             },
             makePoint(type) {
@@ -1190,7 +1209,7 @@
                 myGeo.getPoint(this.keyword, function (point) {
                     if (point) {
                         if (point.lat == vm.center.lat && point.lng == vm.center.lng) {
-                            alert("输入的地址相同或地址不正确!");
+                            alert('输入的地址相同或地址不正确!');
                         } else {
                             vm.center.lat = point.lat;
                             vm.center.lng = point.lng;
@@ -1198,34 +1217,42 @@
                             vm.label.content = vm.keyword;
                             vm.marker.lat = point.lat;
                             vm.marker.lng = point.lng;
-                            vm.showMarker = true
+                            vm.showMarker = true;
                         }
                     } else {
-                        alert("您选择地址没有解析到结果!");
+                        alert('您选择地址没有解析到结果!');
                     }
-                }, "中国");
+                }, '中国');
             },
             dclose() {
                 // console.log('close')
                 setTimeout(() => {
                     this.showMarker = false;
                     this.showMap = false;
-                    this.keyword = ''
-                }, 100)
+                    this.keyword = '';
+                }, 100);
             },
             mapready(map) {
-                alert("map render")
+                alert('map render');
             },
             mapSearch() {
 
             },
             changeanalysisdatecollect(val) {
-                console.log(val);
                 this.currentcollect = val;
                 if (this.currentdate == '') {
-                    this.currentdate = this.currentFormatDate()
+                    this.currentdate = this.currentFormatDate();
                 }
                 let form = {'date': this.currentdate, 'out_uid': val};
+                this.currentPage = 1;
+                this.getTableData(form);
+            },
+            changeanalysisdatepark(val) {
+                this.currentpark = val;
+                if (this.currentdate == '') {
+                    this.currentdate = this.currentFormatDate();
+                }
+                let form = {'date': this.currentdate, 'comid_start': val};
                 this.currentPage = 1;
                 this.getTableData(form);
             },
@@ -1235,10 +1262,10 @@
                 if (input2.length > 0) {
                     let input = input2[0] + '至' + input2[1];
                     this.currentdate = input;
-                    let date = {'date': input, 'out_uid': this.currentcollect};
+                    let date = {'date': input, 'out_uid': this.currentcollect,'comid_start': this.currentpark};
                     this.searchDate = input;
                     this.currentPage = 1;
-                    this.getTableData(date)
+                    this.getTableData(date);
                 }
 
             },
@@ -1262,25 +1289,25 @@
             generateForm(sform) {
                 //用来构建相同的参数
                 sform.token = common.attachParams('token');
-                sform.oid = common.attachParams('oid',1);
-                sform.comid = common.attachParams('comid',1);
-                sform.groupid = common.attachParams('groupid',1);
-                sform.cityid = common.attachParams('cityid',1);
-                sform.unionid = common.attachParams('unionid',1);
-                sform.channelid = common.attachParams('channelid',1);
-                sform.loginuin = common.attachParams('loginuin',1);
-                sform.ishdorder = common.attachParams('ishdorder',1);
-                sform.roleid = common.attachParams('loginroleid',1);
+                sform.oid = common.attachParams('oid', 1);
+                sform.comid = common.attachParams('comid', 1);
+                sform.groupid = common.attachParams('groupid', 1);
+                sform.cityid = common.attachParams('cityid', 1);
+                sform.unionid = common.attachParams('unionid', 1);
+                sform.channelid = common.attachParams('channelid', 1);
+                sform.loginuin = common.attachParams('loginuin', 1);
+                sform.ishdorder = common.attachParams('ishdorder', 1);
+                sform.roleid = common.attachParams('loginroleid', 1);
                 return sform;
             }
         },
         mounted() {
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             this.mapheight = common.gwh() * 0.5;
-            this.mapstyle = 'width:inherit;height:' + common.gwh()/2 + 'px';
+            this.mapstyle = 'width:inherit;height:' + common.gwh() / 2 + 'px';
             console.log('commontable mount');
             //拷贝查询表单,用来在重置时清空表单内容
-            this.tempSearchForm = common.clone(this.searchForm)
+            this.tempSearchForm = common.clone(this.searchForm);
 
         },
 
@@ -1294,7 +1321,7 @@
             let _this = this;
             this.analysisdate = Date.now();
             this.mapheight = common.gwh() * 0.5;
-            this.mapstyle = 'width:inherit;height:' + common.gwh()/2 + 'px';
+            this.mapstyle = 'width:inherit;height:' + common.gwh() / 2 + 'px';
             // console.log('commontable active')
             this.currentPage = 1;
             this.sform = {};
@@ -1303,22 +1330,25 @@
                 _this.start_placeholder = _this.currentDate() + ' 00:00:00';
                 _this.end_placeholder = _this.currentDate() + ' 23:59:59';
                 _this.currentcollect = '';
+                _this.currentpark = '';
                 _this.currentdate = '';
                 _this.datesselector = '';
                 _this.searchDate = '';
-                _this.$axios.all([common.getCollector()])
-                    .then(_this.$axios.spread(function (ret) {
+                _this.$axios.all([common.getCollector(),common.getAllParks()])
+                    .then(_this.$axios.spread(function (ret,retpark) {
                         _this.collectors = [{value_no: '', value_name: '全部'}];
                         _this.collectors = _this.collectors.concat(ret.data);
-                    }))
+                        _this.parks = [{value_no: '', value_name: '全部车场'}];
+                        _this.parks = _this.parks.concat(retpark.data);
+                    }));
             }
             if (this.showdateSelectorMonth) {
                 _this.monthReportStart = '';
                 _this.monthReportEnd = '';
                 _this.start_month_placeholder = _this.currentMonth();
             }
-        },
-    }
+        }
+    };
 
 </script>
 

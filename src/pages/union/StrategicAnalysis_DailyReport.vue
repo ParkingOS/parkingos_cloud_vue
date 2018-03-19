@@ -6,10 +6,12 @@
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
                 :btswidth="btswidth"
+                :exportapi="exportapi"
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-                :showdateSelectorMonth="showdateSelectorMonth"
+                :showdateSelector="showdateSelector"
+                :showParkSelector="showParkSelector"
                 :hideTool="hideTool"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
@@ -33,15 +35,17 @@
         data() {
             return {
                 loading: false,
-                hideExport: true,
-                hideSearch: false,
-                showdateSelectorMonth: false,
+                hideExport: false,
+                hideSearch: true,
+                showdateSelector: true,
+                showParkSelector:true,
                 hideAdd: true,
                 tableheight: '',
                 hideOptions: true,
                 hideTool: false,
                 hidePagination: true,
                 queryapi: '/cityparkorder/query',
+                exportapi: '/cityparkorder/exportExcel',
                 btswidth: '100',
                 fieldsstr: 'time__comid__amount_receivable__cash_pay__electronic_pay__act_total__free_pay',
                 tableitems: [

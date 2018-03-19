@@ -23,7 +23,7 @@
         <el-dialog title="车辆图片" :visible.sync="imgDialog" width="40%">
             <p>进场图片</p>
             <div v-for="img in img_in">
-                <img v-bind:src="imgpath+img" width="600px" height="450px"/>
+                <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
             </div>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="imgDialog = false" size="small">确 认</el-button>
@@ -56,7 +56,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-
+                imgSize:450,
                 hideTool: false,
                 showImg: true,
                 showBusinessCars: true,
@@ -287,7 +287,7 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                let pass = row.in_passid
+                                let pass = row.in_passid;
                                 return pass == '' || pass == undefined ? '无' : pass
                             }
                         }]
@@ -319,18 +319,18 @@
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
-                console.log(this.imgdialog_url)
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                console.log(this.imgdialog_url);
 
-                let _this = this
+                let _this = this;
                 axios.all([axios.get(this.imgdialog_url)])
                     .then(axios.spread(function (ret) {
                         _this.img_in = ret.data.in;
                         _this.img_out = ret.data.out;
-                        _this.imgpath = path
-                        console.log(_this.img_in)
+                        _this.imgpath = path;
+                        console.log(_this.img_in);
                         console.log(_this.img_out)
-                    }))
+                    }));
 
                 this.imgDialog = true
             }
@@ -338,16 +338,16 @@
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             let user = sessionStorage.getItem('user');
             if (user) {
                 user = JSON.parse(user);
-                console.log(user.authlist.length)
+                console.log(user.authlist.length);
                 for (var item of user.authlist) {
                     if (AUTH_ID_UNION.businessOrder_Cars == item.auth_id) {
-                        console.log(item.sub_auth)
-                        this.hideExport = !common.showSubExport(item.sub_auth)
+                        console.log(item.sub_auth);
+                        this.hideExport = !common.showSubExport(item.sub_auth);
                         // this.hideSearch = !common.showSubSearch(item.sub_auth)
                         break;
                     }
@@ -358,12 +358,13 @@
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.imgSize = common.gww() / 4;
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({});
             // getCollector
-            let _this = this
+            let _this = this;
             axios.all([common.getAllCollector(), common.getAllParks()])
                 .then(axios.spread(function (ret, parks) {
                     _this.collectors = ret.data;

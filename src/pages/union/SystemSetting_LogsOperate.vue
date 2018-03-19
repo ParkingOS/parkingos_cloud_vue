@@ -11,7 +11,7 @@
                 :searchtitle="searchtitle"
 
                 :hideTool="hideTool"
-
+                :showdateSelector="showdateSelector"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
@@ -23,10 +23,11 @@
 
 
 <script>
-    import common from '../../common/js/common'
-    import {AUTH_ID_UNION} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
-    import axios from 'axios'
+    import common from '../../common/js/common';
+    import {AUTH_ID_UNION} from '../../common/js/const';
+    import CommonTable from '../../components/CommonTable';
+    import axios from 'axios';
+
     export default {
         components: {
             CommonTable
@@ -36,7 +37,7 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
-
+                showdateSelector: true,
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
@@ -75,8 +76,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     },
                     {
@@ -93,7 +94,7 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return common.dateformat(row.operate_time)
+                                return common.dateformat(row.operate_time);
                             }
                         }]
                     }, {
@@ -118,14 +119,14 @@
                             prop: 'operate_user',
                             width: '123',
                             type: 'selection',
-                            selectlist:this.collectors,
+                            selectlist: this.collectors,
                             editable: true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:(row)=>{
-                                return common.nameformat(row,this.collectors,'operate_user')
+                            format: (row) => {
+                                return common.nameformat(row, this.collectors, 'operate_user');
                             }
                         }]
                     }, {
@@ -147,9 +148,9 @@
 
                 ],
                 searchtitle: '查询明细',
-                collectors:'',
+                collectors: ''
 
-            }
+            };
         },
         mounted() {
             window.onresize = () => {
@@ -161,7 +162,7 @@
                 user = JSON.parse(user);
                 for (let item of user.authlist) {
                     if (AUTH_ID_UNION.systemSetting_LogsOperates == item.auth_id) {
-                        console.log(item.sub_auth)
+                        console.log(item.sub_auth);
                         // this.hideSearch= !common.showSubSearch(item.sub_auth)
                         // this.hideExport = !common.showSubExport(item.sub_auth)
                         break;
@@ -172,7 +173,7 @@
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({});
@@ -180,14 +181,14 @@
             axios.all([common.getAllCollector()])
                 .then(axios.spread(function (collector, reason) {
                     _this.collectors = collector.data;
-                }))
+                }));
         },
         watch: {
             collectors: function (val) {
-                this.tableitems[4].subs[0].selectlist = val
-            },
+                this.tableitems[4].subs[0].selectlist = val;
+            }
         }
-    }
+    };
 
 </script>
 

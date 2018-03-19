@@ -25,7 +25,7 @@
             <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
             <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
             <!--<p>出场图片：</p>-->
-            <img v-bind:src="imgdialog_url" width="600px" height="450px"/>
+            <img v-bind:src="imgdialog_url" :width="imgSize*4/3" :height="imgSize"/>
             <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
             <span slot="footer" class="dialog-footer">
 				<el-button @click="imgDialog = false" size="small">确 认</el-button>
@@ -56,7 +56,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-
+                imgSize:450,
                 hideTool: false,
                 showImg: true,
                 showBusinessPoles: true,
@@ -126,7 +126,7 @@
                             unsortable: true,
                             align: 'center',
                             format: (row) => {
-                                let uidstr = common.nameformat(row, this.collectors, 'uin')
+                                let uidstr = common.nameformat(row, this.collectors, 'uin');
                                 return uidstr == '' || uidstr == undefined ? row.uid : uidstr
                             }
                         }]
@@ -211,25 +211,25 @@
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token')
-                console.log(this.imgdialog_url)
+                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                console.log(this.imgdialog_url);
                 this.imgDialog = true
             }
         },
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             var user = sessionStorage.getItem('user');
-            this.user = user
+            this.user = user;
             if (user) {
                 user = JSON.parse(user);
-                console.log(user.authlist.length)
+                console.log(user.authlist.length);
                 for (var item of user.authlist) {
                     if (AUTH_ID_UNION.businessOrder_Poles == item.auth_id) {
                         // console.log(item.sub_auth)
-                        this.hideExport = !common.showSubExport(item.sub_auth)
+                        this.hideExport = !common.showSubExport(item.sub_auth);
                         // this.hideSearch = !common.showSubSearch(item.sub_auth)
                         break;
                     }
@@ -242,11 +242,13 @@
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
-            let _this = this
+            this.imgSize = common.gww()/4;
+
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({});
+            let _this = this;
             axios.all([common.getAllCollector(), common.getLiftReason()])
                 .then(axios.spread(function (collector, reason) {
                     _this.collectors = collector.data;

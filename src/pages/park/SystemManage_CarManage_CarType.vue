@@ -30,10 +30,10 @@
 
 <script>
     import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
-    import util from '../../common/js/util'
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
+    import util from '../../common/js/util';
+    import common from '../../common/js/common';
+    import {AUTH_ID} from '../../common/js/const';
+    import CommonTable from '../../components/CommonTable';
 
     export default {
         components: {
@@ -86,8 +86,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     },
                     {
@@ -111,12 +111,12 @@
                             label: '排序',
                             prop: 'sort',
                             width: '123',
-                            type: 'str',
+                            type: 'number',
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
 
                         }]
                     }
@@ -124,7 +124,7 @@
 
                 ],
                 searchtitle: '高级查询',
-                addtitle:'添加车型',
+                addtitle: '添加车型',
                 addFormRules: {
                     name: [
                         {required: true, message: '请输入名称', trigger: 'blur'}
@@ -137,25 +137,25 @@
                 }
 
 
-            }
+            };
         },
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             var user = sessionStorage.getItem('user');
             if (user) {
                 user = JSON.parse(user);
                 for (var item of user.authlist) {
                     if (AUTH_ID.systemManage_CarManage_CarType == item.auth_id) {
-                        console.log(item.sub_auth)
+                        console.log(item.sub_auth);
                         // this.hideSearch= !common.showSubSearch(item.sub_auth)
-                        this.hideAdd= !common.showSubAdd(item.sub_auth)
-                        this.hideExport = !common.showSubExport(item.sub_auth)
-                        this.showEdit= common.showSubEdit(item.sub_auth)
-                        this.showdelete= common.showSubDel(item.sub_auth)
-                        if(!this.showEdit&&!this.showdelete){
+                        this.hideAdd = !common.showSubAdd(item.sub_auth);
+                        this.hideExport = !common.showSubExport(item.sub_auth);
+                        this.showEdit = common.showSubEdit(item.sub_auth);
+                        this.showdelete = common.showSubDel(item.sub_auth);
+                        if (!this.showEdit && !this.showdelete) {
                             this.hideOptions = true;
                         }
                         break;
@@ -167,12 +167,12 @@
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({});
         }
-    }
+    };
 
 </script>
 

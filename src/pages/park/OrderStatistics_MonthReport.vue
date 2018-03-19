@@ -23,8 +23,8 @@
 
 <script>
     import {path} from '../../api/api';
-    import common from '../../common/js/common'
-    import CommonTable from '../../components/CommonTable'
+    import common from '../../common/js/common';
+    import CommonTable from '../../components/CommonTable';
 
     export default {
         components: {
@@ -56,8 +56,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -70,9 +70,9 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                hidden: true,
-                                align: 'center',
-                            },
+
+                                align: 'center'
+                            }
                         ]
                     },
                     {
@@ -89,39 +89,57 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    }, {
+                    },
+                    {
+                        label: '实收金额',
+                        hasSubs: true,
+                        subs: [
+                            {
+                                label: '现金支付',
+                                prop: 'cash_pay',
+                                width: '123',
+                                type: 'str',
+                                editable: true,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center'
+
+                            }, {
+
+                                hasSubs: false,
+
+                                label: '电子支付',
+                                prop: 'electronic_pay',
+                                width: '123',
+                                type: 'str',
+                                editable: true,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center'
+
+                            }, {
+
+                                hasSubs: false,
+
+                                label: '合计',
+                                prop: 'act_total',
+                                width: '123',
+                                type: 'str',
+                                editable: true,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center'
+
+                            }]
+                    }
+                    , {
 
                         hasSubs: false,
                         subs: [{
-                            label: '现金支付',
-                            prop: 'cash_pay',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '电子支付',
-                            prop: 'electronic_pay',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '免费金额',
+                            label: '减免金额',
                             prop: 'free_pay',
                             width: '123',
                             type: 'str',
@@ -148,14 +166,14 @@
                 sform: {},
                 showWorkDetail: false,
                 showOrderDetail: false,
-                currentRow: '',
-            }
+                currentRow: ''
+            };
         },
         methods: {},
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             // var user = sessionStorage.getItem('user');
             // this.user = user
@@ -173,13 +191,13 @@
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''})
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''});
             // this.getTableData(this.sform);
         }
-    }
+    };
 
 </script>
 

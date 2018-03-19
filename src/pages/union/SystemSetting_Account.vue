@@ -271,9 +271,11 @@
 
         },
         mounted() {
+
+        },
+        activated(){
             this.getInfo();
             this.tableheight = common.gwh() - 100;
-            console.log('account height = ' + this.tableheight);
             this.style = 'padding: 10px;overflow-y: auto;height: ' + this.tableheight + 'px;';
         }
     };
