@@ -107,7 +107,9 @@
                                icon="search">导入月卡
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                        <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport" style="margin: 4px 10px;">导出</el-button>
+                        <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport"
+                                   style="margin: 4px 10px;">导出
+                        </el-button>
                     </el-tooltip>
                     <el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
                     <!--<el-button type="primary" size="small" @click="handlePrint()">打印</el-button>-->
@@ -123,7 +125,8 @@
 
         </el-row>
         <!--列表-->
-        <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight2"
+        <el-table :data="table" border highlight-current-row style="width:100%;"
+                  :height="tableheight2"
                   v-loading="loading" @sort-change="sortChange" id="tablearea">
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
@@ -494,12 +497,13 @@
                 pwd1: '',
                 pwd2: '',
                 currentdate: '',
-                tableheight2: common.gwh() - 143
+                tableheight2: common.gwh() - 143,
+                parks: ''
             };
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showCollectorSelector','showParkSelector', 'showdateSelectorMonth',
+            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showCollectorSelector', 'showParkSelector', 'showdateSelectorMonth',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard'],
         methods: {
             //刷新页面
@@ -958,6 +962,7 @@
                 let api = this.delapi;
                 let qform = this.sform;
                 let dform = {'id': this.rowid, 'token': sessionStorage.getItem('token')};
+                dform = this.generateForm(dform);
                 //发送请求,删除id为row.id的数据
 
                 vm.$axios.post(path + api, vm.$qs.stringify(dform), {
@@ -1262,7 +1267,7 @@
                 if (input2.length > 0) {
                     let input = input2[0] + '至' + input2[1];
                     this.currentdate = input;
-                    let date = {'date': input, 'out_uid': this.currentcollect,'comid_start': this.currentpark};
+                    let date = {'date': input, 'out_uid': this.currentcollect, 'comid_start': this.currentpark};
                     this.searchDate = input;
                     this.currentPage = 1;
                     this.getTableData(date);
@@ -1334,8 +1339,8 @@
                 _this.currentdate = '';
                 _this.datesselector = '';
                 _this.searchDate = '';
-                _this.$axios.all([common.getCollector(),common.getAllParks()])
-                    .then(_this.$axios.spread(function (ret,retpark) {
+                _this.$axios.all([common.getCollector(), common.getAllParks()])
+                    .then(_this.$axios.spread(function (ret, retpark) {
                         _this.collectors = [{value_no: '', value_name: '全部'}];
                         _this.collectors = _this.collectors.concat(ret.data);
                         _this.parks = [{value_no: '', value_name: '全部车场'}];
@@ -1353,6 +1358,7 @@
 </script>
 
 <style>
+
     .deleteTip {
         vertical-align: middle
     }
@@ -1368,5 +1374,9 @@
 
     .el-input-group > .el-input__inner {
         text-align: center;
+    }
+    /*table表格 表头背景色*/
+    .el-table th{
+        background-color:  #F5F7FA;
     }
 </style>

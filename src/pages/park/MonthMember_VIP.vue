@@ -546,7 +546,7 @@
                 this.showRefill = true;
                 let now = new Date().getTime();
                 let endtime = row.e_time;
-                this.refillForm.remark = '云平台续费'
+                this.refillForm.remark = '云平台续费';
                 if (now / 1000 > endtime) {
                     this.refillstartDate = common.dateformat(now / 1000)
                 } else {
@@ -572,14 +572,14 @@
                 this.refillForm.remark = '云平台注册'
             },
             handlereset: function () {
-                this.resetloading = true
-                let _this = this
+                this.resetloading = true;
+                let _this = this;
                 axios.all([common.editCarNum(this.resetCarnumber, this.currentRow.id)])
                     .then(axios.spread(function (ret) {
-                        let data = ret.data
-                        _this.resetloading = false
+                        let data = ret.data;
+                        _this.resetloading = false;
                         if (data.state == 1) {
-                            _this.$refs['bolinkuniontable'].getTableData({})
+                            _this.$refs['bolinkuniontable'].getTableData({});
                             _this.$message({
                                 message: '修改成功!',
                                 type: 'success',
@@ -603,20 +603,18 @@
             },
             handleRefill: function () {
                 // console.log('开始验证')
-                let _this = this
+                let _this = this;
                 this.$refs.refillForm.validate((valid) => {
                     // console.log(valid)
-                    console.log(_this.refillForm)
+                    console.log(_this.refillForm);
                     if (valid) {
-                        _this.resetloading = true
-                        // console.log(_this.refillForm.p_name)
-                        // axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, _this.currentRow.name, _this.currentRow.e_time, _this.currentRow.id, _this.refillForm.remark, _this.refillForm.act_total, sessionStorage.getItem('nickname'))])
+                        _this.resetloading = true;
                         axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))))])
                             .then(axios.spread(function (ret) {
-                                let data = ret.data
+                                let data = ret.data;
                                 // console.log(data)
                                 if (data.state == 1) {
-                                    _this.$refs['bolinkuniontable'].getTableData({})
+                                    _this.$refs['bolinkuniontable'].getTableData({});
                                     _this.$message({
                                         message: '续费成功!',
                                         type: 'success',
@@ -624,7 +622,7 @@
                                     });
                                     _this.showRefill = false;
                                     // _this.refillForm.resetFields()
-                                    _this.$refs['refillForm'].resetFields()
+                                    _this.$refs['refillForm'].resetFields();
                                     _this.refillForm.p_name = ''
                                 } else {
                                     //更新失败
@@ -660,7 +658,7 @@
                     return;
 
 
-                let _this = this
+                let _this = this;
                 axios.all([common.getProdSum(this.refillForm.p_name, this.refillForm.months)])
                     .then(axios.spread(function (ret) {
                         _this.refillForm.total = ret.data + '';
@@ -669,21 +667,21 @@
                     }))
             },
             handleRegis: function () {
-                let _this = this
+                let _this = this;
                 this.$refs.refillForm.validate((valid) => {
                     if (valid) {
-                        _this.resetloading = true
-                        let aform = _this.refillForm
+                        _this.resetloading = true;
+                        let aform = _this.refillForm;
 
-                        aform.token = sessionStorage.getItem('token')
-                        aform.comid = sessionStorage.getItem('comid')
-                        aform.groupid = sessionStorage.getItem('groupid')
-                        aform.cityid = sessionStorage.getItem('cityid')
-                        aform.unionid = sessionStorage.getItem('unionid')
-                        aform.channelid = sessionStorage.getItem('channelid')
-                        aform.loginuin = sessionStorage.getItem('loginuin')
-                        aform.nickname = sessionStorage.getItem('nickname')
-                        aform.oid = sessionStorage.getItem('oid')
+                        aform.token = sessionStorage.getItem('token');
+                        aform.comid = sessionStorage.getItem('comid');
+                        aform.groupid = sessionStorage.getItem('groupid');
+                        aform.cityid = sessionStorage.getItem('cityid');
+                        aform.unionid = sessionStorage.getItem('unionid');
+                        aform.channelid = sessionStorage.getItem('channelid');
+                        aform.loginuin = sessionStorage.getItem('loginuin');
+                        aform.nickname = sessionStorage.getItem('nickname');
+                        aform.oid = sessionStorage.getItem('oid');
 
                         _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
                             headers: {
@@ -694,7 +692,7 @@
 
                             if (ret > 0 || ret.state == 1) {
                                 //更新成功
-                                _this.$refs['bolinkuniontable'].getTableData({})
+                                _this.$refs['bolinkuniontable'].getTableData({});
                                 _this.$message({
                                     message: '添加成功!',
                                     type: 'success',
@@ -734,7 +732,7 @@
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 135;
-            }
+            };
             this.tableheight = common.gwh() - 135;
             var user = sessionStorage.getItem('user');
             // console.log(user)
@@ -744,13 +742,13 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID.monthMember_VIP == item.auth_id) {
                         // console.log(item.sub_auth)
-                        this.hideExport = !common.showSubExport(item.sub_auth)
-                        this.hideSearch = !common.showSubSearch(item.sub_auth)
-                        this.showdelete = common.showSubDel(item.sub_auth)
-                        this.showmRefill = common.showSubReFill(item.sub_auth)
-                        this.showModifyCarNumber = common.showSubUpdate(item.sub_auth)
-                        this.showEdit = common.showSubEdit(item.sub_auth)
-                        this.showCustomizeAdd = common.showSubAdd(item.sub_auth)
+                        this.hideExport = !common.showSubExport(item.sub_auth);
+                        this.hideSearch = !common.showSubSearch(item.sub_auth);
+                        this.showdelete = common.showSubDel(item.sub_auth);
+                        this.showmRefill = common.showSubReFill(item.sub_auth);
+                        this.showModifyCarNumber = common.showSubUpdate(item.sub_auth);
+                        this.showEdit = common.showSubEdit(item.sub_auth);
+                        this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
                         if(!this.showModifyCarNumber&&!this.showdelete&&!this.showmRefill){
                             this.hideOptions = true;
                         }
@@ -764,11 +762,11 @@
 
             window.onresize = () => {
                 this.tableheight = common.gwh() - 135;
-            }
+            };
             this.tableheight = common.gwh() - 135;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
-            let _this = this
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({});
+            let _this = this;
             axios.all([common.getPName(), common.getCarType()])
                 .then(axios.spread(function (retpname, retcartype) {
                     _this.pname = retpname.data;

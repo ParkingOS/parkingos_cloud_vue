@@ -247,7 +247,7 @@
                         subs: [{
                             label: '电子预付金额',
                             prop: 'electronic_prepay',
-                            width: '100',
+                            width: '150',
                             type: 'str',
                             editable: true,
                             searchable: false,
@@ -261,7 +261,7 @@
                         subs: [{
                             label: '现金预付金额',
                             prop: 'cash_prepay',
-                            width: '100',
+                            width: '150',
                             type: 'str',
                             editable: true,
                             searchable: false,
@@ -275,7 +275,7 @@
                         subs: [{
                             label: '电子结算金额',
                             prop: 'electronic_pay',
-                            width: '100',
+                            width: '150',
                             type: 'str',
                             editable: true,
                             searchable: false,
@@ -289,7 +289,7 @@
                         subs: [{
                             label: '现金结算金额',
                             prop: 'cash_pay',
-                            width: '100',
+                            width: '150',
                             type: 'str',
                             editable: true,
                             searchable: false,
@@ -303,7 +303,7 @@
                         subs: [{
                             label: '减免金额',
                             prop: 'reduce_amount',
-                            width: '100',
+                            width: '123',
                             type: 'str',
                             editable: true,
                             searchable: false,

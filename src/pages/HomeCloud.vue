@@ -52,7 +52,7 @@
 
         </el-col>
         <el-col :span="24" class="main">
-            <aside :class="collapsed?'menu-collapsed':'menu-expanded'" style="overflow-y: auto;margin-left: 12px">
+            <aside :class="collapsed?'menu-collapsed':'menu-expanded'" style="overflow-y: auto;">
 
                 <!--厂商平台导航菜单-->
                 <!--<el-menu class="el-menu-vertical-demo not-print" @open="handleopen"-->
@@ -65,7 +65,7 @@
                          @close="handleclose"
                          @select="handleselect"
                          unique-opened v-show="!collapsed"
-
+                         background-color="#545c64" text-color="#fff" active-text-color="#109EFF"
                          :default-active="highlightindex">
 
                     <el-row v-show="park">
@@ -514,7 +514,7 @@
             bottom: 0px;
             overflow: hidden;
             aside {
-                background: #EEF1F6;
+
                 flex: 0 0 180px;
                 width: 180px;
                 // position: absolute;
@@ -565,7 +565,8 @@
                 overflow-y: hidden;
                 padding: 10px;
                 padding-top: 8px;
-                .breadcrumb-container {
+
+                /*.breadcrumb-container {
                     //margin-bottom: 15px;
                     .title {
                         width: 180px;
@@ -580,7 +581,8 @@
                     .breadcrumb-inner {
                         float: right;
                     }
-                }
+                }*/
+
                 .content-wrapper {
                     background-color: #fff;
                     box-sizing: border-box;
@@ -592,6 +594,7 @@
     /*el-menu-item选中加粗 左侧item*/
     .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active, .el-menu-item.is-active {
         font-weight: bold;
+
     }
 
     @media print {

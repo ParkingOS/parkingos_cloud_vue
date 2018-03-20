@@ -42,8 +42,8 @@
                 hideOptions: true,
                 hideTool: false,
                 hidePagination: true,
-                queryapi: '/monthcityparkorder/query',
-                exportapi: '/monthcityparkorder/exportExcel',
+                queryapi: '/groupmonthorder/query',
+                exportapi: '/groupmonthorder/exportExcel',
                 btswidth: '100',
                 fieldsstr: 'sdate__scount__amount_receivable__cash_pay__electronic_pay__free_pay',
                 tableitems: [
