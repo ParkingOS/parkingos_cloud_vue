@@ -85,34 +85,6 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '现金支付',
-                            prop: 'cash_pay',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '电子支付',
-                            prop: 'electronic_pay',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
                             label: '应收金额',
                             prop: 'amount_receivable',
                             width: '123',
@@ -123,21 +95,54 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    }, {
+                    },
+                    {
+                        label: '实收金额',
+                        hasSubs: true,
+                        subs: [
 
-                        hasSubs: false,
-                        subs: [{
-                            label: '实收金额',
-                            prop: 'act_total',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
+                            {
+
+                                label: '现金支付',
+                                prop: 'cash_pay',
+                                width: '123',
+                                type: 'str',
+                                editable: true,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center'
+
+                            }, {
+
+                                hasSubs: false,
+
+                                label: '电子支付',
+                                prop: 'electronic_pay',
+                                width: '123',
+                                type: 'str',
+                                editable: true,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center'
+
+                            }, {
+
+                                hasSubs: false,
+
+                                label: '合计',
+                                prop: 'act_total',
+                                width: '123',
+                                type: 'str',
+                                editable: true,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center'
+
+                            }]
+                    },  {
 
                         hasSubs: false,
                         subs: [{

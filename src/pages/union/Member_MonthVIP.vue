@@ -196,8 +196,8 @@
             <!--<el-button size="small" type="success" @click="submitUpload">确认上传</el-button>-->
             <!--</el-upload>-->
             <el-upload class="upload-demo" ref="upload" :action="uploadapi" :auto-upload="false"
-                       :on-success="uploadSuccess" :on-remove="handleRemove">
-                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                       :on-success="uploadSuccess" :on-remove="handleRemove" :on-change="handleChange">
+                <el-button slot="trigger" size="small" type="primary" @click="handleSelect">选取文件</el-button>
                 <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定导入
                 </el-button>
                 <div slot="tip" class="el-upload__tip">请选择Excel文件，支持xls,xlsx等格式</div>
@@ -219,17 +219,17 @@
         path
     } from '../../api/api';
 
-    import common from '../../common/js/common'
-    import {AUTH_ID_UNION} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
-    import AddDate from '../../components/add-subs/AddDate'
+    import common from '../../common/js/common';
+    import {AUTH_ID_UNION} from '../../common/js/const';
+    import CommonTable from '../../components/CommonTable';
+    import AddDate from '../../components/add-subs/AddDate';
 
-    import axios from 'axios'
+    import axios from 'axios';
 
     export default {
         components: {
             CommonTable,
-            AddDate,
+            AddDate
 
         },
         data() {
@@ -272,8 +272,8 @@
                                 type: 'number',
                                 searchable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     },
                     {
@@ -288,9 +288,9 @@
                                 unsortable: true,
                                 align: 'center',
                                 format: (row) => {
-                                    return common.nameformat(row, this.pname, 'pid')
+                                    return common.nameformat(row, this.pname, 'pid');
                                 }
-                            },
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -309,7 +309,7 @@
                                         result = '';
                                     return result;
                                 }
-                            },
+                            }
                         ]
                     },
                     {
@@ -324,7 +324,7 @@
                                 addable: true,
                                 unsortable: true,
                                 align: 'center'
-                            },
+                            }
                         ]
                     },
                     {
@@ -338,8 +338,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     },
                     {
@@ -357,7 +357,7 @@
                                 format: function (row) {
                                     return common.dateformat(row.create_time);
                                 }
-                            },
+                            }
                         ]
                     },
                     {
@@ -375,7 +375,7 @@
                                 format: function (row) {
                                     return common.dateformat(row.b_time);
                                 }
-                            },
+                            }
                         ]
                     },
                     {
@@ -395,7 +395,7 @@
                                 format: function (row) {
                                     return common.dateformat(row.e_time);
                                 }
-                            },
+                            }
 
                         ]
                     },
@@ -412,7 +412,7 @@
                                 addable: true,
                                 unsortable: true,
                                 align: 'center'
-                            },
+                            }
                         ]
                     },
                     {
@@ -427,7 +427,7 @@
                                 addable: true,
                                 unsortable: true,
                                 align: 'center'
-                            },
+                            }
                         ]
                     },
                     {
@@ -442,7 +442,7 @@
                                 addable: true,
                                 unsortable: true,
                                 align: 'center'
-                            },
+                            }
                         ]
                     },
                     {
@@ -460,7 +460,7 @@
                                     return common.nameformat(row, this.cartype, 'car_type_id');
                                 }
 
-                            },
+                            }
                         ]
                     },
                     {
@@ -477,9 +477,9 @@
                                 unsortable: true,
                                 align: 'center',
                                 format: function (row) {
-                                    return common.nameformat(row, singleDoubleType, 'limit_day_type')
+                                    return common.nameformat(row, singleDoubleType, 'limit_day_type');
                                 }
-                            },
+                            }
                         ]
                     },
                     {
@@ -494,9 +494,9 @@
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center'
-                            },
+                            }
                         ]
-                    },
+                    }
                 ],
                 searchtitle: '高级查询',
                 addtitle: '注册会员',
@@ -524,7 +524,7 @@
                     ],
                     limit_day_type: [
                         {required: true, message: '请选择限行限制', trigger: 'change', type: 'number'}
-                    ],
+                    ]
 
                 },
                 pname: [],
@@ -540,7 +540,7 @@
                     mobile: '',
                     limit_day_type: '',
                     remark: '',
-                    car_type_id: '',
+                    car_type_id: ''
                 },
                 p_name: 'p_name',
                 months: 'months',
@@ -556,16 +556,38 @@
                 refillstartDate: 0,
                 parklist: '',
                 showUpload: false,
-                uploadMsg: '',
-            }
+                uploadMsg: ''
+            };
         },
         methods: {
             showUploadDialog: function () {
                 this.showUpload = true;
-                this.uploadMsg = '';
+                this.handleSelect();
             },
             submitUpload() {
+                //上传文件
                 this.$refs.upload.submit();
+            },
+            handleSelect() {
+                //点击选择文件，清空当前文件列表和上传信息
+                this.$refs.upload.clearFiles();
+                this.uploadMsg = '';
+            },
+            handleChange(file, fileList) {
+                // console.log(file);
+                // console.log(fileList);
+                //校验文件
+                let that = this;
+                if (!(file.name.endsWith('.xls') || file.name.endsWith('.xlsx'))) {
+                    this.$alert('请选择正确的Excel文件', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'warning',
+                        callback: action => {
+                            that.$refs.upload.clearFiles();
+                        }
+                    });
+                }
+
             },
             handleRemove(file, fileList) {
                 this.uploadMsg = '';
@@ -594,9 +616,9 @@
                 let endtime = row.e_time;
                 this.refillForm.remark = '云平台续费';
                 if (now / 1000 > endtime) {
-                    this.refillstartDate = common.dateformat(now / 1000)
+                    this.refillstartDate = common.dateformat(now / 1000);
                 } else {
-                    this.refillstartDate = common.dateformat(endtime)
+                    this.refillstartDate = common.dateformat(endtime);
                 }
 
                 for (let item of this.pname) {
@@ -615,7 +637,7 @@
                 this.showRegis = true;
                 this.refillForm.p_name = '';
                 this.readonly = false;
-                this.refillForm.remark = '云平台注册'
+                this.refillForm.remark = '云平台注册';
             },
             handlereset: function () {
                 this.resetloading = true;
@@ -641,11 +663,11 @@
                                 duration: 600
                             });
                         }
-                        _this.resetloading = false
-                    }))
+                        _this.resetloading = false;
+                    }));
             },
             getTime: function (time) {
-                this.refillForm.b_time = time
+                this.refillForm.b_time = time;
             },
             handleRefill: function () {
                 // console.log('开始验证')
@@ -671,7 +693,7 @@
                                     _this.showRefill = false;
                                     // _this.refillForm.resetFields()
                                     _this.$refs['refillForm'].resetFields();
-                                    _this.refillForm.p_name = ''
+                                    _this.refillForm.p_name = '';
                                 } else {
                                     //更新失败
                                     _this.$message({
@@ -680,10 +702,10 @@
                                         duration: 600
                                     });
                                 }
-                                _this.resetloading = false
-                            }))
+                                _this.resetloading = false;
+                            }));
                     }
-                })
+                });
 
             },
             getRefillTotal: function () {
@@ -712,7 +734,7 @@
                         _this.refillForm.total = ret.data + '';
                         _this.refillForm.act_total = ret.data + '';
                         // console.log(ret.data)
-                    }))
+                    }));
             },
             handleRegis: function () {
                 let _this = this;
@@ -749,7 +771,7 @@
                                 _this.showRegis = false;
                                 // _this.refillForm.resetFields();
                                 _this.refillForm.name = '';
-                                _this.$refs['refillForm'].resetFields()
+                                _this.$refs['refillForm'].resetFields();
                             } else {
                                 //更新失败
                                 _this.$message({
@@ -758,7 +780,7 @@
                                     duration: 1200
                                 });
                             }
-                            _this.resetloading = false
+                            _this.resetloading = false;
 
                         }).catch(function (error) {
                             // setTimeout(() => {
@@ -771,9 +793,9 @@
                             //     duration: 1200
                             // });
                             _this.resetloading = false;
-                        })
+                        });
                     }
-                })
+                });
             }
 
         },
@@ -829,19 +851,19 @@
                     }
                     // console.log(ret.data)
                     // console.log(_this.pname)
-                }))
+                }));
         },
         watch: {
             pname: function (val) {
-                this.tableitems[1].subs[0].selectlist = val
+                this.tableitems[1].subs[0].selectlist = val;
             },
             cartype: function (val) {
-                this.tableitems[11].subs[0].selectlist = val
+                this.tableitems[11].subs[0].selectlist = val;
             },
             parklist: function (val) {
-                this.tableitems[2].subs[0].selectlist = val
+                this.tableitems[2].subs[0].selectlist = val;
             }
         }
-    }
+    };
 
 </script>

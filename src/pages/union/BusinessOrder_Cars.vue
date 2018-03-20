@@ -35,12 +35,12 @@
 
 <script>
     import {path, orderStateType, orderPayType, parkType} from '../../api/api';
-    import util from '../../common/js/util'
-    import common from '../../common/js/common'
-    import {AUTH_ID_UNION} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
+    import util from '../../common/js/util';
+    import common from '../../common/js/common';
+    import {AUTH_ID_UNION} from '../../common/js/const';
+    import CommonTable from '../../components/CommonTable';
 
-    import axios from 'axios'
+    import axios from 'axios';
 
     export default {
         components: {
@@ -56,7 +56,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-                imgSize:450,
+                imgSize: 450,
                 hideTool: false,
                 showImg: true,
                 showBusinessCars: true,
@@ -178,7 +178,7 @@
                             unsortable: true,
                             align: 'center',
                             format: (row) => {
-                                return common.nameformat(row, parkType, 'parking_type')
+                                return common.nameformat(row, parkType, 'parking_type');
                             }
                         }]
                     },
@@ -208,8 +208,8 @@
                                 searchable: true,
 
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
 
@@ -225,7 +225,7 @@
                             unsortable: false,
                             align: 'center',
                             format: function (row) {
-                                return common.dateformat(row.create_time)
+                                return common.dateformat(row.create_time);
                             }
                         }]
                     }, {
@@ -240,7 +240,7 @@
 
                             addable: true,
                             unsortable: true,
-                            align: 'center',
+                            align: 'center'
                         }]
                     }, {
 
@@ -257,7 +257,7 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return common.nameformat(row, orderStateType, 'state')
+                                return common.nameformat(row, orderStateType, 'state');
                             }
                         }]
                     }, {
@@ -288,7 +288,7 @@
                             align: 'center',
                             format: function (row) {
                                 let pass = row.in_passid;
-                                return pass == '' || pass == undefined ? '无' : pass
+                                return pass == '' || pass == undefined ? '无' : pass;
                             }
                         }]
                     }, {
@@ -304,7 +304,7 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },
+                    }
 
                 ],
                 searchtitle: '高级查询',
@@ -314,8 +314,8 @@
                 img_out: [],
                 imgpath: '',
                 collectors: '',
-                parklist: '',
-            }
+                parklist: ''
+            };
         },
         methods: {
             showImgDialog: function (index, row) {
@@ -329,10 +329,10 @@
                         _this.img_out = ret.data.out;
                         _this.imgpath = path;
                         console.log(_this.img_in);
-                        console.log(_this.img_out)
+                        console.log(_this.img_out);
                     }));
 
-                this.imgDialog = true
+                this.imgDialog = true;
             }
         },
         mounted() {
@@ -347,7 +347,7 @@
                 for (var item of user.authlist) {
                     if (AUTH_ID_UNION.businessOrder_Cars == item.auth_id) {
                         console.log(item.sub_auth);
-                        this.hideExport = !common.showSubExport(item.sub_auth);
+                        // this.hideExport = !common.showSubExport(item.sub_auth);
                         // this.hideSearch = !common.showSubSearch(item.sub_auth)
                         break;
                     }
@@ -370,17 +370,17 @@
                     _this.collectors = ret.data;
                     _this.parklist = parks.data;
                     // console.log(ret.data)
-                }))
+                }));
         },
         watch: {
             collectors: function (val) {
-                this.tableitems[2].subs[0].selectlist = val
+                this.tableitems[2].subs[0].selectlist = val;
             },
             parklist: function (val) {
-                this.tableitems[1].subs[0].selectlist = val
+                this.tableitems[1].subs[0].selectlist = val;
             }
         }
-    }
+    };
 
 </script>
 

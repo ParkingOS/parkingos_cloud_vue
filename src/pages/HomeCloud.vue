@@ -218,6 +218,10 @@
                                           v-if="this.showUnionItem.strategicAnalysis_DailyReport">
                                 车场日报
                             </el-menu-item>
+                            <el-menu-item index="/strategicAnalysis_MonthReport"
+                                          v-if="this.showUnionItem.strategicAnalysis_DailyReport">
+                                车场月报
+                            </el-menu-item>
                         </el-submenu>
                         <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
                             <template slot="title"><span class="menuitem">系统设置</span></template>
@@ -275,8 +279,8 @@
 </template>
 
 <script>
-    import common from '../common/js/common'
-    import {AUTH_ID, showParkItem_const, AUTH_ID_UNION, showUnionItem_const, ROLE_ID} from '../common/js/const'
+    import common from '../common/js/common';
+    import {AUTH_ID, showParkItem_const, AUTH_ID_UNION, showUnionItem_const, ROLE_ID} from '../common/js/const';
 
     export default {
         data() {
@@ -310,14 +314,14 @@
                 showParkItem: sessionStorage.getItem('showParkItem') == null ? showParkItem_const : JSON.parse(sessionStorage.getItem('showParkItem')),
                 showUnionItem: sessionStorage.getItem('showUnionItem') == null ? showUnionItem_const : JSON.parse(sessionStorage.getItem('showUnionItem')),
                 expandindex: '',   //'/order',//展开的sub_menu
-                highlightindex: sessionStorage.getItem('highlightindex'),//'/orderManage_Poles',//高亮的item
-            }
+                highlightindex: sessionStorage.getItem('highlightindex')//'/orderManage_Poles',//高亮的item
+            };
         },
         methods: {
             openSecurity() {
-                this.active = '/securitycenter'
-                console.log(this.active)
-                this.$router.push('/securitycenter')
+                this.active = '/securitycenter';
+                console.log(this.active);
+                this.$router.push('/securitycenter');
             },
             handleopen() {
                 //console.log('handleopen');
@@ -328,10 +332,10 @@
             selectTop(a, b) {
                 //console.log(a)
                 //console.log(b)
-                console.log(this.active)
-                this.active = a
+                console.log(this.active);
+                this.active = a;
                 this.$router.push(a);
-                console.log(this.active)
+                console.log(this.active);
             },
             handleselect: function (a, b) {
                 // console.log(this.active)
@@ -343,21 +347,21 @@
                     let comid = sessionStorage.getItem('comid');
                     let groupid = sessionStorage.getItem('groupid');
                     if (comid != '' && comid != 'undefined') {
-                        console.log(comid)
+                        console.log(comid);
                         routetocm = routetocm + '&comid=' + comid;
                     }
                     if (groupid != '' && groupid != 'undefined') {
-                        console.log(groupid)
+                        console.log(groupid);
                         routetocm = routetocm + '&groupid=' + groupid;
                     }
-                    console.log(routetocm)
+                    console.log(routetocm);
                     window.open(routetocm);
                     return;
                 }
-                var cpath = this.$router.currentRoute.fullPath
+                var cpath = this.$router.currentRoute.fullPath;
 
                 //console.log(cpath)
-                var options = this.$router.options.routes
+                var options = this.$router.options.routes;
                 // this.highlightindex = a;
                 this.expandindex = a.split('_')[0];
                 // console.log('>>>' + a)
@@ -369,7 +373,7 @@
                 var _this = this;
                 let user = sessionStorage.getItem('user');
                 let u = JSON.parse(user);
-                let logoutParams = {userid: u.userid, token: sessionStorage.getItem("token")}
+                let logoutParams = {userid: u.userid, token: sessionStorage.getItem('token')};
                 this.$confirm('确认退出吗?', '提示', {
                     //type: 'warning'
                 }).then(() => {
@@ -395,10 +399,10 @@
             },
             showMenu(i, status) {
                 this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
-            },
+            }
         },
         mounted() {
-            console.log('home  mounted')
+            console.log('home  mounted');
             let vm = this;
             let user = sessionStorage.getItem('user');
 
@@ -407,36 +411,36 @@
                 this.sysUserName = user.nickname || '';
 
                 var cpath = this.$router.currentRoute.fullPath;
-                console.log(cpath)
+                console.log('>>>>>>' + cpath);
                 this.highlightindex = cpath;
                 if (cpath == '/query/queryout') {
-                    this.active = '/query/queryin'
+                    this.active = '/query/queryin';
                 } else if (cpath == '/order/orderout') {
-                    this.active = '/order/orderin'
+                    this.active = '/order/orderin';
                 } else {
                     this.active = cpath;
                 }
                 if (user.oid == 0 || user.oid == ROLE_ID.PARK) {
-                    this.nickname = "车场";
+                    this.nickname = '车场';
                     this.park = true;
                 }
                 if (user.oid == ROLE_ID.UNION) {
-                    this.nickname = "集团";
+                    this.nickname = '集团';
                     this.union = true;
                 }
 
             }
         },
         activated() {
-            console.log('home active')
+            console.log('home active');
         },
         watch: {
             ulist: function (val) {
-                this.sysUserName = val.nickname
+                this.sysUserName = val.nickname;
             }
-        },
+        }
 
-    }
+    };
 
 </script>
 <style lang="scss" scoped>

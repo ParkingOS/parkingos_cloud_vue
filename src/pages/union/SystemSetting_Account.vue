@@ -14,10 +14,10 @@
                     <div>
                         <el-row>
                             <el-form style="width:90%;margin-top: 20px;" label-width="100px">
-                                <el-form-item label="车场编号">
+                                <el-form-item label="编号">
                                     <el-input :readonly="paridreadonly" v-model="group.id"></el-input>
                                 </el-form-item>
-                                <el-form-item label="车场名称">
+                                <el-form-item label="名称">
                                     <el-input v-model="group.name"></el-input>
                                 </el-form-item>
                                 <!--<el-form-item label="车场类型">-->

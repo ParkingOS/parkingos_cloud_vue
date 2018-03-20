@@ -7,6 +7,7 @@
                 :tableitems="tableitems"
                 :btswidth="btswidth"
                 :hide-export="hideExport"
+                :exportapi="exportapi"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
                 :showdateSelectorMonth="showdateSelectorMonth"
@@ -33,7 +34,7 @@
         data() {
             return {
                 loading: false,
-                hideExport: true,
+                hideExport: false,
                 hideSearch: true,
                 showdateSelectorMonth: true,
                 hideAdd: true,
@@ -42,6 +43,7 @@
                 hideTool: false,
                 hidePagination: true,
                 queryapi: '/monthparkorder/query',
+                exportapi: '/monthparkorder/exportExcel',
                 btswidth: '100',
                 fieldsstr: 'sdate__scount__amount_receivable__cash_pay__electronic_pay__free_pay',
                 tableitems: [

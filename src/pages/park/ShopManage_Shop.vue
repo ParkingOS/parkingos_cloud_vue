@@ -19,7 +19,7 @@
                     :showmRefill="showmRefill"
                     :hideOptions="hideOptions"
                     :hideSearch="hideSearch"
-                    :showShopEdit="showShopEdit"
+                    :showCustomizeEdit="showShopEdit"
                     :showsetting="showsetting"
                     
                     v-on:showrefill="showrefill"
@@ -133,7 +133,6 @@
                             </el-button>
                         </template>
                     </el-table-column>
-                    <el-table-column
                     <el-table-column
                             type="index"
                             label="索引"

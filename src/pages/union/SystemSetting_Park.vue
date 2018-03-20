@@ -326,7 +326,9 @@
         collectType,
         parkState,
         inparkType,
-        checkPhone
+        checkPhone,
+        checkMobile,
+        checkTelePhone
     } from '../../api/api';
 
     import common from '../../common/js/common'
@@ -765,7 +767,12 @@
 
                     role_id: [
                         {required: true, message: '请选择角色', trigger: 'change'}
+                    ],mobile: [
+                        {validator: checkMobile, trigger: 'blur'}
                     ],
+                    phone: [
+                        {validator: checkTelePhone, trigger: 'blur'}
+                    ]
                 },
                 pname: [],
                 cartype: [],

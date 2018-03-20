@@ -10,8 +10,7 @@
                 :exportapi="exportapi"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-                :showdateSelector="showdateSelector"
-                :showCollectorSelector="showCollectorSelector"
+                :showdateSelectorMonth="showdateSelectorMonth"
                 :hideTool="hideTool"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
@@ -25,8 +24,8 @@
 
 <script>
     import {path} from '../../api/api';
-    import common from '../../common/js/common'
-    import CommonTable from '../../components/CommonTable'
+    import common from '../../common/js/common';
+    import CommonTable from '../../components/CommonTable';
 
     export default {
         components: {
@@ -37,65 +36,48 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: true,
-                showdateSelector: true,
-                showCollectorSelector: true,
+                showdateSelectorMonth: true,
                 hideAdd: true,
                 tableheight: '',
                 hideOptions: true,
                 hideTool: false,
-                hidePagination:true,
-                queryapi: '/parkorder/query',
-                exportapi: '/parkorder/exportExcel',
-                workdetailapi: '/parkorder/workdetail',
-                orderdetailapi: '/parkorder/orderdetail',
+                hidePagination: true,
+                queryapi: '/monthcityparkorder/query',
+                exportapi: '/monthcityparkorder/exportExcel',
                 btswidth: '100',
-                fieldsstr: 'groupid__comid__name__out_uid__sdate__scount__monthcount__cash_pay__cash_prepay__electronic_pay__free_pay__reduce_pay__amount_receivable',
+                fieldsstr: 'sdate__scount__amount_receivable__cash_pay__electronic_pay__free_pay',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '收费员',
-                                prop: 'name',
+                                label: '日期',
+                                prop: 'sdate',
                                 width: '123',
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
                             {
-                                label: '账号',
-                                prop: 'out_uid',
+                                label: '总订单数',
+                                prop: 'scount',
                                 width: '123',
-                                type: 'str',
+                                type: 'number',
                                 editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                hidden:true,
-                                align: 'center',
-                            },
+
+                                align: 'center'
+                            }
                         ]
                     },
                     {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '总订单数',
-                            prop: 'scount',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    },{
 
                         hasSubs: false,
                         subs: [{
@@ -114,49 +96,17 @@
                         label: '实收金额',
                         hasSubs: true,
                         subs: [
-
                             {
-                                // label: 'aha',
-                                // hasSubs: true,
-                                // subs: [{
-                                    label: '现金支付',
-                                    prop: 'cash_pay',
-                                    width: '123',
-                                    type: 'str',
-                                    editable: true,
-                                    searchable: true,
-                                    addable: true,
-                                    unsortable: true,
-                                    align: 'center'
-                                // }, {
-                                //
-                                //     hasSubs: false,
-                                //
-                                //     label: '免费金额',
-                                //     prop: 'free_pay',
-                                //     width: '123',
-                                //     type: 'str',
-                                //     editable: true,
-                                //     searchable: true,
-                                //     addable: true,
-                                //     unsortable: true,
-                                //     align: 'center'
-                                //
-                                // }, {
-                                //
-                                //     hasSubs: false,
-                                //
-                                //     label: '减免券支付',
-                                //     prop: 'reduce_pay',
-                                //     width: '123',
-                                //     type: 'str',
-                                //     editable: true,
-                                //     searchable: true,
-                                //     addable: true,
-                                //     unsortable: true,
-                                //     align: 'center'
-                                //
-                                // }]
+                                label: '现金支付',
+                                prop: 'cash_pay',
+                                width: '123',
+                                type: 'str',
+                                editable: true,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center'
+
                             }, {
 
                                 hasSubs: false,
@@ -186,7 +136,8 @@
                                 align: 'center'
 
                             }]
-                    }, {
+                    }
+                    , {
 
                         hasSubs: false,
                         subs: [{
@@ -217,14 +168,14 @@
                 sform: {},
                 showWorkDetail: false,
                 showOrderDetail: false,
-                currentRow: '',
-            }
+                currentRow: ''
+            };
         },
         methods: {},
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
             // var user = sessionStorage.getItem('user');
             // this.user = user
@@ -242,13 +193,13 @@
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-            }
+            };
             this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({date:'',out_uid:''})
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''});
             // this.getTableData(this.sform);
         }
-    }
+    };
 
 </script>
 

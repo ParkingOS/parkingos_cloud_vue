@@ -107,7 +107,7 @@
                                icon="search">导入月卡
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                        <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
+                        <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport" style="margin: 4px 10px;">导出</el-button>
                     </el-tooltip>
                     <el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
                     <!--<el-button type="primary" size="small" @click="handlePrint()">打印</el-button>-->
