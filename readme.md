@@ -1,7 +1,7 @@
 # webpage
 bolink webpage based on [vuejs2](http://vuejs.org/) and [element](http://element.eleme.io/#/).
 
-### Usage now
+### Usage 
 
 This is a project template for [vue-cli](https://github.com/vuejs/vue-cli).
 >* Install the latest release version of [node.js](https://nodejs.org/zh-cn/).
