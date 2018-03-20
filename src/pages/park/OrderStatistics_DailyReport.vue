@@ -36,7 +36,7 @@
                 </el-col>
 
                 <el-col :span="6" align="right">
-                    <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>
+                    <el-button @click="refresh" type="text" >刷新&nbsp;&nbsp;</el-button>
                 </el-col>
             </el-col>
 

@@ -92,26 +92,26 @@
                                 value-format="yyyy-MM"
                                 :placeholder="start_month_placeholder">
                         </el-date-picker>
-                        <el-button type="primary" @click="handleSearchMonthReport" size="small" align="center">查询
-                        </el-button>
-                        <span style="color: red">(最多支持12个月的数据查询)</span>
+                        <el-tooltip class="item" effect="dark" content="最多支持12个月的数据查询" placement="bottom">
+                            <el-button type="primary" @click="handleSearchMonthReport"  align="center">查询
+                            </el-button>
+                        </el-tooltip>
                     </div>
 
-                    <el-button type="primary" size="small" @click="handleCustomizeAdd" v-if="showCustomizeAdd">
+                    <el-button type="primary"  @click="handleCustomizeAdd" v-if="showCustomizeAdd">
                         {{addtitle}}
                     </el-button>
 
-                    <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
+                    <el-button type="primary"  @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
-                    <el-button type="primary" size="small" @click="handleUpload" v-if="showUploadMonthCard"
+                    <el-button type="primary"  @click="handleUpload" v-if="showUploadMonthCard"
                                icon="search">导入月卡
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                        <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport"
-                                   style="margin: 4px 10px;">导出
+                        <el-button type="primary"  @click="handleExport" v-if="!hideExport">导出
                         </el-button>
                     </el-tooltip>
-                    <el-button type="primary" size="small" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
+                    <el-button type="primary"  @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
                     <!--<el-button type="primary" size="small" @click="handlePrint()">打印</el-button>-->
 
                 </el-col>
@@ -119,7 +119,7 @@
                 <el-col :span="3" align="right" style="float: right">
                     <!--<span style="color:red;font-size:8px">提示:刷新后会重置高级查询</span>-->
                     <!--<el-button @click="reset" type="primary" size="small">清空高级查询</el-button>-->
-                    <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>
+                    <el-button @click="refresh" type="text" >刷新&nbsp;&nbsp;</el-button>
                 </el-col>
             </el-col>
 
@@ -134,17 +134,17 @@
                     <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
-                    <el-button v-if="showCustomizeEdit" size="small" type="text"
+                    <el-button v-if="showCustomizeEdit"  type="text" size="small"
                                @click="handleCustomizeEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
-                    <el-button v-if="showModifyCarNumber" size="small" type="text"
+                    <el-button v-if="showModifyCarNumber"  type="text" size="small"
                                @click="handleModifyCarNumber(scope.$index, scope.row)">修改车牌
                     </el-button>
-                    <el-button v-if="showsetting" size="small" type="text"
+                    <el-button v-if="showsetting"  type="text" size="small"
                                @click="handlesetting(scope.$index, scope.row)">设置
                     </el-button>
-                    <el-button v-if="showqrurl" size="small" type="text" @click="handleqrurl(scope.$index, scope.row)">
+                    <el-button v-if="showqrurl"  size="small" type="text" @click="handleqrurl(scope.$index, scope.row)">
                         生成车场二维码
                     </el-button>
                     <el-button v-if="showdelete" size="small" type="text" @click="openDelete(scope.$index, scope.row)">
@@ -155,9 +155,6 @@
                     <el-button v-if="showresetpwd" size="small" type="text"
                                @click="handleresetpwd(scope.$index, scope.row)">重置密码
                     </el-button>
-                    <!--<el-button v-if="showbrake" size="small" type="text"
-                               @click="handlebrake(scope.$index, scope.row)"><span style="color:#008F4C">道闸</span>
-                    </el-button>-->
                     <el-button v-if="showmRefill" size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)">续费
                     </el-button>
@@ -512,7 +509,7 @@
                     //this.$extend(this.sform,{'date':this.datesselector})
                     this.sform.date = this.searchDate;
                     if (this.sform.date == '') {
-                        this.sform.date = this.currentFormatDate();
+                        this.sform.date = common.currentFormatDate();
                     }
                     this.sform.out_uid = this.currentcollect;
                     this.sform.comid_start = this.currentpark;
@@ -581,7 +578,7 @@
                 sform.orderby = this.orderby;
                 sform.orderfield = this.orderfield;
                 sform.fieldsstr = this.fieldsstr;
-                sform = this.generateForm(sform);
+                sform = common.generateForm(sform);
 
                 vm.$axios.post(path + api, vm.$qs.stringify(sform), {
                     headers: {
@@ -804,7 +801,7 @@
                 //发送ajax,提交表单更新
                 let vm = this;
                 let api = this.editapi;
-                eform = this.generateForm(eform);
+                eform = common.generateForm(eform);
                 this.$refs.editref.$refs.editForm.validate((valid) => {
                     if (valid) {
                         vm.editloading = true;
@@ -902,7 +899,7 @@
                 let vm = this;
                 let api = this.addapi;
                 let msg = this.addfailmsg;
-                aform = this.generateForm(aform);
+                aform = common.generateForm(aform);
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
                         vm.addloading = true;
@@ -962,7 +959,7 @@
                 let api = this.delapi;
                 let qform = this.sform;
                 let dform = {'id': this.rowid, 'token': sessionStorage.getItem('token')};
-                dform = this.generateForm(dform);
+                dform = common.generateForm(dform);
                 //发送请求,删除id为row.id的数据
 
                 vm.$axios.post(path + api, vm.$qs.stringify(dform), {
@@ -1246,7 +1243,7 @@
             changeanalysisdatecollect(val) {
                 this.currentcollect = val;
                 if (this.currentdate == '') {
-                    this.currentdate = this.currentFormatDate();
+                    this.currentdate = common.currentFormatDate();
                 }
                 let form = {'date': this.currentdate, 'out_uid': val};
                 this.currentPage = 1;
@@ -1255,7 +1252,7 @@
             changeanalysisdatepark(val) {
                 this.currentpark = val;
                 if (this.currentdate == '') {
-                    this.currentdate = this.currentFormatDate();
+                    this.currentdate = common.currentFormatDate();
                 }
                 let form = {'date': this.currentdate, 'comid_start': val};
                 this.currentPage = 1;
@@ -1274,37 +1271,7 @@
                 }
 
             },
-            currentFormatDate() {
-                return this.currentDate() + ' 00:00:00至' + this.currentDate() + ' 23:59:59';
-            },
-            currentMonth() {
-                let start = new Date();
-                return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1);
-            },
-            currentDate() {
-                let start = new Date();
-                return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1) + '-' + this.formatNumber(start.getDate());
-            },
-            formatNumber(num) {
-                if (num > 9)
-                    return num;
-                else
-                    return '0' + num;
-            },
-            generateForm(sform) {
-                //用来构建相同的参数
-                sform.token = common.attachParams('token');
-                sform.oid = common.attachParams('oid', 1);
-                sform.comid = common.attachParams('comid', 1);
-                sform.groupid = common.attachParams('groupid', 1);
-                sform.cityid = common.attachParams('cityid', 1);
-                sform.unionid = common.attachParams('unionid', 1);
-                sform.channelid = common.attachParams('channelid', 1);
-                sform.loginuin = common.attachParams('loginuin', 1);
-                sform.ishdorder = common.attachParams('ishdorder', 1);
-                sform.roleid = common.attachParams('loginroleid', 1);
-                return sform;
-            }
+            
         },
         mounted() {
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
@@ -1332,8 +1299,8 @@
             this.sform = {};
             //this.date_selector ='123434342'
             if (this.showdateSelector) {
-                _this.start_placeholder = _this.currentDate() + ' 00:00:00';
-                _this.end_placeholder = _this.currentDate() + ' 23:59:59';
+                _this.start_placeholder = common.currentDate() + ' 00:00:00';
+                _this.end_placeholder = common.currentDate() + ' 23:59:59';
                 _this.currentcollect = '';
                 _this.currentpark = '';
                 _this.currentdate = '';
@@ -1350,7 +1317,7 @@
             if (this.showdateSelectorMonth) {
                 _this.monthReportStart = '';
                 _this.monthReportEnd = '';
-                _this.start_month_placeholder = _this.currentMonth();
+                _this.start_month_placeholder = common.currentMonth();
             }
         }
     };
@@ -1378,5 +1345,10 @@
     /*table表格 表头背景色*/
     .el-table th{
         background-color:  #F5F7FA;
+    }
+    .el-table tr{
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
     }
 </style>

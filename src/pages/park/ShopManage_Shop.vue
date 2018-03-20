@@ -100,7 +100,7 @@
                 >
 
             <div>
-                <el-button type="primary" size="small" @click="regUser">注册员工</el-button>
+                <el-button type="primary"  @click="regUser">注册员工</el-button>
             </div>
             <template>
                 <el-table
@@ -115,20 +115,20 @@
                             <el-button
                                     @click.native.prevent="handleEdit(scope.row)"
                                     type="text"
-                                    size="small">
+                                    >
                                 编辑
                             </el-button>
                             <el-button
                                     @click.native.prevent="deleteRow(scope.row)"
                                     type="text"
-                                    size="small"
+
                                     style="color:red">
                                 删除
                             </el-button>
                             <el-button
                                     @click.native.prevent="resetPassword(scope.row)"
                                     type="text"
-                                    size="small">
+                                    >
                                 修改密码
                             </el-button>
                         </template>

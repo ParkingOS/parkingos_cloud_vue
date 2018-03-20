@@ -434,6 +434,20 @@ export default {
     deleteShopMember(id) {
         return axios.get(path + '/shopmember/delete' + '?token=' + sessionStorage.getItem('token') + '&id=' + id);
     },
+    generateForm(sform) {
+        //用来构建相同的参数-表单中添加这几个属性
+        sform.token = this.attachParams('token');
+        sform.oid = this.attachParams('oid', 1);
+        sform.comid = this.attachParams('comid', 1);
+        sform.groupid = this.attachParams('groupid', 1);
+        sform.cityid = this.attachParams('cityid', 1);
+        sform.unionid = this.attachParams('unionid', 1);
+        sform.channelid = this.attachParams('channelid', 1);
+        sform.loginuin = this.attachParams('loginuin', 1);
+        sform.ishdorder = this.attachParams('ishdorder', 1);
+        sform.roleid = this.attachParams('loginroleid', 1);
+        return sform;
+    },
     commonParams() {
         //返回通用的一些参数
         return this.attachParams('comid')
@@ -453,6 +467,27 @@ export default {
             params += p;
         }
         return params;
+    },
+    formatNumber(num) {
+        //数字格式化成两位 xx
+        if (num > 9)
+            return num;
+        else
+            return '0' + num;
+    },
+    currentDate() {
+        //返回当前日期年月日 2018-03-20
+        let start = new Date();
+        return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1) + '-' + this.formatNumber(start.getDate());
+    },
+    currentMonth() {
+        //返回当前年月 2018-03
+        let start = new Date();
+        return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1);
+    },
+    currentFormatDate() {
+        //返回时间区间 2018-03-20 00:00:00至 2018-03-20 23:59:59
+        return this.currentDate() + ' 00:00:00至' + this.currentDate() + ' 23:59:59';
     }
 
 };

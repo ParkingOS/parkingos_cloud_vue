@@ -70,7 +70,7 @@
                 <el-form-item label="地址" :prop="address">
                     <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
                     <br/>
-                    <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
+                    <el-button  type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
                 <el-form-item label="停车场电话" :prop="mobile">
                     <el-input v-model="addFormPark.mobile" style="width:90%" placeholder=""></el-input>
@@ -184,13 +184,13 @@
             <el-row style="margin-bottom:8px">
                 <el-col :span="24" align="left">
                     <el-col :span="18" align="left">
-                        <el-button type="primary" size="small" @click="handleSearch_employee" icon="search">高级查询
+                        <el-button type="primary"  @click="handleSearch_employee" icon="search">高级查询
                         </el-button>
-                        <el-button type="primary" size="small" @click="handleAdd_employee">注册员工</el-button>
+                        <el-button type="primary"  @click="handleAdd_employee">注册员工</el-button>
                     </el-col>
 
                     <el-col :span="6" align="right" style="float: right">
-                        <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>
+                        <el-button @click="refresh" type="text" >刷新&nbsp;&nbsp;</el-button>
                     </el-col>
                 </el-col>
 
@@ -202,13 +202,13 @@
 
                     <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                         <template scope="scope">
-                            <el-button size="small" type="text" @click="handleEdit_employee(scope.$index, scope.row)">
+                            <el-button  type="text" @click="handleEdit_employee(scope.$index, scope.row)">
                                 编辑
                             </el-button>
-                            <el-button size="small" type="text" @click="openDelete(scope.$index, scope.row)">
+                            <el-button  type="text" @click="openDelete(scope.$index, scope.row)">
                                 <span style="color:red">删除</span></el-button>
 
-                            <el-button size="small" type="text"
+                            <el-button  type="text"
                                        @click="handleresetpwd(scope.$index, scope.row)">重置密码
                             </el-button>
                         </template>

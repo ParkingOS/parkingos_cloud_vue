@@ -27,14 +27,14 @@
         <el-row style="margin-bottom:8px">
             <el-col :span="24" align="left">
                 <el-col :span="18" align="left">
-                    <el-button type="primary" size="small" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
+                    <el-button type="primary"  @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                        <el-button type="primary" size="small" @click="handleExport" v-if="!hideExport">导出</el-button>
+                        <el-button type="primary"  @click="handleExport" v-if="!hideExport">导出</el-button>
                     </el-tooltip>
                 </el-col>
                 <el-col :span="6" align="right" style="float: right">
-                    <el-button @click="refresh" type="text" size="small">刷新&nbsp;&nbsp;</el-button>
+                    <el-button @click="refresh" type="text" >刷新&nbsp;&nbsp;</el-button>
                 </el-col>
             </el-col>
 
