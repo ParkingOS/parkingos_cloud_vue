@@ -15,7 +15,7 @@
                         :showParkSelector="showParkSelector"
                         :hide-options="hideOptions"
                         :searchtitle="searchtitle"
-
+                        :exportapi="exportapi"
                         :hideTool="hideTool"
                         :hideSearch="hideSearch"
                         :hideAdd="hideAdd"
@@ -133,7 +133,7 @@
                 hideOptions: true,
                 hideTool: false,
                 hidePagination: true,
-
+                exportapi: '/cityparkorder/exportExcel',
                 queryapi: '/cityparkorder/query',
                 btswidth: '100',
                 fieldsstr: 'time__comid__amount_receivable__cash_pay__electronic_pay__act_total__free_pay',
