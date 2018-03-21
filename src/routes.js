@@ -38,6 +38,7 @@ import SystemManage_MonthCard from './pages/park/SystemManage_MonthCard.vue';
 import SystemManage_Logs from './pages/park/SystemManage_Logs.vue';
 
 //云平台页面-集团
+import Data_Center from './pages/union/Data_Center.vue';
 import BusinessOrder_Cars from './pages/union/BusinessOrder_Cars.vue';
 import BusinessOrder_Orders from './pages/union/BusinessOrder_Orders.vue';
 import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue';
@@ -168,6 +169,15 @@ let routes = [
     * 以下是集团页面
     *
     * */
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '数据中心',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/data_Center', component: Data_Center, name: '数据中心'},
+        ]
+    },
     {
         path: '/',
         component: HomeCloud,
