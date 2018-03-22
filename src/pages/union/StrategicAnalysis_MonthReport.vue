@@ -50,6 +50,7 @@
                         <el-date-picker
                                 v-model="monthReportStart"
                                 type="month"
+                                :picker-options="pickerOptionsBefore"
                                 value-format="yyyy-MM"
                                 :placeholder="start_month_placeholder">
                         </el-date-picker>
@@ -57,6 +58,7 @@
                         <el-date-picker
                                 v-model="monthReportEnd"
                                 type="month"
+                                :picker-options="pickerOptionsAfter"
                                 value-format="yyyy-MM"
                                 :placeholder="start_month_placeholder">
                         </el-date-picker>
@@ -89,6 +91,7 @@
             CommonTable
         },
         data() {
+            let that = this;
             return {
                 //图表相关
                 activeName: 'tableStyle',
@@ -100,6 +103,18 @@
                 chartHeight: '600px',
                 chartWidth: '800px',
 
+                pickerOptionsBefore: {
+                     disabledDate(time) {
+                       return time.getTime() > Date.now() - 8.64e7;
+                     }
+                },
+                pickerOptionsAfter: {
+                     disabledDate(time) {
+                        var date1 = new Date(that.monthReportStart);
+                        var date2 = new Date(date1);
+                       return time.getTime() > Date.now() - 8.64e7 || time.getTime() < date2.getTime();
+                     }
+                },
 
                 loading: false,
                 hideExport: false,
@@ -333,11 +348,11 @@
                         seriesData[1].data[i] = rData.amount_receivable;  //应收金额
                         seriesData[2].data[i] = rData.electronic_pay;  //电子支付
                         seriesData[3].data[i] = rData.act_total;  //实收金额
-                        seriesData[4].data[i] = rData.reduce_pay;  //减免金额
+                        seriesData[4].data[i] = rData.free_pay;  //减免金额
                     }
                     vm.chart.setOption({
                         title: {
-                            text: '车场日报'
+                            text: '车场月报'
                         },
                         tooltip : {
                             trigger: 'axis',

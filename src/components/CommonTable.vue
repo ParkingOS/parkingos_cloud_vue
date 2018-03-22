@@ -83,6 +83,7 @@
                                 v-model="monthReportStart"
                                 type="month"
                                 value-format="yyyy-MM"
+                                :picker-options="pickerOptionsBefore"
                                 :placeholder="start_month_placeholder">
                         </el-date-picker>
                         <span> 至 </span>
@@ -90,6 +91,7 @@
                                 v-model="monthReportEnd"
                                 type="month"
                                 value-format="yyyy-MM"
+                                :picker-options="pickerOptionsAfter"
                                 :placeholder="start_month_placeholder">
                         </el-date-picker>
                         <el-tooltip class="item" effect="dark" content="最多支持12个月的数据查询" placement="bottom">
@@ -356,6 +358,7 @@
             ComplexSearch, EditForm, AddForm
         },
         data() {
+            let that = this;
             return {
                 ef: 'editref',
                 af: 'addref',
@@ -385,6 +388,7 @@
                 currentpark: '',
                 sform: {},
                 rowdata: {},
+
 
                 center: {
                     lat: 0,
@@ -416,6 +420,20 @@
                 datesselector: '',
                 monthReportStart: '',
                 monthReportEnd: '',
+
+                pickerOptionsBefore: {
+                     disabledDate(time) {
+                       return time.getTime() > Date.now() - 8.64e7;
+                     }
+                },
+                pickerOptionsAfter: {
+                     disabledDate(time) {
+                        var date1 = new Date(that.monthReportStart);
+                        var date2 = new Date(date1);
+                       return time.getTime() > Date.now() - 8.64e7 || time.getTime() < date2.getTime();
+                     }
+                },
+
                 searchDate: '',
                 analysisdateopt: {
                     disabledDate(time) {
@@ -578,6 +596,7 @@
                 sform.orderby = this.orderby;
                 sform.orderfield = this.orderfield;
                 sform.fieldsstr = this.fieldsstr;
+
                 sform = common.generateForm(sform);
 
                 vm.$axios.post(path + api, vm.$qs.stringify(sform), {
@@ -1242,6 +1261,8 @@
             },
             changeanalysisdatecollect(val) {
                 this.currentcollect = val;
+                this.sform.out_uid =this.currentcollect;
+                this.sform.date =this.currentdate;
                 if (this.currentdate == '') {
                     this.currentdate = common.currentFormatDate();
                 }
@@ -1251,6 +1272,8 @@
             },
             changeanalysisdatepark(val) {
                 this.currentpark = val;
+                this.sform.date = this.searchDate;
+                this.sform.comid_start =this.currentpark;
                 if (this.currentdate == '') {
                     this.currentdate = common.currentFormatDate();
                 }
@@ -1262,7 +1285,11 @@
                 //修改车场统计分析日期
                 console.log(input2);
                 if (input2.length > 0) {
-                    let input = input2[0] + '至' + input2[1];
+                    this.sform.comid_start =this.currentpark;
+                    this.sform.out_uid =this.currentcollect;
+                    let input = input2[0] + encodeURI(encodeURI('至')) + input2[1];
+                    this.searchDate = input;
+                    this.sform.date = this.searchDate;
                     this.currentdate = input;
                     let date = {'date': input, 'out_uid': this.currentcollect, 'comid_start': this.currentpark};
                     this.searchDate = input;

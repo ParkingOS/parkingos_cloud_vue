@@ -171,6 +171,21 @@
                         ]
                     },
                     {
+                        hasSubs: false, subs: [
+                            {
+                                label: '应收金额',
+                                prop: 'amount_receivable',
+                                width: '123',
+                                type: 'selection',
+                                editable: false,
+                                searchable: false,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
+                    {
                         label: '实收金额',
                         hasSubs: true,
                         subs: [
