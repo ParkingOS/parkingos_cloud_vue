@@ -207,7 +207,7 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/strategicAnalysis_DailyReport', component: StrategicAnalysis_DailyReport, name: '车场日报'},
-            {path: '/strategicAnalysis_MonthReport', component: StrategicAnalysis_MonthReport, name: '车场日报'}
+            {path: '/strategicAnalysis_MonthReport', component: StrategicAnalysis_MonthReport, name: '车场月报'}
         ]
     },
     {

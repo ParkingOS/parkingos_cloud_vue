@@ -223,6 +223,10 @@
                                           v-if="this.showUnionItem.strategicAnalysis_DailyReport">
                                 车场日报
                             </el-menu-item>
+                            <el-menu-item index="/strategicAnalysis_MonthReport"
+                                          v-if="this.showUnionItem.strategicAnalysis_DailyReport">
+                                车场月报
+                            </el-menu-item>
                         </el-submenu>
                         <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
                             <template slot="title"><span class="menuitem">系统设置</span></template>
