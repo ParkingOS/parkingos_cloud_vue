@@ -24,13 +24,12 @@
 
         <el-col :span="24" class="main">
             <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
-                <!--<div style="height: 38px;width: 100%;">-->
+
                 <el-radio-group v-model="isCollapse"
-                                style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
+                                style="display: flex;flex-direction: row;align-items: center;justify-content: space-around">
                     <el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>
                     <el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>
                 </el-radio-group>
-                <!--</div>-->
 
                 <el-menu class="el-menu-vertical-demo" @open="handleopen"
                          @close="handleclose"
@@ -40,140 +39,95 @@
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 
-                    <el-submenu v-if="this.showParkItem.orderManage" index="/orderManage">
+
+                    <el-submenu v-if="this.showUnionItem.businessOrder" index="/data">
                         <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">订单管理</span></template>
-                        <el-menu-item index="/orderManage_Orders" v-if="this.showParkItem.orderManage_Orders">订单记录
-                        </el-menu-item>
-                        <el-menu-item index="/orderManage_Poles" v-if="this.showParkItem.orderManage_Poles">抬杆记录
+                                class="menuitem">数据中心</span></template>
+                        <el-menu-item index="/data_Center" v-if="this.showUnionItem.businessOrder_Cars">数据中心
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu v-if="this.showParkItem.monthMember" index="/monthMember">
+                    <el-submenu v-if="this.showUnionItem.businessOrder" index="/businessOrder">
                         <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">月卡会员</span></template>
-                        <el-menu-item index="/monthMember_VIP" v-if="this.showParkItem.monthMember_VIP">月卡会员
+                                class="menuitem">业务订单</span></template>
+                        <el-menu-item index="/businessOrder_Cars" v-if="this.showUnionItem.businessOrder_Cars">在场车辆
                         </el-menu-item>
-                        <el-menu-item index="/monthMember_Refill" v-if="this.showParkItem.monthMember_Refill">月卡续费记录
+                        <el-menu-item index="/businessOrder_Orders" v-if="this.showUnionItem.businessOrder_Orders">
+                            订单记录
+                        </el-menu-item>
+                        <el-menu-item index="/businessOrder_Poles" v-if="this.showUnionItem.businessOrder_Poles">
+                            抬杆记录
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu v-if="this.showParkItem.onlinePay" index="/onlinePay">
+                    <el-submenu v-if="this.showUnionItem.member" index="/member">
                         <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">电子支付</span></template>
-                        <el-menu-item index="/onlinePay_CashManage" v-if="this.showParkItem.onlinePay_CashManage">
-                            提现管理
+                                class="menuitem">会员</span>
+                        </template>
+                        <el-menu-item index="/member_MonthVIP" v-if="this.showUnionItem.member_MonthVIP">
+                            月卡会员
                         </el-menu-item>
-                        <el-menu-item index="/onlinePay_Income" v-if="this.showParkItem.onlinePay_Income">电子收款
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu v-if="this.showParkItem.orderStatistics" index="/orderStatistics">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">统计分析</span></template>
-                        <!--<el-menu-item index="/orderStatistics_DailyReport" v-if="this.showParkItem.orderStatistics_DailyReport">时租订单统计-->
-                        <el-menu-item index="/orderStatistics_Settlement"
-                                      v-if="this.showParkItem.orderStatistics_DailyReport">日报统计
-                        </el-menu-item>
-                        <el-menu-item index="/orderStatistics_MonthReport"
-                                      v-if="this.showParkItem.orderStatistics_MonthReport">月报统计
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu v-if="this.showParkItem.shopManage" index="/shopManage">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">商户管理</span></template>
-                        <el-menu-item index="/shopManage_Shop" v-if="this.showParkItem.shopManage_Shop">商户管理
-                        </el-menu-item>
-                        <el-menu-item index="/shopManage_QueryAccount"
-                                      v-if="this.showParkItem.shopManage_QueryAccount">
-                            流水查询
-                        </el-menu-item>
-                        <el-menu-item index="/shopManage_Coupon" v-if="this.showParkItem.shopManage_Coupon">优惠券管理
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="/equipmentManage" v-if="this.showParkItem.equipmentManage">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">设备管理</span></template>
-                        <el-menu-item index="/equipmentManage_Monitor"
-                                      v-if="this.showParkItem.equipmentManage_Monitor">
-                            监控管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_Intercom"
-                                      v-if="this.showParkItem.equipmentManage_Intercom">对讲管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_WorkStation"
-                                      v-if="this.showParkItem.equipmentManage_WorkStation">
-                            工作站管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_Channel"
-                                      v-if="this.showParkItem.equipmentManage_Channel">
-                            通道管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_Camera"
-                                      v-if="this.showParkItem.equipmentManage_Camera">
-                            摄像头管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_LED" v-if="this.showParkItem.equipmentManage_LED">
-                            LED屏管理
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu v-if="this.showParkItem.employeePermission" index="/employeePermission">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">员工权限</span></template>
-                        <el-menu-item index="/employeePermission_Role"
-                                      v-if="this.showParkItem.employeePermission_Role">
-                            角色管理
-                        </el-menu-item>
-                        <el-menu-item index="/employeePermission_Manage"
-                                      v-if="this.showParkItem.employeePermission_Manage">
-                            员工管理
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="/systemManage" v-if="this.showParkItem.systemManage">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">系统管理</span></template>
-                        <el-menu-item index="/systemManage_BlackList"
-                                      v-if="this.showParkItem.systemManage_BlackList">
+                        <el-menu-item index="/member_BlackList" v-if="this.showUnionItem.member_BlackList">
                             黑名单管理
                         </el-menu-item>
-                        <el-menu-item index="/systemManage_Commute" v-if="this.showParkItem.systemManage_Commute">
-                            上下班记录
+                    </el-submenu>
+                    <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
+                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                                class="menuitem">决策分析</span></template>
+                        <el-menu-item index="/strategicAnalysis_DailyReport"
+                                      v-if="this.showUnionItem.strategicAnalysis_DailyReport">
+                            车场日报
                         </el-menu-item>
-                        <el-menu-item index="/systemManage_Account" v-if="this.showParkItem.systemManage_Account">
-                            账户管理
+                        <el-menu-item index="/strategicAnalysis_MonthReport"
+                                      v-if="this.showUnionItem.strategicAnalysis_DailyReport">
+                            车场月报
                         </el-menu-item>
-                        <el-menu-item index="/systemManage_Params" v-if="this.showParkItem.systemManage_Params">参数设置
-                        </el-menu-item>
-                        <el-menu-item index="/systemManage_FreeReason"
-                                      v-if="this.showParkItem.systemManage_FreeReason">
-                            免费原因
-                        </el-menu-item>
-                        <el-submenu index="/system_cartype" v-if="this.showParkItem.systemManage_CarManage">
-                            <template slot="title"><span class="menuitem" style="font-size: 14px;">车型管理</span>
+                    </el-submenu>
+                    <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
+                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                                class="menuitem">系统设置</span>
+                        </template>
+                        <el-submenu index="/systemSetting_Company" v-if="this.showUnionItem.systemSetting_Company">
+                            <template slot="title"><span class="menuitem" style="font-size: 14px;">企业信息</span>
                             </template>
-                            <el-menu-item index="/systemManage_CarManage_CarType"
-                                          v-if="this.showParkItem.systemManage_CarManage_CarType">车型设定
-                            </el-menu-item>
-                            <el-menu-item index="/systemManage_CarManage_BindType"
-                                          v-if="this.showParkItem.systemManage_CarManage_BindType">绑定车型
+                            <el-menu-item index="/systemSetting_Account"
+                                          v-if="this.showUnionItem.systemSetting_Account">账户信息
                             </el-menu-item>
                         </el-submenu>
-                        <el-menu-item index="/systemManage_Price" v-if="this.showParkItem.systemManage_Price">时租价格管理
+                        <el-menu-item index="/systemSetting_Park" v-if="this.showUnionItem.systemSetting_Park">
+                            停车场
                         </el-menu-item>
-                        <el-menu-item index="/systemManage_MonthCard"
-                                      v-if="this.showParkItem.systemManage_MonthCard">
-                            月卡套餐管理
-                        </el-menu-item>
-                        <el-menu-item index="/systemManage_Logs" v-if="this.showParkItem.systemManage_Logs">系统日志
-                        </el-menu-item>
-
+                        <el-submenu index="/systemSetting_HR" v-if="this.showUnionItem.systemSetting_HR">
+                            <template slot="title"><span class="menuitem" style="font-size: 14px;">人力资源</span>
+                            </template>
+                            <el-menu-item index="/systemSetting_RoleManage"
+                                          v-if="this.showUnionItem.systemSetting_RoleManage">角色管理
+                            </el-menu-item>
+                            <el-menu-item index="/systemSetting_EmployeeManage"
+                                          v-if="this.showUnionItem.systemSetting_EmployeeManage">员工管理
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu index="/systemSetting_LogsManage"
+                                    v-if="this.showUnionItem.systemSetting_LogsManage">
+                            <template slot="title"><span class="menuitem" style="font-size: 14px;">日志管理</span>
+                            </template>
+                            <el-menu-item index="/systemSetting_LogsOperates"
+                                          v-if="this.showUnionItem.systemSetting_LogsOperates">操作日志管理
+                            </el-menu-item>
+                            <el-menu-item index="/systemSetting_LogsCollector"
+                                          v-if="this.showUnionItem.systemSetting_LogsCollector">收费员日志
+                            </el-menu-item>
+                        </el-submenu>
                     </el-submenu>
-                    <el-submenu v-if="this.showParkItem.centerMonitor" index="centerMonitor"
+                    <el-submenu v-if="this.showUnionItem.centerMonitor" index="centerMonitor"
                                 style="font-weight: normal">
                         <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
                                 class="menuitem">中央监控</span></template>
-                        <el-menu-item index="centerMonitor" v-if="this.showParkItem.centerMonitor">中央监控
+                        <el-menu-item index="centerMonitor"
+                                      v-if="this.showUnionItem.centerMonitor">中央监控
                         </el-menu-item>
                     </el-submenu>
-                </el-menu>
 
+                </el-menu>
+                <!--</div>-->
             </aside>
             <section class="content-container">
                 <div class="grid-content bg-purple-light">
@@ -186,7 +140,6 @@
                 </div>
             </section>
         </el-col>
-
     </el-row>
 </template>
 
@@ -517,7 +470,6 @@
     }
 
     .el-menu--collapse {
-        /*收缩后侧边栏宽度*/
         width: 70px;
     }
     /*为了解决添加 展开-收起 两个按钮后，左侧栏出现滚动条（即使高度够用也出现）*/

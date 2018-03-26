@@ -65,7 +65,7 @@
 
                 </section>
                 <section class="chart-sec">
-                    <div  id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}"></div>
+                    <div  id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>
                 </section>
             </el-tab-pane>
         </el-tabs>
@@ -270,6 +270,8 @@
             initChart: function() {
                 //初始化图表
                 this.chart = echarts.init(document.getElementById('chart'));
+                console.log('chart加载')
+                console.log(this.chart)
             },
             changeanalysisdate(input2) {
                 //修改车场统计分析日期
@@ -436,42 +438,25 @@
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-                this.chartHeight = (common.gwh()-143)+'px';
-                this.chartWidth = (common.gww()/common.gwh())*common.gwh();
+                // this.chartHeight = (common.gwh()-143)+'px';
+                // this.chartWidth = (common.gww()/common.gwh())*common.gwh();
             };
-            this.tableheight = common.gwh() - 143;
-            this.chartHeight = (common.gwh()-143)+'px';
-            this.chartWidth = (common.gww()/common.gwh())*common.gwh();
+
             // const end = new Date();
             // const start = new Date();
             // this.chartDate = [new Date(start.getTime() - 3600 * 1000 * 24 * 30),end];
             this.chartDate = [common.currentDate()+' 00:00:00',common.currentDate()+' 23:59:59'];
             this.initChart();
-
-
-
-            // var user = sessionStorage.getItem('user');
-            // this.user = user
-            // if (user) {
-            //     user = JSON.parse(user);
-            //     for (var item of user.authlist) {
-            //         if (AUTH_ID.showOrderStatistics_DailyReport_auth_id == item.auth_id) {
-            //             console.log(item.sub_auth)
-            //             break;
-            //         }
-            //     }
-            //
-            // }
         },
         activated() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
-                this.chartHeight = (common.gwh()-143)+'px';
+                this.chartHeight = (common.gwh()-200)+'px';
                 this.chartWidth = (common.gww()/common.gwh())*common.gwh();
                 //console.log(this.chartHeight,this.chartWidth);
             };
-            this.chartHeight = (common.gwh()-143)+'px';
-            this.chartWidth = (common.gww()/(common.gwh()-143))*common.gwh();
+            this.chartHeight = (common.gwh()-200)+'px';
+            this.chartWidth = (common.gww()/(common.gwh()-200))*common.gwh();
 
 
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();

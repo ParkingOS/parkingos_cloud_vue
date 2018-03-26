@@ -3,6 +3,7 @@ import LoginCloud from './pages/LoginCloud.vue';
 import NotFound from './pages/404.vue';
 // import Home from './pages/Home.vue'
 import HomeCloud from './pages/HomeCloud.vue';
+import HomeCloud_Union from './pages/HomeCloud_Union.vue';
 
 //云平台页面-车场
 import index from './pages/park/index.vue';
@@ -171,7 +172,7 @@ let routes = [
     * */
     {
         path: '/',
-        component: HomeCloud,
+        component: HomeCloud_Union,
         name: '数据中心',
         iconCls: 'el-icon-document',
         children: [
@@ -180,7 +181,7 @@ let routes = [
     },
     {
         path: '/',
-        component: HomeCloud,
+        component: HomeCloud_Union,
         name: '业务订单',
         iconCls: 'el-icon-document',
         children: [
@@ -192,7 +193,7 @@ let routes = [
 
     {
         path: '/',
-        component: HomeCloud,
+        component: HomeCloud_Union,
         name: '会员',
         iconCls: 'el-icon-document',
         children: [
@@ -202,7 +203,7 @@ let routes = [
     },
     {
         path: '/',
-        component: HomeCloud,
+        component: HomeCloud_Union,
         name: '决策分析',
         iconCls: 'el-icon-document',
         children: [
@@ -212,7 +213,7 @@ let routes = [
     },
     {
         path: '/',
-        component: HomeCloud,
+        component: HomeCloud_Union,
         name: '系统设置',
         iconCls: 'el-icon-document',
         children: [

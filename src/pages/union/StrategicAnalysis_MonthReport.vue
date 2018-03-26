@@ -70,7 +70,7 @@
 
                 </section>
                 <section class="chart-sec">
-                    <div id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}"></div>
+                    <div style="overflow-y: auto;padding-right: 30px;" id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}"></div>
                 </section>
             </el-tab-pane>
         </el-tabs>
@@ -418,8 +418,8 @@
                 this.tableheight = common.gwh() - 143;
             };
             this.tableheight = common.gwh() - 143;
-            this.chartHeight = (common.gwh()-143)+'px';
-            this.chartWidth = (common.gww()/(common.gwh()-143))*common.gwh();
+            this.chartHeight = (common.gwh()-200)+'px';
+            this.chartWidth = (common.gww()/(common.gwh()-200))*common.gwh();
 
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''});
