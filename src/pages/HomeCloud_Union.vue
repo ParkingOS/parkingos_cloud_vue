@@ -2,9 +2,14 @@
     <el-row class="container">
         <el-col :span="24" class="header not-print">
             <el-col :span="17">
-                <div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">
-                    &nbsp;&nbsp;&nbsp;&nbsp;智慧停车云
+                <div style="display:flex">
+                <div style="width:50px;height:50px;" >
+                  <i style="color:red;width:50px;height:50px;font-size:50px" class="icon iconfont icon-tingchechang"></i>
                 </div>
+                <div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">
+                    智慧停车云
+                </div>
+              </div>
             </el-col>
             <el-col :span="7" style="padding-right:10px">
                 <div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute">{{nickname}}:
@@ -24,13 +29,11 @@
 
         <el-col :span="24" class="main">
             <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
-
-                <el-radio-group v-model="isCollapse"
-                                style="display: flex;flex-direction: row;align-items: center;justify-content: space-around">
-                    <el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>
-                    <el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>
-                </el-radio-group>
-
+              <el-radio-group v-model="isCollapse"
+                             style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
+                  <el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>
+                  <el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>
+              </el-radio-group>
                 <el-menu class="el-menu-vertical-demo" @open="handleopen"
                          @close="handleclose"
                          @select="handleselect"
@@ -41,13 +44,16 @@
 
 
                     <el-submenu v-if="this.showUnionItem.businessOrder" index="/data">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">数据中心</span></template>
+                        <template slot="title">
+                          <i  class="menu-icon icon iconfont icon-liuliangyunpingtaitubiao06"></i>
+                          <span class="menuitem">数据中心</span></template>
                         <el-menu-item index="/data_Center" v-if="this.showUnionItem.businessOrder_Cars">数据中心
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.businessOrder" index="/businessOrder">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title">
+                          <i  class="menu-icon icon iconfont icon-dingdan"></i>
+                          <span
                                 class="menuitem">业务订单</span></template>
                         <el-menu-item index="/businessOrder_Cars" v-if="this.showUnionItem.businessOrder_Cars">在场车辆
                         </el-menu-item>
@@ -59,7 +65,8 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.member" index="/member">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title">
+                          <i  class="menu-icon icon iconfont icon-huiyuan"></i><span
                                 class="menuitem">会员</span>
                         </template>
                         <el-menu-item index="/member_MonthVIP" v-if="this.showUnionItem.member_MonthVIP">
@@ -70,7 +77,8 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title">
+                          <i  class="menu-icon icon iconfont icon-fenxi"></i><span
                                 class="menuitem">决策分析</span></template>
                         <el-menu-item index="/strategicAnalysis_DailyReport"
                                       v-if="this.showUnionItem.strategicAnalysis_DailyReport">
@@ -82,7 +90,9 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title">
+                           <i  class="menu-icon icon iconfont icon-tubiaolunkuo-"></i>
+                          <span
                                 class="menuitem">系统设置</span>
                         </template>
                         <el-submenu index="/systemSetting_Company" v-if="this.showUnionItem.systemSetting_Company">
@@ -119,7 +129,8 @@
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.centerMonitor" index="centerMonitor"
                                 style="font-weight: normal">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title">
+                          <i  class="menu-icon icon iconfont icon-monitor"></i><span
                                 class="menuitem">中央监控</span></template>
                         <el-menu-item index="centerMonitor"
                                       v-if="this.showUnionItem.centerMonitor">中央监控
@@ -481,5 +492,12 @@
     .container .main aside .el-menu[data-v-cbbc73a8] {
         /*item列表高度设置为0*/
         height: 0;
+    }
+    .menu-icon{
+      color:#6d9eeb;
+      width:50px;
+      height:50px;
+      font-size:20px;
+      margin-right: 5px;
     }
 </style>

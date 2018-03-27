@@ -26,7 +26,7 @@
             <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
                 <!--<div style="height: 38px;width: 100%;">-->
                 <el-radio-group v-model="isCollapse"
-                                style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
+                               style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
                     <el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>
                     <el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>
                 </el-radio-group>
