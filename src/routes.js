@@ -9,13 +9,13 @@ import HomeCloud_Union from './pages/HomeCloud_Union.vue';
 import index from './pages/park/index.vue';
 import OrderManage_Orders from './pages/park/OrderManage_Orders.vue';
 import OrderManage_Poles from './pages/park/OrderManage_Poles.vue';
+import OrderManage_OrderDetail from './pages/park/OrderManage_OrderDetail.vue';
 import MonthMember_Refill from './pages/park/MonthMember_Refill.vue';
 import MonthMember_VIP from './pages/park/MonthMember_VIP.vue';
 import OnlinePay_CashManage from './pages/park/OnlinePay_CashManage.vue';
 import OnlinePay_Income from './pages/park/OnlinePay_Income.vue';
 import OrderStatistics_DailyReport from './pages/park/OrderStatistics_DailyReport.vue';
 import OrderStatistics_MonthReport from './pages/park/OrderStatistics_MonthReport.vue';
-import OrderStatistics_Settlement from './pages/park/OrderStatistics_Settlement.vue';
 import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue';
 import ShopManage_Shop from './pages/park/ShopManage_Shop.vue';
 import ShopManage_QueryAccount from './pages/park/ShopManage_QueryAccount.vue';
@@ -75,7 +75,8 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/orderManage_Orders', component: OrderManage_Orders, name: '订单记录'},
-            {path: '/orderManage_Poles', component: OrderManage_Poles, name: '抬杆记录'}
+            {path: '/orderManage_Poles', component: OrderManage_Poles, name: '抬杆记录'},
+            {path: '/orderManage_OrderDetail', component: OrderManage_OrderDetail, name: '订单详情'}
         ]
     },
     {
@@ -104,10 +105,8 @@ let routes = [
         name: '统计分析',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/orderStatistics_DailyReport', component: OrderStatistics_DailyReport, name: '时租订单统计'},
-            {path: '/orderStatistics_Settlement', component: OrderStatistics_Settlement, name: '日报'},
+            {path: '/orderStatistics_DailyReport', component: OrderStatistics_DailyReport, name: '日报'},
             {path: '/orderStatistics_MonthReport', component: OrderStatistics_MonthReport, name: '月报'}
-            // {path: '/orderStatistics_DailyReport', component: OrderStatistics_Commute, name: '订单'},
         ]
     },
     {
@@ -176,7 +175,7 @@ let routes = [
         name: '数据中心',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/data_Center', component: Data_Center, name: '数据中心'},
+            {path: '/data_Center', component: Data_Center, name: '数据中心'}
         ]
     },
     {

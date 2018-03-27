@@ -122,6 +122,18 @@
                         }
                     }]
                 },
+                currentPage: 1,
+                pageSize: 20,
+                total: 0,
+                orderby: 'desc',
+                orderfield: 'id',
+                table: [],
+                sform: {},
+                showWorkDetail: false,
+                showOrderDetail: false,
+                currentRow: '',
+                parklist: [],
+                parklistChart: [],
 
                 loading: false,
                 hideExport: false,
@@ -250,8 +262,6 @@
                 ],
                 searchtitle: '高级查询',
 
-                datesselector: '',
-
                 currentPage: 1,
                 pageSize: 20,
                 total: 0,
@@ -277,17 +287,6 @@
                 //修改车场统计分析日期
                 console.log(input2);
                 console.log(this.chartDate);
-
-                // if (input2.length > 0) {
-                //     let input = input2[0] + '至' + input2[1];
-                //     this.currentdate = input;
-                //     let date = {'date': input, 'out_uid': this.currentcollect, 'comid_start': this.currentpark};
-                //     this.searchDate = input;
-                //     this.currentPage = 1;
-                //     this.getTableData(date);
-                // }
-                // let
-                // this.queryForChart();
                 this.queryForChart();
             },
             changeanalysisdatepark(val) {
@@ -408,6 +407,7 @@
                             data:['现金支付','应收金额','电子支付','实收金额','减免金额']
                         },
                         toolbox: {
+                            right:20,
                             feature: {
                                 saveAsImage: {}
                             }
@@ -441,12 +441,6 @@
                 // this.chartHeight = (common.gwh()-143)+'px';
                 // this.chartWidth = (common.gww()/common.gwh())*common.gwh();
             };
-
-            // const end = new Date();
-            // const start = new Date();
-            // this.chartDate = [new Date(start.getTime() - 3600 * 1000 * 24 * 30),end];
-            this.chartDate = [common.currentDate()+' 00:00:00',common.currentDate()+' 23:59:59'];
-            this.initChart();
         },
         activated() {
             window.onresize = () => {
@@ -457,7 +451,8 @@
             };
             this.chartHeight = (common.gwh()-200)+'px';
             this.chartWidth = (common.gww()/(common.gwh()-200))*common.gwh();
-
+            this.chartDate = [common.currentDate()+' 00:00:00',common.currentDate()+' 23:59:59'];
+            this.selParkId = -1;
 
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''});

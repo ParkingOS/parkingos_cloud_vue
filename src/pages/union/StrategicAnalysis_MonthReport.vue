@@ -367,6 +367,7 @@
                             data:['现金支付','应收金额','电子支付','实收金额','减免金额']
                         },
                         toolbox: {
+                            right:20,
                             feature: {
                                 saveAsImage: {}
                             }

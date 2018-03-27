@@ -46,7 +46,7 @@
                         <el-menu-item index="/orderManage_Orders" v-if="this.showParkItem.orderManage_Orders">订单记录
                         </el-menu-item>
                         <el-menu-item index="/orderManage_Poles" v-if="this.showParkItem.orderManage_Poles">抬杆记录
-                        </el-menu-item>
+                    </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.monthMember" index="/monthMember">
                         <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
@@ -68,10 +68,10 @@
                     <el-submenu v-if="this.showParkItem.orderStatistics" index="/orderStatistics">
                         <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
                                 class="menuitem">统计分析</span></template>
-                        <!--<el-menu-item index="/orderStatistics_DailyReport" v-if="this.showParkItem.orderStatistics_DailyReport">时租订单统计-->
-                        <el-menu-item index="/orderStatistics_Settlement"
-                                      v-if="this.showParkItem.orderStatistics_DailyReport">日报统计
-                        </el-menu-item>
+                        <el-menu-item index="/orderStatistics_DailyReport" v-if="this.showParkItem.orderStatistics_DailyReport">日报统计</el-menu-item>
+                        <!--<el-menu-item index="/orderStatistics_Settlement"-->
+                                      <!--v-if="this.showParkItem.orderStatistics_DailyReport">日报统计-->
+                        <!--</el-menu-item>-->
                         <el-menu-item index="/orderStatistics_MonthReport"
                                       v-if="this.showParkItem.orderStatistics_MonthReport">月报统计
                         </el-menu-item>

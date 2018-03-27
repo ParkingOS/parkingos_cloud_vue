@@ -15,7 +15,7 @@
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
-                :showImg="showImg"
+                :showImgSee="showImg"
                 v-on:showImg_Order="showImgDialog"
                 :imgapi="imgapi"
                 ref="bolinkuniontable"
@@ -72,6 +72,20 @@
                 fieldsstr: 'id__c_type__car_number__car_type__create_time__end_time__duration__pay_type__freereasons__amount_receivable__total__electronic_prepay__cash_prepay__electronic_pay__cash_pay__reduce_amount__uid__out_uid__state__url__in_passid__out_passid__order_id_local',
                 tableitems: [
                     {
+                        hasSubs: false,
+                        subs: [{
+                            label: '车场订单编号',
+                            prop: 'order_id_local',
+                            width: '200',
+                            type: 'str',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
+                    },
+                    {
 
                         hasSubs: false,
                         subs: [{
@@ -81,7 +95,7 @@
                             type: 'number',
 
                             searchable: true,
-
+                            hidden:true,
                             unsortable: true,
                             align: 'center'
                         }]
@@ -93,7 +107,7 @@
                             prop: 'c_type',
                             width: '123',
                             type: 'str',
-
+                            hidden:true,
                             searchable: true,
 
                             unsortable: true,
@@ -123,47 +137,13 @@
                             prop: 'car_type',
                             width: '100',
                             type: 'str',
-
+                            hidden:true,
                             searchable: false,
 
                             unsortable: true,
                             align: 'center'
                         }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '进场时间',
-                            prop: 'create_time',
-                            width: '180',
-                            type: 'date',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: false,
-                            align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.create_time);
-                            }
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '出场时间',
-                            prop: 'end_time',
-                            width: '180',
-                            type: 'date',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: false,
-                            align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.end_time);
-                            }
-                        }]
-                    }, {
+                    },  {
 
                         hasSubs: false,
                         subs: [{
@@ -172,10 +152,28 @@
                             width: '180',
                             type: 'number',
                             editable: true,
-
+                            hidden:true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
+                        }]
+                    },  {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '订单状态',
+                            prop: 'state',
+                            width: '123',
+                            type: 'selection',
+                            selectlist: orderStateType,
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format: function (row) {
+                                return common.nameformat(row, orderStateType, 'state');
+                            }
                         }]
                     }, {
 
@@ -204,6 +202,7 @@
                             width: '100',
                             type: 'str',
                             editable: true,
+                            hidden:true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
@@ -221,6 +220,7 @@
                             prop: 'amount_receivable',
                             width: '100',
                             type: 'number',
+                            hidden:true,
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -235,13 +235,50 @@
                             prop: 'total',
                             width: '100',
                             type: 'number',
+
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
                         }]
-                    }, {
+                    },{
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '进场时间',
+                            prop: 'create_time',
+                            width: '180',
+                            type: 'date',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+
+                            unsortable: false,
+                            align: 'center',
+                            format: function (row) {
+                                return common.dateformat(row.create_time);
+                            }
+                        }]
+                    },  {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '出场时间',
+                            prop: 'end_time',
+                            width: '180',
+                            type: 'date',
+
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: false,
+                            align: 'center',
+                            format: function (row) {
+                                return common.dateformat(row.end_time);
+                            }
+                        }]
+                    },{
 
                         hasSubs: false,
                         subs: [{
@@ -250,6 +287,7 @@
                             width: '150',
                             type: 'str',
                             editable: true,
+                            hidden:true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
@@ -263,6 +301,7 @@
                             prop: 'cash_prepay',
                             width: '150',
                             type: 'str',
+                            hidden:true,
                             editable: true,
                             searchable: false,
                             addable: true,
@@ -277,6 +316,7 @@
                             prop: 'electronic_pay',
                             width: '150',
                             type: 'str',
+                            hidden:true,
                             editable: true,
                             searchable: false,
                             addable: true,
@@ -292,6 +332,7 @@
                             width: '150',
                             type: 'str',
                             editable: true,
+                            hidden:true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
@@ -306,6 +347,7 @@
                             width: '123',
                             type: 'str',
                             editable: true,
+                            hidden:true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
@@ -324,6 +366,7 @@
                             searchable: false,
                             addable: true,
                             unsortable: true,
+                            hidden:true,
                             align: 'center',
                             format: (row) => {
                                 // let uidstr = common.nameformat(row,this.collectors,'uid')
@@ -343,6 +386,7 @@
                             editable: true,
                             searchable: true,
                             addable: true,
+                            hidden:true,
                             unsortable: true,
                             align: 'center',
                             format: (row) => {
@@ -351,25 +395,7 @@
                                 return common.nameformat(row, this.collectors, 'out_uid');
                             }
                         }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '状态',
-                            prop: 'state',
-                            width: '123',
-                            type: 'selection',
-                            selectlist: orderStateType,
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center',
-                            format: function (row) {
-                                return common.nameformat(row, orderStateType, 'state');
-                            }
-                        }]
-                    }, {
+                    },{
 
                         hasSubs: false,
                         subs: [{
@@ -392,6 +418,7 @@
                             type: 'str',
                             editable: true,
                             searchable: true,
+                            hidden:true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
@@ -409,6 +436,7 @@
                             width: '123',
                             type: 'str',
                             editable: true,
+                            hidden:true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
@@ -417,19 +445,6 @@
                                 let pass = row.out_passid;
                                 return pass == '' || pass == undefined ? '无' : pass;
                             }
-                        }]
-                    }, {
-                        hasSubs: false,
-                        subs: [{
-                            label: '车场订单编号',
-                            prop: 'order_id_local',
-                            width: '200',
-                            type: 'str',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
                         }]
                     }
 
@@ -475,7 +490,8 @@
                     if (AUTH_ID.orderManage_Orders == item.auth_id) {
                         // console.log(item.sub_auth)
                         this.hideExport = !common.showSubExport(item.sub_auth);
-                        this.hideSearch = !common.showSubSearch(item.sub_auth);
+                        // this.hideSearch = !common.showSubSearch(item.sub_auth);
+                        this.hideSearch = true;
                         break;
                     }
                 }
