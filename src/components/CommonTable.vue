@@ -33,7 +33,7 @@
                                       v-on:input="changeParkCarnum">
                                 <template slot="prepend">车牌号</template>
                             </el-input>
-                            <el-button type="primary" @click="changeParkText" icon="search">{{parkText}}
+                            <el-button  @click="changeParkText" icon="search">{{parkText}}
                             </el-button>
                         </div>
                         <div :style="parkExpanStyle">

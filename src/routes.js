@@ -4,6 +4,7 @@ import NotFound from './pages/404.vue';
 // import Home from './pages/Home.vue'
 import HomeCloud from './pages/HomeCloud.vue';
 import HomeCloud_Union from './pages/HomeCloud_Union.vue';
+import HomeCloud_Admin from './pages/HomeCloud_Admin.vue';
 
 //云平台页面-车场
 import index from './pages/park/index.vue';
@@ -65,13 +66,24 @@ import CreateUin from './pages/admin/CreateUin.vue';
 
 let routes = [
 
+
     {
         path: '/',
-        component: HomeCloud,
+        component: HomeCloud_Admin,
         // name: '订单管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/createUin', component: CreateUin, name: '注册厂商'},
+            {path: '/createUin', component: CreateUin, name: '注册厂商'}
+        ]
+    },
+    //总后台页面
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '厂商管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/city_manage', component: City_Manage, name: '厂商管理'}
         ]
     },
 
@@ -286,17 +298,8 @@ let routes = [
         children: [
             {path: '/park_manage', component: Park_Manage, name: '车场管理'}
         ]
-    },
-    //总后台页面
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '厂商管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/city_manage', component: City_Manage, name: '厂商管理'}
-        ]
     }
+
 ];
 
 export default routes;

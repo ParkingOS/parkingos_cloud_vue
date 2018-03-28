@@ -3,8 +3,8 @@
         <el-col :span="24" class="header not-print">
             <el-col :span="17">
                 <div style="display:flex">
-                    <div style="width:50px;height:50px;margin-left: 20px;" >
-                        <i style="width:50px;height:50px;font-size:50px" class="icon iconfont icon-park"></i>
+                    <div style="width:40px;height:40px;margin-left: 20px;" >
+                        <i style="width:40px;height:40px;font-size:40px" class="icon iconfont icon-park"></i>
                     </div>
                     <div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">
                         智慧停车云
@@ -30,13 +30,19 @@
         <el-col :span="24" class="main">
             <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
                 <!--<div style="height: 38px;width: 100%;">-->
-                <el-radio-group v-model="isCollapse"
-                                style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
-                    <el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>
-                    <el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>
-                </el-radio-group>
+                <!--<el-radio-group v-model="isCollapse"-->
+                                <!--style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">-->
+                    <!--<el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>-->
+                    <!--<el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>-->
+                <!--</el-radio-group>-->
                 <!--</div>-->
-
+                <el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"
+                           class="menu-expan-button menu-expan-button2">
+                    <i class="menu-icon icon iconfont icon-menuclose"></i>
+                </el-button>
+                <el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button">
+                    <i class="menu-icon icon iconfont icon-menuopen"></i>
+                </el-button>
                 <el-menu class="el-menu-vertical-demo" @open="handleopen"
                          @close="handleclose"
                          @select="handleselect"
@@ -243,11 +249,6 @@
             };
         },
         methods: {
-            openSecurity() {
-                this.active = '/securitycenter';
-                console.log(this.active);
-                this.$router.push('/securitycenter');
-            },
             handleopen() {
                 //console.log('handleopen');
             },
@@ -310,21 +311,7 @@
 
                 });
             },
-            //折叠导航栏
-            // collapse: function () {
-            //     this.collapsed = !this.collapsed;
-            //     if (this.left == false) {
-            //         this.left = true;
-            //         this.right = false;
-            //     } else {
-            //         this.left = false;
-            //         this.right = true;
-            //     }
-            //
-            // },
-            showMenu(i, status) {
-                this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
-            }
+
         },
         mounted() {
             console.log('home  mounted');
@@ -366,201 +353,11 @@
 
             }
         },
-        activated() {
-            console.log('home active');
-        },
-        watch: {
-            ulist: function (val) {
-                this.sysUserName = val.nickname;
-            }
-        }
+
 
     };
 
 </script>
-<style lang="scss" scoped>
+<style lang="scss" src="../styles/Home.scss" scoped>
 
-    $bg: #2d3a4b; //#008F4C; //#324157;//#0080dd;//#35495E;//#1F2D3D
-    .container {
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-
-        width: 100%;
-        .header {
-            height: 50px;
-            line-height: 50px;
-
-            background: $bg;
-            color: #fff;
-            .userinfo {
-                text-align: right;
-                padding-right: 20px;
-                float: right;
-                .userinfo-inner {
-                    cursor: pointer;
-                    color: #fff;
-                    img {
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 20px;
-                        margin: 10px 0px 10px 10px;
-                        float: right;
-                    }
-                }
-            }
-            .logo {
-                //width:180px;
-                height: 50px;
-                font-size: 22px;
-                padding-left: 20px;
-                padding-right: 20px;
-                border-color: rgba(238, 241, 146, 0.3);
-                border-right-width: 1px;
-                border-right-style: solid;
-                img {
-                    width: 40px;
-                    float: left;
-                    margin: 10px 10px 10px 18px;
-                }
-                .txt {
-                    color: #fff;
-                }
-            }
-            .logo-width {
-                width: 180px;
-            }
-            .logo-collapse-width {
-                width: 60px
-            }
-            .tools {
-                padding: 0px 23px;
-                width: 14px;
-                height: 50px;
-                line-height: 50px;
-                cursor: pointer;
-            }
-        }
-        .main {
-            display: flex;
-            // background: #324057;
-            position: absolute;
-            top: 50px;
-            bottom: 0px;
-            overflow: hidden;
-            aside {
-                background: #EEF1F6;
-                flex: 0 0 180px;
-                width: 180px;
-                // position: absolute;
-                // top: 0px;
-                // bottom: 0px;
-                .el-menu {
-                    height: 100%;
-
-                }
-
-                .collapsed {
-                    width: 60px;
-                    .item {
-                        position: relative;
-                    }
-                    .submenu {
-                        position: absolute;
-                        top: 0px;
-                        left: 60px;
-                        z-index: 99999;
-                        height: auto;
-                        display: none;
-                    }
-
-                }
-            }
-            .menuitem {
-                font-size: 16px;
-                /*margin-left: 12px;*/
-                //color:black
-            }
-            .menu-collapsed {
-                flex: 0 0 60px;
-                width: 70px;
-            }
-            .menu-expanded {
-                /*flex: 0 0 180px;*/
-                width: 80px;
-                overflow-y: auto;
-                display: flex;
-                flex-direction: column;
-            }
-            .content-container {
-                // background: #f1f2f7;
-                flex: 1;
-                // position: absolute;
-                // right: 0px;
-                // top: 0px;
-                // bottom: 0px;
-                // left: 180px;
-                overflow-y: hidden;
-                padding: 10px;
-                padding-top: 8px;
-                .breadcrumb-container {
-                    //margin-bottom: 15px;
-                    .title {
-                        width: 180px;
-                        float: left;
-                        color: #475669;
-                    }
-                    .title2 {
-                        width: 160px;
-                        float: left;
-                        color: #475669;
-                    }
-                    .breadcrumb-inner {
-                        float: right;
-                    }
-                }
-                .content-wrapper {
-                    background-color: #fff;
-                    box-sizing: border-box;
-                }
-            }
-        }
-    }
-
-    /*el-menu-item选中加粗 左侧item*/
-    .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active, .el-menu-item.is-active {
-        font-weight: bold;
-    }
-
-    @media print {
-        .not-print {
-            /*opacity: 0*/
-        }
-    }
-
-    .el-menu--collapse {
-        /*收缩后侧边栏宽度*/
-        width: 70px;
-    }
-
-    /*为了解决添加 展开-收起 两个按钮后，左侧栏出现滚动条（即使高度够用也出现）*/
-    .el-menu-vertical-demo {
-        /*充满剩余空间*/
-        height: 0;
-        flex: 1;
-    }
-
-    .container .main aside .el-menu[data-v-cbbc73a8] {
-        /*item列表高度设置为0*/
-        height: 0;
-    }
-
-    .menu-icon {
-        /*左侧菜单栏图标*/
-        color: #6d9eeb;
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        margin-right: 5px;
-    }
 </style>

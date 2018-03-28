@@ -29,11 +29,13 @@
 
         <el-col :span="24" class="main">
             <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
+                <!--<div style="height: 38px;width: 100%;">-->
                 <!--<el-radio-group v-model="isCollapse"-->
                 <!--style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">-->
                 <!--<el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>-->
                 <!--<el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>-->
                 <!--</el-radio-group>-->
+                <!--</div>-->
                 <el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"
                            class="menu-expan-button menu-expan-button2">
                     <i class="menu-icon icon iconfont icon-menuclose"></i>
@@ -49,103 +51,21 @@
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 
-
-                    <el-submenu v-if="this.showUnionItem.businessOrder" index="/data">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-analysis"></i>
-                            <span class="menuitem">数据中心</span></template>
-                        <el-menu-item index="/data_Center" v-if="this.showUnionItem.businessOrder_Cars">数据中心
+                    <el-submenu v-if="this.city" index="/createUin">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">注册厂商</span></template>
+                        <el-menu-item index="/createUin">注册厂商
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.businessOrder" index="/businessOrder">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-order"></i>
-                            <span
-                                    class="menuitem">业务订单</span></template>
-                        <el-menu-item index="/businessOrder_Cars" v-if="this.showUnionItem.businessOrder_Cars">在场车辆
-                        </el-menu-item>
-                        <el-menu-item index="/businessOrder_Orders" v-if="this.showUnionItem.businessOrder_Orders">
-                            订单记录
-                        </el-menu-item>
-                        <el-menu-item index="/businessOrder_Poles" v-if="this.showUnionItem.businessOrder_Poles">
-                            抬杆记录
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.member" index="/member">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-monthvip"></i><span
-                                class="menuitem">会员</span>
-                        </template>
-                        <el-menu-item index="/member_MonthVIP" v-if="this.showUnionItem.member_MonthVIP">
-                            月卡会员
-                        </el-menu-item>
-                        <el-menu-item index="/member_BlackList" v-if="this.showUnionItem.member_BlackList">
-                            黑名单管理
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-analysis"></i><span
-                                class="menuitem">决策分析</span></template>
-                        <el-menu-item index="/strategicAnalysis_DailyReport"
-                                      v-if="this.showUnionItem.strategicAnalysis_DailyReport">
-                            车场日报
-                        </el-menu-item>
-                        <el-menu-item index="/strategicAnalysis_MonthReport"
-                                      v-if="this.showUnionItem.strategicAnalysis_DailyReport">
-                            车场月报
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-systemsetting"></i>
-                            <span
-                                    class="menuitem">系统设置</span>
-                        </template>
-                        <el-submenu index="/systemSetting_Company" v-if="this.showUnionItem.systemSetting_Company">
-                            <template slot="title"><span class="menuitem" style="font-size: 14px;">企业信息</span>
-                            </template>
-                            <el-menu-item index="/systemSetting_Account"
-                                          v-if="this.showUnionItem.systemSetting_Account">账户信息
-                            </el-menu-item>
-                        </el-submenu>
-                        <el-menu-item index="/systemSetting_Park" v-if="this.showUnionItem.systemSetting_Park">
-                            停车场
-                        </el-menu-item>
-                        <el-submenu index="/systemSetting_HR" v-if="this.showUnionItem.systemSetting_HR">
-                            <template slot="title"><span class="menuitem" style="font-size: 14px;">人力资源</span>
-                            </template>
-                            <el-menu-item index="/systemSetting_RoleManage"
-                                          v-if="this.showUnionItem.systemSetting_RoleManage">角色管理
-                            </el-menu-item>
-                            <el-menu-item index="/systemSetting_EmployeeManage"
-                                          v-if="this.showUnionItem.systemSetting_EmployeeManage">员工管理
-                            </el-menu-item>
-                        </el-submenu>
-                        <el-submenu index="/systemSetting_LogsManage"
-                                    v-if="this.showUnionItem.systemSetting_LogsManage">
-                            <template slot="title"><span class="menuitem" style="font-size: 14px;">日志管理</span>
-                            </template>
-                            <el-menu-item index="/systemSetting_LogsOperates"
-                                          v-if="this.showUnionItem.systemSetting_LogsOperates">操作日志管理
-                            </el-menu-item>
-                            <el-menu-item index="/systemSetting_LogsCollector"
-                                          v-if="this.showUnionItem.systemSetting_LogsCollector">收费员日志
-                            </el-menu-item>
-                        </el-submenu>
-                    </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.centerMonitor" index="centerMonitor"
-                                style="font-weight: normal">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-monitor"></i><span
-                                class="menuitem">中央监控</span></template>
-                        <el-menu-item index="centerMonitor"
-                                      v-if="this.showUnionItem.centerMonitor">中央监控
+                    <el-submenu v-if="this.admin" index="/city_manage">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">厂商管理</span></template>
+                        <el-menu-item index="/city_manage">厂商管理
                         </el-menu-item>
                     </el-submenu>
 
                 </el-menu>
-                <!--</div>-->
+
             </aside>
             <section class="content-container">
                 <div class="grid-content bg-purple-light">
@@ -158,6 +78,7 @@
                 </div>
             </section>
         </el-col>
+
     </el-row>
 </template>
 
@@ -174,6 +95,9 @@
                 bolink: false,
                 park: false,
                 union: false,
+                ccccccc: false,
+                city: false,
+                admin: false,
                 platform: false,
                 left: true,
                 right: false,
@@ -202,7 +126,6 @@
             };
         },
         methods: {
-
             handleopen() {
                 //console.log('handleopen');
             },
@@ -265,14 +188,17 @@
 
                 });
             }
+
         },
         mounted() {
-            // console.log('home  mounted');
+            console.log('home  mounted');
             let vm = this;
             let user = sessionStorage.getItem('user');
-
+            this.ccccccc = true;
             if (user) {
+
                 user = JSON.parse(user);
+                //console.log('chen:'+user.nickname)
                 this.sysUserName = user.nickname || '';
 
                 var cpath = this.$router.currentRoute.fullPath;
@@ -293,9 +219,19 @@
                     this.nickname = '集团';
                     this.union = true;
                 }
+                if (user.oid == ROLE_ID.CITY) {
+                    this.nickname = '厂商';
+                    this.city = true;
+                }
+                if (user.oid == ROLE_ID.BOSS) {
+                    this.nickname = 'Admin';
+                    this.admin = true;
+                }
 
             }
         }
+
+
     };
 
 </script>

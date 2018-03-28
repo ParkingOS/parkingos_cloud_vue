@@ -339,7 +339,7 @@
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
                         }).then(function (response) {
-                            // console.log(response)
+                            console.log(response)
                             let ret = response.data;
                             if (ret.state) {
                                 var u = ret.user;
@@ -360,7 +360,7 @@
                                 // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                                 if (u.oid == ROLE_ID.GROUP) {
                                     // _this.$router.push({path: '/bolinkunion'});
-                                } else if(u.oid == 10){
+                                } else if(u.oid == ROLE_ID.CITY){
                                     _this.$router.push({path: '/CreateUin'});
                                 }else if (u.oid == ROLE_ID.CHANNEL) {
                                     // _this.$router.push({path: '/account'});
@@ -453,23 +453,11 @@
                                 } else if (u.role == 6) {
 
                                 }
-                            }
-                            //else if(ret.msg.indexOf('新建')!=-1){
-                              //  console.log('jjjjjjjjj'+(ret.msg.indexOf('新建')!=-1));
-                               // setTimeout(function (){
-                                //    that.$router.push({path: '/City_Manage'});
-                                //    console.log('jjjjjjjjj'+(ret.msg.indexOf('新建')!=-1));
-                               // }, 1000);
-                               // console.log('jjjjjjjjj'+(ret.msg.indexOf('新建')!=-1));
-                           // }
-                            else {
+                            }else {
                                 _this.logining = false;
                                 _this.$message.error(ret.msg);
                             }
                         }).catch(function (error) {
-                            // setTimeout(() => {
-                            //     _this.alertInfo('请求失败!'+error)
-                            // }, 150)
                             _this.$message.error(error.data);
                         })
                     }
