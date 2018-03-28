@@ -654,8 +654,6 @@
         },
         mounted() {
           this.initChart();
-
-
         },
         activated() {
           var that = this;

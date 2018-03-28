@@ -506,6 +506,7 @@
                 this.tableheight = common.gwh() - 143;
             };
             this.tableheight = common.gwh() - 143;
+            this.initChart();
 
         },
         activated() {
@@ -522,7 +523,7 @@
             this.end_placeholder = common.currentDate() + ' 23:59:59';
             this.chartDate = [common.currentDate()+' 00:00:00',common.currentDate()+' 23:59:59'];
             this.selParkId = -1;
-            this.initChart();
+
             let _this = this;
             _this.$nextTick(function () {
                 axios.all([common.getCollector()])

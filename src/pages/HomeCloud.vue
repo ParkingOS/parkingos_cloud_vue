@@ -26,7 +26,7 @@
             <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
                 <!--<div style="height: 38px;width: 100%;">-->
                 <el-radio-group v-model="isCollapse"
-                               style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
+                                style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
                     <el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>
                     <el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>
                 </el-radio-group>
@@ -41,15 +41,15 @@
                          :collapse="isCollapse">
 
                     <el-submenu v-if="this.showParkItem.orderManage" index="/orderManage">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">订单管理</span></template>
                         <el-menu-item index="/orderManage_Orders" v-if="this.showParkItem.orderManage_Orders">订单记录
                         </el-menu-item>
                         <el-menu-item index="/orderManage_Poles" v-if="this.showParkItem.orderManage_Poles">抬杆记录
-                    </el-menu-item>
+                        </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.monthMember" index="/monthMember">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title"><i class="menu-icon icon iconfont icon-monthvip"></i><span
                                 class="menuitem">月卡会员</span></template>
                         <el-menu-item index="/monthMember_VIP" v-if="this.showParkItem.monthMember_VIP">月卡会员
                         </el-menu-item>
@@ -66,18 +66,20 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.orderStatistics" index="/orderStatistics">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title"><i class="menu-icon icon iconfont icon-analysis"></i><span
                                 class="menuitem">统计分析</span></template>
-                        <el-menu-item index="/orderStatistics_DailyReport" v-if="this.showParkItem.orderStatistics_DailyReport">日报统计</el-menu-item>
+                        <el-menu-item index="/orderStatistics_DailyReport"
+                                      v-if="this.showParkItem.orderStatistics_DailyReport">日报统计
+                        </el-menu-item>
                         <!--<el-menu-item index="/orderStatistics_Settlement"-->
-                                      <!--v-if="this.showParkItem.orderStatistics_DailyReport">日报统计-->
+                        <!--v-if="this.showParkItem.orderStatistics_DailyReport">日报统计-->
                         <!--</el-menu-item>-->
                         <el-menu-item index="/orderStatistics_MonthReport"
                                       v-if="this.showParkItem.orderStatistics_MonthReport">月报统计
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.shopManage" index="/shopManage">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title"><i class="menu-icon icon iconfont icon-shop"></i><span
                                 class="menuitem">商户管理</span></template>
                         <el-menu-item index="/shopManage_Shop" v-if="this.showParkItem.shopManage_Shop">商户管理
                         </el-menu-item>
@@ -89,7 +91,7 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu index="/equipmentManage" v-if="this.showParkItem.equipmentManage">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title"><i class="menu-icon icon iconfont icon-equipment"></i><span
                                 class="menuitem">设备管理</span></template>
                         <el-menu-item index="/equipmentManage_Monitor"
                                       v-if="this.showParkItem.equipmentManage_Monitor">
@@ -115,7 +117,7 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.employeePermission" index="/employeePermission">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title"><i class="menu-icon icon iconfont icon-accountmanage"></i><span
                                 class="menuitem">员工权限</span></template>
                         <el-menu-item index="/employeePermission_Role"
                                       v-if="this.showParkItem.employeePermission_Role">
@@ -127,7 +129,7 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu index="/systemManage" v-if="this.showParkItem.systemManage">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title"><i class="menu-icon icon iconfont icon-systemsetting"></i><span
                                 class="menuitem">系统管理</span></template>
                         <el-menu-item index="/systemManage_BlackList"
                                       v-if="this.showParkItem.systemManage_BlackList">
@@ -167,7 +169,7 @@
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.centerMonitor" index="centerMonitor"
                                 style="font-weight: normal">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
+                        <template slot="title"><i class="menu-icon icon iconfont icon-systemsetting"></i><span
                                 class="menuitem">中央监控</span></template>
                         <el-menu-item index="centerMonitor" v-if="this.showParkItem.centerMonitor">中央监控
                         </el-menu-item>
@@ -520,14 +522,25 @@
         /*收缩后侧边栏宽度*/
         width: 70px;
     }
+
     /*为了解决添加 展开-收起 两个按钮后，左侧栏出现滚动条（即使高度够用也出现）*/
-    .el-menu-vertical-demo{
+    .el-menu-vertical-demo {
         /*充满剩余空间*/
         height: 0;
         flex: 1;
     }
+
     .container .main aside .el-menu[data-v-cbbc73a8] {
         /*item列表高度设置为0*/
         height: 0;
+    }
+
+    .menu-icon {
+        /*左侧菜单栏图标*/
+        color: #6d9eeb;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        margin-right: 5px;
     }
 </style>

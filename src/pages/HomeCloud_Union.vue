@@ -45,14 +45,14 @@
 
                     <el-submenu v-if="this.showUnionItem.businessOrder" index="/data">
                         <template slot="title">
-                          <i  class="menu-icon icon iconfont icon-liuliangyunpingtaitubiao06"></i>
+                          <i  class="menu-icon icon iconfont icon-analysis"></i>
                           <span class="menuitem">数据中心</span></template>
                         <el-menu-item index="/data_Center" v-if="this.showUnionItem.businessOrder_Cars">数据中心
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.businessOrder" index="/businessOrder">
                         <template slot="title">
-                          <i  class="menu-icon icon iconfont icon-dingdan"></i>
+                          <i  class="menu-icon icon iconfont icon-order"></i>
                           <span
                                 class="menuitem">业务订单</span></template>
                         <el-menu-item index="/businessOrder_Cars" v-if="this.showUnionItem.businessOrder_Cars">在场车辆
@@ -66,7 +66,7 @@
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.member" index="/member">
                         <template slot="title">
-                          <i  class="menu-icon icon iconfont icon-huiyuan"></i><span
+                          <i  class="menu-icon icon iconfont icon-monthvip"></i><span
                                 class="menuitem">会员</span>
                         </template>
                         <el-menu-item index="/member_MonthVIP" v-if="this.showUnionItem.member_MonthVIP">
@@ -78,7 +78,7 @@
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
                         <template slot="title">
-                          <i  class="menu-icon icon iconfont icon-fenxi"></i><span
+                          <i  class="menu-icon icon iconfont icon-analysis"></i><span
                                 class="menuitem">决策分析</span></template>
                         <el-menu-item index="/strategicAnalysis_DailyReport"
                                       v-if="this.showUnionItem.strategicAnalysis_DailyReport">
@@ -91,7 +91,7 @@
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
                         <template slot="title">
-                           <i  class="menu-icon icon iconfont icon-tubiaolunkuo-"></i>
+                           <i  class="menu-icon icon iconfont icon-systemsetting"></i>
                           <span
                                 class="menuitem">系统设置</span>
                         </template>
