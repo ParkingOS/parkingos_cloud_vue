@@ -33,30 +33,10 @@
                     <el-input v-model="addFormPark.company_name" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
-                <!--<el-form-item label="车场类型">-->
-                <!--<el-select v-model="addFormPark.parking_type" style="width:90%">-->
-                <!--<el-option-->
-                <!--v-for="item in cartype"-->
-                <!--:label="item.value_name"-->
-                <!--:value="item.value_no"-->
-                <!--&gt;-->
-                <!--</el-option>-->
-                <!--</el-select>-->
-                <!--</el-form-item>-->
 
-                <!--<el-form-item label="车位总数">
+                <el-form-item label="车位总数" :prop="parking_total">
                     <el-input v-model="addFormPark.parking_total" style="width:90%" placeholder=""></el-input>
-                </el-form-item>-->
-                <!--<el-form-item label="进场方式">-->
-                <!--<el-select v-model="addFormPark.etc" style="width:90%">-->
-                <!--<el-option-->
-                <!--v-for="item in inparkType"-->
-                <!--:label="item.value_name"-->
-                <!--:value="item.value_no"-->
-                <!--&gt;-->
-                <!--</el-option>-->
-                <!--</el-select>-->
-                <!--</el-form-item>-->
+                </el-form-item>
                 <el-form-item label="地址" :prop="address">
                     <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
                     <br/>
@@ -72,13 +52,9 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="停车场电话" :prop="mobile">
+                <el-form-item label="联系电话" :prop="mobile">
                     <el-input v-model="addFormPark.mobile" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <!--<el-form-item label="备注">-->
-                <!--<el-input v-model="addFormPark.remark" style="width:90%" placeholder=""-->
-                <!--&gt;</el-input>-->
-                <!--</el-form-item>-->
 
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -96,30 +72,10 @@
                     <el-input v-model="addFormPark.company_name" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
-                <!--<el-form-item label="车场类型">-->
-                <!--<el-select v-model="addFormPark.parking_type" style="width:90%">-->
-                <!--<el-option-->
-                <!--v-for="item in cartype"-->
-                <!--:label="item.value_name"-->
-                <!--:value="item.value_no"-->
-                <!--&gt;-->
-                <!--</el-option>-->
-                <!--</el-select>-->
-                <!--</el-form-item>-->
 
                 <el-form-item label="车位总数">
                     <el-input v-model="addFormPark.parking_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <!--<el-form-item label="进场方式">-->
-                <!--<el-select v-model="addFormPark.etc" style="width:90%">-->
-                <!--<el-option-->
-                <!--v-for="item in inparkType"-->
-                <!--:label="item.value_name"-->
-                <!--:value="item.value_no"-->
-                <!--&gt;-->
-                <!--</el-option>-->
-                <!--</el-select>-->
-                <!--</el-form-item>-->
                 <el-form-item label="地址" :prop="address">
                     <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
                     <br/>
@@ -403,21 +359,6 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '车场类型',
-                                prop: 'parking_type',
-                                width: '123',
-                                type: 'str',
-                                searchable: false,
-                                addable: true,
-                                hidden: true,
-                                unsortable: true,
-                                align: 'center',
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
                                 label: '车位总数',
                                 prop: 'parking_total',
                                 width: '100',
@@ -429,67 +370,7 @@
                             },
                         ]
                     },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '进场方式',
-                                prop: 'etc',
-                                width: '100',
-                                type: 'selection',
-                                selectlist: inparkType,
-                                hidden: true,
-                                addable: true,
-                                searchable: false,
-                                unsortable: true,
-                                align: 'center',
-                                format: (row) => {
-                                    return common.nameformat(row, inparkType, 'etc')
-                                }
-                            },
-                        ]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '状态',
-                                prop: 'state',
-                                width: '100',
-                                type: 'selection',
-                                selectlist: parkState,
-                                addable: true,
-                                searchable: true,
-                                unsortable: true,
-                                align: 'center',
-                                format: (row) => {
-                                    return common.nameformat(row, parkState, 'state')
-                                }
-                            },
-                        ]
-                    },
-                    // {
-                    //     hasSubs: false, subs: [
-                    //         {
-                    //             label: '所属区域',
-                    //             prop: 'areaid',
-                    //             width: '100',
-                    //             type: 'str', addable: true,
-                    //             searchable: true,
-                    //             unsortable: true,
-                    //             align: 'center',
-                    //         },
-                    //     ]
-                    // }, {
-                    //     hasSubs: false, subs: [
-                    //         {
-                    //             label: '行政地区',
-                    //             prop: 'city',
-                    //             width: '100',
-                    //             type: 'str', addable: true,
-                    //             searchable: true,
-                    //             unsortable: true,
-                    //             align: 'center',
-                    //         },
-                    //     ]
-                    // },
+
                     {
                         hasSubs: false, subs: [
                             {
@@ -524,7 +405,7 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '停车场电话',
+                                label: '联系电话',
                                 prop: 'mobile',
                                 width: '123',
                                 type: 'str', addable: true,
@@ -534,47 +415,9 @@
                             },
                         ]
                     },
-
-                    {
-                        hasSubs: false, subs: [
+                       { hasSubs: false, subs: [
                             {
-                                label: '创建时间',
-                                prop: 'create_time',
-                                width: '180',
-                                type: 'date',
-
-                                searchable: true,
-                                addable: true,
-                                unsortable: false,
-                                align: 'center',
-                                format: function (row) {
-                                    return common.dateformat(row.create_time);
-                                }
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '更新时间',
-                                prop: 'update_time',
-                                width: '180',
-                                type: 'date',
-                                searchable: true,
-
-                                unsortable: false,
-                                align: 'center',
-                                format: function (row) {
-                                    return common.dateformat(row.update_time);
-                                }
-                            },
-
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '车场秘钥',
+                                label: '泊链车场秘钥',
                                 prop: 'ukey',
                                 width: '180',
                                 type: 'str',
@@ -760,6 +603,7 @@
                 company_name: 'company_name',
                 address: 'address',
                 mobile:'mobile',
+                parking_total:'parking_total',
                 addFormRules: {
                     company_name: [
                         {required: true, message: '请填写停车场名称', trigger: 'blur'}
@@ -768,7 +612,10 @@
                         {required: true, message: '请标注位置', trigger: 'blur'}
                     ],
                     mobile: [
-                        {validator: checkPhone, trigger: 'blur'}
+                        {required: true, message: '请填写联系电话', trigger: 'blur'}
+                    ],
+                    parking_total: [
+                       {required: true, message: '请输入车位数', trigger: 'blur'}
                     ]
 
                 },
@@ -1447,7 +1294,7 @@
                 this.tableitems_employee[5].subs[0].selectlist = val
             },
             unionList: function (val) {
-                this.tableitems[7].subs[0].selectlist = val
+                this.tableitems[4].subs[0].selectlist = val
             }
         }
     }

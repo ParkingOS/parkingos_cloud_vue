@@ -8,7 +8,7 @@
                 <el-row>
                     <el-form ref="addFormPark" style="width:50%;margin-top: 20px;" label-width="180px" :rules="addFormRules"
                                      :model="addFormPark">
-                        <el-form-item label="名称" :prop="name">
+                        <el-form-item label="厂商名称" :prop="name">
                             <el-input v-model="addFormPark.name" style="width:90%" placeholder=""></el-input>
                         </el-form-item>
                         <el-form-item label="泊链厂商编号" :prop="union_id">
