@@ -51,7 +51,7 @@
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 
-                    <el-submenu v-if="this.city" index="/createUin">
+                    <el-submenu v-if="this.cityregis" index="/createUin">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">注册厂商</span></template>
                         <el-menu-item index="/createUin">注册厂商
@@ -61,6 +61,18 @@
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">厂商管理</span></template>
                         <el-menu-item index="/city_manage">厂商管理
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu v-if="this.city" index="/union_manage">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">运营商管理</span></template>
+                        <el-menu-item index="/union_manage">运营商管理
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu v-if="this.city" index="/park_manage">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">车场管理</span></template>
+                        <el-menu-item index="/park_manage">车场管理
                         </el-menu-item>
                     </el-submenu>
 
@@ -97,6 +109,7 @@
                 union: false,
                 ccccccc: false,
                 city: false,
+                cityregis: false,
                 admin: false,
                 platform: false,
                 left: true,
@@ -226,6 +239,10 @@
                 if (user.oid == ROLE_ID.BOSS) {
                     this.nickname = 'Admin';
                     this.admin = true;
+                }
+                if (user.oid == ROLE_ID.CITYREGIS) {
+                    this.nickname = '注册厂商';
+                    this.cityregis = true;
                 }
 
             }

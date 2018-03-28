@@ -6,7 +6,7 @@
                 <div class="grid-content bg-purple panel-left">
                     <div class="pannel-center">
                         <div class="data-box">
-                            <div class="title">今日收费总汇</div>
+                            <div class="title">今日收费汇总</div>
                             <div class="body">
                                 <div class="item">
                                     <div class="item-txt">电子收费</div>
@@ -21,7 +21,7 @@
                                 </div>
 
                                 <div class="item">
-                                    <div class="item-txt">电子收费</div>
+                                    <div class="item-txt">现金收费</div>
                                     <div class="item-num">
                                         <div class="data-num">0</div>
                                         <div class="data-num">2</div>

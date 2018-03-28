@@ -86,7 +86,25 @@ let routes = [
             {path: '/city_manage', component: City_Manage, name: '厂商管理'}
         ]
     },
-
+// 厂商页面
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '运营商',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/union_manage', component: Union_Manage, name: '运营商'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '车场管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/park_manage', component: Park_Manage, name: '车场管理'}
+        ]
+    },
     {
         path: '/loginCloud',
         component: LoginCloud,
@@ -278,25 +296,6 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/index', component: index, name: '空页面'}
-        ]
-    },
-    // 厂商页面
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '运营商',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/union_manage', component: Union_Manage, name: '运营商'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '车场管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/park_manage', component: Park_Manage, name: '车场管理'}
         ]
     }
 

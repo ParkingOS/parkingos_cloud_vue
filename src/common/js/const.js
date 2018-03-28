@@ -139,5 +139,6 @@ export const ROLE_ID = {
     UNION: 2,
     CITY: 7,
     PARK: 8,
-    BOSS:5
+    BOSS:5,
+    CITYREGIS:10
 };
