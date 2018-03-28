@@ -54,7 +54,26 @@ import SystemSetting_LogsCollector from './pages/union/SystemSetting_LogsCollect
 import StrategicAnalysis_DailyReport from './pages/union/StrategicAnalysis_DailyReport.vue';
 import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_MonthReport.vue';
 
+//厂商页面
+import Park_Manage from './pages/city/Park_Manage.vue';
+import Union_Manage from './pages/city/Union_Manage.vue';
+
+//总后台页面
+import City_Manage from './pages/admin/City_Manage.vue';
+import CreateUin from './pages/admin/CreateUin.vue';
+
+
 let routes = [
+
+    {
+        path: '/',
+        component: HomeCloud,
+        // name: '订单管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/createUin', component: CreateUin, name: '注册厂商'},
+        ]
+    },
 
     {
         path: '/loginCloud',
@@ -247,6 +266,35 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/index', component: index, name: '空页面'}
+        ]
+    },
+    // 厂商页面
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '运营商',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/union_manage', component: Union_Manage, name: '运营商'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '车场管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/park_manage', component: Park_Manage, name: '车场管理'}
+        ]
+    },
+    //总后台页面
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '厂商管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/city_manage', component: City_Manage, name: '厂商管理'}
         ]
     }
 ];

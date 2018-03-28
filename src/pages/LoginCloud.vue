@@ -355,11 +355,14 @@
                                 sessionStorage.setItem('nickname', u.nickname)
                                 sessionStorage.setItem('ishdorder', u.ishdorder)
                                 sessionStorage.setItem('loginroleid', u.loginroleid)
-                                
+                                sessionStorage.setItem('supperadmin', u.supperadmin)
+
                                 // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                                 if (u.oid == ROLE_ID.GROUP) {
                                     // _this.$router.push({path: '/bolinkunion'});
-                                } else if (u.oid == ROLE_ID.CHANNEL) {
+                                } else if(u.oid == 10){
+                                    _this.$router.push({path: '/CreateUin'});
+                                }else if (u.oid == ROLE_ID.CHANNEL) {
                                     // _this.$router.push({path: '/account'});
                                 } else if (u.oid == ROLE_ID.UNION) {
                                     // _this.$router.push({path: '/account'});
@@ -393,8 +396,11 @@
                                         sessionStorage.setItem('highlightindex', _this.highlightindex)
                                     }
                                 } else if (u.oid == ROLE_ID.CITY) {
-                                    // _this.$router.push({path: '/account'});
-                                } else if (u.oid == ROLE_ID.PARK || u.roleid == 0) {
+                                      _this.$router.push({path: '/Union_Manage'});
+                                      _this.$router.push({path: '/Park_Manage'});
+                                } else if (u.oid == ROLE_ID.BOSS) {
+                                       _this.$router.push({path: '/City_Manage'});
+                                } else if (u.oid == ROLE_ID.PARK ) {
                                     //先跳转空页面，然后再根据数据情况显示页面再跳转
                                     // _this.$router.push({path: '/index'});
                                     // _this.$router.push({path: '/orderManage_Orders'});
@@ -447,7 +453,16 @@
                                 } else if (u.role == 6) {
 
                                 }
-                            } else {
+                            }
+                            //else if(ret.msg.indexOf('新建')!=-1){
+                              //  console.log('jjjjjjjjj'+(ret.msg.indexOf('新建')!=-1));
+                               // setTimeout(function (){
+                                //    that.$router.push({path: '/City_Manage'});
+                                //    console.log('jjjjjjjjj'+(ret.msg.indexOf('新建')!=-1));
+                               // }, 1000);
+                               // console.log('jjjjjjjjj'+(ret.msg.indexOf('新建')!=-1));
+                           // }
+                            else {
                                 _this.logining = false;
                                 _this.$message.error(ret.msg);
                             }

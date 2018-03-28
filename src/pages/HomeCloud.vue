@@ -164,6 +164,7 @@
                         </el-submenu>
                         <el-menu-item index="/systemManage_Price" v-if="this.showParkItem.systemManage_Price">时租价格管理
                         </el-menu-item>
+
                         <el-menu-item index="/systemManage_MonthCard"
                                       v-if="this.showParkItem.systemManage_MonthCard">
                             月卡套餐管理
@@ -179,6 +180,7 @@
                         <el-menu-item index="centerMonitor" v-if="this.showParkItem.centerMonitor">中央监控
                         </el-menu-item>
                     </el-submenu>
+
                 </el-menu>
 
             </aside>
@@ -210,6 +212,9 @@
                 bolink: false,
                 park: false,
                 union: false,
+                ccccccc: false,
+                city:false,
+                admin:false,
                 platform: false,
                 left: true,
                 right: false,
@@ -325,9 +330,11 @@
             console.log('home  mounted');
             let vm = this;
             let user = sessionStorage.getItem('user');
-
+            this.ccccccc = true;
             if (user) {
+
                 user = JSON.parse(user);
+                //console.log('chen:'+user.nickname)
                 this.sysUserName = user.nickname || '';
 
                 var cpath = this.$router.currentRoute.fullPath;
@@ -347,6 +354,14 @@
                 if (user.oid == ROLE_ID.UNION) {
                     this.nickname = '集团';
                     this.union = true;
+                }
+                if (user.oid == ROLE_ID.CITY) {
+                    this.nickname = "厂商";
+                    this.city = true;
+                }
+                if (user.oid == ROLE_ID.BOSS) {
+                    this.nickname = "Admin";
+                    this.admin = true;
                 }
 
             }

@@ -39,6 +39,9 @@ export const AUTH_ID = {
     onlinePay_CashManage: 9, //提现管理
     centerMonitor: 309 //中央监控
 };
+export const AUTH_ID_ADMIN = {
+    city_Manage: 118
+};
 export const showParkItem_const = {
     orderManage: false,
     orderManage_Orders: false,
@@ -124,6 +127,10 @@ export const showUnionItem_const = {
     strategicAnalysis_DailyReport: false,
     centerMonitor: false
 };
+export const showBossItem_const = {
+    systemSetting_UnionManage: true,
+    systemSetting_ParkManage: true
+};
 export const ROLE_ID = {
     // 30 车场,26集团,,,27渠道,,28联盟,,,29城市
     //2018.2.6修改 2 集团...............8 车场 ........   7城市
@@ -131,5 +138,6 @@ export const ROLE_ID = {
     CHANNEL: 27,
     UNION: 2,
     CITY: 7,
-    PARK: 8
+    PARK: 8,
+    BOSS:5
 };

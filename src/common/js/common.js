@@ -243,6 +243,12 @@ export default {
             + this.commonParams();
         return axios.get(path + '/groupmember/getrole' + param);
     },
+    getCityEmployeeRole() {
+        //获取员工角色
+        let param = '?token=' + sessionStorage.getItem('token')
+            + this.commonParams();
+        return axios.get(path + '/citymember/getrole' + param);
+    },
     /**
      * 车场接口
      * @returns {AxiosPromise}
@@ -270,7 +276,12 @@ export default {
             + this.commonParams();
         return axios.get(path + '/getdata/getpname' + param);
     },
-
+    getUnionList() {
+        //获取城市下面所有的集团
+        let param = '?token=' + sessionStorage.getItem('token')
+            + this.commonParams();
+        return axios.get(path + '/getdata/getallunion' + param);
+    },
     getCarType() {
         //获得车型类型
         let param = '?token=' + sessionStorage.getItem('token')
@@ -453,7 +464,8 @@ export default {
         return this.attachParams('comid')
             + this.attachParams('groupid')
             + this.attachParams('cityid')
-            + this.attachParams('loginuin');
+            + this.attachParams('loginuin')
+            + this.attachParams('supperadmin');
     },
     attachParams(key,type) {
         //判断是否是undifined，如果是，则不添加该参数
