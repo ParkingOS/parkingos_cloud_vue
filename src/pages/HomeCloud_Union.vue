@@ -3,8 +3,8 @@
         <el-col :span="24" class="header not-print">
             <el-col :span="17">
                 <div style="display:flex">
-                <div style="width:50px;height:50px;" >
-                  <i style="color:red;width:50px;height:50px;font-size:50px" class="icon iconfont icon-tingchechang"></i>
+                <div style="width:50px;height:50px;margin-left: 20px;" >
+                  <i style="width:50px;height:50px;font-size:50px" class="icon iconfont icon-park"></i>
                 </div>
                 <div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">
                     智慧停车云
