@@ -8,6 +8,7 @@ import HomeCloud_Admin from './pages/HomeCloud_Admin.vue';
 
 //云平台页面-车场
 import index from './pages/park/index.vue';
+import Data_Center_Park from './pages/park/Data_Center_Park.vue';
 import OrderManage_Orders from './pages/park/OrderManage_Orders.vue';
 import OrderManage_Poles from './pages/park/OrderManage_Poles.vue';
 import OrderManage_OrderDetail from './pages/park/OrderManage_OrderDetail.vue';
@@ -116,7 +117,15 @@ let routes = [
     * 车场
     *
     * */
-
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '数据中心',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/data_Center_park', component: Data_Center_Park, name: '数据中心'}
+        ]
+    },
     {
         path: '/',
         component: HomeCloud,

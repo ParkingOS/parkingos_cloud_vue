@@ -170,12 +170,13 @@ $bg: #2d3a4b; //#008F4C; //#324157;//#0080dd;//#35495E;//#1F2D3D
 
 .container .main aside .el-menu[data-v-cbbc73a8] {
   /*item列表高度设置为0*/
-  height: 0;
+  height: 100%;
 }
 
 .menu-icon {
   /*左侧菜单栏图标*/
-  color: #6d9eeb;
+  //color: #6d9eeb;
+  color: #b5b5b5;
   width: 50px;
   height: 50px;
   font-size: 20px;

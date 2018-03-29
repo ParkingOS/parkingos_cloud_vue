@@ -51,6 +51,13 @@
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 
+                    <el-submenu v-if="this.showUnionItem.businessOrder" index="/data">
+                        <template slot="title">
+                            <i class="menu-icon icon iconfont icon-analysis"></i>
+                            <span class="menuitem">数据中心</span></template>
+                        <el-menu-item index="/data_Center_park" v-if="this.showUnionItem.businessOrder_Cars">数据中心
+                        </el-menu-item>
+                    </el-submenu>
                     <el-submenu v-if="this.showParkItem.orderManage" index="/orderManage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">订单管理</span></template>
@@ -181,7 +188,7 @@
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.centerMonitor" index="centerMonitor"
                                 style="font-weight: normal">
-                        <template slot="title"><i class="menu-icon icon iconfont icon-systemsetting"></i><span
+                        <template slot="title"><i class="menu-icon icon iconfont icon-monitor"></i><span
                                 class="menuitem">中央监控</span></template>
                         <el-menu-item index="centerMonitor" v-if="this.showParkItem.centerMonitor">中央监控
                         </el-menu-item>

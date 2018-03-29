@@ -6,87 +6,87 @@
             </el-row>
             <el-row style="margin-top:28px">
                 <el-col :span="12" style="padding: 10px">
-                    <table align="center" border="1px" bordercolor="#000000" cellspacing="0px">
+                    <table align="center" border="1px" bordercolor="#EFF1F6" cellspacing="0px">
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">车场订单编号</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">车场订单编号</td>
                             <td style="width:250px;text-align:center">{{currentRow.order_id_local}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">进场方式</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">进场方式</td>
                             <td style="width:250px;text-align:center">{{currentRow.c_type}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">车牌号码</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">车牌号码</td>
                             <td style="width:250px;text-align:center">{{currentRow.car_number}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">车型</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">车型</td>
                             <td style="width:250px;text-align:center">{{currentRow.car_type}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">进场时间</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">进场时间</td>
                             <td style="width:250px;text-align:center">{{common.dateformat(currentRow.create_time)}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">进场通道</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">进场通道</td>
                             <td style="width:250px;text-align:center">{{currentRow.in_passid}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">出场时间</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">出场时间</td>
                             <td style="width:250px;text-align:center">{{common.dateformat(currentRow.end_time)}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">出场通道</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">出场通道</td>
                             <td style="width:250px;text-align:center">{{currentRow.out_passid}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">停车时长</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">停车时长</td>
                             <td style="width:250px;text-align:center">{{currentRow.duration}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">支付方式</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">支付方式</td>
                             <td style="width:250px;text-align:center">{{common.nameformat(currentRow, orderPayType,
                                 'pay_type')}}
                             </td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">优惠原因</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">优惠原因</td>
                             <td style="width:250px;text-align:center">{{currentRow.freereasons}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">应收金额</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">应收金额</td>
                             <td style="width:250px;text-align:center">{{currentRow.amount_receivable}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">实收金额</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">实收金额</td>
                             <td style="width:250px;text-align:center">{{currentRow.total}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">电子预付金额</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">电子预付金额</td>
                             <td style="width:250px;text-align:center">{{currentRow.electronic_prepay}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">现金预付金额</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">现金预付金额</td>
                             <td style="width:250px;text-align:center">{{currentRow.cash_prepay}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">电子结算金额</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">电子结算金额</td>
                             <td style="width:250px;text-align:center">{{currentRow.electronic_pay}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">现金结算金额</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">现金结算金额</td>
                             <td style="width:250px;text-align:center">{{currentRow.cash_pay}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">减免金额</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">减免金额</td>
                             <td style="width:250px;text-align:center">{{currentRow.reduce_amount}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">入场收费员</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">入场收费员</td>
                             <td style="width:250px;text-align:center">{{common.nameformat(currentRow, collectors, 'uid')}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#CCCCCC;height:30px;width:150px;text-align:center">出场收费员</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">出场收费员</td>
                             <td style="width:250px;text-align:center">{{common.nameformat(currentRow, collectors, 'out_uid')}}</td>
                         </tr>
                     </table>
