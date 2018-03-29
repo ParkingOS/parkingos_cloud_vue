@@ -69,8 +69,10 @@
 
                 </section>
                 <section class="chart-sec">
-                    <div  id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>
+                    <!--<div  id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>-->
+                    <div  id="chart" class="chart-style"  :style='chartstyles'></div>
                 </section>
+
             </el-tab-pane>
         </el-tabs>
 
@@ -250,7 +252,9 @@
                 sform: {},
                 showWorkDetail: false,
                 showOrderDetail: false,
-                currentRow: ''
+                currentRow: '',
+
+                chartstyles:''
             };
         },
         methods: {
@@ -416,6 +420,9 @@
             //     }
             //
             // }
+        },
+        created(){
+            this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
         },
         activated() {
             window.onresize = () => {

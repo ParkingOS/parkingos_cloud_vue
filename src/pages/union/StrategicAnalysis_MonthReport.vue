@@ -70,7 +70,8 @@
 
                 </section>
                 <section class="chart-sec">
-                    <div style="overflow-y: auto;padding-right: 30px;" id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}"></div>
+                    <!--<div style="overflow-y: auto;padding-right: 30px;" id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}"></div>-->
+                    <div  id="chart" class="chart-style"  :style='chartstyles'></div>
                 </section>
             </el-tab-pane>
         </el-tabs>
@@ -102,7 +103,7 @@
                 selParkId: -1,
                 chartHeight: '600px',
                 chartWidth: '800px',
-
+                chartstyles:'',
                 pickerOptionsBefore: {
                      disabledDate(time) {
                        return time.getTime() > Date.now() - 8.64e7;
@@ -413,6 +414,9 @@
             //
             // }
             this.initChart();
+        },
+        created(){
+            this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
         },
         activated() {
             window.onresize = () => {

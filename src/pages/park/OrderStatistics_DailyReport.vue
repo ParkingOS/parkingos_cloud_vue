@@ -89,7 +89,8 @@
                     <!--&lt;!&ndash;<div id="chart" :style="chartstyles"></div>&ndash;&gt;-->
                 <!--</section>-->
                 <section class="chart-sec">
-                    <div  id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>
+                    <!--<div  id="chart" class="chart-style"  style="overflow-y: auto;padding-right: 30px;width:800px;height:460px;"></div>-->
+                    <div  id="chart" class="chart-style"  :style='chartstyles'></div>
                 </section>
             </el-tab-pane>
         </el-tabs>
@@ -512,8 +513,11 @@
                 this.tableheight = common.gwh() - 143;
             };
             this.tableheight = common.gwh() - 143;
-            this.initChart();
 
+
+        },
+        created(){
+            this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
         },
         activated() {
             window.onresize = () => {
@@ -525,11 +529,10 @@
             // this.getTableData(this.sform);
             this.chartHeight = (common.gwh()-200)+'px';
             this.chartWidth = (common.gww()/(common.gwh()-200))*common.gwh();
-            console.log(common.gwh());
-            console.log(common.gww());
+            // console.log(common.gwh());
+            // console.log(common.gww());
             // 637
             // 1366
-            // this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
             this.start_placeholder = common.currentDate() + ' 00:00:00';
             this.end_placeholder = common.currentDate() + ' 23:59:59';
             this.chartDate = [common.currentDate() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
@@ -548,6 +551,8 @@
                         _this.queryForChart(1);
                     }));
             });
+
+            this.initChart();
         }
     };
 

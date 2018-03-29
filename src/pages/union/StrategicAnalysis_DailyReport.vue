@@ -65,7 +65,9 @@
 
                 </section>
                 <section class="chart-sec">
-                    <div  id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>
+                    <!--<div  id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>-->
+                    <div  id="chart" class="chart-style"  :style='chartstyles'></div>
+
                 </section>
             </el-tab-pane>
         </el-tabs>
@@ -95,6 +97,7 @@
                 selParkId: -1,
                 chartHeight: '600px',
                 chartWidth: '800px',
+                chartstyles:'',
                 chartPickerOptions:{
                     shortcuts: [{
                         text: '最近一周',
@@ -435,6 +438,7 @@
                 })
             }
         },
+
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
@@ -442,6 +446,9 @@
                 // this.chartWidth = (common.gww()/common.gwh())*common.gwh();
             };
             this.initChart();
+        },
+        created(){
+            this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
         },
         activated() {
             window.onresize = () => {
