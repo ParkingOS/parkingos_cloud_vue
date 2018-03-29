@@ -76,7 +76,7 @@
                         subs: [{
                             label: '车场订单编号',
                             prop: 'order_id_local',
-                            width: '200',
+                            width: '180',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -163,7 +163,7 @@
                         subs: [{
                             label: '订单状态',
                             prop: 'state',
-                            width: '123',
+                            width: '100',
                             type: 'selection',
                             selectlist: orderStateType,
                             editable: true,
@@ -481,11 +481,11 @@
                 this.tableheight = common.gwh() - 143;
             };
             this.tableheight = common.gwh() - 143;
-            var user = sessionStorage.getItem('user');
-            this.user = user;
+            let user = sessionStorage.getItem('user');
+            // this.user = user;
             if (user) {
                 user = JSON.parse(user);
-                console.log(user.authlist.length);
+                // console.log(user.authlist.length);
                 for (var item of user.authlist) {
                     if (AUTH_ID.orderManage_Orders == item.auth_id) {
                         // console.log(item.sub_auth)

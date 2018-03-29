@@ -1,28 +1,28 @@
 <template>
     <!--<section>-->
-        <!--<common-table-->
-                <!--:queryapi="queryapi"-->
-                <!--:tableheight="tableheight"-->
-                <!--:fieldsstr="fieldsstr"-->
-                <!--:tableitems="tableitems"-->
-                <!--:btswidth="btswidth"-->
-                <!--:hide-export="hideExport"-->
-                <!--:exportapi="exportapi"-->
-                <!--:hide-options="hideOptions"-->
-                <!--:searchtitle="searchtitle"-->
-                <!--:showdateSelector="showdateSelector"-->
-                <!--:showCollectorSelector="showCollectorSelector"-->
-                <!--:hideTool="hideTool"-->
-                <!--:hideSearch="hideSearch"-->
-                <!--:hideAdd="hideAdd"-->
-                <!--:hidePagination="hidePagination"-->
-                <!--ref="bolinkuniontable"-->
-        <!--&gt;</common-table>-->
+    <!--<common-table-->
+    <!--:queryapi="queryapi"-->
+    <!--:tableheight="tableheight"-->
+    <!--:fieldsstr="fieldsstr"-->
+    <!--:tableitems="tableitems"-->
+    <!--:btswidth="btswidth"-->
+    <!--:hide-export="hideExport"-->
+    <!--:exportapi="exportapi"-->
+    <!--:hide-options="hideOptions"-->
+    <!--:searchtitle="searchtitle"-->
+    <!--:showdateSelector="showdateSelector"-->
+    <!--:showCollectorSelector="showCollectorSelector"-->
+    <!--:hideTool="hideTool"-->
+    <!--:hideSearch="hideSearch"-->
+    <!--:hideAdd="hideAdd"-->
+    <!--:hidePagination="hidePagination"-->
+    <!--ref="bolinkuniontable"-->
+    <!--&gt;</common-table>-->
     <!--</section>-->
 
     <section>
-        <el-tabs v-model="activeName" type="card" >
-            <el-tab-pane  name="tableStyle" class="tab-content-pad">
+        <el-tabs v-model="activeName" type="card">
+            <el-tab-pane name="tableStyle" class="tab-content-pad">
                 <span slot="label"><i class="el-icon-tickets"></i> 表格模式</span>
                 <common-table
                         :queryapi="queryapi"
@@ -47,7 +47,7 @@
                 <span slot="label"><i class="el-icon-picture"></i> 图表模式</span>
 
                 <section class="date-picker-sec">
-                    <section >
+                    <section>
                         <el-select v-model="selParkId" filterable placeholder="全部" @change="changeanalysisdatepark">
                             <el-option
                                     v-for="item in parklistChart"
@@ -81,9 +81,13 @@
                                 :default-time="['00:00:00', '23:59:59']">
                         </el-date-picker>
                         <!--<el-button type="primary" @click="queryForChart">确定</el-button>-->
-                    </section >
+                    </section>
 
                 </section>
+                <!--<section >-->
+                    <!--<div  id="chart"  v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>-->
+                    <!--&lt;!&ndash;<div id="chart" :style="chartstyles"></div>&ndash;&gt;-->
+                <!--</section>-->
                 <section class="chart-sec">
                     <div  id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>
                 </section>
@@ -98,10 +102,11 @@
 
 <script>
     import {path} from '../../api/api';
-    import common from '../../common/js/common'
-    import CommonTable from '../../components/CommonTable'
-    import axios from 'axios'
-    import echarts from 'echarts'
+    import common from '../../common/js/common';
+    import CommonTable from '../../components/CommonTable';
+    import axios from 'axios';
+    import echarts from 'echarts';
+
     export default {
         components: {
             CommonTable
@@ -116,7 +121,8 @@
                 selParkId: -1,
                 chartHeight: '600px',
                 chartWidth: '800px',
-                chartPickerOptions:{
+                chartstyles: '',
+                chartPickerOptions: {
                     shortcuts: [{
                         text: '最近一周',
                         onClick(picker) {
@@ -166,7 +172,7 @@
                 tableheight: '',
                 hideOptions: true,
                 hideTool: false,
-                hidePagination:true,
+                hidePagination: true,
                 queryapi: '/parkorder/query',
                 exportapi: '/parkorder/exportExcel',
                 workdetailapi: '/parkorder/workdetail',
@@ -185,8 +191,8 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center',
-                            },
+                                align: 'center'
+                            }
                         ]
                     }, {
                         hasSubs: false, subs: [
@@ -199,9 +205,9 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                hidden:true,
-                                align: 'center',
-                            },
+                                hidden: true,
+                                align: 'center'
+                            }
                         ]
                     },
                     {
@@ -217,7 +223,7 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
+                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -241,15 +247,15 @@
                                 // label: 'aha',
                                 // hasSubs: true,
                                 // subs: [{
-                                    label: '现金支付',
-                                    prop: 'cash_pay',
-                                    width: '123',
-                                    type: 'str',
-                                    editable: true,
-                                    searchable: true,
-                                    addable: true,
-                                    unsortable: true,
-                                    align: 'center'
+                                label: '现金支付',
+                                prop: 'cash_pay',
+                                width: '123',
+                                type: 'str',
+                                editable: true,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center'
                                 // }, {
                                 //
                                 //     hasSubs: false,
@@ -339,15 +345,15 @@
                 sform: {},
                 showWorkDetail: false,
                 showOrderDetail: false,
-                currentRow: '',
-            }
+                currentRow: ''
+            };
         },
         methods: {
-            initChart: function() {
+            initChart: function () {
                 //初始化图表
                 this.chart = echarts.init(document.getElementById('chart'));
                 console.log('chart加载');
-                console.log(this.chart)
+                console.log(this.chart);
             },
             changeanalysisdate(input2) {
                 //修改车场统计分析日期
@@ -368,11 +374,11 @@
                 formdata.orderby = this.orderby;
                 formdata.orderfield = this.orderfield;
                 formdata.fieldsstr = this.fieldsstr;
-                if(this.selParkId>0){
+                if (this.selParkId > 0) {
                     formdata.comid_start = this.selParkId;
                     formdata.comid = '';
                 }
-                if(isFirst!==1){
+                if (isFirst !== 1) {
                     formdata.time = 'between';//this.chartDate[1].getTime() ;
                     // formdata.time_start = this.chartDate[0].getTime(); //;
                     // formdata.time_end = this.chartDate[1].getTime();
@@ -387,7 +393,7 @@
                 }).then(function (response) {
                     // 把配置和数据放这里
 
-                    let seriesData =[
+                    let seriesData = [
                         // {
                         //     name:'订单总数',
                         //     type:'line',
@@ -396,29 +402,29 @@
                         //     data:[]
                         // },
                         {
-                            name:'现金支付',
-                            type:'line',
+                            name: '现金支付',
+                            type: 'line',
                             stack: '总量',
                             // areaStyle: {normal: {}},
-                            data:[]
+                            data: []
                         },
                         {
-                            name:'应收金额',
-                            type:'line',
+                            name: '应收金额',
+                            type: 'line',
                             stack: '总量',
                             // areaStyle: {normal: {}},
-                            data:[]
+                            data: []
                         },
                         {
-                            name:'电子支付',
-                            type:'line',
+                            name: '电子支付',
+                            type: 'line',
                             stack: '总量',
                             // areaStyle: {normal: {}},
-                            data:[]
+                            data: []
                         },
                         {
-                            name:'实收金额',
-                            type:'line',
+                            name: '实收金额',
+                            type: 'line',
                             stack: '总量',
                             label: {
                                 normal: {
@@ -427,11 +433,11 @@
                                 }
                             },
                             // areaStyle: {normal: {}},
-                            data:[]
+                            data: []
                         },
                         {
-                            name:'减免金额',
-                            type:'line',
+                            name: '减免金额',
+                            type: 'line',
                             stack: '总量',
                             label: {
                                 normal: {
@@ -440,17 +446,17 @@
                                 }
                             },
                             // areaStyle: {normal: {}},
-                            data:[]
+                            data: []
                         }
                     ];
                     let xAxisData = [];
                     let dataRows = response.data.rows;
                     console.log(response.data.rows);
-                    for(let i = 0 ; i < dataRows.length;i++){
+                    for (let i = 0; i < dataRows.length; i++) {
                         let rData = dataRows[i];
                         xAxisData[i] = rData.sdate;
                         //seriesData[0].data[i] = rData.scount  ;//订单总数
-                        seriesData[0].data[i] = rData.cash_pay ; //现金支付
+                        seriesData[0].data[i] = rData.cash_pay; //现金支付
                         seriesData[1].data[i] = rData.amount_receivable;  //应收金额
                         seriesData[2].data[i] = rData.electronic_pay;  //电子支付
                         seriesData[3].data[i] = rData.act_total;  //实收金额
@@ -460,7 +466,7 @@
                         title: {
                             text: '车场日报'
                         },
-                        tooltip : {
+                        tooltip: {
                             trigger: 'axis',
                             axisPointer: {
                                 type: 'cross',
@@ -470,10 +476,10 @@
                             }
                         },
                         legend: {
-                            data:['现金支付','应收金额','电子支付','实收金额','减免金额']
+                            data: ['现金支付', '应收金额', '电子支付', '实收金额', '减免金额']
                         },
                         toolbox: {
-                            right:20,
+                            right: 20,
                             feature: {
                                 saveAsImage: {}
                             }
@@ -484,21 +490,21 @@
                             bottom: '3%',
                             containLabel: true
                         },
-                        xAxis : [
+                        xAxis: [
                             {
-                                type : 'category',
-                                boundaryGap : false,
-                                data : xAxisData
+                                type: 'category',
+                                boundaryGap: false,
+                                data: xAxisData
                             }
                         ],
-                        yAxis : [
+                        yAxis: [
                             {
-                                type : 'value'
+                                type: 'value'
                             }
                         ],
-                        series : seriesData
+                        series: seriesData
                     });
-                })
+                });
             }
         },
         mounted() {
@@ -515,35 +521,51 @@
             };
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.$refs['bolinkuniontable'].getTableData({date:'',out_uid:''});
+            this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''});
             // this.getTableData(this.sform);
             this.chartHeight = (common.gwh()-200)+'px';
             this.chartWidth = (common.gww()/(common.gwh()-200))*common.gwh();
+            console.log(common.gwh());
+            console.log(common.gww());
+            // 637
+            // 1366
+            // this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
             this.start_placeholder = common.currentDate() + ' 00:00:00';
             this.end_placeholder = common.currentDate() + ' 23:59:59';
-            this.chartDate = [common.currentDate()+' 00:00:00',common.currentDate()+' 23:59:59'];
+            this.chartDate = [common.currentDate() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
             this.selParkId = -1;
 
             let _this = this;
             _this.$nextTick(function () {
                 axios.all([common.getCollector()])
                     .then(axios.spread(function (ret) {
-                        _this.parklistChart =  ret.data;
+                        _this.parklistChart = ret.data;
                         _this.parklistChart.push({
-                            value_name:'全部',
-                            value_no:-1}
+                                value_name: '全部',
+                                value_no: -1
+                            }
                         );
                         _this.queryForChart(1);
-                    }))
+                    }));
             });
         }
-    }
+    };
 
 </script>
 
 <style>
     .gutter {
         display: none
+    }
+
+    .date-picker-sec, .chart-sec {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .chart-style {
+        padding-top: 60px;
     }
 </style>
 

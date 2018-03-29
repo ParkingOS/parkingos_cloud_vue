@@ -27,7 +27,6 @@
                                 <div id="todayMoneyChart" v-bind:style="topParkChartSize"></div>
                             </div>
                         </div>
-
                         <div class="data-box">
                             <div class="title">车场在线状态</div>
                             <div class="body">

@@ -441,6 +441,7 @@
                 // this.chartHeight = (common.gwh()-143)+'px';
                 // this.chartWidth = (common.gww()/common.gwh())*common.gwh();
             };
+            this.initChart();
         },
         activated() {
             window.onresize = () => {

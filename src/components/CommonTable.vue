@@ -6,7 +6,7 @@
                 <el-col :span="22" align="left">
                     <div v-if="showParkInfo" style="display:inline;margin-right:10px;float: left">
                         <div>
-                            <el-select v-model="currentTimeType" placeholder="出场时间" @change="changeParkTimestr"
+                            <el-select v-model="currentTimeType" placeholder="入场时间" @change="changeParkTimestr"
                                        style="float: left;margin-right: 10px;width: 123px;">
                                 <el-option
                                         v-for="item in InOutTime"
@@ -29,16 +29,17 @@
                                     :default-time="['00:00:00', '23:59:59']">
                             </el-date-picker>
 
-                            <el-input v-model="parkcarnum" style="width:200px;background:white;"
-                                      v-on:input="changeParkCarnum">
+                            <el-input v-model="parkcarnum" style="width:200px;background:white;">
                                 <template slot="prepend">车牌号</template>
                             </el-input>
-                            <el-button  @click="changeParkText" icon="search">{{parkText}}
+                            <!--<el-button @click="changeParkText" icon="search">{{parkText}}-->
+                            <!--</el-button>-->
+                            <el-button @click="changeParkTime(0)" icon="search" type="primary">搜索
                             </el-button>
                         </div>
                         <div :style="parkExpanStyle">
                             <span style="float: left;margin-top: 10px;">订单状态：</span>
-                            <el-select v-model="currentState" placeholder="未结算" @change="changeParkStatestr"
+                            <el-select v-model="currentState" placeholder="未结算"
                                        style="float: left;margin-right: 10px;width: 123px;">
                                 <el-option
                                         v-for="item in orderStateType"
@@ -48,7 +49,7 @@
                                 </el-option>
                             </el-select>
                             <span style="float: left;margin-top: 10px;margin-left: 10px">支付方式：</span>
-                            <el-select v-model="currentPayType" placeholder="现金" @change="changeParkStatestr"
+                            <el-select v-model="currentPayType" placeholder="现金"
                                        style="float: left;margin-right: 10px;width: 123px;">
                                 <el-option
                                         v-for="item in orderPayType"
@@ -173,6 +174,9 @@
                         <el-button type="primary" @click="handleExport" v-if="!hideExport">导出
                         </el-button>
                     </el-tooltip>
+                    <el-button @click="changeParkText" type="text" v-if="showParkInfo" style="color: #109EFF;">
+                        {{parkText}}
+                    </el-button>
                     <el-button type="primary" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
                     <!--<el-button type="primary" size="small" @click="handlePrint()">打印</el-button>-->
 
@@ -454,28 +458,30 @@
                 searchForm: {},
                 tempSearchForm: {},
                 collectors: [],
-                InOutTime: [{
-                    value_name: '出场时间',
-                    value_no: 'end_time'
-                }, {
-                    value_name: '进场时间',
-                    value_no: 'create_time'
-                }],
+                InOutTime: [
+                    {
+                        value_name: '进场时间',
+                        value_no: 'create_time'
+                    }, {
+                        value_name: '出场时间',
+                        value_no: 'end_time'
+                    }],
                 orderStateType: [
+                    {'value_name': '全部类型', 'value_no': ''},
                     {'value_name': '未结算', 'value_no': '0'},
                     {'value_name': '已结算', 'value_no': '1'}
                 ],
                 orderPayType: [
                     //0:帐户支付,1:现金支付,2:手机支付 3:包月 4:现金预支付 5：银联卡(中央预支付，后面废弃) 6：商家卡(中央预支付，后面废弃) 8：免费放行 9：刷卡
                     // {'value_name': '账户支付', 'value_no': 0},
-                    {'value_name': '无', 'value_no': -1},
-                    {'value_name': '现金支付', 'value_no': 1},
-                    {'value_name': '手机支付', 'value_no': 2},
-                    {'value_name': '包月', 'value_no': 3},
+                    {'value_name': '全部类型', 'value_no': ''},
+                    {'value_name': '现金支付', 'value_no': '1'},
+                    {'value_name': '手机支付', 'value_no': '2'},
+                    {'value_name': '包月', 'value_no': '3'},
                     // {'value_name': '现金预支付', 'value_no': 4,},
                     // {'value_name': '银联卡支付', 'value_no': 5,},
                     // {'value_name': '商家卡支付', 'value_no': 6,},
-                    {'value_name': '免费放行', 'value_no': 8}
+                    {'value_name': '免费放行', 'value_no': '8'}
                     // {'value_name': '刷卡', 'value_no': 9}
                 ],
                 currentcollect: '',
@@ -612,12 +618,12 @@
                 ordertime: 'between',
                 ordertime_start: 0,
                 ordertime_end: 0,
-                ordertimetype: 'end_time',
+                ordertimetype: 'create_time',
                 parkcarnum: '',
                 parkText: '显示高级选项',
                 parkExpanded: false,
                 parkExpanStyle: 'display:none;',
-                currentTimeType: '',
+                currentTimeType: '进场时间',
                 currentState: '',
                 currentPayType: '',
                 parkAccoutRece_start: '',
@@ -1174,6 +1180,7 @@
             handleShowOrderDetail(index, row) {
                 //跳转到订单详情
                 this.$router.push({path: '/orderManage_OrderDetail', query: {index: index, row: row}});
+                this.parkText = '显示高级选项';//收起高级选项
             },
             handleModifyCarNumber(index, row) {
                 //修改车牌号
@@ -1425,7 +1432,7 @@
                         this.sform.create_time = '';
                         this.sform.create_time_start = 0;
                         this.sform.create_time_end = 0;
-                    } else {
+                    } else if (this.ordertimetype === 'create_time') {
                         this.ordertime_start = (new Date(datearr[0])).getTime();
                         this.ordertime_end = (new Date(datearr[1])).getTime();
 
@@ -1437,6 +1444,20 @@
                         this.sform.end_time_start = 0;
                         this.sform.end_time_end = 0;
 
+                    } else {
+                        this.ordertime_start = (new Date(datearr[0])).getTime();
+                        this.ordertime_end = (new Date(datearr[1])).getTime();
+
+                        this.sform.end_time = this.ordertime;
+                        this.sform.end_time_start = this.ordertime_start;
+                        this.sform.end_time_end = this.ordertime_end;
+
+                        this.ordertime_start = (new Date(datearr[0])).getTime();
+                        this.ordertime_end = (new Date(datearr[1])).getTime();
+
+                        this.sform.create_time = this.ordertime;
+                        this.sform.create_time_start = this.ordertime_start;
+                        this.sform.create_time_end = this.ordertime_end;
                     }
 
                     console.log(this.sform);
@@ -1463,9 +1484,6 @@
                 console.log(val);
                 this.ordertimetype = val;
             },
-            changeParkCarnum() {
-                this.changeParkTime(0);
-            },
             changeParkText() {
                 if (this.parkExpanded) {
                     this.parkText = '显示高级选项';
@@ -1478,24 +1496,12 @@
                 }
                 this.parkExpanded = !this.parkExpanded;
             },
-            changeParkStatestr(val) {
-                // state_start: 1
-                // state: 1
-                console.log(val);
-                this.changeParkTime(0);
-            },
-            changeParkStatestr(val) {
-                // pay_type_start: 1
-                // pay_type: 1
-                console.log(val);
-                this.changeParkTime(0);
-            },
+
             changeParkReceive() {
                 if (this.parkAccoutRece_start >= 0 && this.parkAccoutRece_end >= 0) {
-                    this.sform.amount_receivable = 'between';
-                    this.sform.amount_receivable_start = this.parkAccoutRece_start;
-                    this.sform.amount_receivable_end = this.parkAccoutRece_end;
-                    this.changeParkTime(0);
+                    this.sform.total = 'between';
+                    this.sform.total_start = this.parkAccoutRece_start;
+                    this.sform.total_end = this.parkAccoutRece_end;
                 }
             }
             // parkAccoutRece_start:'',
@@ -1552,20 +1558,20 @@
                 _this.monthReportEnd = '';
                 _this.start_month_placeholder = common.currentMonth();
             }
-            console.log(_this.showParkInfo)
+            // console.log(_this.showParkInfo);
             if (_this.showParkInfo) {
                 _this.ordertime_start = 0;
                 _this.ordertime_end = 0;
-                _this.ordertimetype = 'end_time';
+                _this.ordertimetype = 'create_time';
                 _this.parkcarnum = '';
                 _this.parkExpanded = false;
                 _this.parkExpanStyle = 'display:none;';
-                _this.currentTimeType = '';
+                _this.currentTimeType = '进场时间';
                 _this.currentState = '';
                 _this.currentPayType = '';
                 _this.parkAccoutRece_start = '';
                 _this.parkAccoutRece_end = '';
-                _this.datesselector = '';
+                _this.datesselector = common.currentDateArray();
             }
         }
     };
