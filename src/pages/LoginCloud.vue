@@ -392,6 +392,7 @@
                                     if(_this.highlightindex==''){
                                         _this.$router.push({path: '/index'});
                                     }else{
+                                        _this.highlightindex = '/data_Center';//先写死跳转到数据中心。后面权限加上了这句就注释掉
                                         _this.$router.push({path: _this.highlightindex});
                                         sessionStorage.setItem('highlightindex', _this.highlightindex)
                                     }
@@ -432,6 +433,7 @@
                                     if(_this.highlightindex==''){
                                         _this.$router.push({path: '/index'});
                                     }else{
+                                        _this.highlightindex = '/data_Center_park';//先写死跳转到数据中心。后面权限加上了这句就注释掉
                                         _this.$router.push({path: _this.highlightindex});
                                         sessionStorage.setItem('highlightindex', _this.highlightindex)
                                     }

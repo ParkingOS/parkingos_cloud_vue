@@ -34,7 +34,7 @@
                             </el-input>
                             <!--<el-button @click="changeParkText" icon="search">{{parkText}}-->
                             <!--</el-button>-->
-                            <el-button @click="changeParkTime(0)" icon="search" type="primary">搜索
+                            <el-button @click="changeParkTime(datesselector)" icon="search" type="primary">搜索
                             </el-button>
                         </div>
                         <div :style="parkExpanStyle">
@@ -460,7 +460,7 @@
                 collectors: [],
                 InOutTime: [
                     {
-                        value_name: '进场时间',
+                        value_name: '入场时间',
                         value_no: 'create_time'
                     }, {
                         value_name: '出场时间',
@@ -623,7 +623,7 @@
                 parkText: '显示高级选项',
                 parkExpanded: false,
                 parkExpanStyle: 'display:none;',
-                currentTimeType: '进场时间',
+                currentTimeType: '入场时间',
                 currentState: '',
                 currentPayType: '',
                 parkAccoutRece_start: '',
@@ -1420,7 +1420,7 @@
             },
             changeParkTime(datearr) {
                 console.log(datearr);
-                if (datearr.length > 1) {
+                if (datearr !== null && datearr.length > 1) {
                     if (this.ordertimetype === 'end_time') {
                         this.ordertime_start = (new Date(datearr[0])).getTime();
                         this.ordertime_end = (new Date(datearr[1])).getTime();
@@ -1566,7 +1566,7 @@
                 _this.parkcarnum = '';
                 _this.parkExpanded = false;
                 _this.parkExpanStyle = 'display:none;';
-                _this.currentTimeType = '进场时间';
+                _this.currentTimeType = '入场时间';
                 _this.currentState = '';
                 _this.currentPayType = '';
                 _this.parkAccoutRece_start = '';

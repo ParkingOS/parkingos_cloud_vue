@@ -12,7 +12,7 @@
                             <td style="width:250px;text-align:center">{{currentRow.order_id_local}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">进场方式</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">入场方式</td>
                             <td style="width:250px;text-align:center">{{currentRow.c_type}}</td>
                         </tr>
                         <tr>
@@ -24,11 +24,11 @@
                             <td style="width:250px;text-align:center">{{currentRow.car_type}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">进场时间</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">入场时间</td>
                             <td style="width:250px;text-align:center">{{common.dateformat(currentRow.create_time)}}</td>
                         </tr>
                         <tr>
-                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">进场通道</td>
+                            <td style="background-color:#F5F7FA;height:30px;width:150px;text-align:center">入场通道</td>
                             <td style="width:250px;text-align:center">{{currentRow.in_passid}}</td>
                         </tr>
                         <tr>
@@ -92,7 +92,7 @@
                     </table>
                 </el-col>
                 <el-col :span="12" style="padding: 10px">
-                    <p>进场图片</p>
+                    <p>入场图片</p>
                     <div v-for="img in img_in">
                         <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
                     </div>

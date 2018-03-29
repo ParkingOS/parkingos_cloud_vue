@@ -47,7 +47,7 @@
                 <el-form-item label="车位总数">
                     <el-input v-model="addFormPark.parking_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <!--<el-form-item label="进场方式">-->
+                <!--<el-form-item label="入场方式">-->
                 <!--<el-select v-model="addFormPark.etc" style="width:90%">-->
                 <!--<el-option-->
                 <!--v-for="item in inparkType"-->
@@ -110,7 +110,7 @@
                 <el-form-item label="车位总数">
                     <el-input v-model="addFormPark.parking_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <!--<el-form-item label="进场方式">-->
+                <!--<el-form-item label="入场方式">-->
                 <!--<el-select v-model="addFormPark.etc" style="width:90%">-->
                 <!--<el-option-->
                 <!--v-for="item in inparkType"-->
@@ -439,7 +439,7 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '进场方式',
+                                label: '入场方式',
                                 prop: 'etc',
                                 width: '100',
                                 type: 'selection',

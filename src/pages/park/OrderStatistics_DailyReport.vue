@@ -405,28 +405,28 @@
                         {
                             name: '现金支付',
                             type: 'line',
-                            stack: '总量',
+                            stack: '总量1',
                             // areaStyle: {normal: {}},
                             data: []
                         },
                         {
                             name: '应收金额',
                             type: 'line',
-                            stack: '总量',
+                            stack: '总量2',
                             // areaStyle: {normal: {}},
                             data: []
                         },
                         {
                             name: '电子支付',
                             type: 'line',
-                            stack: '总量',
+                            stack: '总量3',
                             // areaStyle: {normal: {}},
                             data: []
                         },
                         {
                             name: '实收金额',
                             type: 'line',
-                            stack: '总量',
+                            stack: '总量4',
                             label: {
                                 normal: {
                                     show: true,
@@ -439,7 +439,7 @@
                         {
                             name: '减免金额',
                             type: 'line',
-                            stack: '总量',
+                            stack: '总量5',
                             label: {
                                 normal: {
                                     show: true,

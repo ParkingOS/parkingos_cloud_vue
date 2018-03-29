@@ -21,7 +21,7 @@
                 ref="bolinkuniontable"
         ></CommonTable>
         <el-dialog title="车辆图片" :visible.sync="imgDialog" width="40%">
-            <p>进场图片</p>
+            <p>入场图片</p>
             <div v-for="img in img_in">
                 <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
             </div>
@@ -134,7 +134,7 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '进场收费员',
+                            label: '入场收费员',
                             prop: 'uid',
                             width: '150',
                             type: 'selection',
@@ -186,7 +186,7 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '进场方式',
+                            label: '入场方式',
                             prop: 'c_type',
                             width: '123',
                             type: 'str',
@@ -215,7 +215,7 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '进场时间',
+                            label: '入场时间',
                             prop: 'create_time',
                             width: '180',
                             type: 'date',
@@ -277,7 +277,7 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '进场通道',
+                            label: '入场通道',
                             prop: 'in_passid',
                             width: '123',
                             type: 'str',

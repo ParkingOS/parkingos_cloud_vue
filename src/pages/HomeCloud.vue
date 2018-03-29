@@ -334,6 +334,7 @@
                 var cpath = this.$router.currentRoute.fullPath;
                 console.log(cpath);
                 this.highlightindex = cpath;
+                // this.highlightindex = '/data_Center_park';
                 if (cpath == '/query/queryout') {
                     this.active = '/query/queryin';
                 } else if (cpath == '/order/orderout') {

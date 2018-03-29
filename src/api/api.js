@@ -201,7 +201,7 @@ export const orderStateType = [
  * @type {*[]}
  */
 export const inparkType = [
-    //进场方式
+    //入场方式
     {'value_name': '全部', 'value_no': '-1'},
     {'value_name': '通道扫牌', 'value_no': ''},
     {'value_name': 'NFC刷卡', 'value_no': '0'},

@@ -47,7 +47,7 @@
                     <div class="pannel-center">
                         <div class="cart-in-out">
                             <div class="data-box cart-box">
-                                <div class="title">进场车辆</div>
+                                <div class="title">入场车辆</div>
                                 <div style="background: white;color: black;padding:5px;">
                                     <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
                                         <span style="flex: 2;text-align: center;">车场名称</span>
@@ -112,7 +112,7 @@
                             <div class="title">进出车统计</div>
                             <div class="body">
                                 <div class="item" style="padding-top: 10px;">
-                                    <div class="item-txt">今日进场</div>
+                                    <div class="item-txt">今日入场</div>
                                     <NumberRoller ref="roll_incar"></NumberRoller>
                                 </div>
                                 <div class="item">
@@ -183,7 +183,7 @@
                 },
                 dataaaa: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                 parkState: [],//车场在线状态
-                inPartData: [],//进场车辆轮播
+                inPartData: [],//入场车辆轮播
                 outPartData: [],//出场车辆轮播
                 berthData: {},//泊位使用率
                 rankData: {},//收费排行
