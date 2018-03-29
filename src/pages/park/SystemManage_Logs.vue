@@ -12,6 +12,8 @@
 
                 :hideTool="hideTool"
 
+
+                :showdateSelector="showdateSelector"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
@@ -44,6 +46,7 @@
                 showdelete: true,
                 hideOptions: true,
 
+                showdateSelector: true,
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,

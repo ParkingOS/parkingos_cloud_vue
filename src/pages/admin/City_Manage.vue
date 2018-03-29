@@ -34,10 +34,10 @@
                 </el-form-item>
 
 
-                <el-form-item label="厂商编号" :prop="union_id">
+                <el-form-item label="泊链厂商编号" :prop="union_id">
                     <el-input v-model="addFormPark.union_id" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="厂商秘钥" :prop="ukey">
+                <el-form-item label="泊链厂商秘钥" :prop="ukey">
                      <el-input v-model="addFormPark.ukey" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
             </el-form>
@@ -57,10 +57,10 @@
                     </el-form-item>
 
 
-                    <el-form-item label="厂商编号" :prop="union_id">
+                    <el-form-item label="泊链厂商编号" :prop="union_id">
                         <el-input v-model="addFormPark.union_id" style="width:90%" placeholder=""></el-input>
                     </el-form-item>
-                    <el-form-item label="厂商秘钥" :prop="ukey">
+                    <el-form-item label="泊链厂商秘钥" :prop="ukey">
                          <el-input v-model="addFormPark.ukey" style="width:90%" placeholder=""></el-input>
                     </el-form-item>
                 </el-form>
@@ -298,7 +298,7 @@
                 parkState2: parkState,
                 resetCarnumber: '',
                 btswidth: '200',
-                fieldsstr: 'id__company_name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey',
+                fieldsstr: 'id__name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__ctime__update_time__union_id__ukey',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
@@ -448,28 +448,6 @@
                                 align: 'center',
                             },
                         ]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '角色',
-                                prop: 'role_id',
-                                width: '123',
-                                type: 'selection',
-                                selectlist: this.aroles,
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center',
-                                format: (row) => {
-                                    // console.log(this.aroles)
-                                    //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
-                                    //也就是data中的this,可以获取到this.aroles
-                                    //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
-                                    return common.nameformat(row, this.aroles, 'role_id')
-                                }
-                            },
-                        ]
                     },
                     {
                         hasSubs: false,
@@ -531,9 +509,7 @@
                         {required: true, message: '请填写姓名', trigger: 'blur'}
                     ],
 
-                    role_id: [
-                        {required: true, message: '请选择角色', trigger: 'change'}
-                    ],mobile: [
+                    mobile: [
                         {validator: checkMobile, trigger: 'blur'}
                     ],
                     phone: [

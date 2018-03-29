@@ -1,7 +1,10 @@
-export const path = 'http://120.25.121.204:8080/cloud';
-//
+
+// export const path = 'http://120.25.121.204:8080/cloud';
+
+
 // export const path = "http://localhost:8086"
-// export const path = 'http://192.168.199.205:12305';
+export const path = 'http://192.168.199.205:12305';
+// export const path = 'http://192.168.192.1:12305';
 //export const path = "http://localhost:8085"
 // export const path = "http://localhost:8080/cloud"
 
@@ -231,6 +234,16 @@ export var checkPhone = (rule, value, callback) => {
     // eslint-disable-next-line no-useless-escape
     } else if (!((/^800[0-9]{7}$/.test(value)) || (/^400[0-9]{7}$/.test(value)) || (/^1[34578]\d{9}$/.test(value)) || (/^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})$/.test(value)))) {
         return callback(new Error('请输入手机、座机(区号后加-)或400,800开头号码'));
+    } else {
+        callback();
+    }
+};
+
+export var checkParkMobile = (rule, value, callback) => {
+    if (typeof(value) === 'undefined' || value === '') {
+        return callback(new Error('请输入车场手机号码'));
+    } else if (!((/^1[34578]\d{9}$/.test(value)))) {
+        return callback(new Error('请输入正确的手机号码'));
     } else {
         callback();
     }

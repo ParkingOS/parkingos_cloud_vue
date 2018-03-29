@@ -52,7 +52,11 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="联系电话" :prop="mobile">
+
+                <el-form-item label="泊链编号" :prop="bolink_id">
+                    <el-input v-model="addFormPark.bolink_id" style="width:90%" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="联系手机" :prop="mobile">
                     <el-input v-model="addFormPark.mobile" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
@@ -81,7 +85,10 @@
                     <br/>
                     <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                <el-form-item label="停车场电话" :prop="mobile">
+                <el-form-item label="泊链编号" :prop="bolink_id">
+                    <el-input v-model="addFormPark.bolink_id" style="width:90%" placeholder="" readonly></el-input>
+                </el-form-item>
+                <el-form-item label="联系手机" :prop="mobile">
                     <el-input v-model="addFormPark.mobile" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <!--<el-form-item label="备注">-->
@@ -277,6 +284,7 @@
         inparkType,
         checkPhone,
         checkMobile,
+        checkParkMobile,
         checkTelePhone
     } from '../../api/api';
 
@@ -400,15 +408,28 @@
                                 return common.nameformat(row, this.unionList, 'groupid')
                             }
                         },
-                    ]
+                    ]},
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '联系手机',
+                                prop: 'mobile',
+                                width: '123',
+                                type: 'str', addable: true,
+                                searchable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
                     },
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '联系电话',
-                                prop: 'mobile',
+                                label: '泊链编号',
+                                prop: 'bolink_id',
                                 width: '123',
-                                type: 'str', addable: true,
+                                type: 'str',
+                                addable: true,
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center',
@@ -612,7 +633,7 @@
                         {required: true, message: '请标注位置', trigger: 'blur'}
                     ],
                     mobile: [
-                        {required: true, message: '请填写联系电话', trigger: 'blur'}
+                        {required: true, validator: checkParkMobile, trigger: 'blur'}
                     ],
                     parking_total: [
                        {required: true, message: '请输入车位数', trigger: 'blur'}

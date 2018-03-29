@@ -38,8 +38,8 @@
                     <br/>
                     <el-button  type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                <el-form-item label="泊链运营商编号" :prop="union_id">
-                    <el-input v-model="addFormPark.union_id" style="width:90%" placeholder=""></el-input>
+                <el-form-item label="泊链运营商编号" :prop="operatorid">
+                    <el-input v-model="addFormPark.operatorid" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
             </el-form>
@@ -64,8 +64,8 @@
                     <br/>
                     <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                <el-form-item label="泊链运营商编号" :prop="union_id">
-                    <el-input v-model="addFormPark.union_id" style="width:90%" placeholder=""></el-input>
+                <el-form-item label="泊链运营商编号" :prop="operatorid">
+                    <el-input v-model="addFormPark.operatorid" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
             </el-form>
@@ -305,7 +305,7 @@
                 unionList:'',
                 resetCarnumber: '',
                 btswidth: '200',
-                fieldsstr: 'id__name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey',
+                fieldsstr: 'id__name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey__operatorid',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
@@ -370,7 +370,7 @@
                         hasSubs: false, subs: [
                             {
                                 label: '泊链运营商编号',
-                                prop: 'union_id',
+                                prop: 'operatorid',
                                 width: '180',
                                 type: 'str',
                                 addable: true,
@@ -453,28 +453,6 @@
                                 align: 'center',
                             },
                         ]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '角色',
-                                prop: 'role_id',
-                                width: '123',
-                                type: 'selection',
-                                selectlist: this.aroles,
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center',
-                                format: (row) => {
-                                    // console.log(this.aroles)
-                                    //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
-                                    //也就是data中的this,可以获取到this.aroles
-                                    //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
-                                    return common.nameformat(row, this.aroles, 'role_id')
-                                }
-                            },
-                        ]
                     },
                     {
                         hasSubs: false,
@@ -492,25 +470,7 @@
                                 return common.dateformat(row.reg_time)
                             }
                         }]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '性别',
-                                prop: 'sex',
-                                width: '100',
-                                type: 'selection',
-                                selectlist: genderType,
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center',
-                                format: function (row) {
-                                    return common.nameformat(row, genderType, 'sex')
-                                }
-                            },
-                        ]
-                    }, {
+                    },  {
 
                         hasSubs: false,
                         subs: [{
@@ -837,7 +797,7 @@
             getTableData(sform) {
                 let vm = this;
                 this.loading = true;
-                let api = '/citymember/query';
+                let api = '/groupmember/query';
 
                 sform.rp = this.pageSize;
                 sform.page = this.currentPage;
@@ -934,7 +894,7 @@
             },
             handledelete() {
                 let vm = this;
-                vm.$axios.post(path + '/citymember/delmember', vm.$qs.stringify({
+                vm.$axios.post(path + '/groupmember/delmember', vm.$qs.stringify({
                     'id': this.rowid,
                     'token': sessionStorage.getItem('token')
                 }), {
@@ -1007,7 +967,7 @@
                     'id': this.rowid,
                     'token': sessionStorage.getItem('token')
                 };
-                vm.$axios.post(path + '/citymember/editpass', vm.$qs.stringify(rform), {
+                vm.$axios.post(path + '/groupmember/editpass', vm.$qs.stringify(rform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
@@ -1069,7 +1029,7 @@
                     if (valid) {
                         _this.addloading = true;
                         aform = _this.generateForm(aform);
-                        _this.$axios.post(path + '/citymember/createmember', _this.$qs.stringify(aform), {
+                        _this.$axios.post(path + '/groupmember/createmember', _this.$qs.stringify(aform), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
@@ -1119,7 +1079,7 @@
                     if (valid) {
                         _this.addloading = true;
                         aform = _this.generateForm(aform);
-                        _this.$axios.post(path + '/citymember/editmember', _this.$qs.stringify(aform), {
+                        _this.$axios.post(path + '/groupmember/editmember', _this.$qs.stringify(aform), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
@@ -1161,8 +1121,8 @@
                 //用来构建相同的参数
                 sform.token = common.attachParams('token');
                 sform.oid = common.attachParams('oid', 1);
-                sform.comid = this.currentRow.id;
-                sform.groupid = common.attachParams('groupid', 1);
+                sform.groupid = this.currentRow.id;
+                //sform.groupid = common.attachParams('groupid', 1);
                 sform.cityid = common.attachParams('cityid', 1);
                 sform.unionid = common.attachParams('unionid', 1);
                 sform.channelid = common.attachParams('channelid', 1);
@@ -1238,9 +1198,6 @@
 
         },
         watch: {
-            aroles: function (val) {
-                this.tableitems_employee[5].subs[0].selectlist = val
-            },
             unionList: function (val) {
                 this.tableitems[7].subs[0].selectlist = val
             }
