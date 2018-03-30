@@ -137,6 +137,23 @@
                                 :default-time="['00:00:00', '23:59:59']">
                         </el-date-picker>
                     </div>
+                    <div v-if="showdateSelector10" style="float: left;margin-right: 10px;">
+
+                        <span class="demonstration">日期</span>
+                        <el-date-picker
+                                v-model="datesselector"
+                                type="datetimerange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                :start-placeholder="start_placeholder"
+                                :end-placeholder="end_placeholder"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                :picker-options="pickerOptions2"
+                                @change="changeanalysisdate"
+                                :default-time="['00:00:00', '23:59:59']">
+                        </el-date-picker>
+                    </div>
 
                     <div v-if="showdateSelectorMonth" style="float: left;margin-right: 10px;">
                         <!--<div style="float: left;margin-right: 10px;">-->
@@ -632,12 +649,12 @@
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector', 'showCollectorSelector', 'showParkSelector', 'showdateSelectorMonth',
+            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector10', 'showCollectorSelector', 'showParkSelector', 'showdateSelectorMonth',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard'],
         methods: {
             //刷新页面
             refresh() {
-                if (this.showdateSelector) {
+                if (this.showdateSelector||this.showdateSelector10) {
                     //this.$extend(this.sform,{'date':this.datesselector})
                     this.sform.date = this.searchDate;
                     if (this.sform.date == '') {
@@ -1553,6 +1570,22 @@
                         _this.parks = _this.parks.concat(retpark.data);
                     }));
             }
+            if (this.showdateSelector10) {
+                _this.start_placeholder = common.currentDateArray(10)[0];
+                _this.end_placeholder = common.currentDateArray(10)[1];
+                _this.currentcollect = '';
+                _this.currentpark = '';
+                _this.currentdate = '';
+                _this.datesselector = '';
+                _this.searchDate = '';
+                _this.$axios.all([common.getCollector(), common.getAllParks()])
+                    .then(_this.$axios.spread(function (ret, retpark) {
+                        _this.collectors = [{value_no: '', value_name: '全部'}];
+                        _this.collectors = _this.collectors.concat(ret.data);
+                        _this.parks = [{value_no: '', value_name: '全部车场'}];
+                        _this.parks = _this.parks.concat(retpark.data);
+                    }));
+            }
             if (this.showdateSelectorMonth) {
                 _this.monthReportStart = '';
                 _this.monthReportEnd = '';
@@ -1571,7 +1604,7 @@
                 _this.currentPayType = '';
                 _this.parkAccoutRece_start = '';
                 _this.parkAccoutRece_end = '';
-                _this.datesselector = common.currentDateArray();
+                _this.datesselector = common.currentDateArray(3);
             }
         }
     };

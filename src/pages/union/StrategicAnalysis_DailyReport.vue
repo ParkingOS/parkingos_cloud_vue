@@ -11,7 +11,7 @@
                         :tableitems="tableitems"
                         :btswidth="btswidth"
                         :hide-export="hideExport"
-                        :showdateSelector="showdateSelector"
+                        :showdateSelector10="showdateSelector"
                         :showParkSelector="showParkSelector"
                         :hide-options="hideOptions"
                         :searchtitle="searchtitle"
@@ -459,7 +459,7 @@
             };
             this.chartHeight = (common.gwh()-200)+'px';
             this.chartWidth = (common.gww()/(common.gwh()-200))*common.gwh();
-            this.chartDate = [common.currentDate()+' 00:00:00',common.currentDate()+' 23:59:59'];
+            this.chartDate = common.currentDateArray(10);
             this.selParkId = -1;
 
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();

@@ -501,8 +501,8 @@ export default {
         //返回时间区间 2018-03-20 00:00:00至 2018-03-20 23:59:59
         return this.currentDate() + ' 00:00:00至' + this.currentDate() + ' 23:59:59';
     },
-    currentDateArray(){
-        let threeDaysAgo = new Date(new Date().getTime()-2*24*60*60*1000);
+    currentDateArray(delay){
+        let threeDaysAgo = new Date(new Date().getTime()-(delay-1)*24*60*60*1000);
         let tda = threeDaysAgo.getFullYear() + '-' + this.formatNumber(threeDaysAgo.getMonth() + 1) + '-' + this.formatNumber(threeDaysAgo.getDate());
         return [tda+' 00:00:00',this.currentDate()+' 23:59:59'];
     }
