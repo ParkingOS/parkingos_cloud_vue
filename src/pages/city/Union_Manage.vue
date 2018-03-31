@@ -301,8 +301,8 @@
                 parkid: '',
                 currentIndex: 0,
                 currentRow: '',
+                operatorid:'',
                 parkState2: parkState,
-                unionList:'',
                 resetCarnumber: '',
                 btswidth: '200',
                 fieldsstr: 'id__name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey__operatorid',
@@ -1186,11 +1186,10 @@
             // console.log(this.$refs.bolinkuniontable)
             // this.$refs['employeeManage'].activedialog();
             let _this = this;
-            axios.all([common.getPName(), common.getCarType() ,common.getUnionList()])
-                .then(axios.spread(function (retpname, retcartype, retUnionList) {
+            axios.all([common.getPName(), common.getCarType() ])
+                .then(axios.spread(function (retpname, retcartype, ) {
                     _this.pname = retpname.data;
                     _this.cartype = retcartype.data;
-                    _this.unionList = retUnionList.data;
                     // console.log(ret.data)
                     // console.log(_this.pname)
                 }))
@@ -1198,9 +1197,6 @@
 
         },
         watch: {
-            unionList: function (val) {
-                this.tableitems[7].subs[0].selectlist = val
-            }
         }
     }
 

@@ -397,10 +397,15 @@
                                         sessionStorage.setItem('highlightindex', _this.highlightindex)
                                     }
                                 } else if (u.oid == ROLE_ID.CITY) {
-                                      _this.$router.push({path: '/Union_Manage'});
+                                        _this.highlightindex = '/union_manage';
+                                        _this.$router.push({path: _this.highlightindex});
+                                        sessionStorage.setItem('highlightindex', _this.highlightindex)
                                     // _this.$router.push({path: '/Park_Manage'});
                                 } else if (u.oid == ROLE_ID.BOSS) {
-                                       _this.$router.push({path: '/City_Manage'});
+                                         _this.highlightindex = '/city_manage';
+                                        _this.$router.push({path: _this.highlightindex});
+                                        sessionStorage.setItem('highlightindex', _this.highlightindex)
+                                       //_this.$router.push({path: '/City_Manage'});
                                 } else if (u.oid == ROLE_ID.PARK ) {
                                     //先跳转空页面，然后再根据数据情况显示页面再跳转
                                     // _this.$router.push({path: '/index'});

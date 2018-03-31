@@ -1094,7 +1094,7 @@
             generateForm(sform) {
                 //用来构建相同的参数
                 sform.token = common.attachParams('token');
-                sform.oid = common.attachParams('oid', 1);
+                sform.oid = 7;//common.attachParams('oid', 1);
                 sform.cityid = this.currentRow.id;
                 sform.groupid = common.attachParams('groupid', 1);
                 //sform.cityid = common.attachParams('cityid', 1);
