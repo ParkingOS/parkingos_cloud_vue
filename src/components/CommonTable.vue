@@ -39,7 +39,7 @@
                         </div>
                         <div :style="parkExpanStyle">
                             <span style="float: left;margin-top: 10px;">订单状态：</span>
-                            <el-select v-model="currentState" placeholder="未结算"
+                            <el-select v-model="superimposed" placeholder="未结算"
                                        style="float: left;margin-right: 10px;width: 123px;">
                                 <el-option
                                         v-for="item in orderStateType"
@@ -74,6 +74,7 @@
                             <template slot="prepend">实收</template>
                         </el-input>
                     </div>
+
 
                     <!--<div v-if="showParkInfo" style="display:inline;margin-right:50px;float: left">-->
                     <!--<el-input v-model="parkspace_park" style="width:150px;background:white;margin-right: 0.5px;"-->
@@ -181,6 +182,18 @@
                     <el-button type="primary" @click="handleCustomizeAdd" v-if="showCustomizeAdd">
                         {{addtitle}}
                     </el-button>
+
+                    <div v-if="showSuperimposed"  style="display:inline;margin-right:700px;float: right">
+                        <span style="float: left;margin-top: 10px;margin-left: 20px;">叠加用券：</span>
+                        <el-select v-model="superimposed"
+                                   style="float: left;margin-right: 10px;width: 123px;" @change="changeSuperimposed">
+                            <el-option
+                                    v-for="item in superimposedType"
+                                    :label="item.value_name"
+                                    :value="item.value_no">
+                            </el-option>
+                        </el-select>
+                    </div>
 
                     <el-button type="primary" @click="handleSearch" v-if="!hideSearch" icon="search">高级查询
                     </el-button>
@@ -443,6 +456,7 @@
     import EditForm from './EditForm';
     import AddForm from './AddForm';
     import Printd from 'printd';
+    import axios from 'axios'
 
     export default {
         components: {
@@ -487,6 +501,10 @@
                     {'value_name': '全部类型', 'value_no': ''},
                     {'value_name': '未结算', 'value_no': '0'},
                     {'value_name': '已结算', 'value_no': '1'}
+                ],
+                superimposedType: [
+                    {'value_name': '不支持', 'value_no': '0'},
+                    {'value_name': '支持', 'value_no': '1'}
                 ],
                 orderPayType: [
                     //0:帐户支付,1:现金支付,2:手机支付 3:包月 4:现金预支付 5：银联卡(中央预支付，后面废弃) 6：商家卡(中央预支付，后面废弃) 8：免费放行 9：刷卡
@@ -642,6 +660,7 @@
                 parkExpanStyle: 'display:none;',
                 currentTimeType: '入场时间',
                 currentState: '',
+                superimposed: '0',
                 currentPayType: '',
                 parkAccoutRece_start: '',
                 parkAccoutRece_end: ''
@@ -650,7 +669,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector10', 'showCollectorSelector', 'showParkSelector', 'showdateSelectorMonth',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed'],
         methods: {
             //刷新页面
             refresh() {
@@ -716,6 +735,50 @@
                 this.getTableData(this.sform);
             },
 
+            changeSuperimposed : function(value){
+                let vm = this;
+                let api = "/shop/changeSuperimposed";
+                let sform = {'comid': '',superimposed:''};
+                sform.superimposed = value;
+                sform = common.generateForm(sform);
+
+                vm.$axios.post(path + api, vm.$qs.stringify(sform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    // console.log(ret)
+                    let ret = response.data;
+                    console.log('asdafafagagagagagaga'+ret);
+                    if (ret.validate != 'undefined' && ret.validate == '0') {
+                        vm.loading = false;
+                        //未携带令牌.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('未携带令牌,请重新登录!');
+                        }, 150);
+                    } else if (ret.validate != 'undefined' && ret.validate == '1') {
+                        vm.loading = false;
+                        //过期.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 150);
+                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                        vm.loading = false;
+                        //令牌无效.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 150);
+                    } else {
+                        console.log(ret);
+                    }
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
+
+            },
+
             //拉取表格数据
             getTableData(sform) {
                 let vm = this;
@@ -756,7 +819,7 @@
                             vm.alertInfo('登录异常,请重新登录!');
                         }, 150);
                     } else {
-                        console.log(ret);
+                        console.log('这是查询出来的结果'+ret);
                         if (ret.total == 0) {
                             vm.table = [];
                         } else {
@@ -1529,13 +1592,18 @@
 
         },
         mounted() {
+            let _this = this;
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             this.mapheight = common.gwh() * 0.5;
             this.mapstyle = 'width:inherit;height:' + common.gwh() / 2 + 'px';
             console.log('commontable mount');
             //拷贝查询表单,用来在重置时清空表单内容
             this.tempSearchForm = common.clone(this.searchForm);
-
+            //this.superimposed = sessionStorage.getItem('superimposed');
+            console.log('asdasdafafafa111'+ this.superimposed);
+            common.getSuperimposed().then(function (response) {
+                _this.superimposed = response.data.superimposed
+             })
         },
 
         activated() {

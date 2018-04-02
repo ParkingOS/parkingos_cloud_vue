@@ -391,7 +391,7 @@
                         seriesData[1].data[i] = rData.amount_receivable;  //应收金额
                         seriesData[2].data[i] = rData.electronic_pay;  //电子支付
                         seriesData[3].data[i] = rData.act_total;  //实收金额
-                        seriesData[4].data[i] = rData.reduce_pay;  //减免金额
+                        seriesData[4].data[i] = rData.free_pay;  //减免金额
                     }
                     vm.chart.setOption({
                         title: {

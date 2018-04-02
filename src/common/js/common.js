@@ -167,9 +167,16 @@ export default {
             + this.attachParams('comid');
         return axios.get(path + '/getdata/getChannelType' + param);
     },
+
     getChannelTypeByComid(comid) {
         let param = '?comid=' + comid
         return axios.get(path + '/getdata/getChannelType' + param);
+    },
+    getSuperimposed() {
+        let param = '?token=' + sessionStorage.getItem('token')
+            + this.attachParams('comid');
+        return axios.get(path + '/getdata/getSuperimposed' + param);
+
     },
     getMonitorName() {
         let param = '?token=' + sessionStorage.getItem('token')
@@ -510,6 +517,11 @@ export default {
         //返回当前年月 2018-03
         let start = new Date();
         return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1);
+    },
+    yearStart() {
+        //返回当前年月 2018-03
+        let start = new Date();
+        return start.getFullYear() + '-01' ;
     },
     currentFormatDate() {
         //返回时间区间 2018-03-20 00:00:00至 2018-03-20 23:59:59

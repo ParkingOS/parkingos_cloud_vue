@@ -18,6 +18,7 @@
                     :showresetpwd="showresetpwd"
                     :showmRefill="showmRefill"
                     :hideOptions="hideOptions"
+                    :showSuperimposed ="showSuperimposed"
                     :hideSearch="hideSearch"
                     :showCustomizeEdit="showShopEdit"
                     :showsetting="showsetting"
@@ -307,6 +308,16 @@
                     <el-input v-model="shopForm.validite_time" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
+                <el-form-item label="手输额度" >
+                     <el-select v-model="hand_input_enable" filterable style="width:90%">
+                        <el-option
+                                v-for="item in handInputType"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                     </el-select>
+                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">				
 				<el-button type="primary" size="small" @click="loadDefaultData">重 置</el-button>
@@ -379,8 +390,10 @@
                 shopTitle: '添加商户',
                 showDiscountMoney: true,
                 shop_ticket_type: 1,
-                unit: 1,
-                discount_money_name: '每分钟/元',
+                unit: 2,
+                hand_input_enable:0,
+                discount_money_name: '每小时/元',
+
                 ticketUnit: [
                     {'value_name': '分钟', 'value_no': 1},
                     {'value_name': '小时', 'value_no': 2},
@@ -389,6 +402,10 @@
                 ticketType: [
                     {'value_name': '时长减免', 'value_no': 1},
                     {'value_name': '金额减免', 'value_no': 2}
+                ],
+                handInputType: [
+                    {'value_name': '不支持', 'value_no': 0},
+                    {'value_name': '支持', 'value_no': 1}
                 ],
                 shopForm: {},
                 showRegis: false,
@@ -431,6 +448,7 @@
                 showdelete: false,
                 showShopEdit: false,
                 showmRefill: false,
+                showSuperimposed:true,
                 resetloading: false,
                 queryapi: '/shop/quickquery',
                 addapi: '/shop/create',
@@ -438,7 +456,7 @@
                 delapi: '/shop/delete',
                 parkid: '',
                 btswidth: '180',
-                fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__discount_percent',
+                fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__discount_percent__hand_input_enable',
                 tableitems: [{
                     hasSubs: false, subs: [
                         {
@@ -686,8 +704,28 @@
                             unsortable: true,
                             align: 'center'
                         }]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '手输额度',
+                            prop: 'hand_input_enable',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format: function (row) {
+                                if (row.hand_input_enable == 0) {
+                                    return "不支持";
+                                } else if (row.hand_input_enable == 1) {
+                                    return "支持";
+                                }
+                            }
+                        }]
                     }
-
                 ],
                 addtitle: '添加商户',
                 employeeData: [],
@@ -1022,7 +1060,8 @@
                     address: '',
                     mobile: '',
                     shop_ticket_type: 1,
-                    unit: 1,
+                    hand_input_enable: 0,
+                    unit: 2,
                     default_limit: '5,10,20',
                     v_discount_percent: '100',
                     v_discount_money: '1',
@@ -1052,6 +1091,7 @@
                         aform.address = this.shopForm.address;
                         aform.mobile = this.shopForm.mobile;
                         aform.ticket_type = this.shop_ticket_type;
+                        aform.hand_input_enable = this.hand_input_enable;
                         aform.ticket_unit = this.unit
                         aform.default_limit = this.shopForm.default_limit
                         aform.discount_percent = this.shopForm.v_discount_percent
@@ -1120,6 +1160,7 @@
                 this.shopForm.v_discount_percent = row.discount_percent + ""
                 this.shopTitle = "编辑"
                 this.shop_ticket_type = row.ticket_type
+                this.hand_input_enable = row.hand_input_enable
                 this.unit = row.ticket_unit
                 this.showRegis = true
             },
@@ -1204,7 +1245,7 @@
                         {'value_name': '天', 'value_no': 3}
                     ],
                         this.showDiscountMoney = true,
-                        this.unit = 1
+                        this.unit = 2
                 }
             },
             unit(curVal, oldVal) {
