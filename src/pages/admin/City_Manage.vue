@@ -47,7 +47,7 @@
 			</span>
         </el-dialog>
         <el-dialog
-                title="编辑停车场"
+                title="编辑厂商"
                 :visible.sync="showEditPark"
                 width="30%">
                 <el-form ref="addFormPark" label-width="120px" style="margin-bottom:-30px" :rules="addFormRules"

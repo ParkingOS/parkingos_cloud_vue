@@ -49,7 +49,7 @@
 			</span>
         </el-dialog>
         <el-dialog
-                title="编辑停车场"
+                title="编辑运营商"
                 :visible.sync="showEditPark"
                 width="30%">
             <el-form ref="addFormPark" label-width="120px" style="margin-bottom:-30px" :rules="addFormRules"
@@ -517,7 +517,7 @@
                 mobile:'mobile',
                 addFormRules: {
                     name: [
-                        {required: true, message: '请填写停车场名称', trigger: 'blur'}
+                        {required: true, message: '请填写运营商名称', trigger: 'blur'}
                     ],
                     address: [
                         {required: true, message: '请标注位置', trigger: 'blur'}
