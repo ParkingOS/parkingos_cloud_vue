@@ -161,9 +161,14 @@ export default {
             + this.attachParams('comid');
         return axios.get(path + '/getdata/getWorkSiteId' + param);
     },
+
     getChannelType() {
         let param = '?token=' + sessionStorage.getItem('token')
             + this.attachParams('comid');
+        return axios.get(path + '/getdata/getChannelType' + param);
+    },
+    getChannelTypeByComid(comid) {
+        let param = '?comid=' + comid
         return axios.get(path + '/getdata/getChannelType' + param);
     },
     getMonitorName() {
@@ -449,7 +454,7 @@ export default {
         //用来构建相同的参数-表单中添加这几个属性
         sform.token = this.attachParams('token');
         sform.oid = this.attachParams('oid', 1);
-        sform.comid = this.attachParams('comid', 1);
+        sform.comid = sform.comid || this.attachParams('comid', 1);
         sform.groupid = this.attachParams('groupid', 1);
         sform.cityid = this.attachParams('cityid', 1);
         sform.unionid = this.attachParams('unionid', 1);
@@ -469,15 +474,24 @@ export default {
     },
     attachParams(key,type) {
         //判断是否是undifined，如果是，则不添加该参数
-        let p = sessionStorage.getItem(key);
         let params = '';
-        if (p !== undefined && p !== 'undefined') {
-            if(type!==1){
-                //如果不是1，则说明是默认的拼接参数；否则是获得key对应的值
-                params += '&' + key + '=';
-            }
-            params += p;
+        try{
+          let p = sessionStorage.getItem(key);
+          //alert(p);
+
+
+          if (p !== undefined && p !== 'undefined') {
+              if(type!==1){
+                  //如果不是1，则说明是默认的拼接参数；否则是获得key对应的值
+                  params += '&' + key + '=';
+              }
+              params += p;
+          }
         }
+        catch(e){
+
+        }
+
         return params;
     },
     formatNumber(num) {

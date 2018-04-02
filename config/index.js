@@ -5,6 +5,8 @@ module.exports = {
     build: {
         env: require('./prod.env'),
         index: path.resolve(__dirname, '../user/login.html'),
+        monitor: path.resolve(__dirname, '../user/monitor.html'),
+        devicewin: path.resolve(__dirname, '../user/devicewin.html'),
         assetsRoot: path.resolve(__dirname, '../user'),
         assetsSubDirectory: 'static',
         assetsPublicPath: './',
