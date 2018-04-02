@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="title" style="padding-left: 10px;">在线设备</div>
-                <div style="flex: 2;padding: 0 10px 10px 10px;overflow-y: auto">
+                <div style="flex: 2;margin: 0 10px 10px 10px;overflow-y: auto;background-color: white;">
                     <div class="data-box" style="margin-top: 0px;">
 
                         <div class="body">
@@ -51,8 +51,8 @@
             <div style="flex: 2;width: 0;display:flex ;flex-direction: column">
                 <!--<div style="flex: 1;padding: 80px 10px 10px 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;align-items: center;">-->
                 <div :style="rollstyle">
-                    <div class="data-box cart-box">
-                        <div class="title">入场车辆</div>
+                    <div class="data-box cart-box" style="background-color: white;">
+                        <div class="title" style="width: 100%;background-color: #393a3e;">入场车辆</div>
                         <div style="background: white;color: black;padding:5px;overflow: hidden;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">车场名称</span>
@@ -71,8 +71,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="data-box cart-box">
-                        <div class="title">出场车辆</div>
+                    <div class="data-box cart-box" style="background-color: white;">
+                        <div class="title" style="width: 100%;background-color: #393a3e;">出场车辆</div>
                         <div style="background: white;color: black;padding:5px;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">车场名称</span>
@@ -105,7 +105,7 @@
             <div style="flex: 1;width: 0;display:flex ;flex-direction: column">
                 <div style="flex: 3;padding: 5px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;">
                     <div class="data-box" style="width: 100%;">
-                        <div class="title">今日收费车场排行</div>
+                        <div class="title">今日收费排行</div>
                         <div class="body" style="padding: 0">
                             <div id="topParkChart" v-bind:style="topParkChartSize"></div>
                         </div>
@@ -132,8 +132,8 @@
                     </div>
                 </div>
                 <div class="title" style="padding-left: 10px;">异常抬杆</div>
-                <div style="flex: 2;padding: 0 10px 10px 10px;overflow: hidden;margin-bottom: 10px;">
-                    <div class="data-box" style="margin-top: 0px;">
+                <div style="flex: 2;margin: 0 10px 10px 10px;overflow: hidden;margin-bottom: 10px;background-color: white;">
+                    <div class="data-box" style="margin-top: 0px;" >
 
                         <div style="background: white;color: black;padding:5px;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">

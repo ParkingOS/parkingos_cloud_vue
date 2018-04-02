@@ -15,7 +15,8 @@
                 prizeList: [],
                 prizeList1: [],
                 activeIndex: 0,
-                activeIndex1: 0
+                activeIndex1: 0,
+                currentnum:0,
             };
         },
         props: ['num'],
@@ -24,6 +25,14 @@
                 this.initNumRoller(number);
             },
             initNumRoller(index) {
+                // console.log(this.currentnum)
+                // console.log(index)
+                if(this.currentnum===index&&index>0){
+                    return;
+                }
+                this.currentnum = index;
+
+                this.prizeList.splice(0,this.prizeList.length);
                 for (let i = 0; i <= index; i++) {
                     this.prizeList.push(i);
                 }

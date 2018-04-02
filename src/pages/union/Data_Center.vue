@@ -2,9 +2,9 @@
     <section class="data-sec" :style="containStyle">
         <div style="display: flex;flex-direction: row;width: 100%;height: 100%;align-content: stretch;">
             <div style="flex: 1;width: 0;display:flex ;flex-direction: column">
-                <div style="flex: 2;padding: 5px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;">
+                <div style="flex: 2;padding: 10px 10px 10px 10px;overflow-y: auto;display: flex;align-items: flex-start;;justify-content: flex-start;">
 
-                    <div class="data-box" style="margin-top: 5px;width: 100%;">
+                    <div class="data-box" style="width: 100%;">
                         <div class="title">今日收费汇总</div>
                         <div class="body">
                             <div class="item" style="padding-top: 10px;margin-bottom: 10px">
@@ -34,25 +34,35 @@
                     </div>
                 </div>
                 <div class="title" style="padding-left: 10px;">车场在线状态</div>
-                <div style="flex: 2;padding: 0 10px 10px 10px;overflow-y: auto">
+                <div style="flex: 2;margin: 0 10px 10px 10px;overflow-y: auto;background-color: white;">
                     <div class="data-box" style="margin-top: 0px;">
 
                         <div class="body">
                             <div class="item-list">
-                                <div class="bar-item" v-for='item in parkState'>
-                                    <div :class="item.state===0?'bar bar-red':'bar bar-green'"></div>
-                                    <div class="bar-text">{{item.parkName}}</div>
+                                <div class="bar-item" v-for='item in parkState' style="width: 100%;display: flex;flex-direction: row;align-items: center;">
+                                    <div :class="item.state===0?'bar bar-red':'bar bar-green'" style="width:40px;height: 40px;"></div>
+                                    <div class="bar-text" style="flex: 1;overflow: hidden;">{{item.parkName}}</div>
+                                    <!--<span>123</span>-->
                                 </div>
                             </div>
                         </div>
+                        <!--<div class="body">-->
+                        <!--<div style="display: flex;flex-direction: column;">-->
+                        <!--<div v-for='item in parkState' style="background-color: green">-->
+                        <!--&lt;!&ndash;<span>{{item.parkName}}</span>&ndash;&gt;-->
+                        <!--<div :class="item.state===0?'bar bar-red':'bar bar-green'">{{item.parkName}}</div>-->
+                        <!--<div class="bar-text">{{item.parkName}}</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
             <div style="flex: 2;width: 0;display:flex ;flex-direction: column">
                 <!--<div style="flex: 1;padding: 80px 10px 10px 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;align-items: center;">-->
                 <div :style="rollstyle">
-                    <div class="data-box cart-box">
-                        <div class="title">入场车辆</div>
+                    <div class="data-box cart-box" style="background-color: white;">
+                        <div class="title" style="width: 100%;background-color: #393a3e;">入场车辆</div>
                         <div style="background: white;color: black;padding:5px;overflow: hidden;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">车场名称</span>
@@ -71,8 +81,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="data-box cart-box">
-                        <div class="title">出场车辆</div>
+                    <div class="data-box cart-box" style="background-color: white;">
+                        <div class="title" style="width: 100%;background-color: #393a3e;">出场车辆</div>
                         <div style="background: white;color: black;padding:5px;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">车场名称</span>
@@ -132,7 +142,7 @@
                     </div>
                 </div>
                 <div class="title" style="padding-left: 10px;">异常抬杆</div>
-                <div style="flex: 2;padding: 0 10px 10px 10px;overflow: hidden;margin-bottom: 10px;">
+                <div style="flex: 2;margin: 0 10px 10px 10px;overflow: hidden;margin-bottom: 10px;background-color: white;">
                     <div class="data-box" style="margin-top: 0px;">
 
                         <div style="background: white;color: black;padding:5px;">
@@ -601,7 +611,7 @@
             // if (common.gww() < 1400) {
             //     this.rollstyle = 'flex: 1;padding: 80px 10px 10px 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;';
             // } else {
-                this.rollstyle = 'flex: 1;padding: 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;';
+            this.rollstyle = 'flex: 1;padding: 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;';
             // }
             window.onresize = () => {
                 // var widthCss = window.getComputedStyle(this.$refs.echartBox).width;

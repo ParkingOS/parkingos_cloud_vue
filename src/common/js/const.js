@@ -1,5 +1,6 @@
 export const AUTH_ID = {
     orderManage: 2, //订单管理
+    data_Center_park: 69, //订单管理
     orderManage_Orders: 83, //订单记录
     orderManage_Poles: 84, //抬杆记录
     monthMember: 7, //月卡会员-大菜单
@@ -44,6 +45,7 @@ export const AUTH_ID_ADMIN = {
 };
 export const showParkItem_const = {
     orderManage: false,
+    data_Center_park: false,
     orderManage_Orders: false,
     orderManage_Poles: false,
     monthMember: false,
@@ -85,6 +87,7 @@ export const showParkItem_const = {
 };
 export const AUTH_ID_UNION = {
     businessOrder: 105, //业务订单
+    data_Center: 114, //概况-数据中心
     businessOrder_Cars: 208, //在场车辆
     businessOrder_Orders: 104, //订单记录
     businessOrder_Poles: 106, //抬杆记录
@@ -107,6 +110,7 @@ export const AUTH_ID_UNION = {
 };
 export const showUnionItem_const = {
     businessOrder: false,
+    data_Center: false, //概况-数据中心
     businessOrder_Cars: false,
     businessOrder_Orders: false,
     businessOrder_Poles: false,
