@@ -49,7 +49,7 @@
 			</span>
         </el-dialog>
         <el-dialog
-                title="编辑停车场"
+                title="编辑运营商"
                 :visible.sync="showEditPark"
                 width="30%">
             <el-form ref="addFormPark" label-width="120px" style="margin-bottom:-30px" :rules="addFormRules"
@@ -301,8 +301,8 @@
                 parkid: '',
                 currentIndex: 0,
                 currentRow: '',
+                operatorid:'',
                 parkState2: parkState,
-                unionList:'',
                 resetCarnumber: '',
                 btswidth: '200',
                 fieldsstr: 'id__name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey__operatorid',
@@ -517,7 +517,7 @@
                 mobile:'mobile',
                 addFormRules: {
                     name: [
-                        {required: true, message: '请填写停车场名称', trigger: 'blur'}
+                        {required: true, message: '请填写运营商名称', trigger: 'blur'}
                     ],
                     address: [
                         {required: true, message: '请标注位置', trigger: 'blur'}
@@ -1120,7 +1120,7 @@
             generateForm(sform) {
                 //用来构建相同的参数
                 sform.token = common.attachParams('token');
-                sform.oid = common.attachParams('oid', 1);
+                sform.oid = 2;
                 sform.groupid = this.currentRow.id;
                 //sform.groupid = common.attachParams('groupid', 1);
                 sform.cityid = common.attachParams('cityid', 1);
@@ -1186,11 +1186,10 @@
             // console.log(this.$refs.bolinkuniontable)
             // this.$refs['employeeManage'].activedialog();
             let _this = this;
-            axios.all([common.getPName(), common.getCarType() ,common.getUnionList()])
-                .then(axios.spread(function (retpname, retcartype, retUnionList) {
+            axios.all([common.getPName(), common.getCarType() ])
+                .then(axios.spread(function (retpname, retcartype, ) {
                     _this.pname = retpname.data;
                     _this.cartype = retcartype.data;
-                    _this.unionList = retUnionList.data;
                     // console.log(ret.data)
                     // console.log(_this.pname)
                 }))
@@ -1198,9 +1197,6 @@
 
         },
         watch: {
-            unionList: function (val) {
-                this.tableitems[7].subs[0].selectlist = val
-            }
         }
     }
 

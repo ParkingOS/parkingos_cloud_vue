@@ -47,7 +47,7 @@
 			</span>
         </el-dialog>
         <el-dialog
-                title="编辑停车场"
+                title="编辑厂商"
                 :visible.sync="showEditPark"
                 width="30%">
                 <el-form ref="addFormPark" label-width="120px" style="margin-bottom:-30px" :rules="addFormRules"
@@ -1094,7 +1094,7 @@
             generateForm(sform) {
                 //用来构建相同的参数
                 sform.token = common.attachParams('token');
-                sform.oid = common.attachParams('oid', 1);
+                sform.oid = 7;//common.attachParams('oid', 1);
                 sform.cityid = this.currentRow.id;
                 sform.groupid = common.attachParams('groupid', 1);
                 //sform.cityid = common.attachParams('cityid', 1);

@@ -53,7 +53,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="泊链编号" :prop="bolink_id">
+                <el-form-item label="泊链车场编号" :prop="bolink_id">
                     <el-input v-model="addFormPark.bolink_id" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="联系手机" :prop="mobile">
@@ -85,7 +85,7 @@
                     <br/>
                     <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                <el-form-item label="泊链编号" :prop="bolink_id">
+                <el-form-item label="泊链车场编号" :prop="bolink_id">
                     <el-input v-model="addFormPark.bolink_id" style="width:90%" placeholder="" readonly></el-input>
                 </el-form-item>
                 <el-form-item label="联系手机" :prop="mobile">
@@ -425,7 +425,7 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '泊链编号',
+                                label: '泊链车场编号',
                                 prop: 'bolink_id',
                                 width: '123',
                                 type: 'str',
