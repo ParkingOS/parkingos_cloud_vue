@@ -425,7 +425,7 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '泊链编号',
+                                label: '泊链车场编号',
                                 prop: 'bolink_id',
                                 width: '123',
                                 type: 'str',
