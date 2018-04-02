@@ -89,7 +89,7 @@ var webpackConfig = merge(baseWebpackConfig, {
           },
           // necessary to consistently work with multiple chunks via CommonsChunkPlugin
           chunksSortMode: 'dependency',
-          chunks : ['monitor'],
+          chunks : ['manifest', 'vendor','monitor'],
       }),
       new HtmlWebpackPlugin({
           filename: 'devicewin.html',
@@ -104,7 +104,7 @@ var webpackConfig = merge(baseWebpackConfig, {
           },
           // necessary to consistently work with multiple chunks via CommonsChunkPlugin
           chunksSortMode: 'dependency',
-          chunks : ['devicewin'],
+          chunks : ['manifest', 'vendor','devicewin'],
       })
 
     // split vendor js into its own file

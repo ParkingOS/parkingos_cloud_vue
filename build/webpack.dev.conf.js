@@ -32,10 +32,10 @@ module.exports = merge(baseWebpackConfig, {
       chunks : ['app'],
     }),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
+      filename: 'monitor.html',
+      template: 'monitor.html',
       inject: true,
-      chunks : ['app'],
+      chunks : ['monitor'],
     }),
     new HtmlWebpackPlugin({
       filename: 'devicewin.html',
