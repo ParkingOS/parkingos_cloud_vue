@@ -38,8 +38,9 @@
                             </el-button>
                         </div>
                         <div :style="parkExpanStyle">
+
                             <span style="float: left;margin-top: 10px;">订单状态：</span>
-                            <el-select v-model="superimposed" placeholder="未结算"
+                            <el-select v-model="currentState" placeholder="未结算"
                                        style="float: left;margin-right: 10px;width: 123px;">
                                 <el-option
                                         v-for="item in orderStateType"
