@@ -39,9 +39,11 @@
 
                         <div class="body">
                             <div class="item-list">
-                                <div class="bar-item" v-for='item in parkState' style="width: 100%;display: flex;flex-direction: row;align-items: center;">
-                                    <div :class="item.state===0?'bar bar-red':'bar bar-green'" style="width:40px;height: 40px;"></div>
-                                    <div class="bar-text" style="flex: 1;overflow: hidden;">{{item.parkName}}</div>
+                                <div class="bar-item" v-for='item in parkState'
+                                     style="width: 100%;display: flex;flex-direction: row;align-items: center;">
+                                    <div :class="item.state===0?'bar bar-red':'bar bar-green'"
+                                         style="width:40px;height: 40px;"></div>
+                                    <div class="bar-text" style="flex: 1;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.parkName}}</div>
                                     <!--<span>123</span>-->
                                 </div>
                             </div>
@@ -113,8 +115,9 @@
                 </div>
             </div>
             <div style="flex: 1;width: 0;display:flex ;flex-direction: column">
-                <div style="flex: 3;padding: 5px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;">
-                    <div class="data-box" style="width: 100%;">
+                <!--<div style="flex: 3;padding: 5px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;">-->
+                <div :style="rollstyle2">
+                <div class="data-box" style="width: 100%;">
                         <div class="title">今日收费车场排行</div>
                         <div class="body" style="padding: 0">
                             <div id="topParkChart" v-bind:style="topParkChartSize"></div>
@@ -156,10 +159,10 @@
                                 <ul class="con1" ref="con3" :class="{anim:animate==true}">
                                     <li v-for='(item,index) in exceptionDataPole'>
                                         <div :style="indexrule3(index)?styledouble:stylesingle">
-                                            <span style="flex: 1;text-align: center;">{{item.time}}</span>
-                                            <span style="flex: 1;text-align: center;">{{item.passid}}</span>
-                                            <span style="flex: 1;text-align: center;">{{item.uin}}</span>
-                                            <span style="flex: 2;text-align: center;">{{item.reason}}</span>
+                                            <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
+                                            <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.passid}}</span>
+                                            <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.uin}}</span>
+                                            <span style="flex: 2;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.reason}}</span>
 
                                         </div>
                                     </li>
@@ -222,6 +225,7 @@
                     height: '1px'
                 },
                 rollstyle: '',
+                rollstyle2:'',
                 dataaaa: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                 parkState: [],//车场在线状态
                 inPartData: [],//入场车辆轮播
@@ -252,7 +256,7 @@
                 let rData = {};
                 rData.value = [];
                 rData.name = [];
-                for (var i = 0; i < data.length; i++) {
+                for (var i = data.length - 1; i >= 0; i--) {
                     rData.name.push(data[i].parkName);
                     rData.value.push(data[i].total);
                 }
@@ -271,11 +275,21 @@
             },
             initChart: function () {
                 //收费车场排行
-                this.topParkChart = echarts.init(document.getElementById('topParkChart'));
-                // this.eventChart = echarts.init(document.getElementById('eventChart'));
-                this.todayMoneyChart = echarts.init(document.getElementById('todayMoneyChart'));
-                this.placeChart = echarts.init(document.getElementById('placeChart'));
+                // this.topParkChart = echarts.init(document.getElementById('topParkChart'));
+                // // this.eventChart = echarts.init(document.getElementById('eventChart'));
+                // this.todayMoneyChart = echarts.init(document.getElementById('todayMoneyChart'));
+                // this.placeChart = echarts.init(document.getElementById('placeChart'));
 
+                if (this.dataInitCount <= 0) {
+                    this.topParkChart = echarts.init(document.getElementById('topParkChart'));
+                    // this.eventChart = echarts.init(document.getElementById('eventChart'));
+                    this.todayMoneyChart = echarts.init(document.getElementById('todayMoneyChart'));
+                    this.placeChart = echarts.init(document.getElementById('placeChart'));
+                    // console.log('第一次初始化')
+
+                } else {
+                    // console.log('后面不在初始化')
+                }
                 this.placeChart.setOption({
                     tooltip: {
                         trigger: 'axis',
@@ -553,7 +567,8 @@
                         _this.getRank(_this.responseData.parkRank);
                         // _this.getException(_this.responseData.exceptionEvents);
                         _this.incomePie = _this.responseData.totalIncomPie;
-
+                        //需要数据初始化以后再初始化图表。否则会绘制失败
+                        _this.initChart();
                         //数字滚动的部分
                         _this.$refs['roll_cashpay'].init(_this.responseData.totalIncome.cashPay);
                         _this.$refs['roll_elepay'].init(_this.responseData.totalIncome.elePay);
@@ -562,21 +577,11 @@
                         _this.$refs['roll_outcar'].init(_this.responseData.inOutCarsCount.outCars);
                         _this.$refs['roll_inpark'].init(_this.responseData.inOutCarsCount.inPark);
 
-                        // console.log()
+
                         if (_this.dataInitCount > 0) {
                             return;
                         }
                         _this.dataInitCount++;
-                        //需要数据初始化以后再初始化图表。否则会绘制失败
-                        _this.initChart();
-                        setTimeout(function () {
-                            _this.topParkChart.resize();
-                            _this.todayMoneyChart.resize();
-                            // _this.eventChart.resize();
-                            _this.placeChart.resize();
-                        }, 1);
-
-
                         _this.transInteval = setInterval(_this.scroll, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
                         _this.transInteval2 = setInterval(_this.scroll2, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
                         _this.transInteval3 = setInterval(_this.scroll3, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
@@ -608,10 +613,14 @@
             that.placeChartSize.width = intCss + 'px';
 
             // <div style="flex: 1;padding: 80px 10px 10px 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;align-items: center;">
-            // if (common.gww() < 1400) {
-            //     this.rollstyle = 'flex: 1;padding: 80px 10px 10px 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;';
-            // } else {
-            this.rollstyle = 'flex: 1;padding: 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;';
+
+            if (common.gww() < 1400) {
+                this.rollstyle2 = 'flex: 3;padding: 6px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;';
+            } else {
+                this.rollstyle2 = 'flex: 3;padding: 0 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;';
+
+            }
+            this.rollstyle = 'flex: 1;padding: 8px; 10px 0 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;';
             // }
             window.onresize = () => {
                 // var widthCss = window.getComputedStyle(this.$refs.echartBox).width;
