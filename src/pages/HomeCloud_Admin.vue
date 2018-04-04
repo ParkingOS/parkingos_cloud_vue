@@ -229,7 +229,7 @@
                     this.park = true;
                 }
                 if (user.oid == ROLE_ID.UNION) {
-                    this.nickname = '集团';
+                    this.nickname = '运营商';
                     this.union = true;
                 }
                 if (user.oid == ROLE_ID.CITY) {
