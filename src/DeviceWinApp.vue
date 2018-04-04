@@ -195,19 +195,23 @@ import {AUTH_ID} from "./common/js/const";
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         var type = '';
+        var id ='';
          for (var i=0;i<vars.length;i++) {
                  var pair = vars[i].split("=");
                  if(pair[0] == 'type'){
                    type = pair[1];
                  }
+                 else if(pair[0] == 'id'){
+                   id = pair[1];
+                 }
          }
          let _this = this;
          var param = {
-           comid:localStorage.getItem("comid")
+           comid:id
          }
          if(type=='group'){
            param = {
-             groupid:localStorage.getItem("groupid")
+             groupid:id
            }
            _this.queryapi = '/EQ_monitor/groupmonitors';
          }
