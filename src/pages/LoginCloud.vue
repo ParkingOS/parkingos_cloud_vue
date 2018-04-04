@@ -44,12 +44,12 @@
 
 <script>
     import CryptoJS from 'crypto-js';
-    import {path, checkPass} from '../api/api'
-    import MD5 from 'crypto-js/md5'
-    import common from '../common/js/common'
-    import {ROLE_ID,AUTH_ID,AUTH_ID_UNION,showUnionItem_const,showParkItem_const} from '../common/js/const'
+    import {path, checkPass} from '../api/api';
+    import MD5 from 'crypto-js/md5';
+    import common from '../common/js/common';
+    import {ROLE_ID, AUTH_ID, AUTH_ID_UNION, showUnionItem_const, showParkItem_const} from '../common/js/const';
 
-    var key = CryptoJS.enc.Utf8.parse("zldboink20170613");
+    var key = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var iv = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var timer;
 
@@ -63,7 +63,7 @@
                 highlightindex: '',//'/orderManage_Poles',//高亮的item
                 //根据权限控制页面是否显示
                 showParkItem: showParkItem_const,
-                showUnionItem:showUnionItem_const,
+                showUnionItem: showUnionItem_const,
 
                 logining: false,
                 getPassVisible: false,
@@ -82,11 +82,11 @@
                 // checkPass:'checkPass',
                 rules2: {
                     username: [
-                        {required: true, message: '请输入账号', trigger: 'blur'},
+                        {required: true, message: '请输入账号', trigger: 'blur'}
                         //{ validator: validaePass }
                     ],
                     password: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
+                        {required: true, message: '请输入密码', trigger: 'blur'}
                         //{ validator: validaePass2 }
                     ]
                 },
@@ -115,7 +115,7 @@
                     ],
                     mobile: [
                         {required: true, message: '请输入密保电话', trigger: 'blur'}
-                    ],
+                    ]
                 },
                 resetPassFormRules: {
                     pass1: [
@@ -123,7 +123,7 @@
                     ],
                     pass2: [
                         {validator: checkPass, required: true, trigger: 'blur'}
-                    ],
+                    ]
                 },
                 time: '',
 
@@ -135,52 +135,52 @@
                 passwordType: 'password',
                 loading: false,
                 showDialog: false
-            }
+            };
         },
         mounted() {
             //alert(common.gwh())
-            var vm = this
-            var pad = Math.ceil((common.gww() - 1366) / 2)
-            this.top = 'height:60px;padding-left:' + pad + 'px;padding-right:' + pad + 'px'
-            this.bgheight = 'height:' + (common.gwh() - 110) + 'px;width:' + common.gww() + 'px'
-            this.content = 'float:left;width:1250px;height:' + (common.gwh() - 110) + 'px;margin-left:' + Math.ceil((common.gww() - 1500) / 2) + 'px'
+            var vm = this;
+            var pad = Math.ceil((common.gww() - 1366) / 2);
+            this.top = 'height:60px;padding-left:' + pad + 'px;padding-right:' + pad + 'px';
+            this.bgheight = 'height:' + (common.gwh() - 110) + 'px;width:' + common.gww() + 'px';
+            this.content = 'float:left;width:1250px;height:' + (common.gwh() - 110) + 'px;margin-left:' + Math.ceil((common.gww() - 1500) / 2) + 'px';
 
             //检测回车按键
-            document.addEventListener("keydown", function (e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.keyCode == 13) {
-                    vm.handleSubmit2()
+                    vm.handleSubmit2();
                 }
-            }, false)
+            }, false);
         },
         methods: {
             showPwd() {
                 if (this.passwordType === 'password') {
-                    this.passwordType = ''
+                    this.passwordType = '';
                 } else {
-                    this.passwordType = 'password'
+                    this.passwordType = 'password';
                 }
             },
             handleReset() {
                 // console.log('忘记密码')
-                this.getPassVisible = true
+                this.getPassVisible = true;
             },
             closegetckey() {
-                this.getckeyForm.ckey = ''
+                this.getckeyForm.ckey = '';
             },
             closeGetPass() {
-                this.getpass.code = ''
-                window.clearInterval(timer)
-                this.codeBtn = false
-                this.passinfo = '获取验证码'
-                this.$refs['passform'].resetFields()
+                this.getpass.code = '';
+                window.clearInterval(timer);
+                this.codeBtn = false;
+                this.passinfo = '获取验证码';
+                this.$refs['passform'].resetFields();
             },
             closeResetPass() {
-                this.resetPassForm.pass1 = ''
-                this.resetPassForm.pass2 = ''
+                this.resetPassForm.pass1 = '';
+                this.resetPassForm.pass2 = '';
             },
             getckey() {
-                var vm = this
-                var cform = this.getpass
+                var vm = this;
+                var cform = this.getpass;
                 this.$refs.passform.validate((valid) => {
                     if (valid) {
                         vm.$.post(path + '/user/getckey', cform, function (ret) {
@@ -188,8 +188,8 @@
                                 vm.ckey = CryptoJS.AES.decrypt(ret.ckey, key, {
                                     iv: iv,
                                     mode: CryptoJS.mode.CBC
-                                }).toString(CryptoJS.enc.Utf8)
-                                vm.getckeyVisible = true
+                                }).toString(CryptoJS.enc.Utf8);
+                                vm.getckeyVisible = true;
                             } else {
                                 //更新失败
                                 vm.$message({
@@ -198,37 +198,37 @@
                                     duration: 4000
                                 });
                             }
-                        }, "json")
+                        }, 'json');
                     }
-                })
+                });
 
             },
             reguser() {
-                var vm = this
+                var vm = this;
                 if (this.getckeyForm.ckey.length != 4) {
                     vm.$message({
-                        message: "请输入正确的验证码",
+                        message: '请输入正确的验证码',
                         type: 'error',
                         duration: 2000
                     });
-                    return
+                    return;
                 }
-                var vm = this
-                var win = window
-                var cform = {'mobile': this.getpass.mobile, 'ckey': this.getckeyForm.ckey}
+                var vm = this;
+                var win = window;
+                var cform = {'mobile': this.getpass.mobile, 'ckey': this.getckeyForm.ckey};
                 vm.$.post(path + '/user/reguser', cform, function (ret) {
                     if (ret.state == 1) {
                         vm.$message({
-                            message: "验证码已发送,请注意查收",
+                            message: '验证码已发送,请注意查收',
                             type: 'success',
                             duration: 1500
                         });
-                        vm.getckeyVisible = false
-                        vm.hasCode = false
+                        vm.getckeyVisible = false;
+                        vm.hasCode = false;
                         //验证码发送成功
-                        vm.time = 60
-                        vm.codeBtn = true
-                        timer = win.setInterval(vm.getCodeBtn, 1000)
+                        vm.time = 60;
+                        vm.codeBtn = true;
+                        timer = win.setInterval(vm.getCodeBtn, 1000);
                     } else {
                         //更新失败
                         vm.$message({
@@ -237,37 +237,37 @@
                             duration: 4000
                         });
                     }
-                }, "json")
+                }, 'json');
             },
             getCodeBtn() {
                 if (this.time > 0) {
-                    this.time -= 1
-                    this.passinfo = this.time + '秒后重发'
+                    this.time -= 1;
+                    this.passinfo = this.time + '秒后重发';
                 }
                 if (this.time == 0) {
-                    this.codeBtn = false
-                    this.passinfo = '获取验证码'
+                    this.codeBtn = false;
+                    this.passinfo = '获取验证码';
                 }
 
             },
             checkCode() {
-                var vm = this
+                var vm = this;
                 if (this.getpass.code.length != 4) {
                     vm.$message({
-                        message: "请输入正确的验证码",
+                        message: '请输入正确的验证码',
                         type: 'error',
                         duration: 2000
                     });
-                    return
+                    return;
                 }
-                var cform = {'mobile': this.getpass.mobile, 'userid': this.getpass.userid, 'code': this.getpass.code}
+                var cform = {'mobile': this.getpass.mobile, 'userid': this.getpass.userid, 'code': this.getpass.code};
                 vm.$.post(path + '/user/checkcode', cform, function (ret) {
                     if (ret.state == 1) {
-                        vm.token = ret.token
+                        vm.token = ret.token;
                         //关闭当前对话框
-                        vm.getPassVisible = false
+                        vm.getPassVisible = false;
                         //开启充值密码对话框
-                        vm.resetPassVisible = true
+                        vm.resetPassVisible = true;
                     } else {
                         //更新失败
                         vm.$message({
@@ -276,45 +276,45 @@
                             duration: 4000
                         });
                     }
-                }, "json")
+                }, 'json');
 
             },
             resetPasss() {
                 //重置密码
-                var vm = this
+                var vm = this;
                 if (this.resetPassForm.pass1 != this.resetPassForm.pass2) {
                     vm.$message({
-                        message: "两次输入密码不同",
+                        message: '两次输入密码不同',
                         type: 'error',
                         duration: 2000
                     });
-                    return
+                    return;
                 }
-                var cform = {'passwd': this.resetPassForm.pass1, 'token': this.token}
+                var cform = {'passwd': this.resetPassForm.pass1, 'token': this.token};
                 this.$refs.resetpassform.validate((valid) => {
                     if (valid) {
                         vm.$.post(path + '/user/resetpwd', cform, function (ret) {
                             if (ret.state == 1) {
                                 vm.$message({
-                                    message: "密码重置成功!",
+                                    message: '密码重置成功!',
                                     type: 'success',
                                     duration: 1500
                                 });
-                                vm.resetPassVisible = false
+                                vm.resetPassVisible = false;
                             } else {
                                 //更新失败
                                 vm.$message({
-                                    message: "密码重置失败!",
+                                    message: '密码重置失败!',
                                     type: 'error',
                                     duration: 3000
                                 });
                             }
-                        }, "json")
+                        }, 'json');
                     }
-                })
+                });
             },
             onSubmit() {
-                this.handleSubmit2()
+                this.handleSubmit2();
                 // this.logining = true;
                 // sessionStorage.setItem('user', '{}');
                 // sessionStorage.setItem('token', '')
@@ -326,46 +326,47 @@
                 var pwd = CryptoJS.AES.encrypt(this.loginForm.password, key, {
                     iv: iv,
                     mode: CryptoJS.mode.CBC
-                }).toString()
+                }).toString();
                 // console.log(pwd)
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
                         this.logining = true;
                         var _this = this;
-                        var loginParams = {'username': this.loginForm.username, 'password': pwd}
+                        var loginParams = {'username': this.loginForm.username, 'password': pwd};
 
-                        _this.$axios.post(path + "/user/dologin", _this.$qs.stringify(loginParams), {
+                        _this.$axios.post(path + '/user/dologin', _this.$qs.stringify(loginParams), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
                         }).then(function (response) {
-                            console.log(response)
+                            console.log(response);
                             let ret = response.data;
                             if (ret.state) {
                                 var u = ret.user;
                                 sessionStorage.setItem('user', JSON.stringify(u));
                                 //localStorage.setItem('user', JSON.stringify(u));
-                                sessionStorage.setItem('token', ret.token)
-                                sessionStorage.setItem('comid', u.comid)
+                                sessionStorage.setItem('token', ret.token);
+                                sessionStorage.setItem('comid', u.comid);
                                 localStorage.setItem('comid', u.comid)
+                                sessionStorage.setItem('groupid', u.groupid);
                                 localStorage.setItem('groupid', u.groupid)
-                                sessionStorage.setItem('groupid', u.groupid)
-                                sessionStorage.setItem('channelid', u.channelid)
-                                sessionStorage.setItem('unionid', u.unionid)
-                                sessionStorage.setItem('cityid', u.cityid)
-                                sessionStorage.setItem('loginuin', u.loginuin)
-                                sessionStorage.setItem('oid', u.oid)
-                                sessionStorage.setItem('nickname', u.nickname)
-                                sessionStorage.setItem('ishdorder', u.ishdorder)
-                                sessionStorage.setItem('loginroleid', u.loginroleid)
-                                sessionStorage.setItem('supperadmin', u.supperadmin)
+                                sessionStorage.setItem('channelid', u.channelid);
+                                sessionStorage.setItem('unionid', u.unionid);
+                                sessionStorage.setItem('cityid', u.cityid);
+                                sessionStorage.setItem('loginuin', u.loginuin);
+                                sessionStorage.setItem('oid', u.oid);
+                                sessionStorage.setItem('nickname', u.nickname);
+                                sessionStorage.setItem('ishdorder', u.ishdorder);
+                                sessionStorage.setItem('loginroleid', u.loginroleid);
+                                sessionStorage.setItem('supperadmin', u.supperadmin);
+
 
                                 // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                                 if (u.oid == ROLE_ID.GROUP) {
                                     // _this.$router.push({path: '/bolinkunion'});
-                                } else if(u.oid == ROLE_ID.CITYREGIS){
+                                } else if (u.oid == ROLE_ID.CITYREGIS) {
                                     _this.$router.push({path: '/CreateUin'});
-                                }else if (u.oid == ROLE_ID.CHANNEL) {
+                                } else if (u.oid == ROLE_ID.CHANNEL) {
                                     // _this.$router.push({path: '/account'});
                                 } else if (u.oid == ROLE_ID.UNION) {
                                     // _this.$router.push({path: '/account'});
@@ -375,8 +376,8 @@
                                             //第二层循环，取出AUTH_ID的item
                                             if (p == item) {
                                                 //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
-                                                _this.showUnionItem[item] = common.pageShow(u, AUTH_ID_UNION[p])
-                                                if (_this.highlightindex=='') {
+                                                _this.showUnionItem[item] = common.pageShow(u, AUTH_ID_UNION[p]);
+                                                if (_this.highlightindex == '') {
                                                     //没有导航到任意界面，则继续检测
                                                     if (item.indexOf('_') > -1) {
                                                         //带下划线的才是页面
@@ -390,26 +391,26 @@
                                         }
                                     }
 
-                                    sessionStorage.setItem('showUnionItem',JSON.stringify(_this.showUnionItem))
+                                    sessionStorage.setItem('showUnionItem', JSON.stringify(_this.showUnionItem));
                                     // console.log(_this.showUnionItem)
-                                    if(_this.highlightindex==''){
+                                    if (_this.highlightindex == '') {
                                         _this.$router.push({path: '/index'});
-                                    }else{
-                                        _this.highlightindex = '/data_Center';//先写死跳转到数据中心。后面权限加上了这句就注释掉
+                                    } else {
+                                        // _this.highlightindex = '/data_Center';//先写死跳转到数据中心。后面权限加上了这句就注释掉
                                         _this.$router.push({path: _this.highlightindex});
-                                        sessionStorage.setItem('highlightindex', _this.highlightindex)
+                                        sessionStorage.setItem('highlightindex', _this.highlightindex);
                                     }
                                 } else if (u.oid == ROLE_ID.CITY) {
-                                        _this.highlightindex = '/union_manage';
-                                        _this.$router.push({path: _this.highlightindex});
-                                        sessionStorage.setItem('highlightindex', _this.highlightindex)
+                                    _this.highlightindex = '/union_manage';
+                                    _this.$router.push({path: _this.highlightindex});
+                                    sessionStorage.setItem('highlightindex', _this.highlightindex);
                                     // _this.$router.push({path: '/Park_Manage'});
                                 } else if (u.oid == ROLE_ID.BOSS) {
-                                         _this.highlightindex = '/city_manage';
-                                        _this.$router.push({path: _this.highlightindex});
-                                        sessionStorage.setItem('highlightindex', _this.highlightindex)
-                                       //_this.$router.push({path: '/City_Manage'});
-                                } else if (u.oid == ROLE_ID.PARK ) {
+                                    _this.highlightindex = '/city_manage';
+                                    _this.$router.push({path: _this.highlightindex});
+                                    sessionStorage.setItem('highlightindex', _this.highlightindex);
+                                    //_this.$router.push({path: '/City_Manage'});
+                                } else if (u.oid == ROLE_ID.PARK) {
                                     //先跳转空页面，然后再根据数据情况显示页面再跳转
                                     // _this.$router.push({path: '/index'});
                                     // _this.$router.push({path: '/orderManage_Orders'});
@@ -419,15 +420,14 @@
                                             //第二层循环，取出AUTH_ID的item
                                             if (p == item) {
                                                 //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
-                                                _this.showParkItem[item] = common.pageShow(u, AUTH_ID[p])
-                                                if (_this.highlightindex=='') {
+                                                _this.showParkItem[item] = common.pageShow(u, AUTH_ID[p]);
+                                                if (_this.highlightindex == '') {
                                                     //没有导航到任意界面，则继续检测
                                                     if (item.indexOf('_') > -1) {
                                                         //带下划线的才是页面
                                                         if (_this.showParkItem[item]) {
                                                             _this.highlightindex = '/' + item;
                                                             _this.expandindex = '/' + item.split('_')[0];
-
                                                         }
                                                     }
                                                 }
@@ -436,14 +436,14 @@
                                         }
                                     }
 
-                                    sessionStorage.setItem('showParkItem',JSON.stringify(_this.showParkItem))
+                                    sessionStorage.setItem('showParkItem', JSON.stringify(_this.showParkItem));
                                     // console.log(_this.showParkItem)
-                                    if(_this.highlightindex==''){
+                                    if (_this.highlightindex == '') {
                                         _this.$router.push({path: '/index'});
-                                    }else{
-                                        _this.highlightindex = '/data_Center_park';//先写死跳转到数据中心。后面权限加上了这句就注释掉
+                                    } else {
+                                        // _this.highlightindex = '/data_Center_park';//先写死跳转到数据中心。后面权限加上了这句就注释掉
                                         _this.$router.push({path: _this.highlightindex});
-                                        sessionStorage.setItem('highlightindex', _this.highlightindex)
+                                        sessionStorage.setItem('highlightindex', _this.highlightindex);
                                     }
                                 }
                                 // 还有一种没有roleid,它是根据另一种判断登录的
@@ -463,18 +463,18 @@
                                 } else if (u.role == 6) {
 
                                 }
-                            }else {
+                            } else {
                                 _this.logining = false;
                                 _this.$message.error(ret.msg);
                             }
                         }).catch(function (error) {
                             _this.$message.error(error.data);
-                        })
+                        });
                     }
-                })
+                });
             }
         }
-    }
+    };
 </script>
 <style rel="stylesheet/scss" lang="scss">
     $bg: #2d3a4b;

@@ -10,7 +10,7 @@
         <el-row style="margin-top:28px">
             <el-col :span="10" style="padding: 10px">
                 <el-card style="height:200px">
-                    <div>运营集团信息</div>
+                    <div>运营商信息</div>
                     <div>
                         <el-row>
                             <el-form style="width:90%;margin-top: 20px;" label-width="100px">

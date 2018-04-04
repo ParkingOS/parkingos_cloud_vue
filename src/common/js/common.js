@@ -519,6 +519,13 @@ export default {
         let start = new Date();
         return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1) + '-' + this.formatNumber(start.getDate());
     },
+    getFirstDayOfWeek() {
+        //返回当前日期年月日 2018-03-20
+        let start = new Date();
+        var weekday = start.getDay()||7;
+        start.setDate(start.getDate()-weekday+1);
+        return start.getFullYear() + '-' + this.formatNumber(start.getMonth() + 1) + '-' + this.formatNumber(start.getDate());
+    },
     currentMonth() {
         //返回当前年月 2018-03
         let start = new Date();

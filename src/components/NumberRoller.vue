@@ -60,7 +60,7 @@
                     }
                 }
                 //将传进来的数字后6位转成数组
-                console.log(this.ARR);
+                // console.log(this.ARR);
 
                 this.$refs['roller'].init(this.ARR[0]);
                 this.$refs['roller1'].init(this.ARR[1]);

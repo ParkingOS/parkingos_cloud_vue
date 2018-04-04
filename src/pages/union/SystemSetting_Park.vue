@@ -57,7 +57,7 @@
                 <!--</el-option>-->
                 <!--</el-select>-->
                 <!--</el-form-item>-->
-                <el-form-item label="状态">
+                <!--<el-form-item label="状态">
                     <el-select v-model="addFormPark.state" style="width:90%">
                         <el-option
                                 v-for="item in parkState2"
@@ -66,7 +66,7 @@
                         >
                         </el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="地址" :prop="address">
                     <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
                     <br/>
@@ -120,7 +120,7 @@
                 <!--</el-option>-->
                 <!--</el-select>-->
                 <!--</el-form-item>-->
-                <el-form-item label="状态">
+                <!--<el-form-item label="状态">
                     <el-select v-model="addFormPark.state" style="width:90%">
                         <el-option
                                 v-for="item in parkState2"
@@ -129,7 +129,7 @@
                         >
                         </el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="地址" :prop="address">
                     <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
                     <br/>
@@ -454,24 +454,25 @@
                                 }
                             },
                         ]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '状态',
-                                prop: 'state',
-                                width: '100',
-                                type: 'selection',
-                                selectlist: parkState,
-                                addable: true,
-                                searchable: true,
-                                unsortable: true,
-                                align: 'center',
-                                format: (row) => {
-                                    return common.nameformat(row, parkState, 'state')
-                                }
-                            },
-                        ]
                     },
+                    //{
+                    //   hasSubs: false, subs: [
+                    //        {
+                    //            label: '状态',
+                    //            prop: 'state',
+                    //            width: '100',
+                    //            type: 'selection',
+                    //            selectlist: parkState,
+                    //            addable: true,
+                    //            searchable: true,
+                    //            unsortable: true,
+                    //            align: 'center',
+                    //            format: (row) => {
+                    //                return common.nameformat(row, parkState, 'state')
+                    //            }
+                    //        },
+                    //    ]
+                    //},
                     // {
                     //     hasSubs: false, subs: [
                     //         {

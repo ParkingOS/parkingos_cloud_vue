@@ -50,11 +50,11 @@
                          :collapse="isCollapse">
 
 
-                    <el-submenu v-if="this.showUnionItem.businessOrder" index="/data">
+                    <el-submenu v-if="this.showUnionItem.data_Center" index="/data">
                         <template slot="title">
                             <i class="menu-icon icon iconfont icon-analysis"></i>
                             <span class="menuitem">数据中心</span></template>
-                        <el-menu-item index="/data_Center" v-if="this.showUnionItem.businessOrder_Cars">数据中心
+                        <el-menu-item index="/data_Center" v-if="this.showUnionItem.data_Center">数据中心
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.businessOrder" index="/businessOrder">
@@ -242,7 +242,7 @@
 
                 //console.log(cpath)
                 var options = this.$router.options.routes;
-                // this.highlightindex = a;
+                this.highlightindex = a;
                 this.expandindex = a.split('_')[0];
                 // console.log('>>>' + a)
                 // console.log('>>>' + a.split('_')[0])
@@ -293,7 +293,7 @@
                     this.park = true;
                 }
                 if (user.oid == ROLE_ID.UNION) {
-                    this.nickname = '集团';
+                    this.nickname = '运营商';
                     this.union = true;
                 }
 

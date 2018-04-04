@@ -38,8 +38,9 @@
                             </el-button>
                         </div>
                         <div :style="parkExpanStyle">
+
                             <span style="float: left;margin-top: 10px;">订单状态：</span>
-                            <el-select v-model="superimposed" placeholder="未结算"
+                            <el-select v-model="currentState" placeholder="未结算"
                                        style="float: left;margin-right: 10px;width: 123px;">
                                 <el-option
                                         v-for="item in orderStateType"
@@ -138,6 +139,24 @@
                                 :default-time="['00:00:00', '23:59:59']">
                         </el-date-picker>
                     </div>
+
+                    <div v-if="showdateSelector22" style="float: left;margin-right: 10px;">
+
+                        <span class="demonstration">日期</span>
+                        <el-date-picker
+                                v-model="datesselector"
+                                type="datetimerange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                :start-placeholder="start_placeholder1"
+                                :end-placeholder="end_placeholder1"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                :picker-options="pickerOptions2"
+                                @change="changeanalysisdate"
+                                :default-time="['00:00:00', '23:59:59']">
+                        </el-date-picker>
+                    </div>
                     <div v-if="showdateSelector10" style="float: left;margin-right: 10px;">
 
                         <span class="demonstration">日期</span>
@@ -172,6 +191,29 @@
                                 value-format="yyyy-MM"
                                 :picker-options="pickerOptionsAfter"
                                 :placeholder="start_month_placeholder">
+                        </el-date-picker>
+                        <el-tooltip class="item" effect="dark" content="最多支持12个月的数据查询" placement="bottom">
+                            <el-button type="primary" @click="handleSearchMonthReport" align="center">查询
+                            </el-button>
+                        </el-tooltip>
+                    </div>
+
+                     <div v-if="showdateSelectorMonth22" style="float: left;margin-right: 10px;">
+                        <!--<div style="float: left;margin-right: 10px;">-->
+                        <el-date-picker
+                                v-model="monthReportStart"
+                                type="month"
+                                value-format="yyyy-MM"
+                                :picker-options="pickerOptionsBefore"
+                                :placeholder="start_month_placeholder11">
+                        </el-date-picker>
+                        <span> 至 </span>
+                        <el-date-picker
+                                v-model="monthReportEnd"
+                                type="month"
+                                value-format="yyyy-MM"
+                                :picker-options="pickerOptionsAfter"
+                                :placeholder="end_month_placeholder11">
                         </el-date-picker>
                         <el-tooltip class="item" effect="dark" content="最多支持12个月的数据查询" placement="bottom">
                             <el-button type="primary" @click="handleSearchMonthReport" align="center">查询
@@ -576,8 +618,12 @@
                     }
                 },
                 start_placeholder: '',
+                start_placeholder1: '',
                 end_placeholder: '',
+                end_placeholder1:'',
                 start_month_placeholder: '',
+                start_month_placeholder11: '',
+                end_month_placeholder11: '',
 
                 pickerOptions2: {
                     shortcuts: [
@@ -668,7 +714,7 @@
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector10', 'showCollectorSelector', 'showParkSelector', 'showdateSelectorMonth',
+            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector22','showdateSelector10', 'showCollectorSelector', 'showParkSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed'],
         methods: {
             //刷新页面
@@ -1635,8 +1681,25 @@
             this.sform = {};
             //this.date_selector ='123434342'
             if (this.showdateSelector) {
+                _this.start_placeholder1 = common.getFirstDayOfWeek() + ' 00:00:00';
                 _this.start_placeholder = common.currentDate() + ' 00:00:00';
                 _this.end_placeholder = common.currentDate() + ' 23:59:59';
+                _this.currentcollect = '';
+                _this.currentpark = '';
+                _this.currentdate = '';
+                _this.datesselector = '';
+                _this.searchDate = '';
+                _this.$axios.all([common.getCollector(), common.getAllParks()])
+                    .then(_this.$axios.spread(function (ret, retpark) {
+                        _this.collectors = [{value_no: '', value_name: '全部'}];
+                        _this.collectors = _this.collectors.concat(ret.data);
+                        _this.parks = [{value_no: '', value_name: '全部车场'}];
+                        _this.parks = _this.parks.concat(retpark.data);
+                    }));
+            }
+            if (this.showdateSelector22) {
+                _this.start_placeholder1 = common.getFirstDayOfWeek() + ' 00:00:00';
+                _this.end_placeholder1 = common.currentDate() + ' 23:59:59';
                 _this.currentcollect = '';
                 _this.currentpark = '';
                 _this.currentdate = '';
@@ -1670,6 +1733,12 @@
                 _this.monthReportStart = '';
                 _this.monthReportEnd = '';
                 _this.start_month_placeholder = common.currentMonth();
+            }
+             if (this.showdateSelectorMonth22) {
+                _this.monthReportStart = '';
+                _this.monthReportEnd = '';
+                _this.start_month_placeholder11 = common.yearStart();
+                _this.end_month_placeholder11 = common.currentMonth();
             }
             // console.log(_this.showParkInfo);
             if (_this.showParkInfo) {

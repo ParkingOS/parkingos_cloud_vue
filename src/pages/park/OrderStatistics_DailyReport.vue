@@ -34,7 +34,7 @@
                         :exportapi="exportapi"
                         :hide-options="hideOptions"
                         :searchtitle="searchtitle"
-                        :showdateSelector="showdateSelector"
+                        :showdateSelector22="showdateSelector22"
                         :showCollectorSelector="showCollectorSelector"
                         :hideTool="hideTool"
                         :hideSearch="hideSearch"
@@ -167,7 +167,7 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: true,
-                showdateSelector: true,
+                showdateSelector22: true,
                 showCollectorSelector: true,
                 hideAdd: true,
                 tableheight: '',
@@ -461,7 +461,7 @@
                         seriesData[1].data[i] = rData.amount_receivable;  //应收金额
                         seriesData[2].data[i] = rData.electronic_pay;  //电子支付
                         seriesData[3].data[i] = rData.act_total;  //实收金额
-                        seriesData[4].data[i] = rData.reduce_pay;  //减免金额
+                        seriesData[4].data[i] = rData.free_pay;  //减免金额,字段是free_pay
                     }
                     vm.chart.setOption({
                         title: {
@@ -533,9 +533,10 @@
             // console.log(common.gww());
             // 637
             // 1366
-            this.start_placeholder = common.currentDate() + ' 00:00:00';
+            this.start_placeholder = common.getFirstDayOfWeek();
+            //console.log('chenbowen~~~~~~~~~~~~~~~'+common.getFirstDayOfWeek());
             this.end_placeholder = common.currentDate() + ' 23:59:59';
-            this.chartDate = [common.currentDate() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
+            this.chartDate = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
             this.selParkId = -1;
 
             let _this = this;
