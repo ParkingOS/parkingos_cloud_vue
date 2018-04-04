@@ -309,7 +309,7 @@
         },
         data() {
             return {
-
+                bolink_id:'',
                 hideExport: true,
                 tableheight: '',
                 hideOptions: false,
