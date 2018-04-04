@@ -33,7 +33,7 @@
                         :exportapi="exportapi"
                         :hide-options="hideOptions"
                         :searchtitle="searchtitle"
-                        :showdateSelectorMonth="showdateSelectorMonth"
+                        :showdateSelectorMonth22="showdateSelectorMonth22"
                         :hideTool="hideTool"
                         :hideSearch="hideSearch"
                         :hideAdd="hideAdd"
@@ -120,7 +120,7 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: true,
-                showdateSelectorMonth: true,
+                showdateSelectorMonth22: true,
                 hideAdd: true,
                 tableheight: '',
                 hideOptions: true,
@@ -435,7 +435,7 @@
             this.chartHeight = (common.gwh()-200)+'px';
             this.chartWidth = (common.gww()/(common.gwh()-200))*common.gwh();
             this.start_month_placeholder = common.currentMonth();
-            this.monthReportStart = common.currentMonth();
+            this.monthReportStart = common.yearStart();
             this.monthReportEnd = common.currentMonth();
             this.queryForChart();
             this.initChart();
