@@ -82,7 +82,23 @@ import {AUTH_ID} from "./common/js/const";
                         unsortable: false,
                         align: 'center'
                     }]
-                }, {
+                }
+                , {
+
+                    hasSubs: false,
+                    subs: [{
+                        label: '车场',
+                        prop: 'comid',
+                        width: '150',
+                        type: 'selection',
+                        editable: true,
+                        searchable: true,
+                        addable: true,
+                        unsortable: true,
+                        align: 'center'
+                    }]
+                }
+                , {
 
                     hasSubs: false,
                     subs: [{
@@ -178,17 +194,29 @@ import {AUTH_ID} from "./common/js/const";
         // this.tableheight = common.gwh() - 143;
         var query = window.location.search.substring(1);
         var vars = query.split("&");
-        var comid = '';
+        var type = '';
          for (var i=0;i<vars.length;i++) {
                  var pair = vars[i].split("=");
-                 if(pair[0] == 'comid'){
-                   comid = pair[1];
+                 if(pair[0] == 'type'){
+                   type = pair[1];
                  }
          }
-        
+         let _this = this;
+         var param = {
+           comid:localStorage.getItem("comid")
+         }
+         if(type=='group'){
+           param = {
+             groupid:localStorage.getItem("groupid")
+           }
+           _this.queryapi = '/EQ_monitor/groupmonitors';
+         }
         //this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-        this.$refs['bolinkuniontable'].getTableData({comid:comid});
-        let _this = this;
+        setTimeout(function(){
+          _this.$refs['bolinkuniontable'].getTableData(param);
+        },10)
+
+
 
             // axios.all([common.getChannelTypeByComid(comid)])
             //     .then(axios.spread(function (ret) {

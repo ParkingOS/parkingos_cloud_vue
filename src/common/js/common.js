@@ -173,9 +173,15 @@ export default {
         return axios.get(path + '/getdata/getChannelType' + param);
     },
     getSuperimposed() {
-        let param = '?token=' + sessionStorage.getItem('token')
-            + this.attachParams('comid');
-        return axios.get(path + '/getdata/getSuperimposed' + param);
+        if(sessionStorage.getItem('comid')){
+          let param = '?token=' + sessionStorage.getItem('token')
+              + this.attachParams('comid');
+          return axios.get(path + '/getdata/getSuperimposed' + param);
+        }
+        else{
+          return {}
+        }
+
 
     },
     getMonitorName() {
@@ -462,7 +468,7 @@ export default {
         sform.token = this.attachParams('token');
         sform.oid = this.attachParams('oid', 1);
         sform.comid = sform.comid || this.attachParams('comid', 1);
-        sform.groupid = this.attachParams('groupid', 1);
+        sform.groupid =sform.groupid ||this.attachParams('groupid', 1);
         sform.cityid = this.attachParams('cityid', 1);
         sform.unionid = this.attachParams('unionid', 1);
         sform.channelid = this.attachParams('channelid', 1);

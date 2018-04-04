@@ -260,6 +260,8 @@
                     //this.$post(path+"/user/dologout",logoutParams)
                     sessionStorage.removeItem('user');
                     sessionStorage.removeItem('token');
+                    localStorage.removeItem('comid');
+                    localStorage.removeItem('groupid');
                     _this.$router.push('/login');
                 }).catch(() => {
 

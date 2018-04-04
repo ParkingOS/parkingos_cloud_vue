@@ -347,7 +347,8 @@
                                 //localStorage.setItem('user', JSON.stringify(u));
                                 sessionStorage.setItem('token', ret.token)
                                 sessionStorage.setItem('comid', u.comid)
-                                //localStorage.setItem('comid', u.comid)
+                                localStorage.setItem('comid', u.comid)
+                                localStorage.setItem('groupid', u.groupid)
                                 sessionStorage.setItem('groupid', u.groupid)
                                 sessionStorage.setItem('channelid', u.channelid)
                                 sessionStorage.setItem('unionid', u.unionid)

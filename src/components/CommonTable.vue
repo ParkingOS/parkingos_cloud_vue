@@ -749,7 +749,7 @@
                 }).then(function (response) {
                     // console.log(ret)
                     let ret = response.data;
-                    console.log('asdafafagagagagagaga'+ret);
+
                     if (ret.validate != 'undefined' && ret.validate == '0') {
                         vm.loading = false;
                         //未携带令牌.重新登录
@@ -781,6 +781,8 @@
 
             //拉取表格数据
             getTableData(sform) {
+
+
                 let vm = this;
                 this.loading = true;
                 let api = this.queryapi;
@@ -1226,7 +1228,12 @@
                     callback: action => {
                         sessionStorage.removeItem('user');
                         sessionStorage.removeItem('token');
-                        this.$router.push('/login');
+                        localStorage.removeItem('comid');
+                        localStorage.removeItem('groupid');
+                        if(this.$router){
+                          this.$router.push('/login');
+                        }
+
                     }
                 });
             },
@@ -1600,10 +1607,15 @@
             //拷贝查询表单,用来在重置时清空表单内容
             this.tempSearchForm = common.clone(this.searchForm);
             //this.superimposed = sessionStorage.getItem('superimposed');
-            console.log('asdasdafafafa111'+ this.superimposed);
-            common.getSuperimposed().then(function (response) {
-                _this.superimposed = response.data.superimposed
-             })
+            try{
+              common.getSuperimposed().then(function (response) {
+                  _this.superimposed = response.data.superimposed
+               })
+            }
+            catch(e){
+
+            }
+
         },
 
         activated() {
