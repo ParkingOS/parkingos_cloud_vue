@@ -1542,10 +1542,10 @@
             changeanalysisdatecollect(val) {
                 this.currentcollect = val;
                 this.sform.out_uid = this.currentcollect;
-                this.sform.date = this.currentdate;
-                if (this.currentdate == '') {
-                    this.currentdate = common.currentFormatDate();
-                }
+                //this.sform.date = this.currentdate;
+                //if (this.currentdate == '') {
+                //    this.currentdate = common.currentFormatDate();
+                //}
                 let form = {'date': this.currentdate, 'out_uid': val};
                 this.currentPage = 1;
                 this.getTableData(form);
