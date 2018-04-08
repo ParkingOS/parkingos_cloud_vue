@@ -2,7 +2,7 @@
   <div class="complexsearch">
     <el-dialog :title="title" :visible.sync="searchVisible" @close="onclose" :close-on-click-modal="false" top="8%"  width="30%">
 			<div v-for="items in searchitems">
-				<p 
+				<p
 					v-for="item in items.subs"
 					v-if="item.searchable"
 					:is="item.type"
@@ -49,8 +49,10 @@ export default {
 	props:['searchVisible','searchitems','title'],
   	methods:{
 		listensearchitem:function(formitem){
+
 			//searchForm中存在则覆盖，不存在则加入该属性
 			// this.$extend(this.searchForm,formitem)
+        //console.log('aaaaaaaa:',this.searchForm);
             Object.assign(this.searchForm,formitem)
 		},
 		onclose(){
@@ -62,7 +64,7 @@ export default {
 			this.$emit('searchdialog',false)
 		},
 		resetSearch(){
-			//重置search 
+			//重置search
 			//清空所有子组件的searchForm
 			//循环调用，清除所以子组件内的表单值
 			for(var i=0;i<this.searchitems.length;i++){
@@ -81,7 +83,6 @@ export default {
 			if(common.getLength(this.searchForm)>0){
 				this.searched = true
 			}
-			console.log(this.searchForm)
 			//将searchForm传递给父组件
 			this.$emit('search',this.searchForm)
 			//关闭对话框
@@ -89,9 +90,13 @@ export default {
 		},
 		render(){}
   },
+  updated(){
+    	console.log('update ',this.searchForm)
+  },
   beforeMount(){
   },
   mounted(){
+
 	  console.log('mount complexsearch')
   },
   destroyed(){

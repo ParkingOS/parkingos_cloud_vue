@@ -42,7 +42,8 @@ router.beforeEach((to, from, next) => {
 });
 
 
-new Vue({
+var vue1 = new Vue({
   router,
   render: h => h(App)
-}).$mount('#app');
+})
+vue1.$mount('#app');

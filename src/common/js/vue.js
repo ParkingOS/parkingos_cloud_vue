@@ -1882,6 +1882,7 @@ function eventsMixin (Vue) {
   };
 
   Vue.prototype.$emit = function (event) {
+		
     var vm = this;
     var cbs = vm._events[event];
     if (cbs) {

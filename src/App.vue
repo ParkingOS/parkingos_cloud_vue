@@ -4,7 +4,7 @@
 	</div>
 </template>
 <script>
-import "./assets/iconfont.css"  
+import "./assets/iconfont.css"
 	export default {
 		name: 'app',
 		components: {

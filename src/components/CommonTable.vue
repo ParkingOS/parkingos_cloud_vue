@@ -824,24 +824,47 @@
                 });
 
             },
-
+            //增加从url里面读取的2个参数
+            getMonitorParamFromUrl(){
+              var query = window.location.search.substring(1);
+              var vars = query.split("&");
+              var type = '';
+              var id ='';
+               for (var i=0;i<vars.length;i++) {
+                       var pair = vars[i].split("=");
+                       if(pair[0] == 'type'){
+                         type = pair[1];
+                       }
+                       else if(pair[0] == 'id'){
+                         id = pair[1];
+                       }
+               }
+               let _this = this;
+               var param = {
+                 comid:id
+               }
+               if(type=='group'){
+                 param = {
+                   groupid:id
+                 }
+               }
+               return param;
+            },
             //拉取表格数据
-            getTableData(sform) {
-
-
+            getTableData(sform1) {
+                let param = this.getMonitorParamFromUrl()
+                sform1.groupid = param.groupid;
+                sform1.comid = param.comid;
                 let vm = this;
                 this.loading = true;
                 let api = this.queryapi;
-
-                sform.rp = this.pageSize;
-                sform.page = this.currentPage;
-                sform.orderby = this.orderby;
-                sform.orderfield = this.orderfield;
-                sform.fieldsstr = this.fieldsstr;
-
-                sform = common.generateForm(sform);
-
-                vm.$axios.post(path + api, vm.$qs.stringify(sform), {
+                sform1.rp = this.pageSize;
+                sform1.page = this.currentPage;
+                sform1.orderby = this.orderby;
+                sform1.orderfield = this.orderfield;
+                sform1.fieldsstr = this.fieldsstr;
+                this.sform = common.generateForm(sform1);
+                vm.$axios.post(path + api, vm.$qs.stringify(this.sform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
@@ -905,6 +928,7 @@
                         vm.total = ret.total;
                         vm.loading = false;
                     }
+                          console.log("get table 55555:",vm.$refs['search'].searchForm);
                 }).catch(function (error) {
                     setTimeout(() => {
                         vm.alertInfo('请求失败!' + error);
@@ -917,10 +941,10 @@
             handleSearch() {
                 //弹出高级查询界面
                 //全平台服务商
-
+                console.log("get table fffaaaaa:",this.$refs['search'].searchForm);
                 let vm = this;
                 let user = sessionStorage.getItem('user');
-                // console.log('-----------------------')
+
                 user = JSON.parse(user);
                 for (let i = 0; i < this.tableitems.length; i++) {
                     // console.log('>>'+this.tableitems[i].customSelect)
@@ -996,7 +1020,10 @@
                         });
                     }
                 }
+
+
                 this.searchFormVisible = true;
+
             },
             closesearch: function (val) {
                 this.searchFormVisible = val;
@@ -1603,6 +1630,7 @@
                 this.sform.pay_type = this.currentPayType;
 
                 this.getTableData(this.sform);
+
                 // create_time: between
                 // create_time_start: 1519887179000
                 // create_time_end: 1522133584000
@@ -1644,12 +1672,15 @@
             // amount_receivable_end: 5
 
         },
+        updated(){
+                    console.log("get table eeeee33:",this.$refs['search'].searchForm);
+        },
         mounted() {
             let _this = this;
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             this.mapheight = common.gwh() * 0.5;
             this.mapstyle = 'width:inherit;height:' + common.gwh() / 2 + 'px';
-            console.log('commontable mount');
+            console.log('commontable mount',this.searchForm);
             //拷贝查询表单,用来在重置时清空表单内容
             this.tempSearchForm = common.clone(this.searchForm);
             //this.superimposed = sessionStorage.getItem('superimposed');
@@ -1657,6 +1688,7 @@
               common.getSuperimposed().then(function (response) {
                   _this.superimposed = response.data.superimposed
                })
+               console.log("get table eeeeeaaa:",this.$refs['search'].searchForm);
             }
             catch(e){
 
@@ -1679,6 +1711,7 @@
             // console.log('commontable active')
             this.currentPage = 1;
             this.sform = {};
+
             //this.date_selector ='123434342'
             if (this.showdateSelector) {
                 _this.start_placeholder1 = common.getFirstDayOfWeek() + ' 00:00:00';
@@ -1755,6 +1788,8 @@
                 _this.parkAccoutRece_end = '';
                 _this.datesselector = common.currentDateArray(3);
             }
+
+
         }
     };
 

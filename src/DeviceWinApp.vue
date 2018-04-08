@@ -13,8 +13,8 @@
             :hide-options="true"
             :addtitle="addtitle"
             :searchtitle="searchtitle"
-            :hideTool="true"
-            :hideSearch="true"
+            :hideTool="false"
+            :hideSearch="false"
             :hideAdd="true"
             :showEdit="false"
             :showdelete="false"
@@ -92,7 +92,7 @@ import {AUTH_ID} from "./common/js/const";
                         width: '150',
                         type: 'selection',
                         editable: true,
-                        searchable: true,
+                        searchable: false,
                         addable: true,
                         unsortable: true,
                         align: 'center'
@@ -192,6 +192,7 @@ import {AUTH_ID} from "./common/js/const";
         //     this.tableheight = common.gwh() - 143;
         // };
         // this.tableheight = common.gwh() - 143;
+
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         var type = '';
@@ -213,12 +214,20 @@ import {AUTH_ID} from "./common/js/const";
            param = {
              groupid:id
            }
+           this.tableitems[3].subs[0].searchable = false;
            _this.queryapi = '/EQ_monitor/groupmonitors';
          }
-        //this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-        setTimeout(function(){
-          _this.$refs['bolinkuniontable'].getTableData(param);
-        },10)
+
+         setTimeout(function(){
+             _this.$refs['bolinkuniontable'].getTableData(param);
+             axios.all([common.getChannelTypeByComid(id)])
+                 .then(axios.spread(function (ret) {
+                     _this.channelType = ret.data;
+                     //console.log(ret.data);
+                 }))
+         },10)
+
+
 
 
 
@@ -231,10 +240,11 @@ import {AUTH_ID} from "./common/js/const";
     },
     activated() {
 
+
     },
     watch: {
         channelType: function (val) {
-            this.tableitems[2].subs[0].selectlist = val;
+            this.tableitems[3].subs[0].selectlist = val;
             console.log(val);
         }
     },
