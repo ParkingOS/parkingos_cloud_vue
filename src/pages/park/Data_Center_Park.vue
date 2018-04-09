@@ -598,7 +598,11 @@
                         _this.$refs['roll_outcar'].init(_this.responseData.inOutCarsCount.outCars);
                         _this.$refs['roll_inpark'].init(_this.responseData.inOutCarsCount.inPark);
 
-
+                        // setTimeout(function(){
+                        //   _this.$refs['roll_cashpay'].init(5311);
+                        //   _this.$refs['roll_elepay'].init(8423);
+                        //   _this.$refs['roll_reduce'].init(92);
+                        // },5000)
 
 
                         if (_this.dataInitCount > 0) {

@@ -12,10 +12,9 @@
         name: 'single-number-roller',
         data() {
             return {
-                prizeList: [],
+                prizeList: [0,1,2,3,4,5,6,7,8,9],
                 prizeList1: [],
                 activeIndex: 0,
-                activeIndex1: 0,
                 currentnum:0,
             };
         },
@@ -24,31 +23,34 @@
             init(number) {
                 this.initNumRoller(number);
             },
-            initNumRoller(index) {
-                // console.log(this.currentnum)
-                // console.log(index)
-                if(this.currentnum===index&&index>0){
+            initNumRoller(number) {
+                let gap = 0;
+                if(this.currentnum===number&&number>0){
                     return;
                 }
-                this.currentnum = index;
+                else{
 
-                this.prizeList.splice(0,this.prizeList.length);
-                for (let i = 0; i <= index; i++) {
-                    this.prizeList.push(i);
+                  gap =  this.currentnum - number;
                 }
-                this.activeIndex = 0;
+                this.currentnum = number;
                 let loop = setInterval(_ => {
-                    if (this.activeIndex < this.prizeList.length - 1) {
-                        this.activeIndex += 1;
-                    } else {
-                        clearInterval(loop);
+                  //如果数字变大，则往上滚动
+                    if(gap>0){
+                      this.activeIndex--;
                     }
+                    else if (gap<0){//如果数字变小，往下滚动
+                      this.activeIndex++;
+                    }
+                    //如果滚动到相应为止
+                    if(this.activeIndex == this.currentnum){
+                      clearInterval(loop);
+                    }
+
                 }, 100);
             }
         },
         activated() {
-            // this.initNumRoller(this.num);
-            // console.log('66666666666')
+
         },
         computed: {
             top() {
