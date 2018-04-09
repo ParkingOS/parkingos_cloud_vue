@@ -77,7 +77,7 @@
                 </el-form-item>
 
 
-                <el-form-item label="车位总数">
+                <el-form-item label="车位总数" :prop="parking_total">
                     <el-input v-model="addFormPark.parking_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="地址" :prop="address">
