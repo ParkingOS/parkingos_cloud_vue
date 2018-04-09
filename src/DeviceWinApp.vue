@@ -188,10 +188,10 @@ import {AUTH_ID} from "./common/js/const";
         }
     },
     mounted() {
-        // window.onresize = () => {
-        //     this.tableheight = common.gwh() - 143;
-        // };
-        // this.tableheight = common.gwh() - 143;
+        window.onresize = () => {
+            this.tableheight = common.gwh() - 143;
+        };
+        this.tableheight = common.gwh() - 143;
 
         var query = window.location.search.substring(1);
         var vars = query.split("&");
