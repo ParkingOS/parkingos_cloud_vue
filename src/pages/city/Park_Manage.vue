@@ -334,7 +334,7 @@
                 unionList:'',
                 resetCarnumber: '',
                 btswidth: '200',
-                fieldsstr: 'id__company_name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey',
+                fieldsstr: 'id__company_name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey__bolink_id',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
