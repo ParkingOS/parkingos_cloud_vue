@@ -376,7 +376,7 @@
                 formdata.orderfield = this.orderfield;
                 formdata.fieldsstr = this.fieldsstr;
                 if (this.selParkId > 0) {
-                    formdata.comid_start = this.selParkId;
+                    formdata.out_uid = this.selParkId;
                     formdata.comid = '';
                 }
                 if (isFirst !== 1) {
