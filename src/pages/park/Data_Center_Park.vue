@@ -823,7 +823,7 @@
     .rowup {
       animation-name:rowup;
       animation-timing-function:linear;
-      animation-duration: 5s;
+      animation-duration: 10s;
       animation-iteration-count:infinite;
       position: relative;
     }
