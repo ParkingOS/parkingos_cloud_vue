@@ -38,7 +38,7 @@
                     <br/>
                     <el-button  type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                <el-form-item label="泊链运营商编号" :prop="operatorid">
+                <el-form-item label="泊链运营集团编号" :prop="operatorid">
                     <el-input v-model="addFormPark.operatorid" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
@@ -49,7 +49,7 @@
 			</span>
         </el-dialog>
         <el-dialog
-                title="编辑运营商"
+                title="编辑运营集团"
                 :visible.sync="showEditPark"
                 width="30%">
             <el-form ref="addFormPark" label-width="120px" style="margin-bottom:-30px" :rules="addFormRules"
@@ -64,7 +64,7 @@
                     <br/>
                     <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                <el-form-item label="泊链运营商编号" :prop="operatorid">
+                <el-form-item label="泊链运营集团编号" :prop="operatorid">
                     <el-input v-model="addFormPark.operatorid" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
@@ -106,7 +106,7 @@
             </el-row>
         </el-dialog>
 
-        <el-dialog title="运营商设置-员工管理" width="60%" :visible.sync="showSetPark">
+        <el-dialog title="运营集团设置-员工管理" width="60%" :visible.sync="showSetPark">
             <el-row style="margin-bottom:8px">
                 <el-col :span="24" align="left">
                     <el-col :span="18" align="left">
@@ -369,7 +369,7 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '泊链运营商编号',
+                                label: '泊链运营集团编号',
                                 prop: 'operatorid',
                                 width: '180',
                                 type: 'str',
@@ -508,7 +508,7 @@
                     }
                 ],
                 searchtitle: '高级查询',
-                addtitle: '注册运营商',
+                addtitle: '注册运营集团',
 
                 datereadonly: true,
 
@@ -517,7 +517,7 @@
                 mobile:'mobile',
                 addFormRules: {
                     name: [
-                        {required: true, message: '请填写运营商名称', trigger: 'blur'}
+                        {required: true, message: '请填写运营集团名称', trigger: 'blur'}
                     ],
                     address: [
                         {required: true, message: '请标注位置', trigger: 'blur'}

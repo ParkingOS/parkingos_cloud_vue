@@ -293,7 +293,7 @@
                     this.park = true;
                 }
                 if (user.oid == ROLE_ID.UNION) {
-                    this.nickname = '运营商';
+                    this.nickname = '运营集团';
                     this.union = true;
                 }
 

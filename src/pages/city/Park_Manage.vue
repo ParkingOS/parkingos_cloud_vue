@@ -42,7 +42,7 @@
                     <br/>
                     <el-button  type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                 <el-form-item label="所属运营商" >
+                 <el-form-item label="所属运营集团" >
                     <el-select v-model="addFormPark.group_id" style="width:90%">
                         <el-option
                                 v-for="item in unionList"
@@ -395,7 +395,7 @@
                     {
                      hasSubs: false, subs: [
                         {
-                            label: '所属运营商',
+                            label: '所属运营集团',
                             prop: 'groupid',
                             width: '100',
                             type: 'selection',
@@ -749,9 +749,9 @@
                                 //更新成功
                                 _this.$refs['bolinkuniontable'].getTableData({});
                                 _this.$message({
-                                    message: '添加成功!',
+                                    message: ret.msg,
                                     type: 'success',
-                                    duration: 600
+                                    duration: 1200
                                 });
                                 _this.showRegisPark = false;
                                 _this.addFormPark = {};
