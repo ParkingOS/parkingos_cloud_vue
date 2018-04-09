@@ -941,8 +941,9 @@
             handleSearch() {
                 //弹出高级查询界面
                 //全平台服务商
-                console.log("get table fffaaaaa:",this.$refs['search'].searchForm);
+                //console.log("get table fffaaaaa:",this.$refs['search'].searchForm);
                 let vm = this;
+                try{
                 let user = sessionStorage.getItem('user');
 
                 user = JSON.parse(user);
@@ -1021,7 +1022,10 @@
                     }
                 }
 
-
+              }
+              catch(e){
+                  console.log(e);
+              }
                 this.searchFormVisible = true;
 
             },
