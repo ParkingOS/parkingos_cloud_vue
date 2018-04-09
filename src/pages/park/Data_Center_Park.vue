@@ -25,7 +25,7 @@
                     </div>
 
                 </div>
-                <div style="flex: 3;padding: 10px;overflow-y: auto">
+                <div style="flex: 3;padding: 10px;overflow-y: hidden">
                     <div class="data-box" ref="echartBox">
                         <div class="title">今日收费构成</div>
                         <div class="body" style="padding: 0;">
@@ -410,53 +410,6 @@
                         }
                     ]
                 });
-                // this.eventChart.setOption({
-                //     title: {
-                //         show: false
-                //     },
-                //     tooltip: {
-                //         trigger: 'axis',
-                //         axisPointer: {
-                //             type: 'shadow'
-                //         }
-                //     },
-                //     grid: {
-                //         show: false,
-                //         left: '3%',
-                //         right: '4%',
-                //         bottom: '3%',
-                //         containLabel: true
-                //     },
-                //     xAxis: {
-                //         show: false,
-                //         type: 'value',
-                //         axisLine: {
-                //             show: false
-                //         },
-                //         boundaryGap: [0, 0.01]
-                //     },
-                //     yAxis: {
-                //         axisLine: {
-                //             show: false
-                //         },
-                //         position: 'right',
-                //         type: 'category',
-                //         data: this.exceptionData.name
-                //     },
-                //     series: [
-                //         {
-                //             // name: '2011年',
-                //             type: 'bar',
-                //             label: {
-                //                 normal: {
-                //                     show: true,
-                //                     position: 'inside'
-                //                 }
-                //             },
-                //             data: this.exceptionData.value
-                //         }
-                //     ]
-                // });
                 this.topParkChart.setOption({
                     title: {
                         show: false
