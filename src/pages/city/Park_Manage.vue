@@ -42,7 +42,7 @@
                     <br/>
                     <el-button  type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
-                 <el-form-item label="所属运营商" >
+                 <el-form-item label="所属运营集团" >
                     <el-select v-model="addFormPark.group_id" style="width:90%">
                         <el-option
                                 v-for="item in unionList"
@@ -77,7 +77,7 @@
                 </el-form-item>
 
 
-                <el-form-item label="车位总数">
+                <el-form-item label="车位总数" :prop="parking_total">
                     <el-input v-model="addFormPark.parking_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="地址" :prop="address">
@@ -334,7 +334,7 @@
                 unionList:'',
                 resetCarnumber: '',
                 btswidth: '200',
-                fieldsstr: 'id__company_name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey',
+                fieldsstr: 'id__company_name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey__bolink_id',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
@@ -395,7 +395,7 @@
                     {
                      hasSubs: false, subs: [
                         {
-                            label: '所属运营商',
+                            label: '所属运营集团',
                             prop: 'groupid',
                             width: '100',
                             type: 'selection',
@@ -749,9 +749,9 @@
                                 //更新成功
                                 _this.$refs['bolinkuniontable'].getTableData({});
                                 _this.$message({
-                                    message: '添加成功!',
+                                    message: ret.msg,
                                     type: 'success',
-                                    duration: 600
+                                    duration: 1200
                                 });
                                 _this.showRegisPark = false;
                                 _this.addFormPark = {};

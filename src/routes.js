@@ -91,10 +91,10 @@ let routes = [
     {
         path: '/',
         component: HomeCloud_Admin,
-        name: '运营商',
+        name: '运营集团',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/union_manage', component: Union_Manage, name: '运营商'}
+            {path: '/union_manage', component: Union_Manage, name: '运营集团'}
         ]
     },
     {

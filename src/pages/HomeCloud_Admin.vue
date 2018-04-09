@@ -65,8 +65,8 @@
                     </el-submenu>
                     <el-submenu v-if="this.city" index="/union_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
-                                class="menuitem">运营商管理</span></template>
-                        <el-menu-item index="/union_manage">运营商管理
+                                class="menuitem">运营集团管理</span></template>
+                        <el-menu-item index="/union_manage">运营集团管理
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.city" index="/park_manage">
@@ -231,7 +231,7 @@
                     this.park = true;
                 }
                 if (user.oid == ROLE_ID.UNION) {
-                    this.nickname = '运营商';
+                    this.nickname = '运营集团';
                     this.union = true;
                 }
                 if (user.oid == ROLE_ID.CITY) {

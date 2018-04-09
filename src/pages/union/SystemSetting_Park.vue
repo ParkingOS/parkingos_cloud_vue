@@ -44,7 +44,7 @@
                 <!--</el-select>-->
                 <!--</el-form-item>-->
 
-                <el-form-item label="车位总数">
+                <el-form-item label="车位总数" :prop="parking_total">
                     <el-input v-model="addFormPark.parking_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <!--<el-form-item label="入场方式">-->
@@ -107,7 +107,7 @@
                 <!--</el-select>-->
                 <!--</el-form-item>-->
 
-                <el-form-item label="车位总数">
+                <el-form-item label="车位总数" :prop="parking_total">
                     <el-input v-model="addFormPark.parking_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <!--<el-form-item label="入场方式">-->
@@ -330,6 +330,7 @@
         inparkType,
         checkPhone,
         checkMobile,
+        checkParkMobile,
         checkTelePhone
     } from '../../api/api';
 
@@ -749,6 +750,7 @@
                 company_name: 'company_name',
                 address: 'address',
                 mobile:'mobile',
+                parking_total:'parking_total',
                 addFormRules: {
                     company_name: [
                         {required: true, message: '请填写停车场名称', trigger: 'blur'}
@@ -757,7 +759,10 @@
                         {required: true, message: '请标注位置', trigger: 'blur'}
                     ],
                     mobile: [
-                        {validator: checkPhone, trigger: 'blur'}
+                        {required: true, validator: checkParkMobile, trigger: 'blur'}
+                    ],
+                    parking_total: [
+                       {required: true, message: '请输入车位数', trigger: 'blur'}
                     ]
 
                 },
