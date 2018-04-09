@@ -60,37 +60,52 @@
             <div style="flex: 2;width: 0;display:flex ;flex-direction: column;">
                 <!--<div style="flex: 1;padding: 80px 10px 10px 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;align-items: center;">-->
                 <div :style="rollstyle" >
-                    <div class="data-box cart-box" style="background-color: white;">
+                    <div class="data-box cart-box" style="background-color: white;" ref="scrollBox">
                         <div class="title" style="width: 100%;background-color: #393a3e;">入场车辆</div>
                         <div style="background: white;color: black;padding:5px;overflow: hidden;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">通道名称</span>
                                 <span style="flex: 1;text-align: center;">时间</span>
                                 <span style="flex: 2;text-align: center;">车牌号</span></div>
-                            <div class="box">
-                                <ul class="con1" ref="con1" :class="{anim:animate==true}">
-                                    <li v-for='(item,index) in inPartData'>
-                                        <div :style="indexrule(index)?styledouble:stylesingle">
-                                            <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
-                                            <span style="flex: 1;text-align: center;">{{item.time}}</span>
-                                            <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+
+                                <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxInCarHeight + 'px' }" >
+
+                              <div  v-bind:class="[scrollBoxInCar ? 'rowup' : '', 'box']" >
+                                  <ul class="con1 conE"  :class="{anim:animate==true}">
+                                      <li v-for='(item,index) in inPartData'>
+                                          <div :style="styledouble">
+                                              <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
+                                              <span style="flex: 1;text-align: center;">{{item.time}}</span>
+                                              <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
+                                          </div>
+                                      </li>
+                                  </ul>
+                                  <ul class="con1 conE" :class="{anim:animate==true}">
+                                      <li v-for='(item,index) in inPartData'>
+                                          <div :style="styledouble">
+                                              <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
+                                              <span style="flex: 1;text-align: center;">{{item.time}}</span>
+                                              <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
+                                          </div>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
                         </div>
                     </div>
-                    <div class="data-box cart-box" style="background-color: white;">
+                    <div class="data-box cart-box" style="background-color: white;" ref="scrollBox">
                         <div class="title" style="width: 100%;background-color: #393a3e;">出场车辆</div>
-                        <div style="background: white;color: black;padding:5px;overflow: hidden;">
+                        <div style="background: white;color: black;overflow: hidden;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">通道名称</span>
                                 <span style="flex: 1;text-align: center;">时间</span>
-                                <span style="flex: 2;text-align: center;">车牌号</span></div>
-                            <div class="box">
-                                <ul class="con1" ref="con2" :class="{anim:animate2==true}" style="overflow: hidden;">
+                                <span style="flex: 2;text-align: center;">车牌号</span>
+                            </div>
+                            <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxOutCarHeight + 'px' }" >
+                            <div  v-bind:class="[scrollBoxOutCar ? 'rowup' : '', 'box']"  >
+                                <ul v-bind:class="[ 'conE']" >
                                     <li v-for='(item,index) in outPartData'>
-                                        <div :style="indexrule2(index)?styledouble:stylesingle">
+                                        <div :style="styledouble">
                                             <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
                                             <span style="flex: 1;text-align: center;">{{item.time}}</span>
                                             <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
@@ -98,7 +113,17 @@
                                         <!--<div style="background-color: #EBEEF5;height: 1px;"></div>-->
                                     </li>
                                 </ul>
+                                <ul v-bind:class="['conE']"   >
+                                    <li v-for='(item,index) in outPartData'>
+                                        <div :style="styledouble">
+                                            <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
+                                            <span style="flex: 1;text-align: center;">{{item.time}}</span>
+                                            <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -142,8 +167,8 @@
                     </div>
                 </div>
                 <div class="title" style="padding-left: 10px;">异常抬杆</div>
-                <div style="flex: 2;margin: 0 10px 10px 10px;overflow: hidden;margin-bottom: 10px;background-color: white;">
-                    <div class="data-box" style="margin-top: 0px;">
+                <div style="flex: 2;margin: 0 10px 10px 10px;overflow: hidden;margin-bottom: 10px;background-color: white;" ref="scrollBoxException">
+                    <div class="data-box" style="margin-top: 0px;" >
 
                         <div style="background: white;color: black;padding:5px;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
@@ -152,18 +177,31 @@
                                 <span style="flex: 1;text-align: center;">收费员</span>
                                 <span style="flex: 2;text-align: center;">原因</span>
                             </div>
-                            <div class="box">
-                                <ul class="con1" ref="con3" :class="{anim:animate3==true}">
-                                    <li v-for='(item,index) in exceptionDataPole'>
-                                        <div :style="indexrule3(index)?styledouble:stylesingle">
-                                            <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
-                                            <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.passid}}</span>
-                                            <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.uin}}</span>
-                                            <span style="flex: 2;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.reason}}</span>
+                            <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxExceptionHeight + 'px' }" >
+                              <div  v-bind:class="[scrollBoxException ? 'rowup' : '', 'box']"  >
+                                  <ul class="con1 " v-bind:class="['conE']">
+                                      <li v-for='(item,index) in exceptionDataPole'>
+                                          <div :style="styledouble">
+                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
+                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.passid}}</span>
+                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.uin}}</span>
+                                              <span style="flex: 2;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.reason}}</span>
 
-                                        </div>
-                                    </li>
-                                </ul>
+                                          </div>
+                                      </li>
+                                  </ul>
+                                  <ul class="con1 " v-bind:class="['conE']">
+                                      <li v-for='(item,index) in exceptionDataPole'>
+                                          <div :style="styledouble">
+                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
+                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.passid}}</span>
+                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.uin}}</span>
+                                              <span style="flex: 2;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.reason}}</span>
+
+                                          </div>
+                                      </li>
+                                  </ul>
+                              </div>
                             </div>
                         </div>
                     </div>
@@ -190,11 +228,18 @@
         },
         data() {
             return {
+                scrollBoxInCar:false,
+                scrollBoxOutCar:false,
+                scrollBoxOutCarHeight: 240,
+                scrollBoxInCarHeight: 0,
+                scrollBoxException:false,
+                scrollBoxExceptionHeight: 0,
                 animate: false,//用于循环滚动在/出场车辆列表
                 animate2: false,//用于循环滚动在/出场车辆列表
                 animate3: false,//用于循环滚动在/出场车辆列表
-                stylesingle: ' display: flex;flex-direction: row;align-items: center;background-color:#FFFFFF',
-                styledouble: ' display: flex;flex-direction: row;align-items: center;background-color:#EBEEF5',
+
+                stylesingle: ' display: flex;flex-direction: row;align-items: center;',
+                styledouble: ' display: flex;flex-direction: row;align-items: center;',
                 transfer: false,
                 transfer2: false,
                 transfer3: false,
@@ -461,82 +506,47 @@
                     ]
                 });
             },
-            scroll() {
-                let con1 = this.$refs.con1;
-                if (con1 == undefined) {
-                    clearInterval(this.transInteval);
-                    return;
+            calIsScrollExec(data) {
+              let height = 0;
+              if(data.length>0){
+                height = data.length*48;
+              }
+
+
+              this.scrollBoxExceptionHeight =  height;
+
+              let scrollBoxHeight = parseInt(window.getComputedStyle(this.$refs.scrollBoxException).height.replace('px',''))-58;
+              console.log(scrollBoxHeight+' '+height)
+                if(scrollBoxHeight<this.scrollBoxExceptionHeight){
+                  this.scrollBoxException =  true;
                 }
-                con1.style.marginTop = '-48px';
-                this.animate = !this.animate;
-                let that = this; // 在异步函数中会出现this的偏移问题，此处一定要先保存好this的指向
-                setTimeout(function () {
-                    that.inPartData.push(that.inPartData[0]);
-                    that.inPartData.shift();
-                    con1.style.marginTop = '0px';
-                    that.animate = !that.animate;  // 这个地方如果不把animate 取反会出现消息回滚的现象，此时把ul 元素的过渡属性取消掉就可以完美实现无缝滚动的效果了
-                    that.transfer = !that.transfer;//这里给判断规则取反，防止因index奇偶变换导致的颜色变换
-                }, 1000);
             },
-            scroll2() {
-                let con2 = this.$refs.con2;
-                if (con2 == undefined) {
-                    clearInterval(this.transInteval2);
-                    return;
+            calIsScroll(data,type) {
+              let scrollBoxHeight = parseInt(window.getComputedStyle(this.$refs.scrollBox).height.replace('px',''))-58;
+              // scrollBoxInCar:true,
+              // scrollBoxOutCar:true,
+              // scrollBoxOutCarHeight: 240,
+              // scrollBoxInCarHeight: 0,
+              let height = 0;
+              if(data.length>0){
+                height = data.length*48;
+              }
+
+              if(type == 1){
+                this.scrollBoxInCarHeight =  height;
+                if(scrollBoxHeight<this.scrollBoxInCarHeight){
+                  this.scrollBoxInCar =  true;
                 }
-                con2.style.marginTop = '-48px';
-                this.animate2 = !this.animate2;
-                let that = this; // 在异步函数中会出现this的偏移问题，此处一定要先保存好this的指向
-                setTimeout(function () {
-                    that.outPartData.push(that.outPartData[0]);
-                    that.outPartData.shift();
-                    con2.style.marginTop = '0px';
-                    that.animate2 = !that.animate2;  // 这个地方如果不把animate 取反会出现消息回滚的现象，此时把ul 元素的过渡属性取消掉就可以完美实现无缝滚动的效果了
-                    that.transfer2 = !that.transfer2;//这里给判断规则取反，防止因index奇偶变换导致的颜色变换
-                }, 1000);
-            },
-            scroll3() {
-                let con3 = this.$refs.con3;
-                if (con3 == undefined) {
-                    clearInterval(this.transInteval3);
-                    return;
+              }
+              else if(type == 2){
+                this.scrollBoxOutCarHeight =  height;
+                if(scrollBoxHeight<this.scrollBoxOutCarHeight){
+
+                  this.scrollBoxOutCar =  true;
                 }
-                con3.style.marginTop = '-48px';
-                this.animate3 = !this.animate3;
-                let that = this; // 在异步函数中会出现this的偏移问题，此处一定要先保存好this的指向
-                setTimeout(function () {
-                    that.exceptionDataPole.push(that.exceptionDataPole[0]);
-                    that.exceptionDataPole.shift();
-                    con3.style.marginTop = '0px';
-                    that.animate3 = !that.animate3;  // 这个地方如果不把animate 取反会出现消息回滚的现象，此时把ul 元素的过渡属性取消掉就可以完美实现无缝滚动的效果了
-                    that.transfer3 = !that.transfer3;//这里给判断规则取反，防止因index奇偶变换导致的颜色变换
-                }, 1000);
-            },
-            indexrule(index) {
-                if (this.transfer) {
-                    return index % 2 !== 0;
-                } else {
-                    return index % 2 === 0;
-                }
+              }
 
             },
-            indexrule2(index) {
-                if (this.transfer2) {
-                    return index % 2 !== 0;
-                } else {
-                    return index % 2 === 0;
-                }
-
-            },
-            indexrule3(index) {
-                if (this.transfer3) {
-                    return index % 2 !== 0;
-                } else {
-                    return index % 2 === 0;
-                }
-
-            },
-
             getDatas() {
                 let _this = this;
                 axios.all([axios.get(path + '/getparkinfo/bycomid?comid=' + sessionStorage.getItem('comid'))])
@@ -551,11 +561,29 @@
                         // }
                         // _this.dataInitCount++;
                         // console.log(_this.responseData);
+                        //如果入场数据有变化，则刷新
+                        let tempData = _this.responseData.inPartData;
+                        if(JSON.stringify(tempData) != JSON.stringify(_this.inPartData)){
+                          _this.inPartData = _this.responseData.inPartData;
+                          _this.calIsScroll(_this.inPartData,1);
+                        }
+                        tempData = _this.responseData.outPartData;
+                        if(JSON.stringify(tempData) != JSON.stringify(_this.outPartData)){
+                            _this.outPartData = _this.responseData.outPartData;
+                            _this.calIsScroll(_this.outPartData,2);
+                        }
+                        //异常抬杆
+                        tempData = _this.responseData.exceptionEvents;
+                        if(JSON.stringify(tempData) != JSON.stringify(_this.exceptionDataPole)){
+                          _this.exceptionDataPole = _this.responseData.exceptionEvents;
+                          _this.calIsScrollExec(_this.exceptionDataPole);
+                        }
 
-                        _this.inPartData = _this.responseData.inPartData;
-                        _this.outPartData = _this.responseData.outPartData;
+
                         _this.parkState = _this.responseData.parkState;
-                        _this.exceptionDataPole = _this.responseData.exceptionEvents;
+
+
+
                         // _this.exceptionDataPole = _this.responseData.outPartData;
                         _this.getPlaceData(_this.responseData.berthPercentData);
                         _this.getRank(_this.responseData.parkRank);
@@ -581,9 +609,9 @@
                         }
                         _this.dataInitCount++;
 
-                        _this.transInteval = setInterval(_this.scroll, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
-                        _this.transInteval2 = setInterval(_this.scroll2, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
-                        _this.transInteval3 = setInterval(_this.scroll3, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
+                      //  _this.transInteval = setInterval(_this.scroll, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
+                      //  _this.transInteval2 = setInterval(_this.scroll2, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
+                      //  _this.transInteval3 = setInterval(_this.scroll3, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
 
                     }));
 
@@ -604,6 +632,7 @@
             that.topParkChartSize2.height = (intwidth - 45) + 'px';
 
             let widthCss = window.getComputedStyle(that.$refs.echartBox).width;
+
             let posCss = window.getComputedStyle(that.$refs.posuse).width.replace('px', '');
             let intCss = parseInt(posCss);
             // that.topParkChartSize.height = that.topParkChartSize.width = widthCss;
@@ -712,7 +741,7 @@
 
     .data-box .body {
         padding: 10px;
-        background-color: #ffffff;
+
     }
 
     .caption {
@@ -816,8 +845,32 @@
         line-height: 48px;
         height: 48px;
     }
+    .conE li:nth-child(2n+1){
+      background-color: #EBEEF5
+    }
+    .conE li:nth-child(2n){
+      background-color: #FFFFFF
+    }
+
 
     .flexdiv {
 
+    }
+    @keyframes rowup {
+      0% {
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+      }
+      100% {
+          -webkit-transform: translate3d(0, -50%, 0);
+          transform: translate3d(0, -50%, 0);
+      }
+    }
+    .rowup {
+      animation-name:rowup;
+      animation-timing-function:linear;
+      animation-duration: 5s;
+      animation-iteration-count:infinite;
+      position: relative;
     }
 </style>
