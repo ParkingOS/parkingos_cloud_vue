@@ -225,7 +225,7 @@
                         {{addtitle}}
                     </el-button>
 
-                    <div v-if="showSuperimposed"  style="display:inline;margin-right:700px;float: right">
+                    <div v-if="showSuperimposed"  style="display:inline;float: left">
                         <span style="float: left;margin-top: 10px;margin-left: 20px;">叠加用券：</span>
                         <el-select v-model="superimposed"
                                    style="float: left;margin-right: 10px;width: 123px;" @change="changeSuperimposed">
@@ -1542,10 +1542,10 @@
             changeanalysisdatecollect(val) {
                 this.currentcollect = val;
                 this.sform.out_uid = this.currentcollect;
-                this.sform.date = this.currentdate;
-                if (this.currentdate == '') {
-                    this.currentdate = common.currentFormatDate();
-                }
+                //this.sform.date = this.currentdate;
+                //if (this.currentdate == '') {
+                //    this.currentdate = common.currentFormatDate();
+                //}
                 let form = {'date': this.currentdate, 'out_uid': val};
                 this.currentPage = 1;
                 this.getTableData(form);
