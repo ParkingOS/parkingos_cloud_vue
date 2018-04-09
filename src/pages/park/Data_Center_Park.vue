@@ -71,7 +71,7 @@
                                 <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxInCarHeight + 'px' }" >
 
                               <div  v-bind:class="[scrollBoxInCar ? 'rowup' : '', 'box']" >
-                                  <ul class="con1 conE"  :class="{anim:animate==true}">
+                                  <ul class="con1 conE" >
                                       <li v-for='(item,index) in inPartData'>
                                           <div :style="styledouble">
                                               <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
@@ -80,7 +80,7 @@
                                           </div>
                                       </li>
                                   </ul>
-                                  <ul class="con1 conE" :class="{anim:animate==true}">
+                                  <ul class="con1 conE" >
                                       <li v-for='(item,index) in inPartData'>
                                           <div :style="styledouble">
                                               <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
@@ -93,7 +93,7 @@
                           </div>
                         </div>
                     </div>
-                    <div class="data-box cart-box" style="background-color: white;" ref="scrollBox">
+                    <div class="data-box cart-box" style="background-color: white;" >
                         <div class="title" style="width: 100%;background-color: #393a3e;">出场车辆</div>
                         <div style="background: white;color: black;overflow: hidden;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
@@ -511,10 +511,7 @@
               if(data.length>0){
                 height = data.length*48;
               }
-
-
               this.scrollBoxExceptionHeight =  height;
-
               let scrollBoxHeight = parseInt(window.getComputedStyle(this.$refs.scrollBoxException).height.replace('px',''))-58;
               console.log(scrollBoxHeight+' '+height)
                 if(scrollBoxHeight<this.scrollBoxExceptionHeight){
