@@ -5,7 +5,7 @@
                 智慧停车云 · 行业领导者
             </div>
         </div>
-        <div class="login-container" style="display: flex;flex:16;align-items: center;justify-content: center">
+        <div class="login-container" style="align-items: center;justify-content: center;flex-align:center;flex:16;display: flex;">
 
             <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="rules2" ref="loginForm"
                      label-position="left">
