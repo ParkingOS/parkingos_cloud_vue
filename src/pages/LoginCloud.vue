@@ -5,7 +5,7 @@
                 智慧停车云 · 行业领导者
             </div>
         </div>
-        <div class="login-container" style="display: flex;align-items: center;justify-content: center">
+        <div class="login-container" style="display: flex;flex:16;align-items: center;justify-content: center">
 
             <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="rules2" ref="loginForm"
                      label-position="left">
@@ -36,7 +36,7 @@
                 </el-button>
             </el-form>
         </div>
-        <div style="flex: 1;width: 100%;display: flex;align-items: center;justify-content: center;">
+        <div style="height:40px;line-height:40px;text-align:center;width: 100%;">
             © 2014 - 2018 All Rights Reserved
         </div>
     </div>
@@ -520,6 +520,7 @@
     .login-container {
         @include relative;
         height: 100vh;
+        justify-content: center;
         background-color: $bg;
         .login-form {
 

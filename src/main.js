@@ -12,6 +12,8 @@ import axios from 'axios';
 import BaiduMap from 'vue-baidu-map';
 import './styles/index.scss'; // global css
 import './common/js/const.js';
+import "babel-polyfill"
+
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
