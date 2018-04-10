@@ -1,11 +1,11 @@
 <template>
     <div style="width: 100%;height: 100%; display: flex;flex-direction: column;align-items: center;justify-content: center;">
-        <div style="flex: 1;width: 100%;">
+        <div style="width: 100%;">
             <div style="font-family: STXinwei;margin-left:10px;font-size:30px;postition:relative;line-height:60px;vertical-align:middle;font-weight:bold">
                 智慧停车云 · 行业领导者
             </div>
         </div>
-        <div class="login-container" style="flex: 18;display: flex;align-items: center;justify-content: center">
+        <div class="login-container" style="display: flex;align-items: center;justify-content: center">
 
             <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="rules2" ref="loginForm"
                      label-position="left">
