@@ -105,7 +105,8 @@ export const AUTH_ID_UNION = {
     systemSetting_LogsOperates: 284, //操作日志管理
     systemSetting_LogsCollector: 2830000, //收费员日志
     strategicAnalysis: 219, //决策分析
-    strategicAnalysis_DailyReport: 225, //封闭车场订单统计-车场日报
+    strategicAnalysis_DailyReport: 319, //封闭车场订单统计-车场日报
+    strategicAnalysis_MonthReport:320,
     centerMonitor: 310 //中央监控
 };
 export const showUnionItem_const = {
@@ -129,6 +130,7 @@ export const showUnionItem_const = {
     systemSetting_LogsCollector: false,
     strategicAnalysis: false,
     strategicAnalysis_DailyReport: false,
+    strategicAnalysis_MonthReport: false,
     centerMonitor: false
 };
 export const showBossItem_const = {
@@ -144,5 +146,6 @@ export const ROLE_ID = {
     CITY: 7,
     PARK: 8,
     BOSS:5,
-    CITYREGIS:10
+    CITYREGIS:1001,
+    SHOP:10
 };

@@ -64,6 +64,11 @@ import Union_Manage from './pages/city/Union_Manage.vue';
 import City_Manage from './pages/admin/City_Manage.vue';
 import CreateUin from './pages/admin/CreateUin.vue';
 
+//商户后台页面
+import ShopAccount from './pages/shop/ShopAccount.vue';
+import ShopRecharge from './pages/shop/ShopRecharge.vue';
+import TicketManage from './pages/shop/TicketManage.vue';
+import FixCode from './pages/shop/FixCode.vue';
 
 let routes = [
 
@@ -87,7 +92,45 @@ let routes = [
             {path: '/city_manage', component: City_Manage, name: '厂商管理'}
         ]
     },
-// 厂商页面
+    //商户页面
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '商户管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/shop', component: ShopAccount, name: '商户管理'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '商户管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/fix_code', component: FixCode, name: '固定码管理'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '商户管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/shop_recharge', component: ShopRecharge, name: '充值明细'}
+        ]
+    },
+    ,
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '商户管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/ticket_manage', component: TicketManage, name: '用券明细'}
+        ]
+    },
+    // 厂商页面
     {
         path: '/',
         component: HomeCloud_Admin,

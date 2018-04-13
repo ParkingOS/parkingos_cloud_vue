@@ -359,7 +359,7 @@
                                 sessionStorage.setItem('ishdorder', u.ishdorder);
                                 sessionStorage.setItem('loginroleid', u.loginroleid);
                                 sessionStorage.setItem('supperadmin', u.supperadmin);
-
+                                sessionStorage.setItem('shopid', u.shopid);
 
                                 // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                                 if (u.oid == ROLE_ID.GROUP) {
@@ -405,6 +405,11 @@
                                     _this.$router.push({path: _this.highlightindex});
                                     sessionStorage.setItem('highlightindex', _this.highlightindex);
                                     // _this.$router.push({path: '/Park_Manage'});
+                                } else if (u.oid == ROLE_ID.SHOP) {
+                                      _this.highlightindex = '/shop';
+                                      _this.$router.push({path: _this.highlightindex});
+                                      sessionStorage.setItem('highlightindex', _this.highlightindex);
+                                      // _this.$router.push({path: '/Park_Manage'});
                                 } else if (u.oid == ROLE_ID.BOSS) {
                                     _this.highlightindex = '/city_manage';
                                     _this.$router.push({path: _this.highlightindex});
