@@ -7,6 +7,7 @@ import MoniterApp from './MonitorApp';
 import ElementUI from 'element-ui';
 import common from './common/js/common';
 import axios from 'axios';
+import "babel-polyfill"
 Vue.use(ElementUI);
 Vue.prototype.$axios=axios;
 Vue.prototype.$qs=require('qs');

@@ -215,6 +215,7 @@ import {AUTH_ID} from "./common/js/const";
              groupid:id
            }
            this.tableitems[3].subs[0].searchable = false;
+           this.tableitems.splice(1,1);
            _this.queryapi = '/EQ_monitor/groupmonitors';
          }
 
