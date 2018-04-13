@@ -215,17 +215,30 @@ import {AUTH_ID} from "./common/js/const";
              groupid:id
            }
            this.tableitems[3].subs[0].searchable = false;
-           this.tableitems.splice(1,1);
            _this.queryapi = '/EQ_monitor/groupmonitors';
+         }
+         else{
+           this.tableitems[2].subs[0].hidden=true;
+          //  this.tableitems.splice(2,1);
          }
 
          setTimeout(function(){
              _this.$refs['bolinkuniontable'].getTableData(param);
-             axios.all([common.getChannelTypeByComid(id)])
-                 .then(axios.spread(function (ret) {
-                     _this.channelType = ret.data;
-                     //console.log(ret.data);
-                 }))
+             if(type=='group'){
+               axios.all([common.getChannelTypeByGroupid(id)])
+                   .then(axios.spread(function (ret) {
+                       _this.channelType = ret.data;
+                       //console.log(ret.data);
+                   }))
+             }
+             else{
+               axios.all([common.getChannelTypeByComid(id)])
+                   .then(axios.spread(function (ret) {
+                       _this.channelType = ret.data;
+                       //console.log(ret.data);
+                   }))
+             }
+
          },10)
 
 

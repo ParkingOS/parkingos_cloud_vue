@@ -169,7 +169,7 @@ export default {
     },
     getChannelTypeByGroupid(groupid) {
         let param = '?groupid=' + groupid
-        return axios.get(path + '/getdata/getChannelType' + param);
+        return axios.get(path + '/getdata/getgroupchannels' + param);
     },
     getChannelTypeByComid(comid) {
         let param = '?comid=' + comid
