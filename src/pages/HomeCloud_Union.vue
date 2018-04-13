@@ -89,11 +89,11 @@
                                 class="menuitem">决策分析</span></template>
                         <el-menu-item index="/strategicAnalysis_DailyReport"
                                       v-if="this.showUnionItem.strategicAnalysis_DailyReport">
-                            车场日报
+                            日报统计
                         </el-menu-item>
                         <el-menu-item index="/strategicAnalysis_MonthReport"
-                                      v-if="this.showUnionItem.strategicAnalysis_DailyReport">
-                            车场月报
+                                      v-if="this.showUnionItem.strategicAnalysis_MonthReport">
+                            月报统计
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
