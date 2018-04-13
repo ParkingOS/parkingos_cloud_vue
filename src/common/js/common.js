@@ -475,6 +475,7 @@ export default {
         sform.loginuin = this.attachParams('loginuin', 1);
         sform.ishdorder = this.attachParams('ishdorder', 1);
         sform.roleid = this.attachParams('loginroleid', 1);
+        sform.shopid = this.attachParams('shopid', 1);
         return sform;
     },
     commonParams() {

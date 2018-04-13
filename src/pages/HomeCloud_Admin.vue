@@ -57,6 +57,31 @@
                         <el-menu-item index="/createUin">注册厂商
                         </el-menu-item>
                     </el-submenu>
+
+                     <el-submenu v-if="this.shop" index="/shop">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">商户管理</span></template>
+                        <el-menu-item index="/shop">商户管理
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu v-if="this.shop" index="/fix_code">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">固定码管理</span></template>
+                        <el-menu-item index="/fix_code">固定码管理
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu v-if="this.shop" index="/shop_recharge">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">充值明细</span></template>
+                        <el-menu-item index="/shop_recharge">充值明细
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu v-if="this.shop" index="/ticket_manage">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">用券明细</span></template>
+                        <el-menu-item index="/ticket_manage">用券明细
+                        </el-menu-item>
+                    </el-submenu>
                     <el-submenu v-if="this.admin" index="/city_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">厂商管理</span></template>
@@ -107,6 +132,7 @@
                 bolink: false,
                 park: false,
                 union: false,
+                shop:false,
                 ccccccc: false,
                 city: false,
                 cityregis: false,
@@ -245,6 +271,10 @@
                 if (user.oid == ROLE_ID.CITYREGIS) {
                     this.nickname = '注册厂商';
                     this.cityregis = true;
+                }
+                if (user.oid == ROLE_ID.SHOP) {
+                    this.nickname = '商户';
+                    this.shop = true;
                 }
 
             }

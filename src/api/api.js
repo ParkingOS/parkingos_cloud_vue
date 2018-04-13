@@ -3,7 +3,7 @@
 
 
 // export const path = "http://localhost:8086"
-// export const path = 'http://192.168.199.205:12305';
+// export const path = 'http://192.168.199.206:12305';
  //export const path = 'http://192.168.192.1:12305';
 //export const path = "http://localhost:8085"
 // export const path = "http://localhost:8080/cloud"
@@ -18,6 +18,10 @@ export const operateType = [
     {'value_no': 1, 'value_name': '续费'},
     {'value_no': 2, 'value_name': '回收充值'}
 ];
+ export const stateType = [
+     {'value_no': 0, 'value_name': '可用'},
+     {'value_no': 1, 'value_name': '不可用'},
+ ];
 export const ticketType = [
     {'value_name': '时长减免', 'value_no': '1'},
     {'value_name': '金额减免', 'value_no': '2'}

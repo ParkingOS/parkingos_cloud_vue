@@ -174,6 +174,7 @@
                 bolink: false,
                 park: false,
                 union: false,
+                shop:false,
                 platform: false,
                 left: true,
                 right: false,
@@ -295,6 +296,10 @@
                 if (user.oid == ROLE_ID.UNION) {
                     this.nickname = '运营集团';
                     this.union = true;
+                }
+                if (user.oid == ROLE_ID.SHOP) {
+                    this.nickname = '商户';
+                    this.shop = true;
                 }
 
             }
