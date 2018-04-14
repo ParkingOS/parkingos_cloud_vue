@@ -4,18 +4,8 @@
         <el-row style="margin-bottom:8px" v-if="!hideTool">
             <el-col :span="24" align="left">
                 <el-col :span="22" align="left">
-                    <div v-if="showTicketInfo" style="display:inline;margin-right:10px;float: left">
-                        <div>
-                             <el-input v-model="parkcarnum" style="width:200px;background:white;">
-                                <template slot="prepend">车牌号</template>
-                             </el-input>
-                             <el-button @click="changeCarNumber" icon="search" type="primary">搜索
-                             </el-button>
-                        </div>
-                    </div>
-
                     <div v-if="showParkInfo" style="display:inline;margin-right:10px;float: left">
-                        <div>
+                        <div style="float:left">
                             <el-select v-model="currentTimeType" placeholder="入场时间" @change="changeParkTimestr"
                                        style="float: left;margin-right: 10px;width: 123px;">
                                 <el-option
@@ -29,6 +19,7 @@
                                     v-model="datesselector"
                                     type="datetimerange"
                                     align="right"
+                                    style="float:left"
                                     unlink-panels
                                     range-separator="至"
                                     :start-placeholder="start_placeholder"
@@ -39,43 +30,15 @@
                                     :default-time="['00:00:00', '23:59:59']">
                             </el-date-picker>
 
-                            <el-input v-model="parkcarnum" style="width:200px;background:white;">
+                            <el-input v-model="parkcarnum" style="float:left;width:200px;background:white;">
                                 <template slot="prepend">车牌号</template>
                             </el-input>
                             <!--<el-button @click="changeParkText" icon="search">{{parkText}}-->
                             <!--</el-button>-->
-                            <el-button @click="changeParkTime(datesselector)" icon="search" type="primary">搜索
+                            <el-button style="float:left;" @click="changeParkTime(datesselector)" icon="search" type="primary">搜索
                             </el-button>
                         </div>
-                        <div :style="parkExpanStyle">
 
-                            <span style="float: left;margin-top: 10px;">订单状态：</span>
-                            <el-select v-model="currentState" placeholder="未结算"
-                                       style="float: left;margin-right: 10px;width: 123px;">
-                                <el-option
-                                        v-for="item in orderStateType"
-                                        :key="item.value_no"
-                                        :label="item.value_name"
-                                        :value="item.value_no">
-                                </el-option>
-                            </el-select>
-                            <span style="float: left;margin-top: 10px;margin-left: 10px">支付方式：</span>
-                            <el-select v-model="currentPayType" placeholder="现金"
-                                       style="float: left;margin-right: 10px;width: 123px;">
-                                <el-option
-                                        v-for="item in orderPayType"
-                                        :key="item.value_no"
-                                        :label="item.value_name"
-                                        :value="item.value_no">
-                                </el-option>
-                            </el-select>
-                            <span style="float: left;margin-top: 10px;margin-left: 10px">实收金额：</span>
-                            <el-input v-model="parkAccoutRece_start" v-on:input="changeParkReceive"
-                                      style="width: 100px;"></el-input>
-                            <span style="margin-top: 10px;"> - </span>
-                            <el-input v-model="parkAccoutRece_end" v-on:input="changeParkReceive"
-                                      style="width: 100px;"></el-input>
-                        </div>
                     </div>
                     <div v-if="showRefillInfo" style="display:inline;margin-right:100px;float: left">
                         <el-input v-model="shouldpay" style="width:200px;background:white;" disabled>
@@ -133,36 +96,6 @@
                         </el-select>
                     </div>
                     <div v-if="showdateSelector" style="float: left;margin-right: 10px;">
-
-                        <span class="demonstration">日期</span>
-                        <el-date-picker
-                                v-model="datesselector"
-                                type="datetimerange"
-                                align="right"
-                                unlink-panels
-                                range-separator="至"
-                                :start-placeholder="start_placeholder"
-                                :end-placeholder="end_placeholder"
-                                value-format="yyyy-MM-dd HH:mm:ss"
-                                :picker-options="pickerOptions2"
-                                @change="changeanalysisdate"
-                                :default-time="['00:00:00', '23:59:59']">
-                        </el-date-picker>
-                    </div>
-
-                    <div v-if="showoperateSelector" style="float: left;margin-left: 10px;">
-                        <span style="float: left;margin-top: 10px;">类型：</span>
-                        <el-select v-model="currentoperate"  @change="changeoperate"
-                                   style="float: left;margin-right: 30px;">
-                            <el-option
-                                    v-for="item in operateType"
-                                    :key="item.value_no"
-                                    :label="item.value_name"
-                                    :value="item.value_no">
-                            </el-option>
-                        </el-select>
-                    </div>
-                    <div v-if="showshopdateSelector" >
 
                         <span class="demonstration">日期</span>
                         <el-date-picker
@@ -265,7 +198,7 @@
                         {{addtitle}}
                     </el-button>
 
-                    <div v-if="showSuperimposed"  style="display:inline;margin-right:100px;float: left">
+                    <div v-if="showSuperimposed"  style="display:inline;float: left">
                         <span style="float: left;margin-top: 10px;margin-left: 20px;">叠加用券：</span>
                         <el-select v-model="superimposed"
                                    style="float: left;margin-right: 10px;width: 123px;" @change="changeSuperimposed">
@@ -291,7 +224,35 @@
                     </el-button>
                     <el-button type="primary" @click="handleAdd" v-if="!hideAdd">{{addtitle}}</el-button>
                     <!--<el-button type="primary" size="small" @click="handlePrint()">打印</el-button>-->
+                    <div :style="parkExpanStyle" parkExpanStyle>
 
+                        <span style="float: left;margin-top: 10px;">订单状态：</span>
+                        <el-select v-model="currentState" placeholder="未结算"
+                                   style="float: left;margin-right: 10px;width: 123px;">
+                            <el-option
+                                    v-for="item in orderStateType"
+                                    :key="item.value_no"
+                                    :label="item.value_name"
+                                    :value="item.value_no">
+                            </el-option>
+                        </el-select>
+                        <span style="float: left;margin-top: 10px;margin-left: 10px">支付方式：</span>
+                        <el-select v-model="currentPayType" placeholder="现金"
+                                   style="float: left;margin-right: 10px;width: 123px;">
+                            <el-option
+                                    v-for="item in orderPayType"
+                                    :key="item.value_no"
+                                    :label="item.value_name"
+                                    :value="item.value_no">
+                            </el-option>
+                        </el-select>
+                        <span style="float: left;margin-top: 10px;margin-left: 10px">实收金额：</span>
+                        <el-input v-model="parkAccoutRece_start" v-on:input="changeParkReceive"
+                                  style="width: 100px;"></el-input>
+                        <span style="margin-top: 10px;"> - </span>
+                        <el-input v-model="parkAccoutRece_end" v-on:input="changeParkReceive"
+                                  style="width: 100px;"></el-input>
+                    </div>
                 </el-col>
 
                 <el-col :span="2" align="right" style="float: right">
@@ -405,15 +366,6 @@
                     <el-button size="small" type="text" style="color: #109EFF;"
                                @click="handleShowImg(scope.$index, scope.row)">
                         查看图片
-                    </el-button>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="操作" :width="btswidth" v-if="showCode" align="center">
-                <template scope="scope">
-                    <el-button size="small" type="text" style="color: #109EFF;"
-                               @click="handleShowCode(scope.$index, scope.row)">
-                        下载二维码
                     </el-button>
                 </template>
             </el-table-column>
@@ -612,7 +564,6 @@
                 ],
                 currentcollect: '',
                 currentpark: '',
-                currentoperate:'',
                 sform: {},
                 rowdata: {},
 
@@ -745,11 +696,6 @@
                 currentdate: '',
                 tableheight2: common.gwh() - 143,
                 parks: '',
-                operateType:[
-                    {'value_no': "", 'value_name': '全部'},
-                    {'value_no': 1, 'value_name': '续费'},
-                    {'value_no': 2, 'value_name': '回收充值'}
-                ],
                 //订单页面相关
                 ordertime: 'between',
                 ordertime_start: 0,
@@ -769,12 +715,12 @@
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector22','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed'],
+            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector22','showdateSelector10', 'showCollectorSelector', 'showParkSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed'],
         methods: {
             //刷新页面
             refresh() {
-                if (this.showdateSelector||this.showdateSelector10||this.showdateSelector22) {
+                if (this.showdateSelector||this.showdateSelector10) {
                     //this.$extend(this.sform,{'date':this.datesselector})
                     this.sform.date = this.searchDate;
                     if (this.sform.date == '') {
@@ -1078,8 +1024,9 @@
                 }
 
               }
-              catch(e){
-                  console.log(e);
+              catch(ex){
+
+
               }
                 this.searchFormVisible = true;
 
@@ -1396,15 +1343,6 @@
                     this.$emit('showImg_Pole', index, row);
                 }
             },
-            handleShowCode(index, row) {
-                if (row.code == undefined) {
-                    //订单图片
-                    alert('nihao');
-                } else {
-                    //抬杆图片
-                    this.$emit('showCode_Fix', index, row);
-                }
-            },
             handleShowOrderDetail(index, row) {
                 //跳转到订单详情
                 this.$router.push({path: '/orderManage_OrderDetail', query: {index: index, row: row}});
@@ -1629,17 +1567,6 @@
                 this.currentPage = 1;
                 this.getTableData(form);
             },
-            changeoperate(val){
-                this.currentoperate = val;
-                this.sform.date = this.searchDate;
-                this.sform.operate_type = this.currentoperate;
-                if (this.currentdate == '') {
-                    this.currentdate = common.currentFormatDate();
-                }
-                let form = {'date': this.currentdate, 'operate_type': val};
-                this.currentPage = 1;
-                this.getTableData(form);
-            },
             changeanalysisdate(input2) {
                 //修改车场统计分析日期
                 console.log(input2);
@@ -1656,10 +1583,6 @@
                     this.getTableData(date);
                 }
 
-            },
-            changeCarNumber(){
-                this.sform.car_number = this.parkcarnum;
-                this.getTableData(this.sform);
             },
             changeParkTime(datearr) {
                 console.log(datearr);
@@ -1813,15 +1736,6 @@
                         _this.parks = _this.parks.concat(retpark.data);
                     }));
             }
-            if (this.showshopdateSelector) {
-                _this.start_placeholder = common.currentDate() + ' 00:00:00';
-                _this.end_placeholder = common.currentDate() + ' 23:59:59';
-                _this.currentoperate = '';
-                _this.currentdate = '';
-                _this.datesselector = '';
-                _this.searchDate = '';
-            }
-
             if (this.showdateSelector22) {
                 _this.start_placeholder1 = common.getFirstDayOfWeek() + ' 00:00:00';
                 _this.end_placeholder1 = common.currentDate() + ' 23:59:59';
