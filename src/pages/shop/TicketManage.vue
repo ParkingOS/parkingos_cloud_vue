@@ -53,21 +53,6 @@
                 btswidth: '100',
                 fieldsstr: 'id__money__umoney__limit_day__car_number',
                 tableitems: [
-                     {
-                      hasSubs: false, subs: [
-                          {
-                              label: '商户名称',
-                              prop: 'shop_name',
-                              width: '180',
-                              type: 'str',
-                              editable: false,
-                              searchable: true,
-                              addable: true,
-                              unsortable: true,
-                              align: 'center',
-                          },
-                      ]
-                    },
                     {
                         hasSubs: false,
                         subs: [{
@@ -81,11 +66,11 @@
                             unsortable: true,
                             align: 'center',
                             format:function(row){
-                                 if(row.ticket_unit==1&&row.money!=0){
+                                 if(row.ticket_unit==1&&row.money!='undefined'&&row.money>0){
                                         return row.money + ' 分钟';
-                                 }else if(row.ticket_unit==2&&row.money!=0){
+                                 }else if(row.ticket_unit==2&&row.money!='undefined'&&row.money>0){
                                         return row.money + ' 小时';
-                                 }else if(row.ticket_unit==3&&row.money!=0){
+                                 }else if(row.ticket_unit==3&&row.money!='undefined'&&row.money>0){
                                         return row.money + ' 天';
                                  }else{
                                         return '';
@@ -106,7 +91,7 @@
                             unsortable: true,
                             align: 'center',
                             format:function(row){
-                                 if(row.ticket_unit==4&&row.umoney!=0){
+                                 if(row.ticket_unit==4&&row.umoney!='undefined'&&row.umoney>0){
                                          return row.umoney + ' 元';
                                  }
                             }

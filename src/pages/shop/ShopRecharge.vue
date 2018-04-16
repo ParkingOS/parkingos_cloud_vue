@@ -147,7 +147,10 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return row.add_money+' 元'
+                                //alert(row.add_money);
+                                if( row.add_money>0){
+                                    return row.add_money+' 元'
+                                }
                             }
                         }]
                     },  {

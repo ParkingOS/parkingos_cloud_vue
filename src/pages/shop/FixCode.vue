@@ -109,14 +109,12 @@
                 showRegisPark: false,
                 showCustomizeAdd:true,
 
-                showtime:false,
-                showmoney:false,
-                showfree:false,
-                reducetype:'请选择',
+                showamount:true,
+                showfree:true,
+                reducetype:'减免券',
                 reduceType:[
-                    {'value_no': 1, 'value_name': '减免券'},
-                   // {'value_no': 2, 'value_name': '金额减免'},
-                    {'value_no': 2, 'value_name': '全免券'},
+                    { 'value_name': '减免券','value_no': 1},
+                    { 'value_name': '全免券','value_no': 2},
 
                 ],
                 stateList :[
