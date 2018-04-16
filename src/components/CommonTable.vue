@@ -48,7 +48,7 @@
                             <el-button style="float:left;" @click="changeParkTime(datesselector)" icon="search" type="primary">搜索
                             </el-button>
                         </div>
-                      
+
                     </div>
                     <div v-if="showRefillInfo" style="display:inline;margin-right:100px;float: left">
                         <el-input v-model="shouldpay" style="width:200px;background:white;" disabled>
@@ -928,6 +928,7 @@
                     }
                 }).then(function (response) {
                     // console.log(ret)
+                    vm.loading = false;
                     let ret = response.data;
                     if (ret.validate != 'undefined' && ret.validate == '0') {
                         vm.loading = false;
@@ -988,6 +989,7 @@
                     }
                           console.log("get table 55555:",vm.$refs['search'].searchForm);
                 }).catch(function (error) {
+                    vm.loading = false;
                     setTimeout(() => {
                         vm.alertInfo('请求失败!' + error);
                     }, 150);
