@@ -371,7 +371,7 @@
             </el-table-column>
 
 
-            <el-table-column label="操作" :width="btswidth" v-if="showCode" align="center">
+            <el-table-column label="二维码图片" :width="btswidth" v-if="showCode" align="center">
                 <template scope="scope">
                      <el-button size="small" type="text" style="color: #109EFF;"
                                 @click="downloadCode(scope.$index, scope.row)">

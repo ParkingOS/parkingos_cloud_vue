@@ -632,6 +632,88 @@ export default {
         vm.infotemp=common.clone(vm.infoModify)
       });
     },
+
+    editSubmit() {
+        //发送ajax,提交表单更新
+        let vm = this;
+        var eform=this.accountModify;
+        eform = common.generateForm(eform);
+        vm.$refs.accountModify.validate((valid) => {
+            if (valid) {
+                vm.loading = true;
+                vm.$axios.post(path + "/shopaccount/edit", vm.$qs.stringify(eform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
+                    //alert(ret.state);
+                        if (ret.state == 1) {
+                            //更新成功
+                            vm.getShopAccountInfo();
+                            vm.$message({
+                                message: '更新成功!',
+                                type: 'success',
+                                duration: 600
+                            });
+                        } else {
+                            //更新失败
+                            vm.$message({
+                                message: '更新失败!' + ret.msg,
+                                type: 'error',
+                                duration: 600
+                            });
+                        }
+                         vm.loading = false;
+                }).catch(function (error) {
+                    setTimeout(() => {
+                       // vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
+            }
+        });
+    },
+       infoEditSubmit() {
+        //发送ajax,提交表单更新
+        let vm = this;
+        var eform=this.infoModify;
+        eform = common.generateForm(eform);
+        vm.$refs.infoModify.validate((valid) => {
+            if (valid) {
+                vm.infoloading = true;
+                vm.$axios.post(path + "/shopaccount/infoedit", vm.$qs.stringify(eform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
+                    //alert(ret.state);
+                        if (ret.state == 1) {
+                            //更新成功
+                            vm.getShopAccountInfo();
+                            vm.$message({
+                                message: '更新成功!',
+                                type: 'success',
+                                duration: 600
+                            });
+                        } else {
+                            //更新失败
+                            vm.$message({
+                                message: '更新失败!' + ret.msg,
+                                type: 'error',
+                                duration: 600
+                            });
+                        }
+                         vm.infoloading = false;
+                }).catch(function (error) {
+                    setTimeout(() => {
+                       // vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
+            }
+        });
+    },
+
     resetEdit(){
       this.accountModify=common.clone(this.temp)
     },
