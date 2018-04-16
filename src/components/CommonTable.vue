@@ -853,7 +853,7 @@
                 }).then(function (response) {
                     // console.log(ret)
                     let ret = response.data;
-
+                    vm.loading = false;
                     if (ret.validate != 'undefined' && ret.validate == '0') {
                         vm.loading = false;
                         //未携带令牌.重新登录
@@ -876,6 +876,7 @@
                         console.log(ret);
                     }
                 }).catch(function (error) {
+                    vm.loading = false;
                     setTimeout(() => {
                         vm.alertInfo('请求失败!' + error);
                     }, 150);
@@ -929,6 +930,7 @@
                 }).then(function (response) {
                     // console.log(ret)
                     vm.loading = false;
+                    console.log('resset loading!!!!!');
                     let ret = response.data;
                     if (ret.validate != 'undefined' && ret.validate == '0') {
                         vm.loading = false;
@@ -949,7 +951,7 @@
                             vm.alertInfo('登录异常,请重新登录!');
                         }, 150);
                     } else {
-                        console.log('这是查询出来的结果'+ret);
+                      //  console.log('这是查询出来的结果'+ret);
                         if (ret.total == 0) {
                             vm.table = [];
                         } else {
@@ -987,7 +989,7 @@
                         vm.total = ret.total;
                         vm.loading = false;
                     }
-                          console.log("get table 55555:",vm.$refs['search'].searchForm);
+                        //  console.log("get table 55555:",vm.$refs['search'].searchForm);
                 }).catch(function (error) {
                     vm.loading = false;
                     setTimeout(() => {
