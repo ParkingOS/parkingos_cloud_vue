@@ -693,7 +693,7 @@
 
 </script>
 
-<style>
+<style >
 
     .data-sec {
         width: 100%;
@@ -846,12 +846,14 @@
     }
     @keyframes rowup {
       0% {
-          -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
+          -ms-transform: translate(0, 0);
+          -webkit-transform: translate(0, 0);
+          transform: translate(0, 0);
       }
       100% {
-          -webkit-transform: translate3d(0, -50%, 0);
-          transform: translate3d(0, -50%, 0);
+          -ms-transform: translate(0, -50%);
+          -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
       }
     }
     .rowup {
@@ -859,6 +861,11 @@
       animation-timing-function:linear;
       animation-duration: 10s;
       animation-iteration-count:infinite;
+
+      -ms-animation-name:rowup;
+      -ms-animation-timing-function:linear;
+      -ms-animation-duration: 10s;
+      -ms-animation-iteration-count:infinite;
       position: relative;
     }
 </style>

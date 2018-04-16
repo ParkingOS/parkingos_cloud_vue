@@ -29,19 +29,22 @@ module.exports = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.html',
       inject: true,
-      chunks : ['app'],
+      chunksSortMode: 'dependency',
+      chunks: ['manifest', 'vendor', 'app']
     }),
     new HtmlWebpackPlugin({
       filename: 'monitor.html',
       template: 'monitor.html',
       inject: true,
-      chunks : ['monitor'],
+      chunksSortMode: 'dependency',
+      chunks : ['manifest', 'vendor','monitor'],
     }),
     new HtmlWebpackPlugin({
       filename: 'devicewin.html',
       template: 'devicewin.html',
       inject: true,
-      chunks : ['devicewin'],
+      chunksSortMode: 'dependency',
+      chunks : ['manifest', 'vendor','devicewin'],
     })
   ]
 })

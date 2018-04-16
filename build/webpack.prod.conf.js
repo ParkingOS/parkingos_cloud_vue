@@ -29,11 +29,11 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // }),
     new webpack.optimize.OccurenceOrderPlugin(),
     // extract css into its own file
     new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
@@ -64,29 +64,17 @@ var webpackConfig = merge(baseWebpackConfig, {
       filename: config.build.index,
       template: 'index.html',
       inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
+
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency',
        //chunks : ['app'],
-        chunks: ['manifest', 'vendor', 'app']
+    chunks: ['manifest', 'vendor', 'app']
     }),
       new HtmlWebpackPlugin({
           filename: 'monitor.html',
           template: 'monitor.html',
           inject: true,
-          minify: {
-              removeComments: true,
-              collapseWhitespace: true,
-              removeAttributeQuotes: true
-              // more options:
-              // https://github.com/kangax/html-minifier#options-quick-reference
-          },
+
           // necessary to consistently work with multiple chunks via CommonsChunkPlugin
           chunksSortMode: 'dependency',
           chunks : ['manifest', 'vendor','monitor'],
@@ -95,13 +83,7 @@ var webpackConfig = merge(baseWebpackConfig, {
           filename: 'devicewin.html',
           template: 'devicewin.html',
           inject: true,
-          minify: {
-              removeComments: true,
-              collapseWhitespace: true,
-              removeAttributeQuotes: true
-              // more options:
-              // https://github.com/kangax/html-minifier#options-quick-reference
-          },
+
           // necessary to consistently work with multiple chunks via CommonsChunkPlugin
           chunksSortMode: 'dependency',
           chunks : ['manifest', 'vendor','devicewin'],
