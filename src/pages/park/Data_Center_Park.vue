@@ -471,6 +471,9 @@
                 if(scrollBoxHeight<this.scrollBoxExceptionHeight){
                   this.scrollBoxException =  true;
                 }
+                else{
+                  this.scrollBoxException =  false;
+                }
             },
             calIsScroll(data,type) {
               let scrollBoxHeight = parseInt(window.getComputedStyle(this.$refs.scrollBox).height.replace('px',''))-58;
@@ -487,13 +490,19 @@
                 this.scrollBoxInCarHeight =  height;
                 if(scrollBoxHeight<this.scrollBoxInCarHeight){
                   this.scrollBoxInCar =  true;
+
+                }
+                else{
+                    this.scrollBoxInCar =  false;
                 }
               }
               else if(type == 2){
                 this.scrollBoxOutCarHeight =  height;
                 if(scrollBoxHeight<this.scrollBoxOutCarHeight){
-
                   this.scrollBoxOutCar =  true;
+                }
+                else{
+                  this.scrollBoxOutCar =  false;
                 }
               }
 
