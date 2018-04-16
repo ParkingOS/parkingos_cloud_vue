@@ -104,7 +104,7 @@
                                 <span style="flex: 2;text-align: center;">车牌号</span></div>
                                 <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxOutCarHeight + 'px' }" >
                                 <div  v-bind:class="[scrollBoxOutCar ? 'rowup' : '', 'box']"  >
-                                    <ul v-bind:class="[ 'conE']" >
+                                    <ul class="con1 conE"  >
                                         <li v-for='(item,index) in outPartData'>
                                             <div :style="styledouble">
                                                 <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
@@ -114,7 +114,7 @@
                                             <!--<div style="background-color: #EBEEF5;height: 1px;"></div>-->
                                         </li>
                                     </ul>
-                                    <ul v-bind:class="['conE']"   >
+                                    <ul class="con1 conE"    >
                                         <li v-for='(item,index) in outPartData'>
                                             <div :style="styledouble">
                                                 <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
@@ -181,7 +181,7 @@
                             </div>
                             <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxExceptionHeight + 'px' }" >
                               <div  v-bind:class="[scrollBoxException ? 'rowup' : '', 'box']"  >
-                                  <ul class="con1 " v-bind:class="['conE']">
+                                  <ul class="con1 conE" >
                                       <li v-for='(item,index) in exceptionDataPole'>
                                           <div :style="styledouble">
                                               <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
@@ -192,7 +192,7 @@
                                           </div>
                                       </li>
                                   </ul>
-                                  <ul class="con1 " v-bind:class="['conE']">
+                                  <ul class="con1 conE" >
                                       <li v-for='(item,index) in exceptionDataPole'>
                                           <div :style="styledouble">
                                               <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>

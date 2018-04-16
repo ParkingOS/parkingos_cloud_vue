@@ -2,7 +2,7 @@
     <section class="data-sec" :style="containStyle">
         <div style="display: flex;flex-direction: row;width: 100%;height: 100%;align-content: stretch;">
             <div style="flex: 1;width: 0;display:flex ;flex-direction: column">
-                <div style="flex: 2;padding: 10px 10px 10px 10px;overflow-y: auto;display: flex;align-items: flex-start;;justify-content: flex-start;">
+                <div style="flex: 2;padding: 10px 10px 10px 10px;overflow-y: auto;display: flex;align-items: flex-start;justify-content: flex-start;">
 
                     <div class="data-box" style="width: 100%;">
                         <div class="title">今日收费汇总</div>
@@ -47,7 +47,7 @@
                         <!--</div>-->
                         <div class="body">
                             <div class="item-list">
-                                <div class="bar-item" v-for='item in parkState' style="width: 100%;display: flex;flex-direction: row;align-items: center;">
+                                <div class="bar-item" v-for='item in parkState' style="width: 100%;display: flex;flex-direction: row;align-items: center;flex-align:center;">
                                     <div :class="item.state===0?'bar bar-red':'bar bar-green'" style="width:40px;height: 40px;"></div>
                                     <div class="bar-text" style="flex: 1;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.localid}}</div>
                                     <!--<span>123</span>-->
@@ -63,7 +63,7 @@
                     <div class="data-box cart-box" style="background-color: white;" ref="scrollBox">
                         <div class="title" style="width: 100%;background-color: #393a3e;">入场车辆</div>
                         <div style="background: white;color: black;padding:5px;overflow: hidden;">
-                            <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
+                            <div style="background: lightgray;display: flex;flex-align:center;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">通道名称</span>
                                 <span style="flex: 1;text-align: center;">时间</span>
                                 <span style="flex: 2;text-align: center;">车牌号</span></div>
@@ -96,14 +96,14 @@
                     <div class="data-box cart-box" style="background-color: white;" >
                         <div class="title" style="width: 100%;background-color: #393a3e;">出场车辆</div>
                         <div style="background: white;color: black;overflow: hidden;">
-                            <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
+                            <div style="background: lightgray;display: flex;flex-direction: row;flex-align:center;align-items: center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">通道名称</span>
                                 <span style="flex: 1;text-align: center;">时间</span>
                                 <span style="flex: 2;text-align: center;">车牌号</span>
                             </div>
                             <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxOutCarHeight + 'px' }" >
                             <div  v-bind:class="[scrollBoxOutCar ? 'rowup' : '', 'box']"  >
-                                <ul v-bind:class="[ 'conE']" >
+                                <ul class="con1 conE" >
                                     <li v-for='(item,index) in outPartData'>
                                         <div :style="styledouble">
                                             <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
@@ -113,7 +113,7 @@
                                         <!--<div style="background-color: #EBEEF5;height: 1px;"></div>-->
                                     </li>
                                 </ul>
-                                <ul v-bind:class="['conE']"   >
+                                <ul class="con1 conE"  >
                                     <li v-for='(item,index) in outPartData'>
                                         <div :style="styledouble">
                                             <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
@@ -136,6 +136,7 @@
                     </div>
                 </div>
             </div>
+
             <div style="flex: 1;width: 0;display:flex ;flex-direction: column">
                 <!--<div style="flex: 3;padding: 6px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;">-->
                 <div :style="rollstyle2">
@@ -147,7 +148,7 @@
                     </div>
                 </div>
 
-                <div style="flex: 2;padding: 5px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;">
+                <div style="flex: 2;padding: 5px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;flex-align:center;justify-content: center;">
                     <div class="data-box" style="width: 100%;">
                         <div class="title">进出车统计</div>
                         <div class="body">
@@ -171,7 +172,7 @@
                     <div class="data-box" style="margin-top: 0px;" >
 
                         <div style="background: white;color: black;padding:5px;">
-                            <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;background-color: #F5F7FA;height: 48px;">
+                            <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;flex-align:center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 1;text-align: center;">时间</span>
                                 <span style="flex: 1;text-align: center;">通道</span>
                                 <span style="flex: 1;text-align: center;">收费员</span>
@@ -179,7 +180,7 @@
                             </div>
                             <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxExceptionHeight + 'px' }" >
                               <div  v-bind:class="[scrollBoxException ? 'rowup' : '', 'box']"  >
-                                  <ul class="con1 " v-bind:class="['conE']">
+                                  <ul class="con1 conE" >
                                       <li v-for='(item,index) in exceptionDataPole'>
                                           <div :style="styledouble">
                                               <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
@@ -190,7 +191,7 @@
                                           </div>
                                       </li>
                                   </ul>
-                                  <ul class="con1 " v-bind:class="['conE']">
+                                  <ul class="con1 conE" >
                                       <li v-for='(item,index) in exceptionDataPole'>
                                           <div :style="styledouble">
                                               <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
@@ -238,8 +239,8 @@
                 animate2: false,//用于循环滚动在/出场车辆列表
                 animate3: false,//用于循环滚动在/出场车辆列表
 
-                stylesingle: ' display: flex;flex-direction: row;align-items: center;',
-                styledouble: ' display: flex;flex-direction: row;align-items: center;',
+                stylesingle: ' display: flex;flex-direction: row;align-items: center;flex-align:center;',
+                styledouble: ' display: flex;flex-direction: row;align-items: center;flex-align:center;',
                 transfer: false,
                 transfer2: false,
                 transfer3: false,
@@ -598,9 +599,9 @@
         // <div style="flex: 3;padding: 6px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;">
 
             if (common.gww() < 1400) {
-                this.rollstyle2 = 'flex: 3;padding: 6px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;';
+                this.rollstyle2 = 'flex: 3;padding: 6px 10px 10px 10px;overflow-y: auto;display: flex;flex-align:center;align-items: center;justify-content: center;';
             } else {
-                this.rollstyle2 = 'flex: 3;padding: 0 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;';
+                this.rollstyle2 = 'flex: 3;padding: 0 10px 10px 10px;overflow-y: auto;display: flex;flex-align:center;align-items: center;justify-content: center;';
 
             }
             this.rollstyle = 'flex: 1;padding: 10px 10px 0 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;';
