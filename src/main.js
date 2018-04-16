@@ -13,6 +13,9 @@ import BaiduMap from 'vue-baidu-map';
 import './styles/index.scss'; // global css
 import './common/js/const.js';
 import "babel-polyfill"
+import QRCode from 'qrcode'
+
+Vue.use(QRCode)
 
 
 Vue.use(ElementUI);
@@ -23,6 +26,8 @@ Vue.use(BaiduMap,{
 
 Vue.prototype.$axios=axios;
 Vue.prototype.$qs=require('qs');
+
+Vue.prototype.QRCode=QRCode
 
 Vue.prototype.common=common;
 

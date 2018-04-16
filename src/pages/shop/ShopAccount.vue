@@ -23,7 +23,8 @@
                   <el-button style="display:inline;width:50%;margin-top:-4px" @click="setupVisible = true" type="primary" >车牌减免</el-button>
             </el-button-group>
       </el-col>
-
+      
+      
        <el-col :span="12" >
            <el-card class="box-card" style="height:180px">
              <div>
@@ -32,8 +33,8 @@
              </div>
            </el-card>
            <el-button-group style="width:100%">
-                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="setupVisible = true" type="primary" >扫码减免</el-button>
-                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="setupVisible = true" type="primary" >车牌减免</el-button>
+                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="freeCodeVisible = true" type="primary" >扫码减免</el-button>
+                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="freeCarNumberVisible = true" type="primary" >车牌减免</el-button>
            </el-button-group>
        </el-col>
 
@@ -102,34 +103,139 @@
         </el-card>
      </el-col>
     </el-row>
-    <!--提现申请-->
+
+
 	<el-dialog title="扫码减免" center="true" :visible.sync="withdrawFormVisible" :close-on-click-modal="false"  @close="closeWithdraw">
-        <el-col :span="24" style="margin-left:5%" >
+        <el-col  style="margin-left:-5%" >
             <el-form :model="withdrawForm" label-width="80px" :rules="withdrawFormRules" ref="withdrawForm">
 				<el-form-item >
-					<el-input v-model="setup.reduce" style="width:65%" placeholder="输入优惠时长"></el-input>
-					<el-button @click="getTicketCode" type="primary" size ="small">获 取</el-button>
+					<el-input v-model="codeReduce.reduce" style="width:65%" placeholder="输入优惠时长"></el-input>
+					<el-button @click="getTicketCode" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">获 取</el-button>
 				</el-form-item>
-                 <el-form-item label="自动更新" >
-                     <div>
-                       <el-checkbox id="box" v-model="setup.isauto" ></el-checkbox>
-                     </div>
-                </el-form-item>
+                 
 		    </el-form>
         </el-col>
+        <div >
+             <div>
+               <el-checkbox id="box" v-model="codeReduce.isauto" style="margin-left: 15%;"></el-checkbox>
+               <span>自动更新</span>
+             </div>
+        </div>
+        
+             	
+		       <el-row>
+							<el-col :span="23" :offset="1" style="margin-top: 10px;margin-bottom:5px">
+								<!--二维码图片:-->
+							</el-col>
+						<el-row>
+							<!--<el-col :span="10" :offset="1" >
+								<el-checkbox-group v-model="checkQrBox" @change="changeQrBox" style="margin-top:10px;margin-left:12px">
+									<el-row style="line-height:30px;display:inline"><el-checkbox label="1">平台环境</el-checkbox></el-row>
+									<el-row style="line-height:30px;display:inline"><el-checkbox label="2">车场名称</el-checkbox></el-row>
+									<el-row style="line-height:30px;display:inline"><el-checkbox label="3">二维码类型</el-checkbox></el-row>
+									<el-row v-if="needChannel" style="line-height:30px;display:inline"><el-checkbox label="4">通道编号</el-checkbox></el-row>
+								</el-checkbox-group>
+							</el-col>-->
+							<el-col :span="12" :offset="1" style="margin: 0 auto;">
+								<canvas id="canvas" style="display:none"></canvas>
+								<canvas id="img" style="display:none"></canvas>
+								<div >
+									<img :src="qrsrc" style="margin-left: 45%;"/>
+								</div>
+								
+								<a id="download" v-show="generatable" style="font-size:10px;margin-left:80px;text-decoration:none">下载二维码</a>
+								<!--<form :action="downloadapi">
+									<input type="text" name="filepath" :value="filepath" v-show="false">
+									<input type="text" name="filename" :value="filename" v-show="false">
+									<input type="text" name="token" :value="token" v-show="false">
+									<el-input type="submit" style="width: 70px;margin-left: 36px;display:block" value="点击下载" size="mini"></el-input>
+								</form>-->
+							</el-col>
+						</el-row>
+					</el-row>        	
+           
 	</el-dialog>
 
-    </el-form>
-        <el-dialog title="车牌减免" center="true" :visible.sync="setupVisible" :close-on-click-modal="false" size="tiny" @close="closesetup">
-            <el-col :span="24" style="margin-left:5%" >
-                <el-form :model="setup" label-width="110px" ref="setup">
-                    <el-form-item >
-                        <el-input v-model="setup.reduce" style="width:65%" placeholder="输入车牌号"></el-input>
-                        <el-button @click="getTicketCode" type="primary" size ="small">确 定</el-button>
+
+
+	<el-dialog title="扫码减免" center="true" :visible.sync="freeCodeVisible" :close-on-click-modal="false"  @close="closeWithdraw">
+            <el-col  style="margin-left:-5%" >
+                <el-form :model="withdrawForm" label-width="80px" :rules="withdrawFormRules" ref="withdrawForm">
+    				<el-form-item >
+    					<el-input v-model="freeCodeReduce.reduce" style="width:65%" placeholder="全免券"></el-input>
+    					<el-button @click="getFreeTicketCode" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">获 取</el-button>
+    				</el-form-item>
+
+    		    </el-form>
+            </el-col>
+            <div >
+                 <div>
+                   <el-checkbox id="box" v-model="freeCodeReduce.isauto" style="margin-left: 15%;"></el-checkbox>
+                   <span>自动更新</span>
+                 </div>
+            </div>
+
+
+    		       <el-row>
+    							<el-col :span="23" :offset="1" style="margin-top: 10px;margin-bottom:5px">
+    								<!--二维码图片:-->
+    							</el-col>
+    						<el-row>
+    							<!--<el-col :span="10" :offset="1" >
+    								<el-checkbox-group v-model="checkQrBox" @change="changeQrBox" style="margin-top:10px;margin-left:12px">
+    									<el-row style="line-height:30px;display:inline"><el-checkbox label="1">平台环境</el-checkbox></el-row>
+    									<el-row style="line-height:30px;display:inline"><el-checkbox label="2">车场名称</el-checkbox></el-row>
+    									<el-row style="line-height:30px;display:inline"><el-checkbox label="3">二维码类型</el-checkbox></el-row>
+    									<el-row v-if="needChannel" style="line-height:30px;display:inline"><el-checkbox label="4">通道编号</el-checkbox></el-row>
+    								</el-checkbox-group>
+    							</el-col>-->
+    							<el-col :span="12" :offset="1" style="margin: 0 auto;">
+    								<canvas id="freecanvas" style="display:none"></canvas>
+    								<canvas id="freeimg" style="display:none"></canvas>
+    								<div >
+    									<img :src="freeqrsrc" style="margin-left: 45%;"/>
+    								</div>
+
+    								<a id="download" v-show="generatable" style="font-size:10px;margin-left:80px;text-decoration:none">下载二维码</a>
+    								<!--<form :action="downloadapi">
+    									<input type="text" name="filepath" :value="filepath" v-show="false">
+    									<input type="text" name="filename" :value="filename" v-show="false">
+    									<input type="text" name="token" :value="token" v-show="false">
+    									<el-input type="submit" style="width: 70px;margin-left: 36px;display:block" value="点击下载" size="mini"></el-input>
+    								</form>-->
+    							</el-col>
+    						</el-row>
+    					</el-row>
+
+    	</el-dialog>
+
+
+    
+
+    <!--</el-form>-->
+        <el-dialog title="车牌减免" center="true"  :visible.sync="setupVisible" :close-on-click-modal="false" size="tiny"  @close="closesetup">
+            <div style="margin-left:15%" >
+                <el-form :model="setup" ref="setup">
+                    <el-form-item>
+                        <el-input v-model="carNumReduce.reduce" style="width:35%" placeholder="输入优惠时长"></el-input>
+                        <el-input v-model="carNumReduce.car_number" style="width:35%" placeholder="输入车牌号"></el-input>
+                        <el-button @click="useTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
                     </el-form-item>
                 </el-form>
-            </el-col>
+            </div>
         </el-dialog>
+
+         <el-dialog title="车牌减免" center="true"  :visible.sync="freeCarNumberVisible" :close-on-click-modal="false" size="tiny"  @close="closesetup">
+                    <div style="margin-left:15%" >
+                        <el-form :model="setup" ref="setup">
+                            <el-form-item>
+                                <el-input v-model="freecarNumReduce.reduce" style="width:35%" placeholder="全免券"></el-input>
+                                <el-input v-model="freecarNumReduce.car_number" style="width:35%" placeholder="输入车牌号"></el-input>
+                                <el-button @click="freeuseTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </el-dialog>
   </section>
 
 </template>
@@ -151,12 +257,27 @@ export default {
       moneyisdisable:false,
       checkisdisable:false,
       withdrawFormVisible:false,
+      freeCodeVisible:false,
       setupVisible:false,
+      freeCarNumberVisible:false,
       addloading:false,
-      setup:{
+     
+      codeReduce:{
         reduce:'',
         isauto:false,
       },
+      freeCodeReduce:{
+          reduce:'',
+          isauto:false,
+      },
+      carNumReduce:{
+         reduce:'',
+         car_number:'',
+      },
+      freecarNumReduce:{
+               reduce:'',
+               car_number:'',
+            },
       handInputType: [
           {'value_name': '不支持', 'value_no': '0'},
           {'value_name': '支持', 'value_no': '1'}
@@ -165,10 +286,14 @@ export default {
       ticketUnit:'元',
       type:'3',
       code:'',
+      ticket_url:'',
+      free_ticket_url:'',
       noStation:false,
       account:{},
       card:{},
       cardid:'',
+      qrsrc:'',
+      freeqrsrc:'',
       nocard:false,
       bankname:'无',
       cardnum:'暂未绑定银行卡',
@@ -240,6 +365,91 @@ export default {
             }
         },0)
     },
+    downloadQr(){
+				location=this.qrsrc
+			},
+    	genqr(url){
+    		
+//  		console.log('111111111111111111111'+text)
+    		
+				var canvas = document.getElementById('canvas')
+				//console.log(canvas)
+				this.QRCode.toCanvas(canvas, url,{ errorCorrectionLevel: 'H' }, function (error) {
+					//console.log(url)
+					if (error){
+						//console.error(error)
+					} else{
+						//console.log('success!');
+					}
+				})
+				//console.log(canvas.width)
+				var context=canvas.getContext('2d');
+           		var imageData = context.getImageData(0,0,canvas.width,canvas.height);
+				
+				var img = document.getElementById("img");
+				img.width=canvas.width
+				img.height=canvas.height
+				var context2 = img.getContext('2d');
+				context2.fillStyle="white";
+				context2.fillRect(0,0,canvas.width,(canvas.height)); 
+				context2.putImageData(imageData,0,0);
+				context2.font="bold 10px 微软雅黑"
+				context2.fillStyle="black"
+				
+				var url = img.toDataURL("image/png");
+				console.log(url+'---------------------------')
+				this.qrsrc = url
+//				var filename = this.initunionid+"-"+this.parkid+"-"+this.randomNum(6)+".png"
+//				var download = document.getElementById("#download")
+//$axios
+//				var triggerDownload = this.download.eval("href", url).eval("download", filename);
+   				//triggerDownload[0].click();
+			},
+
+			freegenqr(url){
+
+            //  		console.log('111111111111111111111'+text)
+
+            				var canvas = document.getElementById('freecanvas')
+            				//console.log(canvas)
+            				this.QRCode.toCanvas(canvas, url,{ errorCorrectionLevel: 'H' }, function (error) {
+            					//console.log(url)
+            					if (error){
+            						//console.error(error)
+            					} else{
+            						//console.log('success!');
+            					}
+            				})
+            				//console.log(canvas.width)
+            				var context=canvas.getContext('2d');
+                       		var imageData = context.getImageData(0,0,canvas.width,canvas.height);
+
+            				var img = document.getElementById("freeimg");
+            				img.width=canvas.width
+            				img.height=canvas.height
+            				var context2 = img.getContext('2d');
+            				context2.fillStyle="white";
+            				context2.fillRect(0,0,canvas.width,(canvas.height));
+            				context2.putImageData(imageData,0,0);
+            				context2.font="bold 10px 微软雅黑"
+            				context2.fillStyle="black"
+
+            				var url = img.toDataURL("image/png");
+            				console.log(url+'---------------------------')
+            				this.freeqrsrc = url
+            //				var filename = this.initunionid+"-"+this.parkid+"-"+this.randomNum(6)+".png"
+            //				var download = document.getElementById("#download")
+            //$axios
+            //				var triggerDownload = this.download.eval("href", url).eval("download", filename);
+               				//triggerDownload[0].click();
+            			},
+    randomNum(n){ 
+				var t=''; 
+				for(var i=0;i<n;i++){ 
+				t+=Math.floor(Math.random()*10); 
+				} 
+				return t; 
+			} , 
     cycleinputFunc(){
      var vm=this;
      vm.moneyisdisable = false
@@ -258,28 +468,7 @@ export default {
 
          }
         },
-    getAutoWithDraw(){
-
-         var vm=this;
-        			this.$post(path+"/park/autoWithdrawalMoney?token="+sessionStorage.getItem('token'),function(result){
-                var ret = eval('('+result+')')
-                vm.account=ret;
-                if(ret.withdrawal_money>0){
-                    vm.setup.money = ret.withdrawal_money
-                    vm.setup.oldmoney = ret.withdrawal_money
-                }
-                if(ret.withdrawal_cycle>0){
-                    vm.setup.cycle = ret.withdrawal_cycle
-                    vm.setup.oldcycle = ret.withdrawal_cycle
-                }
-                if(ret.withdrawal_money==0&&ret.withdrawal_cycle==0){
-                    vm.setup.checked = false
-                    vm.moneyisdisable = true
-                    vm.cycleisdisable = true
-                }
-
-              });
-    },
+    
     getCodeStatus(){
          let vm = this;
         vm.$axios.post(path+"/shopticket/ifchangecode?code="+vm.code,{
@@ -290,13 +479,40 @@ export default {
           let ret = response.data;
           console.log('陈博文'+ret.state);
           if(ret.state==1){
+          	vm.getTicketCode();
+          	vm.code='';
              //this.$options.methods.getTicketCode();
           }
         });
     },
+    getFreeTicketCode(){
+         let vm = this;
+         vm.type=4;
+          vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&reduce="+vm.freeCodeReduce.reduce+"&isauto="+(vm.freeCodeReduce.isauto?1:0),{
+             headers: {
+                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+             }
+         }).then(function (response) {
+             let ret = response.data;
+             //var ret = eval('('+result+')')
+             if(ret.state==1){
+                 vm.code = ret.code;
+                 vm.free_ticket_url = ret.ticket_url;
+//               console.log(vm.code+"1111111111111111111111111111111")
+                 vm.freegenqr(vm.free_ticket_url)
+             }else{
+                 vm.$message({
+                     message: "获取失败" + ret.error,
+                     type: 'error',
+                     duration: 1200
+                 });
+             }
+
+         });
+    },
     getTicketCode(){
             let vm = this;
-            vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&reduce="+vm.setup.reduce+"&isauto="+(vm.setup.isauto?1:0),{
+            vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&reduce="+vm.codeReduce.reduce+"&isauto="+(vm.codeReduce.isauto?1:0),{
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 }
@@ -304,7 +520,10 @@ export default {
                 let ret = response.data;
                 //var ret = eval('('+result+')')
                 if(ret.state==1){
-                    vm.code = ret.code;
+                	vm.code = ret.code;
+                    vm.ticket_url = ret.ticket_url;
+//               console.log(vm.code+"1111111111111111111111111111111")
+                    vm.genqr(vm.ticket_url)
                 }else{
                     vm.$message({
                         message: "获取失败" + ret.error,
@@ -315,6 +534,61 @@ export default {
 
             });
     },
+
+    freeuseTicketByCarNumber(){
+        let vm = this;
+        vm.type = 4;
+        vm.$axios.post("http://test.bolink.club/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.freecarNumReduce.car_number))+"&type="+vm.type+"&reduce="+vm.freecarNumReduce.reduce,{
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function (response) {
+            let ret = response.data;
+            //var ret = eval('('+result+')')
+            if(ret.state==1){
+                vm.$message({
+                    message: '用券成功!',
+                       type: 'success',
+                       duration: 1200
+                   });
+            }else{
+                vm.$message({
+                    message: ret.error,
+                    type: 'error',
+                    duration: 1200
+                });
+            }
+
+        });
+
+    },
+
+    useTicketByCarNumber(){
+    let vm = this;
+    vm.$axios.post("http://test.bolink.club/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.carNumReduce.car_number))+"&type="+vm.type+"&reduce="+vm.carNumReduce.reduce,{
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function (response) {
+        let ret = response.data;
+        //var ret = eval('('+result+')')
+        if(ret.state==1){
+            vm.$message({
+                message: '用券成功!',
+                   type: 'success',
+                   duration: 1200
+               });
+        }else{
+            vm.$message({
+                message: ret.error,
+                type: 'error',
+                duration: 1200
+            });
+        }
+
+    });
+
+},
     getShopAccountInfo(){
       let vm = this;
       vm.$axios.post(path+"/shopaccount/shopinfo?id="+sessionStorage.getItem('shopid'),{
