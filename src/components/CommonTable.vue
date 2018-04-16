@@ -48,7 +48,35 @@
                             <el-button style="float:left;" @click="changeParkTime(datesselector)" icon="search" type="primary">搜索
                             </el-button>
                         </div>
+                        <div :style="parkExpanStyle">
 
+                            <span style="float: left;margin-top: 10px;">订单状态：</span>
+                            <el-select v-model="currentState" placeholder="未结算"
+                                       style="float: left;margin-right: 10px;width: 123px;">
+                                <el-option
+                                        v-for="item in orderStateType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                            <span style="float: left;margin-top: 10px;margin-left: 10px">支付方式：</span>
+                            <el-select v-model="currentPayType" placeholder="现金"
+                                       style="float: left;margin-right: 10px;width: 123px;">
+                                <el-option
+                                        v-for="item in orderPayType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                            <span style="float: left;margin-top: 10px;margin-left: 10px">实收金额：</span>
+                            <el-input v-model="parkAccoutRece_start" v-on:input="changeParkReceive"
+                                      style="width: 100px;"></el-input>
+                            <span style="margin-top: 10px;"> - </span>
+                            <el-input v-model="parkAccoutRece_end" v-on:input="changeParkReceive"
+                                      style="width: 100px;"></el-input>
+                        </div>
                     </div>
                     <div v-if="showRefillInfo" style="display:inline;margin-right:100px;float: left">
                         <el-input v-model="shouldpay" style="width:200px;background:white;" disabled>
@@ -1632,6 +1660,17 @@
                     this.currentdate = common.currentFormatDate();
                 }
                 let form = {'date': this.currentdate, 'comid_start': val};
+                this.currentPage = 1;
+                this.getTableData(form);
+            },
+            changeoperate(val){
+                this.currentoperate = val;
+                this.sform.date = this.searchDate;
+                this.sform.operate_type = this.currentoperate;
+                if (this.currentdate == '') {
+                    this.currentdate = common.currentFormatDate();
+                }
+                let form = {'date': this.currentdate, 'operate_type': val};
                 this.currentPage = 1;
                 this.getTableData(form);
             },
