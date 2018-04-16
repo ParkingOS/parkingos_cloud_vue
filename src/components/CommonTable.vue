@@ -369,6 +369,17 @@
                     </el-button>
                 </template>
             </el-table-column>
+
+
+            <el-table-column label="操作" :width="btswidth" v-if="showCode" align="center">
+                <template scope="scope">
+                     <el-button size="small" type="text" style="color: #109EFF;"
+                                @click="downloadCode(scope.$index, scope.row)">
+                         下载二维码
+                     </el-button>
+                </template>
+            </el-table-column>
+
             <el-table-column label="操作" :width="btswidth" v-if="showImgSee" align="center" fixed="left">
                 <!--<el-button @click.native="showDetail(row)">查看详情</el-button>-->
                 <template scope="scope">
@@ -1343,6 +1354,17 @@
                     this.$emit('showImg_Pole', index, row);
                 }
             },
+
+            downloadCode(index, row) {
+                if (row.code_src == undefined) {
+                    //订单图片
+                    alert('链接为空');
+                } else{
+                    var params="url="+row.code_src;
+                    this.$emit('selfExport',params)
+                }
+            },
+
             handleShowOrderDetail(index, row) {
                 //跳转到订单详情
                 this.$router.push({path: '/orderManage_OrderDetail', query: {index: index, row: row}});
