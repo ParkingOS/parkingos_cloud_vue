@@ -1608,10 +1608,11 @@
             },
             changeParkTime(datearr) {
                 console.log(datearr);
+        
                 if (datearr !== null && datearr.length > 1) {
                     if (this.ordertimetype === 'end_time') {
-                        this.ordertime_start = (new Date(datearr[0])).getTime();
-                        this.ordertime_end = (new Date(datearr[1])).getTime();
+                        this.ordertime_start = (new Date(datearr[0].replace(new RegExp(/-/gm) ,"/"))).getTime();
+                        this.ordertime_end = (new Date(datearr[1].replace(new RegExp(/-/gm) ,"/"))).getTime();
 
                         this.sform.end_time = this.ordertime;
                         this.sform.end_time_start = this.ordertime_start;
@@ -1621,8 +1622,8 @@
                         this.sform.create_time_start = 0;
                         this.sform.create_time_end = 0;
                     } else if (this.ordertimetype === 'create_time') {
-                        this.ordertime_start = (new Date(datearr[0])).getTime();
-                        this.ordertime_end = (new Date(datearr[1])).getTime();
+                        this.ordertime_start = (new Date(datearr[0].replace(new RegExp(/-/gm) ,"/"))).getTime();
+                        this.ordertime_end = (new Date(datearr[1].replace(new RegExp(/-/gm) ,"/"))).getTime();
 
                         this.sform.create_time = this.ordertime;
                         this.sform.create_time_start = this.ordertime_start;
@@ -1633,15 +1634,15 @@
                         this.sform.end_time_end = 0;
 
                     } else {
-                        this.ordertime_start = (new Date(datearr[0])).getTime();
-                        this.ordertime_end = (new Date(datearr[1])).getTime();
+                        this.ordertime_start = (new Date(datearr[0].replace(new RegExp(/-/gm) ,"/"))).getTime();
+                        this.ordertime_end = (new Date(datearr[1].replace(new RegExp(/-/gm) ,"/"))).getTime();
 
                         this.sform.end_time = this.ordertime;
                         this.sform.end_time_start = this.ordertime_start;
                         this.sform.end_time_end = this.ordertime_end;
 
-                        this.ordertime_start = (new Date(datearr[0])).getTime();
-                        this.ordertime_end = (new Date(datearr[1])).getTime();
+                        this.ordertime_start = (new Date(datearr[0].replace(new RegExp(/-/gm) ,"/"))).getTime();
+                        this.ordertime_end = (new Date(datearr[1].replace(new RegExp(/-/gm) ,"/"))).getTime();
 
                         this.sform.create_time = this.ordertime;
                         this.sform.create_time_start = this.ordertime_start;

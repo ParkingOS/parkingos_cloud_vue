@@ -5,6 +5,7 @@
                 智慧停车云 · 行业领导者
             </div>
         </div>
+
         <div class="login-container" style="align-items: center;justify-content: center;flex-align:center;flex:16;display: flex;">
 
             <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="rules2" ref="loginForm"
@@ -39,7 +40,16 @@
         <div style="height:40px;line-height:40px;text-align:center;width: 100%;">
             © 2014 - 2018 All Rights Reserved
         </div>
+        <el-dialog title="本系统不支持ie10以下浏览器！" :visible.sync="isIE10">
+          <el-alert
+            title="本系统不支持ie10以下浏览器！"
+            type="error"
+            description="本系统不支持ie10以下浏览器，强烈推荐google chrome浏览器，或者使用ie11版本以上的浏览器！"
+            show-icon>
+          </el-alert>
+      </el-dialog>
     </div>
+
 </template>
 
 <script>
@@ -64,7 +74,7 @@
                 //根据权限控制页面是否显示
                 showParkItem: showParkItem_const,
                 showUnionItem: showUnionItem_const,
-
+                isIE10:false,
                 logining: false,
                 getPassVisible: false,
                 getckeyVisible: false,
@@ -137,6 +147,7 @@
                 showDialog: false
             };
         },
+
         mounted() {
             //alert(common.gwh())
             var vm = this;
@@ -151,8 +162,32 @@
                     vm.handleSubmit2();
                 }
             }, false);
+            vm.iEVersionCheck();
         },
         methods: {
+              iEVersionCheck() {
+
+                 var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+                 var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+                 var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+                 var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+                 var fIEVersion = 11;
+                 if(isIE) {
+                     var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+                     reIE.test(userAgent);
+                     fIEVersion = parseFloat(RegExp["$1"]);
+                 } else if(isEdge) {
+                     fIEVersion = 12;
+                 } else if(isIE11) {
+                     fIEVersion = 11; //IE11
+                 }else{
+                     fIEVersion = -1;//不是ie浏览器
+                 }
+                 if(fIEVersion>0 && fIEVersion <=10){
+                   this.isIE10 = true;
+                 }
+                 console.log('ie10:',this.isIE10);
+             },
             showPwd() {
                 if (this.passwordType === 'password') {
                     this.passwordType = '';
