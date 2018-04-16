@@ -923,6 +923,10 @@
                 sform1.orderfield = this.orderfield;
                 sform1.fieldsstr = this.fieldsstr;
                 this.sform = common.generateForm(sform1);
+                //保证5秒后把loading干掉
+                setTimeout(() => {
+                    vm.loading = false;
+                }, 5000);
                 vm.$axios.post(path + api, vm.$qs.stringify(this.sform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -1767,14 +1771,14 @@
 
         },
         updated(){
-                    console.log("get table eeeee33:",this.$refs['search'].searchForm);
+                  //  console.log("get table eeeee33:",this.$refs['search'].searchForm);
         },
         mounted() {
             let _this = this;
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             this.mapheight = common.gwh() * 0.5;
             this.mapstyle = 'width:inherit;height:' + common.gwh() / 2 + 'px';
-            console.log('commontable mount',this.searchForm);
+          //  console.log('commontable mount',this.searchForm);
             //拷贝查询表单,用来在重置时清空表单内容
             this.tempSearchForm = common.clone(this.searchForm);
             //this.superimposed = sessionStorage.getItem('superimposed');
@@ -1782,7 +1786,7 @@
               common.getSuperimposed().then(function (response) {
                   _this.superimposed = response.data.superimposed
                })
-               console.log("get table eeeeeaaa:",this.$refs['search'].searchForm);
+              // console.log("get table eeeeeaaa:",this.$refs['search'].searchForm);
             }
             catch(e){
 
