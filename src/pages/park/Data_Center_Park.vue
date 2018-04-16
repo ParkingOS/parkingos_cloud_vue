@@ -500,7 +500,9 @@
             },
             getDatas() {
                 let _this = this;
-                axios.all([axios.get(path + '/getparkinfo/bycomid?comid=' + sessionStorage.getItem('comid'))])
+                //增加随机数
+                var tmp = Math.random().toString();
+                axios.all([axios.get(path + '/getparkinfo/bycomid?tmp='+tmp+'&comid=' + sessionStorage.getItem('comid'))])
                 // axios.all([axios.get('http://192.168.136.1:8080/cloud/getparkinfo/bycomid?comid=' + sessionStorage.getItem('comid'))])
                     .then(axios.spread(function (ret) {
                         // console.log(ret);

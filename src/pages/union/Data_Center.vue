@@ -551,7 +551,9 @@
             },
             getDatas() {
                 let _this = this;
-                axios.all([axios.get(path + '/getparkinfo/bygroupid?groupid=' + sessionStorage.getItem('groupid'))])
+                //增加随机数
+                var tmp = Math.random().toString();
+                axios.all([axios.get(path + '/getparkinfo/bygroupid?ran='+tmp+'&groupid=' + sessionStorage.getItem('groupid'))])
                 // axios.all([axios.get('http://192.168.136.1:8080/cloud/getparkinfo/bygroupid?groupid=' + sessionStorage.getItem('groupid'))])
                     .then(axios.spread(function (ret) {
                         console.log(ret);
