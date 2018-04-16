@@ -37,11 +37,11 @@
                 :visible.sync="showRegisPark"
                 width="30%">
             <el-form ref="addFormPark" label-width="120px" style="margin-bottom:-30px"
-                     :model="addFormPark">
+                     :model="addFormPark" :rules="addFormRules">
 
 
-                 <el-form-item label="减免类型" >
-                    <el-select v-model="addFormPark.type" style="width:90%">
+                 <el-form-item label="减免类型">
+                    <el-select v-model="reducetype" style="width:90%">
                         <el-option
                                 v-for="item in reduceType"
                                 :label="item.value_name"
@@ -50,22 +50,14 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="总时长" >
-                    <el-input v-model="addFormPark.time_limit" style="width:90%" placeholder=""></el-input>
+                <el-form-item label="单张额度" v-if="showamount" :prop="amount_limit">
+                    <el-input v-model="addFormPark.amount_limit" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-
-                <el-form-item label="总金额" >
-                    <el-input v-model="addFormPark.money_limit" style="width:90%" placeholder=""></el-input>
-                    <br/>
-                </el-form-item>
-                <el-form-item label="总张数" >
+                <el-form-item label="总张数" v-if="showfree" :prop="free_limit">
                     <el-input v-model="addFormPark.free_limit" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="有效期" >
+                <el-form-item label="固定码有效期" :prop="validite_time">
                     <el-input v-model="addFormPark.validite_time" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="单张额度" >
-                    <el-input v-model="addFormPark.amount" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                  <el-form-item label="状态" >
                     <el-select v-model="addFormPark.state" style="width:90%">
@@ -117,9 +109,15 @@
                 showRegisPark: false,
                 showCustomizeAdd:true,
 
+                showtime:false,
+                showmoney:false,
+                showfree:false,
+                reducetype:'请选择',
                 reduceType:[
                     {'value_no': 1, 'value_name': '减免券'},
+                   // {'value_no': 2, 'value_name': '金额减免'},
                     {'value_no': 2, 'value_name': '全免券'},
+
                 ],
                 stateList :[
                      {'value_no': 0, 'value_name': '可用'},
@@ -136,39 +134,10 @@
                 href:'https://www.baidu.com/s?wd=node-pre-gyp+install+--fallback-to-build&ie=UTF-8&tn=39042058_20_oem_dg',
                 fieldsstr: 'id__park_id__operate_time__ticketfree_limit__ticket_limit__ticket_money__operate_type__add_money',
                 tableitems: [
-                    {
-                       hasSubs: false,
-                       subs: [{
-                           label: '编号',
-                           prop: 'id',
-                           width: '123',
-                           type: 'number',
-                           editable: false,
-                           searchable: true,
-                           addable: false,
-                           unsortable: true,
-                           align: 'center'
-                       }]
-                   },
-                   {
-                      hasSubs: false, subs: [
-                           {
-                               label: '剩余金额',
-                               prop: 'money_limit',
-                               width: '123',
-                               type: 'str',
-                               editable: false,
-                               searchable: true,
-                               addable: true,
-                               unsortable: true,
-                               align: 'center',
-                           },
-                       ]
-                   },
                    {
                        hasSubs: false, subs: [
                            {
-                               label: '剩余时间',
+                               label: '剩余时长',
                                prop: 'time_limit',
                                width: '123',
                                type: 'str',
@@ -180,6 +149,21 @@
                            },
                        ]
                    },
+                  {
+                     hasSubs: false, subs: [
+                          {
+                              label: '剩余金额',
+                              prop: 'money_limit',
+                              width: '123',
+                              type: 'str',
+                              editable: false,
+                              searchable: true,
+                              addable: true,
+                              unsortable: true,
+                              align: 'center',
+                          },
+                      ]
+                  },
                         {
                        hasSubs: false, subs: [
                            {
@@ -195,22 +179,7 @@
                            },
                        ]
                        },
-                       {
 
-                           hasSubs: false,
-                           subs: [{
-                               label: '二维码链接',
-                               prop: 'code_src',
-                               width: '180',
-                               type: 'str',
-                               editable: false,
-                               searchable: false,
-                               addable: false,
-                               unsortable: true,
-                               align: 'center',
-
-                           }]
-                       },
                        {
 
                           hasSubs: false,
@@ -251,11 +220,46 @@
                                  //return common.nameformat(row, genderType, 'sex');
                              }
                          }]
-                     }
+                     },
+                     {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '二维码链接',
+                            prop: 'code_src',
+                            width: '180',
+                            type: 'str',
+                            editable: false,
+                            searchable: false,
+                            addable: false,
+                            unsortable: true,
+                            align: 'center',
+
+                        }]
+                    },
 
                 ],
                 searchtitle: '查询明细',
                 addtitle:"添加",
+
+
+                //time_limit:"time_limit",
+                amount_limit:"amount_limit",
+                free_limit:"free_limit",
+                validite_time:"validite_time",
+
+                addFormRules: {
+
+                    amount_limit: [
+                        {required: true, message: '请输入总额度', trigger: 'blur'}
+                    ],
+                    free_limit:[
+                      {required: true, message: '请输入总张数', trigger: 'blur'}
+                    ],
+                    validite_time:[
+                      {required: true, message: '请输入固定码有效期', trigger: 'blur'}
+                    ],
+                }
             }
         },
          methods: {
@@ -273,7 +277,6 @@
             },
 
             handleAdd(){
-                //注册车场
                 let _this = this;
 
                 this.$refs.addFormPark.validate((valid) => {
@@ -331,6 +334,7 @@
                 //sform.ishdorder = common.attachParams('ishdorder', 1);
                 //sform.roleid = common.attachParams('loginroleid', 1);
                 sform.shopid = common.attachParams('shopid', 1);
+                sform.type = this.reducetype;
                 return sform;
             },
         },
@@ -347,7 +351,24 @@
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
-        }
+        },
+        watch: {
+          reducetype : function (val) {
+                if(val==1){//时长减免
+
+                    this.showamount = false;
+                    this.showfree = false;
+
+                    this.showamount = true;
+                    this.showfree = true;
+                }else{//全免
+                    this.showamount = false;
+                    this.showfree = false;
+
+                    this.showfree = true;
+                }
+            }
+        },
     }
 
 </script>
