@@ -91,7 +91,7 @@ export default {
 		render(){}
   },
   updated(){
-    	console.log('update ',this.searchForm)
+    //	console.log('update ',this.searchForm)
   },
   beforeMount(){
   },

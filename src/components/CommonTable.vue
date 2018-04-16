@@ -915,7 +915,7 @@
                 sform1.groupid = param.groupid;
                 sform1.comid = param.comid;
                 let vm = this;
-                this.loading = true;
+                this.loading = false;
                 let api = this.queryapi;
                 sform1.rp = this.pageSize;
                 sform1.page = this.currentPage;
