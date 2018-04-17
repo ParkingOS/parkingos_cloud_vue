@@ -1,0 +1,165 @@
+.pannel-center-sec .panel-right .panel-left {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.panel-left .pannel-center, .panel-right .pannel-center, .pannel-center-sec .pannel-center {
+    width: 90%;
+    margin: auto;
+
+}
+
+.data-box {
+    margin-top: 5px;
+}
+
+.cart-box {
+    width: 48%;
+}
+
+.data-box .title {
+    width: 90%;
+}
+
+.data-box .body {
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+.caption {
+    border-bottom: 1px solid #eef1f5;
+}
+
+.data-box .item-list {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.data-box .body .bar-item {
+    margin-left: 5px;
+    width: 40px;
+    margin-bottom: 5px;
+}
+
+.data-box .body .bar-item .bar-text {
+    color: #393a3e;
+    line-height: 12px;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.data-box .body .bar-item .bar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.data-box .body .bar-green {
+    background-color: green;
+}
+
+.data-box .body .bar-red {
+    background-color: red;
+}
+
+.data-box .body .item {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.data-box .body .item-txt {
+    color: #393a3e;
+    line-height: 20px;
+    font-size: 12px;
+}
+
+.data-box .body .item-num {
+    display: flex;
+}
+
+.data-box .data-num {
+    background-color: #393a3e;
+    text-align: center;
+    font-size: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 2px;
+    border-radius: 2px;
+    color: white;
+    width: 20px;
+}
+
+.cart-in-out {
+    display: flex;
+    justify-content: space-around;
+}
+
+.font-yellow {
+    color: #c49f47;
+}
+
+.gutter {
+    display: none
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.box {
+
+    line-height: 48px;
+    overflow: hidden;
+    transition: all 0.5s;
+}
+
+/*动画执行时间 0.5s*/
+.anim {
+    transition: all 0.5s;
+}
+
+.con1 li {
+    list-style: none;
+    line-height: 48px;
+    height: 48px;
+}
+.conE li:nth-child(2n+1){
+  background-color: #EBEEF5
+}
+.conE li:nth-child(2n){
+  background-color: #FFFFFF
+}
+
+
+.flexdiv {
+
+}
+@keyframes rowup {
+  0% {
+      -ms-transform: translateY(0);
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+  }
+  100% {
+      -ms-transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+  }
+}
+.rowup {
+  animation-name:rowup;
+  animation-timing-function:linear;
+  animation-duration: 10s;
+  animation-iteration-count:infinite;
+
+  -ms-animation-name:rowup;
+  -ms-animation-timing-function:linear;
+  -ms-animation-duration: 10s;
+  -ms-animation-iteration-count:infinite;
+  position: relative;
+}
