@@ -70,18 +70,19 @@
                         <el-menu-item index="/fix_code">固定码管理
                         </el-menu-item>
                     </el-submenu>
+                     <el-submenu v-if="this.shop" index="/ticket_manage">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">用券明细</span></template>
+                        <el-menu-item index="/ticket_manage">用券明细
+                        </el-menu-item>
+                    </el-submenu>
                     <el-submenu v-if="this.shop" index="/shop_recharge">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">充值明细</span></template>
                         <el-menu-item index="/shop_recharge">充值明细
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu v-if="this.shop" index="/ticket_manage">
-                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
-                                class="menuitem">用券明细</span></template>
-                        <el-menu-item index="/ticket_manage">用券明细
-                        </el-menu-item>
-                    </el-submenu>
+
                     <el-submenu v-if="this.admin" index="/city_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">厂商管理</span></template>

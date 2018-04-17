@@ -33,8 +33,8 @@
              </div>
            </el-card>
            <el-button-group style="width:100%">
-                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="freeCodeVisible = true" type="primary" >扫码减免</el-button>
-                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="freeCarNumberVisible = true" type="primary" >车牌减免</el-button>
+                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="freeCodeVisible = true" type="primary" >扫码全免</el-button>
+                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="freeCarNumberVisible = true" type="primary" >车牌全免</el-button>
            </el-button-group>
        </el-col>
 
@@ -74,7 +74,7 @@
               <!--总车位数,剩余车位数,创建时间,更新时间,状态,所属平台,所属服务商,-->
               <div style="">
                 <el-row style="padding:20px;padding-left:1px">
-                   <el-form ref="infoModify" :model="infoModify" label-width="110px"  style="width:85%">
+                   <el-form ref="infoModify" :model="infoModify" label-width="110px" :rules="infoFormRules"  style="width:85%">
 
                       <el-form-item label="默认显示额度" prop="default_limit">
                         <el-input v-model="infoModify.default_limit"></el-input>
@@ -105,10 +105,11 @@
     </el-row>
 
 
-	<el-dialog title="扫码减免" center="true" :visible.sync="withdrawFormVisible" :close-on-click-modal="false"  @close="closeWithdraw">
+	<el-dialog title="扫码减免" center=true :visible.sync="withdrawFormVisible" :close-on-click-modal="false"  @close="closeWithdraw">
         <el-col  style="margin-left:-5%" >
-            <el-form :model="withdrawForm" label-width="80px" :rules="withdrawFormRules" ref="withdrawForm">
-				<el-form-item >
+            <el-form :model="codeReduce" label-width="80px" :rules="withdrawFormRules" ref="codeReduce">
+
+				<el-form-item  prop="reduce">
 					<el-input v-model="codeReduce.reduce" style="width:65%" placeholder="输入优惠时长"></el-input>
 					<el-button @click="getTicketCode" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">获 取</el-button>
 				</el-form-item>
@@ -144,12 +145,6 @@
 								</div>
 								
 								<a id="download" v-show="generatable" style="font-size:10px;margin-left:80px;text-decoration:none">下载二维码</a>
-								<!--<form :action="downloadapi">
-									<input type="text" name="filepath" :value="filepath" v-show="false">
-									<input type="text" name="filename" :value="filename" v-show="false">
-									<input type="text" name="token" :value="token" v-show="false">
-									<el-input type="submit" style="width: 70px;margin-left: 36px;display:block" value="点击下载" size="mini"></el-input>
-								</form>-->
 							</el-col>
 						</el-row>
 					</el-row>        	
@@ -158,11 +153,11 @@
 
 
 
-	<el-dialog title="扫码减免" center="true" :visible.sync="freeCodeVisible" :close-on-click-modal="false"  @close="closeWithdraw">
+	<el-dialog title="扫码全免" center=true :visible.sync="freeCodeVisible" :close-on-click-modal="false"  @close="closeFreeCode">
             <el-col  style="margin-left:-5%" >
-                <el-form :model="withdrawForm" label-width="80px" :rules="withdrawFormRules" ref="withdrawForm">
+                <el-form :model="freeCodeReduce" label-width="80px"  ref="freeCodeReduce">
     				<el-form-item >
-    					<el-input v-model="freeCodeReduce.reduce" style="width:65%" placeholder="全免券"></el-input>
+    					<el-input v-model="freeCodeReduce.reduce" style="width:65%" placeholder="全免券" disabled></el-input>
     					<el-button @click="getFreeTicketCode" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">获 取</el-button>
     				</el-form-item>
 
@@ -197,12 +192,6 @@
     								</div>
 
     								<a id="download" v-show="generatable" style="font-size:10px;margin-left:80px;text-decoration:none">下载二维码</a>
-    								<!--<form :action="downloadapi">
-    									<input type="text" name="filepath" :value="filepath" v-show="false">
-    									<input type="text" name="filename" :value="filename" v-show="false">
-    									<input type="text" name="token" :value="token" v-show="false">
-    									<el-input type="submit" style="width: 70px;margin-left: 36px;display:block" value="点击下载" size="mini"></el-input>
-    								</form>-->
     							</el-col>
     						</el-row>
     					</el-row>
@@ -213,9 +202,9 @@
     
 
     <!--</el-form>-->
-        <el-dialog title="车牌减免" center="true"  :visible.sync="setupVisible" :close-on-click-modal="false" size="tiny"  @close="closesetup">
+        <el-dialog title="车牌减免" center=true  :visible.sync="setupVisible" :close-on-click-modal="false" size="tiny"  @close="closesetup">
             <div style="margin-left:15%" >
-                <el-form :model="setup" ref="setup">
+                <el-form :model="carNumReduce" ref="carNumReduce">
                     <el-form-item>
                         <el-input v-model="carNumReduce.reduce" style="width:35%" placeholder="输入优惠时长"></el-input>
                         <el-input v-model="carNumReduce.car_number" style="width:35%" placeholder="输入车牌号"></el-input>
@@ -225,11 +214,11 @@
             </div>
         </el-dialog>
 
-         <el-dialog title="车牌减免" center="true"  :visible.sync="freeCarNumberVisible" :close-on-click-modal="false" size="tiny"  @close="closesetup">
+         <el-dialog title="车牌全免" center=true  :visible.sync="freeCarNumberVisible" :close-on-click-modal="false" size="tiny"  @close="closeFreeCar">
                     <div style="margin-left:15%" >
-                        <el-form :model="setup" ref="setup">
+                        <el-form :model="freecarNumReduce" ref="freecarNumReduce">
                             <el-form-item>
-                                <el-input v-model="freecarNumReduce.reduce" style="width:35%" placeholder="全免券"></el-input>
+                                <el-input v-model="freecarNumReduce.reduce" style="width:35%" placeholder="全免券" disabled></el-input>
                                 <el-input v-model="freecarNumReduce.car_number" style="width:35%" placeholder="输入车牌号"></el-input>
                                 <el-button @click="freeuseTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
                             </el-form-item>
@@ -267,7 +256,7 @@ export default {
         isauto:false,
       },
       freeCodeReduce:{
-          reduce:'',
+          reduce:'全免券',
           isauto:false,
       },
       carNumReduce:{
@@ -275,9 +264,9 @@ export default {
          car_number:'',
       },
       freecarNumReduce:{
-               reduce:'',
-               car_number:'',
-            },
+         reduce:'全免券',
+         car_number:'',
+     },
       handInputType: [
           {'value_name': '不支持', 'value_no': '0'},
           {'value_name': '支持', 'value_no': '1'}
@@ -286,6 +275,7 @@ export default {
       ticketUnit:'元',
       type:'3',
       code:'',
+      freecode:'',
       ticket_url:'',
       free_ticket_url:'',
       noStation:false,
@@ -335,9 +325,17 @@ export default {
           { required: true, message: '请输入地址', trigger: 'blur' }
         ],
       },
+      infoFormRules:{
+        default_limit: [
+          { required: true, message: '请输入默认显示额度', trigger: 'blur' }
+        ],
+        validite_time: [
+          { required: true, message: '请输入有效期',  trigger: 'blur' }
+        ]
+      },
       withdrawFormRules:{
-        money: [
-          { required: true, message: '请输入金额', trigger: 'blur' }
+        reduce: [
+          { required: true, message: '请输入减免金额', trigger: 'blur' }
         ],
       },
     }
@@ -399,11 +397,6 @@ export default {
 				var url = img.toDataURL("image/png");
 				console.log(url+'---------------------------')
 				this.qrsrc = url
-//				var filename = this.initunionid+"-"+this.parkid+"-"+this.randomNum(6)+".png"
-//				var download = document.getElementById("#download")
-//$axios
-//				var triggerDownload = this.download.eval("href", url).eval("download", filename);
-   				//triggerDownload[0].click();
 			},
 
 			freegenqr(url){
@@ -481,14 +474,40 @@ export default {
           if(ret.state==1){
           	vm.getTicketCode();
           	vm.code='';
+          	vm.$message({
+                 message: "二维码已更新" ,
+                 type: 'success',
+                 duration: 1200
+             });
              //this.$options.methods.getTicketCode();
           }
         });
     },
+    getFreeCodeStatus(){
+             let vm = this;
+            vm.$axios.post(path+"/shopticket/ifchangecode?code="+vm.freecode,{
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function (response) {
+              let ret = response.data;
+              console.log('陈博文'+ret.state);
+              if(ret.state==1){
+              	vm.getFreeTicketCode();
+              	vm.freecode='';
+              	vm.$message({
+                     message: "二维码已更新" ,
+                     type: 'success',
+                     duration: 1200
+                 });
+                 //this.$options.methods.getTicketCode();
+              }
+            });
+        },
     getFreeTicketCode(){
          let vm = this;
          vm.type=4;
-          vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&reduce="+vm.freeCodeReduce.reduce+"&isauto="+(vm.freeCodeReduce.isauto?1:0),{
+          vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&isauto="+(vm.freeCodeReduce.isauto?1:0),{
              headers: {
                  'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
              }
@@ -496,7 +515,7 @@ export default {
              let ret = response.data;
              //var ret = eval('('+result+')')
              if(ret.state==1){
-                 vm.code = ret.code;
+                 vm.freecode = ret.code;
                  vm.free_ticket_url = ret.ticket_url;
 //               console.log(vm.code+"1111111111111111111111111111111")
                  vm.freegenqr(vm.free_ticket_url)
@@ -512,6 +531,7 @@ export default {
     },
     getTicketCode(){
             let vm = this;
+            //alert(vm.codeReduce.isauto);
             vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&reduce="+vm.codeReduce.reduce+"&isauto="+(vm.codeReduce.isauto?1:0),{
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -538,14 +558,14 @@ export default {
     freeuseTicketByCarNumber(){
         let vm = this;
         vm.type = 4;
-        vm.$axios.post("http://test.bolink.club/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.freecarNumReduce.car_number))+"&type="+vm.type+"&reduce="+vm.freecarNumReduce.reduce,{
+        vm.$axios.post("http://test.bolink.club/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.freecarNumReduce.car_number))+"&type="+vm.type,{
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function (response) {
             let ret = response.data;
             //var ret = eval('('+result+')')
-            if(ret.state==1){
+            if(ret.result==1){
                 vm.$message({
                     message: '用券成功!',
                        type: 'success',
@@ -572,7 +592,7 @@ export default {
     }).then(function (response) {
         let ret = response.data;
         //var ret = eval('('+result+')')
-        if(ret.state==1){
+        if(ret.result==1){
             vm.$message({
                 message: '用券成功!',
                    type: 'success',
@@ -721,18 +741,28 @@ export default {
       this.infoModify=common.clone(this.infotemp)
     },
     closeWithdraw(){
-      this.withdrawForm.money=''
+      this.codeReduce.reduce=''
+      this.codeReduce.isauto=false
     },
-     closesetup(){
-          this.setup.cycle = this.setup.oldcycle
-          this.setup.money = this.setup.oldmoney
-        },
+    closesetup(){
+        this.carNumReduce.reduce = ''
+        this.carNumReduce.car_number = ''
+    },
+    closeFreeCar(){
+        //this.freecarNumReduce.reduce = ''
+        this.freecarNumReduce.car_number = ''
+    },
+    closeFreeCode(){
+        //this.freeCodeReduce.reduce=''
+        this.freeCodeReduce.isauto=false
+    }
   },
   activated(){
       //this.getAutoWithDraw()
       this.getShopAccountInfo()
 
-      window.setInterval(this.getCodeStatus,2000000)
+      window.setInterval(this.getCodeStatus,10000)
+       window.setInterval(this.getFreeCodeStatus,10000)
       //this.getParkCardInfo()
       //this.getParkStatus()
       //window.setInterval(this.getParkStatus,10000)
