@@ -108,8 +108,6 @@
 
                 addFormPark: {
                     validite_time:24,
-                    amount_limit:'',
-                    free_limit:'',
                 },
                 showRegisPark: false,
                 showCustomizeAdd:true,
@@ -251,8 +249,6 @@
 
 
 
-                //validite_time:'24小时',
-
                 amount_limit:"amount_limit",
                 free_limit:"free_limit",
                 validite_time:"validite_time",
@@ -276,8 +272,8 @@
             customizeadd: function () {
                 //显示注册新车场
                 this.showRegisPark = true;
-                this.addressTitle = '';
-                this.addFormPark = {};
+                //this.addressTitle = '';
+                //this.addFormPark.validite_time='';
             },
 
             selfExport(params){
@@ -380,7 +376,6 @@
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
-            //this.addFormPark.validite_time=24;
         },
         activated() {
             this.getShopAccountInfo()
@@ -388,7 +383,6 @@
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
-            this.addFormPark.validite_time=24;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
         },
