@@ -11,7 +11,7 @@
             <el-form :model="codeReduce" label-width="80px" :rules="withdrawFormRules" ref="codeReduce">
 
 				<el-form-item  prop="reduce">
-					<el-input v-model="codeReduce.reduce" style="width:84%" placeholder="输入优惠额度"></el-input>
+					<el-input v-model="codeReduce.reduce" style="width:84%" placeholder="输入减免额度"></el-input>
 					<el-button @click="getTicketCode" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">获 取</el-button>
 				</el-form-item>
 		    </el-form>

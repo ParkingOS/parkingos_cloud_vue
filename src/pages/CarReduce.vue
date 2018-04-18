@@ -8,7 +8,7 @@
             <div style="margin-left:35%" >
                 <el-form :model="carNumReduce" ref="carNumReduce" :rules="carNumberRules">
                     <el-form-item prop="reduce">
-                        <el-input v-model="carNumReduce.reduce" style="width:35%" placeholder="输入优惠时长"></el-input>
+                        <el-input v-model="carNumReduce.reduce" style="width:35%" placeholder="输入减免额度"></el-input>
                     </el-form-item>
                     <el-form-item prop="car_number">
                         <el-input v-model="carNumReduce.car_number" style="width:35%" placeholder="输入车牌号"></el-input>
