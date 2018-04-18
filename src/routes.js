@@ -1,6 +1,10 @@
 // import Login from './pages/Login.vue'
 import LoginCloud from './pages/LoginCloud.vue';
 import NotFound from './pages/404.vue';
+import CodeReduce from './pages/CodeReduce.vue';
+import FreeCodeReduce from './pages/FreeCodeReduce.vue';
+import CarReduce from './pages/CarReduce.vue';
+import FreeCarReduce from './pages/FreeCarReduce.vue';
 // import Home from './pages/Home.vue'
 import HomeCloud from './pages/HomeCloud.vue';
 import HomeCloud_Union from './pages/HomeCloud_Union.vue';
@@ -69,6 +73,7 @@ import ShopAccount from './pages/shop/ShopAccount.vue';
 import ShopRecharge from './pages/shop/ShopRecharge.vue';
 import TicketManage from './pages/shop/TicketManage.vue';
 import FixCode from './pages/shop/FixCode.vue';
+// import CodeReduce from './pages/shop/CodeReduce.vue';
 
 let routes = [
 
@@ -111,6 +116,7 @@ let routes = [
             {path: '/fix_code', component: FixCode, name: '固定码管理'}
         ]
     },
+
     {
         path: '/',
         component: HomeCloud_Admin,
@@ -334,6 +340,31 @@ let routes = [
         path: '*',
         hidden: true,
         redirect: {path: '/404'}
+    },
+
+    {
+        path: '/code_reduce',
+        component: CodeReduce,
+        name: 'CodeReduce',
+        hidden: true
+    },
+    {
+        path: '/car_reduce',
+        component: CarReduce,
+        name: 'CarReduce',
+        hidden: true
+    },
+    {
+        path: '/free_car_reduce',
+        component: FreeCarReduce,
+        name: 'FreeCarReduce',
+        hidden: true
+    },
+    {
+        path: '/free_code_reduce',
+        component: FreeCodeReduce,
+        name: 'FreeCodeReduce',
+        hidden: true
     },
     {
         path: '/404',

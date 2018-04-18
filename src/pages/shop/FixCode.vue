@@ -56,11 +56,11 @@
                 <el-form-item label="总张数" v-if="showfree" :prop="free_limit">
                     <el-input v-model="addFormPark.free_limit" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="固定码有效期" :prop="validite_time">
-                    <el-input v-model="addFormPark.validite_time" style="width:90%" placeholder=""></el-input>
+                <el-form-item label="固定码有效期" prop="validite_time">
+                    <el-input v-model="addFormPark.validite_time" style="width:90%" placeholder="单位为小时"></el-input>
                 </el-form-item>
                  <el-form-item label="状态" >
-                    <el-select v-model="addFormPark.state" style="width:90%">
+                    <el-select v-model="state" style="width:90%">
                         <el-option
                                 v-for="item in stateList"
                                 :label="item.value_name"
@@ -105,12 +105,18 @@
 
                 showCode:true,
                 hideAdd: true,
-                addFormPark: {},
+
+                addFormPark: {
+                    validite_time:24,
+                    amount_limit:'',
+                    free_limit:'',
+                },
                 showRegisPark: false,
                 showCustomizeAdd:true,
 
                 showamount:true,
                 showfree:true,
+                state:'可用',
                 reducetype:'减免券',
                 reduceType:[
                     { 'value_name': '减免券','value_no': 1},
@@ -118,8 +124,8 @@
 
                 ],
                 stateList :[
-                     {'value_no': 0, 'value_name': '可用'},
-                     {'value_no': 1, 'value_name': '不可用'},
+                     {'value_name': '可用','value_no': 0},
+                     {'value_name': '不可用','value_no': 1},
                  ],
 
                 hideTool: false,
@@ -142,6 +148,7 @@
                                editable: false,
                                searchable: true,
                                addable: true,
+                               hidden:'',
                                unsortable: true,
                                align: 'center',
                            },
@@ -157,6 +164,7 @@
                               editable: false,
                               searchable: true,
                               addable: true,
+                              hidden:'',
                               unsortable: true,
                               align: 'center',
                           },
@@ -190,13 +198,14 @@
                               searchable: false,
                               addable: true,
                               unsortable: true,
-                              hidden: true,
+                              hidden: "333",
                               align: 'center',
                           }]
                       },
                        {
 
                          hasSubs: false,
+
                          subs: [{
                              label: '状态',
                              prop: 'state',
@@ -241,7 +250,9 @@
                 addtitle:"添加",
 
 
-                //time_limit:"time_limit",
+
+                //validite_time:'24小时',
+
                 amount_limit:"amount_limit",
                 free_limit:"free_limit",
                 validite_time:"validite_time",
@@ -333,20 +344,51 @@
                 //sform.roleid = common.attachParams('loginroleid', 1);
                 sform.shopid = common.attachParams('shopid', 1);
                 sform.type = this.reducetype;
+                sform.state = this.state;
                 return sform;
             },
+            getShopAccountInfo(){
+                  let vm = this;
+                  vm.$axios.post(path+"/shopaccount/shopinfo?id="+sessionStorage.getItem('shopid'),{
+                      headers: {
+                          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                      }
+                  }).then(function (response) {
+                    let ret = response.data;
+                    //var ret = eval('('+result+')')
+                    //vm.account=ret;
+
+                    //vm.shopname=ret.name
+                    if(ret.ticket_unit==1||ret.ticket_unit==2||ret.ticket_unit==3){
+                        //时长
+                        //alert('nihao');
+                        //alert(vm.tableitems[3].subs[0].hidden)
+                        vm.tableitems[1].subs[0].hidden = "true";
+                        //alert('nihuai');
+                    }
+
+                    else if(ret.ticket_unit==4){
+                        //金额  隐藏剩余时长
+                        vm.tableitems[0].subs[0].hidden = "true";
+                     }
+
+                  });
+                },
         },
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
+            //this.addFormPark.validite_time=24;
         },
         activated() {
+            this.getShopAccountInfo()
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
+            this.addFormPark.validite_time=24;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
         },

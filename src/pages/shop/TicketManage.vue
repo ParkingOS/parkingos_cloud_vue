@@ -63,6 +63,7 @@
                             editable: true,
                             searchable: true,
                             addable: true,
+                            hidden:'',
                             unsortable: true,
                             align: 'center',
                             format:function(row){
@@ -85,6 +86,7 @@
                             prop: 'umoney',
                             width: '180',
                             type: 'number',
+                            hidden:'',
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -186,6 +188,34 @@
 
             }
         },
+        methods:{
+            getShopAccountInfo(){
+              let vm = this;
+              vm.$axios.post(path+"/shopaccount/shopinfo?id="+sessionStorage.getItem('shopid'),{
+                  headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                  }
+              }).then(function (response) {
+                let ret = response.data;
+                //var ret = eval('('+result+')')
+                //vm.account=ret;
+
+                //vm.shopname=ret.name
+                if(ret.ticket_unit==1||ret.ticket_unit==2||ret.ticket_unit==3){
+                    //时长
+
+                    vm.tableitems[1].subs[0].hidden = "true";
+                    //alert('nihuai');
+                }
+
+                else if(ret.ticket_unit==4){
+                    //金额  隐藏剩余时长
+                    vm.tableitems[0].subs[0].hidden = "true";
+                 }
+
+              });
+            },
+        },
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
@@ -193,6 +223,7 @@
             this.tableheight = common.gwh() - 143;
         },
         activated() {
+            this.getShopAccountInfo()
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
             }
