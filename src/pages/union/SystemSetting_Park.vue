@@ -440,6 +440,20 @@
                     {
                         hasSubs: false, subs: [
                             {
+                                label: '余位数',
+                                prop: 'empty',
+                                width: '100',
+                                type: 'number',
+                                addable: false,
+                                searchable: false,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
                                 label: '入场方式',
                                 prop: 'etc',
                                 width: '100',
@@ -499,7 +513,45 @@
                     //         },
                     //     ]
                     // },
+
                     {
+                        hasSubs: false, subs: [
+                            {
+                                label: '更新时间',
+                                prop: 'beat_time',
+                                width: '180',
+                                type: 'date',
+
+                                searchable: false,
+                                addable: false,
+                                unsortable: false,
+                                align: 'center',
+                                format: function (row) {
+                                    return common.dateformat(row.beat_time);
+                                }
+                            },
+                        ]
+                    },
+
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '创建时间',
+                                prop: 'create_time',
+                                width: '180',
+                                type: 'date',
+
+                                searchable: true,
+                                addable: true,
+                                unsortable: false,
+                                align: 'center',
+                                format: function (row) {
+                                    return common.dateformat(row.create_time);
+                                }
+                            },
+                        ]
+                    },
+                     {
                         hasSubs: false, subs: [
                             {
                                 label: '地址',
@@ -525,42 +577,6 @@
                         ]
                     },
 
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '创建时间',
-                                prop: 'create_time',
-                                width: '180',
-                                type: 'date',
-
-                                searchable: true,
-                                addable: true,
-                                unsortable: false,
-                                align: 'center',
-                                format: function (row) {
-                                    return common.dateformat(row.create_time);
-                                }
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '更新时间',
-                                prop: 'update_time',
-                                width: '180',
-                                type: 'date',
-                                searchable: true,
-
-                                unsortable: false,
-                                align: 'center',
-                                format: function (row) {
-                                    return common.dateformat(row.update_time);
-                                }
-                            },
-
-                        ]
-                    },
                     {
                         hasSubs: false, subs: [
                             {
