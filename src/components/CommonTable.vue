@@ -1664,7 +1664,7 @@
                     this.searchDate = input;
                     this.sform.date = this.searchDate;
                     this.currentdate = input;
-                    let date = {'date': input, 'out_uid': this.currentcollect, 'comid_start': this.currentpark};
+                    let date = {'date': input, 'out_uid': this.currentcollect, 'comid_start': this.currentpark, 'operate_type':this.currentoperate};
                     this.searchDate = input;
                     this.currentPage = 1;
                     this.getTableData(date);
