@@ -4,7 +4,7 @@
     <article class="app-content-container">
       <app-content></app-content>
     </article>
-    <footer><a href="https://github.com/ParkingOS/parkingos_cloud_vue">@bolink-inc</a> 深圳泊链科技有限公司</footer>
+    <footer></footer>
   </div>
 </template>
 
