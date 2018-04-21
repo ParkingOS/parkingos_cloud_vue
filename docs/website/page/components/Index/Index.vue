@@ -3,7 +3,7 @@
     <section class="banner">
       <content class="particles">
         <div class="mask" id="particles-js"></div>
-        <p class="title">parkingOS停车云</p>
+        <p class="title">parkingOS</p>
         <p class="subtitle">parkingOS开源云平台，助力您完成停车无人化</p>
         <div class="button-group">
           <!-- <router-link to="/basics/quickstart" class="button-start">快速开始</router-link> -->
