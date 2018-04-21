@@ -232,7 +232,7 @@
                 scrollBoxInCar:false,
                 scrollBoxOutCar:false,
                 scrollBoxOutCarHeight: 240,
-                scrollBoxInCarHeight: 0,
+                scrollBoxInCarHeight: 96,
                 scrollBoxException:false,
                 scrollBoxExceptionHeight: 0,
                 animate: false,//用于循环滚动在/出场车辆列表
@@ -653,12 +653,7 @@
         computed: {},
         watch: {},
         created() {
-            this.containStyle = 'height: ' + (common.gwh() - 60) + 'px;overflow-y: auto;';
-            this.flexStyle4 = 'height: ' + ((common.gwh() - 60) / 4 - 20) + 'px;overflow-y: auto;';
-            this.flexStyle3 = 'height: ' + ((common.gwh() - 60) / 3) + 'px;overflow-y: auto;';
-            this.flexStyle33 = 'height: ' + ((common.gwh() - 60) / 3 - 45) + 'px;overflow-y: auto;';
-            this.flexStyle2 = 'height: ' + ((common.gwh() - 60) / 2 - 70) + 'px;overflow-y: auto;';
-            this.flexStyle22 = 'height: ' + ((common.gwh() - 60) / 2 - 100) + 'px;overflow-y: auto;';
+
         },
         deactivated() {
 
@@ -667,12 +662,6 @@
 
 </script>
 
-<style >
-.data-sec {
-    width: 100%;
-    background-color: #393a3e;
-    color: #ffffff;
-    border-radius: 2px;
-    padding-bottom: 20px;
-}
+<style lang="scss" src="../../styles/Home.scss" scoped>
+
 </style>

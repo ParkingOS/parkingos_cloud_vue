@@ -63,9 +63,9 @@
             <div style="flex: 2;width: 0;display:flex ;flex-direction: column">
                 <!--<div style="flex: 1;padding: 80px 10px 10px 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;align-items: center;">-->
                 <div :style="rollstyle">
-                    <div class="data-box cart-box" style="background-color: white;" ref="scrollBox">
-                        <div class="title" style="width: 100%;background-color: #393a3e;">入场车辆</div>
-                        <div style="background: white;color: black;padding:5px;overflow: hidden;">
+                    <div class="data-box cart-box" ref="scrollBox">
+                        <div class="title" style="width: 100%;">入场车辆</div>
+                        <div style="background-color: white;color: black;padding:5px;overflow: hidden;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;flex-align:center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">车场名称</span>
                                 <span style="flex: 1;text-align: center;">时间</span>
@@ -95,9 +95,9 @@
                           </div>
                         </div>
                     </div>
-                    <div class="data-box cart-box" style="background-color: white;">
-                        <div class="title" style="width: 100%;background-color: #393a3e;">出场车辆</div>
-                        <div style="background: white;color: black;padding:5px;">
+                    <div class="data-box cart-box" >
+                        <div class="title" >出场车辆</div>
+                        <div style="background-color: white;color: black;padding:5px;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;flex-align:center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 2;text-align: center;">车场名称</span>
                                 <span style="flex: 1;text-align: center;">时间</span>
@@ -233,7 +233,7 @@
                 scrollBoxInCar:false,
                 scrollBoxOutCar:false,
                 scrollBoxOutCarHeight: 240,
-                scrollBoxInCarHeight: 0,
+                scrollBoxInCarHeight: 240,
                 scrollBoxException:false,
                 scrollBoxExceptionHeight: 0,
                 animate: false,//用于循环滚动在/出场车辆列表
@@ -678,32 +678,17 @@
         watch: {},
         created() {
             this.containStyle = 'height: ' + (common.gwh() - 60) + 'px;overflow-y: auto;';
-            this.flexStyle4 = 'height: ' + ((common.gwh() - 60) / 4 - 20) + 'px;overflow-y: auto;';
-            this.flexStyle3 = 'height: ' + ((common.gwh() - 60) / 3) + 'px;overflow-y: auto;';
-            this.flexStyle33 = 'height: ' + ((common.gwh() - 60) / 3 - 45) + 'px;overflow-y: auto;';
-            this.flexStyle2 = 'height: ' + ((common.gwh() - 60) / 2 - 70) + 'px;overflow-y: auto;';
-            this.flexStyle22 = 'height: ' + ((common.gwh() - 60) / 2 - 100) + 'px;overflow-y: auto;';
+
         },
         deactivated() {
-            // console.log("我已经离开了！");
-            clearInterval(this.transInteval);
-            clearInterval(this.transInteval2);
-            clearInterval(this.transInteval3);
-            clearInterval(this.dataInteval);
         }
     };
 
 </script>
 
-<style >
+<style lang="scss" src="../../styles/Home.scss" scoped>
 
-    .data-sec {
-        width: 100%;
-        background-color: #393a3e;
-        color: #ffffff;
-        border-radius: 2px;
-        padding-bottom: 20px;
-    }
 
-  
+
+
 </style>

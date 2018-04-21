@@ -201,3 +201,13 @@
 .logout-button:hover{
   background-color: $--parkingos-sidemenu-background-9;
 }
+.data-sec {
+    width: 100%;
+    background-color: $--parkingos-datacenter-background;
+    color: #ffffff;
+    border-radius: 2px;
+    padding-bottom: 20px;
+    .title {
+        background-color: $--parkingos-datacenter-background;
+    }
+}
