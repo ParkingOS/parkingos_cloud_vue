@@ -5,15 +5,15 @@ const webpack = require('webpack')
 
 module.exports = {
   entry: {
-    'hera-website/js/index': path.resolve(
+    'js/index': path.resolve(
       path.resolve(path.resolve(__dirname), '../page'),
       './index.js'
     )
   },
   output: {
-    path: path.resolve(path.resolve(__dirname), '../../../temp'),
+    path: path.resolve(path.resolve(__dirname), '../../'),
     filename: '[name].[hash:8].js',
-    chunkFilename: 'hera-website/js/[name].[hash:8].js'
+    chunkFilename: 'js/[name].[hash:8].js'
   },
   module: {
     rules: [
@@ -61,7 +61,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|svg)(\?t=\d+)?$/,
         loaders: [
           {
-            loader: 'url-loader?limit=8192&name=hera-website/assets/[name]-[hash].[ext]'
+            loader: 'url-loader?limit=8192&name=assets/[name]-[hash].[ext]'
           }
         ]
       }
