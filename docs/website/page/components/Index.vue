@@ -4,7 +4,7 @@
     <article class="app-content-container">
       <app-content></app-content>
     </article>
-    <footer></footer>
+    <footer>@parkingOS</footer>
   </div>
 </template>
 
