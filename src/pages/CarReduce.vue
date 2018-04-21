@@ -1,17 +1,17 @@
 <template>
   <section style="padding: 100px;">
 
- <el-row class="align-center" style="margin-left: 22%;">
+    <el-row class="align-center" style="margin-left: 28%;">
             <span style="font-size:20px">车牌减免</span>
         </el-row>
         </br></br></br>
-            <div style="margin-left:35%" >
+            <div style="margin-left:39%" >
                 <el-form :model="carNumReduce" ref="carNumReduce" :rules="carNumberRules">
                     <el-form-item prop="reduce">
-                        <el-input v-model="carNumReduce.reduce" style="width:35%" placeholder="输入优惠时长"></el-input>
+                        <el-input v-model="carNumReduce.reduce" style="width:35%" placeholder="输入减免额度"></el-input>
                     </el-form-item>
                     <el-form-item prop="car_number">
-                        <el-input v-model="carNumReduce.car_number" style="width:35%" placeholder="输入车牌号"></el-input>
+                        <el-input v-model="carNumReduce.car_number" v-on:input ="changeCarNumber"  style="width:35%" placeholder="输入车牌号"></el-input>
                     </el-form-item>
                     <el-form-item class="right">
                         <el-button @click="useTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
@@ -151,7 +151,10 @@ export default {
     //alert('2222')
   },
   methods: {
-
+     changeCarNumber(){
+       // alert(this.carNumReduce.car_number)
+        this.carNumReduce.car_number =  this.carNumReduce.car_number.toUpperCase();
+     },
      handleCodeReduce() {
         //跳转到订单详情
         window.open("http://localhost:8086/#/code_reduce");

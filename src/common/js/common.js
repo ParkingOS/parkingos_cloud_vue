@@ -447,7 +447,7 @@ export default {
     saveShopMember(obj) {
         return axios.get(path + '/shopmember/create' + '?token=' + sessionStorage.getItem('token')
             + '&shop_id=' + obj.shop_id + '&comid=' + obj.comid
-            + '&nickname=' + obj.nickname + '&phone=' + obj.phone
+            + '&nickname=' + encodeURI(encodeURI(obj.nickname)) + '&phone=' + obj.phone
             + '&mobile=' + obj.mobile + '&auth_flag=' + obj.auth_flag
             + '&userId=' + obj.userId);
     },

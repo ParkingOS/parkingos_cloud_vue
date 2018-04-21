@@ -205,8 +205,8 @@
 
                 //console.log(cpath)
                 var options = this.$router.options.routes;
-                // this.highlightindex = a;
-                this.expandindex = a.split('_')[0];
+                 this.highlightindex = a;
+                //this.expandindex = a.split('_')[0];
                 // console.log('>>>' + a)
                 // console.log('>>>' + a.split('_')[0])
                 this.$router.push(a);

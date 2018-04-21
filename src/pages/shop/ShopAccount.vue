@@ -28,7 +28,7 @@
        <el-col :span="12" >
            <el-card class="box-card" style="height:180px">
              <div>
-               <div>全免券:</div>
+               <div><span  style="font-size:20px">全免券:</span></div>
                <div style="text-align:center;margin-top:45px;color:#9B9EA0;font-size:22px;font-weight:bold;">{{ticketfree_limit+'张'}}</div>
              </div>
            </el-card>
@@ -709,14 +709,14 @@ export default {
                             vm.$message({
                                 message: '更新成功!',
                                 type: 'success',
-                                duration: 600
+                                duration: 1000
                             });
                         } else {
                             //更新失败
                             vm.$message({
                                 message: '更新失败!' + ret.msg,
                                 type: 'error',
-                                duration: 600
+                                duration: 2000
                             });
                         }
                          vm.loading = false;
@@ -735,6 +735,7 @@ export default {
         eform = common.generateForm(eform);
         vm.$refs.infoModify.validate((valid) => {
             if (valid) {
+
                 vm.infoloading = true;
                 vm.$axios.post(path + "/shopaccount/infoedit", vm.$qs.stringify(eform), {
                     headers: {
@@ -749,14 +750,14 @@ export default {
                             vm.$message({
                                 message: '更新成功!',
                                 type: 'success',
-                                duration: 600
+                                duration: 1000
                             });
                         } else {
                             //更新失败
                             vm.$message({
                                 message: '更新失败!' + ret.msg,
                                 type: 'error',
-                                duration: 600
+                                duration: 2000
                             });
                         }
                          vm.infoloading = false;

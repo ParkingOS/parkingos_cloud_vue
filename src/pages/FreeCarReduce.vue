@@ -1,18 +1,18 @@
 <template>
   <section style="padding: 100px;">
 
- <el-row class="align-center" style="margin-left: 22%;">
+ <el-row class="align-center" style="margin-left: 28.5%;">
             <span style="font-size:20px">车牌全免</span>
         </el-row>
         </br></br></br>
 
-            <div style="margin-left:35%" >
+            <div style="margin-left:39%" >
                 <el-form :model="freecarNumReduce" ref="freecarNumReduce" :rules="carNumberRules">
                     <el-form-item prop="reduce">
                         <el-input v-model="freecarNumReduce.reduce" style="width:35%" placeholder="全免券" disabled></el-input>
                     </el-form-item>
                     <el-form-item prop="car_number">
-                        <el-input v-model="freecarNumReduce.car_number" style="width:35%" placeholder="输入车牌号"></el-input>
+                        <el-input v-model="freecarNumReduce.car_number" v-on:input="changeCarNumber" style="width:35%" placeholder="输入车牌号"></el-input>
                     </el-form-item>
                     <el-form-item class="right">
                         <el-button @click="freeuseTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
@@ -146,6 +146,11 @@ export default {
 
   },
   methods: {
+
+     changeCarNumber(){
+       // alert(this.carNumReduce.car_number)
+        this.freecarNumReduce.car_number =  this.freecarNumReduce.car_number.toUpperCase();
+     },
 
      handleCodeReduce() {
         //跳转到订单详情

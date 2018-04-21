@@ -20,7 +20,7 @@
 
 
      <div  class="align-center" style="margin-left: 20%;padding: 20px;">
-       <el-checkbox id="box" v-model="freeCodeReduce.isauto" :disabled=checkisdisable ></el-checkbox>
+       <el-checkbox id="box" v-model="freeCodeReduce.isauto" :disabled="checkisdisable" ></el-checkbox>
        <span>自动更新</span>
      </div>
              	

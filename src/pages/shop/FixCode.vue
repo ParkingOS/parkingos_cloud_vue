@@ -39,6 +39,9 @@
             <el-form ref="addFormPark" label-width="120px" style="margin-bottom:-30px"
                      :model="addFormPark" :rules="addFormRules">
 
+                  <el-form-item label="名称"  :prop="name">
+                     <el-input v-model="addFormPark.name" style="width:90%" placeholder=""></el-input>
+                 </el-form-item>
 
                  <el-form-item label="减免类型">
                     <el-select v-model="reducetype" style="width:90%">
@@ -138,6 +141,54 @@
                 href:'https://www.baidu.com/s?wd=node-pre-gyp+install+--fallback-to-build&ie=UTF-8&tn=39042058_20_oem_dg',
                 fieldsstr: 'id__park_id__operate_time__ticketfree_limit__ticket_limit__ticket_money__operate_type__add_money',
                 tableitems: [
+                 {
+                       hasSubs: false, subs: [
+                           {
+                               label: '名称',
+                               prop: 'name',
+                               width: '123',
+                               type: 'str',
+                               editable: false,
+                               searchable: true,
+                               addable: true,
+                               hidden:'',
+                               unsortable: true,
+                               align: 'center',
+                           },
+                       ]
+                   },
+                   {
+                       hasSubs: false,
+                       subs: [{
+                           label: '创建日期',
+                           prop: 'create_time',
+                           width: '180',
+                           type: 'date',
+                           editable: false,
+                           searchable: true,
+                           addable: true,
+                           unsortable: true,
+                           align: 'center',
+                           format: function (row) {
+                               return common.dateformat(row.create_time)
+                           }
+                       }]
+                   },
+                   {
+                         hasSubs: false,
+                         subs: [{
+                             label: '有效期/小时',
+                             prop: 'validite_time',
+                             width: '180',
+                             type: 'str',
+                             editable: false,
+                             searchable: false,
+                             addable: true,
+                             unsortable: true,
+                             hidden: "",
+                             align: 'center',
+                         }]
+                     },
                    {
                        hasSubs: false, subs: [
                            {
@@ -170,7 +221,7 @@
                           },
                       ]
                   },
-                        {
+                    {
                        hasSubs: false, subs: [
                            {
                                label: '剩余张数',
@@ -184,24 +235,7 @@
                                align: 'center',
                            },
                        ]
-                       },
-
-                       {
-
-                          hasSubs: false,
-                          subs: [{
-                              label: '有效期',
-                              prop: 'limit',
-                              width: '180',
-                              type: 'str',
-                              editable: false,
-                              searchable: false,
-                              addable: true,
-                              unsortable: true,
-                              hidden: "333",
-                              align: 'center',
-                          }]
-                      },
+                   },
                        {
 
                          hasSubs: false,
@@ -251,14 +285,15 @@
 
 
 
-                //validite_time:'24小时',
-
                 amount_limit:"amount_limit",
                 free_limit:"free_limit",
                 validite_time:"validite_time",
+                name:"name",
 
                 addFormRules: {
-
+                    name: [
+                        {required: true, message: '请输入固定码名称', trigger: 'blur'}
+                    ],
                     amount_limit: [
                         {required: true, message: '请输入总额度', trigger: 'blur'}
                     ],
@@ -364,13 +399,13 @@
                         //时长
                         //alert('nihao');
                         //alert(vm.tableitems[3].subs[0].hidden)
-                        vm.tableitems[1].subs[0].hidden = "true";
+                        vm.tableitems[4].subs[0].hidden = "true";
                         //alert('nihuai');
                     }
 
                     else if(ret.ticket_unit==4){
                         //金额  隐藏剩余时长
-                        vm.tableitems[0].subs[0].hidden = "true";
+                        vm.tableitems[3].subs[0].hidden = "true";
                      }
 
                   });
@@ -381,7 +416,6 @@
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
-            //this.addFormPark.validite_time=24;
         },
         activated() {
             this.getShopAccountInfo()
@@ -399,13 +433,14 @@
 
                     this.showamount = false;
                     this.showfree = false;
-
+                    this.addFormPark.validite_time='24';
                     this.showamount = true;
                     this.showfree = true;
+
                 }else{//全免
                     this.showamount = false;
                     this.showfree = false;
-
+                    this.addFormPark.validite_time='24'
                     this.showfree = true;
                 }
             }
