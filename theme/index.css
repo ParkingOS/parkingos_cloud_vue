@@ -7104,7 +7104,7 @@
     color: #909399; }
   .el-menu-item:hover, .el-menu-item:focus {
     outline: none;
-    background-color: #2d3a4b; }
+    background-color: #434A50; }
   .el-menu-item.is-disabled {
     opacity: 0.25;
     cursor: not-allowed;
@@ -7144,13 +7144,13 @@
       color: #909399; }
     .el-submenu__title:hover, .el-submenu__title:focus {
       outline: none;
-      background-color: #2d3a4b; }
+      background-color: #434A50; }
     .el-submenu__title.is-disabled {
       opacity: 0.25;
       cursor: not-allowed;
       background: none !important; }
     .el-submenu__title:hover {
-      background-color: #2d3a4b; }
+      background-color: #434A50; }
   .el-submenu .el-menu {
     border: none; }
   .el-submenu .el-menu-item {
