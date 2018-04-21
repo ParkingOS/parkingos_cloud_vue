@@ -16,8 +16,8 @@
                     {{sysUserName}}
                 </div>
                 <el-menu
-                        style="height:50px;width: 100px;float: right;background-color:#2d3a4b;border-right: solid 0px #e6e6e6;"
-                        @select="selectTop">
+                        style="height:50px;width: 100px;float: right;border-right: solid 0px #e6e6e6;"
+                        @select="selectTop" class="logout-button">
                     <el-menu-item index="/loginCloud" style="height:50px;"><span
                             style="color:#fff;font-size:13px;float: right;height:50px;color: #109EFF">退出登录</span>
                         <!--<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>-->
@@ -45,7 +45,7 @@
                          @close="handleclose"
                          @select="handleselect"
                          unique-opened
-                         background-color="#545c64" text-color="#fff" active-text-color="#109EFF"
+                          text-color="#fff" active-text-color="#109EFF"
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 

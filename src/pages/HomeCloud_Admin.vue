@@ -43,11 +43,11 @@
                 <el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button">
                     <i class="menu-icon icon iconfont icon-menuopen"></i>
                 </el-button>
-                <el-menu class="el-menu-vertical-demo" @open="handleopen"
+                <el-menu class="el-menu-vertical-demo el-parkingos-menu" @open="handleopen"
                          @close="handleclose"
                          @select="handleselect"
                          unique-opened
-                         background-color="#545c64" text-color="#fff" active-text-color="#109EFF"
+                          text-color="#fff" active-text-color="#109EFF"
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 
@@ -286,5 +286,7 @@
 
 </script>
 <style lang="scss" src="../styles/Home.scss" scoped>
-
+  el-menu {
+    background-color: $--parkingos-sidemenu-background;
+  }
 </style>

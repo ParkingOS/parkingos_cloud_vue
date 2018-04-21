@@ -47,7 +47,7 @@
                          @close="handleclose"
                          @select="handleselect"
                          unique-opened
-                         background-color="#545c64" text-color="#fff" active-text-color="#109EFF"
+                         text-color="#fff" active-text-color="#109EFF"
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 

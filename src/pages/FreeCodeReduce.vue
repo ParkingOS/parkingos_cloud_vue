@@ -23,7 +23,7 @@
        <el-checkbox id="box" v-model="freeCodeReduce.isauto" :disabled="checkisdisable" ></el-checkbox>
        <span>自动更新</span>
      </div>
-             	
+
        <el-row  class="align-center" style="margin-left: 25%;">
                     <el-col :span="23" :offset="1" align="middle" style="margin-top: 10px;margin-bottom:5px">
                         <!--二维码图片:-->
@@ -47,11 +47,11 @@
                     </el-col>
                 </el-row>
             </el-row>
-           
+
 	</el-dialog>
 
 
-    
+
 
 
   </section>
@@ -80,7 +80,7 @@ export default {
       setupVisible:false,
       freeCarNumberVisible:false,
       addloading:false,
-     
+
       codeReduce:{
         reduce:'',
         isauto:false,
@@ -205,9 +205,9 @@ export default {
 				location=this.qrsrc
 			},
     	genqr(url){
-    		
+
 //  		console.log('111111111111111111111'+text)
-    		
+
 				var canvas = document.getElementById('canvas')
 				//console.log(canvas)
 				this.QRCode.toCanvas(canvas, url,{ errorCorrectionLevel: 'H' }, function (error) {
@@ -221,17 +221,17 @@ export default {
 				//console.log(canvas.width)
 				var context=canvas.getContext('2d');
            		var imageData = context.getImageData(0,0,canvas.width,canvas.height);
-				
+
 				var img = document.getElementById("freeimg");
 				img.width=canvas.width
 				img.height=canvas.height
 				var context2 = img.getContext('2d');
 				context2.fillStyle="white";
-				context2.fillRect(0,0,canvas.width,(canvas.height)); 
+				context2.fillRect(0,0,canvas.width,(canvas.height));
 				context2.putImageData(imageData,0,0);
 				context2.font="bold 10px 微软雅黑"
 				context2.fillStyle="black"
-				
+
 				var url = img.toDataURL("image/png");
 				console.log(url+'---------------------------')
 				this.qrsrc = url
@@ -274,13 +274,13 @@ export default {
             //				var triggerDownload = this.download.eval("href", url).eval("download", filename);
                				//triggerDownload[0].click();
             			},
-    randomNum(n){ 
-				var t=''; 
-				for(var i=0;i<n;i++){ 
-				t+=Math.floor(Math.random()*10); 
-				} 
-				return t; 
-			} , 
+    randomNum(n){
+				var t='';
+				for(var i=0;i<n;i++){
+				t+=Math.floor(Math.random()*10);
+				}
+				return t;
+			} ,
     cycleinputFunc(){
      var vm=this;
      vm.moneyisdisable = false
@@ -299,7 +299,7 @@ export default {
 
          }
         },
-    
+
     getCodeStatus(){
          let vm = this;
         vm.$axios.post(path+"/shopticket/ifchangecode?code="+vm.code,{

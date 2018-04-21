@@ -1,4 +1,5 @@
-$bg: #2d3a4b; //#008F4C; //#324157;//#0080dd;//#35495E;//#1F2D3D
+
+@import "element-variables.scss";
 .container {
   position: absolute;
   top: 0px;
@@ -9,7 +10,7 @@ $bg: #2d3a4b; //#008F4C; //#324157;//#0080dd;//#35495E;//#1F2D3D
     height: 50px;
     line-height: 50px;
 
-    background: $bg;
+    background: $--parkingos-header-background;
     color: #fff;
     .userinfo {
       text-align: right;
@@ -192,4 +193,11 @@ $bg: #2d3a4b; //#008F4C; //#324157;//#0080dd;//#35495E;//#1F2D3D
   /*收起、展开按钮样式*/
   width: 179px;
   min-height: 32px
+}
+
+.logout-button{
+  background-color: $--parkingos-header-background;
+}
+.logout-button:hover{
+  background-color: $--parkingos-sidemenu-background-9;
 }
