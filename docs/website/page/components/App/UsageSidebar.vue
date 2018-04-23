@@ -77,6 +77,10 @@ export default {
           en: 'db',
           zh: '数据库表结构',
         },
+        {
+          en: 'dev',
+          zh: '二次开发',
+        },
       ],
 
 

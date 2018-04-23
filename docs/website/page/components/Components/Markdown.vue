@@ -12,7 +12,7 @@ import frontend from '../../../../zh-cn/quick/frontend.md';
 import be from '../../../../zh-cn/desc/backend.md';
 import fe from '../../../../zh-cn/desc/frontend.md';
 import db from '../../../../zh-cn/desc/db.md';
-
+import dev from '../../../../zh-cn/desc/dev.md';
 
 
 
@@ -25,6 +25,7 @@ const mdList = {
   'be': be,
   'fe': fe,
   'db': db,
+  'dev': dev,
 };
 
 export default {
