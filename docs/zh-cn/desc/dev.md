@@ -167,7 +167,7 @@ parkingos云平台的logo和导航图标也是可以定制的。
 logo和图标都是用iconfont来实现的，推荐使用
 阿里的<a href="http://www.iconfont.cn/">iconfont</a>平台来进行定制.
 我们的iconfont名字命名如下图所示：
-<img src="assets/iconfont.png" >
+<img src="assets/iconfont-demo.png" >
 
 在iconfont平台上新建项目，然后新建上面13个icon(命名要一样)，
 然后点击下载到本地，解压。然后将里面的：
