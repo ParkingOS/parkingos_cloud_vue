@@ -49,10 +49,10 @@ $--color-text-placeholder: #c0c4cc !default;
 /* parkingOS
 --------------------------*/
 
-$--parkingos-header-background: #2d3a4b;
-$--parkingos-sidemenu-background: #545c64;
+$--parkingos-header-background: #2d3a4b !default;
+$--parkingos-sidemenu-background: #545c64 !default;
 $--parkingos-sidemenu-background-9: #434A50 !default; /* ecf5ff */
-$--parkingos-datacenter-background: #393a3e;
+$--parkingos-datacenter-background: #393a3e !default;
 /* Link
 -------------------------- */
 $--link-color: $--color-primary-light-2 !default;
