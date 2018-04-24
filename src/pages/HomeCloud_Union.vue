@@ -224,7 +224,7 @@
                 // console.log(b)
                 // console.log(this.$router)
                 if (a == 'centerMonitor') {
-                    let routetocm = 'http://test.bolink.club/tcbcloud/monitor.do?loginuin=' + sessionStorage.getItem('loginuin');
+                    let routetocm = 'http://yun.bolink.club/tcbcloud/monitor.do?loginuin=' + sessionStorage.getItem('loginuin');
                     let comid = sessionStorage.getItem('comid');
                     let groupid = sessionStorage.getItem('groupid');
                     if (comid != '' && comid != 'undefined') {
