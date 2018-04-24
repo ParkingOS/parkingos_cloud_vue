@@ -66,21 +66,7 @@
                 btswidth: '100',
                 fieldsstr: 'id__liftrod_id__ctime__uin__out_channel_id__reason__resume__url',
                 tableitems: [
-                    {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '编号',
-                            prop: 'id',
-                            width: '100',
-                            type: 'number',
-
-                            searchable: true,
-
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
+                  {
 
                         hasSubs: false,
                         subs: [{
@@ -272,4 +258,3 @@
         display: none
     }
 </style>
-

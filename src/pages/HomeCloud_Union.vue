@@ -4,7 +4,7 @@
             <el-col :span="17">
                 <div style="display:flex">
                     <div style="width:40px;height:40px;margin-left: 20px;">
-                        <i style="width:40px;height:40px;font-size:40px" class="icon iconfont icon-park"></i>
+                        <i style="width:40px;height:40px;font-size:40px" class=" icon iconfont icon-park"></i>
                     </div>
                     <div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">
                         智慧停车云
