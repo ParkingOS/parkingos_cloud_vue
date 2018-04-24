@@ -543,7 +543,7 @@
             showrefill: function (index, row) {
                 this.currentIndex = index;
                 this.currentRow = row;
-                this.showRefill = true;
+                this.refillForm.p_name ='';
                 let now = new Date().getTime();
                 let endtime = row.e_time;
                 this.refillForm.remark = '云平台续费';
@@ -556,10 +556,12 @@
                 for (let item of this.pname) {
                     if (row.pid == item.value_no) {
                         this.refillForm.p_name = item.value_name;
+                        this.showRefill = true;
                         this.readonly = true;
                         return;
                     }
                 }
+                this.showRefill = true;
                 //如果当前套餐在套餐列表中，则应收是readonly
                 //当前套餐不存在，则应收可以自由填写
                 this.readonly = false;
@@ -608,6 +610,10 @@
                     // console.log(valid)
                     console.log(_this.refillForm);
                     if (valid) {
+                       // console.log('开始的开始时间~~~~~~~~'+_this.currentRow.e_time)
+                        //console.log('当前时间~~~~~~~~'+new Date().valueOf()/1000)
+                        _this.currentRow.e_time=_this.currentRow.e_time>new Date().valueOf()/1000?_this.currentRow.e_time:new Date().valueOf()/1000
+                        //console.log('开始时间~~~~~~~~'+_this.currentRow.e_time)
                         _this.resetloading = true;
                         axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))))])
                             .then(axios.spread(function (ret) {

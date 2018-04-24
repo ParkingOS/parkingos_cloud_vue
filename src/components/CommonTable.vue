@@ -777,7 +777,7 @@
         methods: {
             //刷新页面
             refresh() {
-                if (this.showdateSelector||this.showdateSelector10||this.showdateSelector22) {
+                if (this.showdateSelector) {
                     //this.$extend(this.sform,{'date':this.datesselector})
                     this.sform.date = this.searchDate;
                     if (this.sform.date == '') {
