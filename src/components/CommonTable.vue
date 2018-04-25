@@ -1,5 +1,67 @@
 <template>
     <section>
+        <!--工具条 2018/4/23-->
+        <el-form :inline="true" v-if='hideLift' :model="formInline" class="demo-form-inline">
+            <el-form-item label="">
+                <el-date-picker
+                        v-model="datesselector"
+                        type="datetimerange"
+                        align="right"
+                        unlink-panels
+                        range-separator="至"
+                        :start-placeholder="start_placeholder"
+                        :end-placeholder="end_placeholder"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        :picker-options="pickerOptions2"
+                        @change="changeParkTime"
+                        :default-time="['00:00:00', '23:59:59']">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item label="收费员:">
+                <el-select v-model="formInline.name" placeholder="全部"
+                           style="float: left;margin-right: 30px;">
+                    <el-option
+                            v-for="item in parentSf"
+                            :key="item.value_no"
+                            :label="item.value_name"
+                            :value="item.value_no">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
+                <el-button @click="search(formInline,datesselector)" icon="search" type="primary">搜索
+                </el-button>
+                <el-button type="primary" @click="handleExport" v-if="!hideExport">导出
+                </el-button>
+            </el-form-item>
+            <el-button @click="changeParkText" type="text" v-if="showParkInfo" style="color: #109EFF;">
+                {{parkText}}
+            </el-button>
+            <el-col :span="2" align="right" style="float: right">
+                <!--<span style="color:red;font-size:8px">提示:刷新后会重置高级查询</span>-->
+                <!--<el-button @click="reset" type="primary" size="small">清空高级查询</el-button>-->
+                <el-button @click="refresh" type="text">刷新&nbsp;&nbsp;</el-button>
+            </el-col>
+            <div :style="parkExpanStyle">
+                <el-form-item label="抬杆编号:">
+                    <el-input v-model="formInline.number" placeholder="抬杆编号"></el-input>
+                </el-form-item>
+                <el-form-item label="通道:">
+                    <el-input v-model="formInline.channel"  placeholder="通道"></el-input>
+                </el-form-item>
+                <el-form-item label="抬杆原因:">
+                    <el-select  v-model="formInline.cause"  placeholder="全部">
+                        <el-option
+                                v-for="item in parentMsg"
+                                :key="item.value_no"
+                                :label="item.value_name"
+                                :value="item.value_no">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </div>
+        </el-form>
+
         <!--工具条-->
         <el-row style="margin-bottom:8px" v-if="!hideTool">
             <el-col :span="24" align="left">
@@ -357,33 +419,25 @@
             </el-table-column>
 
             <el-table-column
+                    v-if="!indexHide"
                     align="center"
                     type="index"
                     width="83"
                     label="索引"
                     fixed="left">
             </el-table-column>
-
-            <div v-for="items in tableitems">
-                <div v-if="items.hasSubs">
-                    <el-table-column
-                            :label="items.label"
-                            header-align="center">
-                        <el-table-column
-                                v-for="tableitem in items.subs"
-                                v-if="!tableitem.hidden"
-                                :prop="tableitem.prop"
-                                :label="tableitem.label"
-                                header-align="center"
-                                :align="tableitem.align"
-                                :sortable="!tableitem.unsortable"
-                                :width="tableitem.width"
-                                :formatter="tableitem.format"
-                        >
-                        </el-table-column>
-                    </el-table-column>
-                </div>
-                <div v-if="!items.hasSubs">
+            <!--在构建自定义表格时，一定要严格按照-->
+            <!--<template>-->
+            <!--<el-table-colum></el-table-colum>-->
+            <!--<el-table-colum></el-table-colum>-->
+            <!--</template>-->
+            <!--中间不要出现其他标签，引发问题：-->
+            <!--当表格无索引时，数据加载顺序错乱-->
+            <template v-for="items in tableitems">
+                <el-table-column
+                        v-if="items.hasSubs"
+                        :label="items.label"
+                        header-align="center">
                     <el-table-column
                             v-for="tableitem in items.subs"
                             v-if="!tableitem.hidden"
@@ -396,8 +450,20 @@
                             :formatter="tableitem.format"
                     >
                     </el-table-column>
-                </div>
-            </div>
+                </el-table-column>
+                <el-table-column
+                        v-for="tableitem in items.subs"
+                        v-if="!tableitem.hidden && !items.hasSubs"
+                        :prop="tableitem.prop"
+                        :label="tableitem.label"
+                        header-align="center"
+                        :align="tableitem.align"
+                        :sortable="!tableitem.unsortable"
+                        :width="tableitem.width"
+                        :formatter="tableitem.format"
+                >
+                </el-table-column>
+            </template>
 
             <el-table-column label="操作" :width="btswidth" v-if="showImg" align="center">
                 <!--<el-button @click.native="showDetail(row)">查看详情</el-button>-->
@@ -559,6 +625,23 @@
         data() {
             let that = this;
             return {
+                formInline: {
+                    name: '',
+                    number: '',
+                    channel: '',
+                    cause: '-1'
+                },
+                searchForm:{
+                    liftrod_id: '',
+                    out_channel_id: '',
+                    loginuin: '',
+                    reason_start: '',
+                    reason: ''
+                },
+                ctime_start:'',
+                formitem:{
+
+                },
                 ef: 'editref',
                 af: 'addref',
                 searchFormVisible: false,
@@ -773,8 +856,23 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector22','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','indexHide','parentMsg','parentSf'],
         methods: {
+            //抬杆搜索提交
+            search(sform,times){
+                let dataStart = new Date(times[0]),dataEnd = new Date(times[1]);
+                this.formitem.liftrod_id = sform.number;
+                this.formitem.out_channel_id = sform.channel;
+                this.formitem.loginuin = sform.name;
+                this.formitem.reason_start = sform.cause;
+                this.formitem.reason = sform.cause;
+                this.formitem.create_time_start = dataStart.getTime()/1000
+                this.formitem.create_time_end = dataEnd.getTime()/1000
+                // ctime_start= 1523894400000
+                // console.log(this.formitem)
+                this.getTableData(this.formitem);
+                // Object.assign(this.searchForm,this.formitem)
+            },
             //刷新页面
             refresh() {
                 if (this.showdateSelector) {
@@ -1778,7 +1876,7 @@
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             this.mapheight = common.gwh() * 0.5;
             this.mapstyle = 'width:inherit;height:' + common.gwh() / 2 + 'px';
-          //  console.log('commontable mount',this.searchForm);
+          //  console.log('commontable mount',this.searchForm);////
             //拷贝查询表单,用来在重置时清空表单内容
             this.tempSearchForm = common.clone(this.searchForm);
             //this.superimposed = sessionStorage.getItem('superimposed');

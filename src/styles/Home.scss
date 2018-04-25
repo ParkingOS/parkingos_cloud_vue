@@ -74,6 +74,10 @@
       overflow: hidden;
       .el-menu {
         height: 100%;
+        border:none;
+        //li{
+        //  background-color: $--parkingos-sidemenu-background;
+        //}
       }
 
       .collapsed {
@@ -164,6 +168,9 @@
   /*充满剩余空间*/
   height: 0;
   flex: 1;
+  > li{
+    background-color: $--parkingos-sidemenu-background;
+  }
 }
 
 .container .main aside .el-menu[data-v-cbbc73a8] {
@@ -174,7 +181,7 @@
 .menu-icon {
   /*左侧菜单栏图标*/
   //color: #6d9eeb;
-  color: $--parkingos-menu-icon-color;
+  color: #b5b5b5;
   width: 50px;
   height: 50px;
   font-size: 20px;
@@ -191,8 +198,8 @@
 }
 .menu-expan-button2 {
   /*收起、展开按钮样式*/
-  width: 179px;
-  min-height: 32px
+  //width: 179px;
+  min-height: 45px;
 }
 
 .logout-button{
@@ -210,7 +217,4 @@
     .title {
         background-color: $--parkingos-datacenter-background;
     }
-}
-.icon-park {
-  color:$--parkingos-icon-park-color;
 }

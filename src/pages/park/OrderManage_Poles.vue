@@ -1,5 +1,26 @@
 <template>
     <section>
+        <!--更新一下试试呗-->
+        <!--<common-table-->
+                <!--:queryapi="queryapi"-->
+                <!--:exportapi="exportapi"-->
+                <!--:tableheight="tableheight"-->
+                <!--:fieldsstr="fieldsstr"-->
+                <!--:tableitems="tableitems"-->
+                <!--:btswidth="btswidth"-->
+                <!--:hide-export="hideExport"-->
+                <!--:hide-options="hideOptions"-->
+                <!--:searchtitle="searchtitle"-->
+
+                <!--:hideTool="hideTool"-->
+
+                <!--:hideSearch="hideSearch"-->
+                <!--:hideAdd="hideAdd"-->
+                <!--:showImg="showImg"-->
+                <!--v-on:showImg_Pole="showImgDialog"-->
+                <!--:imgapi="imgapi"-->
+                <!--ref="bolinkuniontable"-->
+        <!--&gt;</common-table>-->
         <common-table
                 :queryapi="queryapi"
                 :exportapi="exportapi"
@@ -8,16 +29,19 @@
                 :tableitems="tableitems"
                 :btswidth="btswidth"
                 :hide-export="hideExport"
+                :hideSearch=true
+                :hideTool=true
+                :showParkInfo="showParkInfo"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
-
-                :hideTool="hideTool"
-
-                :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showImg="showImg"
+                :indexHide=true
                 v-on:showImg_Pole="showImgDialog"
                 :imgapi="imgapi"
+                :hideLift="hideLift"
+                :parent-msg='reasons'
+                :parent-sf="collectors"
                 ref="bolinkuniontable"
         ></common-table>
         <el-dialog title="抬杆图片" :visible.sync="imgDialog" width="40%">
@@ -48,18 +72,33 @@
         },
         data() {
             return {
+                indexHide: false,
+                parkText: '显示高级选项',
+                hideLift:true,
+                monthReportStart:'',
+                activeName: 'tableStyle',
                 loading: false,
                 hideExport: false,
-                hideSearch: false,
-
+                hideSearch: true,
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
-
-                hideTool: false,
+                showParkInfo: true,
                 showImg: true,
                 imgSize:450,
+                // loading: false,
+                // hideExport: false,
+                // hideSearch: false,
+                //
+                // hideAdd: true,
+                // tableheight: '',
+                // showdelete: true,
+                // hideOptions: true,
+                //
+                // hideTool: false,
+                // showImg: true,
+                // imgSize:450,
                 queryapi: '/liftRod/query',
                 exportapi: '/liftRod/exportExcel',
                 imgapi: '/liftRod/getLiftRodPicture',
@@ -67,20 +106,6 @@
                 fieldsstr: 'id__liftrod_id__ctime__uin__out_channel_id__reason__resume__url',
                 tableitems: [
                     {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '编号',
-                            prop: 'id',
-                            width: '100',
-                            type: 'number',
-
-                            searchable: true,
-
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -251,15 +276,24 @@
             axios.all([common.getCollector(), common.getLiftReason()])
                 .then(axios.spread(function (collector, reason) {
                     _this.collectors = collector.data;
+                    _this.collectors.unshift({
+                        value_name: '全部',
+                        value_no: ''
+                    })
                     _this.reasons = reason.data;
                 }))
         },
         watch: {
             collectors: function (val) {
                 this.tableitems[3].subs[0].selectlist = val
+                console.log(this.tableitems[3].subs[0].selectlist)
             },
             reasons: function (val) {
                 this.tableitems[5].subs[0].selectlist = val
+                if(this.tableitems[5].subs[0].selectlist[0].value_name === ''){
+                    this.tableitems[5].subs[0].selectlist[0].value_name = '全部'
+                }
+
             }
         }
     }
@@ -270,4 +304,9 @@
     .gutter {
         display: none
     }
+    .el-form-item {
+        margin-bottom: 5px;
+    }
+
 </style>
+

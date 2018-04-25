@@ -1,5 +1,5 @@
 <template>
-    <section class="data-sec" :style="containStyle">
+    <section class="data-sec" :style="containStyle" ref="parkHeight">
         <div style="display: flex;flex-direction: row;width: 100%;height: 100%;align-content: stretch;">
             <div style="flex: 1;width: 0;display:flex ;flex-direction: column">
                 <div style="flex: 2;padding: 10px 10px 10px 10px;overflow-y: auto;display: flex;align-items: flex-start;justify-content: flex-start;">
@@ -587,10 +587,8 @@
 
         },
         activated() {
-
             let that = this;
             let widthCssstr = window.getComputedStyle(that.$refs.echartBox).width.replace('px', '');
-            ;
             let intwidth = parseInt(widthCssstr);
             that.topParkChartSize.width = (intwidth - 20) + 'px';
             that.topParkChartSize2.width = (intwidth - 20) + 'px';
@@ -615,21 +613,26 @@
                 this.rollstyle2 = 'flex: 3;padding: 0 10px 10px 10px;overflow-y: auto;display: flex;flex-align:center;align-items: center;justify-content: center;';
 
             }
-            this.rollstyle = 'flex: 1;padding: 10px 10px 0 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;';
+            if(common.gww() < 1400){
+                this.rollstyle = 'flex: 1;padding: 10px 10px 0 10px;display: flex;flex-direction:row;justify-content: space-around;overflow: hidden;max-height:260px';
+            }else{
+                this.rollstyle = 'flex: 1;padding: 10px 10px 0 10px;display: flex;flex-direction:row;justify-content: space-around;overflow: hidden;';
+            }
+
             // }
             window.onresize = () => {
                 // var widthCss = window.getComputedStyle(this.$refs.echartBox).width;
                 // this.topParkChartSize.height = this.topParkChartSize.width = widthCss;
+                this.containStyle = 'height: ' + (common.gwh() - 60) + 'px;overflow: auto;';
                 let widthCssstr = window.getComputedStyle(this.$refs.echartBox).width.replace('px', '');
-                ;
                 let intwidth = parseInt(widthCssstr);
                 this.topParkChartSize.width = (intwidth - 20) + 'px';
                 this.topParkChartSize2.width = (intwidth - 20) + 'px';
                 this.topParkChartSize.height = (intwidth * 0.75) + 'px';
                 this.topParkChartSize2.height = (intwidth - 45) + 'px';
 
-                var posCss = window.getComputedStyle(that.$refs.posuse).width.replace('px', '');
-                var intCss = parseInt(posCss);
+                let posCss = window.getComputedStyle(that.$refs.posuse).width.replace('px', '');
+                let intCss = parseInt(posCss);
 
                 that.placeChartSize.height = ((intCss / 2) - 20) + 'px';
 
@@ -653,7 +656,9 @@
         computed: {},
         watch: {},
         created() {
-
+            //为兼容IE11获取容器高度，进行赋值
+            //2018/4/25
+            this.containStyle = 'height: ' + (common.gwh() - 60) + 'px;overflow: auto;';
         },
         deactivated() {
 
