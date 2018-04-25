@@ -3,11 +3,10 @@
     <section class="banner">
       <content class="particles">
         <div class="mask" id="particles-js"></div>
-        <p class="title">parkingOS</p>
-        <p class="subtitle">parkingOS开源云平台，助力您完成停车无人化</p>
+        <p class="title">ParkingOS</p>
+        <p class="subtitle">ParkingOS开源云平台，助力您完成停车无人化!</p>
         <div class="button-group">
-          <!-- <router-link to="/basics/quickstart" class="button-start">快速开始</router-link> -->
-          <router-link to="/basics/quickstart" class="button-doc">查看文档</router-link>
+      <router-link to="/basics/quickstart" class="button-doc">查看文档</router-link>
           <router-link to="/basics/quickstart" class="button-demo">查看文档</router-link>
         </div>
       </content>
