@@ -286,7 +286,6 @@
         watch: {
             collectors: function (val) {
                 this.tableitems[3].subs[0].selectlist = val
-                console.log(this.tableitems[3].subs[0].selectlist)
             },
             reasons: function (val) {
                 this.tableitems[5].subs[0].selectlist = val

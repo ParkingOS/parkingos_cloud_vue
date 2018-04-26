@@ -4,7 +4,7 @@
         <el-form :inline="true" v-if='hideLift' :model="formInline" class="demo-form-inline">
             <el-form-item label="">
                 <el-date-picker
-                        v-model="datesselector"
+                        v-model="datesselector1"
                         type="datetimerange"
                         align="right"
                         style="float:left"
@@ -30,7 +30,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button @click="changeParkTime(datesselector)" icon="search" type="primary">搜索
+                <el-button @click="changeParkTime(datesselector1)" icon="search" type="primary">搜索
                 </el-button>
                 <el-button type="primary" @click="handleExport" v-if="!hideExport">导出
                 </el-button>
@@ -732,6 +732,7 @@
                 balance: '',
                 analysisdate: '',
                 datesselector: '',
+                datesselector1:'',
                 monthReportStart: '',
                 monthReportEnd: '',
 
@@ -1906,6 +1907,7 @@
             if (this.showdateSelector) {
                 _this.start_placeholder1 = common.getFirstDayOfWeek() + ' 00:00:00';
                 _this.start_placeholder = common.currentDate() + ' 00:00:00';
+                console.log(_this.start_placeholder)
                 _this.end_placeholder = common.currentDate() + ' 23:59:59';
                 _this.currentcollect = '';
                 _this.currentpark = '';
@@ -1986,6 +1988,7 @@
                 _this.parkAccoutRece_start = '';
                 _this.parkAccoutRece_end = '';
                 _this.datesselector = common.currentDateArray(3);
+                _this.datesselector1 = common.currentDateArray(1);
             }
 
 
