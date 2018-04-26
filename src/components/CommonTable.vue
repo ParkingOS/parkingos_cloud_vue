@@ -7,6 +7,7 @@
                         v-model="datesselector"
                         type="datetimerange"
                         align="right"
+                        style="float:left"
                         unlink-panels
                         range-separator="至"
                         :start-placeholder="start_placeholder"
@@ -29,7 +30,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button @click="search(formInline,datesselector)" icon="search" type="primary">搜索
+                <el-button @click="changeParkTime(datesselector)" icon="search" type="primary">搜索
                 </el-button>
                 <el-button type="primary" @click="handleExport" v-if="!hideExport">导出
                 </el-button>
@@ -629,7 +630,7 @@
                     name: '',
                     number: '',
                     channel: '',
-                    cause: '-1'
+                    cause: ''
                 },
                 searchForm:{
                     liftrod_id: '',
@@ -858,21 +859,6 @@
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector22','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','indexHide','parentMsg','parentSf'],
         methods: {
-            //抬杆搜索提交
-            search(sform,times){
-                let dataStart = new Date(times[0]),dataEnd = new Date(times[1]);
-                this.formitem.liftrod_id = sform.number;
-                this.formitem.out_channel_id = sform.channel;
-                this.formitem.loginuin = sform.name;
-                this.formitem.reason_start = sform.cause;
-                this.formitem.reason = sform.cause;
-                this.formitem.create_time_start = dataStart.getTime()/1000
-                this.formitem.create_time_end = dataEnd.getTime()/1000
-                // ctime_start= 1523894400000
-                // console.log(this.formitem)
-                this.getTableData(this.formitem);
-                // Object.assign(this.searchForm,this.formitem)
-            },
             //刷新页面
             refresh() {
                 if (this.showdateSelector) {
@@ -1030,9 +1016,8 @@
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
                 }).then(function (response) {
-                    // console.log(ret)
                     vm.loading = false;
-                    console.log('resset loading!!!!!');
+                    // console.log('resset loading!!!!!');
                     let ret = response.data;
                     if (ret.validate != 'undefined' && ret.validate == '0') {
                         vm.loading = false;
@@ -1774,8 +1759,6 @@
                 this.getTableData(this.sform);
             },
             changeParkTime(datearr) {
-                console.log(datearr);
-
                 if (datearr !== null && datearr.length > 1) {
                     if (this.ordertimetype === 'end_time') {
                         this.ordertime_start = (new Date(datearr[0].replace(new RegExp(/-/gm) ,"/"))).getTime();
@@ -1795,6 +1778,11 @@
                         this.sform.create_time = this.ordertime;
                         this.sform.create_time_start = this.ordertime_start;
                         this.sform.create_time_end = this.ordertime_end;
+
+                        //抬杆查询
+                        this.sform.ctime = this.ordertime;
+                        this.sform.ctime_start = this.ordertime_start;
+                        this.sform.ctime_end = this.ordertime_end;
 
                         this.sform.end_time = '';
                         this.sform.end_time_start = 0;
@@ -1824,7 +1812,13 @@
                 this.sform.state = this.currentState;
                 this.sform.pay_type_start = this.currentPayType;
                 this.sform.pay_type = this.currentPayType;
-
+                //抬杆数据
+                this.sform.uin = this.formInline.name;
+                this.sform.uin_start = this.formInline.name;
+                this.sform.liftrod_id = this.formInline.number;
+                this.sform.out_channel_id = this.formInline.channel;
+                this.sform.reason = this.formInline.cause;
+                this.sform.reason_start = this.formInline.cause;
                 this.getTableData(this.sform);
 
                 // create_time: between
