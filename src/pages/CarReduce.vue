@@ -1,25 +1,39 @@
 <template>
-  <section style="padding: 100px;">
+  <section class="car_derate">
 
-    <el-row class="align-center" style="margin-left: 28%;">
-            <span style="font-size:20px">车牌减免</span>
-        </el-row>
-        </br></br></br>
-            <div style="margin-left:39%" >
-                <el-form :model="carNumReduce" ref="carNumReduce" :rules="carNumberRules">
-                    <el-form-item prop="reduce">
-                        <el-input v-model="carNumReduce.reduce" style="width:35%" placeholder="输入减免额度"></el-input>
-                    </el-form-item>
-                    <el-form-item prop="car_number">
-                        <el-input v-model="carNumReduce.car_number" v-on:input ="changeCarNumber"  style="width:35%" placeholder="输入车牌号"></el-input>
-                    </el-form-item>
-                    <el-form-item class="right">
-                        <el-button @click="useTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
-                    </el-form-item>
+    <!--<el-row class="align-center" style="margin-left: 28%;">-->
+            <!--<span style="font-size:20px">车牌减免</span>-->
+        <!--</el-row>-->
+        <!--</br></br></br>-->
+            <!--<div style="margin-left:39%" >-->
+                <!--<el-form :model="carNumReduce" ref="carNumReduce" :rules="carNumberRules">-->
+                    <!--<el-form-item prop="reduce">-->
+                        <!--<el-input v-model="carNumReduce.reduce" style="width:35%" placeholder="输入减免额度"></el-input>-->
+                    <!--</el-form-item>-->
+                    <!--<el-form-item prop="car_number">-->
+                        <!--<el-input v-model="carNumReduce.car_number" v-on:input ="changeCarNumber"  style="width:35%" placeholder="输入车牌号"></el-input>-->
+                    <!--</el-form-item>-->
+                    <!--<el-form-item class="right">-->
+                        <!--<el-button @click="useTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>-->
+                    <!--</el-form-item>-->
 
-                </el-form>
-            </div>
-
+                <!--</el-form>-->
+            <!--</div>-->
+        <h3 class="car_title">车牌减免</h3>
+      <el-form :model="carNumReduce" ref="carNumReduce" :rules="carNumberRules">
+          <el-form-item prop="reduce" label="减免额度：" >
+          <el-input v-model="carNumReduce.reduce" style="display:inline-block;width:300px;" placeholder="输入减免额度"></el-input>
+          </el-form-item>
+          <el-form-item label="新能源汽车：">
+              <el-switch v-model="check.checkbox" @change="carTypeChange"></el-switch>
+          </el-form-item>
+          <el-form-item label="输入车牌号：">
+              <keyboard :checkbox-start="check" v-on:car="car"></keyboard>
+          </el-form-item>
+          <el-form-item class="right">
+          <el-button @click="useTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
+          </el-form-item>
+      </el-form>
 
   </section>
 
@@ -29,13 +43,20 @@
 import { path,carditems,checkPhone,dtypelist,cardtypeitems,otypelist,accountitems,belongitems,settleitems,percision } from '../api/api';
 import common from '../common/js/common'
 import CommonTable from '../components/CommonTable'
-
+import Keyboard from '../components/Keyboard'
 export default {
   components:{
-    CommonTable
+    CommonTable,
+      Keyboard
   },
   data(){
     return{
+        cars:'',
+        checkbox: false,
+        check:{
+            checkbox:false,
+        },
+        widths:'width:30%',
       loading: false,
       infoloading: false,
       cycleisdisable:false,
@@ -46,7 +67,7 @@ export default {
       setupVisible:false,
       freeCarNumberVisible:false,
       addloading:false,
-     
+
       codeReduce:{
         reduce:'',
         isauto:false,
@@ -58,6 +79,7 @@ export default {
       carNumReduce:{
          reduce:'',
          car_number:'',
+          isenergy:'false',
       },
       freecarNumReduce:{
          reduce:'全免券',
@@ -151,6 +173,29 @@ export default {
     //alert('2222')
   },
   methods: {
+      car (val){
+          this.cars = val
+          console.log(val)
+      },
+      carTypeChange (val) {
+          this.isNumOne = false
+          this.isNumTwo = false
+          this.isNumThree = false
+          this.isNumFour = false
+          this.isNumFive = false
+          this.isNumSix = false
+          if (!val) { // 切换到普通车牌
+              if (this.numFour) {
+                  this.isNumFive = true
+                  this.key = 7
+              }
+          } else { // 切换到新能源车牌
+              if (this.numFive) {
+                  this.isNumSix = true
+                  this.key = 8
+              }
+          }
+      },
      changeCarNumber(){
        // alert(this.carNumReduce.car_number)
         this.carNumReduce.car_number =  this.carNumReduce.car_number.toUpperCase();
@@ -186,9 +231,9 @@ export default {
 				location=this.qrsrc
 			},
     	genqr(url){
-    		
+
 //  		console.log('111111111111111111111'+text)
-    		
+
 				var canvas = document.getElementById('canvas')
 				//console.log(canvas)
 				this.QRCode.toCanvas(canvas, url,{ errorCorrectionLevel: 'H' }, function (error) {
@@ -202,17 +247,17 @@ export default {
 				//console.log(canvas.width)
 				var context=canvas.getContext('2d');
            		var imageData = context.getImageData(0,0,canvas.width,canvas.height);
-				
+
 				var img = document.getElementById("img");
 				img.width=canvas.width
 				img.height=canvas.height
 				var context2 = img.getContext('2d');
 				context2.fillStyle="white";
-				context2.fillRect(0,0,canvas.width,(canvas.height)); 
+				context2.fillRect(0,0,canvas.width,(canvas.height));
 				context2.putImageData(imageData,0,0);
 				context2.font="bold 10px 微软雅黑"
 				context2.fillStyle="black"
-				
+
 				var url = img.toDataURL("image/png");
 				console.log(url+'---------------------------')
 				this.qrsrc = url
@@ -255,13 +300,13 @@ export default {
             //				var triggerDownload = this.download.eval("href", url).eval("download", filename);
                				//triggerDownload[0].click();
             			},
-    randomNum(n){ 
-				var t=''; 
-				for(var i=0;i<n;i++){ 
-				t+=Math.floor(Math.random()*10); 
-				} 
-				return t; 
-			} , 
+    randomNum(n){
+				var t='';
+				for(var i=0;i<n;i++){
+				t+=Math.floor(Math.random()*10);
+				}
+				return t;
+			} ,
     cycleinputFunc(){
      var vm=this;
      vm.moneyisdisable = false
@@ -280,7 +325,7 @@ export default {
 
          }
         },
-    
+
     getCodeStatus(){
          let vm = this;
         vm.$axios.post(path+"/shopticket/ifchangecode?code="+vm.code,{
@@ -404,7 +449,15 @@ export default {
 
     useTicketByCarNumber(){
     let vm = this;
-
+    vm.carNumReduce.car_number = vm.cars;
+        if(vm.carNumReduce.car_number === ""){
+            vm.$message({
+                message: "请输入车牌号",
+                type: 'error',
+                duration: 1200
+            });
+            return
+        }
      vm.$refs.carNumReduce.validate((valid) => {
         if (valid) {
             vm.$axios.post("http://yun.bolink.club/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.carNumReduce.car_number))+"&type="+vm.type+"&reduce="+vm.carNumReduce.reduce,{
@@ -602,7 +655,19 @@ export default {
 
 </script>
 
-<style>
+<style rel="stylesheet/scss" lang="scss">
+    input,button{
+        outline: none !important;
+    }
+    .car_derate{
+        width: 800px;
+        margin:0 auto;
+        /*text-align: center;*/
+        .car_title{
+            height: 60px;
+            line-height: 60px;
+        }
+    }
   .parkstatus{
     margin-top:5px
   }
@@ -610,6 +675,7 @@ export default {
     font-weight:bold;margin-left:10px;color:#9B9EA0
   }
   .right{
-    margin-left:27%;
+    margin-left:100px;
   }
+
 </style>
