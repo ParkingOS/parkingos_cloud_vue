@@ -11,6 +11,8 @@
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
 
+                :orderfield="orderfield"
+
                 :hideTool="hideTool"
 
                 :hideSearch="hideSearch"
@@ -59,6 +61,7 @@
                 imgSize: 450,
                 hideTool: false,
                 showImg: true,
+                orderfield:"create_time",
                 showBusinessCars: true,
                 queryapi: '/unorder/query',
                 exportapi: '/unorder/exportExcel',
