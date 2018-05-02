@@ -10,6 +10,8 @@
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
                 :hideTool="hideTool"
+                :orderfield="orderfield"
+
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
@@ -32,7 +34,7 @@
         },
         data() {
             return {
-            	
+            	orderfield:'id',
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
