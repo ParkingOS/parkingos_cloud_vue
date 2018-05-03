@@ -76,7 +76,7 @@
                                   <ul class="con1 conE" >
                                       <li v-for='(item,index) in inPartData'>
                                           <div :style="styledouble">
-                                              <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
+                                              <span style="display:block;width:100px;text-align: center;overflow: hidden;text-overflow:ellipsis;white-space:nowrap">{{item.parkName}}</span>
                                               <span style="flex: 1;text-align: center;">{{item.time}}</span>
                                               <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
                                           </div>
@@ -85,7 +85,7 @@
                                   <ul class="con1 conE" >
                                       <li v-for='(item,index) in inPartData'>
                                           <div :style="styledouble">
-                                              <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
+                                              <span style="display:block;width:100px;text-align: center;overflow: hidden;text-overflow:ellipsis;white-space:nowrap">{{item.parkName}}</span>
                                               <span style="flex: 1;text-align: center;">{{item.time}}</span>
                                               <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
                                           </div>
@@ -107,7 +107,7 @@
                                     <ul class="con1 conE"  >
                                         <li v-for='(item,index) in outPartData'>
                                             <div :style="styledouble">
-                                                <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
+                                                <span style="display:block;width:100px;text-align: center;overflow: hidden;text-overflow:ellipsis;white-space:nowrap">{{item.parkName}}</span>
                                                 <span style="flex: 1;text-align: center;">{{item.time}}</span>
                                                 <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
                                             </div>
@@ -117,7 +117,7 @@
                                     <ul class="con1 conE"    >
                                         <li v-for='(item,index) in outPartData'>
                                             <div :style="styledouble">
-                                                <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
+                                                <span style="display:block;width:100px;text-align: center;overflow: hidden;text-overflow:ellipsis;white-space:nowrap">{{item.parkName}}</span>
                                                 <span style="flex: 1;text-align: center;">{{item.time}}</span>
                                                 <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
                                             </div>
