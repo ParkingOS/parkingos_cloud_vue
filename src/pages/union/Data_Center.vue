@@ -485,11 +485,21 @@
                         axisLine: {
                             show: false
                         },
-                        boundaryGap: [0, 0.01]
+                        // boundaryGap: [0, 0.01],
+                        axisLabel: {
+
+                        }
                     },
                     yAxis: {
                         axisLine: {
                             show: false
+                        },
+                        axisLabel:{
+                            formatter: function (value) {
+                                if(value.length >= 5){
+                                    return value.substring(0,5)
+                                }
+                            }
                         },
                         position: 'right',
                         type: 'category',
