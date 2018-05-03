@@ -14,6 +14,7 @@
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
                 :showEdit="showEdit"
+                :orderfield="orderfield"
                 :showdelete="showdelete"
                 :showPermission="showPermission"
                 :addtitle="addtitle"
@@ -87,6 +88,7 @@
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
+                orderfield:'id',
                 // showSettingFee: true,
                 // showCommutime: true,
                 showPermission: true,
