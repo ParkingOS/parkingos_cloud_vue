@@ -2,7 +2,7 @@
     <section>
         <!--工具条 2018/4/23-->
         <el-form :inline="true" v-if='hideLift' :model="formInline" class="demo-form-inline">
-            <el-form-item label="">
+            <el-form-item label="" style="margin-bottom: 5px;">
                 <el-date-picker
                         v-model="datesselector1"
                         type="datetimerange"
@@ -18,7 +18,7 @@
                         :default-time="['00:00:00', '23:59:59']">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item label="收费员:">
+            <el-form-item label="收费员:" style="margin-bottom: 5px;">
                 <el-select v-model="formInline.name" placeholder="全部"
                            style="float: left;margin-right: 30px;">
                     <el-option
@@ -29,7 +29,7 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item>
+            <el-form-item style="margin-bottom: 5px;">
                 <el-button @click="changeParkTime(datesselector1)" icon="search" type="primary">搜索
                 </el-button>
                 <el-button type="primary" @click="handleExport" v-if="!hideExport">导出

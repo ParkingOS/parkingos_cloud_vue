@@ -303,9 +303,5 @@
     .gutter {
         display: none
     }
-    .el-form-item {
-        margin-bottom: 5px;
-    }
-
 </style>
 
