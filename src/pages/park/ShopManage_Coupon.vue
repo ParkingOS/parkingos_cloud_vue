@@ -5,6 +5,7 @@
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
+                :orderfield="orderfield"
                 :btswidth="btswidth"
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
@@ -41,6 +42,7 @@
                 hideSearch: true,
                 hideAdd: true,
                 tableheight: '',
+                orderfield:'id',
                 showdelete: true,
                 hideOptions: true,
                 showParkInfo: false,

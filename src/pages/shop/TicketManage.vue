@@ -10,6 +10,7 @@
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
 
+                :orderfield="orderfield"
                 :hideTool="hideTool"
 
                 :showTicketInfo = "showTicketInfo"
@@ -39,7 +40,7 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
-
+                orderfield:'id',
                 showTicketInfo: true,
                 hideAdd: true,
                 tableheight: '',

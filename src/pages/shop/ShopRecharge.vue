@@ -9,6 +9,7 @@
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
+                :orderfield="orderfield"
 
                 :hideTool="hideTool"
 
@@ -41,7 +42,7 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
-
+                orderfield:'id',
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,

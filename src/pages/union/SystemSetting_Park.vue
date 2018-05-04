@@ -17,6 +17,7 @@
                 :hideOptions="hideOptions"
                 :showCustomizeEdit="showCustomizeEdit"
                 :hideAdd="hideAdd"
+                :orderfield="orderfield"
                 :showsetting="showsetting"
                 v-on:showSetting="showSetting"
                 v-on:customizeadd="customizeadd"
@@ -354,7 +355,7 @@
         },
         data() {
             return {
-
+                orderfield:'id',
                 hideExport: false,
                 tableheight: '',
                 hideOptions: false,

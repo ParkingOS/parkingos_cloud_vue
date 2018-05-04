@@ -11,6 +11,7 @@
                 :btswidth="btswidth"
                 :hide-export="hideExport"
                 :searchtitle="searchtitle"
+                :orderfield="orderfield"
                 :addtitle="addtitle"
                 :showdelete="showdelete"
                 :showCustomizeAdd="showCustomizeAdd"
@@ -309,6 +310,7 @@
         },
         data() {
             return {
+                orderfield:'id',
                 bolink_id:'',
                 hideExport: true,
                 tableheight: '',
