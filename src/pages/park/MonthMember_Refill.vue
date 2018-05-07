@@ -4,6 +4,8 @@
                 :queryapi="queryapi"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
+                :orderfield='orderfield'
+
                 :tableitems="tableitems"
                 :btswidth="btswidth"
                 :hide-export="hideExport"
@@ -36,7 +38,7 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: false,
-
+                orderfield:'id',
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,

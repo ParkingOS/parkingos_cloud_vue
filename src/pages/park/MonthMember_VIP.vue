@@ -7,6 +7,8 @@
                 :editapi="editapi"
                 :delapi="delapi"
                 :tableheight="tableheight"
+
+                :orderfield='orderfield'
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
                 :btswidth="btswidth"
@@ -204,6 +206,7 @@
         },
         data() {
             return {
+                orderfield:'id',
                 loading: false,
                 resetloading: false,
                 showresetpwd: false,
