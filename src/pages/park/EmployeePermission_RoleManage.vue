@@ -240,7 +240,7 @@
                 this.isShowPermission = true;
                 let _this = this;
                 _this.currentRow = row;
-                _this.$axios.get(path + _this.permissionapi + '?loginroleid=' + sessionStorage.getItem('loginroleid') + '&id=' + row.id)
+                _this.$axios.get(path + _this.permissionapi + '?loginroleid=' + sessionStorage.getItem('loginroleid') + '&id=' + row.id+'&t='+Date.now())
                     .then(function (response) {
                         // console.log(response)
                         let ret = response.data;
@@ -252,7 +252,6 @@
                     .catch(function (error) {
                         console.log(error)
                     })
-
             },
             handleSavePermission: function () {
 
