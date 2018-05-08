@@ -616,6 +616,8 @@
                        // console.log('开始的开始时间~~~~~~~~'+_this.currentRow.e_time)
                         //console.log('当前时间~~~~~~~~'+new Date().valueOf()/1000)
                         _this.currentRow.e_time=_this.currentRow.e_time>new Date().valueOf()/1000?_this.currentRow.e_time:new Date().valueOf()/1000
+
+                        _this.currentRow.name=_this.currentRow.name==undefined?'':_this.currentRow.name
                         //console.log('开始时间~~~~~~~~'+_this.currentRow.e_time)
                         _this.resetloading = true;
                         axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))))])

@@ -48,7 +48,7 @@
                 queryapi: '/carrenew/query',
                 exportapi: '/carrenew/exportExcel',
                 btswidth: '100',
-                fieldsstr: 'id__trade_no__card_id__pay_time__amount_receivable__amount_pay__collector__pay_type__car_number__user_id__limit_time__resume',
+                fieldsstr: 'id__trade_no__card_id__pay_time__amount_receivable__amount_pay__collector__pay_type__car_number__user_id__limit_time__resume__start_time',
                 tableitems: [
                     {
 
@@ -94,7 +94,23 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    }, {
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '购买月份',
+                            prop: 'buy_month',
+                            width: '200',
+                            type: 'str',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            hidden:true,
+                            align: 'center'
+                        }]
+                    },
+                    {
 
                         hasSubs: false,
                         subs: [{
@@ -201,9 +217,27 @@
                             align: 'center'
                         }]
                     }, {
+                         hasSubs: false,
+                         subs: [{
+                             label: '开始时间',
+                             prop: 'start_time',
+                             width: '180',
+                             type: 'date',
+                             editable: true,
+                             searchable: true,
+                             addable: true,
+                             unsortable: true,
+                             align: 'center',
+                             format: function (row) {
+                                if(row.start_time!=null){
+                                    return common.dateformat(row.start_time)
+                                }
+                             }
+                         }]
+                     }, {
                         hasSubs: false,
                         subs: [{
-                            label: '有效期',
+                            label: '结束时间',
                             prop: 'limit_time',
                             width: '180',
                             type: 'date',
@@ -213,7 +247,9 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
-                                return common.dateformat(row.limit_time)
+                                if(row.limit_time!=null){
+                                    return common.dateformat(row.limit_time)
+                                }
                             }
                         }]
                     }, {
