@@ -33,8 +33,8 @@
              </div>
            </el-card>
            <el-button-group style="width:100%">
-                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="handleFreeCodeReduce()" type="primary" >扫码全免</el-button>
-                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="handleFreeCarReduce()" type="primary" >车牌全免</el-button>
+                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="handleFreeCodeReduce()" type="primary" :disabled='disable' >扫码全免</el-button>
+                     <el-button style="display:inline;width:50%;margin-top:-4px" @click="handleFreeCarReduce()" type="primary" :disabled='disable'>车牌全免</el-button>
            </el-button-group>
        </el-col>
 
@@ -250,7 +250,7 @@ export default {
       setupVisible:false,
       freeCarNumberVisible:false,
       addloading:false,
-     
+      disable:false,
       codeReduce:{
         reduce:'',
         isauto:false,
@@ -676,6 +676,9 @@ export default {
              vm.type = '5'
          }
 
+        if(ret.support_type==0){
+            vm.disable=true
+        }
         vm.ticketfree_limit=ret.ticketfree_limit
         vm.accountModify.id=ret.id
         vm.accountModify.name=ret.name

@@ -279,6 +279,17 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
+
+                 <el-form-item label="全免券">
+                    <el-select v-model="shop_support_type" filterable style="width:90%">
+                        <el-option
+                                v-for="item in handInputType"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="优惠券单位">
                     <el-select v-model="unit" filterable style="width:90%">
                         <el-option
@@ -390,6 +401,7 @@
                 shopTitle: '添加商户',
                 showDiscountMoney: true,
                 shop_ticket_type: 1,
+                shop_support_type:1,
                 unit: 2,
                 hand_input_enable:0,
                 discount_money_name: '每小时/元',
@@ -652,7 +664,32 @@
                                 }
                             }
                         }]
-                    }, {
+                    },
+                    {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '全免券',
+                            prop: 'support_type',
+                            width: '100',
+                            type: 'str',
+
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format: function (row) {
+                                if (row.support_type == 1) {
+                                    return "支持"
+                                } else if (row.support_type == 0) {
+                                    return "不支持";
+                                }
+                            }
+                        }]
+                    },
+
+                    {
                         hasSubs: false,
                         subs: [{
                             label: '优惠券单位',
@@ -1060,6 +1097,7 @@
                     address: '',
                     mobile: '',
                     shop_ticket_type: 1,
+                    shop_support_type:1,
                     hand_input_enable: 0,
                     unit: 2,
                     default_limit: '5,10,20',
@@ -1091,6 +1129,7 @@
                         aform.address = this.shopForm.address;
                         aform.mobile = this.shopForm.mobile;
                         aform.ticket_type = this.shop_ticket_type;
+                        aform.support_type = this.shop_support_type;
                         aform.hand_input_enable = this.hand_input_enable;
                         aform.ticket_unit = this.unit
                         aform.default_limit = this.shopForm.default_limit
@@ -1160,6 +1199,7 @@
                 this.shopForm.v_discount_percent = row.discount_percent + ""
                 this.shopTitle = "编辑"
                 this.shop_ticket_type = row.ticket_type
+                this.shop_support_type =row.support_type
                 this.hand_input_enable = row.hand_input_enable
                 this.unit = row.ticket_unit
                 this.showRegis = true

@@ -9,6 +9,8 @@
                 :href = "href"
                 :hideAdd="hideAdd"
 
+                :orderfield="orderfield"
+
                 :hide-export="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
@@ -100,7 +102,7 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
-
+                orderfield:'id',
                 tableheight: '',
                 showdelete: false,
                 hideOptions: false,
@@ -406,6 +408,12 @@
                     else if(ret.ticket_unit==4){
                         //金额  隐藏剩余时长
                         vm.tableitems[3].subs[0].hidden = "true";
+                     }
+
+                     if(ret.support_type==0){
+                        vm.reduceType=[
+                            { 'value_name': '减免券','value_no': 1},
+                        ]
                      }
 
                   });
