@@ -1992,7 +1992,8 @@
                 _this.datesselector1 = common.currentDateArray(1);
             }
 
-
+            this.parkExpanded = true;
+            this.changeParkText()
         }
     };
 
