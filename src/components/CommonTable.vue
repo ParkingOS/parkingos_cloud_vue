@@ -44,13 +44,13 @@
                 <el-button @click="refresh" type="text">刷新&nbsp;&nbsp;</el-button>
             </el-col>
             <div :style="parkExpanStyle">
-                <el-form-item label="抬杆编号:">
+                <el-form-item label="抬杆编号:" style="margin-bottom: 5px">
                     <el-input v-model="formInline.number" placeholder="抬杆编号"></el-input>
                 </el-form-item>
-                <el-form-item label="通道:">
+                <el-form-item label="通道:" style="margin-bottom: 5px">
                     <el-input v-model="formInline.channel"  placeholder="通道"></el-input>
                 </el-form-item>
-                <el-form-item label="抬杆原因:">
+                <el-form-item label="抬杆原因:" style="margin-bottom: 5px">
                     <el-select  v-model="formInline.cause"  placeholder="全部">
                         <el-option
                                 v-for="item in parentMsg"
