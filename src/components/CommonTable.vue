@@ -373,7 +373,7 @@
 
             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
                 <template scope="scope">
-                    <el-button v-if="showEdit" size="small" type="text" @click="handleEdit(scope.$index, scope.row)">
+                    <el-button v-if="showEdit" :disabled='scope.row.state==2' size="small" type="text" @click="handleEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
                     <el-button v-if="showCustomizeEdit" type="text" size="small"
@@ -645,6 +645,7 @@
                 },
                 ef: 'editref',
                 af: 'addref',
+                editdisable:false,
                 searchFormVisible: false,
                 editFormVisible: false,
                 addFormVisible: false,
@@ -858,7 +859,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector22','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','indexHide','parentMsg','parentSf','orderfield'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','indexHide','parentMsg','parentSf','orderfield','editdisable'],
         methods: {
             //刷新页面
             refresh() {

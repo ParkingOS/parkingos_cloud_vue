@@ -251,17 +251,30 @@
                              editable: true,
                              searchable: true,
                              addable: true,
+
                              unsortable: true,
                              align: 'center',
+                             format:(row) => {
+                                if(row.state==0){
 
-                             format: (row) => {
+                                    return '可用'
+                                }else if(row.state==1){
+
+                                    return '不可用'
+                                }else{
+
+                                    return '已过期'
+                                }
+                             }
+
+                             //format: (row) => {
 
                                  //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
                                  //也就是data中的this,可以获取到this.aroles
                                  //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
-                                 return common.nameformat(row, stateType, 'state');
+                               //  return common.nameformat(row, stateType, 'state');
                                  //return common.nameformat(row, genderType, 'sex');
-                             }
+                             //}
                          }]
                      },
                      {
@@ -451,7 +464,7 @@
                     this.addFormPark.validite_time='24'
                     this.showfree = true;
                 }
-            }
+            },
         },
     }
 
