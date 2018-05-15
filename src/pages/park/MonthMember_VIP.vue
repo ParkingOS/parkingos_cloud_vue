@@ -334,7 +334,6 @@
                                 type: 'date',
 
                                 searchable: true,
-                                addable: true,
                                 unsortable: false,
                                 align: 'center',
                                 format: function (row) {
@@ -372,7 +371,7 @@
                                 width: '100',
                                 type: 'number',
                                 selectlist: centerpayset,
-                                editable: true,
+                                editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
@@ -387,7 +386,7 @@
                                 prop: 'act_total',
                                 width: '150',
                                 type: 'number',
-                                editable: true,
+                                editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
@@ -471,7 +470,7 @@
                                 width: '180',
                                 type: 'number',
                                 addable: true,
-                                editable: true,
+                                editable: false,
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center'

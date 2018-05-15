@@ -11,6 +11,7 @@
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
 
+                :orderfield="orderfield"
                 :hideTool="hideTool"
                 :showParkInfo="showParkInfo"
                 :hideSearch="hideSearch"
@@ -56,7 +57,7 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: false,
-
+                orderfield:'create_time',
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
