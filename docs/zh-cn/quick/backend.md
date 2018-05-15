@@ -83,11 +83,12 @@ src\main\resources\proxool.xml:
       <property name="password" value="1234" />
   </driver-properties>
 ```
-数据库保留着用户登录信息以及订单等信息。没有必要的话不要直接操作数据库。
+</br></br></br>
+<font color=red>数据库保留着用户登录信息以及订单等信息。没有必要的话不要直接操作数据库。
 但是对于这一套不熟悉的人很容易操作失误。这里列出了最容易出错的地方。
 刚开始搭建平台的时候,不知道对应的是正式还是测试平台造成的错误。首先把org_city_merchants
 这个表里的数据删除。其次把user_info_tb数据删除。然后重新登录会让你重新录入厂商信息。
-
+</font>
 
 
 
@@ -95,7 +96,7 @@ src\main\resources\proxool.xml:
 src\main\resources\config.properties:
 
 ```
-MONGOADDRESS=s.zldmongodb.com:27017   //mongodb地址
+MONGOADDRESS=s.zldmongodb.com:27017   //mongodb地址 
 IMAGEURL=http://120.25.121.204:8080/cloud  //本服务地址,比如左边是工程部署到120.25.121.204:8080
 UNIONIP=https://s.bolink.club/unionapi/ //泊链的api地址
 UNIONVALUE=yun   //这个对应的是小程序登录的时候的前缀  如果需要使用小程序，需要改成自己的前缀，把前缀告诉我们，泊链这边配置跳转。
@@ -106,8 +107,9 @@ FIXCODEURL=http://test/yun.bolink.club/zld/qr/d/  //api服务地址  后台固�
 ```
 
 修改完直接在根目录下执行mvn package
-然后将在target目录下生成的war包放到自己的tomcat即可。
-备注:刚从git上来下来的代码config文件都是对应测试平台。config文件根据需要进项修改。
+然后将在target目录下生成的war包放到自己的tomcat即可。</br></br></br>
+<font color=red>备注:刚从git上来下来的代码config文件都是对应测试平台。config文件根据需要进项修改。
+</font>
 
 
 ## sdk上报api服务安装
