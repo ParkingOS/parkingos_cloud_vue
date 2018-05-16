@@ -11,7 +11,7 @@
                 :searchtitle="searchtitle"
 
                 :hideTool="hideTool"
-
+                :orderfield="orderfield"
 
                 :showdateSelector="showdateSelector"
                 :hideSearch="hideSearch"
@@ -45,6 +45,7 @@
                 tableheight: '',
                 showdelete: true,
                 hideOptions: true,
+                orderfield:'id',
 
                 showdateSelector: true,
                 hideTool: false,
