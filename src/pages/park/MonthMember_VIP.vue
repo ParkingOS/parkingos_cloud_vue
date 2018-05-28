@@ -101,6 +101,10 @@
                 <el-form-item label="车主姓名">
                     <el-input v-model="refillForm.name" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
+
+                <el-form-item label="车位" :prop="p_lot">
+                    <el-input v-model="refillForm.p_lot" style="width:90%" placeholder="多个车位,用英文','隔开"></el-input>
+                </el-form-item>
                 <el-form-item label="车牌号码" :prop="car_number">
                     <el-input v-model="refillForm.car_number" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
@@ -140,15 +144,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="应收金额" :prop="total">
-                    <!--<el-input v-model="refillForm.total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.total" style="width:90%" placeholder=""
-                              :readonly="readonly"></el-input>
-                </el-form-item>
-                <el-form-item label="实收金额" :prop="act_total">
-                    <!--<el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>-->
-                    <el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
+
                 <el-form-item label="联系电话">
                     <el-input v-model="refillForm.mobile" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
@@ -232,7 +228,7 @@
                 showRegis: false,
                 resetCarnumber: '',
                 btswidth: '200',
-                fieldsstr: 'id__card_id__pid__name__car_number__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
+                fieldsstr: 'id__card_id__pid__name__car_number__p_lot__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
                 tableitems: [
                     // {
                     //     hasSubs: false, subs: [
@@ -363,37 +359,37 @@
 
                         ]
                     },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '应收金额',
-                                prop: 'total',
-                                width: '100',
-                                type: 'number',
-                                selectlist: centerpayset,
-                                editable: false,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '实收金额',
-                                prop: 'act_total',
-                                width: '150',
-                                type: 'number',
-                                editable: false,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-                            },
-                        ]
-                    },
+                    //{
+                     //   hasSubs: false, subs: [
+                      //      {
+                      //          label: '应收金额',
+                     //           prop: 'total',
+                     //           width: '100',
+                     //           type: 'number',
+                     //           selectlist: centerpayset,
+                     //           editable: false,
+                     //           searchable: true,
+                     //           addable: true,
+                     //           unsortable: true,
+                     //           align: 'center'
+                     //       },
+                     //   ]
+                    //},
+                    //{
+                      //  hasSubs: false, subs: [
+                      //      {
+                      //          label: '实收金额',
+                      //          prop: 'act_total',
+                      //          width: '150',
+                      //          type: 'number',
+                      //          editable: false,
+                      //          searchable: true,
+                      //          addable: true,
+                      //          unsortable: true,
+                      //          align: 'center'
+                      //      },
+                      //  ]
+                    //},
                     {
                         hasSubs: false, subs: [
                             {
@@ -405,6 +401,21 @@
                                 editable: true,
                                 searchable: true,
                                 addable: true,
+                                unsortable: true,
+                                align: 'center'
+                            },
+                        ]
+                    },
+                     {
+                        hasSubs: false, subs: [
+                            {
+                                label: '车位',
+                                prop: 'p_lot',
+                                width: '175',
+                                type: 'str',
+                                addable: false,
+                                editable: true,
+                                searchable: false,
                                 unsortable: true,
                                 align: 'center'
                             },
@@ -512,6 +523,7 @@
                 refillForm: {
                     name: '',
                     car_number: '',
+                    p_lot:'',
                     p_name: '',
                     months: '',
                     b_time: '',
@@ -711,7 +723,9 @@
                                 _this.showRegis = false;
                                 // _this.refillForm.resetFields();
                                 _this.refillForm.name = '';
+                                 _this.refillForm.p_lot = '';
                                 _this.$refs['refillForm'].resetFields()
+                                _this.resetloading = false
                             } else {
                                 //更新失败
                                 _this.$message({
@@ -719,8 +733,9 @@
                                     type: 'error',
                                     duration: 1200
                                 });
+                                 _this.resetloading = false
                             }
-                            _this.resetloading = false
+
 
                         }).catch(function (error) {
                             // setTimeout(() => {

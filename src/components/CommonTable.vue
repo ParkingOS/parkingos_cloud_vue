@@ -1276,6 +1276,7 @@
                                         duration: 600
                                     });
                                     vm.editFormVisible = false;
+                                    setTimeout(vm.editloading=false, 5000);
                                 } else {
                                     //更新失败
                                     vm.$message({
@@ -1283,8 +1284,9 @@
                                         type: 'error',
                                         duration: 600
                                     });
+                                    setTimeout(vm.editloading=false, 5000);
                                 }
-                                setTimeout('vm.editloading=false', 5000);
+
                             }
                         }).catch(function (error) {
                             setTimeout(() => {

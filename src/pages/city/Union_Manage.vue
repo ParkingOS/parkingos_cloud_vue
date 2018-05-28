@@ -5,6 +5,7 @@
                 :addapi="addapi"
                 :editapi="editapi"
                 :delapi="delapi"
+                :orderfield="orderfield"
                 :tableheight="tableheight"
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
@@ -281,7 +282,7 @@
         },
         data() {
             return {
-
+                orderfield:'id',
                 hideExport: true,
                 tableheight: '',
                 hideOptions: false,
