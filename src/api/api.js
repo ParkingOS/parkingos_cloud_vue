@@ -1,4 +1,3 @@
-
 // export const path = 'http://120.25.121.204:8080/cloud';
 export const path = 'http://test.bolink.club/cloud';
 // export const path = window.parkingosapi;
@@ -7,7 +6,7 @@ export const path = 'http://test.bolink.club/cloud';
 //   export const path = 'http://192.168.199.205:12305';
 // export const path = 'http://localhost:8080/cloud';
 
-//  export const path = 'http://192.168.192.1:12305';
+ // export const path = 'http://192.168.192.1:12305';
 //export const path = "http://localhost:8085"
 // export const path = "http://localhost:8080/cloud"
 // export const path = 'http://192.168.199.150:8080/cloud';
@@ -249,7 +248,7 @@ export var checkPhone = (rule, value, callback) => {
 export var checkParkMobile = (rule, value, callback) => {
     if (typeof(value) === 'undefined' || value === '') {
         return callback(new Error('请输入车场手机号码'));
-    } else if (!((/^1[34578]\d{9}$/.test(value)))) {
+    } else if (!((/^1[345789]\d{9}$/.test(value)))) {
         return callback(new Error('请输入正确的手机号码'));
     } else {
         callback();
