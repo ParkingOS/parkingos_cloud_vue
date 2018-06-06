@@ -832,7 +832,7 @@
                 pwd1: '',
                 pwd2: '',
                 currentdate: '',
-                tableheight2: common.gwh() - 143,
+                tableheight2: '',
                 parks: '',
                 operateType:[
                     {'value_no': "", 'value_name': '全部'},
@@ -1867,6 +1867,16 @@
         updated(){
                   //  console.log("get table eeeee33:",this.$refs['search'].searchForm);
         },
+        beforeMount(){
+            var urls = window.location.href.split("_")[0];
+            var urlsSplit = urls.split("/");
+            var urlsName = urlsSplit[urlsSplit.length -1];
+            if(urlsName == "orderStatistics"){
+                this.tableheight2 = common.gwh() - 165;
+            }else{
+                this.tableheight2 = common.gwh() - 143;
+            }
+        },
         mounted() {
             let _this = this;
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
@@ -1889,12 +1899,26 @@
         },
 
         activated() {
+            //通过url 进行判断，是否是需要的页面
+            var urls = window.location.href.split("_")[0];
+            var urlsSplit = urls.split("/");
+            var urlsName = urlsSplit[urlsSplit.length -1];
 
-            window.onresize = () => {
+            if(urlsName == "orderStatistics"){
+                this.tableheight2 = common.gwh() - 165;
+            }else{
                 this.tableheight2 = common.gwh() - 143;
+            }
+            window.onresize = () => {
+                // this.tableheight2 = common.gwh() - 143;
+                if(urlsName == "orderStatistics"){
+                    this.tableheight2 = common.gwh() - 165;
+                }else{
+                    this.tableheight2 = common.gwh() - 143;
+                }
             };
 
-            this.tableheight2 = common.gwh() - 143;
+            // this.tableheight2 = common.gwh() - 143;
             //window.onresize=()=>{alert('123');this.mapheight=common.gwh()*0.5}
             let _this = this;
             this.analysisdate = Date.now();
@@ -1991,9 +2015,12 @@
                 _this.datesselector = common.currentDateArray(3);
                 _this.datesselector1 = common.currentDateArray(1);
             }
+            //这里也要判断是不是需要的页面
+            if(urlsName != "orderStatistics"){
+                this.parkExpanded = true;
+                this.changeParkText()
+            }
 
-            this.parkExpanded = true;
-            this.changeParkText()
         }
     };
 
