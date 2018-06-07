@@ -1873,7 +1873,7 @@
             var urls = window.location.href.split("_")[0];
             var urlsSplit = urls.split("/");
             var urlsName = urlsSplit[urlsSplit.length -1];
-            if(urlsName == "orderStatistics"){
+            if(urlsName == "orderStatistics" || urlsName == "strategicAnalysis"){
                 this.tableheight2 = common.gwh() - 165;
             }else{
                 this.tableheight2 = common.gwh() - 143;
@@ -1906,14 +1906,14 @@
             var urlsSplit = urls.split("/");
             var urlsName = urlsSplit[urlsSplit.length -1];
 
-            if(urlsName == "orderStatistics"){
+            if(urlsName == "orderStatistics" || urlsName == "strategicAnalysis"){
                 this.tableheight2 = common.gwh() - 165;
             }else{
                 this.tableheight2 = common.gwh() - 143;
             }
             window.onresize = () => {
                 // this.tableheight2 = common.gwh() - 143;
-                if(urlsName == "orderStatistics"){
+                if(urlsName == "orderStatistics" || urlsName == "strategicAnalysis"){
                     this.tableheight2 = common.gwh() - 165;
                 }else{
                     this.tableheight2 = common.gwh() - 143;
@@ -2018,7 +2018,7 @@
                 _this.datesselector1 = common.currentDateArray(1);
             }
             //这里也要判断是不是需要的页面
-            if(urlsName != "orderStatistics"){
+            if(urlsName != "orderStatistics" && urlsName != "strategicAnalysis"){
                 this.parkExpanded = true;
                 this.changeParkText()
             }
