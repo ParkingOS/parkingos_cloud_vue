@@ -109,9 +109,8 @@
                            @dblclick="makePoint" :scroll-wheel-zoom="true" :double-click-zoom="false">
 
                     <bm-marker v-if="showMarker" :position="marker" animation="BMAP_ANIMATION_DROP" :label="mapLabel"
-                               :dragging="true" @mouseup="mouseup"></bm-marker>
-                    <!--<bm-local-search :keyword="keyword" :auto-viewport="true" :selectFirstResult="true" :pageCapacity="ps" :resultPanel="false" location="北京"></bm-local-search>-->
-
+                               :dragging="true" @mouseup="mouseup">
+                    </bm-marker>
                 </baidu-map>
             </el-row>
             <el-row>
@@ -869,7 +868,6 @@
             sclick() {
                 let vm = this;
                 let myGeo = new BMap.Geocoder();
-
                 myGeo.getPoint(this.keyword, function (point) {
                     if (point) {
                         if (point.lat === vm.center.lat && point.lng === vm.center.lng) {
@@ -878,11 +876,13 @@
                             vm.center.lat = point.lat;
                             vm.center.lng = point.lng;
                             vm.showMarker = false;
-                            vm.mapLabel.content = vm.keyword;
+                            // vm.mapLabel.content = vm.keyword;
                             vm.addressTitle = vm.keyword;
                             vm.marker.lat = point.lat;
                             vm.marker.lng = point.lng;
-                            vm.showMarker = true
+                            vm.showMarker = true;
+                            new BMap.Label("123456",)
+                            // {content: '双击定位', opts: {offset: {width: 20, height: -10}}}
                         }
                     } else {
                         alert("您选择地址没有解析到结果!");
