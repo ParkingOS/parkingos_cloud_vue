@@ -1023,6 +1023,7 @@
                             vm.center.lng = point.lng;
                             vm.showMarker = false;
                             vm.mapLabel.content = vm.keyword;
+                            vm.addressTitle = vm.keyword;
                             vm.marker.lat = point.lat;
                             vm.marker.lng = point.lng;
                             vm.showMarker = true
