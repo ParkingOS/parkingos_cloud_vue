@@ -9,6 +9,7 @@ export const AUTH_ID = {
     orderStatistics: 11, //统计分析
     orderStatistics_DailyReport: 12, //统计分析-时租订单统计-日报
     orderStatistics_MonthReport: 314, //统计分析-时租订单统计-日报
+    orderStatistics_CollectorReport:317,//统计分析-收费员统计
     shopManage: 71, //商户管理-大菜单
     shopManage_Coupon: 311, //优惠券管理
     shopManage_Shop: 299, //商户管理-小菜单
@@ -55,6 +56,7 @@ export const showParkItem_const = {
     orderStatistics: false,
     orderStatistics_DailyReport: false,
     orderStatistics_MonthReport: false,
+    orderStatistics_CollectorReport:false,
     onlinePay: false,
     onlinePay_Income: false,
     onlinePay_CashManage: false,
@@ -109,6 +111,7 @@ export const AUTH_ID_UNION = {
     strategicAnalysis: 219, //决策分析
     strategicAnalysis_DailyReport: 315, //封闭车场订单统计-车场日报
     strategicAnalysis_MonthReport:316,
+    strategicAnalysis_DailyParkReport:318,//车场日报
     centerMonitor: 301 //中央监控
 };
 export const showUnionItem_const = {
@@ -133,6 +136,7 @@ export const showUnionItem_const = {
     strategicAnalysis: false,
     strategicAnalysis_DailyReport: false,
     strategicAnalysis_MonthReport: false,
+    strategicAnalysis_DailyParkReport:false,
     centerMonitor: false
 };
 export const showBossItem_const = {

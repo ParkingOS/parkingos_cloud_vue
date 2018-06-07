@@ -1,19 +1,22 @@
 <template>
+
     <section>
-        <el-tabs v-model="activeName" type="card">
-            <el-tab-pane name="tableStyle" class="tab-content-pad">
+        <el-tabs v-model="activeName" type="card" >
+            <el-tab-pane  name="tableStyle" class="tab-content-pad">
                 <span slot="label"><i class="el-icon-tickets"></i> 表格模式</span>
                 <common-table
                         :queryapi="queryapi"
+
                         :tableheight="tableheight"
                         :fieldsstr="fieldsstr"
                         :tableitems="tableitems"
                         :btswidth="btswidth"
                         :hide-export="hideExport"
-                        :exportapi="exportapi"
+                        :showdateSelector33="showdateSelector"
+                        :showParkSelector="showParkSelector"
                         :hide-options="hideOptions"
                         :searchtitle="searchtitle"
-                        :showdateSelectorMonth="showdateSelectorMonth"
+                        :exportapi="exportapi"
                         :hideTool="hideTool"
                         :hideSearch="hideSearch"
                         :hideAdd="hideAdd"
@@ -25,15 +28,15 @@
                 <span slot="label"><i class="el-icon-picture"></i> 图表模式</span>
 
                 <section class="date-picker-sec">
-                    <section>
-                        <!--<el-select v-model="selParkId" filterable placeholder="请选择">-->
-                        <!--<el-option-->
-                        <!--v-for="item in parklistChart"-->
-                        <!--:key="item.value_no"-->
-                        <!--:label="item.value_name"-->
-                        <!--:value="item.value_no">-->
-                        <!--</el-option>-->
-                        <!--</el-select>-->
+                    <section >
+                        <el-select v-model="selParkId" filterable placeholder="请选择" @change="changeanalysisdatepark">
+                            <el-option
+                                    v-for="item in parklistChart"
+                                    :key="item.value_no"
+                                    :label="item.value_name"
+                                    :value="item.value_no">
+                            </el-option>
+                        </el-select>
                         <!--<el-date-picker-->
                         <!--v-model="chartDate"-->
                         <!--type="datetimerange"-->
@@ -45,33 +48,26 @@
                         <!--end-placeholder="结束日期"-->
                         <!--:picker-options="chartPickerOptions" >-->
                         <!--</el-date-picker>-->
-                        <!--<el-button type="primary" @click="queryForChart">确定</el-button>-->
+                        <el-date-picker
+                                v-model="chartDate"
+                                type="date"
+                                align="right"
+                                unlink-panels
 
-                        <el-date-picker
-                                v-model="monthReportStart"
-                                type="month"
-                                :picker-options="pickerOptionsBefore"
-                                value-format="yyyy-MM"
-                                :placeholder="start_month_placeholder">
+                                :placeholder="start_placeholder"
+
+
+                                @change="changeanalysisdate"
+                               >
                         </el-date-picker>
-                        <span> 至 </span>
-                        <el-date-picker
-                                v-model="monthReportEnd"
-                                type="month"
-                                :picker-options="pickerOptionsAfter"
-                                value-format="yyyy-MM"
-                                :placeholder="start_month_placeholder">
-                        </el-date-picker>
-                        <el-tooltip class="item" effect="dark" content="最多支持12个月的数据查询" placement="bottom">
-                            <el-button type="primary" @click="queryForChart" align="center">查询
-                            </el-button>
-                        </el-tooltip>
-                    </section>
+                        <!--<el-button type="primary" @click="queryForChart">确定</el-button>-->
+                    </section >
 
                 </section>
                 <section class="chart-sec">
-                    <!--<div style="overflow-y: auto;padding-right: 30px;" id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}"></div>-->
+                    <!--<div  id="chart" class="chart-style" v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>-->
                     <div  id="chart" class="chart-style"  :style='chartstyles'></div>
+
                 </section>
             </el-tab-pane>
         </el-tabs>
@@ -83,104 +79,154 @@
 
 <script>
     import {path} from '../../api/api';
-    import common from '../../common/js/common';
-    import CommonTable from '../../components/CommonTable';
-    import echarts from 'echarts';
+    import common from '../../common/js/common'
+    import CommonTable from '../../components/CommonTable'
     import axios from 'axios'
+    import echarts from 'echarts'
     export default {
         components: {
             CommonTable
         },
         data() {
-            let that = this;
             return {
                 //图表相关
+
+                start_placeholder: '',
+                end_placeholder: '',
                 activeName: 'tableStyle',
                 chartDate: '',
-                monthReportStart:'',
-                monthReportEnd:'',
-                start_month_placeholder:'',
                 selParkId: -1,
                 chartHeight: '600px',
                 chartWidth: '800px',
                 chartstyles:'',
-                pickerOptionsBefore: {
-                     disabledDate(time) {
-                       return time.getTime() > Date.now() - 8.64e7;
-                     }
+                chartPickerOptions:{
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
                 },
-                pickerOptionsAfter: {
-                     disabledDate(time) {
-                        var date1 = new Date(that.monthReportStart);
-                        var date2 = new Date(date1);
-                       return time.getTime() > Date.now() - 8.64e7 || time.getTime() < date2.getTime();
-                     }
-                },
+                currentPage: 1,
+                pageSize: 20,
+                total: 0,
+                orderby: 'desc',
+                orderfield: 'id',
+                table: [],
+                sform: {},
+                showWorkDetail: false,
+                showOrderDetail: false,
+                currentRow: '',
+                parklist: [],
+                parklistChart: [],
 
                 loading: false,
                 hideExport: false,
                 hideSearch: true,
-                showdateSelectorMonth: true,
+                showdateSelector: true,
+                showParkSelector:true,
                 hideAdd: true,
                 tableheight: '',
                 hideOptions: true,
                 hideTool: false,
                 hidePagination: true,
-                queryapi: '/groupmonthorder/query',
-                exportapi: '/groupmonthorder/exportExcel',
+                exportapi: '/cityparkorderanlysis/exportExcel',
+                queryapi: '/cityparkorderanlysis/query',
                 btswidth: '100',
-                fieldsstr: 'sdate__scount__amount_receivable__cash_pay__electronic_pay__free_pay',
+                fieldsstr: 'time__comid__amount_receivable__cash_pay__electronic_pay__act_total__free_pay',
                 tableitems: [
-                    {
+                     {
                         hasSubs: false, subs: [
                             {
-                                label: '日期',
-                                prop: 'sdate',
+                                label: '车场',
+                                prop: 'comid',
                                 width: '123',
-                                type: 'str',
+                                type: 'selection',
+                                selection: this.parklist,
                                 editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center'
-                            }
+                                align: 'center',
+
+                            },
                         ]
-                    }, {
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '日期',
+                                prop: 'time',
+                                width: '123',
+                                type: 'str',
+
+                                editable: false,
+                                searchable: false,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+
+                            },
+                        ]
+                    },
+                    {
                         hasSubs: false, subs: [
                             {
                                 label: '总订单数',
                                 prop: 'scount',
                                 width: '123',
-                                type: 'number',
+                                type: 'str',
+
                                 editable: false,
-                                searchable: true,
+                                searchable: false,
                                 addable: true,
                                 unsortable: true,
+                                align: 'center',
 
-                                align: 'center'
-                            }
+                            },
                         ]
                     },
                     {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '应收金额',
-                            prop: 'amount_receivable',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
+                        hasSubs: false, subs: [
+                            {
+                                label: '应收金额',
+                                prop: 'amount_receivable',
+                                width: '123',
+                                type: 'selection',
+                                editable: false,
+                                searchable: false,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
                     },
                     {
                         label: '实收金额',
                         hasSubs: true,
                         subs: [
+
                             {
+
                                 label: '现金支付',
                                 prop: 'cash_pay',
                                 width: '123',
@@ -220,8 +266,7 @@
                                 align: 'center'
 
                             }]
-                    }
-                    , {
+                    },  {
 
                         hasSubs: false,
                         subs: [{
@@ -230,7 +275,6 @@
                             width: '123',
                             type: 'str',
                             editable: true,
-                            searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -241,8 +285,6 @@
                 ],
                 searchtitle: '高级查询',
 
-                datesselector: '',
-
                 currentPage: 1,
                 pageSize: 20,
                 total: 0,
@@ -250,15 +292,31 @@
                 orderfield: 'id',
                 table: [],
                 sform: {},
-                currentRow: ''
-            };
+                showWorkDetail: false,
+                showOrderDetail: false,
+                currentRow: '',
+                parklist: [],
+                parklistChart: [],
+            }
         },
         methods: {
-            initChart: function () {
+            initChart: function() {
                 //初始化图表
                 this.chart = echarts.init(document.getElementById('chart'));
+                console.log('chart加载')
+                console.log(this.chart)
             },
-            queryForChart: function () {
+            changeanalysisdate(input2) {
+                //修改车场统计分析日期
+                console.log(input2);
+                console.log(this.chartDate);
+                this.queryForChart();
+            },
+            changeanalysisdatepark(val) {
+                this.selParkId = val
+                this.queryForChart();
+            },
+            queryForChart: function (isFirst) {
                 let api = this.queryapi;
                 var formdata = {};
                 let vm = this;
@@ -271,9 +329,14 @@
                     formdata.comid_start = this.selParkId;
                     formdata.comid = '';
                 }
-                formdata.time = 'between';//this.chartDate[1].getTime() ;
-                formdata.btime = this.monthReportStart;
-                formdata.etime = this.monthReportEnd;
+                if(isFirst!==1){
+                    //formdata.time = 'between';//this.chartDate[1].getTime() ;
+                    // formdata.time_start = this.chartDate[0].getTime(); //;
+                    // formdata.time_end = this.chartDate[1].getTime();
+                    //formdata.date = this.chartDate[0] + '至' + this.chartDate[1];
+                    formdata.date = new Date(this.chartDate).getTime()/1000;
+                }
+
                 formdata = common.generateForm(formdata);
                 vm.$axios.post(path + api, vm.$qs.stringify(formdata), {
                     headers: {
@@ -343,7 +406,7 @@
                     console.log(response.data.rows);
                     for(let i = 0 ; i < dataRows.length;i++){
                         let rData = dataRows[i];
-                        xAxisData[i] = rData.sdate;
+                        xAxisData[i] = rData.comid;
                         //seriesData[0].data[i] = rData.scount  ;//订单总数
                         seriesData[0].data[i] = rData.cash_pay ; //现金支付
                         seriesData[1].data[i] = rData.amount_receivable;  //应收金额
@@ -353,7 +416,7 @@
                     }
                     vm.chart.setOption({
                         title: {
-                            text: '集团月报统计'
+                            text: '车场日报统计'
                         },
                         tooltip : {
                             trigger: 'axis',
@@ -396,23 +459,13 @@
                 })
             }
         },
+
         mounted() {
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
+                // this.chartHeight = (common.gwh()-143)+'px';
+                // this.chartWidth = (common.gww()/common.gwh())*common.gwh();
             };
-            this.tableheight = common.gwh() - 143;
-            // var user = sessionStorage.getItem('user');
-            // this.user = user
-            // if (user) {
-            //     user = JSON.parse(user);
-            //     for (var item of user.authlist) {
-            //         if (AUTH_ID.showOrderStatistics_DailyReport_auth_id == item.auth_id) {
-            //             console.log(item.sub_auth)
-            //             break;
-            //         }
-            //     }
-            //
-            // }
             this.initChart();
         },
         created(){
@@ -422,39 +475,55 @@
             this.activeName= 'tableStyle',
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
+                this.chartHeight = (common.gwh()-200)+'px';
+                this.chartWidth = (common.gww()/common.gwh())*common.gwh();
+                //console.log(this.chartHeight,this.chartWidth);
             };
-            this.tableheight = common.gwh() - 143;
             this.chartHeight = (common.gwh()-200)+'px';
             this.chartWidth = (common.gww()/(common.gwh()-200))*common.gwh();
+            this.chartDate = common.currentDateArray(10);
+            this.selParkId = -1;
 
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''});
             // this.getTableData(this.sform);
-            this.start_month_placeholder = common.currentMonth();
-            this.monthReportStart = common.currentMonth();
-            this.monthReportEnd = common.currentMonth();
-            this.queryForChart();
-        }
-    };
+            let _this = this;
+            _this.$nextTick(function () {
+                axios.all([common.getAllParks()])
+                    .then(axios.spread(function (ret) {
+
+                        _this.parklist = ret.data;
+                        _this.parklistChart =  ret.data;
+                        _this.parklistChart.push({
+                            value_name:'全部车场',
+                            value_no:-1}
+                        );
+                        _this.queryForChart(1);
+                    }))
+            });
+            this.start_placeholder = common.currentDate();
+            //this.start_placeholder = common.currentDate() + ' 00:00:00';
+            this.end_placeholder = common.currentDate() + ' 23:59:59';
+        },
+        watch: {
+            parklist: function (val) {
+                this.tableitems[1].subs[0].selectlist = val
+            }
+        },
+    }
 
 </script>
 
 <style>
-    .gutter {
-        display: none
-    }
-
     .tab-content-pad {
         padding-left: 10px;
     }
-
-    .date-picker-sec, .chart-sec {
+    .date-picker-sec , .chart-sec{
         width: 100%;
         display: flex;
-        justify-content: space-around;
+        justify-content:space-around;
     }
-
-    .chart-style {
+    .chart-style{
         padding-top: 60px;
     }
 

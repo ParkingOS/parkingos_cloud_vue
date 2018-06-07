@@ -21,6 +21,7 @@ import MonthMember_VIP from './pages/park/MonthMember_VIP.vue';
 import OnlinePay_CashManage from './pages/park/OnlinePay_CashManage.vue';
 import OnlinePay_Income from './pages/park/OnlinePay_Income.vue';
 import OrderStatistics_DailyReport from './pages/park/OrderStatistics_DailyReport.vue';
+import OrderStatistics_CollectorReport from './pages/park/OrderStatistics_CollectorReport.vue';
 import OrderStatistics_MonthReport from './pages/park/OrderStatistics_MonthReport.vue';
 import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue';
 import ShopManage_Shop from './pages/park/ShopManage_Shop.vue';
@@ -58,6 +59,8 @@ import SystemSetting_RoleManage from './pages/union/SystemSetting_RoleManage.vue
 import SystemSetting_LogsOperate from './pages/union/SystemSetting_LogsOperate.vue';
 import SystemSetting_LogsCollector from './pages/union/SystemSetting_LogsCollector.vue';
 import StrategicAnalysis_DailyReport from './pages/union/StrategicAnalysis_DailyReport.vue';
+import strategicAnalysis_DailyParkReport from './pages/union/strategicAnalysis_DailyParkReport.vue';
+
 import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_MonthReport.vue';
 
 //厂商页面
@@ -212,6 +215,8 @@ let routes = [
         name: '统计分析',
         iconCls: 'el-icon-document',
         children: [
+
+            {path: '/orderStatistics_CollectorReport', component: OrderStatistics_CollectorReport, name: '收费员'},
             {path: '/orderStatistics_DailyReport', component: OrderStatistics_DailyReport, name: '日报'},
             {path: '/orderStatistics_MonthReport', component: OrderStatistics_MonthReport, name: '月报'}
         ]
@@ -313,8 +318,9 @@ let routes = [
         name: '决策分析',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/strategicAnalysis_DailyReport', component: StrategicAnalysis_DailyReport, name: '车场日报'},
-            {path: '/strategicAnalysis_MonthReport', component: StrategicAnalysis_MonthReport, name: '车场月报'}
+            {path: '/strategicAnalysis_DailyParkReport', component: strategicAnalysis_DailyParkReport, name: '车场日报'},
+            {path: '/strategicAnalysis_DailyReport', component: StrategicAnalysis_DailyReport, name: '集团日报'},
+            {path: '/strategicAnalysis_MonthReport', component: StrategicAnalysis_MonthReport, name: '集团月报'}
         ]
     },
     {

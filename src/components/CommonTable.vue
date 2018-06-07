@@ -88,20 +88,23 @@
                                         :value="item.value_no">
                                 </el-option>
                             </el-select>
-                            <el-date-picker
-                                    v-model="datesselector"
-                                    type="datetimerange"
-                                    align="right"
-                                    style="float:left"
-                                    unlink-panels
-                                    range-separator="至"
-                                    :start-placeholder="start_placeholder"
-                                    :end-placeholder="end_placeholder"
-                                    value-format="yyyy-MM-dd HH:mm:ss"
-                                    :picker-options="pickerOptions2"
-                                    @change="changeParkTime"
-                                    :default-time="['00:00:00', '23:59:59']">
-                            </el-date-picker>
+                              <el-date-picker
+                                     v-model="datesselector"
+                                     type="datetimerange"
+                                     align="right"
+                                     style="float:left"
+                                     unlink-panels
+                                     range-separator="至"
+                                     :start-placeholder="start_placeholder"
+                                     :end-placeholder="end_placeholder"
+                                     value-format="yyyy-MM-dd HH:mm:ss"
+                                     :picker-options="pickerOptions3"
+                                     :editable=false
+                                     @change="changeParkTime"
+                                      ref="timeDom"
+                                     @blur="inputBlur"
+                                     :default-time="['00:00:00', '23:59:59']">
+                             </el-date-picker>
 
                             <el-input v-model="parkcarnum" style="float:left;width:200px;background:white;">
                                 <template slot="prepend">车牌号</template>
@@ -232,6 +235,21 @@
                                 @change="changeanalysisdate"
                                 :default-time="['00:00:00', '23:59:59']">
                         </el-date-picker>
+                    </div>
+
+                     <div v-if="showdateSelector33" style="float: left;margin-right: 10px;">
+
+                        <span class="demonstration">日期</span>
+                       <el-date-picker
+                               v-model="datesselector"
+                               type="date"
+                               align="right"
+                               unlink-panels
+                               :placeholder="start_placeholder33"
+                               @change="changeanalysisdate"
+                               >
+                       </el-date-picker>
+
                     </div>
                     <div v-if="showdateSelector10" style="float: left;margin-right: 10px;">
 
@@ -396,6 +414,9 @@
                     </el-button>
                     <el-button v-if="showresetpwd" size="small" type="text"
                                @click="handleresetpwd(scope.$index, scope.row)">重置密码
+                    </el-button>
+                    <el-button v-if="showresetdata" size="small" type="text"
+                               @click="handleresetdata(scope.$index, scope.row)"><span style="color:red">重置</span>
                     </el-button>
                     <el-button v-if="showmRefill" size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)">续费
@@ -607,6 +628,25 @@
 				<el-button type="primary" size="small" @click="resetPwd" :loading="resetloading">确 定</el-button>
 			</span>
         </el-dialog>
+
+        <el-dialog
+                title="车场数据重置"
+                :visible.sync="resetDataVisible"
+                width="30%"
+                style="text-align:center" >
+            <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
+                <div style="color:red;text-align: justify">车场重置后会清掉车场所有订单和抬杆数据,收费员与月卡等数据会保留,请慎重操作.</div>
+                <el-form-item label="厂商登录密码">
+                    <el-input v-model="pwd" style="width:90%"></el-input>
+                </el-form-item>
+
+            </el-form>
+
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="resetDataVisible = false" size="small">取 消</el-button>
+                <el-button type="primary" size="small" @click="resetData" :loading="resetloading">确 定</el-button>
+            </span>
+        </el-dialog>
     </section>
 </template>
 
@@ -632,6 +672,8 @@
                     channel: '',
                     cause: ''
                 },
+                dateStart:'',
+                dateEnd:'',
                 searchForm:{
                     liftrod_id: '',
                     out_channel_id: '',
@@ -733,6 +775,7 @@
                 balance: '',
                 analysisdate: '',
                 datesselector: '',
+                cloneTime:'',
                 datesselector1:'',
                 monthReportStart: '',
                 monthReportEnd: '',
@@ -746,7 +789,23 @@
                     disabledDate(time) {
                         var date1 = new Date(that.monthReportStart);
                         var date2 = new Date(date1);
-                        return time.getTime() > Date.now() - 8.64e7 || time.getTime() < date2.getTime();
+                        return time.getTime() > Date.now()  || time.getTime() <= date2.getTime();
+                    }
+                },
+
+                 pickerOptionsBefore2: {
+                    disabledDate(time) {
+                        var date1 = new Date(that.dateEnd);
+                        //alert(date1.getTime())
+                        var date2 = new Date(date1.getTime()-31*24*60*60*1000);
+                        return time.getTime() > Date.now()||time.getTime() < date2.getTime()||time.getTime()>date1.getTime();
+                    }
+                },
+                pickerOptionsAfter2: {
+                    disabledDate(time) {
+                        var date1 = new Date(that.dateStart);
+                        var date2 = new Date(date1);
+                        return time.getTime() > Date.now()  || time.getTime() < date2.getTime();
                     }
                 },
 
@@ -758,11 +817,36 @@
                 },
                 start_placeholder: '',
                 start_placeholder1: '',
+                start_placeholder33:'',
                 end_placeholder: '',
                 end_placeholder1:'',
                 start_month_placeholder: '',
                 start_month_placeholder11: '',
                 end_month_placeholder11: '',
+
+                minDate : '',
+                maxDate : '',
+                pickerOptions3:{
+
+                    onPick(dates) {
+                      that.minDate = dates.minDate;
+                      //console.log('最小日期'+that.minDate)
+                      that.maxDate = dates.maxDate;
+                    },
+
+                  disabledDate(time){
+                     //console.log('======>>>>>>>>'+that.minDate)
+                     //console.log('!!!!!!!>>>>>>>>'+new Date(that.minDate).getTime())
+                      //if (that.maxDate ) {
+                      //      return time.getTime() <  new Date(that.maxDate).getTime()-31*24*3600000||time.getTime()>Date.now();
+                      // } else if (that.minDate) {
+                      //      return time.getTime() >  new Date(that.minDate).getTime()+31*24*3600000||time.getTime()>Date.now();
+                      // }
+
+                        return time.getTime() >  new Date(that.minDate).getTime()+30*24*3600000||time.getTime()>Date.now()||time.getTime() <  new Date(that.minDate).getTime()-30*24*3600000;
+                  }
+                },
+
 
                 pickerOptions2: {
                     shortcuts: [
@@ -827,10 +911,12 @@
                         }]
                 },
                 resetPwdVisible: false,
+                resetDataVisible:false,
                 // imgDialog: false,
                 // imgdialog_url: '',
                 pwd1: '',
                 pwd2: '',
+                pwd:'',
                 currentdate: '',
                 tableheight2: '',
                 parks: '',
@@ -858,7 +944,7 @@
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd', 'showdateSelector','showdateSelector22','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
+            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd','showresetdata', 'showdateSelector','showdateSelector22','showdateSelector33','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','indexHide','parentMsg','parentSf','orderfield','editdisable'],
         methods: {
             //刷新页面
@@ -1535,6 +1621,12 @@
                 //显示充值密码对话框
                 this.resetPwdVisible = true;
             },
+            handleresetdata(index, row) {
+               this.rowid = row.id;
+                this.pwd = '';
+               //显示重置车场数据框
+               this.resetDataVisible = true;
+           },
             resetPwd() {
 
                 let qform = this.sform;
@@ -1593,6 +1685,71 @@
                                 type: 'error',
                                 duration: 2000
                             });
+                        }
+                    }
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
+            },
+
+            resetData() {
+
+                let qform = this.sform;
+                let vm = this;
+                let api = this.resetapi;
+                if (this.pwd == '') {
+                    this.$message.error('密码不能为空!');
+                    return;
+                }
+
+
+                this.resetloading = true;
+                let rform = {
+                    'password': this.pwd,
+                    'id': this.rowid,
+                    'token': sessionStorage.getItem('token'),
+                    'loginuin':sessionStorage.getItem('loginuin')
+                };
+
+                vm.$axios.post(path + api, vm.$qs.stringify(rform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
+
+                    if (ret.validate != 'undefined' && ret.validate == '1') {
+                        //过期.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 100);
+                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                        //令牌无效.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 100);
+                    } else {
+                        if (ret > 0 || ret.state == 1) {
+                            //重置成功
+                            vm.getTableData(qform);
+                            vm.$message({
+                                message: '重置成功!',
+                                type: 'success',
+                                duration: 1500
+                            });
+                            vm.resetDataVisible = false;
+                            vm.resetloading = false;
+                        } else {
+                            //更新失败
+                            vm.$message({
+                                message: '更新失败!' + ret.msg,
+                                type: 'error',
+                                duration: 2000
+                            });
+                            vm.resetDataVisible = false;
+                            vm.resetloading = false;
                         }
                     }
                 }).catch(function (error) {
@@ -1724,7 +1881,7 @@
                 this.sform.date = this.searchDate;
                 this.sform.comid_start = this.currentpark;
                 if (this.currentdate == '') {
-                    this.currentdate = common.currentFormatDate();
+                    this.currentdate = new Date(common.currentDate()).getTime()/1000;
                 }
                 let form = {'date': this.currentdate, 'comid_start': val};
                 this.currentPage = 1;
@@ -1755,6 +1912,12 @@
                     this.searchDate = input;
                     this.currentPage = 1;
                     this.getTableData(date);
+                }else{
+                    var date = new Date(input2);
+                    console.log(date.getTime())
+                    let data = {'date': date.getTime()/1000,'out_uid': this.currentcollect};
+                    this.currentdate =date.getTime()/1000;
+                    this.getTableData(data);
                 }
 
             },
@@ -1762,11 +1925,44 @@
                 this.sform.car_number = this.parkcarnum;
                 this.getTableData(this.sform);
             },
+            inputBlur:function (e) {
+                if(this.datesselector === "" || this.datesselector === null){
+
+                    this.start_placeholder= this.cloneTime[0];
+                    this.end_placeholder= this.cloneTime[1];
+                    console.log('what is this'+this.minDate)
+                    this.minDate = '';
+                    this.maxDate = '';
+                }else{
+                    console.log('this.cloneTime2:'+this.cloneTime);
+                    //this.datesselector = JSON.parse(JSON.stringify(this.cloneTime));
+                    this.start_placeholder= this.cloneTime[0];
+                    this.end_placeholder= this.cloneTime[1];
+                }
+            },
             changeParkTime(datearr) {
                 if (datearr !== null && datearr.length > 1) {
                     if (this.ordertimetype === 'end_time') {
                         this.ordertime_start = (new Date(datearr[0].replace(new RegExp(/-/gm) ,"/"))).getTime();
                         this.ordertime_end = (new Date(datearr[1].replace(new RegExp(/-/gm) ,"/"))).getTime();
+
+                        var region =Math.ceil((this.ordertime_end-this.ordertime_start)/ 1000 / 60 / 60 / 24);
+                        if(region > 31){
+
+                            this.$refs["timeDom"].focus();
+                            this.start_placeholder= this.cloneTime[0];
+                            this.end_placeholder= this.cloneTime[1];
+                            this.datesselector='';
+                            //console.log('what is that '+ this.datesselector);
+                            this.$message({
+                                message: '最多可选择31天',
+                                type: 'warning'
+                            });
+                            return ;
+                        }else{
+
+                            this.cloneTime = datearr;
+                        }
 
                         this.sform.end_time = this.ordertime;
                         this.sform.end_time_start = this.ordertime_start;
@@ -1778,6 +1974,23 @@
                     } else if (this.ordertimetype === 'create_time') {
                         this.ordertime_start = (new Date(datearr[0].replace(new RegExp(/-/gm) ,"/"))).getTime();
                         this.ordertime_end = (new Date(datearr[1].replace(new RegExp(/-/gm) ,"/"))).getTime();
+
+                        var region =Math.ceil((this.ordertime_end-this.ordertime_start)/ 1000 / 60 / 60 / 24);
+                        if(region > 31){
+                            this.$refs["timeDom"].focus();
+                            //this.datesselector= this.cloneTime;
+                            this.start_placeholder= this.cloneTime[0];
+                            this.end_placeholder= this.cloneTime[1];
+                            this.datesselector='';
+                            //console.log('what is that a'+ this.datesselector);
+                            this.$message({
+                                message: '最多可选择31天',
+                                type: 'warning'
+                            });
+                            return ;
+                        }else{
+                            this.cloneTime = datearr;
+                        }
 
                         this.sform.create_time = this.ordertime;
                         this.sform.create_time_start = this.ordertime_start;
@@ -1811,6 +2024,10 @@
                     console.log(this.sform);
 
                 }
+
+                this.minDate = '';
+                this.maxDate = '';
+
                 this.sform.car_number = this.parkcarnum;
                 this.sform.state_start = this.currentState;
                 this.sform.state = this.currentState;
@@ -1958,6 +2175,21 @@
                 _this.searchDate = '';
             }
 
+            if (this.showdateSelector33) {
+                 _this.datesselector = '';
+                 _this.currentcollect = '';
+                  _this.currentpark = '';
+                _this.start_placeholder33 = common.currentDate() ;
+               _this.$axios.all([common.getCollector(), common.getAllParks()])
+                   .then(_this.$axios.spread(function (ret, retpark) {
+                       _this.collectors = [{value_no: '', value_name: '全部'}];
+                       _this.collectors = _this.collectors.concat(ret.data);
+                       _this.parks = [{value_no: '', value_name: '全部车场'}];
+                       _this.parks = _this.parks.concat(retpark.data);
+                   }));
+
+            }
+
             if (this.showdateSelector22) {
                 _this.start_placeholder1 = common.getFirstDayOfWeek() + ' 00:00:00';
                 _this.end_placeholder1 = common.currentDate() + ' 23:59:59';
@@ -2014,8 +2246,13 @@
                 _this.currentPayType = '';
                 _this.parkAccoutRece_start = '';
                 _this.parkAccoutRece_end = '';
-                _this.datesselector = common.currentDateArray(3);
+                //_this.datesselector = common.currentDateArray(3);
+                 _this.start_placeholder = common.currentDateArray(3)[0];
+                _this.end_placeholder = common.currentDateArray(3)[1];
+                _this.cloneTime = common.currentDateArray(3);
                 _this.datesselector1 = common.currentDateArray(1);
+
+
             }
             //这里也要判断是不是需要的页面
             if(urlsName != "orderStatistics" && urlsName != "strategicAnalysis"){

@@ -48,14 +48,7 @@
 
                 <section class="date-picker-sec">
                     <section>
-                        <el-select v-model="selParkId" filterable placeholder="全部" @change="changeanalysisdatepark">
-                            <el-option
-                                    v-for="item in parklistChart"
-                                    :key="item.value_no"
-                                    :label="item.value_name"
-                                    :value="item.value_no">
-                            </el-option>
-                        </el-select>
+
                         <!--<el-date-picker-->
                         <!--v-model="chartDate"-->
                         <!--type="datetimerange"-->
@@ -168,7 +161,7 @@
                 hideExport: false,
                 hideSearch: true,
                 showdateSelector22: true,
-                showCollectorSelector: true,
+                showCollectorSelector: false,
                 hideAdd: true,
                 tableheight: '',
                 hideOptions: true,
@@ -184,20 +177,6 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '收费员',
-                                prop: 'name',
-                                width: '123',
-                                type: 'str',
-                                editable: false,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-                            }
-                        ]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
                                 label: '账号',
                                 prop: 'out_uid',
                                 width: '123',
@@ -210,6 +189,20 @@
                                 align: 'center'
                             }
                         ]
+                    },
+                     {
+                        hasSubs: false,
+                        subs: [{
+                            label: '日期',
+                            prop: 'e_time',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
                     },
                     {
                         hasSubs: false,
@@ -224,7 +217,9 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    }, {
+                    },
+
+                    {
 
                         hasSubs: false,
                         subs: [{
@@ -375,10 +370,7 @@
                 formdata.orderby = this.orderby;
                 formdata.orderfield = this.orderfield;
                 formdata.fieldsstr = this.fieldsstr;
-                if (this.selParkId > 0) {
-                    formdata.out_uid = this.selParkId;
-                    formdata.comid = '';
-                }
+
                 if (isFirst !== 1) {
                     formdata.time = 'between';//this.chartDate[1].getTime() ;
                     // formdata.time_start = this.chartDate[0].getTime(); //;
@@ -455,7 +447,7 @@
                     console.log(response.data.rows);
                     for (let i = 0; i < dataRows.length; i++) {
                         let rData = dataRows[i];
-                        xAxisData[i] = rData.sdate;
+                        xAxisData[i] = rData.e_time;
                         //seriesData[0].data[i] = rData.scount  ;//订单总数
                         seriesData[0].data[i] = rData.cash_pay; //现金支付
                         seriesData[1].data[i] = rData.amount_receivable;  //应收金额
@@ -520,6 +512,7 @@
             this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
         },
         activated() {
+            this.activeName= 'tableStyle',
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
             };
@@ -533,7 +526,8 @@
             // console.log(common.gww());
             // 637
             // 1366
-            this.start_placeholder = common.getFirstDayOfWeek();
+            //this.start_placeholder = common.getFirstDayOfWeek();
+            this.start_placeholder = common.currentDate();
             //console.log('chenbowen~~~~~~~~~~~~~~~'+common.getFirstDayOfWeek());
             this.end_placeholder = common.currentDate() + ' 23:59:59';
             this.chartDate = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];

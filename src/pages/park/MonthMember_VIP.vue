@@ -584,6 +584,8 @@
             showadd: function () {
                 this.showRegis = true;
                 this.refillForm.p_name = '';
+                this.refillForm.mobile = '';
+                this.refillForm.car_type_id = '';
                 this.readonly = false;
                 this.refillForm.remark = '云平台注册'
             },
@@ -724,6 +726,8 @@
                                 // _this.refillForm.resetFields();
                                 _this.refillForm.name = '';
                                  _this.refillForm.p_lot = '';
+                                 _this.refillForm.mobile = '';
+                                 _this.refillForm.car_type_id = '';
                                 _this.$refs['refillForm'].resetFields()
                                 _this.resetloading = false
                             } else {

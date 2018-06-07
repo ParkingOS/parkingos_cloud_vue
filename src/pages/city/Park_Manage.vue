@@ -5,7 +5,9 @@
                 :addapi="addapi"
                 :editapi="editapi"
                 :delapi="delapi"
+                :resetapi="resetapi"
                 :tableheight="tableheight"
+                :showresetdata='showresetdata'
                 :fieldsstr="fieldsstr"
                 :tableitems="tableitems"
                 :btswidth="btswidth"
@@ -309,6 +311,7 @@
         },
         data() {
             return {
+                showresetdata:true,
                 orderfield:'id',
                 bolink_id:'',
                 hideExport: true,
@@ -328,6 +331,7 @@
                 addapi: '/cityparks/editpark',
                 editapi: '/cityparks/editpark',
                 delapi: '/cityparks/deletepark',
+                resetapi:'/cityparks/resetdata',
                 parkid: '',
                 currentIndex: 0,
                 currentRow: '',
@@ -335,7 +339,7 @@
                 unionList:'',
                 resetCarnumber: '',
                 btswidth: '200',
-                fieldsstr: 'id__company_name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey__bolink_id',
+                fieldsstr: 'id__company_name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey__bolink_id__groupid',
                 tableitems: [
                     {
                         hasSubs: false, subs: [

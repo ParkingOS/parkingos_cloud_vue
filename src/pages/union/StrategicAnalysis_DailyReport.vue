@@ -28,14 +28,7 @@
 
                 <section class="date-picker-sec">
                     <section >
-                        <el-select v-model="selParkId" filterable placeholder="请选择" @change="changeanalysisdatepark">
-                            <el-option
-                                    v-for="item in parklistChart"
-                                    :key="item.value_no"
-                                    :label="item.value_name"
-                                    :value="item.value_no">
-                            </el-option>
-                        </el-select>
+
                         <!--<el-date-picker-->
                         <!--v-model="chartDate"-->
                         <!--type="datetimerange"-->
@@ -142,14 +135,14 @@
                 hideExport: false,
                 hideSearch: true,
                 showdateSelector: true,
-                showParkSelector:true,
+                showParkSelector:false,
                 hideAdd: true,
                 tableheight: '',
                 hideOptions: true,
                 hideTool: false,
                 hidePagination: true,
-                exportapi: '/cityparkorder/exportExcel',
-                queryapi: '/cityparkorder/query',
+                exportapi: '/cityorderanlysis/exportExcel',
+                queryapi: '/cityorderanlysis/query',
                 btswidth: '100',
                 fieldsstr: 'time__comid__amount_receivable__cash_pay__electronic_pay__act_total__free_pay',
                 tableitems: [
@@ -160,22 +153,6 @@
                                 prop: 'time',
                                 width: '123',
                                 type: 'date',
-                                editable: false,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center',
-
-                            },
-                        ]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '车场',
-                                prop: 'comid',
-                                width: '123',
-                                type: 'selection',
-                                selection: this.parklist,
                                 editable: false,
                                 searchable: true,
                                 addable: true,
@@ -292,10 +269,7 @@
                 console.log(this.chartDate);
                 this.queryForChart();
             },
-            changeanalysisdatepark(val) {
-                this.selParkId = val
-                this.queryForChart();
-            },
+
             queryForChart: function (isFirst) {
                 let api = this.queryapi;
                 var formdata = {};
@@ -305,10 +279,7 @@
                 formdata.orderby = this.orderby;
                 formdata.orderfield = this.orderfield;
                 formdata.fieldsstr = this.fieldsstr;
-                if(this.selParkId>0){
-                    formdata.comid_start = this.selParkId;
-                    formdata.comid = '';
-                }
+
                 if(isFirst!==1){
                     formdata.time = 'between';//this.chartDate[1].getTime() ;
                     // formdata.time_start = this.chartDate[0].getTime(); //;
@@ -395,7 +366,7 @@
                     }
                     vm.chart.setOption({
                         title: {
-                            text: '车场日报'
+                            text: '集团日报统计'
                         },
                         tooltip : {
                             trigger: 'axis',
@@ -451,6 +422,7 @@
             this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
         },
         activated() {
+            this.activeName= 'tableStyle',
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
                 this.chartHeight = (common.gwh()-200)+'px';

@@ -8,6 +8,8 @@
                 :tableitems="tableitems"
                 :btswidth="btswidth"
 
+                :orderfield="orderfield"
+
                 :hideExport="hideExport"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
@@ -60,6 +62,8 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: false,
+
+                orderfield:'create_time',
 
                 hideAdd: true,
                 tableheight: '',
@@ -116,7 +120,7 @@
                             label: '收款人账号',
                             prop: 'out_uid',
                             width: '123',
-                            type: 'str',
+                            type: 'number',
                             searchable: true,
                             unsortable: true,
                             align: 'center',

@@ -71,16 +71,7 @@
                 <el-form-item label="手机">
                     <el-input v-model="user.mobile" style="width:90%"></el-input>
                 </el-form-item>
-                <el-form-item label="角色">
-                    <el-select v-model="user.auth_flag" placeholder="请选择">
-                        <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
+
 
                 <el-form-item label="创建时间" v-if="showInput">
                     <el-input :disabled="true" v-model="user.reg_time" style="width:90%"></el-input>

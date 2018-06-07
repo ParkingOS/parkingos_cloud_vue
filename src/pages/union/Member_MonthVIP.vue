@@ -1,6 +1,8 @@
 <template>
     <section>
         <common-table
+
+                :orderfield="orderfield"
                 :queryapi="queryapi"
                 :exportapi="exportapi"
                 :addapi="addapi"
@@ -234,6 +236,8 @@
         },
         data() {
             return {
+
+                orderfield:'id',
                 loading: false,
                 resetloading: false,
                 showresetpwd: false,

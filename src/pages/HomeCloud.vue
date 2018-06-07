@@ -86,15 +86,20 @@
                     <el-submenu v-if="this.showParkItem.orderStatistics" index="/orderStatistics">
                         <template slot="title"><i class="menu-icon icon iconfont icon-analysis"></i><span
                                 class="menuitem">统计分析</span></template>
+                        <el-menu-item index="/orderStatistics_CollectorReport"
+                                  v-if="this.showParkItem.orderStatistics_CollectorReport">收费员日报
+                        </el-menu-item>
+
                         <el-menu-item index="/orderStatistics_DailyReport"
-                                      v-if="this.showParkItem.orderStatistics_DailyReport">日报统计
+                                      v-if="this.showParkItem.orderStatistics_DailyReport">车场日报
                         </el-menu-item>
                         <!--<el-menu-item index="/orderStatistics_Settlement"-->
                         <!--v-if="this.showParkItem.orderStatistics_DailyReport">日报统计-->
                         <!--</el-menu-item>-->
                         <el-menu-item index="/orderStatistics_MonthReport"
-                                      v-if="this.showParkItem.orderStatistics_MonthReport">月报统计
+                                      v-if="this.showParkItem.orderStatistics_MonthReport">车场月报
                         </el-menu-item>
+
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.shopManage" index="/shopManage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-shop"></i><span

@@ -1,41 +1,27 @@
 <template>
-  <section class="car_derate">
+  <section style="padding: 100px;">
 
- <!--<el-row class="align-center" style="margin-left: 28.5%;">-->
-            <!--<span style="font-size:20px">车牌全免</span>-->
-        <!--</el-row>-->
-        <!--</br></br></br>-->
+ <el-row class="align-center" style="margin-left: 28.5%;">
+            <span style="font-size:20px">车牌全免</span>
+        </el-row>
+        </br></br></br>
 
-            <!--<div style="margin-left:39%" >-->
-                <!--<el-form :model="freecarNumReduce" ref="freecarNumReduce" :rules="carNumberRules">-->
-                    <!--<el-form-item prop="reduce">-->
-                        <!--<el-input v-model="freecarNumReduce.reduce" style="width:35%" placeholder="全免券" disabled></el-input>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item prop="car_number">-->
-                        <!--<el-input v-model="freecarNumReduce.car_number" v-on:input="changeCarNumber" style="width:35%" placeholder="输入车牌号"></el-input>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item class="right">-->
-                        <!--<el-button @click="freeuseTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>-->
-                    <!--</el-form-item>-->
+            <div style="margin-left:39%" >
+                <el-form :model="freecarNumReduce" ref="freecarNumReduce" :rules="carNumberRules">
+                    <el-form-item prop="reduce">
+                        <el-input v-model="freecarNumReduce.reduce" style="width:35%" placeholder="全免券" disabled></el-input>
+                    </el-form-item>
+                    <el-form-item prop="car_number">
+                        <el-input v-model="freecarNumReduce.car_number" v-on:input="changeCarNumber" style="width:35%" placeholder="输入车牌号"></el-input>
+                    </el-form-item>
+                    <el-form-item class="right">
+                        <el-button @click="freeuseTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
+                    </el-form-item>
 
-                <!--</el-form>-->
-            <!--</div>-->
+                </el-form>
+            </div>
 
-      <h3 class="car_title">车牌全免</h3>
-      <el-form :model="freecarNumReduce" ref="freecarNumReduce" :rules="carNumberRules">
-          <el-form-item prop="reduce" label="全免券：">
-              <el-input v-model="freecarNumReduce.reduce" style="display:inline-block;width:300px;" placeholder="全免券" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="新能源汽车：">
-              <el-switch v-model="check.checkbox" @change="carTypeChange"></el-switch>
-          </el-form-item>
-          <el-form-item label="输入车牌号：">
-              <keyboard :checkbox-start="check" v-on:car="car"></keyboard>
-          </el-form-item>
-          <el-form-item class="right">
-              <el-button @click="freeuseTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
-          </el-form-item>
-      </el-form>
+
   </section>
 
 </template>
@@ -44,19 +30,13 @@
 import { path,carditems,checkPhone,dtypelist,cardtypeitems,otypelist,accountitems,belongitems,settleitems,percision } from '../api/api';
 import common from '../common/js/common'
 import CommonTable from '../components/CommonTable'
-import Keyboard from '../components/Keyboard'
+
 export default {
   components:{
-    CommonTable,
-      Keyboard
+    CommonTable
   },
   data(){
     return{
-        cars:'',
-        checkbox: false,
-        check:{
-            checkbox:false,
-        },
       loading: false,
       infoloading: false,
       cycleisdisable:false,
@@ -166,29 +146,7 @@ export default {
 
   },
   methods: {
-      car (val){
-          this.cars = val
-          console.log(val)
-      },
-      carTypeChange (val) {
-          this.isNumOne = false
-          this.isNumTwo = false
-          this.isNumThree = false
-          this.isNumFour = false
-          this.isNumFive = false
-          this.isNumSix = false
-          if (!val) { // 切换到普通车牌
-              if (this.numFour) {
-                  this.isNumFive = true
-                  this.key = 7
-              }
-          } else { // 切换到新能源车牌
-              if (this.numFive) {
-                  this.isNumSix = true
-                  this.key = 8
-              }
-          }
-      },
+
      changeCarNumber(){
        // alert(this.carNumReduce.car_number)
         this.freecarNumReduce.car_number =  this.freecarNumReduce.car_number.toUpperCase();
@@ -415,15 +373,6 @@ export default {
 
     freeuseTicketByCarNumber(){
         let vm = this;
-        vm.freecarNumReduce.car_number = vm.cars;
-        if(vm.freecarNumReduce.car_number === ""){
-            vm.$message({
-                message: "请输入车牌号",
-                type: 'error',
-                duration: 1200
-            });
-            return
-        }
         vm.type = 4;
 
          vm.$refs.freecarNumReduce.validate((valid) => {
@@ -649,20 +598,14 @@ export default {
 
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style>
   .parkstatus{
     margin-top:5px
   }
   .statustext{
     font-weight:bold;margin-left:10px;color:#9B9EA0
   }
-  .car_derate{
-      width: 800px;
-      margin:0 auto;
-  /*text-align: center;*/
-  .car_title{
-      height: 60px;
-      line-height: 60px;
-  }
+  .right{
+    margin-left:27%;
   }
 </style>

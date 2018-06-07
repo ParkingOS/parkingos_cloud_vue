@@ -425,6 +425,7 @@
             this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
         },
         activated() {
+            this.activeName= 'tableStyle',
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
             };

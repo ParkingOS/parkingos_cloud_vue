@@ -86,15 +86,22 @@
                     <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
                         <template slot="title">
                             <i class="menu-icon icon iconfont icon-analysis"></i><span
-                                class="menuitem">决策分析</span></template>
+                                class="menuitem">财务报表</span></template>
+
+                         <el-menu-item index="/strategicAnalysis_DailyParkReport"
+                                      v-if="this.showUnionItem.strategicAnalysis_DailyParkReport">
+                            车场日报统计
+                        </el-menu-item>
+
                         <el-menu-item index="/strategicAnalysis_DailyReport"
                                       v-if="this.showUnionItem.strategicAnalysis_DailyReport">
-                            日报统计
+                            集团日报统计
                         </el-menu-item>
                         <el-menu-item index="/strategicAnalysis_MonthReport"
                                       v-if="this.showUnionItem.strategicAnalysis_MonthReport">
-                            月报统计
+                            集团月报统计
                         </el-menu-item>
+
                     </el-submenu>
                     <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
                         <template slot="title">
