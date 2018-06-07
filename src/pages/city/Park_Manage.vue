@@ -787,7 +787,6 @@
                     if (valid) {
                         _this.addloading = true;
                         let aform = _this.generateForm(_this.addFormPark);
-
                         _this.$axios.post(path + _this.editapi, _this.$qs.stringify(aform), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -830,7 +829,7 @@
             onMapShow: function () {
                 this.showMap = true;
                 this.showMarker = true;
-                this.mapVisible = true
+                this.mapVisible = true;
             },
             dclose: function () {
                 setTimeout(() => {
@@ -853,7 +852,6 @@
                 myGeo.getLocation(type.point, function (rs) {
                     let addComp = rs.addressComponents;
                     // alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
-                    // console.log(addComp);
                     _this.addressTitle = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
                     // _this.mapLabel.content = _this.addressTitle;
                 });
@@ -874,7 +872,6 @@
 
                 myGeo.getPoint(this.keyword, function (point) {
                     if (point) {
-                        // console.log(point);
                         if (point.lat === vm.center.lat && point.lng === vm.center.lng) {
                             alert("输入的地址相同或地址不正确!");
                         } else {
@@ -882,6 +879,7 @@
                             vm.center.lng = point.lng;
                             vm.showMarker = false;
                             vm.mapLabel.content = vm.keyword;
+                            vm.addressTitle = vm.keyword;
                             vm.marker.lat = point.lat;
                             vm.marker.lng = point.lng;
                             vm.showMarker = true
