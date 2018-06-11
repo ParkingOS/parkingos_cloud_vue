@@ -12,6 +12,8 @@
                 :searchtitle="searchtitle"
 
                 :hideTool="hideTool"
+                :orderfield='orderfield'
+
 
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
@@ -51,6 +53,8 @@
                 loading: false,
                 hideExport: false,
                 hideSearch: false,
+
+                orderfield:'id',
 
                 hideAdd: true,
                 tableheight: '',
