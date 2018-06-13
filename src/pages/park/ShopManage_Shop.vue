@@ -320,6 +320,17 @@
                         </el-option>
                      </el-select>
                 </el-form-item>
+
+                  <el-form-item label="叠加限制" >
+                     <el-select v-model="use_limit" filterable style="width:90%">
+                        <el-option
+                                v-for="item in useLimitType"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                     </el-select>
+                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">				
 				<el-button type="primary" size="small" @click="loadDefaultData">重 置</el-button>
@@ -395,6 +406,7 @@
                 shop_support_type:1,
                 unit: 2,
                 hand_input_enable:0,
+                use_limit:1,
                 discount_money_name: '每小时/元',
 
                 ticketUnit: [
@@ -409,6 +421,20 @@
                 handInputType: [
                     {'value_name': '不支持', 'value_no': 0},
                     {'value_name': '支持', 'value_no': 1}
+                ],
+                useLimitType: [
+                    {'value_name': '无限制', 'value_no': 0},
+                    {'value_name': '限制一张', 'value_no': 1},
+                    {'value_name': '限制二张', 'value_no': 2},
+                    {'value_name': '限制三张', 'value_no': 3},
+                    {'value_name': '限制四张', 'value_no': 4},
+                    {'value_name': '限制五张', 'value_no': 5},
+                    {'value_name': '限制六张', 'value_no': 6},
+                    {'value_name': '限制七张', 'value_no': 7},
+                    {'value_name': '限制八张', 'value_no': 8},
+                    {'value_name': '限制九张', 'value_no': 9}
+
+
                 ],
                 shopForm: {},
                 showRegis: false,
@@ -459,7 +485,7 @@
                 delapi: '/shop/delete',
                 parkid: '',
                 btswidth: '180',
-                fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__discount_percent__hand_input_enable',
+                fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__discount_percent__hand_input_enable__use_limit',
                 tableitems: [{
                     hasSubs: false, subs: [
                         {
@@ -750,6 +776,51 @@
                                     return "不支持";
                                 } else if (row.hand_input_enable == 1) {
                                     return "支持";
+                                }
+                            }
+                        }]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '叠加限制',
+                            prop: 'use_limit',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format: function (row) {
+                                if(row.use_limit == 0){
+                                    return "无限制";
+                                }
+                                else if (row.use_limit == 1) {
+                                    return "限制一张";
+                                } else if (row.use_limit == 2) {
+                                    return "限制二张";
+                                }
+                                else if (row.use_limit == 3) {
+                                    return "限制三张";
+                                }
+                                else if (row.use_limit == 4) {
+                                    return "限制四张";
+                                }
+                                else if(row.use_limit == 5){
+                                    return "限制五张";
+                                }
+                                else if(row.use_limit == 6){
+                                    return "限制六张";
+                                }
+                                else if(row.use_limit == 7){
+                                  return "限制七张";
+                                }
+                                else if(row.use_limit == 8){
+                                  return "限制八张";
+                                }
+                                else if(row.use_limit == 9){
+                                  return "限制九张";
                                 }
                             }
                         }]
@@ -1074,9 +1145,11 @@
                 }
             },
             showadd: function () {
+
                 this.loadDefaultData();
                 this.shopForm.id = '';
                 this.shopTitle = '添加商户'
+                this.use_limit=0
                 this.showRegis = true;
 
             },
@@ -1090,6 +1163,7 @@
                     shop_ticket_type: 1,
                     shop_support_type:1,
                     hand_input_enable: 0,
+                    use_limit:1,
                     unit: 2,
                     default_limit: '5,10,20',
                     v_discount_percent: '100',
@@ -1122,6 +1196,7 @@
                         aform.ticket_type = this.shop_ticket_type;
                         aform.support_type = this.shop_support_type;
                         aform.hand_input_enable = this.hand_input_enable;
+                        aform.use_limit = this.use_limit;
                         aform.ticket_unit = this.unit
                         aform.default_limit = this.shopForm.default_limit
                         aform.discount_percent = this.shopForm.v_discount_percent
@@ -1192,6 +1267,7 @@
                 this.shop_ticket_type = row.ticket_type
                 this.shop_support_type =row.support_type
                 this.hand_input_enable = row.hand_input_enable
+                this.use_limit = row.use_limit
                 this.unit = row.ticket_unit
                 this.showRegis = true
             },

@@ -724,8 +724,16 @@
                     {'value_name': '已结算', 'value_no': '1'}
                 ],
                 superimposedType: [
-                    {'value_name': '不支持', 'value_no': '0'},
-                    {'value_name': '支持', 'value_no': '1'}
+                    {'value_name': '限制一张', 'value_no': '0'},
+                    {'value_name': '限制两张', 'value_no': '2'},
+                    {'value_name': '限制三张', 'value_no': '3'},
+                    {'value_name': '限制四张', 'value_no': '4'},
+                    {'value_name': '限制五张', 'value_no': '5'},
+                    {'value_name': '限制六张', 'value_no': '6'},
+                    {'value_name': '限制七张', 'value_no': '7'},
+                    {'value_name': '限制八张', 'value_no': '8'},
+                    {'value_name': '限制九张', 'value_no': '9'},
+                    {'value_name': '不限制', 'value_no': '1'}
                 ],
                 orderPayType: [
                     //0:帐户支付,1:现金支付,2:手机支付 3:包月 4:现金预支付 5：银联卡(中央预支付，后面废弃) 6：商家卡(中央预支付，后面废弃) 8：免费放行 9：刷卡

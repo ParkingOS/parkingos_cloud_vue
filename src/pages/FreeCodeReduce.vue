@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { path,carditems,checkPhone,dtypelist,cardtypeitems,otypelist,accountitems,belongitems,settleitems,percision } from '../api/api';
+import { path,server,carditems,checkPhone,dtypelist,cardtypeitems,otypelist,accountitems,belongitems,settleitems,percision } from '../api/api';
 import common from '../common/js/common'
 import CommonTable from '../components/CommonTable'
 
@@ -407,7 +407,7 @@ export default {
     freeuseTicketByCarNumber(){
         let vm = this;
         vm.type = 4;
-        vm.$axios.post("http://yun.bolink.club/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.freecarNumReduce.car_number))+"&type=1",{
+        vm.$axios.post(server+"/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.freecarNumReduce.car_number))+"&type=1",{
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
@@ -434,7 +434,7 @@ export default {
 
     useTicketByCarNumber(){
     let vm = this;
-    vm.$axios.post("http://yun.bolink.club/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.carNumReduce.car_number))+"&type="+vm.type+"&reduce="+vm.carNumReduce.reduce,{
+    vm.$axios.post(server+"/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.carNumReduce.car_number))+"&type="+vm.type+"&reduce="+vm.carNumReduce.reduce,{
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
