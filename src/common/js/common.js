@@ -325,7 +325,7 @@ export default {
             + '&months=' + month;
         return axios.get(path + '/getdata/getprodsum' + param);
     },
-    reNewProduct(p_name, month, name, b_time, id, remark, act_total, nickname) {
+    reNewProduct(p_name, month, name, b_time, id, remark, act_total,total, nickname) {
         // reNewProduct(this.pnameno,this.refillcount,this.currentRow.name,this.Btime,this.currentRow.pid,this.currentRow.remark,this.RefillTotalact,roleid==30?'车场':roleid){
         //月卡续费
         let param = '?token=' + sessionStorage.getItem('token')
@@ -337,6 +337,7 @@ export default {
             + '&id=' + id
             + '&remark=' + remark
             + '&act_total=' + act_total
+            + '&total=' + total
             + '&nickname=' + nickname;
         return axios.get(path + '/vip/renewproduct' + param);
     },
