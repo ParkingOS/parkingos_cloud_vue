@@ -306,7 +306,14 @@
                 }
                 // alert(a)
                 if(a == '/monitorApp'){
-                    window.open(server + '/#/monitorApp')
+                    if(window.location.host == "1029.parkingos.club"){
+                        window.open('http://1029.parkingos.club/login.html#/monitorApp')
+                    }else {
+                        window.open('http://yun.bolink.club/login.html#/monitorApp')
+                    }
+                    // window.open(server + '/login.html#/monitorApp')
+                    // window.location.href = server + '/login.html#/monitorApp'
+                    // window.location.href = 'http://192.168.199.219:8086/#/monitorApp'
                     // window.open('http://192.168.199.219:8086/#/monitorApp')
                     return;
                 }

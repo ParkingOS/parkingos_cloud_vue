@@ -14,7 +14,7 @@
                         <el-input v-model="carNumReduce.car_number" v-on:input ="changeCarNumber"  style="width:35%" placeholder="输入车牌号"></el-input>
                     </el-form-item>
                     <el-form-item class="right">
-                        <el-button @click="useTicketByCarNumber" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
+                        <el-button @click="useTicketByCarNumber" type="primary" :loading="loading" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
                     </el-form-item>
 
                 </el-form>
@@ -407,11 +407,13 @@ export default {
 
      vm.$refs.carNumReduce.validate((valid) => {
         if (valid) {
+            vm.loading = true;
             vm.$axios.post(server+"/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.carNumReduce.car_number))+"&type="+vm.type+"&reduce="+vm.carNumReduce.reduce,{
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
                 }).then(function (response) {
+                vm.loading = false;
                     let ret = response.data;
                     //var ret = eval('('+result+')')
                     if(ret.result==1){

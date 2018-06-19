@@ -240,24 +240,11 @@
                 <el-table-column property="show_order" label="排序" sortable align="center"></el-table-column>
                 <el-table-column property="play_src" label="地址" width="300"></el-table-column>
             </el-table>
-            <!--<el-pagination-->
-            <!--@size-change="handleSizeChange"-->
-            <!--@current-change="handleCurrentChange"-->
-            <!--:current-page="currentPage"-->
-            <!--:page-sizes="[1, 2, 3, 4]"-->
-            <!--:page-size="pageSize"-->
-            <!--layout="total, sizes, prev, pager, next, jumper"-->
-            <!--:total="total">-->
-            <!--</el-pagination>-->
         </el-dialog>
     </div>
 </template>
 <script>
     import "./assets/iconfont.css"
-    // require("http://test.bolink.club/cloud/dwr/engine.js")
-    // require ("http://test.bolink.club/cloud/dwr/util.js")
-    // require ("http://test.bolink.club/cloud/dwr/interface/Push.js")
-    // import './assets/js/ezuikit'
     import {path, orderStateType, orderPayType, parkType} from './api/api';
     import axios from 'axios';
     import echarts from 'echarts';

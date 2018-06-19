@@ -8,15 +8,15 @@ export const AUTH_ID = {
     monthMember_VIP: 298, //月卡会员-小菜单
     orderStatistics: 11, //统计分析
     orderStatistics_DailyReport: 12, //统计分析-时租订单统计-日报
-    orderStatistics_MonthReport: 318, //统计分析-时租订单统计-日报
-    orderStatistics_CollectorReport:321,//统计分析-收费员统计
+    orderStatistics_MonthReport: 314, //统计分析-时租订单统计-日报
+    orderStatistics_CollectorReport:317,//统计分析-收费员统计
     shopManage: 71, //商户管理-大菜单
-    shopManage_Coupon: 305, //优惠券管理
+    shopManage_Coupon: 311, //优惠券管理
     shopManage_Shop: 299, //商户管理-小菜单
     shopManage_QueryAccount: 300, //流水查询
     equipmentManage: 16, //设备管理
-    equipmentManage_Monitor: 311, //监控管理
-    equipmentManage_Intercom: 313, //对讲管理
+    equipmentManage_Monitor: 310, //监控管理
+    equipmentManage_Intercom: 306, //对讲管理
     equipmentManage_WorkStation: 17,//工作站管理
     equipmentManage_Channel: 18, //通道管理
     equipmentManage_Camera: 19, //摄像头管理
@@ -25,8 +25,8 @@ export const AUTH_ID = {
     employeePermission_Role: 22, //角色管理
     employeePermission_Manage: 23, //员工管理
     systemManage: 24, //系统管理
-    systemManage_BlackList: 303, //黑名单管理
-    systemManage_Commute: 304, //上下班记录
+    systemManage_BlackList: 313, //黑名单管理
+    systemManage_Commute: 312, //上下班记录
     systemManage_Account: 25, //账户管理
     systemManage_Params: 26, //参数设置
     systemManage_FreeReason: 72, //免费原因
@@ -39,10 +39,11 @@ export const AUTH_ID = {
     onlinePay: 8, //电子支付
     onlinePay_Income: 10, //电子收款
     onlinePay_CashManage: 9, //提现管理
-    centerMonitor: 309 //中央监控
+    centerMonitor: 302 //中央监控
 };
 export const AUTH_ID_ADMIN = {
     city_Manage: 118
+
 };
 export const showParkItem_const = {
     orderManage: false,
@@ -55,7 +56,7 @@ export const showParkItem_const = {
     orderStatistics: false,
     orderStatistics_DailyReport: false,
     orderStatistics_MonthReport: false,
-    orderStatistics_CollectorReport:false,//统计分析-收费员统计
+    orderStatistics_CollectorReport:false,
     onlinePay: false,
     onlinePay_Income: false,
     onlinePay_CashManage: false,
@@ -86,6 +87,7 @@ export const showParkItem_const = {
     systemManage_MonthCard: false,
     systemManage_Logs: false,
     centerMonitor: false
+
 };
 export const AUTH_ID_UNION = {
     businessOrder: 105, //业务订单
@@ -105,12 +107,12 @@ export const AUTH_ID_UNION = {
     systemSetting_RoleManage: 245, //角色管理
     systemSetting_LogsManage: 244, //日志管理
     systemSetting_LogsOperates: 284, //操作日志管理
-    systemSetting_LogsCollector: 2830000, //收费员日志
+    systemSetting_LogsCollector: 283, //收费员日志
     strategicAnalysis: 219, //决策分析
-    strategicAnalysis_DailyReport: 319, //封闭车场订单统计-车场日报
-    strategicAnalysis_MonthReport:320,
-    strategicAnalysis_DailyParkReport:322,//车场日报
-    centerMonitor: 310 //中央监控
+    strategicAnalysis_DailyReport: 315, //封闭车场订单统计-车场日报
+    strategicAnalysis_MonthReport:316,
+    strategicAnalysis_DailyParkReport:318,//车场日报
+    centerMonitor: 301 //中央监控
 };
 export const showUnionItem_const = {
     businessOrder: false,
@@ -134,7 +136,7 @@ export const showUnionItem_const = {
     strategicAnalysis: false,
     strategicAnalysis_DailyReport: false,
     strategicAnalysis_MonthReport: false,
-    strategicAnalysis_DailyParkReport:false,//车场日报
+    strategicAnalysis_DailyParkReport:false,
     centerMonitor: false
 };
 export const showBossItem_const = {
