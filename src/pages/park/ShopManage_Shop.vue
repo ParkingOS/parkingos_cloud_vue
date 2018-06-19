@@ -423,6 +423,7 @@
                     {'value_name': '支持', 'value_no': 1}
                 ],
                 useLimitType: [
+
                     {'value_name': '无限制', 'value_no': 0},
                     {'value_name': '限制一张', 'value_no': 1},
                     {'value_name': '限制二张', 'value_no': 2},
@@ -433,6 +434,7 @@
                     {'value_name': '限制七张', 'value_no': 7},
                     {'value_name': '限制八张', 'value_no': 8},
                     {'value_name': '限制九张', 'value_no': 9}
+
 
 
                 ],
@@ -793,10 +795,12 @@
                             unsortable: true,
                             align: 'center',
                             format: function (row) {
+
                                 if(row.use_limit == 0){
                                     return "无限制";
                                 }
                                 else if (row.use_limit == 1) {
+
                                     return "限制一张";
                                 } else if (row.use_limit == 2) {
                                     return "限制二张";
@@ -1149,7 +1153,9 @@
                 this.loadDefaultData();
                 this.shopForm.id = '';
                 this.shopTitle = '添加商户'
+
                 this.use_limit=0
+
                 this.showRegis = true;
 
             },

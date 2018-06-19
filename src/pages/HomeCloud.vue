@@ -74,6 +74,12 @@
                         <el-menu-item index="/monthMember_Refill" v-if="this.showParkItem.monthMember_Refill">月卡续费记录
                         </el-menu-item>
                     </el-submenu>
+                    <!--<el-submenu v-if="this.showParkItem.vistorManage" index="/vistorManage">-->
+                        <!--<template slot="title"><i class="menu-icon icon iconfont icon-accountmanage"></i><span-->
+                                <!--class="menuitem">访客管理</span></template>-->
+                        <!--<el-menu-item index="/vistorManage_VistorMember" v-if="this.showParkItem.vistorManage_VistorMember">访客人员管理-->
+                        <!--</el-menu-item>-->
+                    <!--</el-submenu>-->
                     <el-submenu v-if="this.showParkItem.onlinePay" index="/onlinePay">
                         <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
                                 class="menuitem">电子支付</span></template>
@@ -195,7 +201,9 @@
                                 style="font-weight: normal">
                         <template slot="title"><i class="menu-icon icon iconfont icon-monitor"></i><span
                                 class="menuitem">中央监控</span></template>
-                        <el-menu-item index="centerMonitor" v-if="this.showParkItem.centerMonitor">中央监控
+                        <!--<el-menu-item index="centerMonitor" v-if="this.showParkItem.centerMonitor">中央监控-->
+                        <!--</el-menu-item>-->
+                        <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor">中央监控
                         </el-menu-item>
                     </el-submenu>
 
@@ -220,7 +228,7 @@
 <script>
     import common from '../common/js/common';
     import {AUTH_ID, showParkItem_const, AUTH_ID_UNION, showUnionItem_const, ROLE_ID} from '../common/js/const';
-
+    import {path,server, orderStateType, orderPayType, parkType} from '../api/api';
     export default {
         data() {
             return {
@@ -294,6 +302,12 @@
                     }
                     console.log(routetocm);
                     window.open(routetocm);
+                    return;
+                }
+                // alert(a)
+                if(a == '/monitorApp'){
+                    window.open(server + '/#/monitorApp')
+                    // window.open('http://192.168.199.219:8086/#/monitorApp')
                     return;
                 }
                 var cpath = this.$router.currentRoute.fullPath;

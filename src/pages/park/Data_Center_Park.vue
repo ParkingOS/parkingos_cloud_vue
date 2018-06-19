@@ -3,7 +3,6 @@
         <div style="display: flex;flex-direction: row;width: 100%;height: 100%;align-content: stretch;">
             <div style="flex: 1;width: 0;display:flex ;flex-direction: column">
                 <div style="flex: 2;padding: 10px 10px 10px 10px;overflow-y: auto;display: flex;align-items: flex-start;justify-content: flex-start;">
-
                     <div class="data-box" style="width: 100%;">
                         <div class="title">今日收费汇总</div>
                         <div class="body">

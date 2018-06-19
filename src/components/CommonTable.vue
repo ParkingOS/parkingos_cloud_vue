@@ -63,6 +63,48 @@
             </div>
         </el-form>
 
+
+        <el-form :inline="true" v-if='hideVisitor' :model="formVisitor" class="demo-form-inline">
+
+            <el-form-item label="车牌号:" style="margin-bottom: 5px">
+                <el-input v-model="formVisitor.car_number"  placeholder="车牌号"></el-input>
+            </el-form-item>
+
+            <el-form-item label="状态:" style="margin-bottom: 5px;">
+                <el-select v-model="formVisitor.state" placeholder="全部"
+                           style="float: left;margin-right: 30px;">
+                    <el-option
+                            v-for="item in stateType"
+                            :key="item.value_no"
+                            :label="item.value_name"
+                            :value="item.value_no">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item style="margin-bottom: 5px;">
+                <el-button @click="doSearch()" icon="search" type="primary">搜索
+                </el-button>
+                <el-button type="primary" @click="handleExport" v-if="!hideExport">导出
+                </el-button>
+            </el-form-item>
+
+             <el-form-item  >
+
+                 <el-button @click="getCode()" icon="search" type="primary">访客二维码
+                </el-button>
+
+            </el-form-item>
+
+            <el-col :span="2" align="right" style="float: right">
+                <!--<span style="color:red;font-size:8px">提示:刷新后会重置高级查询</span>-->
+                <!--<el-button @click="reset" type="primary" size="small">清空高级查询</el-button>-->
+                <el-button @click="refresh" type="text">刷新&nbsp;&nbsp;</el-button>
+            </el-col>
+
+        </el-form>
+
+
+
         <!--工具条-->
         <el-row style="margin-bottom:8px" v-if="!hideTool">
             <el-col :span="24" align="left">
@@ -672,6 +714,9 @@
                     channel: '',
                     cause: ''
                 },
+                formVisitor: {
+                   car_number: ''
+               },
                 dateStart:'',
                 dateEnd:'',
                 searchForm:{
@@ -732,7 +777,9 @@
                     {'value_name': '限制六张', 'value_no': '6'},
                     {'value_name': '限制七张', 'value_no': '7'},
                     {'value_name': '限制八张', 'value_no': '8'},
+
                     {'value_name': '限制九张', 'value_no': '9'},
+
                     {'value_name': '不限制', 'value_no': '1'}
                 ],
                 orderPayType: [
@@ -933,6 +980,12 @@
                     {'value_no': 1, 'value_name': '续费'},
                     {'value_no': 2, 'value_name': '回收充值'}
                 ],
+                stateType:[
+                     {'value_no': "", 'value_name': '全部'},
+                     {'value_no': 0, 'value_name': '待审批'},
+                     {'value_no': 1, 'value_name': '已通过'},
+                     {'value_no': 2, 'value_name': '已拒绝'}
+                 ],
                 //订单页面相关
                 ordertime: 'between',
                 ordertime_start: 0,
@@ -953,7 +1006,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd','showresetdata', 'showdateSelector','showdateSelector22','showdateSelector33','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','indexHide','parentMsg','parentSf','orderfield','editdisable'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable'],
         methods: {
             //刷新页面
             refresh() {
@@ -1600,6 +1653,10 @@
                 }
             },
 
+            getCode(){
+                this.$emit('getCode');
+            },
+
             handleShowOrderDetail(index, row) {
                 //跳转到订单详情
                 this.$router.push({path: '/orderManage_OrderDetail', query: {index: index, row: row}});
@@ -1948,6 +2005,14 @@
                     this.end_placeholder= this.cloneTime[1];
                 }
             },
+
+            doSearch(){
+                this.sform.car_number = this.formVisitor.car_number;
+                this.sform.state_start =this.formVisitor.state;
+                this.sform.state = this.formVisitor.state;
+                this.getTableData(this.sform);
+            },
+
             changeParkTime(datearr) {
                 if (datearr !== null && datearr.length > 1) {
                     if (this.ordertimetype === 'end_time') {

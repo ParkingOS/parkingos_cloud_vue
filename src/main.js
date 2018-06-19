@@ -18,7 +18,6 @@ import QRCode from 'qrcode'
 
 Vue.use(QRCode)
 
-
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(BaiduMap,{

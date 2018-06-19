@@ -32,6 +32,7 @@ import EquipmentManage_WorkStation from './pages/park/EquipmentManage_WorkStatio
 import EquipmentManage_Channel from './pages/park/EquipmentManage_Channel.vue';
 import EquipmentManage_Camera from './pages/park/EquipmentManage_Camera.vue';
 import EquipmentManage_LED from './pages/park/EquipmentManage_LED.vue';
+import VistorManage_VistorMember from './pages/park/VistorManage_VistorMember.vue';
 import EmployeePermission_Manage from './pages/park/EmployeePermission_EmployeeManage.vue';
 import EmployeePermission_Role from './pages/park/EmployeePermission_RoleManage.vue';
 import SystemManage_BlackList from './pages/park/SystemManage_BlackList.vue';
@@ -45,6 +46,11 @@ import SystemManage_Price from './pages/park/SystemManage_Price.vue';
 import SystemManage_MonthCard from './pages/park/SystemManage_MonthCard.vue';
 import SystemManage_Logs from './pages/park/SystemManage_Logs.vue';
 
+
+//cyz add
+import  MonitorApp from './MonitorApp.vue'
+
+//cyz add end
 //云平台页面-集团
 import Data_Center from './pages/union/Data_Center.vue';
 import BusinessOrder_Cars from './pages/union/BusinessOrder_Cars.vue';
@@ -202,6 +208,15 @@ let routes = [
     {
         path: '/',
         component: HomeCloud,
+        name: '访客管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/vistorManage_VistorMember', component: VistorManage_VistorMember, name: '访客人员管理'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
         name: '电子支付',
         iconCls: 'el-icon-document',
         children: [
@@ -273,10 +288,13 @@ let routes = [
             {path: '/systemManage_MonthCard', component: SystemManage_MonthCard, name: '月卡套餐管理'},
             {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'}
 
-
         ]
     },
-
+    {
+        path: '/monitorApp',
+        component:MonitorApp ,
+        name: '自定义监控'
+    },
     /*
     * 以下是集团页面
     *

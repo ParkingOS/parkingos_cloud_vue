@@ -146,8 +146,10 @@
                         <template slot="title">
                             <i class="menu-icon icon iconfont icon-monitor"></i><span
                                 class="menuitem">中央监控</span></template>
-                        <el-menu-item index="centerMonitor"
-                                      v-if="this.showUnionItem.centerMonitor">中央监控
+                        <!--<el-menu-item index="centerMonitor"-->
+                                      <!--v-if="this.showUnionItem.centerMonitor">中央监控-->
+                        <!--</el-menu-item>-->
+                        <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor">中央监控
                         </el-menu-item>
                     </el-submenu>
 
@@ -171,6 +173,7 @@
 <script>
     import common from '../common/js/common';
     import {AUTH_ID, showParkItem_const, AUTH_ID_UNION, showUnionItem_const, ROLE_ID} from '../common/js/const';
+    import { server } from '../api/api';
 
     export default {
         data() {
@@ -230,6 +233,11 @@
                 // console.log(a)
                 // console.log(b)
                 // console.log(this.$router)
+                if(a == '/monitorApp'){
+                    window.open(server + '/#/monitorApp')
+                    // window.open('http://192.168.199.219:8086/#/monitorApp')
+                    return;
+                }
                 if (a == 'centerMonitor') {
                     let routetocm = 'http://yun.bolink.club/tcbcloud/monitor.do?loginuin=' + sessionStorage.getItem('loginuin');
                     let comid = sessionStorage.getItem('comid');
