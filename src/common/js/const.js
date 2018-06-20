@@ -39,6 +39,8 @@ export const AUTH_ID = {
     onlinePay: 8, //电子支付
     onlinePay_Income: 10, //电子收款
     onlinePay_CashManage: 9, //提现管理
+    vistorManage_VistorMember:320,
+    vistorManage:319,
     centerMonitor: 302 //中央监控
 };
 export const AUTH_ID_ADMIN = {
@@ -86,6 +88,8 @@ export const showParkItem_const = {
     systemManage_Price: false,
     systemManage_MonthCard: false,
     systemManage_Logs: false,
+    vistorManage_VistorMember:false,
+    vistorManage:false,
     centerMonitor: false
 
 };

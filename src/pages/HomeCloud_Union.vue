@@ -234,11 +234,10 @@
                 // console.log(b)
                 // console.log(this.$router)
                 if(a == '/monitorApp'){
-                    if(window.location.host == "1029.parkingos.club"){
-                        window.open('http://1029.parkingos.club/login.html#/monitorApp')
-                    }else {
-                        window.open('http://yun.bolink.club/login.html#/monitorApp')
-                    }
+                    let routeData = this.$router.resolve({
+                        name: "自定义监控",
+                    });
+                    window.open(routeData.href, '_blank');
                     return;
                 }
                 if (a == 'centerMonitor') {

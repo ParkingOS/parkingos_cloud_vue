@@ -48,7 +48,7 @@ import SystemManage_Logs from './pages/park/SystemManage_Logs.vue';
 
 
 //cyz add
-import  MonitorApp from './MonitorApp.vue'
+import  MonitorApp from './MonitorApp.vue';
 
 //cyz add end
 //云平台页面-集团
@@ -287,6 +287,7 @@ let routes = [
             {path: '/systemManage_Price', component: SystemManage_Price, name: '价格管理'},
             {path: '/systemManage_MonthCard', component: SystemManage_MonthCard, name: '月卡套餐管理'},
             {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'}
+
 
         ]
     },
