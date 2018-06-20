@@ -74,12 +74,12 @@
                         <el-menu-item index="/monthMember_Refill" v-if="this.showParkItem.monthMember_Refill">月卡续费记录
                         </el-menu-item>
                     </el-submenu>
-                    <!--<el-submenu v-if="this.showParkItem.vistorManage" index="/vistorManage">-->
-                        <!--<template slot="title"><i class="menu-icon icon iconfont icon-accountmanage"></i><span-->
-                                <!--class="menuitem">访客管理</span></template>-->
-                        <!--<el-menu-item index="/vistorManage_VistorMember" v-if="this.showParkItem.vistorManage_VistorMember">访客人员管理-->
-                        <!--</el-menu-item>-->
-                    <!--</el-submenu>-->
+                    <el-submenu v-if="this.showParkItem.vistorManage" index="/vistorManage">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-accountmanage"></i><span
+                                class="menuitem">访客管理</span></template>
+                        <el-menu-item index="/vistorManage_VistorMember" v-if="this.showParkItem.vistorManage_VistorMember">访客人员管理
+                        </el-menu-item>
+                    </el-submenu>
                     <el-submenu v-if="this.showParkItem.onlinePay" index="/onlinePay">
                         <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
                                 class="menuitem">电子支付</span></template>
