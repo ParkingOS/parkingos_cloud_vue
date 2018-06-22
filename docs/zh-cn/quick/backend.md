@@ -1,6 +1,6 @@
 # 后端模块列表
-要运行云平台，需要运行以下几个模块:
-现在后台使用的jdk都是1.7
+要运行云平台，需要运行以下几个模块(现在后台使用的jdk都是1.7):
+
 1.parkingos_cloud_vue_server(云平台后台模块)
 
 2.parkingos_cloud_api(sdk上报接口服务)
