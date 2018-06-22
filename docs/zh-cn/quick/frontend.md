@@ -1,5 +1,5 @@
 # 云平台后台项目
-parkingos是一个前后端分离的项目，前台是用vue+element-ui搭建的。
+
 
 在开始搭建之前，我们需要安装nodejs和npm
 
