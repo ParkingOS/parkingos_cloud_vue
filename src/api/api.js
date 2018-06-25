@@ -10,6 +10,7 @@ export const path = window.parkingosapi;
 // export const path = "http://localhost:8086"
 //   export const path = 'http://192.168.199.205:12305';
 
+
     // export const server = 'http://test.bolink.club';
 
 export const server = 'http://yun.bolink.club';
@@ -307,9 +308,18 @@ export var checkUpload = (rule, value, callback) => {
 
 export var checkNumber = (rule, value, callback) => {
     if (typeof(value) === 'undefined' || value === '') {
-        return callback(new Error('请输入权重'));
-    } else if (!(/^[0-9]{1,2}$/.test(value)) || value === 0) {
-        return callback(new Error('权重值在1-99'));
+        return callback(new Error('请输入正确数值'));
+    } else if ((/^[0-9]{1,2}$/.test(value)&&value!=='0') || value === '100') {
+        callback();
+    } else {
+        return callback(new Error('请输入正确数值(1-100)'));
+    }
+};
+export var checkMoney= (rule, value, callback) => {
+    if (typeof(value) === 'undefined' || value === '') {
+        return callback(new Error('请输入正确数值'));
+    } else if (!(/^[0-9]{1,9}$/.test(value)) || value === '0') {
+        return callback(new Error('请输入正确数值'));
     } else {
         callback();
     }
