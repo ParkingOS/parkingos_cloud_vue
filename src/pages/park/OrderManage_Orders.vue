@@ -54,6 +54,7 @@
         },
         data() {
             return {
+                currentScrollHeight:0,
                 loading: false,
                 hideExport: false,
                 hideSearch: false,
@@ -498,13 +499,10 @@
                 }
 
             }
-        },
-        activated() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            this.imgSize = common.gww() / 4;
+
+        /*
+        * 初次加载数据
+        * */
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({});
             // getCollector
@@ -514,6 +512,23 @@
                     _this.collectors = ret.data;
                     // console.log(ret.data)
                 }));
+
+        },
+        activated() {
+            window.onresize = () => {
+                this.tableheight = common.gwh() - 143;
+            };
+            this.tableheight = common.gwh() - 143;
+            this.imgSize = common.gww() / 4;
+            // this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            // this.$refs['bolinkuniontable'].getTableData({});
+            // // getCollector
+            // let _this = this;
+            // axios.all([common.getCollector()])
+            //     .then(axios.spread(function (ret) {
+            //         _this.collectors = ret.data;
+            //         // console.log(ret.data)
+            //     }));
         },
         watch: {
             collectors: function (val) {

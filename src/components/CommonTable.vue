@@ -38,6 +38,9 @@
             <el-button @click="changeParkText" type="text" v-if="showParkInfo" style="color: #109EFF;">
                 {{parkText}}
             </el-button>
+            <el-button @click="changeParkText" type="text" v-if="showParkInfo2" style="color: #109EFF;">
+                {{parkText}}
+            </el-button>
             <el-col :span="2" align="right" style="float: right">
                 <!--<span style="color:red;font-size:8px">提示:刷新后会重置高级查询</span>-->
                 <!--<el-button @click="reset" type="primary" size="small">清空高级查询</el-button>-->
@@ -1000,13 +1003,14 @@
                 superimposed: '0',
                 currentPayType: '',
                 parkAccoutRece_start: '',
-                parkAccoutRece_end: ''
+                parkAccoutRece_end: '',
+                getScrollHeight:0,
             };
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd','showresetdata', 'showdateSelector','showdateSelector22','showdateSelector33','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2'],
         methods: {
             //刷新页面
             refresh() {
@@ -1658,6 +1662,8 @@
             },
 
             handleShowOrderDetail(index, row) {
+                let container = this.$el.querySelector('.el-table__body-wrapper');
+                this.getScrollHeight = container.scrollTop;
                 //跳转到订单详情
                 this.$router.push({path: '/orderManage_OrderDetail', query: {index: index, row: row}});
                 this.parkText = '显示高级选项';//收起高级选项
@@ -2113,6 +2119,9 @@
                 this.sform.out_channel_id = this.formInline.channel;
                 this.sform.reason = this.formInline.cause;
                 this.sform.reason_start = this.formInline.cause;
+
+                //当前页数
+                this.currentPage = 1;
                 this.getTableData(this.sform);
 
                 // create_time: between
@@ -2188,9 +2197,21 @@
 
             }
 
+            /*
+           * 订单记录
+           * */
+            if (_this.showParkInfo) {
+                _this.datesselector = common.currentDateArray(3);
+                _this.start_placeholder = common.currentDateArray(3)[0];
+                _this.end_placeholder = common.currentDateArray(3)[1];
+                _this.cloneTime = common.currentDateArray(3);
+                _this.datesselector1 = common.currentDateArray(1);
+            }
+
         },
 
         activated() {
+
             //通过url 进行判断，是否是需要的页面
             var urls = window.location.href.split("_")[0];
             var urlsSplit = urls.split("/");
@@ -2217,8 +2238,10 @@
             this.mapheight = common.gwh() * 0.5;
             this.mapstyle = 'width:inherit;height:' + common.gwh() / 2 + 'px';
             // console.log('commontable active')
-            this.currentPage = 1;
-            this.sform = {};
+            if(!_this.showParkInfo){
+                this.currentPage = 1;
+                this.sform = {};
+            }
 
             //this.date_selector ='123434342'
             if (this.showdateSelector) {
@@ -2307,7 +2330,17 @@
                 _this.end_month_placeholder11 = common.currentMonth();
             }
             // console.log(_this.showParkInfo);
-            if (_this.showParkInfo) {
+            /*
+            * 订单记录
+            * */
+            // if (_this.showParkInfo) {
+            //     _this.datesselector = common.currentDateArray(3);
+            //      _this.start_placeholder = common.currentDateArray(3)[0];
+            //     _this.end_placeholder = common.currentDateArray(3)[1];
+            //     _this.cloneTime = common.currentDateArray(3);
+            //     _this.datesselector1 = common.currentDateArray(1);
+            // }
+            if (_this.showParkInfo2) {
                 _this.ordertime_start = 0;
                 _this.ordertime_end = 0;
                 _this.ordertimetype = 'create_time';
@@ -2319,13 +2352,11 @@
                 _this.currentPayType = '';
                 _this.parkAccoutRece_start = '';
                 _this.parkAccoutRece_end = '';
-                //_this.datesselector = common.currentDateArray(3);
-                 _this.start_placeholder = common.currentDateArray(3)[0];
+                _this.datesselector = common.currentDateArray(3);
+                _this.start_placeholder = common.currentDateArray(3)[0];
                 _this.end_placeholder = common.currentDateArray(3)[1];
                 _this.cloneTime = common.currentDateArray(3);
                 _this.datesselector1 = common.currentDateArray(1);
-
-
             }
             //这里也要判断是不是需要的页面
             if(urlsName != "orderStatistics" && urlsName != "strategicAnalysis"){

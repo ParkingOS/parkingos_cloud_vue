@@ -45,6 +45,7 @@
                             <!--</div>-->
                         <!--</div>-->
                         <div class="body">
+                            <div v-if="parkState.length == 0 " class="notdata" style="line-height: 130px">暂无数据</div>
                             <div class="item-list">
                                 <div class="bar-item" v-for='item in parkState' style="width: 100%;display: flex;flex-direction: row;align-items: center;flex-align:center;">
                                     <div :class="item.state===0?'bar bar-red':'bar bar-green'" style="width:40px;height: 40px;"></div>
@@ -66,10 +67,10 @@
                                 <span style="flex: 2;text-align: center;">通道名称</span>
                                 <span style="flex: 1;text-align: center;">时间</span>
                                 <span style="flex: 2;text-align: center;">车牌号</span></div>
+                            <div v-if="inPartData.length == 0" class="notdata" style="line-height: 150px">暂无数据</div>
+                            <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxInCarHeight + 'px' }" >
 
-                                <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxInCarHeight + 'px' }" >
-
-                              <div  v-bind:class="[scrollBoxInCar ? 'rowup' : '', 'box']" >
+                                <div  v-bind:class="[scrollBoxInCar ? 'rowup' : '', 'box']" >
                                   <ul class="con1 conE" >
                                       <li v-for='(item,index) in inPartData'>
                                           <div :style="styledouble">
@@ -89,7 +90,7 @@
                                       </li>
                                   </ul>
                               </div>
-                          </div>
+                            </div>
                         </div>
                     </div>
                     <div class="data-box cart-box" style="background-color: white;" >
@@ -100,6 +101,7 @@
                                 <span style="flex: 1;text-align: center;">时间</span>
                                 <span style="flex: 2;text-align: center;">车牌号</span>
                             </div>
+                            <div v-if="outPartData.length == 0" class="notdata" style="line-height: 150px">暂无数据</div>
                             <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxOutCarHeight + 'px' }" >
                             <div  v-bind:class="[scrollBoxOutCar ? 'rowup' : '', 'box']"  >
                                 <ul class="con1 conE" >
@@ -130,7 +132,8 @@
                     <div class="data-box" ref="posuse">
                         <div class="title">泊位使用率</div>
                         <div class="body" style="padding: 10px 0;">
-                            <div id="placeChart" v-bind:style="placeChartSize"></div>
+                            <div v-show="countShow" v-bind:style="placeChartSize" class="notdata">暂无数据</div>
+                            <div v-show="!countShow" id="placeChart" v-bind:style="placeChartSize"></div>
                         </div>
                     </div>
                 </div>
@@ -142,7 +145,8 @@
                     <div class="data-box" style="width: 100%;">
                         <div class="title">今日收费排行</div>
                         <div class="body" style="padding: 0">
-                            <div id="topParkChart" v-bind:style="topParkChartSize"></div>
+                            <div v-show="rankShow" v-bind:style="topParkChartSize" class="notdata">暂无数据</div>
+                            <div v-show="!rankShow" id="topParkChart" v-bind:style="topParkChartSize"></div>
                         </div>
                     </div>
                 </div>
@@ -169,7 +173,7 @@
                 <div class="title" style="padding-left: 10px;">异常抬杆</div>
                 <div style="flex: 2;margin: 0 10px 10px 10px;overflow: hidden;margin-bottom: 10px;background-color: white;" ref="scrollBoxException">
                     <div class="data-box" style="margin-top: 0px;" >
-
+                        <div v-show="exceptionDataPole.length == 0" v-bind:style="topParkChartSize" style="line-height: 150px" class="notdata">暂无数据</div>
                         <div style="background: white;color: black;padding:5px;">
                             <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;flex-align:center;background-color: #F5F7FA;height: 48px;">
                                 <span style="flex: 1;text-align: center;">时间</span>
@@ -177,6 +181,7 @@
                                 <span style="flex: 1;text-align: center;">收费员</span>
                                 <span style="flex: 2;text-align: center;">原因</span>
                             </div>
+
                             <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxExceptionHeight + 'px' }" >
                               <div  v-bind:class="[scrollBoxException ? 'rowup' : '', 'box']"  >
                                   <ul class="con1 conE" >
@@ -228,6 +233,8 @@
         },
         data() {
             return {
+                countShow:true, //泊位统计
+                rankShow:true, //是否显示今日收费排行的echarts
                 scrollBoxInCar:false,
                 scrollBoxOutCar:false,
                 scrollBoxOutCarHeight: 240,
@@ -380,8 +387,34 @@
                         }
                     }]
                 });
-
-
+                /*
+                * 当数据为0时，改变饼状颜色
+                *
+                * */
+                var colorArr = [];
+                if(this.incomePie == undefined){
+                    return
+                }else{
+                    this.incomePie.forEach(function (currentValue,index,arr) {
+                        switch (index){
+                            case 0:
+                                arr[0].value == 0 ? colorArr.push('#c9c6c6') :colorArr.push('#c23531');
+                                break;
+                            case 1:
+                                arr[1].value == 0 ? colorArr.push('#c9c6c6') :colorArr.push('#2f4554');
+                                break;
+                            case 2:
+                                arr[2].value == 0 ? colorArr.push('#c9c6c6') :colorArr.push('#61a0a8');
+                                break;
+                            default:
+                                return
+                        }
+                    })
+                    //改变颜色
+                    this.todayMoneyChart.setOption({
+                        color:colorArr
+                    })
+                }
                 this.todayMoneyChart.setOption({
                     title: {
                         show: false
@@ -408,8 +441,10 @@
                                 }
                             }
                         }
-                    ]
+                    ],
                 });
+
+
                 this.topParkChart.setOption({
                     title: {
                         show: false
@@ -546,8 +581,29 @@
 
 
                         // _this.exceptionDataPole = _this.responseData.outPartData;
-                        _this.getPlaceData(_this.responseData.berthPercentData);
-                        _this.getRank(_this.responseData.parkRank);
+
+                        /*
+                        * 泊位使用率
+                        * countShow 是否显示
+                        * */
+                        if(_this.responseData.berthPercentData.length != 0){
+                            _this.countShow = false;
+                            _this.getPlaceData(_this.responseData.berthPercentData);
+                        }else{
+                            _this.countShow = true;
+                        }
+                        /*
+                        * 今日收费排行数据加载
+                        *getRank 重新组装数据并赋值给rankData
+                        *rankShow  是否显示
+                        * */
+                        if(_this.responseData.parkRank.length != 0){
+                            _this.rankShow = false;
+                            _this.getRank(_this.responseData.parkRank);
+                        }else{
+                            _this.rankShow = true;
+                        }
+
                         // _this.getException(_this.responseData.exceptionEvents);
                         _this.incomePie = _this.responseData.totalIncomPie;
 

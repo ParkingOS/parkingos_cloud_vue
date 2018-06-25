@@ -175,6 +175,8 @@
         activated() {
             this.currentRow = this.$route.query.row;
             this.currentIndex = this.$route.query.index;
+            this.img_in = [];
+            this.img_out = [];
             this.showImgDialog(this.currentIndex, this.currentRow);
             // console.log(this.currentRow);
             this.detailStyle = 'width: 100%;height: ' + (common.gwh() - 80) + 'px;overflow-y: auto;';

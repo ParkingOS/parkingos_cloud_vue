@@ -21,6 +21,7 @@
                 <!--:imgapi="imgapi"-->
                 <!--ref="bolinkuniontable"-->
         <!--&gt;</common-table>-->
+        <!--先拿出来一会:showParkInfo="showParkInfo"-->
         <common-table
                 :queryapi="queryapi"
                 :exportapi="exportapi"
@@ -31,7 +32,7 @@
                 :hide-export="hideExport"
                 :hideSearch=true
                 :hideTool=true
-                :showParkInfo="showParkInfo"
+                :showParkInfo2="showParkInfo"
                 :hide-options="hideOptions"
                 :searchtitle="searchtitle"
                 :hideAdd="hideAdd"
@@ -72,6 +73,7 @@
         },
         data() {
             return {
+                getScrollHeight:1,
                 indexHide: false,
                 parkText: '显示高级选项',
                 hideLift:true,
@@ -239,6 +241,11 @@
                 this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
                 console.log(this.imgdialog_url);
                 this.imgDialog = true
+            },
+            getScrollHeight:function () {
+                let container = this.$el.querySelector('.el-table__body-wrapper');
+                this.getScrollHeight = container.scrollHeight;
+                console.log(this.getScrollHeight)
             }
         },
         mounted() {
@@ -265,6 +272,11 @@
 
         },
         activated() {
+            if(this.getScrollHeight > 0){
+                window.scrollTo(0, this.scroll);
+                this.getScrollHeight = 0;
+                window.addEventListener('scroll', this.getScrollHeight);
+            }
             window.onresize = () => {
                 this.tableheight = common.gwh() - 143;
             };
