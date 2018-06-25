@@ -5,6 +5,8 @@ import CodeReduce from './pages/CodeReduce.vue';
 import FreeCodeReduce from './pages/FreeCodeReduce.vue';
 import CarReduce from './pages/CarReduce.vue';
 import FreeCarReduce from './pages/FreeCarReduce.vue';
+import ReduceExport from './pages/ReduceExport.vue';
+import FreeReduceExport from './pages/FreeReduceExport.vue';
 // import Home from './pages/Home.vue'
 import HomeCloud from './pages/HomeCloud.vue';
 import HomeCloud_Union from './pages/HomeCloud_Union.vue';
@@ -391,6 +393,19 @@ let routes = [
         name: 'FreeCodeReduce',
         hidden: true
     },
+    {
+        path: '/reduce_export',
+        component: ReduceExport,
+        name: 'ReduceExport',
+        hidden: true
+    },
+    {
+        path: '/free_reduce_export',
+        component: FreeReduceExport,
+        name: 'FreeReduceExport',
+        hidden: true
+    },
+
     {
         path: '/404',
         component: NotFound,
