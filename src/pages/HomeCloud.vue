@@ -351,9 +351,14 @@
             if (user) {
 
                 user = JSON.parse(user);
-                //console.log('chen:'+user.nickname)
-                this.sysUserName = user.nickname || '';
+                var maxLength1 = user.nickname.length;//管理员名称
+                var maxLength2 = user.name.length;
 
+                console.log('~~~~~~~'+user.nickname+'~~~'+(maxLength1>8));
+                this.sysUserName = maxLength1>10?user.nickname.slice(0,10)+'...':user.nickname;
+                this.nickname = maxLength2>20?user.name.slice(0,20)+'...':user.name;
+                //this.sysUserName =user.nickname;
+                //this.nickname=user.name;
                 var cpath = this.$router.currentRoute.fullPath;
                 console.log(cpath);
                 this.highlightindex = cpath;
@@ -366,7 +371,7 @@
                     this.active = cpath;
                 }
                 if (user.oid == 0 || user.oid == ROLE_ID.PARK) {
-                    this.nickname = '车场';
+                //    this.nickname = '车场';
                     this.park = true;
                 }
                 if (user.oid == ROLE_ID.UNION) {

@@ -12,7 +12,7 @@
                 </div>
             </el-col>
             <el-col :span="7" style="padding-right:10px">
-                <div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute">{{nickname}}:
+                <div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute;">{{nickname}}:
                     {{sysUserName}}
                 </div>
                 <el-menu
@@ -240,9 +240,15 @@
             if (user) {
 
                 user = JSON.parse(user);
+                console.log('00000000000000000000000')
                 //console.log('chen:'+user.nickname)
-                this.sysUserName = user.nickname || '';
+               console.log(user.name+'~~~'+user.nickname)
+               var maxLength1 = user.nickname.length;//管理员名称
+               var maxLength2 = user.name.length;
 
+               //console.log('~~~~~~~'+user.nickname+'~~~'+(maxLength1>8));
+               this.sysUserName = maxLength1>10?user.nickname.slice(0,10)+'...':user.nickname;
+               this.nickname = maxLength2>20?user.name.slice(0,20)+'...':user.name;
                 var cpath = this.$router.currentRoute.fullPath;
                 console.log(cpath);
                 this.highlightindex = cpath;
@@ -262,7 +268,7 @@
                     this.union = true;
                 }
                 if (user.oid == ROLE_ID.CITY) {
-                    this.nickname = '厂商';
+                    //this.nickname = '厂商';
                     this.city = true;
                 }
                 if (user.oid == ROLE_ID.BOSS) {
@@ -274,7 +280,7 @@
                     this.cityregis = true;
                 }
                 if (user.oid == ROLE_ID.SHOP) {
-                    this.nickname = '商户';
+                    //this.nickname = '商户';
                     this.shop = true;
                 }
 

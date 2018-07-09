@@ -293,8 +293,11 @@
 
             if (user) {
                 user = JSON.parse(user);
-                this.sysUserName = user.nickname || '';
+               var maxLength1 = user.nickname.length;//管理员名称
+               var maxLength2 = user.name.length;
 
+               this.sysUserName = maxLength1>10?user.nickname.slice(0,10)+'...':user.nickname;
+               this.nickname = maxLength2>20?user.name.slice(0,20)+'...':user.name;
                 var cpath = this.$router.currentRoute.fullPath;
                 console.log(cpath);
                 this.highlightindex = cpath;
@@ -310,10 +313,10 @@
                     this.nickname = '车场';
                     this.park = true;
                 }
-                if (user.oid == ROLE_ID.UNION) {
-                    this.nickname = '运营集团';
-                    this.union = true;
-                }
+                //if (user.oid == ROLE_ID.UNION) {
+                //    this.nickname = '运营集团';
+                //   this.union = true;
+                //}
                 if (user.oid == ROLE_ID.SHOP) {
                     this.nickname = '商户';
                     this.shop = true;
