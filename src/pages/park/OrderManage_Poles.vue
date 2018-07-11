@@ -46,12 +46,13 @@
                 :parent-sf="collectors"
                 ref="bolinkuniontable"
         ></common-table>
-        <el-dialog title="抬杆图片" :visible.sync="imgDialog" width="40%">
+        <el-dialog title="抬杆图片" :visible.sync="imgDialog" width="40%" style="text-align: center">
             <!--<p>入场图片：</p>-->
             <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
             <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
             <!--<p>出场图片：</p>-->
-            <img v-bind:src="imgdialog_url" :width="imgSize*4/3" :height="imgSize"/>
+            <!--<img v-bind:src="imgdialog_url" :width="imgSize*4/3" :height="imgSize"/>-->
+            <img v-bind:src="imgdialog_url" style="display: inline-block;max-width: 100%;max-height: 100%;"/>
             <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
             <span slot="footer" class="dialog-footer">
 				<el-button @click="imgDialog = false" size="small">确 认</el-button>
