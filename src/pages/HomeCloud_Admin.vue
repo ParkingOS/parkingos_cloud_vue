@@ -101,6 +101,12 @@
                         <el-menu-item index="/park_manage">车场管理
                         </el-menu-item>
                     </el-submenu>
+                    <el-submenu v-if="this.city" index="/setting_manage">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">个性化设置</span></template>
+                        <el-menu-item index="/setting_manage">个性化设置
+                        </el-menu-item>
+                    </el-submenu>
 
                 </el-menu>
 

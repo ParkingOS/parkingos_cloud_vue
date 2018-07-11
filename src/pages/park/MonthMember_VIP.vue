@@ -61,7 +61,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="起始日期">
-                    <el-input v-model="refillstartDate" style="width:90%" :readonly="datereadonly"></el-input>
+                    <el-date-picker type="datetime" v-model="refillstartDate"
+                    style="width: 90%" :readonly='datereadonly'></el-date-picker>
                 </el-form-item>
                 <el-form-item label="续费月数" :prop="months">
                     <el-select v-model="refillForm.months" @change="getRefillTotal" style="width:90%">
@@ -84,7 +85,7 @@
                     <el-input v-model="refillForm.act_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
+                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly=true></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -160,7 +161,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly="datereadonly"></el-input>
+                    <el-input v-model="refillForm.remark" style="width:90%" placeholder="" :readonly=true></el-input>
                 </el-form-item>
 
             </el-form>
@@ -555,16 +556,20 @@
                 this.showResetCarnumber = true;
             },
             showrefill: function (index, row) {
+                let _this = this;
+                 _this.refillstartDate=0;
                 this.currentIndex = index;
                 this.currentRow = row;
                 this.refillForm.p_name ='';
                 let now = new Date().getTime();
                 let endtime = row.e_time;
                 this.refillForm.remark = '云平台续费';
+                let newDate = new Date();
+                //alert(newDate.setTime(now)+"~~~")
                 if (now / 1000 > endtime) {
-                    this.refillstartDate = common.dateformat(now / 1000)
+                    _this.refillstartDate = new Date(newDate.setTime(now));
                 } else {
-                    this.refillstartDate = common.dateformat(endtime)
+                    _this.refillstartDate = newDate.setTime(endtime * 1000);
                 }
 
                 for (let item of this.pname) {
@@ -575,11 +580,11 @@
                         return;
                     }
                 }
-                this.showRefill = true;
+
                 //如果当前套餐在套餐列表中，则应收是readonly
                 //当前套餐不存在，则应收可以自由填写
                 this.readonly = false;
-
+                this.showRefill = true;
             },
             showadd: function () {
                 this.showRegis = true;
@@ -627,7 +632,13 @@
                     console.log(_this.refillForm);
                     if (valid) {
 
-                        _this.currentRow.e_time=_this.currentRow.e_time>new Date().valueOf()/1000?_this.currentRow.e_time:new Date().valueOf()/1000
+
+                        if(_this.datereadonly){
+                            _this.currentRow.e_time=_this.currentRow.e_time>new Date().valueOf()/1000?_this.currentRow.e_time:new Date().valueOf()/1000
+                        }else{
+                            _this.currentRow.e_time = Date.parse(new Date(this.refillstartDate))/1000
+                        }
+
                         _this.currentRow.name=_this.currentRow.name==undefined?'':_this.currentRow.name
 
                         _this.resetloading = true;
@@ -654,7 +665,7 @@
                                         duration: 600
                                     });
                                 }
-                                _this.resetloading = false
+                                _this.resetloading = false;
                             }))
                     }
                 })
@@ -765,7 +776,10 @@
             // console.log(user)
             if (user) {
                 user = JSON.parse(user);
-                // console.log(user.authlist.length)
+                //console.log('~~~~~~~~~~~~~~self_setting:'+user.self_setting)
+                if(user.self_setting){//如果设置了，那么日期可以修改
+                    this.datereadonly=false;
+                }
                 for (var item of user.authlist) {
                     if (AUTH_ID.monthMember_VIP == item.auth_id) {
                         // console.log(item.sub_auth)

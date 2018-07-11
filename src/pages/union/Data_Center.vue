@@ -680,7 +680,7 @@
 
             this.dataInitCount = 0;
             that.getDatas();
-            this.dataInteval = setInterval(that.getDatas, 10000);
+            this.dataInteval = setInterval(that.getDatas, 120000);
 
 
         },

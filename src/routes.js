@@ -74,6 +74,7 @@ import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_Month
 //厂商页面
 import Park_Manage from './pages/city/Park_Manage.vue';
 import Union_Manage from './pages/city/Union_Manage.vue';
+import Setting_Manage from './pages/city/Setting_Manage.vue';
 
 //总后台页面
 import City_Manage from './pages/admin/City_Manage.vue';
@@ -166,6 +167,16 @@ let routes = [
             {path: '/park_manage', component: Park_Manage, name: '车场管理'}
         ]
     },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '个性化设置',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/setting_manage', component: Setting_Manage, name: '运营集团'}
+        ]
+    },
+
     {
         path: '/loginCloud',
         component: LoginCloud,
