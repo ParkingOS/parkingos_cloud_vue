@@ -37,6 +37,7 @@
                 :searchtitle="searchtitle"
                 :hideAdd="hideAdd"
                 :showImg="showImg"
+                :orderfield="orderfield"
                 :indexHide=true
                 v-on:showImg_Pole="showImgDialog"
                 :imgapi="imgapi"
@@ -73,6 +74,7 @@
         },
         data() {
             return {
+                orderfield:"id",
                 getScrollHeight:1,
                 indexHide: false,
                 parkText: '显示高级选项',
@@ -268,8 +270,17 @@
                 }
 
             }
-
-
+            let _this = this;
+            axios.all([common.getCollector(), common.getLiftReason()])
+                .then(axios.spread(function (collector, reason) {
+                    _this.collectors = collector.data;
+                    _this.collectors.unshift({
+                        value_name: '全部',
+                        value_no: ''
+                    })
+                    _this.reasons = reason.data;
+                }))
+            this.$refs['bolinkuniontable'].getTableData({});
         },
         activated() {
             if(this.getScrollHeight > 0){
@@ -283,17 +294,8 @@
             this.tableheight = common.gwh() - 143;
             this.imgSize = common.gww()/4;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.$refs['bolinkuniontable'].getTableData({});
-            let _this = this;
-            axios.all([common.getCollector(), common.getLiftReason()])
-                .then(axios.spread(function (collector, reason) {
-                    _this.collectors = collector.data;
-                    _this.collectors.unshift({
-                        value_name: '全部',
-                        value_no: ''
-                    })
-                    _this.reasons = reason.data;
-                }))
+            // this.$refs['bolinkuniontable'].getTableData({});
+
         },
         watch: {
             collectors: function (val) {

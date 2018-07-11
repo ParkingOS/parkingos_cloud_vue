@@ -4,7 +4,7 @@
         <el-form :inline="true" v-if='hideLift' :model="formInline" class="demo-form-inline">
             <el-form-item label="" style="margin-bottom: 5px;">
                 <el-date-picker
-                        v-model="datesselector1"
+                        v-model="datesselector2"
                         type="datetimerange"
                         align="right"
                         style="float:left"
@@ -14,7 +14,7 @@
                         :end-placeholder="end_placeholder"
                         value-format="yyyy-MM-dd HH:mm:ss"
                         :picker-options="pickerOptions2"
-                        @change="changeParkTime"
+                        @change="changeTimer"
                         :default-time="['00:00:00', '23:59:59']">
                 </el-date-picker>
             </el-form-item>
@@ -30,7 +30,9 @@
                 </el-select>
             </el-form-item>
             <el-form-item style="margin-bottom: 5px;">
-                <el-button @click="changeParkTime(datesselector1)" icon="search" type="primary">搜索
+                <!--<el-button @click="changeParkTime(datesselector1)" icon="search" type="primary">搜索-->
+                <!--</el-button>-->
+                <el-button @click="liftRod" icon="search" type="primary">搜索
                 </el-button>
                 <el-button type="primary" @click="handleExport" v-if="!hideExport">导出
                 </el-button>
@@ -712,6 +714,7 @@
             let that = this;
             return {
                 formInline: {
+                    timer:'',
                     name: '',
                     number: '',
                     channel: '',
@@ -835,6 +838,7 @@
                 datesselector: '',
                 cloneTime:'',
                 datesselector1:'',
+                datesselector2:'',
                 monthReportStart: '',
                 monthReportEnd: '',
 
@@ -1012,6 +1016,30 @@
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd','showresetdata', 'showdateSelector','showdateSelector22','showdateSelector33','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
             'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2'],
         methods: {
+            changeTimer:function (value) {
+                console.log(value)
+            },
+            liftRod:function () {
+                // console.log(this.formInline)
+              var timer =  this.datesselector2
+                if(timer != null){
+                  var date1 = new Date(Date.parse(timer[0].replace(/-/g, "/")));
+                  var date2 = new Date(Date.parse(timer[1].replace(/-/g, "/")));
+                    this.sform.ctime = 'between';
+                    this.sform.ctime_start = date1.getTime();
+                    this.sform.ctime_end = date2.getTime();
+                }
+                //抬杆数据
+                this.sform.uin = this.formInline.name;
+                this.sform.uin_start = this.formInline.name;
+                this.sform.liftrod_id = this.formInline.number;
+                this.sform.out_channel_id = this.formInline.channel;
+                this.sform.reason = this.formInline.cause;
+                this.sform.reason_start = this.formInline.cause;
+                //当前页数
+                this.currentPage = 1;
+                this.getTableData(this.sform);
+            },
             //刷新页面
             refresh() {
                 if (this.showdateSelector) {
@@ -2076,9 +2104,9 @@
                         this.sform.create_time_end = this.ordertime_end;
 
                         //抬杆查询
-                        this.sform.ctime = this.ordertime;
-                        this.sform.ctime_start = this.ordertime_start;
-                        this.sform.ctime_end = this.ordertime_end;
+                        // this.sform.ctime = this.ordertime;
+                        // this.sform.ctime_start = this.ordertime_start;
+                        // this.sform.ctime_end = this.ordertime_end;
 
                         this.sform.end_time = '';
                         this.sform.end_time_start = 0;
@@ -2113,12 +2141,12 @@
                 this.sform.pay_type_start = this.currentPayType;
                 this.sform.pay_type = this.currentPayType;
                 //抬杆数据
-                this.sform.uin = this.formInline.name;
-                this.sform.uin_start = this.formInline.name;
-                this.sform.liftrod_id = this.formInline.number;
-                this.sform.out_channel_id = this.formInline.channel;
-                this.sform.reason = this.formInline.cause;
-                this.sform.reason_start = this.formInline.cause;
+                // this.sform.uin = this.formInline.name;
+                // this.sform.uin_start = this.formInline.name;
+                // this.sform.liftrod_id = this.formInline.number;
+                // this.sform.out_channel_id = this.formInline.channel;
+                // this.sform.reason = this.formInline.cause;
+                // this.sform.reason_start = this.formInline.cause;
 
                 //当前页数
                 this.currentPage = 1;
@@ -2143,6 +2171,12 @@
                     this.parkText = '显示高级选项';
                     this.parkExpanStyle = 'display:none;';
                     this.tableheight2 = common.gwh() - 143;
+
+                    //重置抬杆数据
+                    // this.formInline.name = '';
+                    // this.formInline.number = '';
+                    // this.formInline.channel = '';
+                    // this.formInline.cause = '';
                 } else {
                     this.parkText = '隐藏高级选项';
                     this.parkExpanStyle = 'display:block;margin-top:5px';
@@ -2206,8 +2240,11 @@
                 _this.end_placeholder = common.currentDateArray(3)[1];
                 _this.cloneTime = common.currentDateArray(3);
                 _this.datesselector1 = common.currentDateArray(1);
-            }
 
+            }
+            if(_this.showParkInfo2){
+                _this.datesselector2 = common.currentDateArray(1);
+            }
         },
 
         activated() {
@@ -2358,6 +2395,11 @@
                 _this.cloneTime = common.currentDateArray(3);
                 _this.datesselector1 = common.currentDateArray(1);
             }
+            //重置抬杆数据
+            // this.formInline.name = '';
+            // this.formInline.number = '';
+            // this.formInline.channel = '';
+            // this.formInline.cause = '';
             //这里也要判断是不是需要的页面
             if(urlsName != "orderStatistics" && urlsName != "strategicAnalysis"){
                 this.parkExpanded = true;
