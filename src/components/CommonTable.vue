@@ -1398,7 +1398,12 @@
                 } else {
                     for (var x in this.sform) {
                         //console.log(this.sform[x])
-                        params += x + '=' + this.sform[x] + '&';
+                        if(x=='car_number'){
+                            params += x + '=' + encodeURI(encodeURI(this.sform[x])) + '&';
+                        }else{
+                            params += x + '=' + this.sform[x] + '&';
+                        }
+
                     }
                 }
                 let groupid = sessionStorage.getItem('groupid');

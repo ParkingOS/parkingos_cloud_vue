@@ -30,8 +30,13 @@
                     <span class="show-pwd" @click="showPwd"><img src="../assets/eye.png"/></span>
                 </el-form-item>
 
+                <span>
+                     <el-checkbox v-model="checked" ><font color="white" size="2">记住密码</font></el-checkbox>
+                     <el-button @click="handleReset"  size="small" type="text" style="color:white;margin-left:300px;" ><font size="2">忘记密码?</font></el-button>
+                </span>
+
                 <el-button type="primary"
-                           style="width:100%;margin-bottom:30px;background: #109EFF;height: 47px;font-size: 16px;"
+                           style="width:100%;margin-bottom:30px;margin-left:0px;background: #109EFF;height: 47px;font-size: 16px;"
                            :loading="loading"
                            @click.native.prevent="handleSubmit2">登 录
                 </el-button>
@@ -48,6 +53,77 @@
             show-icon>
           </el-alert>
       </el-dialog>
+
+
+      <!--重置密码对话框-->
+        <el-dialog
+            title="找回密码"
+            :visible.sync="getPassVisible"
+            size="tiny"
+            @close="closeGetPass">
+            <el-form ref="passform" :model="getpass" :rules="getPassFormRules" label-width="90px" style="width:96%">
+
+                <el-form-item label="登录账户" prop="userid">
+                    <el-input v-model="getpass.userid"></el-input>
+                </el-form-item>
+                <el-form-item label="密保手机" prop="mobile">
+                    <el-input v-model="getpass.mobile"></el-input>
+                </el-form-item>
+                <el-form-item label="验证码">
+                    <el-input v-model="getpass.code" style="width:50%"></el-input>
+                    <el-button  type="success"  @click="getckey" :disabled="codeBtn" style="color:blue">{{passinfo}}</el-button>
+                </el-form-item>
+                </el-form>
+                <el-col align="right" style="margin-bottom:2px;margin-top:-10px;">
+                    <el-button @click="getPassVisible = false" size="small">取 消</el-button>
+                    <el-button type="primary" @click="checkCode" size="small" :disabled="hasCode">确 定</el-button>
+                </el-col>
+        </el-dialog>
+
+
+        <!--获取ckey对话框-->
+        <el-dialog
+            title="获取验证码"
+            :visible.sync="getckeyVisible"
+            top="25%"
+            size="tiny"
+            @close="closegetckey">
+            <el-form ref="ckeyform" :model="getckeyForm" label-width="80px" style="width:85%;margin-left:20px">
+                <el-form-item label="机器码">
+                    <div class="keyCode" >{{ckey}}</div>
+                </el-form-item>
+                <el-form-item label="请输入">
+                    <el-input v-model="getckeyForm.ckey"></el-input>
+                </el-form-item>
+                </el-form>
+                <el-col align="right" style="margin-bottom:12px;margin-top:-10px;">
+                    <el-button @click="getckeyVisible = false" size="small">取 消</el-button>
+                    <el-button type="primary" @click="reguser" size="small">确 定</el-button>
+                </el-col>
+        </el-dialog>
+
+
+        <!--重置密码对话框-->
+        <el-dialog
+            title="重置密码"
+            :visible.sync="resetPassVisible"
+            top="25%"
+            size="tiny"
+            @close="closeResetPass">
+            <el-form ref="resetpassform" :model="resetPassForm" :rules="resetPassFormRules" label-width="100px" style="width:85%;margin-left:20px">
+                <el-form-item label="请输入密码" prop="pass1">
+                    <el-input v-model="resetPassForm.pass1" type="password" ></el-input>
+                </el-form-item>
+                <el-form-item label="再输入密码" prop="pass2">
+                    <el-input v-model="resetPassForm.pass2" type="password"></el-input>
+                </el-form-item>
+                </el-form>
+                <el-col align="right" style="margin-bottom:18px;margin-top:-10px;">
+                    <el-button @click="resetPassVisible = false" size="small">取 消</el-button>
+                    <el-button type="primary" @click="resetPasss" size="small">确 定</el-button>
+                </el-col>
+        </el-dialog>
+
     </div>
 
 </template>
@@ -84,6 +160,7 @@
                 passinfo: '获取验证码',
                 top: '',
                 bgheight: '',
+                user_id:'',
                 content: '',
                 form: '',
                 wrap: '',
@@ -117,9 +194,7 @@
                 },
                 token: '',
                 getPassFormRules: {
-                    user_type: [
-                        {required: true, message: '请选择用户类型', trigger: 'change'}
-                    ],
+
                     userid: [
                         {required: true, message: '请输入账户名称', trigger: 'blur'}
                     ],
@@ -150,7 +225,9 @@
 
         mounted() {
             //alert(common.gwh())
+
             var vm = this;
+            vm.getCookie()
             var pad = Math.ceil((common.gww() - 1366) / 2);
             this.top = 'height:60px;padding-left:' + pad + 'px;padding-right:' + pad + 'px';
             this.bgheight = 'height:' + (common.gwh() - 110) + 'px;width:' + common.gww() + 'px';
@@ -165,6 +242,7 @@
             vm.iEVersionCheck();
         },
         methods: {
+
               iEVersionCheck() {
 
                  var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
@@ -218,29 +296,36 @@
                 var cform = this.getpass;
                 this.$refs.passform.validate((valid) => {
                     if (valid) {
-                        vm.$.post(path + '/user/getckey', cform, function (ret) {
-                            if (ret.state == 1) {
+                        vm.$axios.post(path + '/user/getckey', vm.$qs.stringify(cform), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            }
+                        }).then(function (response) {
+                            var ret = response.data;
+                            if(ret.state==1){
                                 vm.ckey = CryptoJS.AES.decrypt(ret.ckey, key, {
                                     iv: iv,
                                     mode: CryptoJS.mode.CBC
                                 }).toString(CryptoJS.enc.Utf8);
+                                vm.user_id=ret.userid;
                                 vm.getckeyVisible = true;
-                            } else {
-                                //更新失败
-                                vm.$message({
-                                    message: ret.errmsg,
-                                    type: 'error',
-                                    duration: 4000
-                                });
                             }
-                        }, 'json');
+                            else {
+
+                                vm.$message.error(ret.errmsg);
+                            }
+                        }).catch(function (error) {
+                             vm.$message.error(error.data);
+                        });
+
                     }
                 });
 
             },
             reguser() {
                 var vm = this;
-                if (this.getckeyForm.ckey.length != 4) {
+                //alert(vm.ckey);
+                if (this.getckeyForm.ckey != vm.ckey) {
                     vm.$message({
                         message: '请输入正确的验证码',
                         type: 'error',
@@ -251,8 +336,14 @@
                 var vm = this;
                 var win = window;
                 var cform = {'mobile': this.getpass.mobile, 'ckey': this.getckeyForm.ckey};
-                vm.$.post(path + '/user/reguser', cform, function (ret) {
-                    if (ret.state == 1) {
+
+                vm.$axios.post(path + '/user/reguser', vm.$qs.stringify(cform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    var ret = response.data;
+                    if(ret.state==1){
                         vm.$message({
                             message: '验证码已发送,请注意查收',
                             type: 'success',
@@ -264,7 +355,9 @@
                         vm.time = 60;
                         vm.codeBtn = true;
                         timer = win.setInterval(vm.getCodeBtn, 1000);
-                    } else {
+                    }
+                    else {
+
                         //更新失败
                         vm.$message({
                             message: ret.errmsg,
@@ -272,7 +365,9 @@
                             duration: 4000
                         });
                     }
-                }, 'json');
+                }).catch(function (error) {
+                     vm.$message.error(error.data);
+                });
             },
             getCodeBtn() {
                 if (this.time > 0) {
@@ -296,25 +391,35 @@
                     return;
                 }
                 var cform = {'mobile': this.getpass.mobile, 'userid': this.getpass.userid, 'code': this.getpass.code};
-                vm.$.post(path + '/user/checkcode', cform, function (ret) {
-                    if (ret.state == 1) {
-                        vm.token = ret.token;
-                        //关闭当前对话框
-                        vm.getPassVisible = false;
-                        //开启充值密码对话框
-                        vm.resetPassVisible = true;
-                    } else {
-                        //更新失败
-                        vm.$message({
-                            message: ret.errmsg,
-                            type: 'error',
-                            duration: 4000
-                        });
-                    }
-                }, 'json');
 
+                vm.$axios.post(path + '/user/checkcode', vm.$qs.stringify(cform), {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function (response) {
+                        var ret = response.data;
+                        if(ret.state==1){
+                            //关闭当前对话框
+                            vm.getPassVisible = false;
+                            //开启充值密码对话框
+                            vm.resetPassVisible = true;
+                            //vm.user_id = vm.getpass.userid;
+                            //alert(vm.getpass.userid+vm.user_id)
+                        }
+                        else {
+                           //更新失败
+                           vm.$message({
+                             message: ret.errmsg,
+                             type: 'error',
+                             duration: 4000
+                         });
+                        }
+                    }).catch(function (error) {
+                         vm.$message.error(error.data);
+                    });
             },
             resetPasss() {
+                //alert(this.getpass)
                 //重置密码
                 var vm = this;
                 if (this.resetPassForm.pass1 != this.resetPassForm.pass2) {
@@ -325,29 +430,65 @@
                     });
                     return;
                 }
-                var cform = {'passwd': this.resetPassForm.pass1, 'token': this.token};
+                var cform = {'passwd': this.resetPassForm.pass1,'user_id': vm.user_id, 'token': this.token};
                 this.$refs.resetpassform.validate((valid) => {
                     if (valid) {
-                        vm.$.post(path + '/user/resetpwd', cform, function (ret) {
-                            if (ret.state == 1) {
-                                vm.$message({
-                                    message: '密码重置成功!',
-                                    type: 'success',
-                                    duration: 1500
-                                });
-                                vm.resetPassVisible = false;
-                            } else {
-                                //更新失败
-                                vm.$message({
-                                    message: '密码重置失败!',
-                                    type: 'error',
-                                    duration: 3000
-                                });
+
+                    vm.$axios.post(path + '/user/resetpwd', vm.$qs.stringify(cform), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
-                        }, 'json');
+                        }).then(function (response) {
+                            var ret = response.data;
+                            if(ret.state==1){
+                               vm.$message({
+                                   message: '密码重置成功!',
+                                   type: 'success',
+                                   duration: 1500
+                               });
+                               vm.resetPassVisible = false;
+                            }
+                            else {
+                              vm.$message({
+                                  message: '密码重置失败!',
+                                  type: 'error',
+                                  duration: 3000
+                              });
+                            }
+                        }).catch(function (error) {
+                             vm.$message.error(error.data);
+                        });
                     }
                 });
             },
+            setCookie(c_name,c_pwd,exdays) {
+                //alert(c_name+c_pwd)
+                var exdate=new Date();//获取时间
+                exdate.setTime(exdate.getTime() + 24*60*60*1000*exdays);//保存的天数
+                //字符串拼接cookie
+                window.document.cookie="userName"+ "=" +c_name+";path=/;expires="+exdate.toGMTString();
+                window.document.cookie="userPwd"+"="+c_pwd+";path=/;expires="+exdate.toGMTString();
+            },
+            getCookie:function () {
+                if (document.cookie.length>0) {
+                  var arr=document.cookie.split('; ');//这里显示的格式需要切割一下自己可输出看下
+                  for(var i=0;i<arr.length;i++){
+                    var arr2=arr[i].split('=');//再次切割
+                    //判断查找相对应的值
+                    if(arr2[0]=='userName'){
+                      this.loginForm.username=arr2[1];//保存到保存数据的地方
+                      this.checked = true;
+                    }else if(arr2[0]=='userPwd'){
+                      this.loginForm.password=arr2[1];
+                      this.checked = true;
+                    }
+                  }
+                }
+              },
+              clearCookie:function () {
+                  this.setCookie("","",-1);//修改2值都为空，天数为负1天就好了
+              },
+
             onSubmit() {
                 this.handleSubmit2();
                 // this.logining = true;
@@ -377,6 +518,13 @@
                             console.log(response);
                             let ret = response.data;
                             if (ret.state) {
+
+                                //alert(_this.checked+_this.loginForm.password+_this.loginForm.username);
+                                if(_this.checked){
+                                    _this.setCookie(_this.loginForm.username,_this.loginForm.password,720);
+                                }else{
+                                    _this.clearCookie();
+                                }
                                 var u = ret.user;
                                 sessionStorage.setItem('user', JSON.stringify(u));
                                 //localStorage.setItem('user', JSON.stringify(u));
@@ -516,6 +664,26 @@
         }
     };
 </script>
+<style lang="scss" scoped>
+    .keyCode{
+            background:url(../assets/code.png);
+            font-family:Arial;
+            font-style:italic;
+            color:blue;
+            font-size:30px;
+            border:0;
+            padding:2px 3px;
+            letter-spacing:3px;
+            font-weight:bolder;
+            float:left;
+            cursor:pointer;
+            width:100px;
+            height:36px;
+            line-height:36px;
+            text-align:center;
+            vertical-align:middle;
+        }
+</style>
 <style rel="stylesheet/scss" lang="scss">
     $bg: #2d3a4b;
     $light_gray: #eee;
@@ -548,6 +716,7 @@
             color: $bg;
             background-color: $bg;
         }
+
     }
 </style>
 <style rel="stylesheet/scss" lang="scss">
@@ -610,6 +779,7 @@
             cursor: pointer;
             user-select: none;
         }
+
 
     }
 </style>
