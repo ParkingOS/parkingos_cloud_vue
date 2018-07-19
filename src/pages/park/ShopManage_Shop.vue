@@ -1194,6 +1194,7 @@
                         aform.loginuin = sessionStorage.getItem('loginuin')
                         aform.nickname = sessionStorage.getItem('nickname')
                         aform.oid = sessionStorage.getItem('oid')
+                        aform.nickname1 = sessionStorage.getItem('nickname1')
 
                         aform.id = this.shopForm.id;
                         aform.name = this.shopForm.name;

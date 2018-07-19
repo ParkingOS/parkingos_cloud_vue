@@ -69,41 +69,7 @@
       </el-col>
       </el-col>
 
-      <el-col :span="9" style="margin-left:-8px">
-        <el-card class="box-card" style="height:455px">
-          <div align="center">
-              <div style="text-align:left">商户设置&nbsp;:</div>
-              <!--总车位数,剩余车位数,创建时间,更新时间,状态,所属平台,所属服务商,-->
-              <div style="">
-                <el-row style="padding:20px;padding-left:1px">
-                   <el-form ref="infoModify" :model="infoModify" label-width="110px" :rules="infoFormRules"  style="width:85%">
 
-                      <el-form-item label="默认显示额度" prop="default_limit">
-                        <el-input v-model="infoModify.default_limit"></el-input>
-                      </el-form-item>
-                      <el-form-item label="有效期/小时" prop="validite_time">
-                        <el-input v-model="infoModify.validite_time"></el-input>
-                      </el-form-item>
-                      <el-form-item label="手输额度" prop="hand_input_enable" >
-                        <el-select v-model="infoModify.hand_input_enable">
-                          <el-option
-                              v-for="item in handInputType"
-                              :label="item.value_name"
-                              :value="item.value_no">
-                          </el-option>
-                        </el-select>
-                      </el-form-item>
-
-                    </el-form>
-                    <el-col :span="24" align="right" style="margin-bottom: 15px">
-                      <el-button @click="inforesetEdit" size="small">重置</el-button>
-                      <el-button type="primary" @click="infoEditSubmit" size="small" :loading="infoloading">保存</el-button>
-                    </el-col>
-                </el-row>
-              </div>
-          </div>
-        </el-card>
-     </el-col>
     </el-row>
 
 

@@ -53,7 +53,7 @@
 
                 addFormRules: {
                     name: [
-                        {required: true, message: '请填写停车场名称', trigger: 'blur'}
+                        {required: true, message: '请填写厂商名称', trigger: 'blur'}
                     ],
                     union_id: [
                         {required: true, message: '请填写泊链厂商编号', trigger: 'blur'}

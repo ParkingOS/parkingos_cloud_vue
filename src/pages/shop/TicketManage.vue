@@ -39,9 +39,9 @@
             return {
                 loading: false,
                 hideExport: true,
-                hideSearch: true,
+                hideSearch: false,
                 orderfield:'id',
-                showTicketInfo: true,
+                showTicketInfo: false,
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
@@ -52,7 +52,7 @@
                 showdelete: true,
                 queryapi: '/shopticket/getticketlog',
                 btswidth: '100',
-                fieldsstr: 'id__money__umoney__limit_day__car_number',
+                fieldsstr: 'id__money__umoney__limit_day__car_number__create_time__type__use_time__state',
                 tableitems: [
                     {
                         hasSubs: false,
@@ -62,7 +62,7 @@
                             width: '180',
                             type: 'number',
                             editable: true,
-                            searchable: true,
+                            searchable: false,
                             addable: true,
                             hidden:'',
                             unsortable: true,
@@ -89,7 +89,7 @@
                             type: 'number',
                             hidden:'',
                             editable: true,
-                            searchable: true,
+                            searchable: false,
                             addable: true,
                             unsortable: true,
                             align: 'center',
@@ -99,7 +99,23 @@
                                  }
                             }
                         }]
-                    },
+                    },{
+                      hasSubs: false,
+                      subs: [{
+                          label: '创建时间',
+                          prop: 'create_time',
+                          width: '180',
+                          type: 'date',
+                          editable: true,
+                          searchable: true,
+                          addable: true,
+                          unsortable: true,
+                          align: 'center',
+                          format:function(row){
+                              return common.dateformat(row.create_time);;
+                          }
+                      }]
+                  },
                     {
                         hasSubs: false,
                         subs: [{
@@ -108,7 +124,7 @@
                             width: '180',
                             type: 'date',
                             editable: true,
-                            searchable: true,
+                            searchable: false,
                             addable: true,
                             unsortable: true,
                             align: 'center',
@@ -132,6 +148,23 @@
                         }]
                     },
                     {
+                        hasSubs: false,
+                        subs: [{
+                            label: '使用时间',
+                            prop: 'use_time',
+                            width: '180',
+                            type: 'date',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                                return common.dateformat(row.use_time);;
+                            }
+                        }]
+                    },
+                    {
 
                         hasSubs: false,
                         subs: [{
@@ -141,7 +174,7 @@
                             type: 'selection',
                             selectlist:ticketQueryType,
                             editable: true,
-                            searchable: true,
+                            searchable: false,
                             addable: true,
                             unsortable: true,
                             align: 'center',

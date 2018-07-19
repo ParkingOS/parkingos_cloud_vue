@@ -50,7 +50,7 @@
                 queryapi: '/shopticket/quickquery',
                 btswidth: '100',
                 exportapi: '/shopticket/exportExcel',
-                fieldsstr: 'id__money__umoney__limit_day__car_number',
+                fieldsstr: 'id__money__umoney__limit_day__car_number__create_time__use_time',
                 tableitems: [
                     {
 
@@ -168,7 +168,26 @@
                             	 }
                             }
                         }]
-                    },{
+                    },
+                    {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '创建时间',
+                            prop: 'create_time',
+                            width: '180',
+                            type: 'date',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format:function(row){
+                                return common.dateformat(row.create_time);;
+                            }
+                        }]
+                    },
+                    {
 
                         hasSubs: false,
                         subs: [{
@@ -223,7 +242,26 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },  {
+                    },
+                     {
+
+                         hasSubs: false,
+                         subs: [{
+                             label: '使用时间',
+                             prop: 'use_time',
+                             width: '180',
+                             type: 'date',
+                             editable: true,
+                             searchable: true,
+                             addable: true,
+                             unsortable: true,
+                             align: 'center',
+                             format:function(row){
+                                 return common.dateformat(row.use_time);;
+                             }
+                         }]
+                     },
+                     {
 
                         hasSubs: false,
                         subs: [{

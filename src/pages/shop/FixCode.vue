@@ -101,7 +101,7 @@
             return {
                 loading: false,
                 hideExport: true,
-                hideSearch: true,
+                hideSearch: false,
                 orderfield:'id',
                 tableheight: '',
                 showdelete: false,
@@ -141,7 +141,7 @@
                 editapi:'/fixcode/edit',
                 btswidth: '160',
                 href:'https://www.baidu.com/s?wd=node-pre-gyp+install+--fallback-to-build&ie=UTF-8&tn=39042058_20_oem_dg',
-                fieldsstr: 'id__park_id__operate_time__ticketfree_limit__ticket_limit__ticket_money__operate_type__add_money',
+                fieldsstr: 'id__park_id__operate_time__ticketfree_limit__ticket_limit__ticket_money__operate_type__add_money__state__create_time__name',
                 tableitems: [
                  {
                        hasSubs: false, subs: [
@@ -199,7 +199,7 @@
                                width: '123',
                                type: 'str',
                                editable: false,
-                               searchable: true,
+                               searchable: false,
                                addable: true,
                                hidden:'',
                                unsortable: true,
@@ -215,7 +215,7 @@
                               width: '123',
                               type: 'str',
                               editable: false,
-                              searchable: true,
+                              searchable: false,
                               addable: true,
                               hidden:'',
                               unsortable: true,
@@ -231,7 +231,7 @@
                                width: '123',
                                type: 'str',
                                editable: false,
-                               searchable: true,
+                               searchable: false,
                                addable: true,
                                unsortable: true,
                                align: 'center',
@@ -295,8 +295,8 @@
                     },
 
                 ],
-                searchtitle: '查询明细',
-                addtitle:"添加",
+                searchtitle: '高级查询',
+                addtitle:"添加固定码",
 
 
 

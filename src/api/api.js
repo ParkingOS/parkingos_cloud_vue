@@ -1,27 +1,14 @@
 
-// export const path = 'http://120.25.121.204:8080/cloud';
-// export const path = 'http://test.bolink.club/cloud';
-
-// export const path = window.parkingosapi;
-// export const path = 'http://test.bolink.club/cloud';
-
 export const path = window.parkingosapi;
+// export const path = 'http://test.bolink.club/cloud';
 
-// export const path = "http://localhost:8086"
-//   export const path = 'http://192.168.199.205:12305';
+  // export const path = 'http://192.168.199.205:12305';
 
-
-    // export const server = 'http://test.bolink.club';
-
+  // export const server = 'http://test.bolink.club';
 export const server = 'http://yun.bolink.club';
 
-//   export const path = 'http://192.168.199.137:9090/cloud';
-// export const path = 'http://localhost:8080/cloud';
-
- // export const path = 'http://192.168.192.1:12305';
+// export const path = 'http://192.168.192.1:12305';
 //export const path = "http://localhost:8085"
-// export const path = "http://localhost:8080/cloud"
-// export const path = 'http://192.168.199.150:8080/cloud';
 
 //beta设置为5   s.bolink设置为2
 export const percision = 5;
@@ -33,8 +20,10 @@ export const operateType = [
     {'value_no': 2, 'value_name': '回收充值'}
 ];
  export const stateType = [
+     { 'value_name': '全部','value_no': ''},
      { 'value_name': '可用','value_no': '0'},
-     { 'value_name': '不可用','value_no': '1'}
+     { 'value_name': '不可用','value_no': '1'},
+     { 'value_name': '已过期','value_no': '2'}
  ];
 export const ticketType = [
     {'value_name': '时长减免', 'value_no': '1'},
@@ -70,6 +59,28 @@ export const moveStyle = [
     {'value_no': 14, 'value_name': '闪烁'},
     {'value_no': 15, 'value_name': '右百叶'}
 
+];
+
+export const types = [
+    {'value_no': 'adminrole', 'value_name': '角色管理'},
+    {'value_no': 'blackuser', 'value_name': '黑名单'},
+    {'value_no': 'carrenew', 'value_name': '月卡续费'},
+    {'value_no': 'cartype', 'value_name': '车型管理'},
+    {'value_no': 'liftrod', 'value_name': '抬杆管理'},
+    {'value_no': 'order', 'value_name': '订单和统计'},
+    {'value_no': 'parkinfo', 'value_name': '车场管理'},
+    {'value_no': 'vip', 'value_name': '月卡会员'},
+    {'value_no': 'equipment', 'value_name': '设备管理'},
+    {'value_no': 'freereason', 'value_name': '免费原因'},
+    {'value_no': 'groupinfo', 'value_name': '集团管理'},
+    {'value_no': 'price', 'value_name': '价格管理'},
+    {'value_no': 'ticket', 'value_name': '优惠券管理'},
+    {'value_no': 'visitor', 'value_name': '访客管理'},
+    {'value_no': 'shop', 'value_name': '商户管理'},
+    {'value_no': 'login', 'value_name': '登录模块'},
+    {'value_no': 'member', 'value_name': '员工模块'},
+    {'value_no': 'product', 'value_name': '月卡套餐'},
+    {'value_no': '', 'value_name': '全部'}
 ];
 
 export const moveSpeed = [
@@ -243,6 +254,15 @@ export const parkState = [
     {'value_name': '已审核', 'value_no': 0},
     // {'value_name': '已删除', 'value_no': 1},
     {'value_name': '未审核', 'value_no': 2}
+];
+
+export const operateTypes=[
+    { 'value_name': '全部','value_no': ''},
+    { 'value_name': '登录','value_no': '0'},
+    { 'value_name': '增加','value_no': '1'},
+    { 'value_name': '编辑','value_no': '2'},
+    { 'value_name': '删除','value_no': '3'},
+    { 'value_name': '导出','value_no': '4'}
 ];
 
 export var checkPhone = (rule, value, callback) => {
