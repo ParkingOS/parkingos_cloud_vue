@@ -842,6 +842,8 @@
                 monthReportStart: '',
                 monthReportEnd: '',
 
+                card_id:'',
+
                 pickerOptionsBefore: {
                     disabledDate(time) {
                         return time.getTime() > Date.now() - 8.64e7;
@@ -1398,7 +1400,7 @@
                 } else {
                     for (var x in this.sform) {
                         //console.log(this.sform[x])
-                        if(x=='car_number'){
+                        if(x=='car_number'||x=='nickname1'){
                             params += x + '=' + encodeURI(encodeURI(this.sform[x])) + '&';
                         }else{
                             params += x + '=' + this.sform[x] + '&';
@@ -1415,6 +1417,7 @@
                     params += '&cityid=' + cityid;
                 }
                 // params += '&groupid=' + groupid + '&cityid=' + cityid
+                //alert(params)
                 if (params.indexOf('comid=') > -1) {
                     window.open(path + api + '?' + params);
                 } else {
@@ -1582,6 +1585,7 @@
 
             openDelete(index, row) {
                 this.rowid = row.id;
+                this.card_id = row.card_id;
                 this.delVisible = true;
             },
             //删除
@@ -1589,10 +1593,9 @@
                 let vm = this;
                 let api = this.delapi;
                 let qform = this.sform;
-                let dform = {'id': this.rowid, 'token': sessionStorage.getItem('token')};
+                let dform = {'id': this.rowid, 'token': sessionStorage.getItem('token'),'card_id': this.card_id};
                 dform = common.generateForm(dform);
                 //发送请求,删除id为row.id的数据
-
                 vm.$axios.post(path + api, vm.$qs.stringify(dform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -1755,6 +1758,7 @@
                     'id': this.rowid,
                     'token': sessionStorage.getItem('token')
                 };
+                rform = common.generateForm(rform);
                 vm.$axios.post(path + api, vm.$qs.stringify(rform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -2282,7 +2286,7 @@
             // console.log('commontable active')
             if(!_this.showParkInfo){
                 this.currentPage = 1;
-                this.sform = {};
+                //this.sform = {};
             }
 
             //this.date_selector ='123434342'

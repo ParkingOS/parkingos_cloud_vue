@@ -309,12 +309,13 @@ export default {
             + this.commonParams();
         return axios.get(path + '/getdata/getcartype' + param);
     },
-    editCarNum(carnumber, id) {
+    editCarNum(carnumber, id,carNumber) {
         //更改车牌号
         let param = '?token=' + sessionStorage.getItem('token')
-            + this.attachParams('comid')
+            + this.commonParams()
             + '&id=' + id
-            + '&carnumber=' + encodeURI(encodeURI(carnumber));
+            + '&carnumber=' + encodeURI(encodeURI(carnumber))
+            + '&old_carnumber=' + encodeURI(encodeURI(carNumber));
         return axios.get(path + '/vip/editCarNum' + param);
     },
     getProdSum(p_name, month) {
@@ -325,7 +326,7 @@ export default {
             + '&months=' + month;
         return axios.get(path + '/getdata/getprodsum' + param);
     },
-    reNewProduct(p_name, month, name, b_time, id, remark, act_total,total, nickname) {
+    reNewProduct(p_name, month, name, b_time, id, remark, act_total,total, nickname,card_id) {
         // reNewProduct(this.pnameno,this.refillcount,this.currentRow.name,this.Btime,this.currentRow.pid,this.currentRow.remark,this.RefillTotalact,roleid==30?'车场':roleid){
         //月卡续费
         let param = '?token=' + sessionStorage.getItem('token')
@@ -338,6 +339,7 @@ export default {
             + '&remark=' + remark
             + '&act_total=' + act_total
             + '&total=' + total
+            + '&card_id=' + card_id
             + '&nickname=' + nickname;
         return axios.get(path + '/vip/renewproduct' + param);
     },
@@ -447,25 +449,25 @@ export default {
     },
     saveShopMember(obj) {
         return axios.get(path + '/shopmember/create' + '?token=' + sessionStorage.getItem('token')
-            + '&shop_id=' + obj.shop_id + '&comid=' + obj.comid
+            + '&shop_id=' + obj.shop_id
             + '&nickname=' + encodeURI(encodeURI(obj.nickname)) + '&phone=' + obj.phone
             + '&mobile=' + obj.mobile + '&auth_flag=' + obj.auth_flag
-            + '&userId=' + obj.userId);
+            + '&userId=' + obj.userId + this.commonParams());
     },
     addMoney(obj) {
         return axios.get(path + '/shop/addmoney' + '?token=' + sessionStorage.getItem('token')
             + '&shop_id=' + obj.shop_id + '&addmoney=' + obj.addmoney
             + '&operator=' + obj.operator + '&parkid=' + obj.parkid
             + '&ticket_time=' + obj.ticket_time + '&ticket_money=' + obj.ticket_money
-            + '&ticketfree_limit=' + obj.ticketfree_limit);
+            + '&ticketfree_limit=' + obj.ticketfree_limit+ this.commonParams());
     },
     editPass(obj) {
         return axios.get(path + '/shopmember/editpass' + '?token=' + sessionStorage.getItem('token')
             + '&newpass=' + obj.newpass + '&confirmpass=' + obj.confirmpass
-            + '&id=' + obj.id);
+            + '&id=' + obj.id+ this.commonParams());
     },
     deleteShopMember(id) {
-        return axios.get(path + '/shopmember/delete' + '?token=' + sessionStorage.getItem('token') + '&id=' + id);
+        return axios.get(path + '/shopmember/delete' + '?token=' + sessionStorage.getItem('token') + '&id=' + id+ this.commonParams());
     },
     generateForm(sform) {
         //用来构建相同的参数-表单中添加这几个属性
@@ -480,6 +482,7 @@ export default {
         sform.ishdorder = this.attachParams('ishdorder', 1);
         sform.roleid = this.attachParams('loginroleid', 1);
         sform.shopid = this.attachParams('shopid', 1);
+        sform.nickname1 = this.attachParams('nickname1', 1);
         return sform;
     },
     commonParams() {
@@ -488,7 +491,8 @@ export default {
             + this.attachParams('groupid')
             + this.attachParams('cityid')
             + this.attachParams('loginuin')
-            + this.attachParams('supperadmin');
+            + this.attachParams('supperadmin')
+            + this.attachParams('nickname1');
     },
     attachParams(key,type) {
         //判断是否是undifined，如果是，则不添加该参数
@@ -496,8 +500,10 @@ export default {
         try{
           let p = sessionStorage.getItem(key);
           //alert(p);
-
-
+          //   alert(p);
+           if(key=='nickname1'&&type!==1) {
+               p=encodeURI(encodeURI(p));
+           }
           if (p !== undefined && p !== 'undefined') {
               if(type!==1){
                   //如果不是1，则说明是默认的拼接参数；否则是获得key对应的值

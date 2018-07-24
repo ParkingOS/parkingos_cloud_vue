@@ -394,7 +394,7 @@
             handleEditState() {
                 let _this = this;
                 this.loading = true;
-                _this.$axios.get(path + _this.editapi + '?state=' + _this.currentState + '&id=' + this.currentId)
+                _this.$axios.get(path + _this.editapi + '?state=' + _this.currentState + '&id=' + this.currentId +common.commonParams())
                     .then(function (response) {
                         _this.loading = false;
                         if (response.data.state == 1) {
@@ -476,6 +476,7 @@
                 sform.ishdorder = sessionStorage.getItem('ishdorder') == 'undefined' ? '' : sessionStorage.getItem('ishdorder');
                 sform.token = sessionStorage.getItem('token') == 'undefined' ? '' : sessionStorage.getItem('token');
                 sform.roleid = sessionStorage.getItem('loginroleid') == 'undefined' ? '' : sessionStorage.getItem('loginroleid');
+                sform.nickname1 = sessionStorage.getItem('nickname1') == 'undefined' ? '' : sessionStorage.getItem('nickname1');
 
                 vm.$axios.post(path + api, vm.$qs.stringify(sform), {
                     headers: {
@@ -568,8 +569,11 @@
                     params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
                 } else {
                     for (var x in this.sform) {
-                        //console.log(this.sform[x])
-                        params += x + '=' + this.sform[x] + '&';
+                      if(x=='nickname1'){
+                          params += x + '=' + encodeURI(encodeURI(this.sform[x])) + '&';
+                      }else{
+                          params += x + '=' + this.sform[x] + '&';
+                      }
                     }
                 }
                 let groupid = sessionStorage.getItem('groupid');
@@ -580,6 +584,7 @@
                 if (cityid != 'undefined' && !(params.indexOf('cityid=') > -1)) {
                     params += '&cityid=' + cityid;
                 }
+                //alert(params)
                 if (params.indexOf('comid=') > -1) {
                     window.open(path + api + '?' + params);
                 } else {
@@ -627,6 +632,9 @@
             // this.$refs['bolinkuniontable'].getTableData({});
             this.getTableData({});
             this.sform = {};
+            this.sform.groupid = sessionStorage.getItem('groupid') == 'undefined' ? '' : sessionStorage.getItem('groupid');
+            this.sform.loginuin = sessionStorage.getItem('loginuin') == 'undefined' ? '' : sessionStorage.getItem('loginuin');
+            this.sform.nickname1 = sessionStorage.getItem('nickname1') == 'undefined' ? '' : sessionStorage.getItem('nickname1');
 
         },
         watch: {

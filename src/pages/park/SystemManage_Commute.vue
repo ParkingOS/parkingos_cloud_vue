@@ -11,7 +11,7 @@
                 :searchtitle="searchtitle"
 
                 :hideTool="hideTool"
-
+                :orderfield="orderfield"
                 :hideSearch="hideSearch"
                 :hideAdd="hideAdd"
 
@@ -33,6 +33,7 @@
         },
         data() {
             return {
+                orderfield:'id',
                 loading: false,
                 hideExport: true,
                 hideSearch: false,
@@ -64,15 +65,46 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },{
+                    },
+                    {
                         hasSubs: false,
                         subs: [{
-                            label: '收费员',
+                            label: '收费员编号',
                             prop: 'uid',
+                            width: '123',
+                            type: 'number',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            hidden:"true",
+                            align: 'center'
+                        }]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '收费员名称',
+                            prop: 'uinName',
                             width: '123',
                             type: 'str',
                             editable: true,
                             searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            hidden:"true",
+                            align: 'center'
+                        }]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '收费员名称(编号)',
+                            prop: 'uidAndName',
+                            width: '200',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
                             addable: true,
                             unsortable: true,
                             align: 'center'

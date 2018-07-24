@@ -256,7 +256,7 @@
                 addapi: '/cityvip/add',
                 editapi: '/cityvip/edit',
                 delapi: '/cityvip/delete',
-                uploadapi: path + '/cityvip/importExcel?groupid=' + sessionStorage.getItem('groupid'),
+                uploadapi: path + '/cityvip/importExcel?1=1' + common.commonParams(),
                 parkid: '',
                 currentIndex: 0,
                 currentRow: '',

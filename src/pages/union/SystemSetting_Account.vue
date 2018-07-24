@@ -203,6 +203,8 @@
                         }
                         let vm = this;
                         vm.group.loginuin = common.attachParams('loginuin', 1);
+                        vm.group.nickname1 = common.attachParams('nickname1', 1);
+                        vm.group.groupid = common.attachParams('groupid', 1);
                         vm.$axios.post(path + vm.editapi, vm.$qs.stringify(vm.group), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

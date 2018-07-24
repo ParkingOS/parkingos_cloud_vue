@@ -23,6 +23,7 @@
 
 
 <script>
+    import {unionTypes,operateTypes} from '../../api/api';
     import common from '../../common/js/common';
     import {AUTH_ID_UNION} from '../../common/js/const';
     import CommonTable from '../../components/CommonTable';
@@ -36,8 +37,8 @@
             return {
                 loading: false,
                 hideExport: true,
-                hideSearch: true,
-                showdateSelector: true,
+                hideSearch: false,
+                showdateSelector: false,
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
@@ -48,7 +49,7 @@
                 showdelete: true,
                 queryapi: '/citylog/query',
                 btswidth: '100',
-                fieldsstr: 'id__log_id__operate_time__content__operate_user__remark',
+                fieldsstr: 'id__log_id__operate_time__content__operate_user__remark__operate_type__type',
                 tableitems: [
                     {
 
@@ -68,18 +69,65 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '日志编号',
-                                prop: 'log_id',
+                                label: '操作类型',
+                                prop: 'operate_type',
                                 width: '123',
-                                type: 'str',
+                                type: 'selection',
+                                selectlist: operateTypes,
                                 editable: false,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center'
-                            }
+                                align: 'center',
+                                format:(row) => {
+
+                                if(row.operate_type==1){
+                                    return '增加'
+                                }
+                                else if(row.operate_type==2){
+                                    return '编辑'
+                                }
+                                else if(row.operate_type==3){
+                                    return '删除'
+                                }
+                                else if(row.operate_type==4){
+                                    return '导出'
+                                }
+                                else if(row.operate_type==0){
+                                    return '登录'
+                                }
+                                else{
+                                    return '其他操作'
+                                }
+                             }
+                            },
                         ]
                     },
+
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '操作模块',
+                                prop: 'type',
+                                width: '123',
+                                type: 'selection',
+                                selectlist: unionTypes,
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                                format:(row) => {
+
+                                     //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
+                                     //也就是data中的this,可以获取到this.aroles
+                                     //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
+                                    return common.nameformat(row, unionTypes, 'type');
+                                }
+                            },
+                        ]
+                    },
+
                     {
 
                         hasSubs: false,
@@ -115,7 +163,7 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '收费员',
+                            label: '操作员',
                             prop: 'operate_user',
                             width: '123',
                             type: 'selection',
@@ -125,9 +173,6 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format: (row) => {
-                                return common.nameformat(row, this.collectors, 'operate_user');
-                            }
                         }]
                     }, {
 
@@ -147,7 +192,7 @@
 
 
                 ],
-                searchtitle: '查询明细',
+                searchtitle: '高级查询',
                 collectors: ''
 
             };

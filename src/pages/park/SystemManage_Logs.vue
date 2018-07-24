@@ -25,7 +25,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType} from '../../api/api';
+    import {path, checkURL, checkUpload, checkNumber, payType,types,operateTypes} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
@@ -39,7 +39,7 @@
             return {
                 loading: false,
                 hideExport: true,
-                hideSearch: true,
+                hideSearch: false,
 
                 hideAdd: true,
                 tableheight: '',
@@ -47,13 +47,13 @@
                 hideOptions: true,
                 orderfield:'id',
 
-                showdateSelector: true,
+                showdateSelector: false,
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
                 queryapi: '/parklog/query',
                 btswidth: '100',
-                fieldsstr: 'id__log_id__operate_time__content__operate_user__remark',
+                fieldsstr: 'id__log_id__operate_time__content__operate_user__remark__operate_type__type',
                 tableitems: [
                     {
 
@@ -85,6 +85,68 @@
                             },
                         ]
                     },
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '操作类型',
+                                prop: 'operate_type',
+                                width: '123',
+                                type: 'selection',
+                                selectlist: operateTypes,
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                                format:(row) => {
+
+                                if(row.operate_type==1){
+                                    return '增加'
+                                }
+                                else if(row.operate_type==2){
+                                    return '编辑'
+                                }
+                                else if(row.operate_type==3){
+                                    return '删除'
+                                }
+                                else if(row.operate_type==4){
+                                    return '导出'
+                                }
+                                else if(row.operate_type==0){
+                                    return '登录'
+                                }
+                                else{
+                                    return '其他操作'
+                                }
+                             }
+                            },
+                        ]
+                    },
+
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '操作模块',
+                                prop: 'type',
+                                width: '123',
+                                type: 'selection',
+                                selectlist: types,
+                                editable: false,
+                                searchable: true,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                                format:(row) => {
+
+                                     //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
+                                     //也就是data中的this,可以获取到this.aroles
+                                     //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
+                                    return common.nameformat(row, types, 'type');
+                                }
+                            },
+                        ]
+                    },
+
                     {
 
                         hasSubs: false,
@@ -120,7 +182,7 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '收费员',
+                            label: '操作员',
                             prop: 'operate_user',
                             width: '123',
                             type: 'str',
@@ -148,7 +210,7 @@
 
 
                 ],
-                searchtitle: '查询明细',
+                searchtitle: '高级查询',
 
             }
         },
@@ -159,17 +221,7 @@
             this.tableheight = common.gwh() - 143;
             var user = sessionStorage.getItem('user');
             this.user = user
-            if (user) {
-                user = JSON.parse(user);
-                for (var item of user.authlist) {
-                    if (AUTH_ID.systemManage_Logs == item.auth_id) {
-                        console.log(item.sub_auth)
-                        // this.hideSearch= !common.showSubSearch(item.sub_auth)
-                        // this.hideExport = !common.showSubExport(item.sub_auth)
-                        break;
-                    }
-                }
-            }
+
         },
         activated() {
             window.onresize = () => {

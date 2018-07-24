@@ -170,6 +170,21 @@
                 tableitems: [
                     {
 
+                            hasSubs: false,
+                            subs: [{
+                                label: '编号',
+                                prop: 'id',
+                                width: '60',
+                                type: 'str',
+
+                                searchable: true,
+
+                                unsortable: true,
+                                align: 'center'
+                            }]
+                        },
+                    {
+
                         hasSubs: false,
                         subs: [{
                             label: '车牌号',
@@ -370,7 +385,8 @@
             },
             confirm:function () {
                 var vm = this;
-                vm.$axios.post(path + '/visitor/editstate', vm.$qs.stringify(vm.startForm), {
+                let aform = common.generateForm(vm.startForm);
+                vm.$axios.post(path + '/visitor/editstate', vm.$qs.stringify(aform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
@@ -595,8 +611,11 @@
                     params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
                 } else {
                     for (var x in this.sform) {
-                        //console.log(this.sform[x])
-                        params += x + '=' + this.sform[x] + '&';
+                        if(x=='car_number'||x=='nickname1'){
+                            params += x + '=' + encodeURI(encodeURI(this.sform[x])) + '&';
+                        }else{
+                            params += x + '=' + this.sform[x] + '&';
+                        }
                     }
                 }
                 let groupid = sessionStorage.getItem('groupid');

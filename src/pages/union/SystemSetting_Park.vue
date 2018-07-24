@@ -1386,6 +1386,7 @@
                 sform.loginuin = common.attachParams('loginuin', 1);
                 sform.ishdorder = common.attachParams('ishdorder', 1);
                 sform.roleid = common.attachParams('loginroleid', 1);
+                sform.nickname1 = common.attachParams('nickname1', 1);
                 return sform;
             },
             alertInfo(msg) {

@@ -87,7 +87,7 @@ export default {
 		},
 		editSubmit(){
 			// this.$extend(this.editForm,{'id':this.rowdata.id})
-            Object.assign(this.editForm,{'id':this.rowdata.id})
+            Object.assign(this.editForm,{'id':this.rowdata.id,'card_id':this.rowdata.card_id})
 			//将editForm传递给父组件,在父组件调用ajax保存数据
 			this.$emit('edit',this.editForm)
 		},

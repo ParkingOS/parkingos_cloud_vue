@@ -304,7 +304,7 @@
                     phone:''
                 }
 
-                eform.comid = sessionStorage.getItem('comid')
+                //eform.comid = sessionStorage.getItem('comid')
                 eform.id = this.parkid
                 eform.company_name = this.parkname
                 eform.parking_total = this.parkspacenums
@@ -313,7 +313,7 @@
                 eform.latitude = this.latlng.split(' , ')[1]
                 eform.mobile = this.mobilephone
                 eform.phone = this.telephone
-
+                eform = common.generateForm(eform)
                 let vm = this
 
                 vm.$axios.post(path + vm.editapi,vm.$qs.stringify(eform),{

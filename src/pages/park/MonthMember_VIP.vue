@@ -597,7 +597,7 @@
             handlereset: function () {
                 this.resetloading = true;
                 let _this = this;
-                axios.all([common.editCarNum(this.resetCarnumber, this.currentRow.id)])
+                axios.all([common.editCarNum(this.resetCarnumber, this.currentRow.id,this.currentRow.car_number)])
                     .then(axios.spread(function (ret) {
                         let data = ret.data;
                         _this.resetloading = false;
@@ -642,7 +642,7 @@
                         _this.currentRow.name=_this.currentRow.name==undefined?'':_this.currentRow.name
 
                         _this.resetloading = true;
-                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total,_this.refillForm.total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))))])
+                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total,_this.refillForm.total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))),encodeURI(encodeURI(_this.currentRow.card_id)))])
                             .then(axios.spread(function (ret) {
                                 let data = ret.data;
                                 // console.log(data)
@@ -706,16 +706,8 @@
                         _this.resetloading = true;
                         let aform = _this.refillForm;
 
-                        aform.token = sessionStorage.getItem('token');
-                        aform.comid = sessionStorage.getItem('comid');
-                        aform.groupid = sessionStorage.getItem('groupid');
-                        aform.cityid = sessionStorage.getItem('cityid');
-                        aform.unionid = sessionStorage.getItem('unionid');
-                        aform.channelid = sessionStorage.getItem('channelid');
-                        aform.loginuin = sessionStorage.getItem('loginuin');
-                        aform.nickname = sessionStorage.getItem('nickname');
-                        aform.oid = sessionStorage.getItem('oid');
 
+                        aform = common.generateForm(aform);
                         _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
