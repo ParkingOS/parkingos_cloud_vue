@@ -241,6 +241,9 @@
             }, false);
             vm.iEVersionCheck();
         },
+        created(){
+        	this.getCookie()
+        },
         methods: {
 
               iEVersionCheck() {
@@ -543,6 +546,7 @@
                                 sessionStorage.setItem('loginroleid', u.loginroleid);
                                 sessionStorage.setItem('supperadmin', u.supperadmin);
                                 sessionStorage.setItem('shopid', u.shopid);
+                                sessionStorage.setItem('nickname1', u.nickname);
 
                                 // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                                 if (u.oid == ROLE_ID.GROUP) {
