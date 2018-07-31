@@ -10,10 +10,16 @@
             <div >
             <el-form :model="codeReduce" label-width="80px" :rules="withdrawFormRules" ref="codeReduce">
 
-				<el-form-item  prop="reduce">
-					<el-input v-model="codeReduce.reduce" style="width:84%" placeholder="输入减免额度"></el-input>
+				<el-form-item  prop="reduce" style="margin-bottom: 5px;">
+					<el-input v-model="codeReduce.reduce" style="width:84%" placeholder="输入减免额度" :readonly="readonly"></el-input>
 					<el-button @click="getTicketCode" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">获 取</el-button>
+					<div style="width:84%;margin-left:0px;text-align:left" >
+                         <el-button v-for='item in buttons' @click="selectButton(item)" type="primary" plain size="mini" class="button_self">{{item}}</el-button>
+                     </div>
 				</el-form-item>
+
+
+
 		    </el-form>
 
        </div>
@@ -70,7 +76,8 @@ export default {
   },
   data(){
     return{
-
+      buttons:[1,2,3,4,4,5,611,44,"全免",666],
+      readonly:false,
       loading: false,
       infoloading: false,
       cycleisdisable:false,
@@ -166,7 +173,7 @@ export default {
       },
       withdrawFormRules:{
         reduce: [
-          { required: true, message: '请输入减免额度', trigger: 'blur' }
+          { required: true, message: '请输入减免额度', trigger: 'change' }
         ],
       },
     }
@@ -178,7 +185,9 @@ export default {
      window.setInterval(this.getFreeCodeStatus,10000)
   },
   methods: {
-
+     selectButton(item){
+         this.codeReduce.reduce=item
+     },
      handleShowOrderDetail() {
         //跳转到订单详情
         //this.$router.push({path: '/index'});
@@ -476,6 +485,7 @@ export default {
         if(ret.hand_input_enable==1){
              vm.infoModify.hand_input_enable='支持';
         }else{
+            vm.readonly=true;
             vm.infoModify.hand_input_enable='不支持';
         }
         vm.shopname=ret.name
@@ -494,7 +504,7 @@ export default {
              vm.ticketUnit = '元'
              vm.type = '5'
          }
-
+        vm.buttons = ret.default_limit.split(',')
         vm.ticketfree_limit=ret.ticketfree_limit
         vm.accountModify.id=ret.id
         vm.accountModify.name=ret.name
@@ -646,4 +656,27 @@ export default {
 
         text-align:center; /* 文字等内容居中 */
   }
+
+   @media screen and (max-width:1920px){
+     .button_self{
+         margin:0 !important;
+         display:inline-block;
+         width:23%;
+         padding:0;
+         height:40px;
+         margin-right:2% !important;
+         margin-bottom:5px !important;
+       }
+    }
+    @media screen and (max-width:1440px){
+       .button_self{
+           margin:0 !important;
+           display:inline-block;
+           width:23%;
+           padding:0;
+           height:35px;
+           margin-right:2% !important;
+         }
+      }
+
 </style>

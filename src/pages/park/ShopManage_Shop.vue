@@ -218,7 +218,7 @@
             </el-form>
 
             <span slot="footer" class="dialog-footer">
-			    <el-button type="primary" @click="renewSub">确 定</el-button>
+			    <el-button type="primary" @click="renewSub" :disabled="renewDisabled">确 定</el-button>
 			</span>
         </el-dialog>
 
@@ -331,6 +331,17 @@
                         </el-option>
                      </el-select>
                 </el-form-item>
+
+                <el-form-item label="全免券使用限制" >
+                     <el-select v-model="free_limit_times" filterable style="width:90%">
+                        <el-option
+                                v-for="item in freeLimitTime"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                     </el-select>
+                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">				
 				<el-button type="primary" size="small" @click="loadDefaultData">重 置</el-button>
@@ -371,6 +382,7 @@
         },
         data() {
             return {
+                renewDisabled:false,
             	showEmployeeEdit:false,
                 ticketfree_limit: 0,
                 validite_time: 'validite_time',
@@ -407,6 +419,7 @@
                 unit: 2,
                 hand_input_enable:0,
                 use_limit:1,
+                free_limit_times:0,
                 discount_money_name: '每小时/元',
 
                 ticketUnit: [
@@ -437,6 +450,11 @@
 
 
 
+                ],
+
+                freeLimitTime:[
+                     {'value_name': '单次有效', 'value_no': 0},
+                     {'value_name': '多次有效', 'value_no': 1}
                 ],
                 shopForm: {},
                 showRegis: false,
@@ -487,7 +505,7 @@
                 delapi: '/shop/delete',
                 parkid: '',
                 btswidth: '180',
-                fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__discount_percent__hand_input_enable__use_limit',
+                fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__discount_percent__hand_input_enable__use_limit__free_limit_times',
                 tableitems: [{
                     hasSubs: false, subs: [
                         {
@@ -828,7 +846,28 @@
                                 }
                             }
                         }]
-                    }
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '全免券使用限制',
+                            prop: 'free_limit_times',
+                            width: '123',
+                            type: 'str',
+                            editable: true,
+                            searchable: false,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format: function (row) {
+                                if (row.free_limit_times == 0) {
+                                    return "单次有效";
+                                } else if (row.free_limit_times == 1) {
+                                    return "多次有效";
+                                }
+                            }
+                        }]
+                    },
                 ],
                 addtitle: '添加商户',
                 employeeData: [],
@@ -859,6 +898,7 @@
                 this.employeeVisible = true;
             },
             showrefill: function (index, row) {
+                this.renewDisabled=false;
                 this.ticket_type = row.ticket_type;
                 if (row.ticket_type == 1) {
                     //时长减免
@@ -902,6 +942,7 @@
             },
 
             renewSub() {
+                this.renewDisabled=true;
             	if(this.ticket_val%1 != 0 || this.ticketfree_limit%1 != 0||this.ticket_val<0||this.ticketfree_limit<0){
             		this.$message({
                                 message: '续费数据必须为正整数!',
@@ -1155,7 +1196,7 @@
                 this.shopTitle = '添加商户'
 
                 this.use_limit=0
-
+                this.free_limit_times=0
                 this.showRegis = true;
 
             },
@@ -1203,6 +1244,7 @@
                         aform.ticket_type = this.shop_ticket_type;
                         aform.support_type = this.shop_support_type;
                         aform.hand_input_enable = this.hand_input_enable;
+                        aform.free_limit_times=this.free_limit_times;
                         aform.use_limit = this.use_limit;
                         aform.ticket_unit = this.unit
                         aform.default_limit = this.shopForm.default_limit
@@ -1274,6 +1316,7 @@
                 this.shop_ticket_type = row.ticket_type
                 this.shop_support_type =row.support_type
                 this.hand_input_enable = row.hand_input_enable
+                this.free_limit_times=row.free_limit_times;
                 this.use_limit = row.use_limit
                 this.unit = row.ticket_unit
                 this.showRegis = true

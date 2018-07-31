@@ -8,7 +8,10 @@
             <div style="margin-left:39%" >
                 <el-form :model="carNumReduce" ref="carNumReduce" :rules="carNumberRules">
                     <el-form-item prop="reduce">
-                        <el-input v-model="carNumReduce.reduce" style="width:35%" placeholder="输入减免额度"></el-input>
+                          <el-input v-model="carNumReduce.reduce" style="width:35%;margin-bottom:5px;" placeholder="输入减免额度" :readonly="readonly"></el-input>
+                          <div style="width:35%">
+                             <el-button v-for='item in buttons' @click="selectButton(item)" type="primary" plain size="mini" class="button_self">{{item}}</el-button>
+                          </div>
                     </el-form-item>
                     <el-form-item prop="car_number">
                         <el-input v-model="carNumReduce.car_number" v-on:input ="changeCarNumber"  style="width:35%" placeholder="输入车牌号"></el-input>
@@ -36,6 +39,7 @@ export default {
   },
   data(){
     return{
+      buttons:[1,2,3,4,4,5,611,44,"全免",666],
       loading: false,
       infoloading: false,
       cycleisdisable:false,
@@ -94,7 +98,7 @@ export default {
         name:''
       },
       status:'',
-
+      readonly:false,
       infoModify:{
         id:'',
         hand_input_enable:'',
@@ -136,10 +140,10 @@ export default {
       },
       carNumberRules:{
         reduce: [
-            { required: true, message: '请输入减免额度', trigger: 'blur' }
+            { required: true, message: '请输入减免额度', trigger: 'change' }
         ],
         car_number: [
-            { required: true, message: '请输入车牌号', trigger: 'blur' }
+            { required: true, message: '请输入车牌号', trigger: 'change' }
         ]
       }
     }
@@ -151,6 +155,9 @@ export default {
     //alert('2222')
   },
   methods: {
+     selectButton(item){
+        this.carNumReduce.reduce=item
+     },
      changeCarNumber(){
        // alert(this.carNumReduce.car_number)
         this.carNumReduce.car_number =  this.carNumReduce.car_number.toUpperCase();
@@ -445,9 +452,11 @@ export default {
         let ret = response.data;
         //var ret = eval('('+result+')')
         vm.account=ret;
+
         if(ret.hand_input_enable==1){
              vm.infoModify.hand_input_enable='支持';
         }else{
+            vm.readonly=true;
             vm.infoModify.hand_input_enable='不支持';
         }
         vm.shopname=ret.name
@@ -466,6 +475,7 @@ export default {
              vm.ticketUnit = '元'
              vm.type = '5'
          }
+        vm.buttons = ret.default_limit.split(',')
 
         vm.ticketfree_limit=ret.ticketfree_limit
         vm.accountModify.id=ret.id
@@ -476,6 +486,7 @@ export default {
         vm.infoModify.validite_time=ret.validite_time
         vm.temp=common.clone(vm.accountModify)
         vm.infotemp=common.clone(vm.infoModify)
+
       });
     },
 
@@ -614,4 +625,27 @@ export default {
   .right{
     margin-left:27%;
   }
+  @media screen and (max-width:1920px){
+   .button_self{
+       margin:0 !important;
+       display:inline-block;
+       width:23%;
+       padding:0;
+       height:40px;
+       margin-right:2% !important;
+       margin-bottom:5px !important;
+     }
+  }
+  @media screen and (max-width:1440px){
+     .button_self{
+         margin:0 !important;
+         display:inline-block;
+         width:23%;
+         padding:0;
+         height:35px;
+         margin-right:2% !important;
+       }
+    }
+
+
 </style>

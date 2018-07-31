@@ -11,10 +11,19 @@
                         <el-input v-model="freeReduceExport.reduce" style="width:35%" placeholder="输入单张优惠额度"></el-input>
                     </el-form-item>
                     <el-form-item prop="number" label="优惠券数量:" label-width="100px">
-                        <el-input v-model="freeReduceExport.number"  style="width:35%" placeholder="输入优惠券数量"></el-input>
+                        <el-input v-model="freeReduceExport.number"  style="width:50%" placeholder="输入优惠券数量"></el-input>
                         <el-button @click="exportReduce" type="primary" :loading="loading" size ="small" style="height: 38.5px;margin-top: -2px;">导出</el-button>
                     </el-form-item>
+                    <el-form-item v-show="showFree" label="扫码一次:" style="margin-left:4%">
+                        <template >
+                             <el-radio v-model="free_limit_times" label="0" v-on:change="changeReadonly">单次有效</el-radio>
+                             <el-radio v-model="free_limit_times" label="1" v-on:change="changeReadonly">多次有效</el-radio>
+                        </template>
+                    </el-form-item>
 
+                     <el-form-item v-show="showFree" prop="freeLimit" style="margin-left:13%">
+                        <el-input v-model="freeReduceExport.freeLimit" style="width:50%" placeholder="请输入有效时间,单位小时" :readonly="readonly"></el-input>
+                     </el-form-item>
                         <div style="color:red;text-align: justify">提示:导出为excel表格，商户可以自己选择普通打印机或者58mm热敏打印机来打印</div>
 
 
@@ -37,6 +46,9 @@ export default {
   },
   data(){
     return{
+      readonly:false,
+      free_limit_times:'0',
+      showFree:false,
       loading: false,
       infoloading: false,
       cycleisdisable:false,
@@ -63,6 +75,7 @@ export default {
       freeReduceExport:{
          reduce:'',
          number:'',
+         freeLimit:'',
      },
       handInputType: [
           {'value_name': '不支持', 'value_no': '0'},
@@ -143,10 +156,20 @@ export default {
     }
   },
   mounted(){
-
+       let vm = this
+       vm.getShopAccountInfo()
   },
   methods: {
-
+     changeReadonly(readonly){
+           let vm = this;
+           if(readonly==0){
+               vm.freeReduceExport.freeLimit='0'
+               vm.readonly=true
+           }else{
+               vm.freeReduceExport.freeLimit=''
+               vm.readonly=false
+           }
+     },
      changeCarNumber(){
        // alert(this.carNumReduce.car_number)
         this.freecarNumReduce.car_number =  this.freecarNumReduce.car_number.toUpperCase();
@@ -379,7 +402,7 @@ export default {
             if (valid) {
                 vm.loading = true;
                 //var tempwindow=window.open();
-                 vm.$axios.post(path+"/shopticket/exportcode?shop_id="+sessionStorage.getItem('shopid')+"&number="+vm.freeReduceExport.number+"&type="+vm.type+"&reduce=1",{
+                 vm.$axios.post(path+"/shopticket/exportcode?shop_id="+sessionStorage.getItem('shopid')+"&number="+vm.freeReduceExport.number+"&type="+vm.type+"&reduce=1"+"&free_limit_times="+vm.free_limit_times+"&time_range="+vm.freeReduceExport.freeLimit,{
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
@@ -440,6 +463,11 @@ export default {
         let ret = response.data;
         //var ret = eval('('+result+')')
         vm.account=ret;
+
+         if(ret.free_limit_times==1){
+            vm.showFree = true;
+            vm.free_limit_times='1';
+        }
         if(ret.hand_input_enable==1){
              vm.infoModify.hand_input_enable='支持';
         }else{

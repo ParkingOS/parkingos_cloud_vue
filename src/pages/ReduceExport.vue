@@ -8,7 +8,10 @@
             <div style="margin-left:32%" >
                 <el-form :model="ReduceExport" ref="ReduceExport" :rules="exportRules">
                     <el-form-item prop="reduce"  label="优惠额度:" label-width="100px">
-                        <el-input v-model="ReduceExport.reduce" style="width:35%" placeholder="输入单张优惠额度"></el-input>
+                        <el-input v-model="ReduceExport.reduce" style="width:35%" placeholder="输入单张优惠额度" :readonly="readonly"></el-input>
+                        <div style="width:35%;" >
+                             <el-button v-for='item in buttons' @click="selectButton(item)" type="primary" plain size="mini" class="button_self">{{item}}</el-button>
+                         </div>
                     </el-form-item>
                     <el-form-item prop="number"  label="优惠券数量:" label-width="100px" >
                         <el-input v-model="ReduceExport.number"  style="width:35%" placeholder="输入优惠券数量"></el-input>
@@ -34,6 +37,8 @@ export default {
   },
   data(){
     return{
+      buttons:[1,2,3,4,4,5,611,44,"全免",666],
+      readonly:false,
       loading: false,
       infoloading: false,
       cycleisdisable:false,
@@ -134,7 +139,7 @@ export default {
       },
       exportRules:{
         reduce: [
-            { validator:checkMoney,required: true,  trigger: 'blur' }
+            { validator:checkMoney,required: true,  trigger: 'change' }
         ],
         number: [
             { validator:checkNumber,required: true,  trigger: 'blur' }
@@ -149,6 +154,9 @@ export default {
     //alert('2222')
   },
   methods: {
+    selectButton(item){
+           this.ReduceExport.reduce=item
+     },
      changeCarNumber(){
        // alert(this.carNumReduce.car_number)
         this.carNumReduce.car_number =  this.carNumReduce.car_number.toUpperCase();
@@ -447,6 +455,7 @@ export default {
         if(ret.hand_input_enable==1){
              vm.infoModify.hand_input_enable='支持';
         }else{
+            vm.readonly = true;
             vm.infoModify.hand_input_enable='不支持';
         }
         vm.shopname=ret.name
@@ -465,7 +474,7 @@ export default {
              vm.ticketUnit = '元'
              vm.type = '5'
          }
-
+        vm.buttons = ret.default_limit.split(',')
         vm.ticketfree_limit=ret.ticketfree_limit
         vm.accountModify.id=ret.id
         vm.accountModify.name=ret.name

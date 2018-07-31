@@ -704,7 +704,7 @@
 
 
             this.getDatas();
-            this.dataInteval = setInterval(that.getDatas, 120000);
+            this.dataInteval = setInterval(that.getDatas, 60000);
 
 
         },

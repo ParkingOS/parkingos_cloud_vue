@@ -6,15 +6,27 @@
     </el-row>
     </br></br></br>
     <el-row class="align-center" style="margin-left: 20%;">
-            <div >
+            <div>
             <el-form :model="freeCodeReduce" label-width="80px" :rules="withdrawFormRules" ref="freeCodeReduce">
 
 				<el-form-item  prop="reduce">
-					<el-input v-model="freeCodeReduce.reduce" style="width:84%"placeholder="全免券" disabled></el-input>
+					<el-input v-model="freeCodeReduce.reduce" style="width:84%" placeholder="全免券" disabled></el-input>
 					<el-button @click="getFreeTicketCode" type="primary" size ="small" style="height: 38.5px;margin-top: -2px;">获 取</el-button>
+					<div v-show="showFree" style="margin-top:15px;float:left">
+					    <span>
+					        扫码一次：
+					        <template >
+					             <el-radio v-model="free_limit_times" label="0" v-on:change="changeReadonly">单次有效</el-radio>
+                                 <el-radio v-model="free_limit_times" label="1" v-on:change="changeReadonly">多次有效</el-radio>
+                            </template>
+					    </span>
+					</div>
+					<div style="margin-left:-14%" v-show="showFree">
+					    <el-input v-model="freeCodeReduce.freeLimit" style="width:74%" placeholder="请输入有效时间,单位小时" :readonly="readonly"></el-input>
+					</div>
+
 				</el-form-item>
 		    </el-form>
-
        </div>
     </el-row>
 
@@ -69,7 +81,9 @@ export default {
   },
   data(){
     return{
-
+      readonly:false,
+      free_limit_times:'0',
+      showFree:false,
       loading: false,
       infoloading: false,
       cycleisdisable:false,
@@ -88,6 +102,7 @@ export default {
       freeCodeReduce:{
           reduce:'全免券',
           isauto:false,
+          freeLimit:'',
       },
       carNumReduce:{
          reduce:'',
@@ -169,11 +184,21 @@ export default {
     }
   },
   mounted(){
+     let vm = this
+     vm.getShopAccountInfo()
      window.setInterval(this.getCodeStatus,10000)
      window.setInterval(this.getFreeCodeStatus,10000)
   },
   methods: {
-
+        changeReadonly(readonly){
+            let vm = this;
+            if(readonly==0){
+                vm.freeCodeReduce.freeLimit=''
+                vm.readonly=true
+            }else{
+                vm.readonly=false
+            }
+        },
      handleShowOrderDetail() {
         //跳转到订单详情
         //this.$router.push({path: '/index'});
@@ -349,7 +374,7 @@ export default {
          vm.$refs.freeCodeReduce.validate((valid) => {
              if (valid) {
                  vm.checkisdisable=true,
-                 vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&isauto="+(vm.freeCodeReduce.isauto?1:0),{
+                 vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&isauto="+(vm.freeCodeReduce.isauto?1:0)+"&free_limit_times="+vm.free_limit_times+"&time_range="+vm.freeCodeReduce.freeLimit,{
                      headers: {
                          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                      }
@@ -468,6 +493,11 @@ export default {
         let ret = response.data;
         //var ret = eval('('+result+')')
         vm.account=ret;
+        //alert(ret.free_limit_times)
+        if(ret.free_limit_times==1){
+            vm.showFree = true;
+            vm.free_limit_times='1';
+        }
         if(ret.hand_input_enable==1){
              vm.infoModify.hand_input_enable='支持';
         }else{

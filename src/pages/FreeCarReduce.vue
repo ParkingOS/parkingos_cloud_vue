@@ -13,9 +13,25 @@
                     <el-form-item prop="car_number">
                         <el-input v-model="freecarNumReduce.car_number" v-on:input="changeCarNumber" style="width:35%" placeholder="输入车牌号"></el-input>
                     </el-form-item>
+                    <el-form-item v-show="showFree">
+                        <span>
+                            扫码一次：
+                            <template >
+                                 <el-radio v-model="free_limit_times" label="0" v-on:change="changeReadonly">单次有效</el-radio>
+                                 <el-radio v-model="free_limit_times" label="1" v-on:change="changeReadonly">多次有效</el-radio>
+                            </template>
+                        </span>
+                    </el-form-item>
+
+                     <el-form-item v-show="showFree" prop="freeLimit">
+                        <el-input v-model="freecarNumReduce.freeLimit" style="width:35%" placeholder="请输入有效时间,单位小时" :readonly="readonly"></el-input>
+                     </el-form-item>
+
                     <el-form-item class="right">
                         <el-button @click="freeuseTicketByCarNumber" type="primary" :loading="loading" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
                     </el-form-item>
+
+
 
                 </el-form>
             </div>
@@ -36,6 +52,9 @@ export default {
   },
   data(){
     return{
+      readonly:false,
+      free_limit_times:'0',
+      showFree:false,
       loading: false,
       infoloading: false,
       cycleisdisable:false,
@@ -62,6 +81,7 @@ export default {
       freecarNumReduce:{
          reduce:'全免券',
          car_number:'',
+         freeLimit:'',
      },
       handInputType: [
           {'value_name': '不支持', 'value_no': '0'},
@@ -142,10 +162,20 @@ export default {
     }
   },
   mounted(){
-
+        let vm = this
+         vm.getShopAccountInfo()
   },
   methods: {
-
+     changeReadonly(readonly){
+               let vm = this;
+               if(readonly==0){
+                   vm.freecarNumReduce.freeLimit='0'
+                   vm.readonly=true
+               }else{
+                   vm.freecarNumReduce.freeLimit=''
+                   vm.readonly=false
+               }
+           },
      changeCarNumber(){
        // alert(this.carNumReduce.car_number)
         this.freecarNumReduce.car_number =  this.freecarNumReduce.car_number.toUpperCase();
@@ -377,7 +407,7 @@ export default {
          vm.$refs.freecarNumReduce.validate((valid) => {
             if (valid) {
                 vm.loading = true;
-                 vm.$axios.post(server+"/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.freecarNumReduce.car_number))+"&type="+vm.type+"&reduce=1",{
+                 vm.$axios.post(server+"/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.freecarNumReduce.car_number))+"&type="+vm.type+"&reduce=1"+"&free_limit_times="+vm.free_limit_times+"&time_range="+vm.freecarNumReduce.freeLimit,{
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
@@ -440,6 +470,11 @@ export default {
         let ret = response.data;
         //var ret = eval('('+result+')')
         vm.account=ret;
+        if(ret.free_limit_times==1){
+            vm.showFree = true;
+            vm.free_limit_times='1';
+        }
+
         if(ret.hand_input_enable==1){
              vm.infoModify.hand_input_enable='支持';
         }else{
