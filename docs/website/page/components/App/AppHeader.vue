@@ -11,7 +11,7 @@
         <li :class="{'active': active !== ''}"><router-link to="/basics/quickstart">文档</router-link></li>
         <!-- <li :class="{'active': active === '/resources'}"><router-link to="/resources">资源</router-link></li> -->
         <li>
-          <a href="https://github.com/ParkingOS/ParkingOS_cloud">
+          <a href="https://github.com/ParkingOS/parkingos_cloud_vue_server">
             <img class="star-badge" src="https://img.shields.io/github/stars/ParkingOS/ParkingOS_cloud.svg?style=social&label=Stars">
           </a>
         </li>
