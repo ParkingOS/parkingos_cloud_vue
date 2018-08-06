@@ -85,6 +85,8 @@ import ShopAccount from './pages/shop/ShopAccount.vue';
 import ShopRecharge from './pages/shop/ShopRecharge.vue';
 import TicketManage from './pages/shop/TicketManage.vue';
 import FixCode from './pages/shop/FixCode.vue';
+import EmployeePermission_ShopMember from './pages/shop/EmployeePermission_EmployeeManage.vue';
+import EmployeePermission_ShopRole from './pages/shop/EmployeePermission_RoleManage.vue';
 // import CodeReduce from './pages/shop/CodeReduce.vue';
 
 let routes = [
@@ -125,7 +127,7 @@ let routes = [
         name: '商户管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/fix_code', component: FixCode, name: '固定码管理'}
+            {path: '/fixCode', component: FixCode, name: '固定码管理'}
         ]
     },
 
@@ -135,19 +137,30 @@ let routes = [
         name: '商户管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/shop_recharge', component: ShopRecharge, name: '充值明细'}
+            {path: '/shopRecharge', component: ShopRecharge, name: '充值明细'}
         ]
     },
-    ,
     {
         path: '/',
         component: HomeCloud_Admin,
         name: '商户管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/ticket_manage', component: TicketManage, name: '用券明细'}
+            {path: '/ticketManage', component: TicketManage, name: '用券明细'}
         ]
     },
+
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '员工管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/shopRole', component: EmployeePermission_ShopRole, name: '角色管理'},
+            {path: '/shopMember', component: EmployeePermission_ShopMember, name: '员工管理'}
+        ]
+    },
+
     // 厂商页面
     {
         path: '/',

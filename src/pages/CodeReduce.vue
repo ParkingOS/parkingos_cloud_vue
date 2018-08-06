@@ -388,7 +388,7 @@ export default {
             vm.$refs.codeReduce.validate((valid) => {
                 if (valid) {
                    vm.checkisdisable =true,
-                  vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&reduce="+vm.codeReduce.reduce+"&isauto="+(vm.codeReduce.isauto?1:0),{
+                  vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&uin="+sessionStorage.getItem('loginuin')+"&type="+vm.type+"&reduce="+vm.codeReduce.reduce+"&isauto="+(vm.codeReduce.isauto?1:0),{
                                  headers: {
                                      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                                  }

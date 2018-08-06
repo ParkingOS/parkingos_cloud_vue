@@ -287,9 +287,23 @@ export default {
     },
     getEmployeeRole() {
         //获取员工角色
+        //alert('111')
         let param = '?token=' + sessionStorage.getItem('token')
-            + this.commonParams();
+            + this.commonParams()+ this.attachParams('loginroleid');
         return axios.get(path + '/member/getrole' + param);
+    },
+    getShopRole() {
+        //获取员工角色
+
+        let param = '?token=' + sessionStorage.getItem('token')
+            + this.commonParams() + this.attachParams('shopid') + this.attachParams('loginroleid');
+        return axios.get(path + '/shopmember/getrole' + param);
+    },
+
+    getShopUsers(){
+        let param = '?token=' + sessionStorage.getItem('token')
+             + this.attachParams('shopid') ;
+        return axios.get(path + '/shopmember/getshopusers' + param);
     },
     getPName() {
         //获得月卡套餐

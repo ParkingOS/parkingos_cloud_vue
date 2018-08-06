@@ -58,30 +58,39 @@
                         </el-menu-item>
                     </el-submenu>
 
-                     <el-submenu v-if="this.shop" index="/shop">
+                     <el-submenu v-if="this.showShopItem.shop" index="/shop">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">商户管理</span></template>
-                        <el-menu-item index="/shop">商户管理
+                        <el-menu-item index="/shop" v-if="this.showShopItem.shop">商户管理
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu v-if="this.shop" index="/fix_code">
+                    <el-submenu v-if="this.showShopItem.fixCode" index="/fixCode">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">固定码管理</span></template>
-                        <el-menu-item index="/fix_code">固定码管理
+                        <el-menu-item index="/fixCode" v-if="this.showShopItem.fixCode">固定码管理
                         </el-menu-item>
                     </el-submenu>
-                     <el-submenu v-if="this.shop" index="/ticket_manage">
+                     <el-submenu v-if="this.showShopItem.ticketManage" index="/ticketManage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">用券明细</span></template>
-                        <el-menu-item index="/ticket_manage">用券明细
+                        <el-menu-item index="/ticketManage" v-if="this.showShopItem.ticketManage">用券明细
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu v-if="this.shop" index="/shop_recharge">
+                    <el-submenu v-if="this.showShopItem.shopRecharge" index="/shopRecharge">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">充值明细</span></template>
-                        <el-menu-item index="/shop_recharge">充值明细
+                        <el-menu-item index="/shopRecharge" v-if="this.showShopItem.shopRecharge">充值明细
                         </el-menu-item>
                     </el-submenu>
+                     <el-submenu v-if="this.showShopItem.member" index="/shopMember">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">员工管理</span></template>
+                        <el-menu-item index="/shopRole" v-if="this.showShopItem.shopRole">角色管理
+                        </el-menu-item>
+                        <el-menu-item index="/shopMember"  v-if="this.showShopItem.shopMember">员工管理
+                        </el-menu-item>
+                    </el-submenu>
+
 
                     <el-submenu v-if="this.admin" index="/city_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
@@ -128,7 +137,7 @@
 
 <script>
     import common from '../common/js/common';
-    import {AUTH_ID, showParkItem_const, AUTH_ID_UNION, showUnionItem_const, ROLE_ID} from '../common/js/const';
+    import {AUTH_ID, showParkItem_const,showShopItem_const, AUTH_ID_UNION,AUTH_ID_SHOP, showUnionItem_const, ROLE_ID} from '../common/js/const';
 
     export default {
         data() {
@@ -166,6 +175,7 @@
                 secureVisible: false,
                 //根据权限控制页面是否显示
                 showParkItem: sessionStorage.getItem('showParkItem') == null ? showParkItem_const : JSON.parse(sessionStorage.getItem('showParkItem')),
+                showShopItem: sessionStorage.getItem('showShopItem') == null ? showShopItem_const : JSON.parse(sessionStorage.getItem('showShopItem')),
                 showUnionItem: sessionStorage.getItem('showUnionItem') == null ? showUnionItem_const : JSON.parse(sessionStorage.getItem('showUnionItem')),
                 expandindex: '',   //'/order',//展开的sub_menu
                 highlightindex: sessionStorage.getItem('highlightindex')//'/orderManage_Poles',//高亮的item

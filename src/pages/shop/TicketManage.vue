@@ -30,6 +30,7 @@
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
+    import axios from 'axios';
 
     export default {
         components: {
@@ -37,6 +38,7 @@
         },
         data() {
             return {
+                shopusers:[],
                 loading: false,
                 hideExport: true,
                 hideSearch: false,
@@ -52,7 +54,7 @@
                 showdelete: true,
                 queryapi: '/shopticket/getticketlog',
                 btswidth: '100',
-                fieldsstr: 'id__money__umoney__limit_day__car_number__create_time__type__use_time__state',
+                fieldsstr: 'id__money__umoney__limit_day__car_number__create_time__type__use_time__state__uin',
                 tableitems: [
                     {
                         hasSubs: false,
@@ -145,6 +147,27 @@
                             addable: true,
                             unsortable: true,
                             align: 'center'
+                        }]
+                    },
+                     {
+                        hasSubs: false,
+                        subs: [{
+                            label: '发券人',
+                            prop: 'uin',
+                            width: '180',
+                            type: 'selection',
+                            selectlist: this.shopusers,
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            format: (row) => {
+                                //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
+                                //也就是data中的this,可以获取到this.aroles
+                                //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
+                                return common.nameformat(row, this.shopusers, 'uin');
+                            }
                         }]
                     },
                     {
@@ -256,6 +279,11 @@
             }
             this.tableheight = common.gwh() - 143;
         },
+        watch: {
+            shopusers: function (val) {
+                this.tableitems[5].subs[0].selectlist = val;
+            }
+        },
         activated() {
             this.getShopAccountInfo()
             window.onresize = () => {
@@ -264,6 +292,14 @@
             this.tableheight = common.gwh() - 143;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
             this.$refs['bolinkuniontable'].getTableData({})
+
+
+             let _this = this;
+               axios.all([common.getShopUsers()])
+                .then(axios.spread(function (ret) {
+                    _this.shopusers = ret.data;
+                }));
+
         }
     }
 

@@ -374,7 +374,7 @@ export default {
          vm.$refs.freeCodeReduce.validate((valid) => {
              if (valid) {
                  vm.checkisdisable=true,
-                 vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&type="+vm.type+"&isauto="+(vm.freeCodeReduce.isauto?1:0)+"&free_limit_times="+vm.free_limit_times+"&time_range="+vm.freeCodeReduce.freeLimit,{
+                 vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&uin="+sessionStorage.getItem('loginuin')+"&type="+vm.type+"&isauto="+(vm.freeCodeReduce.isauto?1:0)+"&free_limit_times="+vm.free_limit_times+"&time_range="+vm.freeCodeReduce.freeLimit,{
                      headers: {
                          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                      }

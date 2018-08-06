@@ -133,7 +133,7 @@
     import {path, checkPass} from '../api/api';
     import MD5 from 'crypto-js/md5';
     import common from '../common/js/common';
-    import {ROLE_ID, AUTH_ID, AUTH_ID_UNION, showUnionItem_const, showParkItem_const} from '../common/js/const';
+    import {ROLE_ID, AUTH_ID, AUTH_ID_UNION, showUnionItem_const, showParkItem_const,showShopItem_const,AUTH_ID_SHOP} from '../common/js/const';
 
     var key = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var iv = CryptoJS.enc.Utf8.parse('zldboink20170613');
@@ -150,6 +150,7 @@
                 //根据权限控制页面是否显示
                 showParkItem: showParkItem_const,
                 showUnionItem: showUnionItem_const,
+                showShopItem:showShopItem_const,
                 isIE10:false,
                 logining: false,
                 getPassVisible: false,
@@ -529,6 +530,11 @@
                                     _this.clearCookie();
                                 }
                                 var u = ret.user;
+                                //alert(u.authlist);
+                                if(u.authlist==""){
+                                    _this.$message.error("没有权限");
+                                    return;
+                                }
                                 sessionStorage.setItem('user', JSON.stringify(u));
                                 //localStorage.setItem('user', JSON.stringify(u));
                                 sessionStorage.setItem('token', ret.token);
@@ -593,9 +599,35 @@
                                     sessionStorage.setItem('highlightindex', _this.highlightindex);
                                     // _this.$router.push({path: '/Park_Manage'});
                                 } else if (u.oid == ROLE_ID.SHOP) {
-                                      _this.highlightindex = '/shop';
+                                        //alert(JSON.stringify(u.authlist))
+                                       for (let item in _this.showShopItem) {
+                                          //第一层循环，取出标签的 v-if
+                                          for (let p in AUTH_ID_SHOP) {
+                                              //第二层循环，取出AUTH_ID的item
+                                              //alert(p)
+                                              if (p == item) {
+                                                  //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
+                                                  _this.showShopItem[item] = common.pageShow(u, AUTH_ID_SHOP[p]);
+                                                  if (_this.highlightindex == '') {
+                                                      //没有导航到任意界面，则继续检测
+                                                      //带下划线的才是页面
+                                                      if (_this.showShopItem[item]) {
+                                                          if(item=="member"){
+
+                                                          }else{
+                                                            _this.highlightindex = '/'+item;
+                                                          }
+                                                      }
+                                                  }
+                                              }
+                                          }
+                                      }
+
+                                      sessionStorage.setItem('showShopItem', JSON.stringify(_this.showShopItem));
+                                      //alert(JSON.stringify(_this.showShopItem))
+                                      //_this.highlightindex = '/shop';
                                       _this.$router.push({path: _this.highlightindex});
-                                      sessionStorage.setItem('highlightindex', _this.highlightindex);
+                                       sessionStorage.setItem('highlightindex', _this.highlightindex);
                                       // _this.$router.push({path: '/Park_Manage'});
                                 } else if (u.oid == ROLE_ID.BOSS) {
                                     _this.highlightindex = '/city_manage';

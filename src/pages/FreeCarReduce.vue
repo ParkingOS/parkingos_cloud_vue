@@ -407,7 +407,7 @@ export default {
          vm.$refs.freecarNumReduce.validate((valid) => {
             if (valid) {
                 vm.loading = true;
-                 vm.$axios.post(server+"/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&car_number="+encodeURI(encodeURI(vm.freecarNumReduce.car_number))+"&type="+vm.type+"&reduce=1"+"&free_limit_times="+vm.free_limit_times+"&time_range="+vm.freecarNumReduce.freeLimit,{
+                 vm.$axios.post(server+"/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&uin="+sessionStorage.getItem('loginuin')+"&car_number="+encodeURI(encodeURI(vm.freecarNumReduce.car_number))+"&type="+vm.type+"&reduce=1"+"&free_limit_times="+vm.free_limit_times+"&time_range="+vm.freecarNumReduce.freeLimit,{
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }

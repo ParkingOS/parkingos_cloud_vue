@@ -1,15 +1,13 @@
 
 export const path = window.parkingosapi;
 // export const path = 'http://test.bolink.club/cloud';
+//   export const path = 'http://192.168.199.206:12305';
 
-  // export const path = 'http://192.168.199.205:12305';
-
-  // export const server = 'http://test.bolink.club';
+// export const server = 'http://test.bolink.club';
 export const server = 'http://yun.bolink.club';
 // export const server = 'http://192.168.199.205:12308';
 // export const path = 'http://192.168.192.1:12305';
 //export const path = "http://localhost:8085"
-
 //beta设置为5   s.bolink设置为2
 export const percision = 5;
 

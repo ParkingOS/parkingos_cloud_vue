@@ -415,7 +415,7 @@ export default {
         if (valid) {
             vm.loading = true;
             //var tempwindow=window.open();
-            vm.$axios.post(path+"/shopticket/exportcode?shop_id="+sessionStorage.getItem('shopid')+"&number="+vm.ReduceExport.number+"&type="+vm.type+"&reduce="+vm.ReduceExport.reduce,{
+            vm.$axios.post(path+"/shopticket/exportcode?shop_id="+sessionStorage.getItem('shopid')+"&uin="+sessionStorage.getItem('loginuin')+"&number="+vm.ReduceExport.number+"&type="+vm.type+"&reduce="+vm.ReduceExport.reduce,{
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 

@@ -402,7 +402,7 @@ export default {
             if (valid) {
                 vm.loading = true;
                 //var tempwindow=window.open();
-                 vm.$axios.post(path+"/shopticket/exportcode?shop_id="+sessionStorage.getItem('shopid')+"&number="+vm.freeReduceExport.number+"&type="+vm.type+"&reduce=1"+"&free_limit_times="+vm.free_limit_times+"&time_range="+vm.freeReduceExport.freeLimit,{
+                 vm.$axios.post(path+"/shopticket/exportcode?shop_id="+sessionStorage.getItem('shopid')+"&number="+vm.freeReduceExport.number+"&type="+vm.type+"&uin="+sessionStorage.getItem('loginuin')+"&reduce=1&free_limit_times="+vm.free_limit_times+"&time_range="+vm.freeReduceExport.freeLimit,{
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }

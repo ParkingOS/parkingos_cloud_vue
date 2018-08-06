@@ -90,7 +90,7 @@
     import {path, checkURL, checkUpload, checkNumber, payType,stateType} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
+    import {AUTH_ID_SHOP} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
 
     export default {
@@ -390,7 +390,7 @@
                 //sform.cityid = common.attachParams('cityid', 1);
                 //sform.unionid = common.attachParams('unionid', 1);
                 //sform.channelid = common.attachParams('channelid', 1);
-                //sform.loginuin = common.attachParams('loginuin', 1);
+                sform.loginuin = common.attachParams('loginuin', 1);
                 //sform.ishdorder = common.attachParams('ishdorder', 1);
                 //sform.roleid = common.attachParams('loginroleid', 1);
                 sform.shopid = common.attachParams('shopid', 1);
@@ -437,6 +437,27 @@
                 this.tableheight = common.gwh() - 143;
             }
             this.tableheight = common.gwh() - 143;
+
+            var user = sessionStorage.getItem('user');
+            // console.log(user)
+            if (user) {
+                user = JSON.parse(user);
+
+                for (var item of user.authlist) {
+                    if (AUTH_ID_SHOP.fixCode == item.auth_id) {
+                        this.showEdit = common.showSubEdit(item.sub_auth);
+                        this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
+                        if(!this.showEdit){
+                           this.hideOptions=true
+                        }
+                        break;
+                    }
+                }
+
+            }
+
+
+
         },
         activated() {
             this.getShopAccountInfo()
