@@ -622,7 +622,9 @@
                                               }
                                           }
                                       }
-
+                                      if(u.use_fix_code==0){
+                                           _this.showShopItem['fixCode']=false;
+                                      }
                                       sessionStorage.setItem('showShopItem', JSON.stringify(_this.showShopItem));
                                       //alert(JSON.stringify(_this.showShopItem))
                                       //_this.highlightindex = '/shop';

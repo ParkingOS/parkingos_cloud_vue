@@ -46,22 +46,18 @@
             <div>商户信息:</div>
             <div style="">
               <el-row style="padding:20px;padding-left:1px">
-                 <el-form ref="accountModify" :model="accountModify" label-width="100px" :rules="accountFormRules" style="width:85%">
+                 <el-form ref="accountModify" :model="accountModify" label-width="100px"  style="width:85%">
                     <el-form-item label="商户名称" prop="name">
-                      <el-input v-model="accountModify.name"></el-input>
+                      <el-input v-model="accountModify.name" readonly=true></el-input>
 
                     </el-form-item>
                     <el-form-item label="商户地址" prop="address">
-                      <el-input v-model="accountModify.address"></el-input>
+                      <el-input v-model="accountModify.address" readonly=true></el-input>
                     </el-form-item>
                     <el-form-item label="车场电话" prop="phone" style="display:none">
                       <el-input v-model="accountModify.phone"></el-input>
                     </el-form-item>
                   </el-form>
-                  <el-col :span="24" align="right" style="margin-bottom: 15px">
-                    <el-button @click="resetEdit" size="small">重置</el-button>
-                    <el-button type="primary" @click="editSubmit" size="small" :loading="loading">保存</el-button>
-                  </el-col>
               </el-row>
             </div>
           </div>
