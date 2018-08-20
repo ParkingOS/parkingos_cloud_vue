@@ -247,6 +247,12 @@ export default {
             + this.commonParams();
         return axios.get(path + '/getdata/cityparks' + param);
     },
+    getAllShops() {
+        // 获得集团和城市下的所有车场
+        let param = '?token=' + sessionStorage.getItem('token')
+            + this.commonParams();
+        return axios.get(path + '/getdata/getshops' + param);
+    },
     getAllCollector() {
         // 获得集团和城市下面所有的收费员
         let param = '?token=' + sessionStorage.getItem('token')
@@ -499,6 +505,7 @@ export default {
         sform.nickname1 = this.attachParams('nickname1', 1);
         return sform;
     },
+
     commonParams() {
         //返回通用的一些参数
         return this.attachParams('comid')

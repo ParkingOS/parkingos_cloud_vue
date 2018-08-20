@@ -157,7 +157,7 @@ export const showShopItem_const = {
 export const AUTH_ID_SHOP = {
     shop: 321,
     fixCode: 328,
-    ticketManage: 323,
+    ticketManage: 330,
     shopRecharge: 324,
     member: 326,
     shopRole:331,
