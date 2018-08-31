@@ -87,7 +87,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType,stateType} from '../../api/api';
+    import {path, checkURL, checkUpload, checkNumber, payType,stateType,checkValiTime} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID_SHOP} from '../../common/js/const'
@@ -316,7 +316,7 @@
                       {required: true, message: '请输入总张数', trigger: 'blur'}
                     ],
                     validite_time:[
-                      {required: true, message: '请输入固定码有效期', trigger: 'blur'}
+                      {validator: checkValiTime, trigger: 'blur'}
                     ],
                 }
             }

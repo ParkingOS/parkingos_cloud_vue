@@ -361,7 +361,11 @@
                 //this.nickname=user.name;
                 var cpath = this.$router.currentRoute.fullPath;
                 console.log(cpath);
-                this.highlightindex = cpath;
+                if(cpath.indexOf('orderManage_OrderDetail') > -1 ){
+                    this.highlightindex ='/orderManage_Orders'
+                }else{
+                     this.highlightindex = cpath;
+                }
                 // this.highlightindex = '/data_Center_park';
                 if (cpath == '/query/queryout') {
                     this.active = '/query/queryin';

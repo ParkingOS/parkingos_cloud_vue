@@ -170,10 +170,15 @@
             }
         },
         mounted() {
-
+            //console.log(this.currentRow);
+            //console.log(this.$route.query.row);
         },
         activated() {
-            this.currentRow = this.$route.query.row;
+            if(typeof this.$route.query.row =="string"){
+                this.currentRow = JSON.parse(sessionStorage.getItem('orderRow'));
+            }else{
+                this.currentRow = this.$route.query.row;
+            }
             this.currentIndex = this.$route.query.index;
             this.img_in = [];
             this.img_out = [];

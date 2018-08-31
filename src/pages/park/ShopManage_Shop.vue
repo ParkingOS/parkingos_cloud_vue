@@ -245,7 +245,8 @@
                 :title="shopTitle"
                 :visible.sync="showRegis"
                 width="30%"
-                size="tiny">
+                size="tiny"
+                @close="closeTest">
             <el-form ref="shopForm" label-width="120px" style="margin-bottom:-30px" :rules="shopFormRules"
                      :model="shopForm">
                 <el-form-item label="编号">
@@ -380,7 +381,8 @@
         checkPass,
         centerpayset,
         singleDoubleLimit,
-        ticketType
+        ticketType,
+        checkValiTime
     } from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
@@ -413,7 +415,7 @@
                         {required: true, message: '商户折扣不能为空', trigger: 'blur'}
                     ],
                     validite_time: [
-                        {required: true, message: '有效期不能为空', trigger: 'blur'}
+                        {validator: checkValiTime, trigger: 'blur'}
                     ],
                     v_discount_money: [
                         {required: true, message: '单价不能为空', trigger: 'blur'}
@@ -924,6 +926,9 @@
             }
         },
         methods: {
+            closeTest:function(){
+                this.$refs['shopForm'].clearValidate()
+            },
             showSetting: function (row) {
                 this.shop_id = row.id;
 

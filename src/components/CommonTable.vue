@@ -1095,7 +1095,11 @@
                 } else {
                     this.orderby = 'desc';
                 }
-                this.orderfield = val.prop;
+                if(val.prop==null){
+                    this.orderfield = 'id'
+                }else{
+                    this.orderfield = val.prop;
+                }
                 console.log('sort change');
                 this.getTableData(this.sform);
             },
@@ -1702,6 +1706,7 @@
                 this.getScrollHeight = container.scrollTop;
                 //跳转到订单详情
                 this.$router.push({path: '/orderManage_OrderDetail', query: {index: index, row: row}});
+                sessionStorage.setItem('orderRow',JSON.stringify(row));
                 this.parkText = '显示高级选项';//收起高级选项
             },
             handleModifyCarNumber(index, row) {

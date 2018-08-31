@@ -2,9 +2,12 @@
 export const path = window.parkingosapi;
 // export const path = 'http://test.bolink.club/cloud';
 //   export const path = 'http://192.168.199.206:12305';
-
-// export const server = 'http://test.bolink.club';
+// export const path = 'http://pub.ghparking.com/cloud';
+// export const path = 'http://120.79.98.201:8081/cloud';
+// export const server = 'http://pub.ghparking.com';
 export const server = 'http://yun.bolink.club';
+// export const server = 'http://test.bolink.club';
+// export const server = 'http://120.79.98.201';
 // export const server = 'http://192.168.199.205:12308';
 // export const path = 'http://192.168.192.1:12305';
 //export const path = "http://localhost:8085"
@@ -18,10 +21,8 @@ export const operateType = [
     {'value_no': 2, 'value_name': '回收充值'}
 ];
  export const stateType = [
-     { 'value_name': '全部','value_no': ''},
      { 'value_name': '可用','value_no': '0'},
-     { 'value_name': '不可用','value_no': '1'},
-     { 'value_name': '已过期','value_no': '2'}
+     { 'value_name': '不可用','value_no': '1'}
  ];
 export const ticketType = [
     {'value_name': '时长减免', 'value_no': '1'},
@@ -289,7 +290,7 @@ export var checkPhone = (rule, value, callback) => {
 export var checkParkMobile = (rule, value, callback) => {
     if (typeof(value) === 'undefined' || value === '') {
         return callback(new Error('请输入车场手机号码'));
-    } else if (!((/^1[345789]\d{9}$/.test(value)))) {
+    } else if (!((/^1[3456789]\d{9}$/.test(value)))) {
         return callback(new Error('请输入正确的手机号码'));
     } else {
         callback();
@@ -299,7 +300,7 @@ export var checkParkMobile = (rule, value, callback) => {
 export var checkMobile = (rule, value, callback) => {
     if (typeof(value) === 'undefined' || value === '') {
         callback();
-    } else if (!((/^1[34578]\d{9}$/.test(value)))) {
+    } else if (!((/^1[3456789]\d{9}$/.test(value)))) {
         return callback(new Error('请输入正确的手机号码'));
     } else {
         callback();
@@ -311,6 +312,16 @@ export var checkTelePhone = (rule, value, callback) => {
         // eslint-disable-next-line no-useless-escape
     } else if (!((/^800[0-9]{7}$/.test(value)) || (/^400[0-9]{7}$/.test(value)) || (/^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})$/.test(value)))) {
         return callback(new Error('请输入座机(区号后加-)或400,800开头号码'));
+    } else {
+        callback();
+    }
+};
+
+export var checkValiTime = (rule, value, callback) => {
+    if (typeof(value) === 'undefined' || value === '') {
+        callback();
+    } else if (value>500000||value<=0) {
+        return callback(new Error('请设置一个合理的有效期,最大50W'));
     } else {
         callback();
     }
