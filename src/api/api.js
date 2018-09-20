@@ -1,7 +1,8 @@
 
-export const path = window.parkingosapi;
+// export const path = window.parkingosapi;
+export const path = 'http://yun.bolink.club/cloud';
 // export const path = 'http://test.bolink.club/cloud';
-//   export const path = 'http://192.168.199.206:12305';
+//   export const path = 'http://192.168.199.205:12305';
 // export const path = 'http://pub.ghparking.com/cloud';
 // export const path = 'http://120.79.98.201:8081/cloud';
 // export const server = 'http://pub.ghparking.com';
@@ -77,6 +78,7 @@ export const types = [
     {'value_no': 'login', 'value_name': '登录模块'},
     {'value_no': 'member', 'value_name': '员工模块'},
     {'value_no': 'product', 'value_name': '月卡套餐'},
+    {'value_no': 'homeowner', 'value_name': '业主管理'},
     {'value_no': '', 'value_name': '全部'}
 ];
 

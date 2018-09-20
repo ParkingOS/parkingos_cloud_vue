@@ -115,6 +115,9 @@
                                 else if(row.operate_type==0){
                                     return '登录'
                                 }
+                                else if(row.operate_type==5){
+                                    return '导入'
+                                }
                                 else{
                                     return '其他操作'
                                 }

@@ -79,6 +79,8 @@
                                 class="menuitem">访客管理</span></template>
                         <el-menu-item index="/vistorManage_VistorMember" v-if="this.showParkItem.vistorManage_VistorMember">访客人员管理
                         </el-menu-item>
+                        <el-menu-item index="/vistorManage_homeOwner" v-if="this.showParkItem.vistorManage_homeOwner">业主管理
+                        </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.onlinePay" index="/onlinePay">
                         <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span

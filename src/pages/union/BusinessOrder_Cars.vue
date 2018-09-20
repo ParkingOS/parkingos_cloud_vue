@@ -65,7 +65,7 @@
                 showBusinessCars: true,
                 queryapi: '/unorder/query',
                 exportapi: '/unorder/exportExcel',
-                imgapi: '/order/getOrderPicture ',
+                imgapi: '/order/getOrderPicture',
                 btswidth: '100',
                 fieldsstr: 'id__groupid__comid__berthsec_id__cid__uid__prepaid__parking_type__c_type__car_number__create_time__duration__state__id__in_passid__order_id_local',
                 tableitems: [

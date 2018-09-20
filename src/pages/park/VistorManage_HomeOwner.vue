@@ -2,53 +2,42 @@
     <section>
         <!--//////////////////搜索条件+操作按钮//////////////////////-->
         <el-form :inline="true" v-model="formItem" class="demo-form-inline">
-            <el-form-item label="车牌号" class="inp-margin-buttom">
-                <el-input v-model="formItem.car_number" placeholder="车牌号"></el-input>
+            <el-form-item label="姓名" class="inp-margin-buttom">
+                <el-input v-model="formItem.name" placeholder="业主姓名"></el-input>
             </el-form-item>
-            <el-form-item label="状态:" class="inp-margin-buttom">
-                <el-select placeholder="全部" v-model="formItem.state">
-                    <el-option
-                            label="全部"
-                            value="">
-                    </el-option>
-                    <el-option
-                            v-for="item in stateType"
-                            :key="item.value_no"
-                            :label="item.value_name"
-                            :value="item.value_no">
-                    </el-option>
-                </el-select>
+            <el-form-item label="手机号" class="inp-margin-buttom">
+                <el-input v-model="formItem.phone" placeholder="业主手机号"></el-input>
             </el-form-item>
             <el-form-item class="inp-margin-buttom">
                 <el-button type="primary" @click="search">搜索</el-button>
+                <el-button type="primary" @click="handleAdd">添加</el-button>
+                <el-button type="primary" @click="handleImport">导入</el-button>
                 <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
                     <el-button type="primary" @click="handleExport">导出</el-button>
                 </el-tooltip>
-                <el-button @click="getCode()" icon="search" type="primary">访客二维码
-                </el-button>
-                <el-button @click="visitorSet()"  type="primary">访客设置
-                </el-button>
             </el-form-item>
         </el-form>
 
         <!--//////////////////////table/////////////////////////////////////////-->
         <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
                   v-loading="loading" @sort-change="sortChange">
+
+             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
+                     <template scope="scope">
+                         <el-button  size="small" type="text" @click="handleEdit(scope.row)">
+                             编辑
+                         </el-button>
+                     </template>
+             </el-table-column>
             <!--子项折叠最终通过rowStyle实现。实际是项的显示/隐藏-->
             <el-table-column v-for="(items, index) in tableitems" :key="items.subs[0].prop"
                              :label="items.subs[0].label" :align="items.subs[0].prop=='name'?'left':'center'"
                              min-width="50"
-                             :width="items.subs[0].prop=='car_number'||items.subs[0].prop=='mobile'||items.subs[0].prop=='state'?130:200"
+                             :width="items.subs[0].prop=='identity_card'||items.subs[0].prop=='phone'||items.subs[0].prop=='home_number'||items.subs[0].prop=='remark'?200:130"
                              :sortable="!items.subs[0].unsortable">
                 <!--设置部分列宽度-->
                 <template scope="scope">
-                    <el-button v-if="items.subs[0].prop=='state'" size="small" type="text"
-                               style="color: #0000ff;"
-                               @click="handleShowEditStart(scope.$index, scope.row)">{{stateformat(scope.row[items.subs[0].prop])}}
-                    </el-button>
-                    <span v-else-if="items.subs[0].prop=='create_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>
-                    <span v-else-if="items.subs[0].prop=='begin_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>
-                    <span v-else-if="items.subs[0].prop=='end_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>
+                    <span v-if="items.subs[0].prop=='state'">{{stateformat(scope.row[items.subs[0].prop])}}</span>
                     <span v-else>{{scope.row[items.subs[0].prop]}}</span>
                     <!--不同列的表现形式、格式化-->
                 </template>
@@ -65,128 +54,69 @@
             </el-col>
         </el-col>
 
+       <el-dialog
+               :title="addHomeOwnerTitle"
+               :visible.sync="addHomeOwnerVisible"
+               width="30%"
+               size="tiny">
+           <el-form ref="form" label-width="120px" style="margin-bottom:-30px" :rules="homeOwnerFormRules" :model="user">
+               <el-form-item label="姓名" :prop="name">
+                   <el-input v-model="user.name" style="width:90%"></el-input>
+               </el-form-item>
+               <el-form-item label="房号">
+                   <el-input v-model="user.home_number" style="width:90%"></el-input>
+               </el-form-item>
+               <el-form-item label="手机号" :prop="phone">
+                  <el-input v-model="user.phone" style="width:90%"></el-input>
+               </el-form-item>
+               <el-form-item label="身份证号">
+                  <el-input v-model="user.identity_card" style="width:90%"></el-input>
+               </el-form-item>
+               <el-form-item label="状态">
+                   <el-select placeholder="全部" v-model="user.state" style="width:90%">
+                      <el-option
+                              v-for="item in stateType"
+                              :key="item.value_no"
+                              :label="item.value_name"
+                              :value="item.value_no">
+                      </el-option>
+                  </el-select>
+               </el-form-item>
+               <el-form-item label="备注">
+                  <el-input v-model="user.remark" style="width:90%"></el-input>
+               </el-form-item>
+
+           </el-form>
+           <span slot="footer" class="dialog-footer">
+            <el-button @click="onclose" size="small">取 消</el-button>
+            <el-button type="primary" size="small" @click="saveUser">保存</el-button>
+        </span>
+       </el-dialog>
 
 
-        <!--/////////////////////////////////////////////////////////////////////////-->
-        <!--访客二维码-->
-        <el-dialog
-            title="访客二维码"
-            :visible.sync="codeDialog"
-            width="25%"
-            center>
-            <el-form style="margin-bottom:50px">
-                 <el-row>
-                <el-col :span="23" :offset="1" style="padding-top:0px;margin-top: 8px;margin-bottom:7px">
-                    地址:
-                </el-col>
-                <el-col :span="23" :offset="1" >
-                    <el-input v-model="qrurl" ></el-input>
-                </el-col>
-                </el-row>
-
-
-                <el-form-item style="text-align: center">
-                    <img style="display: inline-block" :src="qrsrc"/>
-                    <el-button @click="down" type="primary" icon="el-icon-download">下载二维码</el-button>
-                    <!--<a  :href="downloadQrUrl" style="font-size:10px;text-decoration:none" >下载二维码</a>-->
-                </el-form-item>
-
-            </el-form>
-
-        </el-dialog>
-        <canvas id="canvas" style="display:none"></canvas>
-        <canvas id="img" style="display:none"></canvas>
-
-        <!--修改状态-->
-        <el-dialog
-                title="审核状态"
-                :visible.sync="startModel"
-                width="25%">
-            <el-form v-model="startForm" class="demo-form-inline" label-width="80px">
-                <el-form-item label="状态:" class="inp-margin-buttom">
-                    <el-select placeholder="全部" v-model="startForm.state">
-                        <el-option
-                                v-for="item in stateType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="备注:">
-                    <el-input type="textarea" maxlength="20" v-model="startForm.remark"  :autosize="{ minRows: 2, maxRows: 3}" style="resize:none"></el-input>
-                    <p><sup style="color: red">*</sup>提示:备注还可输入<span style="color: red" v-text="20- result"></span>/20个字符</p>
-                </el-form-item>
-
-                <el-form-item class="inp-margin-buttom">
-                    <el-button plain @click="cancel">取消</el-button>
-                    <el-button type="primary" @click="confirm">确定</el-button>
-
-                </el-form-item>
-            </el-form>
-
-
-        </el-dialog>
-
-
-
-        <el-dialog
-            title="访客设置"
-            :visible.sync="visitorSetModel"
-            width="25%"
-            center>
-            <el-form v-model="visitorSetForm" class="demo-form-inline" label-width="100px">
-               <el-form-item label="认证业主:" class="inp-margin-buttom">
-                    <el-select placeholder="全部" v-model="visitorSetForm.access_cert">
-                        <el-option
-                                v-for="item in accessType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                    <el-select placeholder="全部" v-model="visitorSetForm.auto_cert">
-                        <el-option
-                                v-for="item in autoType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="非认证业主:" class="inp-margin-buttom">
-                    <el-select placeholder="全部" v-model="visitorSetForm.access_not_cert">
-                        <el-option
-                                v-for="item in accessType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                    <el-select placeholder="全部" v-model="visitorSetForm.auto_not_cert">
-                        <el-option
-                                v-for="item in autoType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item  class="inp-margin-buttom-self">
-                    <el-button plain @click="cancelSet">取消</el-button>
-                    <el-button type="primary" @click="confirmSet">确定</el-button>
-                </el-form-item>
-            </el-form>
-
-        </el-dialog>
+       <el-dialog
+               title="导入业主"
+               :visible.sync="showUpload"
+               width="30%">
+           <el-upload class="upload-demo" ref="upload" :action="uploadapi" :auto-upload="false"
+                      :on-success="uploadSuccess" :on-remove="handleRemove" :on-change="handleChange">
+               <el-button slot="trigger" size="small" type="primary" @click="handleSelect">选取文件</el-button>
+               <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定导入
+               </el-button>
+               <div slot="tip" class="el-upload__tip">请选择Excel文件，支持xls,xlsx等格式</div>
+           </el-upload>
+           <div v-html="uploadMsg"></div>
+           <span slot="footer" class="dialog-footer">
+            <el-button @click="showUpload = false" size="small" type="primary">确 定</el-button>
+        </span>
+       </el-dialog>
 
     </section>
 </template>
 
 
 <script>
-    import {path,server} from '../../api/api';
+    import {path,server,checkMobile} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
@@ -198,6 +128,17 @@
         },
         data() {
             return {
+                user: {
+                    id:'',
+                    name: '',
+                    state: '0',
+                    phone: '',
+                    home_number: '',
+                    identity_card: '',
+                    remark: '',
+                },
+                addHomeOwnerVisible:false,
+                addHomeOwnerTitle:'',
                 qrurl:'',
                 downloadQrUrl:'',
                 codeDialog:false,
@@ -213,42 +154,26 @@
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
-                hideOptions: true,
+                hideOptions: false,
                 showParkInfo: false,
                 showImg: false,
                 imgSize:450,
-                queryapi: '/visitor/query',
-                exportapi: '/visitor/exportExcel',
-                getVisitorSetApi: '/visitor/getvisitorset',
+                queryapi: '/homeowner/query',
+                exportapi: '/homeowner/exportExcel',
+                uploadapi: path + '/homeowner/importExcel?1=1' + common.commonParams(),
                 btswidth: '100',
-                fieldsstr: 'id__car_number__mobile__create_time__begin_time__end_time__remark__state',
+                showUpload:false,
+                fieldsstr: 'id__name__phone',
                 tableitems: [
-                    {
-
-                            hasSubs: false,
-                            subs: [{
-                                label: '编号',
-                                prop: 'id',
-                                width: '60',
-                                type: 'str',
-
-                                searchable: true,
-
-                                unsortable: true,
-                                align: 'center'
-                            }]
-                        },
                     {
 
                         hasSubs: false,
                         subs: [{
-                            label: '车牌号',
-                            prop: 'car_number',
+                            label: '姓名',
+                            prop: 'name',
                             width: '130',
                             type: 'str',
-
                             searchable: true,
-
                             unsortable: true,
                             align: 'center'
                         }]
@@ -256,8 +181,8 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '手机号',
-                            prop: 'mobile',
+                            label: '房号',
+                            prop: 'home_number',
                             width: '130',
                             type: 'str',
                             searchable: true,
@@ -269,8 +194,8 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '申请时间',
-                            prop: 'create_time',
+                            label: '手机号',
+                            prop: 'phone',
                             width: '150',
                             type: 'date',
                             editable: true,
@@ -286,8 +211,8 @@
 
                        hasSubs: false,
                        subs: [{
-                           label: '开始时间',
-                           prop: 'begin_time',
+                           label: '身份证号',
+                           prop: 'identity_card',
                            width: '150',
                            type: 'date',
                            editable: true,
@@ -303,8 +228,8 @@
 
                           hasSubs: false,
                           subs: [{
-                              label: '结束时间',
-                              prop: 'end_time',
+                              label: '状态',
+                              prop: 'state',
                               width: '150',
                               type: 'date',
                               editable: true,
@@ -317,31 +242,6 @@
                               }
                           }]
                       }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '状态',
-                            prop: 'state',
-                            width: '110',
-                            type: 'selection',
-                            selectlist: this.states,
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center',
-                            format: (row) => {
-                                if(row.state== 0){
-                                    return '待审批'
-                                }
-                                else if(row.state==1){
-                                     return '已通过'
-                                }else if(row.state==2){
-                                     return '已拒绝'
-                                }
-                            }
-                        }]
-                    }, {
 
                         hasSubs: false,
                         subs: [{
@@ -358,19 +258,19 @@
                     }
 
                 ],
+                uploadMsg: '',
                 searchtitle: '高级查询',
                 imgDialog: false,
                 imgdialog_url: '',
                 collectors: [],
                 reasons: [],
                 formItem:{
-                    car_number:'',
-                    state:''
+                    name:'',
+                    phone:''
                 },
                 stateType:[
-                    {'value_no': '0', 'value_name': '待审批'},
-                    {'value_no': '1', 'value_name': '已通过'},
-                    {'value_no': '2', 'value_name': '已拒绝'}
+                    {'value_no': '0', 'value_name': '正常'},
+                    {'value_no': '1', 'value_name': '禁用'}
                 ],
                 accessType:[
                     {'value_no': '0', 'value_name': '不允许申请访客'},
@@ -381,11 +281,10 @@
                     {'value_no': '1', 'value_name': '自动审核'}
                 ],
                 stateformat:function (state) {
-
-                    if(state=='0')return "待审批"
-                    if(state=='1')return "已通过"
-                    if(state=='2')return "已拒绝"
+                    if(state=='0')return "正常"
+                    if(state=='1')return "禁用"
                 },
+                rowdata: {},
                 table: [],
                 pageSize: 20,
                 currentPage: 1,
@@ -402,7 +301,6 @@
                     id:''
                 },
                 visitorSetForm:{
-                    id:'',
                     access_cert:'1',
                     auto_cert:'1',
                     access_not_cert:'1',
@@ -417,20 +315,36 @@
                 },
                 startModel:false,
                 visitorSetModel:false,
+                phone:'phone',
+                name:'name',
+                tempeditForm:{},
+                homeOwnerFormRules: {
+                    phone: [
+                        {message: '请输入业主手机号', required: true,trigger: 'blur'}
+                    ],
+                    name: [
+                        {required: true, message: '请输入业主姓名', trigger: 'blur'}
+                    ]
+                },
             }
         },
         methods: {
+            onclose(){
+                this.addHomeOwnerVisible = false
+                //关闭对话框
+                //重置表单数据
+                //this.user=common.clone(this.tempeditForm)
+            },
             search:function () {
                 this.sform = {};
-                if(this.formItem.car_number != ""){
-                    this.sform.car_number = this.formItem.car_number;
+                if(this.formItem.name != ""){
+                    this.sform.name = this.formItem.name;
                 }
-                if(this.formItem.state != ""){
-                    console.log(this.formItem.state)
-                    this.sform.state = this.formItem.state;
-                    this.sform.state_start = this.formItem.state;
+                if(this.formItem.phone != ""){
+                    console.log(this.formItem.phone)
+                    this.sform.phone = this.formItem.phone;
                 }
-                console.log(this.formItem.car_number)
+                console.log(this.formItem.phone)
 
                 this.getTableData(this.sform)
             },
@@ -460,10 +374,6 @@
                 this.startModel = false;
                 this.startForm.state = "";
                 this.startForm.remark = "";
-            },
-            cancelSet:function () {
-                this.visitorSetForm =common.clone(this.tempSetForm);
-                this.visitorSetModel = false;
             },
             confirm:function () {
                 var vm = this;
@@ -510,113 +420,6 @@
                     }, 150);
                 });
             },
-            confirmSet:function () {
-                var vm = this;
-                console.log('~~~===>>>>'+vm.visitorSetForm)
-                let aform = common.generateForm(vm.visitorSetForm);
-                vm.$axios.post(path + '/visitor/setvisitor', vm.$qs.stringify(aform), {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                    }
-                }).then(function (response) {
-                    let ret = response.data;
-                    if (ret.validate != 'undefined' && ret.validate == '1') {
-                        //过期.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!');
-                        }, 100);
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
-                        //令牌无效.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!');
-                        }, 100);
-                    } else {
-                        if (ret > 0 || ret.state == 1) {
-                            //更新成功
-                            //vm.getTableData(vm.sform);
-                            vm.getVisitorSet(vm.sform);
-                            vm.$message({
-                                message: '添加成功!',
-                                type: 'success',
-                                duration: 600
-                            });
-                            vm.visitorSetModel = false;
-                        } else {
-                            //更新失败
-                            vm.$message({
-                                message: msg,
-                                type: 'error',
-                                duration: 1200
-                            });
-                        }
-                    }
-
-                }).catch(function (error) {
-                    setTimeout(() => {
-                        vm.alertInfo('请求失败!' + error);
-                    }, 150);
-                });
-            },
-            handleShowEditStart:function (index,row) {
-                console.log(row)
-                this.startForm.id = row.id; //转存id
-                this.startForm.state =String(row.state);
-                this.startForm.remark = row.remark;
-                this.startModel = true;
-            },
-            getCode(){
-                let vm = this;
-                this.qrurl = server+"/zld/visitor/tovisit?comid="+sessionStorage.getItem('comid')
-                console.log(this.qrurl)
-                //var params = "park_id="+sessionStorage.getItem('comid')+"&url="+this.qrurl
-                //vm.downloadQrUrl=path + "/park/downloadqr?" + params
-                this.downloadQrUrl = path+"/visitor/downloadCode?url="+this.qrurl;
-                vm.genqr(this.qrurl);
-                vm.codeDialog=true;
-
-            },
-            visitorSet(){
-                let vm = this;
-                this.visitorSetForm =common.clone(this.tempSetForm);
-                vm.visitorSetModel=true;
-            },
-            down(){
-                console.log(path,this.qrurl)
-                window.open(path+"/visitor/downloadCode?url="+this.qrurl);
-            },
-            downloadQr(){
-                location=this.qrsrc
-            },
-            genqr(url){
-                var canvas = document.getElementById('canvas')
-                console.log('-----------'+canvas)
-                this.QRCode.toCanvas(canvas, url,{ errorCorrectionLevel: 'H' }, function (error) {
-                    //console.log(url)
-                    if (error){
-                        //console.error(error)
-                    } else{
-                        //console.log('success!');
-                    }
-                })
-                console.log("qqqqqqqqqqqqq"+canvas.width)
-                var context=canvas.getContext('2d');
-                var imageData = context.getImageData(0,0,canvas.width,canvas.height);
-
-                var img = document.getElementById("img");
-                img.width=canvas.width
-                img.height=canvas.height
-                var context2 = img.getContext('2d');
-                context2.fillStyle="white";
-                context2.fillRect(0,0,canvas.width,(canvas.height));
-                context2.putImageData(imageData,0,0);
-                context2.font="bold 10px 微软雅黑"
-                context2.fillStyle="black"
-
-                var url = img.toDataURL("image/png");
-                console.log(url+'---------------------------')
-                this.qrsrc = url
-                 console.log(this.qrsrc+"  ~~~~~~~")
-            },
             //增加从url里面读取的2个参数
             getMonitorParamFromUrl(){
                 var query = window.location.search.substring(1);
@@ -643,8 +446,90 @@
                 }
                 return param;
             },
+            saveUser(userId) {
+
+                var vm = this;
+                this.$refs.form.validate((valid) => {
+                    if (valid) {
+                        var user = sessionStorage.getItem('user');
+                        user = JSON.parse(user)
+                        var formObj = {};
+
+                        formObj.comid = user.comid;
+                        formObj.id = this.user.id;
+                        formObj.name = this.user.name;
+                        formObj.phone = this.user.phone;
+                        formObj.home_number = this.user.home_number;
+                        formObj.identity_card = this.user.identity_card;
+                        formObj.state = this.user.state;
+                        formObj.remark = this.user.remark;
+                        formObj = common.generateForm(formObj);
+                        vm.$axios.post(path + '/homeowner/add', vm.$qs.stringify(formObj), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            }
+                        }).then(function (response) {
+                            let ret = response.data;
+                            if (ret.validate != 'undefined' && ret.validate == '1') {
+                                //过期.重新登录
+                                setTimeout(() => {
+                                    vm.alertInfo('登录过期,请重新登录!');
+                                }, 100);
+                            } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                                //令牌无效.重新登录
+                                setTimeout(() => {
+                                    vm.alertInfo('登录异常,请重新登录!');
+                                }, 100);
+                            } else {
+                                if (ret > 0 || ret.state == 1) {
+                                    //更新成功
+                                    vm.getTableData(vm.sform);
+                                    vm.$message({
+                                        message: '添加成功!',
+                                        type: 'success',
+                                        duration: 600
+                                    });
+                                    vm.addHomeOwnerVisible = false;
+                                } else {
+                                    //更新失败
+                                    vm.$message({
+                                        message: ret.msg,
+                                        type: 'error',
+                                        duration: 1200
+                                    });
+                                }
+                            }
+
+                        }).catch(function (error) {
+                            setTimeout(() => {
+                                vm.alertInfo('请求失败!' + error);
+                            }, 150);
+                        });
+
+                     }
+                 })
+            },
+            handleAdd(){
+              this.user = {
+                "state":"0"
+              };
+              this.addHomeOwnerTitle="添加业主"
+              this.addHomeOwnerVisible=true
+            },
+             handleEdit(row) {
+                this.user =common.clone(row);
+                this.user.state=row.state+"";
+                //拿到当前行数据row,传递给表单编辑子组件,子组建中包括重置和保存按钮
+                //获取角色编号,获取rowid,
+                this.addHomeOwnerTitle="编辑业主"
+                this.addHomeOwnerVisible = true;
+            },
+
             //拉取表格数据
             getTableData(sform1) {
+                let param = this.getMonitorParamFromUrl()
+                sform1.groupid = param.groupid;
+                sform1.comid = param.comid;
                 let vm = this;
                 this.loading = false;
                 let api = this.queryapi;
@@ -704,63 +589,6 @@
                 });
 
             },
-            getVisitorSet(sform1) {
-                let param = this.getMonitorParamFromUrl()
-                sform1.comid = param.comid;
-                let vm = this;
-                this.loading = false;
-                let api = this.getVisitorSetApi;
-                this.sform = common.generateForm(sform1);
-                //保证5秒后把loading干掉
-                setTimeout(() => {
-                    vm.loading = false;
-                }, 5000);
-                vm.$axios.post(path + api, vm.$qs.stringify(this.sform), {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                    }
-                }).then(function (response) {
-                    vm.loading = false;
-                    // console.log('resset loading!!!!!');
-                    let ret = response.data;
-                    if (ret.validate != 'undefined' && ret.validate == '0') {
-                        vm.loading = false;
-                        //未携带令牌.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('未携带令牌,请重新登录!');
-                        }, 150);
-                    } else if (ret.validate != 'undefined' && ret.validate == '1') {
-                        vm.loading = false;
-                        //过期.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录过期,请重新登录!');
-                        }, 150);
-                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
-                        vm.loading = false;
-                        //令牌无效.重新登录
-                        setTimeout(() => {
-                            vm.alertInfo('登录异常,请重新登录!');
-                        }, 150);
-                    } else {
-                        //console.log('这是查询出来的结果'+ret.rows.id);
-                        if (ret.total > 0) {
-                            vm.tempSetForm.id= ret.rows.id;
-                            vm.tempSetForm.access_cert= ret.rows.accessCert+'';
-                            vm.tempSetForm.auto_cert= ret.rows.autoCert+'';
-                            vm.tempSetForm.access_not_cert= ret.rows.accessNotCert+'';
-                            vm.tempSetForm.auto_not_cert= ret.rows.autoNotCert+'';
-                        }
-                        vm.loading = false;
-                    }
-                    //  console.log("get table 55555:",vm.$refs['search'].searchForm);
-                }).catch(function (error) {
-                    vm.loading = false;
-                    setTimeout(() => {
-                        vm.alertInfo('请求失败!' + error);
-                    }, 150);
-                });
-
-            },
             //导出表格数据
             handleExport() {
                 let vm = this;
@@ -792,6 +620,51 @@
                     window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
                 }
 
+            },
+
+            handleImport: function () {
+                this.showUpload = true;
+                this.handleSelect();
+            },
+            submitUpload() {
+                //上传文件
+                this.$refs.upload.submit();
+            },
+            handleSelect() {
+                //点击选择文件，清空当前文件列表和上传信息
+                this.$refs.upload.clearFiles();
+                this.uploadMsg = '';
+            },
+            handleChange(file, fileList) {
+                // console.log(file);
+                // console.log(fileList);
+                //校验文件
+                let that = this;
+                if (!(file.name.endsWith('.xls') || file.name.endsWith('.xlsx'))) {
+                    this.$alert('请选择正确的Excel文件', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'warning',
+                        callback: action => {
+                            that.$refs.upload.clearFiles();
+                        }
+                    });
+                }
+
+            },
+            handleRemove(file, fileList) {
+                this.uploadMsg = '';
+            },
+            uploadSuccess(response, file, filelist) {
+                // console.log(response);
+                // console.log(file);
+                // console.log(filelist);
+                this.$message({
+                    message: '上传成功!',
+                    type: 'success',
+                    duration: 600
+                });
+                this.uploadMsg = response.msg;
+                this.getTableData({});
             },
             alertInfo(msg) {
                 this.$alert(msg, '提示', {
@@ -849,10 +722,9 @@
             this.tableheight = common.gwh() - 150;
             this.imgSize = common.gww()/4;
             // this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.formItem.car_number = '';
-            this.formItem.state = '';
+            this.formItem.name = '';
+            this.formItem.phone = '';
             this.getTableData({});
-            this.getVisitorSet({});
             let _this = this;
 
         },

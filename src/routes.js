@@ -35,6 +35,7 @@ import EquipmentManage_Channel from './pages/park/EquipmentManage_Channel.vue';
 import EquipmentManage_Camera from './pages/park/EquipmentManage_Camera.vue';
 import EquipmentManage_LED from './pages/park/EquipmentManage_LED.vue';
 import VistorManage_VistorMember from './pages/park/VistorManage_VistorMember.vue';
+import VistorManage_HomeOwner from './pages/park/VistorManage_HomeOwner.vue';
 import EmployeePermission_Manage from './pages/park/EmployeePermission_EmployeeManage.vue';
 import EmployeePermission_Role from './pages/park/EmployeePermission_RoleManage.vue';
 import SystemManage_BlackList from './pages/park/SystemManage_BlackList.vue';
@@ -237,7 +238,8 @@ let routes = [
         name: '访客管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/vistorManage_VistorMember', component: VistorManage_VistorMember, name: '访客人员管理'}
+            {path: '/vistorManage_VistorMember', component: VistorManage_VistorMember, name: '访客人员管理'},
+            {path: '/vistorManage_homeOwner', component: VistorManage_HomeOwner, name: '访客人员管理'}
         ]
     },
     {

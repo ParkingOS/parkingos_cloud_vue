@@ -123,7 +123,7 @@
                 img_out: [],
                 imgpath: '',
                 imgdialog_url: '',
-                imgapi: '/order/getOrderPicture ',
+                imgapi: '/order/getOrderPicture',
                 imgSize: 300,
                 detailStyle: '',
                 orderPayType: [
