@@ -397,6 +397,7 @@
                 rowdata: {},
                 total: 0,
                 startForm:{
+                    car_number:'',
                     state:'',
                     remark:'',
                     id:''
@@ -562,6 +563,7 @@
                 this.startForm.id = row.id; //转存id
                 this.startForm.state =String(row.state);
                 this.startForm.remark = row.remark;
+                this.startForm.car_number = row.car_number;
                 this.startModel = true;
             },
             getCode(){
