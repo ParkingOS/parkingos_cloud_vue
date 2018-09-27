@@ -203,20 +203,6 @@
                             align: 'center'
                         }]
                     }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '用户编号',
-                            prop: 'user_id',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
                          hasSubs: false,
                          subs: [{
                              label: '开始时间',
