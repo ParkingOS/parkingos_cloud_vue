@@ -383,6 +383,10 @@
                     <el-button type="primary" @click="handleUpload" v-if="showUploadMonthCard"
                                icon="search">导入月卡
                     </el-button>
+                    <el-button type="primary" @click="handlePublic" v-if="showPublic"
+                               icon="search">公众号设置
+                    </el-button>
+
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
                         <el-button type="primary" @click="handleExport" v-if="!hideExport">导出
                         </el-button>
@@ -1016,7 +1020,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd','showresetdata', 'showdateSelector','showdateSelector22','showdateSelector33','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode','showPublic', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2'],
         methods: {
             changeTimer:function (value) {
                 console.log(value)
@@ -1393,6 +1397,9 @@
             },
             handleUpload() {
                 this.$emit('showUpload');
+            },
+            handlePublic() {
+                this.$emit('handlePublic');
             },
             //导出表格数据
             handleExport() {

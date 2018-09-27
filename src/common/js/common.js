@@ -423,6 +423,12 @@ export default {
         }
         return false;
     },
+    showPublic: function (sub_auth) {
+        if (sub_auth.indexOf('公众号设置') > -1 ) {
+            return true;
+        }
+        return false;
+    },
     showSubDel: function (sub_auth) {
         if (sub_auth.indexOf('删除') > -1) {
             return true;
