@@ -430,7 +430,13 @@ export default {
         return false;
     },
     showSubDel: function (sub_auth) {
-        if (sub_auth.indexOf('删除') > -1) {
+        if (sub_auth.indexOf('删除') > -1||sub_auth.indexOf('销户')>-1) {
+            return true;
+        }
+        return false;
+    },
+    showRefund: function (sub_auth) {
+        if (sub_auth.indexOf('退款') > -1) {
             return true;
         }
         return false;

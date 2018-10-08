@@ -449,10 +449,16 @@
                                @click="handleCustomizeEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
+                    <el-button v-if="showShopEdit" :disabled='scope.row.state==2' size="small" type="text" @click="handleCustomizeEdit(scope.$index, scope.row)">
+                        编辑
+                    </el-button>
                     <el-button v-if="showModifyCarNumber" type="text" size="small"
                                @click="handleModifyCarNumber(scope.$index, scope.row)">修改车牌
                     </el-button>
                     <el-button v-if="showsetting" type="text" size="small"
+                               @click="handlesetting(scope.$index, scope.row)">设置
+                    </el-button>
+                    <el-button v-if="showShopSetting" :disabled='scope.row.state==2' type="text" size="small"
                                @click="handlesetting(scope.$index, scope.row)">设置
                     </el-button>
                     <el-button v-if="showqrurl" size="small" type="text" @click="handleqrurl(scope.$index, scope.row)">
@@ -460,6 +466,8 @@
                     </el-button>
                     <el-button v-if="showdelete" size="small" type="text" @click="openDelete(scope.$index, scope.row)">
                         <span style="color:red">删除</span></el-button>
+                    <el-button v-if="showlogout" size="small" type="text" :disabled='scope.row.state==2' @click="showLogout(scope.$index, scope.row)">
+                    <span style="color:red">销户</span></el-button>
                     <el-button v-if="showmapdialog" size="small" type="text"
                                @click="handlemap(scope.$index, scope.row)">车场定位
                     </el-button>
@@ -469,9 +477,11 @@
                     <el-button v-if="showresetdata" size="small" type="text"
                                @click="handleresetdata(scope.$index, scope.row)"><span style="color:red">重置</span>
                     </el-button>
-                    <el-button v-if="showmRefill" size="small" type="text"
+                    <el-button v-if="showmRefill" :disabled='scope.row.state==2' size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)">续费
                     </el-button>
+                    <el-button v-if="showrefund" size="small" :disabled='scope.row.state==2' type="text" @click="showRefund(scope.$index, scope.row)">
+                    <span>退款</span></el-button>
                     <el-button v-if="showPermission" size="small" type="text"
                                @click="handlePermission(scope.$index, scope.row)">编辑权限
                     </el-button>
@@ -1019,8 +1029,8 @@
         },
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
-            'dialogsize', 'showqrurl', 'showdelete', 'showmapdialog', 'showMap', 'showsetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd','showresetdata', 'showdateSelector','showdateSelector22','showdateSelector33','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
-            'showModifyCarNumber', 'showmRefill', 'showEdit', 'showImg','showCode','showPublic', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2'],
+            'dialogsize', 'showqrurl', 'showdelete','showlogout','showrefund', 'showmapdialog', 'showMap', 'showsetting','showShopSetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd','showresetdata', 'showdateSelector','showdateSelector22','showdateSelector33','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
+            'showModifyCarNumber', 'showmRefill', 'showEdit','showShopEdit', 'showImg','showCode','showPublic', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2'],
         methods: {
             changeTimer:function (value) {
                 console.log(value)
@@ -1397,6 +1407,14 @@
             },
             handleUpload() {
                 this.$emit('showUpload');
+            },
+            showLogout(index, row) {
+                //调用父组件的方法,传row
+                this.$emit('showLogout', row);
+            },
+            showRefund(index, row) {
+              //调用父组件的方法,传row
+              this.$emit('showRefund', row);
             },
             handlePublic() {
                 this.$emit('handlePublic');

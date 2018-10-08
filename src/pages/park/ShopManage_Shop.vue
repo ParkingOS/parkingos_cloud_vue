@@ -15,14 +15,18 @@
                     :hide-export="hideExport"
                     :addtitle="addtitle"
                     :showdelete="showdelete"
+                    :showlogout="showlogout"
+                    :showrefund="showrefund"
                     :showresetpwd="showresetpwd"
                     :showmRefill="showmRefill"
                     :hideOptions="hideOptions"
                     :showSuperimposed ="showSuperimposed"
                     :hideSearch="hideSearch"
-                    :showCustomizeEdit="showShopEdit"
-                    :showsetting="showsetting"
-                    
+                    :showShopEdit="showShopEdit"
+                    :showShopSetting="showsetting"
+
+                    v-on:showLogout="showLogout"
+                    v-on:showRefund="showRefund"
                     v-on:showrefill="showrefill"
                     v-on:showSetting="showSetting"
                     v-on:customizeadd="showadd"
@@ -190,7 +194,7 @@
         <el-dialog
                 :title="renewTitle"
                 :visible.sync="renewVisible"
-                width="30%"
+                width="35%"
                 size="tiny">
             <el-form label-width="150px" style="margin-bottom:-30px">
 
@@ -238,6 +242,84 @@
 				<el-button type="primary" @click="handledelete" size="small">确 定</el-button>
 			</span>
 
+        </el-dialog>
+
+
+        <!--销户提示框-->
+        <el-dialog
+                :title="logoutTitle"
+                :visible.sync="logoutTip"
+                size="tiny"
+                width="30%"
+                custom-class="deleteTip">
+            <div class="el-message-box__status el-icon-warning"></div>
+            <br/>
+            <div style="margin-left:50px;vertical-align:middle;" v-if="showShopDelete">完全删除该商户的所有信息，车场平台不可见该商户信息，确定删除吗？</div>
+            <div style="margin-left:50px;vertical-align:middle;" v-if="showShoplogOut">须先退款当前剩余额度，注销后该商户账号不可用，未使用的优惠券失效，确定销户吗？</div>
+            <span slot="footer" class="dialog-footer">
+				<el-button @click="logoutTip = false" size="small">取 消</el-button>
+				<el-button type="primary" :disabled="logoutDisabled" @click="logoutShop" size="small">确 定</el-button>
+			</span>
+
+        </el-dialog>
+
+        <!--销户或删除-->
+        <el-dialog
+                title="商户销户"
+                :visible.sync="logoutVisible"
+                width="30%"
+                size="tiny">
+            <el-form ref="logoutForm" label-width="120px" style="margin-bottom:-30px">
+                 <el-form-item label="销户">
+                    <el-select v-model="logoutState" filterable style="width:90%">
+                        <el-option
+                                v-for="item in logoutType"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="logoutVisible = false" size="small">取 消</el-button>
+                <el-button type="primary" size="small" @click="confirmLogout">确 定</el-button>
+            </span>
+        </el-dialog>
+
+
+          <!--退款-->
+         <el-dialog
+                title="商户退款"
+                :visible.sync="refundVisible"
+                width="35%"
+                size="tiny">
+            <el-form ref="logoutForm" label-width="120px" style="margin-bottom:-30px">
+                <el-form-item :label="discount_money_title" v-if="showTicketTime">
+                    <el-input v-model="ticket_val" style="width:70%"></el-input>
+                    <span>{{discount_money_body}}</span>
+                </el-form-item>
+                <el-form-item label="减免券(元):" v-if="showTicketMoney">
+                    <el-input v-model="ticket_val" style="width:70%"></el-input>
+                </el-form-item>
+                <el-form-item label="全免券(张):">
+                    <el-input v-model="ticketfree_limit" style="width:70%"></el-input>
+                    <span>(每张{{free_money}}元)</span>
+                </el-form-item>
+                <el-form-item label="合计金额(元):">
+                    <el-input v-model="totalMoney" :disabled="true" style="width:70%"></el-input>
+                </el-form-item>
+                <el-form-item label="当前折扣(%):">
+                    <el-input v-model="discount_percent" :disabled="true" style="width:70%"></el-input>
+                </el-form-item>
+                <el-form-item label="应退金额(元):">
+                    <el-input v-model="addmoney" :disabled="true" style="width:70%"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="refundVisible = false" size="small">取 消</el-button>
+                <el-button type="primary" size="small" @click="refundShop" :disabled="refundDisabled">确 定</el-button>
+            </span>
         </el-dialog>
 
         <!--添加商户-->
@@ -395,6 +477,16 @@
         },
         data() {
             return {
+                logoutDisabled:false,
+                refundDisabled:false,
+                logoutModel:{},
+                logoutVisible:false,
+                logoutTip:false,
+                logoutTitle:'',
+                refundVisible:false,
+                logoutState:0,
+                showShopDelete:false,
+                showShoplogOut:false,
                 renewDisabled:false,
             	showEmployeeEdit:false,
                 ticketfree_limit: 0,
@@ -470,6 +562,10 @@
                      {'value_name': '单次有效', 'value_no': 0},
                      {'value_name': '多次有效', 'value_no': 1}
                 ],
+                logoutType:[
+                    {'value_name': '删除商户', 'value_no': 0},
+                    {'value_name': '商户销户', 'value_no': 1}
+                ],
                 useFixCode:[
                      {'value_name': '不支持', 'value_no': 0},
                      {'value_name': '支持', 'value_no': 1}
@@ -513,6 +609,8 @@
                 tableheight: '',
                 hideOptions: false,
                 showdelete: false,
+                showlogout:false,
+                showrefund:false,
                 showShopEdit: false,
                 showmRefill: false,
                 showSuperimposed:true,
@@ -520,9 +618,11 @@
                 queryapi: '/shop/quickquery',
                 addapi: '/shop/create',
                 editapi: '/shop/create',
+                addmoneyapi:'/shop/addmoney',
                 delapi: '/shop/delete',
+                refundapi:'/shop/refund',
                 parkid: '',
-                btswidth: '180',
+                btswidth: '210',
                 fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__discount_percent__hand_input_enable__use_limit__free_limit_times__use_fix_code',
                 tableitems: [{
                     hasSubs: false, subs: [
@@ -929,6 +1029,53 @@
             closeTest:function(){
                 this.$refs['shopForm'].clearValidate()
             },
+            showLogout: function (row) {
+                this.logoutDisabled=false;
+                this.logoutModel=row;
+                this.logoutState=0;
+                this.logoutVisible = true;
+            },
+            showRefund: function (row) {
+                this.refundDisabled=false;
+                this.ticket_type = row.ticket_type;
+                if (row.ticket_type == 1) {
+                    //时长减免
+                    this.renewTitle = "减免券购买(时长)";
+                    this.showTicketTime = true;
+                    this.showTicketMoney = false;
+                } else {
+                    //金额减免
+                    this.renewTitle = "减免券购买(金额)";
+                    this.showTicketTime = false;
+                    this.showTicketMoney = true;
+                }
+                if (row.ticket_unit == 1) {
+                    this.discount_money_title = '减免分钟(分):'
+                    this.discount_money_body = "(每分钟" + row.discount_money + "元)"
+                } else if (row.ticket_unit == 2) {
+                    this.discount_money_title = '减免小时(时):'
+                    this.discount_money_body = "(每小时" + row.discount_money + "元)"
+                } else if (row.ticket_unit == 3) {
+                    this.discount_money_title = '减免天数(天):'
+                    this.discount_money_body = "(每天" + row.discount_money + "元)"
+                } else if (row.ticket_unit == 4) {
+                    //金额减免
+                    this.renewTitle = "减免券购买(金额)";
+                    this.showTicketTime = false;
+                    this.showTicketMoney = true;
+                }
+                this.free_money = row.free_money;
+                this.ticket_val = '';
+                this.ticketfree_limit = '';
+                this.free_money = row.free_money;
+                this.id = row.id;
+                this.ticket_money = row.ticket_money;
+                this.discount_percent = row.discount_percent;
+                this.discount_money = row.discount_money;
+                this.addMoney='';
+                this.totalMoney='';
+                this.refundVisible = true;
+            },
             showSetting: function (row) {
                 this.shop_id = row.id;
 
@@ -969,8 +1116,8 @@
                     this.showTicketMoney = true;
                 }
                 this.free_money = row.free_money;
-                this.ticket_val = 0;
-                this.ticketfree_limit = 0;
+                this.ticket_val = '';
+                this.ticketfree_limit = '';
                 this.free_money = row.free_money;
                 this.id = row.id;
                 this.ticket_money = row.ticket_money;
@@ -984,7 +1131,6 @@
             },
 
             renewSub() {
-                this.renewDisabled=true;
             	if(this.ticket_val%1 != 0 || this.ticketfree_limit%1 != 0||this.ticket_val<0||this.ticketfree_limit<0){
             		this.$message({
                                 message: '续费数据必须为正整数!',
@@ -993,8 +1139,9 @@
                             });
             		return;
             	}
+            	this.renewDisabled=true;
                 var vm = this;
-                var api = this.editapi;
+                var api = this.addmoneyapi;
                 var user = sessionStorage.getItem('user');
                 user = JSON.parse(user)
 
@@ -1012,7 +1159,12 @@
                     formObj.ticket_val = "";
                     formObj.ticket_money = this.ticket_val;
                 }
-                common.addMoney(formObj).then(function (ret) {
+                formObj = common.generateForm(formObj);
+                vm.$axios.post(path + api, vm.$qs.stringify(formObj), {
+                      headers: {
+                          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                      }
+                  }).then(function (ret) {
                     if (ret.data.validate != 'undefined' && ret.data.validate == '1') {
 
                         //过期.重新登录
@@ -1033,7 +1185,7 @@
                                 duration: 600,
                             });
                             vm.$refs.bolinkuniontable.getTableData({});
-
+                            vm.renewVisible=false;
                         } else {
                             //更新失败
                             vm.$message({
@@ -1042,10 +1194,15 @@
                                 duration: 600
                             });
                         }
-
-                        vm.renewVisible = false;
                     }
-                });
+                }).catch(function (error) {
+                    vm.$message({
+                        message: "发生异常！",
+                        type: 'error',
+                        duration: 1200
+                    });
+                   vm.renewDisabled = false;
+               });
 
             },
             resetPassword(row) {
@@ -1192,6 +1349,160 @@
                                 duration: 2000
                             });
                         }
+                    }
+                });
+            },
+            refundShop(){
+                if(this.ticket_val%1 != 0 || this.ticketfree_limit%1 != 0||this.ticket_val<0||this.ticketfree_limit<0){
+                    this.$message({
+                          message: '退款数据必须为正整数!',
+                          type: 'error',
+                          duration: 800,
+                    });
+                    return;
+                }
+                  this.refundDisabled=true;
+                  var vm = this;
+                  var api = this.refundapi;
+
+                  var formObj = {}
+                  formObj.shop_id = this.id;
+                  formObj.addmoney = this.addmoney;
+                  formObj.ticketfree_limit = this.ticketfree_limit;
+                  if (this.ticket_type == 1) {
+                      formObj.ticket_time = this.ticket_val;
+                      formObj.ticket_money = "";
+                  } else {
+                      formObj.ticket_val = "";
+                      formObj.ticket_money = this.ticket_val;
+                  }
+                  formObj = common.generateForm(formObj);
+                  //发送请求,删除id为row.id的数据
+                  vm.$axios.post(path + api, vm.$qs.stringify(formObj), {
+                      headers: {
+                          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                      }
+                  }).then(function (response) {
+                      let ret = response.data;
+                      if (ret.validate != 'undefined' && ret.validate == '1') {
+                          //过期.重新登录
+                          setTimeout(() => {
+                              vm.alertInfo('登录过期,请重新登录!');
+                          }, 100);
+                      } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                          //令牌无效.重新登录
+                          setTimeout(() => {
+                              vm.alertInfo('登录异常,请重新登录!');
+                          }, 100);
+                      } else {
+                          console.log(ret);
+                          if (ret > 0 || ret.state == 1) {
+                              // if (ret > 0) {
+                              //成功
+                              vm.$refs['bolinkuniontable'].getTableData({})
+                              vm.$message({
+                                  message: ret.msg,
+                                  type: 'success',
+                                  duration: 600
+                              });
+                              vm.refundVisible = false;
+                          } else {
+                              //更新失败
+                              vm.$message({
+                                  message: ret.msg,
+                                  type: 'error',
+                                  duration: 1200
+                              });
+                              vm.refundDisabled=false
+                          }
+                      }
+                  }).catch(function (error) {
+                        vm.$message({
+                            message: "发生异常！",
+                            type: 'error',
+                            duration: 1200
+                        });
+                    vm.refundDisabled = false;
+                 });
+              },
+            confirmLogout(){
+                if(this.logoutState==0){
+                    this.showShopDelete=true;
+                    this.showShoplogOut=false;
+                    this.logoutTitle="删除商户"
+                }else{
+                    this.showShopDelete=false;
+                    this.showShoplogOut=true;
+                    this.logoutTitle="商户销户"
+                };
+                this.logoutVisible = false;
+                this.logoutTip=true;
+            },
+            logoutShop(){
+                this.logoutDisabled=true;
+                let vm = this;
+                let api = this.delapi;
+                let dform = {'id': this.logoutModel.id, 'logoutState': this.logoutState};
+                dform = common.generateForm(dform);
+                //发送请求,删除id为row.id的数据
+                vm.$axios.post(path + api, vm.$qs.stringify(dform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
+                    if (ret.validate != 'undefined' && ret.validate == '1') {
+                        //过期.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 100);
+                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                        //令牌无效.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 100);
+                    } else {
+                        console.log(ret);
+                        if (ret > 0 || ret.state == 1) {
+                            // if (ret > 0) {
+                            //删除成功
+                            vm.$refs['bolinkuniontable'].getTableData({})
+                            vm.$message({
+                                message: ret.msg,
+                                type: 'success',
+                                duration: 600
+                            });
+                            //vm.logoutVisible = false;
+                            vm.logoutTip=false;
+                        } else {
+                            //更新失败
+                            vm.$message({
+                                message: ret.msg,
+                                type: 'error',
+                                duration: 1200
+                            });
+                            vm.logoutDisabled=false;
+                        }
+                    }
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
+            },
+            alertInfo(msg) {
+                this.$alert(msg, '提示', {
+                    confirmButtonText: '确定',
+                    type: 'warning',
+                    callback: action => {
+                        sessionStorage.removeItem('user');
+                        sessionStorage.removeItem('token');
+                        localStorage.removeItem('comid');
+                        localStorage.removeItem('groupid');
+                        if(this.$router){
+                          this.$router.push('/login');
+                        }
+
                     }
                 });
             },
@@ -1367,8 +1678,8 @@
                 this.showRegis = true
             },
             getAddMoney() {
-                this.totalMoney = 0;
-                this.addmoney = 0;
+                //this.totalMoney = 0;
+                //this.addmoney = 0;
                 var ticket_val = Number(this.ticket_val);
                 var ticketfree_limit = this.ticketfree_limit;
                 if (!isNaN(ticket_val)) {
@@ -1382,7 +1693,6 @@
                     this.totalMoney = ticketfree_limit * this.free_money + this.totalMoney;
                 }
                 this.addmoney = this.totalMoney * this.discount_percent / 100;
-
             }
         }
         ,
@@ -1400,9 +1710,11 @@
                     	this.showCustomizeAdd = common.showSubAdd(item.sub_auth)
                         this.showShopEdit = common.showSubEdit(item.sub_auth)
                         this.showsetting = common.showSetting(item.sub_auth)
-                        this.showdelete = common.showSubDel(item.sub_auth)
+                        //this.showdelete = common.showSubDel(item.sub_auth)
+                        this.showlogout = common.showSubDel(item.sub_auth)
+                        this.showrefund=common.showRefund(item.sub_auth)
                         this.showmRefill = common.showSubReFill(item.sub_auth)
-                        if(this.showShopEdit==false&&this.showsetting==false&&this.showdelete==false&&this.showmRefill==false){
+                        if(this.showShopEdit==false&&this.showsetting==false&&this.showlogout==false&&this.showmRefill==false&&this.showrefund==false){
                         	this.hideOptions=true;
                         }
                         break;

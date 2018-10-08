@@ -258,8 +258,10 @@
                             format:function (row) {
                                 if(row.operate_type==1){
                                 	return "续费"
-                                }else{
+                                }else if(row.operate_type==2){
                                 	return "回收充值";
+                                }else if(row.operate_type==3){
+                                    return "退款";
                                 }
                             }
                         }]

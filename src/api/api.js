@@ -19,7 +19,8 @@ export const percision = 5;
 export const operateType = [
     {'value_no': 0, 'value_name': '全部'},
     {'value_no': 1, 'value_name': '续费'},
-    {'value_no': 2, 'value_name': '回收充值'}
+    {'value_no': 2, 'value_name': '回收充值'},
+    {'value_no': 3, 'value_name': '退款'}
 ];
  export const stateType = [
      { 'value_name': '可用','value_no': '0'},
