@@ -510,6 +510,7 @@
                 // console.log(pwd)
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
+                        sessionStorage.clear();
                         this.logining = true;
                         var _this = this;
                         var loginParams = {'username': this.loginForm.username, 'password': pwd};
@@ -583,11 +584,10 @@
                                             }
                                         }
                                     }
-
                                     sessionStorage.setItem('showUnionItem', JSON.stringify(_this.showUnionItem));
                                     // console.log(_this.showUnionItem)
                                     if (_this.highlightindex == '') {
-                                        _this.$router.push({path: '/index'});
+                                        _this.$router.push({path: '/index_Union'});
                                     } else {
                                         // _this.highlightindex = '/data_Center';//先写死跳转到数据中心。后面权限加上了这句就注释掉
                                         _this.$router.push({path: _this.highlightindex});

@@ -374,6 +374,7 @@
                 formdata.fieldsstr = this.fieldsstr;
                 if (this.selParkId > 0) {
                     formdata.out_uid = this.selParkId;
+                    formdata.out_uid_start = this.selParkId;
                     formdata.comid = '';
                 }
                 if (isFirst !== 1) {

@@ -480,7 +480,7 @@
                                 label: '备注',
                                 prop: 'remark',
                                 width: '180',
-                                type: 'number',
+                                type: 'str',
                                 addable: true,
                                 editable: false,
                                 searchable: true,

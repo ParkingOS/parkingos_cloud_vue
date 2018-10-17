@@ -2010,7 +2010,7 @@
                 //if (this.currentdate == '') {
                 //    this.currentdate = common.currentFormatDate();
                 //}
-                let form = {'date': this.currentdate, 'out_uid': val};
+                let form = {'date': this.currentdate, 'out_uid': '3','out_uid_start':val};
                 this.currentPage = 1;
                 this.getTableData(form);
             },

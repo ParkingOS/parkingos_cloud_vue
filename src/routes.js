@@ -446,8 +446,17 @@ let routes = [
         children: [
             {path: '/index', component: index, name: '空页面'}
         ]
-    }
+    },
 
+    {
+        path: '/',
+        component: HomeCloud_Union,
+        // name: 'home',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/index_Union', component: index, name: '空页面'}
+        ]
+    }
 ];
 
 export default routes;

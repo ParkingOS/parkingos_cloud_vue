@@ -68,29 +68,24 @@
                                 <span style="flex: 1;text-align: center;">时间</span>
                                 <span style="flex: 2;text-align: center;">车牌号</span></div>
                             <div v-if="inPartData.length == 0" class="notdata" style="line-height: 150px">暂无数据</div>
-                            <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxInCarHeight + 'px' }" >
 
-                                <div  v-bind:class="[scrollBoxInCar ? 'rowup' : '', 'box']" >
+
+                            <div  v-bind:class="[scrollBoxInCar ? '' : '', 'box']" >
+                              <vue-seamless-scroll :data="inPartData" class="seamless-warp" v-bind:style="{ overflow: 'hidden',height:scrollBoxInCarHeight + 'px' }">
                                   <ul class="con1 conE" >
-                                      <li v-for='(item,index) in inPartData'>
+                                      <li  v-for='(item,index) in inPartData' :key="index">
                                           <div :style="styledouble">
-                                              <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
-                                              <span style="flex: 1;text-align: center;">{{item.time}}</span>
-                                              <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
+                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.parkName}}</span>
+                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
+                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.cartId}}</span>
                                           </div>
                                       </li>
                                   </ul>
-                                  <ul class="con1 conE" >
-                                      <li v-for='(item,index) in inPartData'>
-                                          <div :style="styledouble">
-                                              <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
-                                              <span style="flex: 1;text-align: center;">{{item.time}}</span>
-                                              <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
-                                          </div>
-                                      </li>
-                                  </ul>
-                              </div>
+                              </vue-seamless-scroll>
                             </div>
+
+
+
                         </div>
                     </div>
                     <div class="data-box cart-box" style="background-color: white;" >
@@ -103,27 +98,23 @@
                             </div>
                             <div v-if="outPartData.length == 0" class="notdata" style="line-height: 150px">暂无数据</div>
                             <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxOutCarHeight + 'px' }" >
-                            <div  v-bind:class="[scrollBoxOutCar ? 'rowup' : '', 'box']"  >
-                                <ul class="con1 conE" >
-                                    <li v-for='(item,index) in outPartData'>
-                                        <div :style="styledouble">
-                                            <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
-                                            <span style="flex: 1;text-align: center;">{{item.time}}</span>
-                                            <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
-                                        </div>
-                                        <!--<div style="background-color: #EBEEF5;height: 1px;"></div>-->
-                                    </li>
-                                </ul>
-                                <ul class="con1 conE"  >
-                                    <li v-for='(item,index) in outPartData'>
-                                        <div :style="styledouble">
-                                            <span style="flex: 2;text-align: center;">{{item.parkName}}</span>
-                                            <span style="flex: 1;text-align: center;">{{item.time}}</span>
-                                            <span style="flex: 2;text-align: center;">{{item.cartId}}</span>
-                                        </div>
-                                    </li>
-                                </ul>
+
+
+                            <div  v-bind:class="[scrollBoxOutCar ? '' : '', 'box']"  >
+                                <vue-seamless-scroll :data="outPartData" class="seamless-warp" v-bind:style="{ overflow: 'hidden',height:scrollBoxOutCarHeight + 'px' }">
+                                    <ul class="con1 conE" >
+                                        <li  v-for='(item,index) in outPartData' :key="index">
+                                            <div :style="styledouble">
+                                                <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.parkName}}</span>
+                                                <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
+                                                <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.cartId}}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </vue-seamless-scroll>
                             </div>
+
+
                           </div>
                         </div>
                     </div>
@@ -182,31 +173,26 @@
                                 <span style="flex: 2;text-align: center;">原因</span>
                             </div>
 
-                            <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxExceptionHeight + 'px' }" >
-                              <div  v-bind:class="[scrollBoxException ? 'rowup' : '', 'box']"  >
-                                  <ul class="con1 conE" >
-                                      <li v-for='(item,index) in exceptionDataPole'>
-                                          <div :style="styledouble">
-                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
-                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.passid}}</span>
-                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.uin}}</span>
-                                              <span style="flex: 2;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.reason}}</span>
+                              <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxExceptionHeight + 'px' }" >
+                                  <div  v-bind:class="[scrollBoxException ? 'animation' : '', 'box']"  >
 
-                                          </div>
-                                      </li>
-                                  </ul>
-                                  <ul class="con1 conE" >
-                                      <li v-for='(item,index) in exceptionDataPole'>
-                                          <div :style="styledouble">
-                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
-                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.passid}}</span>
-                                              <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.uin}}</span>
-                                              <span style="flex: 2;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.reason}}</span>
-
-                                          </div>
-                                      </li>
-                                  </ul>
+                                      <vue-seamless-scroll :data="exceptionDataPole" class="seamless-warp" v-bind:style="{ overflow: 'hidden',height:scrollBoxExceptionHeight + 'px' }">
+                                          <ul class="con1 conE" >
+                                              <li  v-for='(item,index) in exceptionDataPole' :key="index">
+                                                  <div :style="styledouble">
+                                                      <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
+                                                      <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.passid}}</span>
+                                                      <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.uin}}</span>
+                                                      <span style="flex: 2;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.reason}}</span>
+                                                  </div>
+                                              </li>
+                                          </ul>
+                                      </vue-seamless-scroll>
+                                  </div>
                               </div>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -226,10 +212,11 @@
     import NumberRoller from '../../components/NumberRoller';
     import '../../common/css/datacenter.css';
     import axios from 'axios';
+    import vueSeamlessScroll from 'vue-seamless-scroll'
 
     export default {
         components: {
-            NumberRoller
+            NumberRoller,vueSeamlessScroll
         },
         data() {
             return {
@@ -474,6 +461,15 @@
                     yAxis: {
                         axisLine: {
                             show: false
+                        },
+                        axisLabel:{
+                            formatter: function (value) {
+                                if(value.length >= 5){
+                                    return value.substring(0,5)
+                                }else{
+                                    return value;
+                                }
+                            }
                         },
                         position: 'right',
                         type: 'category',

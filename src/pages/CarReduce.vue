@@ -3,26 +3,61 @@
 
     <el-row class="align-center" style="margin-left: 28%;">
             <span style="font-size:20px">车牌减免</span>
-        </el-row>
-        </br></br></br>
-            <div style="margin-left:39%" >
-                <el-form :model="carNumReduce" ref="carNumReduce" :rules="carNumberRules">
-                    <el-form-item prop="reduce">
-                          <el-input v-model="carNumReduce.reduce" style="width:35%;margin-bottom:5px;" placeholder="输入减免额度" :readonly="readonly"></el-input>
-                          <div style="width:35%">
-                             <el-button v-for='item in buttons' @click="selectButton(item)" type="primary" plain size="mini" class="button_self">{{item}}</el-button>
-                          </div>
-                    </el-form-item>
-                    <el-form-item prop="car_number">
-                        <el-input v-model="carNumReduce.car_number" v-on:input ="changeCarNumber"  style="width:35%" placeholder="输入车牌号"></el-input>
-                    </el-form-item>
-                    <el-form-item class="right">
-                        <el-button @click="useTicketByCarNumber" type="primary" :loading="loading" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
-                    </el-form-item>
+    </el-row>
+    </br></br></br>
+    <div style="margin-left:39%" >
+        <el-form :model="carNumReduce" ref="carNumReduce" :rules="carNumberRules">
+            <el-form-item prop="reduce">
+                  <el-input v-model="carNumReduce.reduce" style="width:35%;margin-bottom:5px;" placeholder="输入减免额度" :readonly="readonly"></el-input>
+                  <div style="width:35%">
+                     <el-button v-for='item in buttons' @click="selectButton(item)" type="primary" plain size="mini" class="button_self">{{item}}</el-button>
+                  </div>
+            </el-form-item>
+            <el-form-item prop="car_number">
+                <el-input v-model="carNumReduce.car_number" v-on:input ="changeCarNumber"  style="width:35%" placeholder="输入车牌号"></el-input>
+            </el-form-item>
+            <el-form-item class="right">
+                <el-button @click="getOrderDetail"  size ="small" style="height: 38.5px;margin-top: -2px;">订 单</el-button>
+                <el-button @click="useTicketByCarNumber" type="primary" :loading="loading" size ="small" style="height: 38.5px;margin-top: -2px;">确 定</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
 
-                </el-form>
-            </div>
 
+    <el-dialog
+        title="当前订单"
+        :visible.sync="orderDetailModel"
+        width="35%"
+        center>
+        <div>
+             	<div class="header_detail">
+                    <div class="public_detail pay-wrapper">
+                        <p class="title_detail">停车费用</p>
+                        <p class="content">{{money}}元</p>
+                    </div>
+                    <div class="public_detail car-number">
+                        <p class="title_detail">车牌号码</p>
+                        <p class="content" id="carnumber">{{car_number}}</p>
+                    </div>
+                </div>
+        </div>
+
+        <div v-if="showDetail" class="park-wrapper">
+            <ul class="park-list">
+                <li id="stopposition">停车位置: <span>{{park_name}}{{separate}}{{stop_position}}</span></li>
+                <li id = "prepaytime_title">进场时间: <span>{{in_time}}</span></li>
+                <li id ="totalmoney">减免金额:<span class="m-color">{{derate_money}}元</span></li>
+                <li id ="derateduration">减免时长:<span>{{derate_duration}}</span></li>
+                <li id="prepayed">已付金额:<span>{{prepay}}元</span></li>
+            </ul>
+        </div>
+        <div v-if="!showDetail" class="errmsg-self">
+            {{errmsg}}
+        </div>
+        <div>
+            <el-button type="primary" @click="orderDetailModel=false" style="width:80%;margin-left:10%">确定</el-button>
+        </div>
+    </el-dialog>
 
   </section>
 
@@ -39,6 +74,19 @@ export default {
   },
   data(){
     return{
+      separate:'',
+      stop_position:'',
+      derate_duration:'--',
+      derate_money:'--',
+      prepay:'--',
+      money:'--',
+      car_number:'--',
+      in_time:'--',
+      park_name:'--',
+      duration:'--',
+      errmsg:'查询失败',
+      showDetail:true,
+      orderDetailModel:false,
       buttons:[1,2,3,4,4,5,611,44,"全免",666],
       loading: false,
       infoloading: false,
@@ -409,11 +457,108 @@ export default {
 
     },
 
+    getOrderDetail(){
+         let vm = this;
+         vm.separate=''
+         vm.stop_position=''
+         vm.derate_duration='--'
+         vm.derate_money='--'
+         vm.prepay='--'
+         vm.money='--'
+         vm.car_number='--'
+         vm.in_time='--'
+         vm.park_name='--'
+         vm.duration='--'
+         vm.$refs.carNumReduce.validate((valid) => {
+            if (valid) {
+
+                if(vm.carNumReduce.car_number.length<6){
+                    vm.$message({
+                        message: "请输入正确的车牌号",
+                        type: 'error',
+                        duration: 1200
+                    });
+                    return;
+                }
+                if(vm.carNumReduce.reduce.trim()==""){
+                     vm.$message({
+                        message: "请输入正确的减免额度",
+                        type: 'error',
+                        duration: 1200
+                    });
+                    return;
+                }
+
+                vm.$axios.post(server+"/zld/shopticket?action=getorderdetail&comid="+sessionStorage.getItem('comid')+"&car_number="+encodeURI(encodeURI(vm.carNumReduce.car_number))+"&reduce="+vm.carNumReduce.reduce,{
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function (response) {
+                        let ret = response.data;
+                        if(ret.state==1||ret.state==2){
+                            vm.orderDetailModel=true;
+                            vm.showDetail=true;
+                            vm.money=ret.money;
+                            vm.car_number=ret.plate_number
+                            vm.in_time=ret.start_time
+                            vm.park_name=ret.park_name
+                            vm.duration=ret.duration
+                            if(ret.position&&ret.park_name){
+                                vm.separate='-';
+                            }
+                            if(ret.position){
+                                vm.stop_position=ret.position;
+                            }
+                            if(ret.derate_money){
+                                vm.derate_money=ret.derate_money;
+                            }
+                            if(ret.prepay){
+                                vm.prepay=ret.prepay;
+                            }
+                            if(ret.derate_duration){
+                                vm.derate_duration=ret.derate_duration;
+                            }
+                        }else if(ret.state==0||ret.state==3){
+                            vm.orderDetailModel=true;
+                            vm.showDetail=false;
+                            if(ret.errmsg){
+                                vm.errmsg = ret.errmsg
+                            }
+                            if(ret.plate_number){
+                                vm.car_number = ret.plate_number
+                            }
+                        }else{
+                            vm.$message({
+                                message: ret.error,
+                                type: 'error',
+                                duration: 1200
+                            });
+                     }
+                    });
+            }
+        });
+    },
+
     useTicketByCarNumber(){
     let vm = this;
-
      vm.$refs.carNumReduce.validate((valid) => {
         if (valid) {
+            if(vm.carNumReduce.car_number.length<6){
+                    vm.$message({
+                        message: "请输入正确的车牌号",
+                        type: 'error',
+                        duration: 1200
+                    });
+                    return;
+                }
+                 if(vm.carNumReduce.reduce.trim()==""){
+                      vm.$message({
+                         message: "请输入正确的减免额度",
+                         type: 'error',
+                         duration: 1200
+                     });
+                     return;
+                 }
             vm.loading = true;
             vm.$axios.post(server+"/zld/shopticket?action=noscan&shop_id="+sessionStorage.getItem('shopid')+"&uin="+sessionStorage.getItem('loginuin')+"&car_number="+encodeURI(encodeURI(vm.carNumReduce.car_number))+"&type="+vm.type+"&reduce="+vm.carNumReduce.reduce,{
                     headers: {
@@ -592,6 +737,12 @@ export default {
     closeFreeCode(){
         //this.freeCodeReduce.reduce=''
         this.freeCodeReduce.isauto=false
+    },
+    alertInfo(msg) {
+        this.$alert(msg, '提示', {
+            confirmButtonText: '确定',
+            type: 'warning',
+        });
     }
   },
   activated(){
@@ -616,6 +767,69 @@ export default {
 </script>
 
 <style>
+    .park-list{
+        list-style:none
+    }
+    .park-list li{
+    	margin: 2px;
+    	padding: 0;
+    	font-size: 18px;
+    	color: #888;
+    	height:30px;
+    	line-height:30px;
+    	text-align: left;
+    }
+    .park-list li span{
+    	float: right;
+    	display: inline-block;
+    	width: calc(100% - 160px);
+    	height: 30px;
+    	line-height: 30px;
+    	text-align: right;
+    	font-size: 16px;
+    	color: #333;
+    	overflow: hidden;
+    	text-overflow:ellipsis;
+    	white-space: nowrap;
+    }
+    .park-list li span.m-color{
+    	color: #F25467;
+    }
+    .park-wrapper{
+    	margin: 0 0.4rem;
+    }
+    .header_detail{
+    	position: relative;
+    	display: flex;
+    	text-align: center;
+    	padding: 0.4rem 0.4rem 0.58rem 0.4rem;
+    }
+    .pay-wrapper{
+    	box-sizing: border-box;
+    	border-right: 1px dashed rgba(83,223,81,1);
+    }
+    .public_detail{
+    	flex: 1;
+    }
+    .title_detail{
+    	font-size: 1.4rem;
+    	font-weight: 500;
+    	color: rgba(102,102,102,1);
+    	padding: 0;
+    	margin: 0;
+    	margin-bottom: 0.32rem;
+    }
+    .content{
+    	font-size: 1.06rem;
+    	font-weight: bold;
+    	color: rgba(25,173,23,1);
+    	line-height: 100%;
+    	letter-spacing:2px;
+    	margin-top: 12px;
+    }
+    .errmsg-self{
+        text-align:center;color:red;font-size:18px;margin-top:30px;margin-bottom:30px
+    }
   .parkstatus{
     margin-top:5px
   }
@@ -623,7 +837,7 @@ export default {
     font-weight:bold;margin-left:10px;color:#9B9EA0
   }
   .right{
-    margin-left:27%;
+    margin-left:16.5% !important;
   }
   @media screen and (max-width:1920px){
    .button_self{

@@ -791,7 +791,7 @@
                         action: 'getConfirmOrder',
                         event_id:encodeURI(row.event_id) ,
                         car_number:encodeURI(row.car_number),
-                        comid:sessionStorage.getItem('comid'),
+                        comid:encodeURI(row.comid),
                         groupid:sessionStorage.getItem('groupid')
                     },
                 }),axios.get(path+'/centermonitor/matchconfirmorder',{
@@ -800,7 +800,7 @@
                         action: 'matchConfirmOrder',
                         event_id:encodeURI(row.event_id),
                         car_number:encodeURI(row.car_number),
-                        comid:sessionStorage.getItem('comid'),
+                        comid:encodeURI(row.comid),
                         groupid:sessionStorage.getItem('groupid')
                     },
                 })])

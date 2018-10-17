@@ -149,7 +149,7 @@
                         <!--<el-menu-item index="centerMonitor"-->
                                       <!--v-if="this.showUnionItem.centerMonitor">中央监控-->
                         <!--</el-menu-item>-->
-                        <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor">中央监控
+                        <el-menu-item index="/monitorApp" v-if="this.showUnionItem.centerMonitor">中央监控
                         </el-menu-item>
                     </el-submenu>
 
@@ -206,7 +206,7 @@
                 },
                 secureVisible: false,
                 //根据权限控制页面是否显示
-                showParkItem: sessionStorage.getItem('showParkItem') == null ? showParkItem_const : JSON.parse(sessionStorage.getItem('showParkItem')),
+                //showParkItem: sessionStorage.getItem('showParkItem') == null ? showParkItem_const : JSON.parse(sessionStorage.getItem('showParkItem')),
                 showUnionItem: sessionStorage.getItem('showUnionItem') == null ? showUnionItem_const : JSON.parse(sessionStorage.getItem('showUnionItem')),
                 expandindex: '',   //'/order',//展开的sub_menu
                 highlightindex: sessionStorage.getItem('highlightindex')//'/orderManage_Poles',//高亮的item

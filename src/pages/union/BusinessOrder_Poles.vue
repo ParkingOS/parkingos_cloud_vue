@@ -201,7 +201,7 @@
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + row.liftrod_id + '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + encodeURI(encodeURI(row.liftrod_id)) + '&id=' + row.id + '&comid=' + row.comid + '&token=' + sessionStorage.getItem('token');
                 console.log(this.imgdialog_url);
                 this.imgDialog = true
             }

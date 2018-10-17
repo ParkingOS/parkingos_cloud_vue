@@ -322,7 +322,7 @@
         },
         methods: {
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&id=' + row.id + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&id=' + row.id + '&comid=' + row.comid + '&token=' + sessionStorage.getItem('token');
                 console.log(this.imgdialog_url);
 
                 let _this = this;

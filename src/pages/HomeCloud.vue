@@ -199,13 +199,13 @@
                         </el-menu-item>
 
                     </el-submenu>
-                    <el-submenu v-if="this.showParkItem.centerMonitor" index="centerMonitor"
+                    <el-submenu v-if="this.showParkItem.centerMonitor||this.showUnionItem.centerMonitor" index="centerMonitor"
                                 style="font-weight: normal">
                         <template slot="title"><i class="menu-icon icon iconfont icon-monitor"></i><span
                                 class="menuitem">中央监控</span></template>
                         <!--<el-menu-item index="centerMonitor" v-if="this.showParkItem.centerMonitor">中央监控-->
                         <!--</el-menu-item>-->
-                        <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor">中央监控
+                        <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor||this.showUnionItem.centerMonitor">中央监控
                         </el-menu-item>
                     </el-submenu>
 

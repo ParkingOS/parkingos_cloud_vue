@@ -14,7 +14,11 @@ import './styles/element-variables.scss'; // global css
 import './styles/index.scss'; // global css
 import './common/js/const.js';
 import "babel-polyfill"
-import QRCode from 'qrcode'
+import QRCode from 'qrcode';
+
+import scroll from 'vue-seamless-scroll';
+
+Vue.use(scroll)
 
 Vue.use(QRCode)
 
