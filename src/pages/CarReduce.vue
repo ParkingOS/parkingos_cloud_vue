@@ -522,7 +522,13 @@ export default {
                             vm.orderDetailModel=true;
                             vm.showDetail=false;
                             if(ret.errmsg){
-                                vm.errmsg = ret.errmsg
+                                console.log(ret.errmsg)
+                                console.log(ret.errmsg.indexOf('<br/>')>-1);
+                                if(ret.errmsg.indexOf('<br/>')>-1){
+                                    vm.errmsg = ret.errmsg.replace('<br/>',',');
+                                }else{
+                                    vm.errmsg = ret.errmsg
+                                }
                             }
                             if(ret.plate_number){
                                 vm.car_number = ret.plate_number
