@@ -36,14 +36,6 @@
                 <div style="flex: 2;margin: 0 10px 10px 10px;overflow-y: auto;background-color: white;">
                     <div class="data-box" style="margin-top: 0px;">
 
-                        <!--<div class="body">-->
-                            <!--<div class="item-list">-->
-                                <!--<div class="bar-item" v-for='item in parkState'>-->
-                                    <!--<div :class="item.state===0?'bar bar-red':'bar bar-green'"></div>-->
-                                    <!--<div class="bar-text">{{item.localid}}</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
                         <div class="body">
                             <div v-if="parkState.length == 0 " class="notdata" style="line-height: 130px">暂无数据</div>
                             <div class="item-list">

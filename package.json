@@ -18,6 +18,8 @@
     "qs": "^6.0.2",
     "vue": "^2.5.2",
     "vue-baidu-map": "^0.7.0",
+    "vue-count-to": "^1.0.13",
+    "vue-seamless-scroll": "^1.1.16",
     "vue-template-compiler": "^2.4.2",
     "vue-video-player": "^5.0.2"
   },
