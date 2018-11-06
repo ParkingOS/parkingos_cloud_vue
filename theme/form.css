@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -296,7 +294,7 @@
     vertical-align: middle;
     float: left;
     font-size: 14px;
-    color: #606266;
+    color: #333;
     line-height: 40px;
     padding: 0 12px 0 0;
     -webkit-box-sizing: border-box;
@@ -311,6 +309,8 @@
       content: ""; }
     .el-form-item__content::after {
       clear: both; }
+    .el-form-item__content .el-input-group {
+      vertical-align: middle; }
   .el-form-item__error {
     color: #f56c6c;
     font-size: 12px;
@@ -325,7 +325,7 @@
       left: auto;
       display: inline-block;
       margin-left: 10px; }
-  .el-form-item.is-required .el-form-item__label:before {
+  .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
     content: '*';
     color: #f56c6c;
     margin-right: 4px; }

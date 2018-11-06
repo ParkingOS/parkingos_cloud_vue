@@ -1,41 +1,87 @@
 <template>
-    <section>
-        <common-table
-                :queryapi="queryapi"
-                :exportapi="exportapi"
-                :tableheight="tableheight"
-                :fieldsstr="fieldsstr"
-                :tableitems="tableitems"
-                :btswidth="btswidth"
-                :hide-export="hideExport"
-                :hide-options="hideOptions"
-                :searchtitle="searchtitle"
-
-                :orderfield="orderfield"
-                :hideTool="hideTool"
-                :showParkInfo="showParkInfo"
-                :hideSearch="hideSearch"
-                :hideAdd="hideAdd"
-                :showImgSee="showImg"
-                v-on:showImg_Order="showImgDialog"
-                :imgapi="imgapi"
-                ref="bolinkuniontable"
-        ></common-table>
-        <el-dialog title="车辆图片" :visible.sync="imgDialog" width="40%">
-            <!--<img v-bind:src="imgdialog_url" width="600px" height="450px"/>-->
-            <!--<img src="https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg"/>-->
-            <p>入场图片</p>
-            <div v-for="img in img_in">
-                <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
+    <section class="right-wrapper-size" id="scrollBarDom">
+            <header class="custom-header">
+                订单管理-订单记录
+            </header>
+            <div class="workbench-wrapper">
+                <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
+                    <el-form-item label="" class="clear-style margin-left-clear">
+                        <el-radio-group v-model="searchFormData.orderfield" size="mini">
+                            <el-radio-button label="create_time">按入场时间</el-radio-button>
+                            <el-radio-button label="end_time">按出场时间</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item class="clear-style">
+                        <el-date-picker
+                                style="width: 370px"
+                                size="mini"
+                                v-model="searchFormData.currentData"
+                                type="datetimerange"
+                                range-separator="-"
+                                :default-time="['00:00:00','23:59:59']"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                value-format="timestamp"
+                                @change="changeDateFormat"
+                        >
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="车牌号" class="clear-style">
+                        <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" size="mini" style="width: 140px"></el-input>
+                    </el-form-item>
+                    <el-form-item class="clear-style">
+                        <el-button type="primary" size="mini" @click="searchFn" native-type="button">搜索</el-button>
+                        <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px;"></i> 更多选项</el-button>
+                    </el-form-item>
+                    <el-form-item class="clear-style float-right">
+                        <el-button size="mini" @click="exportFn" native-type="button">导出</el-button>
+                        <el-button size="mini" @click="resetForm" native-type="button">刷新</el-button>
+                    </el-form-item>
+                    <div class="second-search-item-style" v-show="isShow">
+                        <el-form-item label="订单状态" class="clear-style">
+                            <el-select v-model="searchFormData.state" placeholder="请选择" size="mini">
+                                <el-option
+                                        v-for="item in orderStateType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="支付方式" class="clear-style margin-left-20">
+                            <el-select v-model="searchFormData.pay_type" placeholder="请选择" size="mini">
+                                <el-option
+                                        v-for="item in orderPayType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="实收金额" class="clear-style margin-left-20">
+                            <el-input size="mini" v-model="searchFormData.total_start"
+                                      style="width: 80px;"></el-input>
+                            <span style="margin-top: 10px;"> - </span>
+                            <el-input size="mini" v-model="searchFormData.total_end"
+                                      style="width: 80px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-form>
             </div>
-            <p>出场图片</p>
-            <div v-for="img in img_out">
-                <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
+            <div class="table-wrapper-style">
+                <tab-pane
+                        :queryapi="queryapi"
+                        :exportapi="exportapi"
+                        :fieldsstr="fieldsstr"
+                        :format-collectors="collectors"
+                        :table-items="tableitems"
+                        align-pos="right"
+                        bts-width="200"
+                        :searchForm="searchForm"
+                        fixedDom="scrollBarDom"
+                        ref="tabPane"
+                ></tab-pane>
             </div>
-            <span slot="footer" class="dialog-footer">
-				<el-button @click="imgDialog = false" size="small">确 认</el-button>
-			</span>
-        </el-dialog>
     </section>
 </template>
 
@@ -45,34 +91,47 @@
     import util from '../../common/js/util';
     import common from '../../common/js/common';
     import {AUTH_ID} from '../../common/js/const';
-    import CommonTable from '../../components/CommonTable';
+    import TabPane from '../../components/table/TabPane';
     import axios from 'axios';
-
+    import ElButton from 'element-ui/packages/button/src/button';
     export default {
         components: {
-            CommonTable
+            ElButton,
+            TabPane
         },
         data() {
             return {
-                currentScrollHeight:0,
-                loading: false,
-                hideExport: false,
-                hideSearch: false,
-                orderfield:'create_time',
-                hideAdd: true,
-                tableheight: '',
-                showdelete: true,
-                hideOptions: true,
-                showParkInfo: true,
-                hideTool: false,
-                showImg: true,
-                imgSize: 450,
+                isShow:false,
+                currentHeight:'500',
                 queryapi: '/order/query',
                 exportapi: '/order/exportExcel',
                 imgapi: '/order/getOrderPicture',
-                btswidth: '100',
                 fieldsstr: 'id__c_type__car_number__car_type__create_time__end_time__duration__pay_type__freereasons__amount_receivable__total__electronic_prepay__cash_prepay__electronic_pay__cash_pay__reduce_amount__uid__out_uid__state__url__in_passid__out_passid__order_id_local',
+                searchFormData:{
+                    orderfield:'create_time',
+                    currentData:'',
+                    create_time:'between',
+                    create_time_start:'',
+                    create_time_end:'',
+                    car_number:'',
+                    state:'',
+                    state_start:'',
+                    pay_type:'',
+                    pay_type_start:'-1',
+                    total_start:'',
+                    total_end:''
+                },
                 tableitems: [
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '',
+                            nameType:'order-manage',
+                            columnType:'expand',
+                            align: 'center',
+                            width:'50',
+                        }]
+                    },
                     {
                         hasSubs: false,
                         subs: [{
@@ -84,20 +143,17 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            hidden:true,
                         }]
                     },
                     {
-
                         hasSubs: false,
                         subs: [{
                             label: '编号',
                             prop: 'id',
-                            width: '123',
                             type: 'number',
-
                             searchable: true,
-                            hidden:true,
                             unsortable: true,
                             align: 'center'
                         }]
@@ -111,7 +167,6 @@
                             type: 'str',
                             hidden:true,
                             searchable: true,
-
                             unsortable: true,
                             align: 'center'
                         }]
@@ -121,11 +176,9 @@
                             {
                                 label: '车牌号码',
                                 prop: 'car_number',
-                                width: '123',
+
                                 type: 'str',
-
                                 searchable: true,
-
                                 unsortable: true,
                                 align: 'center'
                             }
@@ -165,7 +218,6 @@
                         subs: [{
                             label: '订单状态',
                             prop: 'state',
-                            width: '100',
                             type: 'selection',
                             selectlist: orderStateType,
                             editable: true,
@@ -173,8 +225,11 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format: function (row) {
-                                return common.nameformat(row, orderStateType, 'state');
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.nameformat(params.row, orderStateType, 'state'))
+                                ]);
                             }
                         }]
                     }, {
@@ -183,7 +238,6 @@
                         subs: [{
                             label: '支付方式',
                             prop: 'pay_type',
-                            width: '100',
                             type: 'selection',
                             selectlist: orderPayType,
                             editable: true,
@@ -191,8 +245,11 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format: function (row) {
-                                return common.nameformat(row, orderPayType, 'pay_type');
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.nameformat(params.row, orderPayType, 'pay_type'))
+                                ]);
                             }
                         }]
                     }, {
@@ -212,6 +269,12 @@
                             format: function (row) {
                                 let pass = row.freereasons;
                                 return pass == '' || pass == undefined ? '无' : pass;
+                            },
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', (params.row.freereasons == '' || params.row.freereasons == undefined) ? '无' :params.row.freereasons)
+                                ]);
                             }
                         }]
                     }, {
@@ -250,16 +313,17 @@
                         subs: [{
                             label: '入场时间',
                             prop: 'create_time',
-                            width: '180',
+                            unsortable: true,
                             type: 'date',
                             editable: true,
                             searchable: true,
                             addable: true,
-
-                            unsortable: false,
                             align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.create_time);
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.create_time))
+                                ]);
                             }
                         }]
                     },  {
@@ -268,16 +332,17 @@
                         subs: [{
                             label: '出场时间',
                             prop: 'end_time',
-                            width: '180',
                             type: 'date',
-
                             editable: true,
                             searchable: true,
                             addable: true,
-                            unsortable: false,
+                            unsortable: true,
                             align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.end_time);
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.end_time))
+                                ]);
                             }
                         }]
                     },{
@@ -369,11 +434,18 @@
                             addable: true,
                             unsortable: true,
                             hidden:true,
+                            render:true,
                             align: 'center',
-                            format: (row) => {
-                                // let uidstr = common.nameformat(row,this.collectors,'uid')
-                                // return uidstr==''||uidstr==undefined?(row.uid==-1?'无':row.uid):uidstr
-                                return common.nameformat(row, this.collectors, 'uid');
+                            // format: (row) => {
+                            //     // let uidstr = common.nameformat(row,this.collectors,'uid')
+                            //     // return uidstr==''||uidstr==undefined?(row.uid==-1?'无':row.uid):uidstr
+                            //     return common.nameformat(row, this.collectors, 'uid');
+                            // },
+                            columnType:'expand',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.nameformat(params.row, this.collectors, 'uid'))
+                                ]);
                             }
                         }]
                     }, {
@@ -448,87 +520,137 @@
                                 return pass == '' || pass == undefined ? '无' : pass;
                             }
                         }]
-                    }
+                    },
+                    {
+                        hasSubs:false,
+                        subs: [{
+                            label: '操作',
+                            columnType:'render',
+                            align: 'center',
+                            fixed:'right',
+                            width:'80',
+                            unsortable: true,
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.handleShowOrderDetail(params.index,params.row)
+                                            }
+                                        }
+                                    }, '详情')
+                                ]);
+                            }
+                        }]
+                    },
 
                 ],
-                searchtitle: '高级查询',
-                imgDialog: false,
-                imgdialog_url: '',
-                img_in: [],
-                img_out: [],
-                imgpath: '',
-                collectors: ''
+                collectors:undefined,
+                orderStateType:orderStateType,
+                orderPayType:orderPayType,
+                searchForm:{}
             };
         },
         methods: {
-            showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
-                console.log(this.imgdialog_url);
+            //查看详情
+            handleShowOrderDetail(index, row) {
+                // let container = this.$el.querySelector('.el-table__body-wrapper');
+                // this.getScrollHeight = container.scrollTop;
+                //跳转到订单详情
+                this.$router.push({path: '/orderManage_OrderDetail', query: {index: index, row: row}});
+                sessionStorage.setItem('orderRow',JSON.stringify(row));
+            },
+            resetForm(){
+                this.initFn(this)
+            },
+            exportFn(){
+                /*
+                * 导出数据，通过ref 进行定位拉取
+                * */
+                this.$refs['tabPane'].handleExport()
+            },
+            initFn(that){
+                /*
+                * 初始化操作
+                * 点击刷新时 和初进入页面时
+                * */
+                that.searchFormData ={
+                        orderfield:'create_time',
+                        currentData:'',
+                        create_time:'between',
+                        create_time_start:'',
+                        create_time_end:'',
+                        car_number:'',
+                        state:'',
+                        state_start:'',
+                        pay_type:'',
+                        pay_type_start:'-1',
+                        total_start:'',
+                        total_end:''
+                };
+                let currentTime =  common.currentDateArray(3);
+                that.searchFormData.currentData = [new Date(currentTime[0]),new Date(currentTime[1])];
+                that.searchFormData.create_time_start = common.timestampFormat(currentTime[0]);
+                that.searchFormData.create_time_end = common.timestampFormat(currentTime[1]);
+                that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
+            },
+            searchFn() {
+                /*
+                * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
+                * */
+                let sform = this.searchFormData;
+                sform.state_start = sform.state;
+                sform.pay_type_start = sform.pay_type;
+                this.searchForm = JSON.parse(JSON.stringify( sform ))
+            },
+            changeMore(){
+                this.isShow = !this.isShow
+            },
+            changeDateFormat(val){
+                if(val == null){
+                    this.searchFormData.create_time_start = '';
+                    this.searchFormData.create_time_end = ''
+                }else{
+                    this.searchFormData.create_time_start = val[0];
+                    this.searchFormData.create_time_end = val[1]
+                }
+            },
+            handleScroll() {
+                var scrollTop = document.getElementById('scrollBarDom').pageYOffset || document.getElementById('scrollBarDom').scrollTop || document.getElementById('scrollBarDom').scrollTop
+                console.log('scrollTop',scrollTop)
 
+            },
+            getQuery(){
                 let _this = this;
-                axios.all([axios.get(this.imgdialog_url)])
+                axios.all([common.getCollector()])
                     .then(axios.spread(function (ret) {
-                        _this.img_in = ret.data.in;
-                        _this.img_out = ret.data.out;
-                        _this.imgpath = path;
-                        console.log(_this.img_in);
-                        console.log(_this.img_out);
+                        _this.collectors = ret.data;
                     }));
-
-                this.imgDialog = true;
             }
         },
+        beforeMount(){
+            this.currentHeight = common.gwh() - 55 ;
+        },
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            let user = sessionStorage.getItem('user');
-            // this.user = user;
-            if (user) {
-                user = JSON.parse(user);
-                // console.log(user.authlist.length);
-                for (var item of user.authlist) {
-                    if (AUTH_ID.orderManage_Orders == item.auth_id) {
-                        // console.log(item.sub_auth)
-                        this.hideExport = !common.showSubExport(item.sub_auth);
-                        // this.hideSearch = !common.showSubSearch(item.sub_auth);
-                        this.hideSearch = true;
-                        break;
-                    }
-                }
-
-            }
-
-        /*
-        * 初次加载数据
-        * */
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.$refs['bolinkuniontable'].getTableData({});
-            // getCollector
-            let _this = this;
-            axios.all([common.getCollector()])
-                .then(axios.spread(function (ret) {
-                    _this.collectors = ret.data;
-                    // console.log(ret.data)
-                }));
+            this.currentHeight = common.gwh() - 55 ;
+            window.addEventListener('resize', () => {
+                this.currentHeight = common.gwh() - 55;
+            });
+            this.initFn(this)
+            this.getQuery()
+            this.$refs['tabPane'].getTableData({},this)
 
         },
         activated() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            this.imgSize = common.gww() / 4;
-            // this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            // this.$refs['bolinkuniontable'].getTableData({});
-            // // getCollector
-            // let _this = this;
-            // axios.all([common.getCollector()])
-            //     .then(axios.spread(function (ret) {
-            //         _this.collectors = ret.data;
-            //         // console.log(ret.data)
-            //     }));
+
         },
         watch: {
             collectors: function (val) {
@@ -540,8 +662,6 @@
 
 </script>
 
-<style>
-    .gutter {
-        display: none
-    }
+<style lang="scss" src="../../styles/common-style.scss">
+
 </style>

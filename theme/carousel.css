@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -287,7 +285,7 @@
       .el-carousel__indicators--outside .el-carousel__indicator:hover button {
         opacity: 0.64; }
       .el-carousel__indicators--outside button {
-        background-color: #c0c4cc;
+        background-color: #999;
         opacity: 0.24; }
     .el-carousel__indicators--labels {
       left: 0;

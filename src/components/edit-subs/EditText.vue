@@ -1,6 +1,6 @@
 <template>
     <div class="number" style="margin-right: 15px">
-        <el-input v-model="textForm.text" @blur="uptoeditdialog"></el-input>
+        <el-input v-model.trim="textForm.text" @blur="uptoeditdialog" size="mini"></el-input>
     </div>
 </template>
 

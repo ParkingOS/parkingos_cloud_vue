@@ -14,7 +14,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -129,7 +128,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -250,7 +248,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -363,7 +360,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -586,12 +582,15 @@
     width: 350px; }
   .el-date-editor--datetimerange.el-input, .el-date-editor--datetimerange.el-input__inner {
     width: 400px; }
+  .el-date-editor--dates .el-input__inner {
+    text-overflow: ellipsis;
+    white-space: nowrap; }
   .el-date-editor .el-icon-circle-close {
     cursor: pointer; }
   .el-date-editor .el-range__icon {
     font-size: 14px;
     margin-left: -5px;
-    color: #c0c4cc;
+    color: #999;
     float: left;
     line-height: 32px; }
   .el-date-editor .el-range-input {
@@ -607,15 +606,13 @@
     width: 39%;
     text-align: center;
     font-size: 14px;
-    color: #606266; }
+    color: #333; }
     .el-date-editor .el-range-input::-webkit-input-placeholder {
-      color: #c0c4cc; }
-    .el-date-editor .el-range-input:-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-date-editor .el-range-input::-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-date-editor .el-range-input::placeholder {
-      color: #c0c4cc; }
+      color: #999; }
   .el-date-editor .el-range-separator {
     display: inline-block;
     height: 100%;
@@ -628,7 +625,7 @@
     color: #303133; }
   .el-date-editor .el-range__close-icon {
     font-size: 14px;
-    color: #c0c4cc;
+    color: #999;
     width: 25px;
     display: inline-block;
     float: right;
@@ -647,9 +644,9 @@
   line-height: 1; }
 
 .el-range-editor.is-active {
-  border-color: #2D3A4B; }
+  border-color: #262B53; }
   .el-range-editor.is-active:hover {
-    border-color: #2D3A4B; }
+    border-color: #262B53; }
 
 .el-range-editor--medium.el-input__inner {
   height: 36px; }
@@ -696,24 +693,22 @@
 .el-range-editor.is-disabled {
   background-color: #f5f7fa;
   border-color: #e4e7ed;
-  color: #c0c4cc;
+  color: #999;
   cursor: not-allowed; }
   .el-range-editor.is-disabled:hover, .el-range-editor.is-disabled:focus {
     border-color: #e4e7ed; }
   .el-range-editor.is-disabled input {
     background-color: #f5f7fa;
-    color: #c0c4cc;
+    color: #999;
     cursor: not-allowed; }
     .el-range-editor.is-disabled input::-webkit-input-placeholder {
-      color: #c0c4cc; }
-    .el-range-editor.is-disabled input:-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-range-editor.is-disabled input::-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-range-editor.is-disabled input::placeholder {
-      color: #c0c4cc; }
+      color: #999; }
   .el-range-editor.is-disabled .el-range-separator {
-    color: #c0c4cc; }
+    color: #999; }
 
 /* Element Chalk Variables */
 /* Transition
@@ -731,7 +726,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -846,7 +840,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -967,7 +960,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -1065,7 +1057,7 @@
 /* Break-point
 --------------------------*/
 .el-picker-panel {
-  color: #606266;
+  color: #333;
   border: 1px solid #e4e7ed;
   -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -1094,16 +1086,16 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: #606266;
+    color: #333;
     padding-left: 12px;
     text-align: left;
     outline: none;
     cursor: pointer; }
     .el-picker-panel__shortcut:hover {
-      color: #2D3A4B; }
+      color: #262B53; }
     .el-picker-panel__shortcut.active {
       background-color: #e6f1fe;
-      color: #2D3A4B; }
+      color: #262B53; }
   .el-picker-panel__btn {
     border: 1px solid #dcdcdc;
     color: #333;
@@ -1126,7 +1118,7 @@
     outline: none;
     margin-top: 8px; }
     .el-picker-panel__icon-btn:hover {
-      color: #2D3A4B; }
+      color: #262B53; }
     .el-picker-panel__icon-btn.is-disabled {
       color: #bbb; }
       .el-picker-panel__icon-btn.is-disabled:hover {
@@ -1193,11 +1185,11 @@
     line-height: 22px;
     text-align: center;
     cursor: pointer;
-    color: #606266; }
+    color: #333; }
     .el-date-picker__header-label:hover {
-      color: #2D3A4B; }
+      color: #262B53; }
     .el-date-picker__header-label.active {
-      color: #2D3A4B; }
+      color: #262B53; }
   .el-date-picker__prev-btn {
     float: left; }
   .el-date-picker__next-btn {
@@ -1229,7 +1221,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -1350,7 +1341,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -1467,11 +1457,11 @@
     height: 0;
     cursor: pointer;
     border-radius: inherit;
-    background-color: rgba(144, 147, 153, 0.3);
+    background-color: rgba(102, 102, 102, 0.3);
     -webkit-transition: .3s background-color;
     transition: .3s background-color; }
     .el-scrollbar__thumb:hover {
-      background-color: rgba(144, 147, 153, 0.5); }
+      background-color: rgba(102, 102, 102, 0.5); }
   .el-scrollbar__bar {
     position: absolute;
     right: 2px;
@@ -1510,7 +1500,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -1631,7 +1620,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -1821,7 +1809,7 @@
   line-height: 20px; }
 
 .time-select-item.selected:not(.disabled) {
-  color: #2D3A4B;
+  color: #262B53;
   font-weight: bold; }
 
 .time-select-item.disabled {

@@ -2470,9 +2470,9 @@
     }
 
     /*table表格 表头背景色*/
-    .el-table th {
-        background-color: #F5F7FA;
-    }
+    /*.el-table th {*/
+        /*background-color: #F5F7FA;*/
+    /*}*/
 
     .el-table tr {
         overflow: hidden;

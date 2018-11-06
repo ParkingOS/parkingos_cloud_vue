@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -235,6 +233,7 @@
 /* Break-point
 --------------------------*/
 .el-main {
+  display: block;
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;

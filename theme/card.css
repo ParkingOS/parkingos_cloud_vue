@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -239,9 +237,15 @@
   border: 1px solid #ebeef5;
   background-color: #fff;
   overflow: hidden;
-  -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  color: #303133; }
+  color: #303133;
+  -webkit-transition: 0.3s;
+  transition: 0.3s; }
+  .el-card.is-always-shadow {
+    -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); }
+  .el-card.is-hover-shadow:hover, .el-card.is-hover-shadow:focus {
+    -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); }
   .el-card__header {
     padding: 18px 20px;
     border-bottom: 1px solid #ebeef5;

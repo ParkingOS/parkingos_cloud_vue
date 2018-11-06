@@ -1,5 +1,6 @@
 
 @import "element-variables.scss";
+$--parkingos-aside-bgcolor:#1E2343;
 .container {
   position: absolute;
   top: 0px;
@@ -60,17 +61,20 @@
       cursor: pointer;
     }
   }
+  //侧边栏样式
   .main {
     display: flex;
     // background: #324057;
     position: absolute;
     top: 50px;
     bottom: 0px;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+
     aside {
-      background: #EEF1F6;
-      flex: 0 0 180px;
-      width: 180px;
+      background: $--parkingos-aside-bgcolor;
+      flex: 0 0 160px;
+      width: 160px;
       overflow: hidden;
       .el-menu {
         height: 100%;
@@ -104,6 +108,7 @@
     .menu-collapsed {
       flex: 0 0 60px;
       width: 70px;
+      background-color: $--parkingos-aside-bgcolor;
     }
     .menu-expanded {
       /*flex: 0 0 180px;*/
@@ -111,18 +116,24 @@
       overflow-y: auto;
       display: flex;
       flex-direction: column;
+      background-color: $--parkingos-aside-bgcolor;
     }
+
     .content-container {
-      // background: #f1f2f7;
-      flex: 1;
-      // position: absolute;
-      // right: 0px;
-      // top: 0px;
-      // bottom: 0px;
-      // left: 180px;
+      min-height: calc(100vh - 50px);
+      min-width: 1206px;
+      width: 100%;
+      position: relative;
       overflow-y: hidden;
-      padding: 10px;
-      padding-top: 8px;
+      overflow-x: auto;
+
+
+      //position: relative;
+      //flex: 1;
+      //
+      //overflow-y: hidden;
+      //padding: 10px;
+      //padding-top: 8px;
       .breadcrumb-container {
         //margin-bottom: 15px;
         .title {
@@ -169,8 +180,12 @@
   height: 0;
   flex: 1;
   > li{
-    background-color: $--parkingos-sidemenu-background;
+    //background-color: $--parkingos-sidemenu-background;
+    &:hover{
+      color: #fff;
+    }
   }
+
 }
 
 .container .main aside .el-menu[data-v-cbbc73a8] {
@@ -201,7 +216,10 @@
   //width: 179px;
   min-height: 45px;
 }
-
+.menu-open-color{
+  color: #fff;
+  background-color: #1E2343;
+}
 .logout-button{
   background-color: $--parkingos-header-background;
 }
@@ -229,4 +247,65 @@
   color: #c0c0c0;
   text-align: center;
   vertical-align: middle;
+}
+
+//2018/10/17 cyz
+.data-center-park{
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  padding-top: 0;
+  background-color: #f4f4f4;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.center-park-margin{
+  margin-bottom: 20px;
+}
+.title{
+  color: #333;
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 40px;
+}
+.card-title{
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: bolder;
+  height: 30px;
+}
+.bar-icon{
+  display:inline-block;;
+  width: 3px;
+  height: 14px;
+  margin-right: 6px;
+  background: #8693F3;
+}
+.seamless-item-title{
+  font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+}
+.seamless-item-style{
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px;
+  border-top: 1px solid rgba(238,238,238,1);
+  overflow: hidden;
+}
+.seamless-item-style:nth-of-type(odd){
+  //奇数行
+  background:rgba(248,248,248,1);
+}
+.seamless-item-style:nth-of-type(even){
+//偶数行
+}
+//.el-scrollbar__wrap {
+//  overflow-x: hidden !important;
+//}
+.icon-font-size{
+  font-size: 12px !important;
 }

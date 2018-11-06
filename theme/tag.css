@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -235,17 +233,17 @@
 /* Break-point
 --------------------------*/
 .el-tag {
-  background-color: rgba(45, 58, 75, 0.1);
+  background-color: rgba(38, 43, 83, 0.1);
   display: inline-block;
   padding: 0 10px;
   height: 32px;
   line-height: 30px;
   font-size: 12px;
-  color: #2D3A4B;
+  color: #262B53;
   border-radius: 4px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid rgba(45, 58, 75, 0.2);
+  border: 1px solid rgba(38, 43, 83, 0.2);
   white-space: nowrap; }
   .el-tag .el-icon-close {
     border-radius: 50%;
@@ -259,11 +257,11 @@
     vertical-align: middle;
     top: -1px;
     right: -5px;
-    color: #2D3A4B; }
+    color: #262B53; }
     .el-tag .el-icon-close::before {
       display: block; }
     .el-tag .el-icon-close:hover {
-      background-color: #2D3A4B;
+      background-color: #262B53;
       color: #fff; }
   .el-tag--info {
     background-color: rgba(144, 147, 153, 0.1);

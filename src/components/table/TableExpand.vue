@@ -1,0 +1,147 @@
+<template>
+    <div class="table-expand-reset">
+        <div v-if="nameType == 'order-manage'">
+            <el-row>
+                <el-col :span="12"><div class="">入场收费员:{{common.nameformat(expandData, formatCollectors, 'uid')}}</div></el-col>
+                <el-col :span="12"><div class="">出场收费员:{{common.nameformat(expandData, formatCollectors, 'out_uid')}}</div></el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12"><div class="">入场通道:{{expandData.in_passid}}</div></el-col>
+                <el-col :span="12"><div class="">出场通道:{{expandData.out_passid}}</div></el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12"><div class="">入场图片: <img style="width: 143px;height: 80px;vertical-align: middle" :src="img_in" alt="入场图片"> </div></el-col>
+                <el-col :span="12"><div class="">出场图片: <img style="width: 143px;height: 80px;vertical-align: middle" :src="img_out" alt="出场图片"> </div></el-col>
+            </el-row>
+        </div>
+        <div v-if="nameType == 'month-member'" style="width: 100%">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="创建时间">
+                    <span>{{ common.dateformat(expandData.create_time) }}</span>
+                </el-form-item>
+                <el-form-item label="车位">
+                    <span>{{expandData.p_lot}}</span>
+                </el-form-item>
+                <div>
+                    <el-form-item label="购买时间">
+                        <span>{{ common.dateformat(expandData.create_time) }}</span>
+                    </el-form-item>
+                    <el-form-item label="地址">
+                        <span>{{expandData.address}}</span>
+                    </el-form-item>
+                </div>
+                <div>
+                    <el-form-item label="车辆类型">
+                        <span>{{common.nameformat(expandData, this.formatCollectors, 'car_type_id')}}</span>
+                    </el-form-item>
+                    <el-form-item label="套餐名称">
+                        <span>{{common.nameformat(expandData, this.pname, 'pid')}}</span>
+                    </el-form-item>
+                </div>
+                <el-form-item label="单双日限行">
+                    <span>{{common.nameformat(expandData, singleDoubleType, 'limit_day_type')}}</span>
+                </el-form-item>
+            </el-form>
+        </div>
+        <div v-if="nameType == 'month-member-refill'" style="width: 100%">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="开始时间">
+                    <span>{{common.dateformat(expandData.start_time)}}</span>
+                </el-form-item>
+                <el-form-item label="应收金额">
+                    <span>{{expandData.amount_receivable}}</span>
+                </el-form-item>
+                <div>
+                    <el-form-item label="结束时间">
+                        <span>{{common.dateformat(expandData.limit_time)}}</span>
+                    </el-form-item>
+                    <el-form-item label="收费员">
+                        <span>{{expandData.collector}}</span>
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
+    </div>
+</template>
+
+<script>
+    import axios from 'axios';
+    import {path} from '../../api/api';
+    import common from '../../common/js/common';
+    import ElForm from 'element-ui/packages/form/src/form';
+    export default {
+        components: {ElForm},
+        name: 'table-expand',
+        props:{
+            nameType:String,
+            expandData:Object,
+            expandLabel:Array,
+            formatCollectors:Array,
+            pname:Array,
+            singleDoubleType:Array,
+        },
+        data(){
+            return {
+                imgapi: '/order/getOrderPicture',
+                img_in:"",
+                img_out:'',
+            }
+        },
+        methods:{
+            showImgDialog: function (index, row) {
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                let _this = this;
+                axios.all([axios.get(this.imgdialog_url)])
+                    .then(axios.spread(function (ret) {
+                        _this.img_in = ret.data.in;
+                        _this.img_out = ret.data.out;
+                        _this.imgpath = path;
+                    }));
+
+            }
+        },
+        mounted(){
+            let that = this;
+            if(that.nameType == 'order-manage'){
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + this.expandData.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                axios.all([axios.get(this.imgdialog_url)])
+                    .then(axios.spread(function (ret) {
+                        if(ret.status == 200){
+                            that.img_in = path+ret.data.in;
+                            that.img_out =path+ ret.data.out;
+                        }else{
+                            that.img_in = '';
+                            that.img_out ='';
+                        }
+                    }));
+            }else{
+
+            }
+
+
+        },
+        activated(){
+
+        },
+        watch:{
+
+        }
+    };
+</script>
+
+<style lang="scss">
+    .demo-table-expand {
+        font-size: 0;
+        .el-form-item {
+            margin-right: 0;
+            margin-bottom: 0;
+            width: 50%;
+        }
+        label {
+            width: 90px;
+            color: #99a9bf;
+        }
+    }
+
+
+</style>

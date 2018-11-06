@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -239,7 +237,7 @@
   line-height: 1; }
   .el-progress__text {
     font-size: 14px;
-    color: #606266;
+    color: #333;
     display: inline-block;
     vertical-align: middle;
     margin-left: 10px;
@@ -299,7 +297,7 @@
     left: 0;
     top: 0;
     height: 100%;
-    background-color: #2D3A4B;
+    background-color: #262B53;
     text-align: right;
     border-radius: 100px;
     line-height: 1;

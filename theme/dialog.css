@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -234,6 +232,128 @@
 --------------------------*/
 /* Break-point
 --------------------------*/
+/* BEM support Func
+ -------------------------- */
+/* Element Chalk Variables */
+/* Transition
+-------------------------- */
+/* Colors
+-------------------------- */
+/* 53a8ff */
+/* 66b1ff */
+/* 79bbff */
+/* 8cc5ff */
+/* a0cfff */
+/* b3d8ff */
+/* c6e2ff */
+/* d9ecff */
+/* ecf5ff */
+/* parkingOS
+--------------------------*/
+/* Link
+-------------------------- */
+/* Background
+-------------------------- */
+/* Border
+-------------------------- */
+/* Box-shadow
+-------------------------- */
+/* Fill
+-------------------------- */
+/* Font
+-------------------------- */
+/* Size
+-------------------------- */
+/* z-index
+-------------------------- */
+/* Disable base
+-------------------------- */
+/* Icon
+-------------------------- */
+/* Checkbox
+-------------------------- */
+/* Radio
+-------------------------- */
+/* Select
+-------------------------- */
+/* Alert
+-------------------------- */
+/* Message Box
+-------------------------- */
+/* Message
+-------------------------- */
+/* Notification
+-------------------------- */
+/* Input
+-------------------------- */
+/* Cascader
+-------------------------- */
+/* Group
+-------------------------- */
+/* Tab
+-------------------------- */
+/* Button
+-------------------------- */
+/* cascader
+-------------------------- */
+/* Switch
+-------------------------- */
+/* Dialog
+-------------------------- */
+/* Table
+-------------------------- */
+/* Pagination
+-------------------------- */
+/* Popover
+-------------------------- */
+/* Tooltip
+-------------------------- */
+/* Tag
+-------------------------- */
+/* Tree
+-------------------------- */
+/* Dropdown
+-------------------------- */
+/* Badge
+-------------------------- */
+/* Card
+--------------------------*/
+/* Slider
+--------------------------*/
+/* Steps
+--------------------------*/
+/* Menu
+--------------------------*/
+/* Rate
+--------------------------*/
+/* DatePicker
+--------------------------*/
+/* Loading
+--------------------------*/
+/* Scrollbar
+--------------------------*/
+/* Carousel
+--------------------------*/
+/* Collapse
+--------------------------*/
+/* Transfer
+--------------------------*/
+/* Header
+  --------------------------*/
+/* Footer
+--------------------------*/
+/* Main
+--------------------------*/
+/* Break-point
+--------------------------*/
+/* Break-points
+ -------------------------- */
+/* Scrollbar
+ -------------------------- */
+/* Placeholder
+ -------------------------- */
+/* BEM
+ -------------------------- */
 .v-modal-enter {
   -webkit-animation: v-modal-in .2s ease;
   animation: v-modal-in .2s ease; }
@@ -271,6 +391,9 @@
   opacity: 0.5;
   background: #000; }
 
+.el-popup-parent--hidden {
+  overflow: hidden; }
+
 .el-dialog {
   position: relative;
   margin: 0 auto 50px;
@@ -296,12 +419,12 @@
     overflow: auto;
     margin: 0; }
   .el-dialog__header {
-    padding: 20px;
+    padding: 0px;
     padding-bottom: 10px; }
   .el-dialog__headerbtn {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 0px;
+    right: 0px;
     padding: 0;
     background: transparent;
     border: none;
@@ -311,18 +434,17 @@
     .el-dialog__headerbtn .el-dialog__close {
       color: #909399; }
     .el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close {
-      color: #2D3A4B; }
+      color: #262B53; }
   .el-dialog__title {
     line-height: 24px;
     font-size: 18px;
     color: #303133; }
   .el-dialog__body {
     padding: 30px 20px;
-    color: #606266;
-    line-height: 24px;
+    color: #333;
     font-size: 14px; }
   .el-dialog__footer {
-    padding: 20px;
+    padding: 0px;
     padding-top: 10px;
     text-align: right;
     -webkit-box-sizing: border-box;
@@ -331,7 +453,7 @@
     text-align: center; }
     .el-dialog--center .el-dialog__body {
       text-align: initial;
-      padding: 25px 25px 30px; }
+      padding: 25px 5px 30px; }
     .el-dialog--center .el-dialog__footer {
       text-align: inherit; }
 

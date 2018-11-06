@@ -1,5 +1,9 @@
 import '../theme/index.css'; //主题色
 // import './common/css/index.css'  //本地色
+
+//全局引入iconfont
+import './assets/iconfont/iconfont.css'
+
 import Vue from 'vue';
 import App from './App';
 import ElementUI from 'element-ui';
@@ -13,7 +17,7 @@ import BaiduMap from 'vue-baidu-map';
 import './styles/element-variables.scss'; // global css
 import './styles/index.scss'; // global css
 import './common/js/const.js';
-import "babel-polyfill"
+import 'babel-polyfill'
 import QRCode from 'qrcode';
 
 import scroll from 'vue-seamless-scroll';

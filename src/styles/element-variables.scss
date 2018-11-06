@@ -14,7 +14,7 @@ $--color-transition-base: color .2s cubic-bezier(.645,.045,.355,1) !default;
 $--color-white: #fff !default;
 $--color-black: #000 !default;
 
-$--color-primary: #2D3A4B !default;
+$--color-primary: #262B53 !default;
 $--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
 $--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
 $--color-primary-light-3: mix($--color-white, $--color-primary, 30%) !default; /* 79bbff */
@@ -42,19 +42,22 @@ $--color-danger-lighter: mix($--color-white, $--color-danger, 90%) !default;
 $--color-info-lighter: mix($--color-white, $--color-info, 90%) !default;
 
 $--color-text-primary: #303133 !default;
-$--color-text-regular: #606266 !default;
-$--color-text-secondary: #909399 !default;
+$--color-text-regular: #333 !default;
+$--color-text-secondary: #666666 !default;
 $--color-text-placeholder: #c0c4cc !default;
 
 /* parkingOS
 --------------------------*/
-
+$--color-btn-text:#0E5FF6;
 $--parkingos-header-background: #2d3a4b !default;;
-$--parkingos-sidemenu-background: #545c64 !default;;
+$--parkingos-sidemenu-background:  #262B53 !default;
+$--parkingos-sidemenu-background-hover-color: #0E5FF6 !default;
 $--parkingos-sidemenu-background-9: #434A50 !default; /* ecf5ff */
 $--parkingos-datacenter-background: #393a3e !default;
 $--parkingos-menu-icon-color: #b5b5b5 !default;
 $--parkingos-icon-park-color: #fff !default;
+$--parkingos-fill-color:#E7EAFE !default;
+$--parkingos-button-text-color:#0E5FF6 !default;
 /* Link
 -------------------------- */
 $--link-color: $--color-primary-light-2 !default;
@@ -331,11 +334,11 @@ $--input-border: $--border-base !default;
 $--input-border-color: $--border-color-base !default;
 $--input-border-radius: $--border-radius-base !default;
 $--input-border-color-hover: $--border-color-hover !default;
-$--input-fill: $--color-white !default;
+$--input-fill: $--parkingos-fill-color !default;
 $--input-fill-disabled: $--disabled-fill-base !default;
 $--input-color-disabled: $--font-color-disabled-base !default;
 $--input-icon-color: $--color-text-placeholder !default;
-$--input-placeholder-color: $--color-text-placeholder !default;
+$--input-placeholder-color: $--color-text-regular !default;
 $--input-max-width: 314px !default;
 
 $--input-hover-border: $--border-color-hover !default;
@@ -403,6 +406,7 @@ $--tab-vertical-header-count-fill: $--color-text-secondary !default;
 
 /* Button
 -------------------------- */
+
 $--button-font-size: 14px !default;
 $--button-font-weight: $--font-weight-primary !default;
 $--button-border-radius: $--border-radius-base !default;
@@ -455,7 +459,6 @@ $--button-info-fill: $--color-info !default;
 $--button-hover-tint-percent: 20% !default;
 $--button-active-shade-percent: 10% !default;
 
-
 /* cascader
 -------------------------- */
 $--cascader-height: 200px !default;
@@ -485,12 +488,13 @@ $--dialog-padding-primary: 20px !default;
 
 /* Table
 -------------------------- */
+$--table-border-color: $--border-color-lighter !default;
 $--table-border:  1px solid $--border-color-lighter !default;
 $--table-text-color: $--color-text-regular !default;
 $--table-header-color: $--color-text-secondary !default;
 $--table-row-hover-background: $--background-color-base !default;
 $--table-current-row-background: $--color-primary-light-9 !default;
-$--table-header-background: $--color-white !default;
+$--table-header-background: #F4F8FF !default;
 $--table-footer-background: $--color-text-placeholder !default;
 $--table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, .12) !default;
 
@@ -606,10 +610,10 @@ $--steps-padding: 20px !default;
 
 /* Menu
 --------------------------*/
+$--menu-item-font-size: $--font-size-base !default;
 $--menu-item-color: $--color-text-primary !default;
 $--menu-item-fill: $--parkingos-sidemenu-background !default;
-$--menu-item-hover-fill: $--parkingos-sidemenu-background-9 !default;
-
+$--menu-item-hover-fill: $--parkingos-sidemenu-background-hover-color !default;
 /* Rate
 --------------------------*/
 $--rate-height: 20px !default;
@@ -699,23 +703,23 @@ $--lg: 1200px !default;
 $--xl: 1920px !default;
 
 $--breakpoints: (
-  'xs' : (max-width: $--sm),
-  'sm' : (min-width: $--sm),
-  'md' : (min-width: $--md),
-  'lg' : (min-width: $--lg),
-  'xl' : (min-width: $--xl)
+        'xs' : (max-width: $--sm),
+        'sm' : (min-width: $--sm),
+        'md' : (min-width: $--md),
+        'lg' : (min-width: $--lg),
+        'xl' : (min-width: $--xl)
 );
 
 $--breakpoints-spec: (
-  'xs-only' : (max-width: $--sm - 1),
-  'sm-and-up' : (min-width: $--sm),
-  'sm-only': "(min-width: #{$--sm}) and (max-width: #{$--md} - 1)",
-  'sm-and-down': (max-width: $--md - 1),
-  'md-and-up' : (min-width: $--md),
-  'md-only': "(min-width: #{$--md}) and (max-width: #{$--lg } - 1)",
-  'md-and-down': (max-width: $--lg - 1),
-  'lg-and-up' : (min-width: $--lg),
-  'lg-only': "(min-width: #{$--lg}) and (max-width: #{$--xl } - 1)",
-  'lg-and-down': (max-width: $--xl - 1),
-  'xl-only' : (min-width: $--xl),
+        'xs-only' : (max-width: $--sm - 1),
+        'sm-and-up' : (min-width: $--sm),
+        'sm-only': "(min-width: #{$--sm}) and (max-width: #{$--md} - 1)",
+        'sm-and-down': (max-width: $--md - 1),
+        'md-and-up' : (min-width: $--md),
+        'md-only': "(min-width: #{$--md}) and (max-width: #{$--lg } - 1)",
+        'md-and-down': (max-width: $--lg - 1),
+        'lg-and-up' : (min-width: $--lg),
+        'lg-only': "(min-width: #{$--lg}) and (max-width: #{$--xl } - 1)",
+        'lg-and-down': (max-width: $--xl - 1),
+        'xl-only' : (min-width: $--xl),
 );

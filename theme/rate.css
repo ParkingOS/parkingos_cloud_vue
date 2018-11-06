@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -249,7 +247,7 @@
     display: inline-block;
     font-size: 18px;
     margin-right: 6px;
-    color: #c0c4cc;
+    color: #999;
     -webkit-transition: .3s;
     transition: .3s; }
     .el-rate__icon.hover {

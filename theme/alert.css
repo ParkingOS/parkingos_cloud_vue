@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -296,7 +294,7 @@
     margin: 5px 0 0 0; }
   .el-alert__closebtn {
     font-size: 12px;
-    color: #c0c4cc;
+    color: #999;
     opacity: 1;
     position: absolute;
     top: 12px;

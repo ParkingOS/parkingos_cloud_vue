@@ -2,7 +2,13 @@ import axios from 'axios';
 import {path, RoleFuncion} from '../../api/api';
 
 export default {
-
+    timestampFormat:function (d) {
+        var date = d;
+        date = date.substring(0,19);
+        date = date.replace(/-/g,'/');
+        var timestamp = new Date(date).getTime();
+        return timestamp
+    },
     dateformat: function (longtime) {
         if (longtime == '' || longtime == null) {
             return '';
@@ -366,7 +372,6 @@ export default {
     getLength: function (obj) {
         var count = 0;
         for (var key in obj) {
-            console.log('' + key);
             count++;
         }
         return count;

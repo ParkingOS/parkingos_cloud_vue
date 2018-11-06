@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -300,12 +298,12 @@
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
     cursor: pointer;
-    color: #c0c4cc;
+    color: #999;
     font-size: 16px; }
     .el-message__closeBtn:focus {
       outline-width: 0; }
     .el-message__closeBtn:hover {
-      color: #909399; }
+      color: #666666; }
   .el-message .el-icon-success {
     color: #67c23a; }
   .el-message .el-icon-error {

@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,7 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -268,7 +266,7 @@
     font-size: 14px;
     line-height: 21px;
     margin: 6px 0 0 0;
-    color: #606266;
+    color: #333;
     text-align: justify; }
     .el-notification__content p {
       margin: 0; }
@@ -281,10 +279,10 @@
     top: 18px;
     right: 15px;
     cursor: pointer;
-    color: #909399;
+    color: #666666;
     font-size: 16px; }
     .el-notification__closeBtn:hover {
-      color: #606266; }
+      color: #333; }
   .el-notification .el-icon-success {
     color: #67c23a; }
   .el-notification .el-icon-error {

@@ -16,7 +16,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -137,270 +136,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
-/* Link
--------------------------- */
-/* Background
--------------------------- */
-/* Border
--------------------------- */
-/* Box-shadow
--------------------------- */
-/* Fill
--------------------------- */
-/* Font
--------------------------- */
-/* Size
--------------------------- */
-/* z-index
--------------------------- */
-/* Disable base
--------------------------- */
-/* Icon
--------------------------- */
-/* Checkbox
--------------------------- */
-/* Radio
--------------------------- */
-/* Select
--------------------------- */
-/* Alert
--------------------------- */
-/* Message Box
--------------------------- */
-/* Message
--------------------------- */
-/* Notification
--------------------------- */
-/* Input
--------------------------- */
-/* Cascader
--------------------------- */
-/* Group
--------------------------- */
-/* Tab
--------------------------- */
-/* Button
--------------------------- */
-/* cascader
--------------------------- */
-/* Switch
--------------------------- */
-/* Dialog
--------------------------- */
-/* Table
--------------------------- */
-/* Pagination
--------------------------- */
-/* Popover
--------------------------- */
-/* Tooltip
--------------------------- */
-/* Tag
--------------------------- */
-/* Tree
--------------------------- */
-/* Dropdown
--------------------------- */
-/* Badge
--------------------------- */
-/* Card
---------------------------*/
-/* Slider
---------------------------*/
-/* Steps
---------------------------*/
-/* Menu
---------------------------*/
-/* Rate
---------------------------*/
-/* DatePicker
---------------------------*/
-/* Loading
---------------------------*/
-/* Scrollbar
---------------------------*/
-/* Carousel
---------------------------*/
-/* Collapse
---------------------------*/
-/* Transfer
---------------------------*/
-/* Header
-  --------------------------*/
-/* Footer
---------------------------*/
-/* Main
---------------------------*/
-/* Break-point
---------------------------*/
-.v-modal-enter {
-  -webkit-animation: v-modal-in .2s ease;
-  animation: v-modal-in .2s ease; }
-
-.v-modal-leave {
-  -webkit-animation: v-modal-out .2s ease forwards;
-  animation: v-modal-out .2s ease forwards; }
-
-@-webkit-keyframes v-modal-in {
-  0% {
-    opacity: 0; }
-  100% { } }
-
-@keyframes v-modal-in {
-  0% {
-    opacity: 0; }
-  100% { } }
-
-@-webkit-keyframes v-modal-out {
-  0% { }
-  100% {
-    opacity: 0; } }
-
-@keyframes v-modal-out {
-  0% { }
-  100% {
-    opacity: 0; } }
-
-.v-modal {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.5;
-  background: #000; }
-
-/* Element Chalk Variables */
-/* Transition
--------------------------- */
-/* Colors
--------------------------- */
-/* 53a8ff */
-/* 66b1ff */
-/* 79bbff */
-/* 8cc5ff */
-/* a0cfff */
-/* b3d8ff */
-/* c6e2ff */
-/* d9ecff */
-/* ecf5ff */
-/* parkingOS
---------------------------*/
-/* ecf5ff */
-/* Link
--------------------------- */
-/* Background
--------------------------- */
-/* Border
--------------------------- */
-/* Box-shadow
--------------------------- */
-/* Fill
--------------------------- */
-/* Font
--------------------------- */
-/* Size
--------------------------- */
-/* z-index
--------------------------- */
-/* Disable base
--------------------------- */
-/* Icon
--------------------------- */
-/* Checkbox
--------------------------- */
-/* Radio
--------------------------- */
-/* Select
--------------------------- */
-/* Alert
--------------------------- */
-/* Message Box
--------------------------- */
-/* Message
--------------------------- */
-/* Notification
--------------------------- */
-/* Input
--------------------------- */
-/* Cascader
--------------------------- */
-/* Group
--------------------------- */
-/* Tab
--------------------------- */
-/* Button
--------------------------- */
-/* cascader
--------------------------- */
-/* Switch
--------------------------- */
-/* Dialog
--------------------------- */
-/* Table
--------------------------- */
-/* Pagination
--------------------------- */
-/* Popover
--------------------------- */
-/* Tooltip
--------------------------- */
-/* Tag
--------------------------- */
-/* Tree
--------------------------- */
-/* Dropdown
--------------------------- */
-/* Badge
--------------------------- */
-/* Card
---------------------------*/
-/* Slider
---------------------------*/
-/* Steps
---------------------------*/
-/* Menu
---------------------------*/
-/* Rate
---------------------------*/
-/* DatePicker
---------------------------*/
-/* Loading
---------------------------*/
-/* Scrollbar
---------------------------*/
-/* Carousel
---------------------------*/
-/* Collapse
---------------------------*/
-/* Transfer
---------------------------*/
-/* Header
-  --------------------------*/
-/* Footer
---------------------------*/
-/* Main
---------------------------*/
-/* Break-point
---------------------------*/
-/* Element Chalk Variables */
-/* Transition
--------------------------- */
-/* Colors
--------------------------- */
-/* 53a8ff */
-/* 66b1ff */
-/* 79bbff */
-/* 8cc5ff */
-/* a0cfff */
-/* b3d8ff */
-/* c6e2ff */
-/* d9ecff */
-/* ecf5ff */
-/* parkingOS
---------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -515,7 +250,392 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
+/* Link
+-------------------------- */
+/* Background
+-------------------------- */
+/* Border
+-------------------------- */
+/* Box-shadow
+-------------------------- */
+/* Fill
+-------------------------- */
+/* Font
+-------------------------- */
+/* Size
+-------------------------- */
+/* z-index
+-------------------------- */
+/* Disable base
+-------------------------- */
+/* Icon
+-------------------------- */
+/* Checkbox
+-------------------------- */
+/* Radio
+-------------------------- */
+/* Select
+-------------------------- */
+/* Alert
+-------------------------- */
+/* Message Box
+-------------------------- */
+/* Message
+-------------------------- */
+/* Notification
+-------------------------- */
+/* Input
+-------------------------- */
+/* Cascader
+-------------------------- */
+/* Group
+-------------------------- */
+/* Tab
+-------------------------- */
+/* Button
+-------------------------- */
+/* cascader
+-------------------------- */
+/* Switch
+-------------------------- */
+/* Dialog
+-------------------------- */
+/* Table
+-------------------------- */
+/* Pagination
+-------------------------- */
+/* Popover
+-------------------------- */
+/* Tooltip
+-------------------------- */
+/* Tag
+-------------------------- */
+/* Tree
+-------------------------- */
+/* Dropdown
+-------------------------- */
+/* Badge
+-------------------------- */
+/* Card
+--------------------------*/
+/* Slider
+--------------------------*/
+/* Steps
+--------------------------*/
+/* Menu
+--------------------------*/
+/* Rate
+--------------------------*/
+/* DatePicker
+--------------------------*/
+/* Loading
+--------------------------*/
+/* Scrollbar
+--------------------------*/
+/* Carousel
+--------------------------*/
+/* Collapse
+--------------------------*/
+/* Transfer
+--------------------------*/
+/* Header
+  --------------------------*/
+/* Footer
+--------------------------*/
+/* Main
+--------------------------*/
+/* Break-point
+--------------------------*/
+/* Break-points
+ -------------------------- */
+/* Scrollbar
+ -------------------------- */
+/* Placeholder
+ -------------------------- */
+/* BEM
+ -------------------------- */
+.v-modal-enter {
+  -webkit-animation: v-modal-in .2s ease;
+  animation: v-modal-in .2s ease; }
+
+.v-modal-leave {
+  -webkit-animation: v-modal-out .2s ease forwards;
+  animation: v-modal-out .2s ease forwards; }
+
+@-webkit-keyframes v-modal-in {
+  0% {
+    opacity: 0; }
+  100% { } }
+
+@keyframes v-modal-in {
+  0% {
+    opacity: 0; }
+  100% { } }
+
+@-webkit-keyframes v-modal-out {
+  0% { }
+  100% {
+    opacity: 0; } }
+
+@keyframes v-modal-out {
+  0% { }
+  100% {
+    opacity: 0; } }
+
+.v-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  background: #000; }
+
+.el-popup-parent--hidden {
+  overflow: hidden; }
+
+/* Element Chalk Variables */
+/* Transition
+-------------------------- */
+/* Colors
+-------------------------- */
+/* 53a8ff */
+/* 66b1ff */
+/* 79bbff */
+/* 8cc5ff */
+/* a0cfff */
+/* b3d8ff */
+/* c6e2ff */
+/* d9ecff */
 /* ecf5ff */
+/* parkingOS
+--------------------------*/
+/* Link
+-------------------------- */
+/* Background
+-------------------------- */
+/* Border
+-------------------------- */
+/* Box-shadow
+-------------------------- */
+/* Fill
+-------------------------- */
+/* Font
+-------------------------- */
+/* Size
+-------------------------- */
+/* z-index
+-------------------------- */
+/* Disable base
+-------------------------- */
+/* Icon
+-------------------------- */
+/* Checkbox
+-------------------------- */
+/* Radio
+-------------------------- */
+/* Select
+-------------------------- */
+/* Alert
+-------------------------- */
+/* Message Box
+-------------------------- */
+/* Message
+-------------------------- */
+/* Notification
+-------------------------- */
+/* Input
+-------------------------- */
+/* Cascader
+-------------------------- */
+/* Group
+-------------------------- */
+/* Tab
+-------------------------- */
+/* Button
+-------------------------- */
+/* cascader
+-------------------------- */
+/* Switch
+-------------------------- */
+/* Dialog
+-------------------------- */
+/* Table
+-------------------------- */
+/* Pagination
+-------------------------- */
+/* Popover
+-------------------------- */
+/* Tooltip
+-------------------------- */
+/* Tag
+-------------------------- */
+/* Tree
+-------------------------- */
+/* Dropdown
+-------------------------- */
+/* Badge
+-------------------------- */
+/* Card
+--------------------------*/
+/* Slider
+--------------------------*/
+/* Steps
+--------------------------*/
+/* Menu
+--------------------------*/
+/* Rate
+--------------------------*/
+/* DatePicker
+--------------------------*/
+/* Loading
+--------------------------*/
+/* Scrollbar
+--------------------------*/
+/* Carousel
+--------------------------*/
+/* Collapse
+--------------------------*/
+/* Transfer
+--------------------------*/
+/* Header
+  --------------------------*/
+/* Footer
+--------------------------*/
+/* Main
+--------------------------*/
+/* Break-point
+--------------------------*/
+/* Element Chalk Variables */
+/* Transition
+-------------------------- */
+/* Colors
+-------------------------- */
+/* 53a8ff */
+/* 66b1ff */
+/* 79bbff */
+/* 8cc5ff */
+/* a0cfff */
+/* b3d8ff */
+/* c6e2ff */
+/* d9ecff */
+/* ecf5ff */
+/* parkingOS
+--------------------------*/
+/* Link
+-------------------------- */
+/* Background
+-------------------------- */
+/* Border
+-------------------------- */
+/* Box-shadow
+-------------------------- */
+/* Fill
+-------------------------- */
+/* Font
+-------------------------- */
+/* Size
+-------------------------- */
+/* z-index
+-------------------------- */
+/* Disable base
+-------------------------- */
+/* Icon
+-------------------------- */
+/* Checkbox
+-------------------------- */
+/* Radio
+-------------------------- */
+/* Select
+-------------------------- */
+/* Alert
+-------------------------- */
+/* Message Box
+-------------------------- */
+/* Message
+-------------------------- */
+/* Notification
+-------------------------- */
+/* Input
+-------------------------- */
+/* Cascader
+-------------------------- */
+/* Group
+-------------------------- */
+/* Tab
+-------------------------- */
+/* Button
+-------------------------- */
+/* cascader
+-------------------------- */
+/* Switch
+-------------------------- */
+/* Dialog
+-------------------------- */
+/* Table
+-------------------------- */
+/* Pagination
+-------------------------- */
+/* Popover
+-------------------------- */
+/* Tooltip
+-------------------------- */
+/* Tag
+-------------------------- */
+/* Tree
+-------------------------- */
+/* Dropdown
+-------------------------- */
+/* Badge
+-------------------------- */
+/* Card
+--------------------------*/
+/* Slider
+--------------------------*/
+/* Steps
+--------------------------*/
+/* Menu
+--------------------------*/
+/* Rate
+--------------------------*/
+/* DatePicker
+--------------------------*/
+/* Loading
+--------------------------*/
+/* Scrollbar
+--------------------------*/
+/* Carousel
+--------------------------*/
+/* Collapse
+--------------------------*/
+/* Transfer
+--------------------------*/
+/* Header
+  --------------------------*/
+/* Footer
+--------------------------*/
+/* Main
+--------------------------*/
+/* Break-point
+--------------------------*/
+/* BEM support Func
+ -------------------------- */
+/* Element Chalk Variables */
+/* Transition
+-------------------------- */
+/* Colors
+-------------------------- */
+/* 53a8ff */
+/* 66b1ff */
+/* 79bbff */
+/* 8cc5ff */
+/* a0cfff */
+/* b3d8ff */
+/* c6e2ff */
+/* d9ecff */
+/* ecf5ff */
+/* parkingOS
+--------------------------*/
 /* Link
 -------------------------- */
 /* Background
@@ -628,7 +748,7 @@
   background: #fff;
   border: 1px solid #dcdfe6;
   border-color: #dcdfe6;
-  color: #606266;
+  color: #333;
   -webkit-appearance: none;
   text-align: center;
   -webkit-box-sizing: border-box;
@@ -649,12 +769,12 @@
   .el-button.is-round {
     padding: 12px 20px; }
   .el-button:hover, .el-button:focus {
-    color: #2D3A4B;
-    border-color: #c0c4c9;
-    background-color: #eaebed; }
+    color: #262B53;
+    border-color: #bebfcb;
+    background-color: #e9eaee; }
   .el-button:active {
-    color: #293444;
-    border-color: #293444;
+    color: #22274b;
+    border-color: #22274b;
     outline: none; }
   .el-button::-moz-focus-inner {
     border: 0; }
@@ -662,18 +782,18 @@
     margin-left: 5px; }
   .el-button.is-plain:hover, .el-button.is-plain:focus {
     background: #fff;
-    border-color: #2D3A4B;
-    color: #2D3A4B; }
+    border-color: #262B53;
+    color: #262B53; }
   .el-button.is-plain:active {
     background: #fff;
-    border-color: #293444;
-    color: #293444;
+    border-color: #22274b;
+    color: #22274b;
     outline: none; }
   .el-button.is-active {
-    color: #293444;
-    border-color: #293444; }
+    color: #22274b;
+    border-color: #22274b; }
   .el-button.is-disabled, .el-button.is-disabled:hover, .el-button.is-disabled:focus {
-    color: #c0c4cc;
+    color: #999;
     cursor: not-allowed;
     background-image: none;
     background-color: #fff;
@@ -683,7 +803,7 @@
   .el-button.is-disabled.is-plain, .el-button.is-disabled.is-plain:hover, .el-button.is-disabled.is-plain:focus {
     background-color: #fff;
     border-color: #ebeef5;
-    color: #c0c4cc; }
+    color: #999; }
   .el-button.is-loading {
     position: relative;
     pointer-events: none; }
@@ -700,44 +820,47 @@
   .el-button.is-round {
     border-radius: 20px;
     padding: 12px 23px; }
+  .el-button.is-circle {
+    border-radius: 50%;
+    padding: 12px; }
   .el-button--primary {
     color: #fff;
-    background-color: #2D3A4B;
-    border-color: #2D3A4B; }
+    background-color: #262B53;
+    border-color: #262B53; }
     .el-button--primary:hover, .el-button--primary:focus {
-      background: #57616f;
-      border-color: #57616f;
+      background: #515575;
+      border-color: #515575;
       color: #fff; }
     .el-button--primary:active {
-      background: #293444;
-      border-color: #293444;
+      background: #22274b;
+      border-color: #22274b;
       color: #fff;
       outline: none; }
     .el-button--primary.is-active {
-      background: #293444;
-      border-color: #293444;
+      background: #22274b;
+      border-color: #22274b;
       color: #fff; }
     .el-button--primary.is-disabled, .el-button--primary.is-disabled:hover, .el-button--primary.is-disabled:focus, .el-button--primary.is-disabled:active {
       color: #fff;
-      background-color: #969da5;
-      border-color: #969da5; }
+      background-color: #9395a9;
+      border-color: #9395a9; }
     .el-button--primary.is-plain {
-      color: #2D3A4B;
-      background: #eaebed;
-      border-color: #abb0b7; }
+      color: #262B53;
+      background: #e9eaee;
+      border-color: #a8aaba; }
       .el-button--primary.is-plain:hover, .el-button--primary.is-plain:focus {
-        background: #2D3A4B;
-        border-color: #2D3A4B;
+        background: #262B53;
+        border-color: #262B53;
         color: #fff; }
       .el-button--primary.is-plain:active {
-        background: #293444;
-        border-color: #293444;
+        background: #22274b;
+        border-color: #22274b;
         color: #fff;
         outline: none; }
       .el-button--primary.is-plain.is-disabled, .el-button--primary.is-plain.is-disabled:hover, .el-button--primary.is-plain.is-disabled:focus, .el-button--primary.is-plain.is-disabled:active {
-        color: #818993;
-        background-color: #eaebed;
-        border-color: #d5d8db; }
+        color: #7d8098;
+        background-color: #e9eaee;
+        border-color: #d4d5dd; }
   .el-button--success {
     color: #fff;
     background-color: #67c23a;
@@ -896,30 +1019,36 @@
     border-radius: 4px; }
     .el-button--medium.is-round {
       padding: 10px 20px; }
+    .el-button--medium.is-circle {
+      padding: 10px; }
   .el-button--small {
     padding: 9px 15px;
     font-size: 12px;
     border-radius: 3px; }
     .el-button--small.is-round {
       padding: 9px 15px; }
+    .el-button--small.is-circle {
+      padding: 9px; }
   .el-button--mini {
     padding: 7px 15px;
     font-size: 12px;
     border-radius: 3px; }
     .el-button--mini.is-round {
       padding: 7px 15px; }
+    .el-button--mini.is-circle {
+      padding: 7px; }
   .el-button--text {
     border-color: transparent;
-    color: #2D3A4B;
+    color: #262B53;
     background: transparent;
     padding-left: 0;
     padding-right: 0; }
     .el-button--text:hover, .el-button--text:focus {
-      color: #57616f;
+      color: #515575;
       border-color: transparent;
       background-color: transparent; }
     .el-button--text:active {
-      color: #293444;
+      color: #22274b;
       border-color: transparent;
       background-color: transparent; }
     .el-button--text.is-disabled, .el-button--text.is-disabled:hover, .el-button--text.is-disabled:focus {
@@ -934,30 +1063,38 @@
     content: ""; }
   .el-button-group::after {
     clear: both; }
-  .el-button-group .el-button {
+  .el-button-group > .el-button {
     float: left;
     position: relative; }
-    .el-button-group .el-button + .el-button {
+    .el-button-group > .el-button + .el-button {
       margin-left: 0; }
-    .el-button-group .el-button:first-child {
+    .el-button-group > .el-button:first-child {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0; }
-    .el-button-group .el-button:last-child {
+    .el-button-group > .el-button:last-child {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0; }
-    .el-button-group .el-button:first-child:last-child {
+    .el-button-group > .el-button:first-child:last-child {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px; }
-    .el-button-group .el-button:not(:first-child):not(:last-child) {
+      .el-button-group > .el-button:first-child:last-child.is-round {
+        border-radius: 20px; }
+      .el-button-group > .el-button:first-child:last-child.is-circle {
+        border-radius: 50%; }
+    .el-button-group > .el-button:not(:first-child):not(:last-child) {
       border-radius: 0; }
-    .el-button-group .el-button:not(:last-child) {
+    .el-button-group > .el-button:not(:last-child) {
       margin-right: -1px; }
-    .el-button-group .el-button:hover, .el-button-group .el-button:focus, .el-button-group .el-button:active {
+    .el-button-group > .el-button:hover, .el-button-group > .el-button:focus, .el-button-group > .el-button:active {
       z-index: 1; }
-    .el-button-group .el-button.is-active {
+    .el-button-group > .el-button.is-active {
       z-index: 1; }
+  .el-button-group > .el-dropdown > .el-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-color: rgba(255, 255, 255, 0.5); }
   .el-button-group .el-button--primary:first-child {
     border-right-color: rgba(255, 255, 255, 0.5); }
   .el-button-group .el-button--primary:last-child {
@@ -1012,7 +1149,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -1133,7 +1269,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -1244,7 +1379,7 @@
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
-    color: #606266;
+    color: #333;
     background-color: #fff;
     background-image: none;
     border: 1px solid #dcdfe6;
@@ -1252,31 +1387,27 @@
     -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); }
     .el-textarea__inner::-webkit-input-placeholder {
-      color: #c0c4cc; }
-    .el-textarea__inner:-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-textarea__inner::-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-textarea__inner::placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-textarea__inner:hover {
-      border-color: #c0c4cc; }
+      border-color: #999; }
     .el-textarea__inner:focus {
       outline: none;
-      border-color: #2D3A4B; }
+      border-color: #262B53; }
   .el-textarea.is-disabled .el-textarea__inner {
     background-color: #f5f7fa;
     border-color: #e4e7ed;
-    color: #c0c4cc;
+    color: #999;
     cursor: not-allowed; }
     .el-textarea.is-disabled .el-textarea__inner::-webkit-input-placeholder {
-      color: #c0c4cc; }
-    .el-textarea.is-disabled .el-textarea__inner:-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-textarea.is-disabled .el-textarea__inner::-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-textarea.is-disabled .el-textarea__inner::placeholder {
-      color: #c0c4cc; }
+      color: #999; }
 
 .el-input {
   position: relative;
@@ -1300,14 +1431,14 @@
         background: #fff;
         width: 6px; }
   .el-input .el-input__clear {
-    color: #c0c4cc;
+    color: #999;
     font-size: 14px;
     line-height: 16px;
     cursor: pointer;
     -webkit-transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); }
     .el-input .el-input__clear:hover {
-      color: #909399; }
+      color: #666666; }
   .el-input__inner {
     -webkit-appearance: none;
     background-color: #fff;
@@ -1316,7 +1447,7 @@
     border: 1px solid #dcdfe6;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    color: #606266;
+    color: #333;
     display: inline-block;
     font-size: inherit;
     height: 40px;
@@ -1327,25 +1458,23 @@
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     width: 100%; }
     .el-input__inner::-webkit-input-placeholder {
-      color: #c0c4cc; }
-    .el-input__inner:-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-input__inner::-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-input__inner::placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-input__inner:hover {
-      border-color: #c0c4cc; }
+      border-color: #999; }
     .el-input__inner:focus {
       outline: none;
-      border-color: #2D3A4B; }
+      border-color: #262B53; }
   .el-input__suffix {
     position: absolute;
     height: 100%;
     right: 5px;
     top: 0;
     text-align: center;
-    color: #c0c4cc;
+    color: #999;
     -webkit-transition: all .3s;
     transition: all .3s;
     pointer-events: none; }
@@ -1357,7 +1486,7 @@
     left: 5px;
     top: 0;
     text-align: center;
-    color: #c0c4cc;
+    color: #999;
     -webkit-transition: all .3s;
     transition: all .3s; }
   .el-input__icon {
@@ -1377,20 +1506,18 @@
     pointer-events: none; }
   .el-input.is-active .el-input__inner {
     outline: none;
-    border-color: #2D3A4B; }
+    border-color: #262B53; }
   .el-input.is-disabled .el-input__inner {
     background-color: #f5f7fa;
     border-color: #e4e7ed;
-    color: #c0c4cc;
+    color: #999;
     cursor: not-allowed; }
     .el-input.is-disabled .el-input__inner::-webkit-input-placeholder {
-      color: #c0c4cc; }
-    .el-input.is-disabled .el-input__inner:-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-input.is-disabled .el-input__inner::-ms-input-placeholder {
-      color: #c0c4cc; }
+      color: #999; }
     .el-input.is-disabled .el-input__inner::placeholder {
-      color: #c0c4cc; }
+      color: #999; }
   .el-input.is-disabled .el-input__icon {
     cursor: not-allowed; }
   .el-input--suffix .el-input__inner {
@@ -1423,7 +1550,8 @@
   line-height: normal;
   display: inline-table;
   width: 100%;
-  border-collapse: separate; }
+  border-collapse: separate;
+  border-spacing: 0; }
   .el-input-group > .el-input__inner {
     vertical-align: middle;
     display: table-cell; }
@@ -1535,11 +1663,11 @@
     .el-message-box__headerbtn .el-message-box__close {
       color: #909399; }
     .el-message-box__headerbtn:focus .el-message-box__close, .el-message-box__headerbtn:hover .el-message-box__close {
-      color: #2D3A4B; }
+      color: #262B53; }
   .el-message-box__content {
     position: relative;
     padding: 10px 15px;
-    color: #606266;
+    color: #333;
     font-size: 14px; }
   .el-message-box__input {
     padding-top: 15px; }

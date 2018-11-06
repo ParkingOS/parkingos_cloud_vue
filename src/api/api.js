@@ -15,7 +15,6 @@ export const server = 'http://test.bolink.club';
 //beta设置为5   s.bolink设置为2
 export const percision = 5;
 
-
 export const operateType = [
     {'value_no': 0, 'value_name': '全部'},
     {'value_no': 1, 'value_name': '续费'},
@@ -234,6 +233,7 @@ export const singleDoubleType = [
     {'value_name': '限制', 'value_no': '1'}
 ];
 export const orderStateType = [
+    {'value_name': '全部', 'value_no': '-1'},
     {'value_name': '未结算', 'value_no': '0'},
     {'value_name': '已结算', 'value_no': '1'}
     // {'value_name': '逃单', 'value_no': '2'}

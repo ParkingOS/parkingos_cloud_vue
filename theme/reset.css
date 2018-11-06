@@ -15,7 +15,6 @@
 /* ecf5ff */
 /* parkingOS
 --------------------------*/
-/* ecf5ff */
 /* Link
 -------------------------- */
 /* Background
@@ -120,15 +119,15 @@ body {
   -webkit-font-smoothing: antialiased; }
 
 a {
-  color: #2D3A4B;
+  color: #262B53;
   text-decoration: none; }
   a:hover, a:focus {
-    color: #57616f; }
+    color: #515575; }
   a:active {
-    color: #293444; }
+    color: #22274b; }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #606266;
+  color: #333;
   font-weight: inherit; }
   h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
     margin-top: 0; }
