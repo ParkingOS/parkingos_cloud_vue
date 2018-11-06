@@ -53,7 +53,7 @@
                 <el-form-item label="包月产品" :prop="p_name">
                     <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" style="width:90%">
                         <el-option
-                                v-for="item in pname"
+                                v-for="item in allpname"
                                 :label="item.value_name"
                                 :value="item.value_no"
                         >
@@ -110,7 +110,7 @@
                     <el-input v-model="refillForm.car_number" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="车辆类型">
-                    <el-select v-model="refillForm.car_type_id" style="width:90%">
+                    <el-select v-model="refillForm.car_type_id" @change="getProByCar" style="width:90%">
                         <el-option
                                 v-for="item in cartype"
                                 :label="item.value_name"
@@ -269,7 +269,7 @@
                                 unsortable: true,
                                 align: 'center',
                                 format: (row) => {
-                                    return common.nameformat(row, this.pname, 'pid')
+                                    return common.nameformat(row, this.allpname, 'pid')
                                 }
                             },
                         ]
@@ -520,7 +520,9 @@
 
                 },
                 pname: [],
+                allpname:[],
                 cartype: [],
+                p_lot:'',
                 refillForm: {
                     name: '',
                     car_number: '',
@@ -572,7 +574,7 @@
                     _this.refillstartDate = newDate.setTime(endtime * 1000);
                 }
 
-                for (let item of this.pname) {
+                for (let item of this.allpname) {
                     if (row.pid == item.value_no) {
                         this.refillForm.p_name = item.value_name;
                         this.showRefill = true;
@@ -587,6 +589,7 @@
                 this.showRefill = true;
             },
             showadd: function () {
+                this.pname=this.allpname;
                 this.showRegis = true;
                 this.refillForm.p_name = '';
                 this.refillForm.mobile = '';
@@ -671,13 +674,23 @@
                 })
 
             },
+            getProByCar:function(){
+                //alert(this.refillForm.car_type_id);
+                var carId = this.refillForm.car_type_id
+                var _this = this;
+                axios.all([common.getPNameByCar(carId)])
+                    .then(axios.spread(function (retpname) {
+                        _this.pname = retpname.data;
+                    }))
+                _this.refillForm.p_name='';
+            },
              getRefillTotal: function () {
                 // console.log('计算续费金额' + this.refillForm.p_name + ' -- ' + this.refillForm.months)
                 // if (this.refillForm.p_name == '' || this.refillForm.months == '')
                 //     return;
 
                 this.readonly = false;
-                for (let item of this.pname) {
+                for (let item of this.allpname) {
                     // console.log(this.refillForm.p_name+'  '+item.value_name)
                     if (this.refillForm.p_name == item.value_name || this.refillForm.p_name == item.value_no) {
                         this.refillForm.p_name = item.value_no;
@@ -803,17 +816,18 @@
             axios.all([common.getPName(), common.getCarType()])
                 .then(axios.spread(function (retpname, retcartype) {
                     _this.pname = retpname.data;
+                    _this.allpname=retpname.data;
                     _this.cartype = retcartype.data;
                     // console.log(ret.data)
                     // console.log(_this.pname)
                 }))
         },
         watch: {
-            pname: function (val) {
+            allpname: function (val) {
                 this.tableitems[1].subs[0].selectlist = val
             },
             cartype: function (val) {
-                this.tableitems[10].subs[0].selectlist = val
+                this.tableitems[9].subs[0].selectlist = val
             }
         }
     }

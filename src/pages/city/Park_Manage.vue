@@ -40,11 +40,6 @@
                 <el-form-item label="车位总数" :prop="parking_total">
                     <el-input v-model="addFormPark.parking_total" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="地址" :prop="address">
-                    <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
-                    <br/>
-                    <el-button  type="primary" @click="onMapShow">地图标注</el-button>
-                </el-form-item>
                  <el-form-item label="所属运营集团" >
                     <el-select v-model="addFormPark.group_id" style="width:90%">
                         <el-option
@@ -86,7 +81,6 @@
                 <el-form-item label="地址" :prop="address">
                     <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
                     <br/>
-                    <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
                 </el-form-item>
                 <el-form-item label="泊链车场编号" :prop="bolink_id">
                     <el-input v-model="addFormPark.bolink_id" style="width:90%" placeholder="" readonly></el-input>

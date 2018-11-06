@@ -30,9 +30,11 @@
 
                 :hideSearch="hideSearch"
                 :showEdit="showEdit"
+                :showPassWord="showPassWord"
                 :showdelete="showdelete"
                 v-on:handlePublic="handlePublic"
                 v-on:selfExport="selfExport"
+                v-on:handlePwdEdit="handlePwdEdit"
                 ref="bolinkuniontable"
         ></common-table>
 
@@ -123,6 +125,35 @@
             </span>
         </el-dialog>
 
+
+
+        <el-dialog
+                title="密码管理"
+                :visible.sync="showPwdDialog"
+                width="30%">
+            <el-form ref="pwdForm" label-width="120px" style="margin-bottom:-30px"
+                     :model="pwdFormModel" :rules="pwdFormRules">
+                <el-form-item label="密码管理" >
+                    <el-select v-model="pwd_state" style="width:90%">
+                        <el-option
+                                v-for="item in setList"
+                                :key="item.value_no"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                 <el-form-item label="密码"  :prop="password" v-if="showPwdSet">
+                     <el-input v-model="pwdFormModel.password" style="width:90%" placeholder=""></el-input>
+                 </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="cancelSet" size="small">取 消</el-button>
+                <el-button type="primary" size="small" @click="addPwd" :loading="addloading">确 定</el-button>
+            </span>
+        </el-dialog>
+
     </section>
 </template>
 
@@ -140,6 +171,7 @@
         },
         data() {
             return {
+                showPwdSet:false,
                 showPublicSet:false,
                 loading: false,
                 hideExport: true,
@@ -161,14 +193,20 @@
                     free_limit:'',
                 },
                 public_state:'0',
+                pwd_state:'0',
                 publicFormModel:{
                     id:'',
                     appid:'',
                     secret:'',
                     concern_address:'',
                 },
+                pwdFormModel:{
+                    id:'',
+                    password:''
+                },
                 showRegisPark: false,
                 showPublicDialog:false,
+                showPwdDialog:false,
                 showCustomizeAdd:true,
 
                 showamount:true,
@@ -197,11 +235,13 @@
                 },
                 hideTool: false,
                 showEdit: true,
+                showPassWord:false,
                 queryapi: '/fixcode/query',
                 selfexportapi:'/fixcode/downloadCode',
                 addapi:'/fixcode/add',
                 editapi:'/fixcode/edit',
                 publicapi:'/fixcode/public',
+                pwdapi:'/fixcode/setpwd',
                 btswidth: '160',
                 href:'https://www.baidu.com/s?wd=node-pre-gyp+install+--fallback-to-build&ie=UTF-8&tn=39042058_20_oem_dg',
                 fieldsstr: 'id__park_id__operate_time__ticketfree_limit__ticket_limit__ticket_money__operate_type__add_money__state__create_time__name',
@@ -430,7 +470,13 @@
                    concern_address:[
                      {required: true, message: '请输入公众号关注地址', trigger: 'blur'}
                    ],
-               }
+               },
+               password:'password',
+               pwdFormRules: {
+                  password: [
+                      {required: true, message: '请输入4位数字密码', trigger: 'blur'}
+                  ],
+              }
             }
         },
          methods: {
@@ -453,7 +499,60 @@
                 this.showPublicDialog=true
             },
             cancelSet:function () {
+                this.showPwdDialog=false;
                 this.showPublicDialog = false;
+            },
+            handlePwdEdit(index,row){
+                this.pwd_state=row.use_pwd+''
+                this.pwdFormModel.password=row.pass_word
+                this.pwdFormModel.id=row.id
+                this.showPwdDialog=true
+            },
+            addPwd(){
+               let _this = this;
+               this.$refs.pwdForm.validate((valid) => {
+                   if (valid) {
+                       _this.addloading = true;
+                       let aform = _this.generateForm(_this.pwdFormModel);
+                       aform.pwd_state=_this.pwd_state;
+                       aform.password=_this.pwdFormModel.password;
+                       aform.id=_this.pwdFormModel.id;
+                       _this.$axios.post(path + _this.pwdapi, _this.$qs.stringify(aform), {
+                           headers: {
+                               'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                           }
+                       }).then(function (response) {
+                           let ret = response.data;
+                           if (ret > 0 || ret.state === 1) {
+                               //更新成功
+                               _this.$refs['bolinkuniontable'].getTableData({});
+                               _this.$message({
+                                   message: '编辑密码成功!',
+                                   type: 'success',
+                                   duration: 600
+                               });
+                               _this.showPwdDialog = false;
+                           } else {
+                               //更新失败
+                               _this.$message({
+                                   message: ret.msg,
+                                   type: 'error',
+                                   duration: 1200
+                               });
+                           }
+                           _this.addloading = false
+
+                       }).catch(function (error) {
+                           //更新失败
+                           _this.$message({
+                               message: '请求失败!' + error.data,
+                               type: 'error',
+                               duration: 1200
+                           });
+                           _this.addloading = false;
+                       })
+                   }
+               })
             },
             addPublic(){
                 let _this = this;
@@ -616,7 +715,9 @@
             // console.log(user)
             if (user) {
                 user = JSON.parse(user);
-
+                if(user.secret_park){
+                    this.showPassWord=true;
+                }
                 for (var item of user.authlist) {
                     if (AUTH_ID_SHOP.fixCode == item.auth_id) {
                         this.showEdit = common.showSubEdit(item.sub_auth);
@@ -667,6 +768,13 @@
                 }else{
                     this.showPublicSet=false
                 }
+            },
+            pwd_state:function (val) {
+              if(val==1){
+                  this.showPwdSet=true
+              }else{
+                  this.showPwdSet=false
+              }
             },
         },
     }

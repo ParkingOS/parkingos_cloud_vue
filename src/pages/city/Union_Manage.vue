@@ -34,11 +34,6 @@
                     <el-input v-model="addFormPark.name" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
 
-                <el-form-item label="地址" :prop="address">
-                    <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
-                    <br/>
-                    <el-button  type="primary" @click="onMapShow">地图标注</el-button>
-                </el-form-item>
                 <el-form-item label="泊链运营集团编号" :prop="operatorid">
                     <el-input v-model="addFormPark.operatorid" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
@@ -60,11 +55,6 @@
                 </el-form-item>
 
 
-                <el-form-item label="地址" :prop="address">
-                    <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
-                    <br/>
-                    <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
-                </el-form-item>
                 <el-form-item label="泊链运营集团编号" :prop="operatorid">
                     <el-input v-model="addFormPark.operatorid" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
@@ -519,9 +509,6 @@
                 addFormRules: {
                     name: [
                         {required: true, message: '请填写运营集团名称', trigger: 'blur'}
-                    ],
-                    address: [
-                        {required: true, message: '请标注位置', trigger: 'blur'}
                     ],
                     mobile: [
                         {validator: checkPhone, trigger: 'blur'}

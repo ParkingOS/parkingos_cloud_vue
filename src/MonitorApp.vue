@@ -308,6 +308,8 @@
                 videoChannls:null,
                 keycode:true,
                 ieShow:true,
+                wsUrl:'',
+                lockReconnect :false,
                 errorData:[],
             }
         },
@@ -470,21 +472,108 @@
             this.dataInteval = setInterval(that.getDatas, 10000);
             //通讯
             //启动页面ReverseAjax 功能
-            dwr.engine.setActiveReverseAjax(true);
+            //dwr.engine.setActiveReverseAjax(true);
             //设置页面关闭时 通知服务端销毁对话
-            dwr.engine.setNotifyServerOnPageUnload(true);
-            Push.onPageLoad("statusTag");
-            window.popCenterVideo=function(autoMessage) {
-                var data = eval("("+autoMessage+")");
-                if(data !=null && typeof(data)!='undefined'){
-                    if(that.comid!='undefined'&& data.main_phone_type== 0 || that.grounp != 'undefined' && data.main_phone_type==1){
-                        var src = data.play_src,vid = data.id;
-                        that.videoPlay(vid,src)
-                    }
+            //dwr.engine.setNotifyServerOnPageUnload(true);
+            //Push.onPageLoad("statusTag");
+            //window.popCenterVideo=function(autoMessage) {
+            //    var data = eval("("+autoMessage+")");
+            //    if(data !=null && typeof(data)!='undefined'){
+            //        if(that.comid!='undefined'&& data.main_phone_type== 0 || that.grounp != 'undefined' && data.main_phone_type==1){
+            //            var src = data.play_src,vid = data.id;
+            //            that.videoPlay(vid,src)
+            //        }
+            //   }
+            //}
+
+            var socket;
+            if(typeof(WebSocket) == "undefined") {
+                console.log("您的浏览器不支持WebSocket");
+            }else {
+                console.log("您的浏览器支持WebSocket");
+
+                //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+                //socket = new WebSocket("ws://localhost:9094/starManager/websocket/张三")
+                if(path.indexOf("test")!=-1){
+                    //wsUrl="ws://test.bolink.club/cloud/websocket";
+                    socket = new WebSocket("ws://test.bolink.club/cloud/websocket");
+                }else{
+                    //wsUrl="ws://yun.bolink.club/cloud/websocket";
+                    socket = new WebSocket("ws://yun.bolink.club/cloud/websocket");
                 }
+
+                //打开事件
+                socket.onopen = function () {
+                    //alert("Socket 已打开");
+                    console.log("Socket 已打开");
+                    var groupid = sessionStorage.getItem('groupid');
+                    if(groupid!='undefined'&&groupid>-1){
+                        socket.send("groupid_"+groupid);
+                    }else{
+                        socket.send("comid_"+sessionStorage.getItem('comid'));
+                    }
+                    heartCheck.start();
+
+                };
+                //获得消息事件
+                socket.onmessage = function (msg) {
+                    var data = eval("("+msg.data+")");
+                    //alert(data)
+                    if(data !=null && typeof(data)!='undefined'){
+                        if(that.comid!='undefined'&& data.main_phone_type== 0 || that.grounp != 'undefined' && data.main_phone_type==1){
+                            var src = data.play_src,vid = data.id;
+                            that.videoPlay(vid,src)
+                        }
+                    }
+                    //发现消息进入    调后台获取
+                    //getCallingList();
+                    heartCheck.start();
+                };
+                //关闭事件
+                socket.onclose = function () {
+                    //alert("Socket已关闭");
+                    window.location.reload();
+                    console.log("Socket已关闭");
+
+                };
+                //发生了错误事件
+                socket.onerror = function () {
+                    alert("Socket发生了错误");
+                }
+                window.onunload =function(){
+                     socket.close();
+                };
+
+                var heartCheck = {
+                  timeout: 20000,
+                  timeoutObj: null,
+                  serverTimeoutObj: null,
+                  start: function(){
+                    console.log('start');
+                    var self = this;
+                    this.timeoutObj && clearTimeout(this.timeoutObj);
+                    this.serverTimeoutObj && clearTimeout(this.serverTimeoutObj);
+                    this.timeoutObj = setTimeout(function(){
+                      //这里发送一个心跳，后端收到后，返回一个心跳消息，
+                      //console.log('55555');
+                      socket.send("123456789");
+                      self.serverTimeoutObj = setTimeout(function() {
+                        console.log(111);
+                        console.log(socket);
+                        socket.close();
+                        // createWebSocket();
+                      }, self.timeout);
+
+                    }, this.timeout)
+                  }
+                }
+
             }
+
         },
         methods: {
+
+
             killesc:function () {
                 var isIE = !!window.ActiveXObject || "ActiveXObject"in window;
                 if(isIE){
@@ -685,7 +774,7 @@
                         'car_number':encodeURI(_that.errorData.car_number),
                         'event_id':encodeURI(_that.errorData.event_id),
                         'channel_id':encodeURI(_that.errorData.channel_id),
-                        'comid' : encodeURI(sessionStorage.getItem('comid')),
+                        'comid' : encodeURI(_that.errorData.comid),
                         'groupid':sessionStorage.getItem('groupid')
                     },
                 })])
@@ -722,6 +811,7 @@
             },
             placeOrder(manualData){
                 this.car_number = manualData.car_number;
+                this.comid = manualData.comid
                 var _that = this;
                 var tmp = Math.random().toString();
                 axios.all([axios.get(path + '/centermonitor/balanceorderinfo',{
@@ -732,7 +822,7 @@
                         'car_number':encodeURI(_that.car_number),
                         'event_id':encodeURI(_that.event_id),
                         'channel_id':encodeURI(_that.channel_id),
-                        'comid' : encodeURI(sessionStorage.getItem('comid')),
+                        'comid' : _that.comid,
                         'groupid':sessionStorage.getItem('groupid')
                     },
                 })])
@@ -764,7 +854,7 @@
                         action: 'querySelectOrder',
                         order_id:encodeURI(item.orderId) ,
                         car_number:encodeURI(item.carNumber),
-                        comid:sessionStorage.getItem('comid'),
+                        comid:encodeURI(item.comid),
                         groupid:sessionStorage.getItem('groupid')
                     },
                 })])

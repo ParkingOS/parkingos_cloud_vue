@@ -449,6 +449,10 @@
                                @click="handleCustomizeEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
+                    <el-button v-if="showPassWord" type="text" size="small"
+                               @click="handlePwdEdit(scope.$index, scope.row)">
+                        密码管理
+                    </el-button>
                     <el-button v-if="showShopEdit" :disabled='scope.row.state==2' size="small" type="text" @click="handleCustomizeEdit(scope.$index, scope.row)">
                         编辑
                     </el-button>
@@ -1030,7 +1034,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete','showlogout','showrefund', 'showmapdialog', 'showMap', 'showsetting','showShopSetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd','showresetdata', 'showdateSelector','showdateSelector22','showdateSelector33','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
-            'showModifyCarNumber', 'showmRefill', 'showEdit','showShopEdit', 'showImg','showCode','showPublic', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit','showShopEdit', 'showImg','showCode','showPublic', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2','showPassWord'],
         methods: {
             changeTimer:function (value) {
                 console.log(value)
@@ -1745,6 +1749,9 @@
             },
             handleCustomizeEdit(index, row) {
                 this.$emit('customizeedit', index, row);
+            },
+            handlePwdEdit(index, row) {
+                 this.$emit('handlePwdEdit', index, row);
             },
             handlePermission(index, row) {
                 //员工权限-角色管理-编辑权限

@@ -182,7 +182,7 @@ export default {
           return axios.get(path + '/getdata/getSuperimposed' + param);
         }
         else{
-          return {}
+          return {};
         }
 
 
@@ -316,6 +316,13 @@ export default {
         let param = '?token=' + sessionStorage.getItem('token')
             + this.commonParams();
         return axios.get(path + '/getdata/getpname' + param);
+    },
+    getPNameByCar(carId){
+        //获得月卡套餐
+        let param = '?token=' + sessionStorage.getItem('token')
+            +'&carId='+carId
+            + this.commonParams();
+        return axios.get(path + '/getdata/getpnamebycar' + param);
     },
     getUnionList() {
         //获取城市下面所有的集团
@@ -546,7 +553,7 @@ export default {
           }
         }
         catch(e){
-
+            console.log(e);
         }
 
         return params;
