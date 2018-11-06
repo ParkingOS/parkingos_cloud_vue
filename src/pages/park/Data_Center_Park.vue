@@ -74,7 +74,11 @@
                             <el-col :span="8"  justify="center" align="center">状态</el-col>
                             <el-col :span="16"  justify="center" align="center">名称</el-col>
                         </el-row>
-                        <vue-seamless-scroll :data="parkState" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="parkState.length>0">
+                        <div v-show="parkState.length == 0" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)',textAlign:'center',color:'#a1a1a1' }">
+                            <i class="iconfont icon-wushuju" style="font-size: 60px"></i>
+                            <p>暂无数据</p>
+                        </div>
+                        <vue-seamless-scroll v-show="parkState.length != 0" :data="parkState" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="parkState.length>0">
                             <ul>
                                 <li  v-for='(item,index) in parkState' :key="index" class="seamless-item-style">
                                     <el-row type="flex">
@@ -147,7 +151,11 @@
                             <el-col :span="8"  justify="center" align="center">时间</el-col>
                             <el-col :span="8"  justify="center" align="center">车牌号</el-col>
                         </el-row>
-                        <vue-seamless-scroll :data="inPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="inPartData.length>0">
+                        <div v-show="inPartData.length == 0" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)',textAlign:'center',color:'#a1a1a1' }">
+                            <i class="iconfont icon-wushuju" style="font-size: 60px"></i>
+                            <p>暂无数据</p>
+                        </div>
+                        <vue-seamless-scroll v-show="inPartData.length>0" :data="inPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="inPartData.length>0">
                             <ul>
                                 <li  v-for='(item,index) in inPartData' :key="index" class="seamless-item-style">
                                     <el-row type="flex">
@@ -170,7 +178,11 @@
                             <el-col :span="8"  justify="center" align="center">时间</el-col>
                             <el-col :span="8"  justify="center" align="center">车牌号</el-col>
                         </el-row>
-                        <vue-seamless-scroll :data="outPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="outPartData.length>0">
+                        <div v-show="outPartData.length == 0" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)',textAlign:'center',color:'#a1a1a1' }">
+                            <i class="iconfont icon-wushuju" style="font-size: 60px"></i>
+                            <p>暂无数据</p>
+                        </div>
+                        <vue-seamless-scroll v-show="outPartData.length>0" :data="outPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="outPartData.length>0">
                             <ul>
                                 <li  v-for='(item,index) in outPartData' :key="index" class="seamless-item-style">
                                     <el-row type="flex">
@@ -205,7 +217,11 @@
                             <el-col :span="6"  justify="center" align="center">收费员</el-col>
                             <el-col :span="6"  justify="center" align="center">原因</el-col>
                         </el-row>
-                        <vue-seamless-scroll :data="exceptionDataPole" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="exceptionDataPole.length>0">
+                        <div v-show="exceptionDataPole.length == 0" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)',textAlign:'center',color:'#a1a1a1' }">
+                            <i class="iconfont icon-wushuju" style="font-size: 60px"></i>
+                            <p>暂无数据</p>
+                        </div>
+                        <vue-seamless-scroll v-show="exceptionDataPole.length>0" :data="exceptionDataPole" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="exceptionDataPole.length>0">
                             <ul>
                                 <li  v-for='(item,index) in exceptionDataPole' :key="index" class="seamless-item-style">
                                     <el-row type="flex">

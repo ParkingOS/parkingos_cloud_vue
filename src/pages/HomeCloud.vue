@@ -1,6 +1,6 @@
 <template>
     <el-row class="container">
-        <div class="mian-header">
+        <div class="mian-header" style="border-bottom: 1px solid #ebeef5;">
             <div class="logo">LOGO</div>
             <div class="console">
                 <div class="img-box"></div>

@@ -1,12 +1,12 @@
 <template>
-    <section>
+    <section style="margin:0 20px;padding-top: 10px">
         <!--//////////////////搜索条件+操作按钮//////////////////////-->
         <el-form :inline="true" v-model="formItem" class="demo-form-inline">
             <el-form-item label="车牌号" class="inp-margin-buttom">
-                <el-input v-model="formItem.car_number" placeholder="车牌号"></el-input>
+                <el-input v-model="formItem.car_number" size="mini" placeholder="车牌号"></el-input>
             </el-form-item>
             <el-form-item label="状态:" class="inp-margin-buttom">
-                <el-select placeholder="全部" v-model="formItem.state">
+                <el-select placeholder="全部" v-model="formItem.state" size="mini">
                     <el-option
                             label="全部"
                             value="">
@@ -20,13 +20,13 @@
                 </el-select>
             </el-form-item>
             <el-form-item class="inp-margin-buttom">
-                <el-button type="primary" @click="search">搜索</el-button>
+                <el-button type="primary" @click="search" size="mini">搜索</el-button>
                 <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                    <el-button type="primary" @click="handleExport">导出</el-button>
+                    <el-button type="primary" @click="handleExport" size="mini">导出</el-button>
                 </el-tooltip>
-                <el-button @click="getCode()" icon="search" type="primary">访客二维码
+                <el-button @click="getCode()" icon="search" type="primary" size="mini">访客二维码
                 </el-button>
-                <el-button @click="visitorSet()"  type="primary">访客设置
+                <el-button @click="visitorSet()"  type="primary" size="mini">访客设置
                 </el-button>
             </el-form-item>
         </el-form>

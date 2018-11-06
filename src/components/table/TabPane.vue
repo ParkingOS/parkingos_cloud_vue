@@ -1,10 +1,10 @@
 <template>
     <section style="margin: 0 20px">
         <sticky class-name="sub-navbar" :fixedDom="fixedDom" stickyTop='50' zIndex='999' v-on:topShow="topShowFn">
-            <ul style="display: flex" v-if="topShow">
+            <ul style="display: flex;" v-if="topShow">
                 <template v-for="items in TableItems" >
                     <li
-                        :style="tableitem.width ? {width:tableitem.width+'px',textAlign:'center',lineHeight:'40px',color:'#909399',fontWeight:'500',backgroundColor: '#F5F7FA'} : isWidthStyle"
+                        :style="tableitem.width ? {width:tableitem.width+'px',textAlign:'center',lineHeight:'44px',color:'#909399',fontWeight:'500',backgroundColor: '#F4F8FF'} : isWidthStyle"
                         v-if="!tableitem.hidden"
                         v-for="(tableitem,index) in items.subs"
                     >{{tableitem.label}}</li>
@@ -118,7 +118,7 @@
                 position:'fixed',
                 isSticky:false,
                 wHeight:undefined,
-                isWidthStyle:"flex:1;text-align:center;line-height:40px;color:#909399;font-weight:500;background-color: #F5F7FA;",
+                isWidthStyle:"flex:1;text-align:center;line-height:44px;color:#909399;font-weight:500;background-color: #F4F8FF;",
                 loading:false,
                 currentHeight:'300px',
                 orderby:'desc',
@@ -315,8 +315,8 @@
     .pagination-pos{
         position: fixed;
         bottom: 17px;
-        left: 170px;
-        right: 30px;
+        left: 180px;
+        right: 40px;
         z-index: 999;
         background: #fff;
     }
