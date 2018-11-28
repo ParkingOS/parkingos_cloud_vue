@@ -1,23 +1,31 @@
 <template>
     <el-row class="container">
         <div class="mian-header" style="border-bottom: 1px solid #ebeef5;">
-            <div class="logo">LOGO</div>
+            <div class="logo">
+                <div class="logo-one">
+                    <img src="../assets/images/within-logo.png">
+                </div>
+                <div class="logo-two">
+                    <img src="../assets/images/within-logo2.png">
+                </div>
+            </div>
             <div class="console">
-                <div class="img-box"></div>
+                <div class="img-box"><img src="../assets/images/login-user.png"></div>
                 <div class="username">{{nickname}}:{{sysUserName}}</div>
-                <div class="outlogin" @click="logout">退出登录</div>
+                <div class="outlogin" @click="logout">退出</div>
             </div>
         </div>
 
         <el-col :span="24" class="main">
-            <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
-                <el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"
-                           class="menu-expan-button menu-expan-button2 menu-open-color">
-                    <i class="iconfont icon-fanxiangmulujiantou"></i>
-                </el-button>
-                <el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button menu-open-color">
-                    <i class="iconfont icon-mulujiantou"></i>
-                </el-button>
+            <aside :class="isCollapse?'scroll-hidden menu-collapsed':'scroll-hidden menu-expanded'">
+                <!--<el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"-->
+                           <!--class="menu-expan-button menu-expan-button2 menu-open-color">-->
+                    <!--<i class="iconfont icon-fanxiangmulujiantou"></i>-->
+                <!--</el-button>-->
+                <!--<el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button menu-open-color">-->
+                    <!--<i class="iconfont icon-mulujiantou"></i>-->
+                <!--</el-button>-->
+
                 <!--text-color="#fff" active-text-color="#109EFF"-->
                 <!--应用element内置自定义滚动条-->
                 <el-scrollbar :native="true">
@@ -27,7 +35,7 @@
                          @select="handleselect"
                          unique-opened
                          text-color="#fff"
-                         active-text-color="#0E5FF6"
+                         active-text-color="#74DBFF"
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 
@@ -180,7 +188,7 @@
 
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.centerMonitor||this.showUnionItem.centerMonitor" index="centerMonitor"
-                                style="font-weight: normal">
+                                style="font-weight: normal;padding-bottom: 20px">
                         <template slot="title"><i class="iconfont icon-zhongyangjiankong1"></i><span
                                 class="menuitem">中央监控</span></template>
                         <!--<el-menu-item index="centerMonitor" v-if="this.showParkItem.centerMonitor">中央监控-->
@@ -379,9 +387,9 @@
 
             }
 
-            this.currentHeight =  (document.body.clientHeight - 75) + 'px'
+            this.currentHeight =  (document.body.clientHeight - 45) + 'px'
             window.addEventListener('resize', () => {
-                this.currentHeight =  (document.body.clientHeight - 75) + 'px'
+                this.currentHeight =  (document.body.clientHeight - 45) + 'px'
             });
         },
 

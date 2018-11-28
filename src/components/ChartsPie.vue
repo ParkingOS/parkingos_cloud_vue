@@ -146,16 +146,20 @@
                         formatter:function (params) {
                             let ret = params[0];
                             let name = '';
+                            let str = '';
                             let len = ret.name.length;
+                            console.log('---',ret)
                             if(len > 6){
-                                let deg = Math.ceil((len/6))
-                                for(let i=0;i<deg;i++){
-                                    name += ret.name.substr((i*6),6)+'<br/>'
-                                }
-                                return name
+                                name = ret.name.substr(0,6)+'...'
+                                // let deg = Math.ceil((len/6))
+                                // for(let i=0;i<deg;i++){
+                                //     name += ret.name.substr((i*6),6)
+                                // }
                             }else{
                                name = ret.name;
                             }
+                            str = '<p>收费员:'+name+'</p>'+'<p>金额:'+ret.value+'元</p>';
+                            return str
                         }
                     },
                     grid: {
@@ -188,7 +192,7 @@
                         }
                     },
                     yAxis: {
-                        name:'出口',
+                        name:'',
                         nameLocation:'end',
                         type: 'category',
                         axisLine:{
@@ -203,8 +207,8 @@
                         data: that.chartsData.name,
                         axisLabel:{
                             formatter: function (value) {
-                                if(value.length >= 3){
-                                    return value.substring(0,3)
+                                if(value.length >= 4){
+                                    return value.substring(0,4)+'...'
                                 }else{
                                     return value;
                                 }
@@ -258,7 +262,7 @@
                         trigger: 'axis',
                         formatter: function (params) {
                             let name = params[0].name +'时'+'<br/>'
-                            let val = '使用率占比:' +(params[0].value)*100+'%'
+                            let val = '使用率占比:' +((params[0].value)*100).toFixed(2)+'%'
                             return name + val;
                         },
                         axisPointer: {
@@ -269,7 +273,7 @@
                         top:'28',
                         left: '0',
                         right: '50',
-                        bottom: '0',
+                        bottom: '8',
                         containLabel: true
                     },
                     xAxis: {
@@ -360,7 +364,7 @@
                         // this.chargeSummaryChart.setOption(this.chargeSummaryChartOption); //今日收费汇总
                     }
                     else if(this.chartsType == 'bar'){
-                        this.chargeSummaryChart.setOption(this.topParkChartOption); //今日收费车场排行
+                        this.chargeSummaryChart.setOption(this.topParkChartOption); //今日收费排行
                     }
                     else if(this.chartsType == 'line'){
                         this.chargeSummaryChart.setOption(this.berthChartOption); //泊位使用率

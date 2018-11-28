@@ -1,6 +1,6 @@
 
 @import "element-variables.scss";
-$--parkingos-aside-bgcolor:#1E2343;
+$--parkingos-aside-bgcolor:#193C7B;
 .container {
   position: absolute;
   top: 0px;
@@ -66,7 +66,7 @@ $--parkingos-aside-bgcolor:#1E2343;
     display: flex;
     // background: #324057;
     position: absolute;
-    top: 50px;
+    top: 60px;
     bottom: 0px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -183,6 +183,9 @@ $--parkingos-aside-bgcolor:#1E2343;
     //background-color: $--parkingos-sidemenu-background;
     &:hover{
       color: #fff;
+    }
+    i{
+      color: $--parkingos-menu-icon-color;
     }
   }
 
@@ -303,6 +306,7 @@ $--parkingos-aside-bgcolor:#1E2343;
 .seamless-item-style:nth-of-type(even){
 //偶数行
 }
+
 //.el-scrollbar__wrap {
 //  overflow-x: hidden !important;
 //}

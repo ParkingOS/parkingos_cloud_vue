@@ -20,7 +20,7 @@
     <!--&gt;</common-table>-->
     <!--</section>-->
 
-    <section>
+    <section style="margin: 0 20px;margin-top: 5px">
         <el-tabs v-model="activeName" type="card">
             <el-tab-pane name="tableStyle" class="tab-content-pad">
                 <span slot="label"><i class="el-icon-tickets"></i> 表格模式</span>
@@ -61,6 +61,7 @@
                         <!--:picker-options="chartPickerOptions" >-->
                         <!--</el-date-picker>-->
                         <el-date-picker
+                                size="mini"
                                 v-model="chartDate"
                                 type="datetimerange"
                                 align="right"

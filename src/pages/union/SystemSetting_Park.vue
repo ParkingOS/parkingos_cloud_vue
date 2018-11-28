@@ -68,11 +68,6 @@
                         </el-option>
                     </el-select>
                 </el-form-item>-->
-                <el-form-item label="地址" :prop="address">
-                    <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
-                    <br/>
-                    <el-button  type="primary" @click="onMapShow">地图标注</el-button>
-                </el-form-item>
                 <el-form-item label="停车场电话" :prop="mobile">
                     <el-input v-model="addFormPark.mobile" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
@@ -131,11 +126,6 @@
                         </el-option>
                     </el-select>
                 </el-form-item>-->
-                <el-form-item label="地址" :prop="address">
-                    <el-input v-model="addFormPark.address" style="width:90%" placeholder=""></el-input>
-                    <br/>
-                    <el-button size="small" type="primary" @click="onMapShow">地图标注</el-button>
-                </el-form-item>
                 <el-form-item label="停车场电话" :prop="mobile">
                     <el-input v-model="addFormPark.mobile" style="width:90%" placeholder=""></el-input>
                 </el-form-item>
@@ -772,9 +762,6 @@
                     company_name: [
                         {required: true, message: '请填写停车场名称', trigger: 'blur'}
                     ],
-                    address: [
-                        {required: true, message: '请标注位置', trigger: 'blur'}
-                    ],
                     mobile: [
                         {required: true, validator: checkParkMobile, trigger: 'blur'}
                     ],
@@ -875,7 +862,6 @@
             handleAdd: function () {
                 //注册车场
                 let _this = this;
-
                 this.$refs.addFormPark.validate((valid) => {
 
                     if (valid) {

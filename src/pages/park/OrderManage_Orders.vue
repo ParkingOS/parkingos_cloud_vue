@@ -6,7 +6,7 @@
             <div class="workbench-wrapper">
                 <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
                     <el-form-item label="" class="clear-style margin-left-clear">
-                        <el-radio-group v-model="searchFormData.orderfield" size="mini">
+                        <el-radio-group v-model="searchFormData.orderfield" size="mini" @change="changeRadio">
                             <el-radio-button label="create_time">按入场时间</el-radio-button>
                             <el-radio-button label="end_time">按出场时间</el-radio-button>
                         </el-radio-group>
@@ -22,8 +22,10 @@
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期"
                                 value-format="timestamp"
+                                :picker-options="pickerOptions"
                                 @change="changeDateFormat"
                         >
+                            <!--:picker-options="pickerOptions"-->
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="车牌号" class="clear-style">
@@ -68,11 +70,13 @@
                     </div>
                 </el-form>
             </div>
+
             <div class="table-wrapper-style">
                 <tab-pane
                         :queryapi="queryapi"
                         :exportapi="exportapi"
                         :fieldsstr="fieldsstr"
+                        :orderfield="orderfield"
                         :format-collectors="collectors"
                         :table-items="tableitems"
                         align-pos="right"
@@ -100,6 +104,7 @@
             TabPane
         },
         data() {
+            var that = this;
             return {
                 isShow:false,
                 currentHeight:'500',
@@ -107,19 +112,34 @@
                 exportapi: '/order/exportExcel',
                 imgapi: '/order/getOrderPicture',
                 fieldsstr: 'id__c_type__car_number__car_type__create_time__end_time__duration__pay_type__freereasons__amount_receivable__total__electronic_prepay__cash_prepay__electronic_pay__cash_pay__reduce_amount__uid__out_uid__state__url__in_passid__out_passid__order_id_local',
+                orderfield:'create_time',
                 searchFormData:{
                     orderfield:'create_time',
                     currentData:'',
                     create_time:'between',
                     create_time_start:'',
                     create_time_end:'',
+                    end_time: 'between',
+                    end_time_start: '',
+                    end_time_end: '',
                     car_number:'',
                     state:'',
                     state_start:'',
                     pay_type:'',
                     pay_type_start:'-1',
+                    total:'between',
                     total_start:'',
                     total_end:''
+                },
+                pickerOptions:{
+                    onPick(dates) {
+                        that.minDate = dates.minDate;
+                        that.maxDate = dates.maxDate;
+                    },
+
+                    disabledDate(time){
+                        return time.getTime() >  new Date(that.minDate).getTime()+30*24*3600000||time.getTime()>Date.now()||time.getTime() <  new Date(that.minDate).getTime()-30*24*3600000;
+                    }
                 },
                 tableitems: [
                     {
@@ -560,6 +580,9 @@
             };
         },
         methods: {
+            changeRadio(val){
+                this.orderfield = val;
+            },
             //查看详情
             handleShowOrderDetail(index, row) {
                 // let container = this.$el.querySelector('.el-table__body-wrapper');
@@ -588,24 +611,61 @@
                         create_time:'between',
                         create_time_start:'',
                         create_time_end:'',
+                        end_time: '',
+                        end_time_start: '',
+                        end_time_end: '',
                         car_number:'',
                         state:'',
                         state_start:'',
                         pay_type:'',
                         pay_type_start:'-1',
+                        total:'between',
                         total_start:'',
                         total_end:''
                 };
                 let currentTime =  common.currentDateArray(3);
-                that.searchFormData.currentData = [new Date(currentTime[0]),new Date(currentTime[1])];
+                // that.searchFormData.currentData = [new Date(currentTime[0]),new Date(currentTime[1])];
+                that.searchFormData.currentData = [common.timestampFormat(currentTime[0]),common.timestampFormat(currentTime[1])];
                 that.searchFormData.create_time_start = common.timestampFormat(currentTime[0]);
                 that.searchFormData.create_time_end = common.timestampFormat(currentTime[1]);
+                that.searchFormData.end_time_start = '';
+                that.searchFormData.end_time_end = '';
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
             },
             searchFn() {
+                // console.log('this.searchFormData',this.searchFormData)
                 /*
                 * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
                 * */
+                let timer =  this.searchFormData.currentData;
+                if(timer != null){
+                    let currentData = JSON.parse(JSON.stringify(this.searchFormData.currentData));
+                    if(typeof timer[0] == 'object'){
+                        currentData = [Date.parse(currentData[0]),Date.parse(currentData[1])]
+                    }
+                    if(this.orderfield == 'create_time'){
+                        this.searchFormData.create_time='between';
+                        this.searchFormData.create_time_start = currentData[0];
+                        this.searchFormData.create_time_end = currentData[1];
+                        this.searchFormData.end_time='';
+                        this.searchFormData.end_time_start = '';
+                        this.searchFormData.end_time_end = '';
+                    }else{
+                        this.searchFormData.create_time='';
+                        this.searchFormData.create_time_start = '';
+                        this.searchFormData.create_time_end = '';
+                        this.searchFormData.end_time='between';
+                        this.searchFormData.end_time_start = currentData[0];
+                        this.searchFormData.end_time_end = currentData[1];
+                    }
+                }else{
+                    this.searchFormData.create_time='';
+                    this.searchFormData.create_time_start = '';
+                    this.searchFormData.create_time_end = '';
+                    this.searchFormData.end_time_start = '';
+                    this.searchFormData.end_time_end = '';
+                    this.searchFormData.end_time='';
+                }
                 let sform = this.searchFormData;
                 sform.state_start = sform.state;
                 sform.pay_type_start = sform.pay_type;
@@ -617,10 +677,22 @@
             changeDateFormat(val){
                 if(val == null){
                     this.searchFormData.create_time_start = '';
-                    this.searchFormData.create_time_end = ''
+                    this.searchFormData.create_time_end = '';
+                    this.searchFormData.end_time_start = '';
+                    this.searchFormData.end_time_end = ''
                 }else{
-                    this.searchFormData.create_time_start = val[0];
-                    this.searchFormData.create_time_end = val[1]
+                    if(this.orderfield == 'create_time'){
+                        this.searchFormData.create_time_start = val[0];
+                        this.searchFormData.create_time_end = val[1];
+                        this.searchFormData.end_time_start = '';
+                        this.searchFormData.end_time_end = '';
+                    }else{
+                        this.searchFormData.create_time_start = '';
+                        this.searchFormData.create_time_end = '';
+                        this.searchFormData.end_time_start = val[0];
+                        this.searchFormData.end_time_end = val[1];
+                    }
+
                 }
             },
             handleScroll() {

@@ -19,7 +19,7 @@
         <!--&gt;</common-table>-->
 
     <!--</section>-->
-    <section>
+    <section style="margin: 0 20px;margin-top: 5px">
         <el-tabs v-model="activeName" type="card">
             <el-tab-pane name="tableStyle" class="tab-content-pad">
                 <span slot="label"><i class="el-icon-tickets"></i> 表格模式</span>
@@ -47,6 +47,7 @@
                 <section class="date-picker-sec">
                     <section>
                         <el-date-picker
+                                size="mini"
                                 v-model="monthReportStart"
                                 type="month"
                                 :picker-options="pickerOptionsBefore"
@@ -55,6 +56,7 @@
                         </el-date-picker>
                         <span> 至 </span>
                         <el-date-picker
+                                size="mini"
                                 v-model="monthReportEnd"
                                 type="month"
                                 :picker-options="pickerOptionsAfter"
@@ -62,7 +64,7 @@
                                 :placeholder="start_month_placeholder">
                         </el-date-picker>
                         <el-tooltip class="item" effect="dark" content="最多支持12个月的数据查询" placement="bottom">
-                            <el-button type="primary" @click="queryForChart" align="center">查询
+                            <el-button type="primary" @click="queryForChart" align="center" size="mini">查询
                             </el-button>
                         </el-tooltip>
                     </section>

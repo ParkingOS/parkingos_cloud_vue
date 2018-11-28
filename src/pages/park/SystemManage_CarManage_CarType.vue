@@ -1,29 +1,35 @@
 <template>
-    <section>
-        <common-table
-                :queryapi="queryapi"
-                :tableheight="tableheight"
-                :fieldsstr="fieldsstr"
-                :tableitems="tableitems"
-                :btswidth="btswidth"
-                :hide-export="hideExport"
-                :hide-options="hideOptions"
-                :searchtitle="searchtitle"
-
-                :hideTool="hideTool"
-
-                :hideSearch="hideSearch"
-                :hideAdd="hideAdd"
-                :showEdit="showEdit"
-                :showdelete="showdelete"
-                :addtitle="addtitle"
-                :addapi="addapi"
-                :delapi="delapi"
-                :editapi="editapi"
-                :addFormRules="addFormRules"
-                :editFormRules="editFormRules"
-                ref="bolinkuniontable"
-        ></common-table>
+    <section class="right-wrapper-size" id="scrollBarDom">
+        <header class="custom-header">
+            系统管理-车型管理-车型设定
+            <div class="float-right">
+                <el-button @click="handleAdd" type="primary" size="mini" >添加车型</el-button>
+                <el-button size="mini" @click="resetForm">刷新</el-button>
+            </div>
+        </header>
+        <div class="table-wrapper-style">
+            <tab-pane
+                    :editTo="editTo"
+                    :editapi="editapi"
+                    :editRowData="editRowData"
+                    v-on:editInput="editInput"
+                    :addTo="addTo"
+                    :addapi="addapi"
+                    :addRowData="addRowData"
+                    v-on:addInput="addInput"
+                    :delapi="delapi"
+                    :del-form="delForm"
+                    v-on:cancelDel="cancelDel"
+                    :queryapi="queryapi"
+                    :fieldsstr="fieldsstr"
+                    :table-items="tableitems"
+                    align-pos="right"
+                    bts-width="200"
+                    :searchForm="searchForm"
+                    fixedDom="scrollBarDom"
+                    ref="tabPane"
+            ></tab-pane>
+        </div>
     </section>
 </template>
 
@@ -33,33 +39,102 @@
     import util from '../../common/js/util';
     import common from '../../common/js/common';
     import {AUTH_ID} from '../../common/js/const';
-    import CommonTable from '../../components/CommonTable';
-
+    import TabPane from '../../components/table/TabPane';
     export default {
         components: {
-            CommonTable
+            TabPane
         },
         data() {
             return {
-                loading: false,
-                hideExport: true,
-                hideSearch: true,
+                //编辑
+                editRowData:{},
+                editTo:0,
+                //添加
+                addRowData:{
 
-                hideAdd: true,
-                tableheight: '',
-                showdelete: true,
-                hideOptions: false,
-
-                hideTool: false,
-                showEdit: true,
-
+                },
+                addTo:0,
+                //删除
+                delForm:{},
+                //更多
+                isShow:false,
+                //搜索
+                searchFormData:{
+                    count:0
+                },
+                searchForm:{},
                 queryapi: '/cartype/query',
                 addapi: '/cartype/add',
                 delapi: '/cartype/delete',
                 editapi: '/cartype/edit',
                 btswidth: '100',
                 fieldsstr: 'id__name__cartype_id__sort',
-                tableitems: [
+                tableitems: [{
+                    hasSubs:false,
+                    subs: [{
+                        label: '操作',
+                        columnType:'render',
+                        align: 'center',
+                        width:'100',
+                        unsortable: true,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('ElButton', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                            this.editRowData = params.row;
+                                            this.editRowData.state = this.editRowData.state+'';
+                                            this.editTo++;
+                                        }
+                                    }
+                                }, '编辑'),
+                                h('ElButton', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px',
+                                        color:'red'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                            this.delForm = {
+                                                $index:params.index,
+                                                delVisible:true,
+                                                id:params.row.id,
+                                            }
+
+                                        }
+                                    }
+                                }, '删除'),
+                            ]);
+                        }
+                    }]
+                },{
+                    hasSubs:false,
+                    subs: [{
+                        label: '索引',
+                        columnType:'render',
+                        align: 'center',
+                        width:'100',
+                        unsortable: true,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('span', params.index +1),
+                            ]);
+                        }
+                    }]
+                },
                     {
 
                         hasSubs: false,
@@ -81,12 +156,20 @@
                                 label: '名称',
                                 prop: 'name',
                                 width: '123',
-                                type: 'str',
                                 editable: true,
                                 searchable: true,
-                                addable: true,
+                                addtable: true,
                                 unsortable: true,
-                                align: 'center'
+                                align: 'center',
+                                "type": "input",
+                                "disable": false,
+                                "readonly": false,
+                                "value": "",
+                                'size':'mini',
+                                "subtype": "text",
+                                "rules": [
+                                    {required: true, message: '请输入名称', trigger: 'blur'}
+                                ],
                             }
                         ]
                     },
@@ -111,12 +194,17 @@
                             label: '排序',
                             prop: 'sort',
                             width: '123',
-                            type: 'number',
                             editable: true,
                             searchable: true,
-                            addable: true,
+                            addtable: true,
                             unsortable: true,
                             align: 'center',
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "text",
 
                         }]
                     }
@@ -139,38 +227,35 @@
 
             };
         },
+        methods:{
+            //编辑
+            editInput(eform){
+                this.editRowData = eform;
+            },
+            //添加
+            handleAdd(){
+                this.addRowData.operator = sessionStorage.getItem('nickname');
+                this.addTo++;
+            },
+            addInput(aform){
+                this.addRowData = aform;
+            },
+            //删除
+            cancelDel(){
+                this.delForm.delVisible = false;
+            },
+            //刷新
+            resetForm(){
+                let that = this;
+                that.searchFormData.count = that.searchFormData.count++;
+                that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
+            },
+        },
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            var user = sessionStorage.getItem('user');
-            if (user) {
-                user = JSON.parse(user);
-                for (var item of user.authlist) {
-                    if (AUTH_ID.systemManage_CarManage_CarType == item.auth_id) {
-                        console.log(item.sub_auth);
-                        // this.hideSearch= !common.showSubSearch(item.sub_auth)
-                        this.hideAdd = !common.showSubAdd(item.sub_auth);
-                        this.hideExport = !common.showSubExport(item.sub_auth);
-                        this.showEdit = common.showSubEdit(item.sub_auth);
-                        this.showdelete = common.showSubDel(item.sub_auth);
-                        if (!this.showEdit && !this.showdelete) {
-                            this.hideOptions = true;
-                        }
-                        break;
-                    }
-                }
-
-            }
+            this.$refs['tabPane'].getTableData({},this)
         },
         activated() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.$refs['bolinkuniontable'].getTableData({});
+
         }
     };
 

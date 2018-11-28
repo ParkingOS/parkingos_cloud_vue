@@ -497,7 +497,7 @@
       border-color: #999; }
     .el-textarea__inner:focus {
       outline: none;
-      border-color: #262B53; }
+      border-color: #3C75CF; }
   .el-textarea.is-disabled .el-textarea__inner {
     background-color: #f5f7fa;
     border-color: #e4e7ed;
@@ -568,7 +568,7 @@
       border-color: #999; }
     .el-input__inner:focus {
       outline: none;
-      border-color: #262B53; }
+      border-color: #3C75CF; }
   .el-input__suffix {
     position: absolute;
     height: 100%;
@@ -607,7 +607,7 @@
     pointer-events: none; }
   .el-input.is-active .el-input__inner {
     outline: none;
-    border-color: #262B53; }
+    border-color: #3C75CF; }
   .el-input.is-disabled .el-input__inner {
     background-color: #f5f7fa;
     border-color: #e4e7ed;
@@ -1035,7 +1035,7 @@
   .el-cascader .el-input__inner {
     cursor: pointer; }
   .el-cascader .el-input.is-focus .el-input__inner {
-    border-color: #262B53; }
+    border-color: #3C75CF; }
   .el-cascader .el-input__icon {
     -webkit-transition: none;
     transition: none; }
@@ -1141,7 +1141,7 @@
       .el-cascader-menu__item.is-disabled:hover {
         background-color: #fff; }
     .el-cascader-menu__item.is-active {
-      color: #262B53; }
+      color: #3C75CF; }
     .el-cascader-menu__item:hover, .el-cascader-menu__item:focus:not(:active) {
       background-color: #f5f7fa; }
     .el-cascader-menu__item.selected {

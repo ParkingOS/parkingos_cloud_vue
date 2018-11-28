@@ -65,6 +65,10 @@
         </div>
         <div class="table-wrapper-style">
             <tab-pane
+                    :editTo="editTo"
+                    :editapi="editapi"
+                    :editRowData="editRowData"
+                    v-on:editInput="editInput"
                     :queryapi="queryapi"
                     :exportapi="exportapi"
                     :delapi="delapi"
@@ -83,18 +87,8 @@
                     v-on:cancelDel="cancelDel"
             ></tab-pane>
         </div>
-        <!--表单编辑-->
-        <edit-form
-                :editVisible="editFormVisible"
-                :edititems="tableitems"
-                :editloading="editloading"
-                :rowdatas="rowdata"
-                v-on:cancelEdit="cancelEdit"
-                v-on:edit="onEdit"
-                ref="editref">
-        </edit-form>
         <!--月卡续费的dialog-->
-        <el-dialog :visible.sync="showRefill" :show-close="false">
+        <el-dialog :visible.sync="showRefill" custom-class="custom-dialog" :show-close="false">
             <header class="dialog-header" slot="title">
                 <span class="dialog-title-icon"></span>月卡续费
                 <i class="iconfont icon-guanbi dialog-header-iconfont" @click="showRefill = false"></i>
@@ -135,13 +129,18 @@
                 </el-form-item>
             </el-form>
             <footer slot="footer" class="dialog-footer">
-                <el-button type="primary" size="small" @click="handleRefill" :loading="resetloading" style="width: 90px;">确 定</el-button>
-				<el-button @click="showRefill = false" size="small" style="width: 90px;margin-left: 60px">取 消</el-button>
+                <el-button @click="showRefill = false" size="small" style="width: 90px;">取 消</el-button>
+                <el-button type="primary" size="small" @click="handleRefill" :loading="resetloading" style="width: 90px;margin-left: 60px">确 定</el-button>
 			</footer>
         </el-dialog>
-        <el-dialog :visible.sync="showRegis" custom-class="custom-dialog-register" @close="closeDialog">
+        <el-dialog
+                :show-close="false"
+                :visible.sync="showRegis"
+                custom-class="custom-dialog custom-dialog-register"
+                @close="closeDialog">
             <header class="dialog-header" slot="title">
                 <span class="dialog-title-icon"></span>注册会员
+                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="showRegis = false"></i>
             </header>
             <el-form ref="refillForm" label-width="200px" :rules="refillFormRules" :model="refillForm" class="dialog-form-width">
                 <el-tabs v-model="selectActive" @tab-click="selectChange" style="width: 600px" type="card">
@@ -181,7 +180,7 @@
                                 <el-input v-model.trim="refillForm.p_lot" size="mini" placeholder="多个车位,用英文','隔开"></el-input>
                             </el-form-item>
                             <el-form-item label="车辆类型">
-                                <el-select v-model="refillForm.car_type_id" style="width:250px" size="mini">
+                                <el-select v-model="refillForm.car_type_id" @change="getProByCar" style="width:250px" size="mini">
                                     <el-option
                                             v-for="item in cartype"
                                             :label="item.value_name"
@@ -193,7 +192,7 @@
                             <el-form-item label="包月产品" :prop="p_name">
                                 <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" size="mini" style="width:250px">
                                     <el-option
-                                            v-for="item in pname"
+                                            v-for="item in newPname"
                                             :label="item.value_name"
                                             :value="item.value_no"
                                     >
@@ -214,8 +213,8 @@
                 </el-tabs>
             </el-form>
             <footer slot="footer" class="dialog-footer">
-                <el-button type="primary" size="small" @click="handleRegis" :loading="resetloading" style="width: 90px;">确 定</el-button>
-                <el-button @click="showRegis = false" size="small" style="width: 90px;margin-left: 60px">取 消</el-button>
+                <el-button @click="showRegis = false" size="small" style="width: 90px;">取 消</el-button>
+                <el-button type="primary" size="small" @click="handleRegis" :loading="resetloading" style="width: 90px;margin-left: 60px">确 定</el-button>
             </footer>
         </el-dialog>
 
@@ -241,7 +240,7 @@
     import CommonTable from '../../components/CommonTable'
     import AddDate from '../../components/add-subs/AddDate'
     import TabPane from '../../components/table/TabPane';
-    import EditForm from '../../components/EditForm';
+    // import EditForm from '../../components/EditForm';
     import axios from 'axios'
     import ElRadioButton from 'element-ui/packages/radio/src/radio-button';
     import { editTableData } from '../../api/base'
@@ -250,11 +249,13 @@
             ElRadioButton,
             CommonTable,
             AddDate,
-            TabPane,
-            EditForm
+            TabPane
         },
         data() {
             return {
+                //编辑
+                editRowData:{},
+                editTo:0,
                 editFormVisible:false,
                 editloading:false,
                 rowdata:{},
@@ -272,7 +273,8 @@
                     car_number:'',
                     name:'',
                     card_id:'',
-                    pid:''
+                    pid:'',
+                    pid_start:'',
                 },
                 orderfield:'id',
                 fieldsstr: 'id__card_id__pid__name__car_number__p_lot__create_time__b_time__e_time__total__act_total__mobile__car_type_id__limit_day_type__remark',
@@ -333,12 +335,20 @@
                                 label: '车牌号码',
                                 prop: 'car_number',
                                 width: '145',
-                                type: 'str',
                                 editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
+                                "type": "input",
+                                "disable": false,
+                                "readonly": false,
+                                "value": "",
+                                'size':'mini',
+                                "subtype": "text",
+                                "rules": [
+                                    {required: true, message: '请输入车牌号', trigger: 'blur'}
+                                ],
                             },
                         ]
                     },
@@ -348,12 +358,17 @@
                                 label: '车主姓名',
                                 prop: 'name',
                                 width:'120',
-                                type: 'str',
                                 editable: true,
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center'
+                                align: 'center',
+                                "type": "input",
+                                "disable": false,
+                                "readonly": false,
+                                "value": "",
+                                'size':'mini',
+                                "subtype": "text",
                             },
                         ]
                     },
@@ -369,7 +384,13 @@
                                 searchable: true,
                                 addable: true,
                                 unsortable: true,
-                                align: 'center'
+                                align: 'center',
+                                "type": "input",
+                                "disable": false,
+                                "readonly": false,
+                                "value": "",
+                                'size':'mini',
+                                "subtype": "text"
                             },
                         ]
                     },
@@ -385,7 +406,13 @@
                                 hidden:true,
                                 searchable: false,
                                 unsortable: true,
-                                align: 'center'
+                                align: 'center',
+                                "type": "input",
+                                "disable": false,
+                                "readonly": false,
+                                "value": "",
+                                'size':'mini',
+                                "subtype": "text",
                             },
                         ]
                     },
@@ -405,7 +432,14 @@
                                 align: 'center',
                                 format: function (row) {
                                     return common.nameformat(row, singleDoubleType, 'limit_day_type')
-                                }
+                                },
+                                "type": "radio",
+                                "value": "",
+                                "button": false,
+                                "border": true,
+                                "rules": [],
+                                'size':'mini',
+                                "options": singleDoubleType
                             },
                         ]
                     },
@@ -454,6 +488,7 @@
                             {
                                 label: '备注',
                                 prop: 'remark',
+                                // width:'103',
                                 type: 'str',
                                 addable: true,
                                 editable: false,
@@ -484,8 +519,11 @@
                                         on: {
                                             click: () => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.editFormVisible = true;
-                                                this.rowdata = params.row
+                                                // this.editFormVisible = true;
+                                                // this.rowdata = params.row
+                                                this.editRowData = params.row;
+                                                this.editRowData.limit_day_type = this.editRowData.limit_day_type+'';
+                                                this.editTo++;
                                             }
                                         }
                                     }, '编辑'),
@@ -560,6 +598,7 @@
 
                 },
                 pname: [],
+                newPname: [],
                 cartype: [],
                 refillForm: {
                     name: '',
@@ -605,6 +644,20 @@
             }
         },
         methods: {
+            getProByCar:function(){
+                //alert(this.refillForm.car_type_id);
+                var carId = this.refillForm.car_type_id
+                var _this = this;
+                axios.all([common.getPNameByCar(carId)])
+                    .then(axios.spread(function (retpname) {
+                        _this.newPname = retpname.data;
+                    }))
+                _this.refillForm.p_name='';
+            },
+            //编辑
+            editInput(eform){
+                this.editRowData = eform;
+            },
             //云平台续费
             showrefill: function (index, row) {
                 console.log('-------',index,row)
@@ -761,6 +814,8 @@
                 axios.all([common.getPName(), common.getCarType()])
                     .then(axios.spread(function (retpname, retcartype) {
                         _this.pname = retpname.data;
+                        _this.newPname = retpname.data;
+
                         _this.cartype = retcartype.data;
                     }))
             },
@@ -787,7 +842,8 @@
                     car_number:'',
                     name:'',
                     card_id:'',
-                    pid:''
+                    pid:'',
+                    pid_start:'',
                 };
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
             },
@@ -798,6 +854,7 @@
                 let sform = this.searchFormData;
                 sform.state_start = sform.state;
                 sform.pay_type_start = sform.pay_type;
+                sform.pid_start = sform.pid;
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
             changeMore(){
@@ -826,6 +883,21 @@
                 this.selectActive = '1';
             },
             closeDialog(){
+                this.refillForm = {
+                    name: '',
+                    car_number: '',
+                    p_lot:'',
+                    p_name: '',
+                    months: '',
+                    b_time: '',
+                    total: '',
+                    act_total: '',
+                    mobile: '',
+                    limit_day_type: 0,
+                    remark: '',
+                    car_type_id:'',
+                    address:'',
+                }
                 this.$refs['refillForm'].resetFields()
             },
             //编辑的确认操作

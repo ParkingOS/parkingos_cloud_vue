@@ -1,33 +1,80 @@
 <template>
-    <section>
-        <common-table
-                :queryapi="queryapi"
-                :addapi="addapi"
-                :tableheight="tableheight"
-                :fieldsstr="fieldsstr"
-                :tableitems="tableitems"
-                :btswidth="btswidth"
-                :hide-export="hideExport"
-                :hide-options="hideOptions"
-                :searchtitle="searchtitle"
-                :hideTool="hideTool"
-                :hideSearch="hideSearch"
-                :hideAdd="hideAdd"
-                :showEdit="showEdit"
-                :orderfield="orderfield"
-                :showdelete="showdelete"
-                :showPermission="showPermission"
-                :addtitle="addtitle"
-                :delapi="delapi"
-                :editapi="editapi"
-                :addFormRules="addFormRules"
-                :editFormRules="editFormRules"
-                v-on:showRolePermission="showRolePermission"
-                ref="bolinkuniontable"
-        ></common-table>
-        <el-dialog title="权限设置" :visible.sync="isShowPermission" style="overflow: scroll" width="50%">
-            <div v-for="sub of permissions">
+    <section class="right-wrapper-size" id="scrollBarDom">
+        <header class="custom-header">
+            员工权限-角色管理 <div class="float-right"><el-button @click="handleAdd" type="primary" size="mini" >添加角色</el-button>
+            <el-button size="mini" @click="resetForm">刷新</el-button></div>
+        </header>
 
+        <div class="table-wrapper-style">
+            <tab-pane
+                    :delapi="delapi"
+                    :del-form="delForm"
+                    :queryapi="queryapi"
+                    :orderfield="orderfield"
+                    :fieldsstr="fieldsstr"
+                    :table-items="tableitems"
+                    :searchForm="searchForm"
+                    align-pos="right"
+                    fixedDom="scrollBarDom"
+                    ref="tabPane"
+                    v-on:cancelDel="cancelDel"
+            ></tab-pane>
+        </div>
+        <custom-add-form
+                ref="addref"
+                :value="addFormData"
+                :addFormConfig="tableitems"
+                title="添加"
+                v-on:input="onAddInput"
+                v-on:add="onAdd"
+                v-on:cancelAdd="cancelAdd"
+                :addVisible="addFormVisible"></custom-add-form>
+        <custom-edit-form
+                ref="editref"
+                :value="rowdata"
+                :editFormConfig="tableitems"
+                title="编辑"
+                v-on:input="onEditInput"
+                v-on:edit="onEdit"
+                v-on:cancelEdit="cancelEdit"
+                :editVisible="editFormVisible"></custom-edit-form>
+        <!--<common-table-->
+                <!--:queryapi="queryapi"-->
+                <!--:addapi="addapi"-->
+                <!--:tableheight="tableheight"-->
+                <!--:fieldsstr="fieldsstr"-->
+                <!--:tableitems="tableitems"-->
+                <!--:btswidth="btswidth"-->
+                <!--:hide-export="hideExport"-->
+                <!--:hide-options="hideOptions"-->
+                <!--:searchtitle="searchtitle"-->
+                <!--:hideTool="hideTool"-->
+                <!--:hideSearch="hideSearch"-->
+                <!--:hideAdd="hideAdd"-->
+                <!--:showEdit="showEdit"-->
+                <!--:orderfield="orderfield"-->
+                <!--:showdelete="showdelete"-->
+                <!--:showPermission="showPermission"-->
+                <!--:addtitle="addtitle"-->
+                <!--:delapi="delapi"-->
+                <!--:editapi="editapi"-->
+                <!--:addFormRules="addFormRules"-->
+                <!--:editFormRules="editFormRules"-->
+                <!--v-on:showRolePermission="showRolePermission"-->
+                <!--ref="bolinkuniontable"-->
+        <!--&gt;</common-table>-->
+        <!--<el-dialog title="权限设置" :visible.sync="isShowPermission" style="overflow: scroll" width="50%">-->
+        <el-dialog
+                   :visible.sync="isShowPermission"
+                   custom-class="custom-dialog"
+                   width="800px"
+                   :show-close="false"
+                   :close-on-click-modal="false">
+            <header class="dialog-header" slot="title">
+                <span class="dialog-title-icon"></span>权限设置
+                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="isShowPermission = false"></i>
+            </header>
+            <div v-for="sub of permissions">
                 <el-checkbox @change="subchange(sub)" v-model="sub.ischeck">{{sub.subname}}</el-checkbox>
 
                 <div style="margin-left: 40px;" v-for="sub_ of sub.subpermission">
@@ -56,11 +103,16 @@
                 <div style="width: 100%;height: 1px;background-color:#475669;margin: 20px 0;"></div>
 
             </div>
-            <span slot="footer" class="dialog-footer">
-				<el-button @click="isShowPermission = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="handleSavePermission"
-                           :loading="dialogloading">确 定</el-button>
-            </span>
+            <!--<span slot="footer" class="dialog-footer">-->
+				<!--<el-button @click="isShowPermission = false" size="small">取 消</el-button>-->
+				<!--<el-button type="primary" size="small" @click="handleSavePermission"-->
+                           <!--:loading="dialogloading">确 定</el-button>-->
+            <!--</span>-->
+            <footer slot="footer" class="dialog-footer">
+                <el-button size="small" style="width: 90px;" @click="isShowPermission = false">取 消</el-button>
+                <el-button type="primary" :loading="dialogloading" size="small" style="width: 90px;margin-left: 60px" @click="handleSavePermission">确 定</el-button>
+
+            </footer>
         </el-dialog>
     </section>
 </template>
@@ -70,14 +122,28 @@
     import {path, RoleFuncion} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
+    // import CommonTable from '../../components/CommonTable'
+    import TabPane from '../../components/table/TabPane';
+    import customEditForm from '../../components/edit-form/editForm'
+    import customAddForm from '../../components/add-form/addForm'
+    import {editTableData,addTableData} from "../../api/base";
 
     export default {
         components: {
-            CommonTable
+            TabPane,customEditForm,customAddForm
         },
         data() {
             return {
+                searchFormData:{
+                    count:0
+                },
+                searchForm:{},
+                addFormData:{},
+                addFormVisible:false,
+                rowdata:{},
+                editFormVisible:false,
+                editloading:false,
+                delForm:{},
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
@@ -102,6 +168,74 @@
                 fieldsstr: 'id__role_name__func__resume',
                 tableitems: [
                     {
+                        hasSubs:false,
+                        subs: [{
+                            label: '操作',
+                            columnType:'render',
+                            align: 'center',
+                            fixed:'left',
+                            width:'180',
+                            unsortable: true,
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.editFormVisible = true;
+                                                this.rowdata = params.row;
+                                            }
+                                        }
+                                    }, '编辑'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            color:'red'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.delForm = {
+                                                    $index:params.index,
+                                                    delVisible:true,
+                                                    id:params.row.id,
+                                                }
+
+                                            }
+                                        }
+                                    }, '删除'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+
+
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.showRolePermission(params.index,params.row);
+                                            }
+                                        }
+                                    }, '编辑权限'),
+                                ]);
+                            }
+                        }]
+                    },
+                    {
                         hasSubs: false,
                         subs: [{
                             label: '角色编号',
@@ -110,7 +244,7 @@
                             type: 'number',
                             editable: false,
                             searchable: true,
-                            addable: false,
+                            addtable: false,
                             unsortable: true,
                             align: 'center'
                         }]
@@ -121,12 +255,17 @@
                                 label: '名称',
                                 prop: 'role_name',
                                 width: '123',
-                                type: 'str',
                                 editable: true,
                                 searchable: true,
-                                addable: true,
+                                addtable: true,
                                 unsortable: true,
                                 align: 'center',
+                                "type": "input",
+                                "disable": false,
+                                "readonly": false,
+                                "value": "",
+                                'size':'mini',
+                                "subtype": "text",
                             },
                         ]
                     },
@@ -156,12 +295,17 @@
                             label: '备注',
                             prop: 'resume',
                             width: '180',
-                            type: 'str',
                             editable: true,
                             searchable: true,
-                            addable: true,
+                            addtable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "text",
                         }]
                     }
                 ],
@@ -180,62 +324,115 @@
                 isShowPermission: false,
                 dialogloading: false,
                 permissions: [],
-                authlist: {
-                    // nickname:'',
-                    // allAuth:[
-                    // {
-                    //     subname: '订单管理',
-                    //     ischeck: false,
-                    //     subpermission: [
-                    //         {
-                    //             subname: '订单记录',
-                    //             ischeck: false,
-                    //             subpermission: [
-                    //                 {subname: '查看', ischeck: false},
-                    //                 {subname: '导出', ischeck: false}
-                    //             ]
-                    //         }, {
-                    //             subname: '抬杆记录',
-                    //             ischeck: false,
-                    //             subpermission: [
-                    //                 {subname: '查看', ischeck: false},
-                    //                 {subname: '导出', ischeck: false}
-                    //             ]
-                    //         }
-                    //     ]
-                    // },
-                    // {
-                    //     subname: '月卡会员',
-                    //     ischeck: false,
-                    //     subpermission: [
-                    //         {
-                    //             subname: '月卡续费记录',
-                    //             ischeck: false,
-                    //             subpermission: [
-                    //                 {subname: '查看', ischeck: false},
-                    //                 {subname: '导出', ischeck: false}
-                    //             ]
-                    //         }, {
-                    //             subname: '月卡会员',
-                    //             ischeck: false,
-                    //             subpermission: [
-                    //                 {subname: '查看', ischeck: false},
-                    //                 {subname: '导出', ischeck: false},
-                    //                 {subname: '注册会员修改车牌', ischeck: false},
-                    //                 {subname: '删除', ischeck: false},
-                    //                 {subname: '续费', ischeck: false}
-                    //             ]
-                    //         }
-                    //     ]
-                    // },
-                    // ]
-                },
+                authlist: {},
                 nickname: '',
                 checksub: false,
                 currentRow: ''
             }
         },
         methods: {
+
+            resetForm(){
+                let that = this;
+                that.searchFormData.count = that.searchFormData.count++;
+                that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
+            },
+            onAdd:function () {
+                //发送请求,添加一条记录
+                let that = this;
+                let api = this.addapi;
+                let aform = this.addFormData;
+                aform = common.generateForm(aform);
+                this.$refs.addref.$refs.addForm.validate((valid) => {
+                    if (valid) {
+                        addTableData(api,aform).then(res=>{
+                            if(res.status == 200){
+                                if(res.data.state == 1){
+                                    that.$message({
+                                        message: '添加成功!',
+                                        type: 'success',
+                                        duration: 600
+                                    });
+                                    setTimeout(()=>{
+                                        that.addFormVisible = false;
+                                        that.$refs['tabPane'].getTableData({},that);
+                                    },60)
+                                }else{
+                                    that.$message({
+                                        message: '添加失败',
+                                        type: 'info',
+                                        duration: 600
+                                    });
+                                }
+                            }
+                        }).catch(err => {
+                            that.$message({
+                                message: '更新失败',
+                                type: 'error',
+                                duration: 600
+                            });
+                        })
+                    }
+                });
+            },
+            cancelAdd:function () {
+                this.addFormVisible = false;
+            },
+            onAddInput:function (aform) {
+                this.addFormData = aform;
+            },
+            handleAdd(){
+                this.addFormData = {};
+                this.addFormVisible = true;
+            },
+            onEditInput:function (eform) {
+                this.rowdata=eform;
+            },
+            onEdit: function () {
+                //发送ajax,提交表单更新
+                let that = this;
+                let api = this.editapi;
+                let eform = this.rowdata;
+                eform = common.generateForm(eform);
+                this.$refs.editref.$refs.editForm.validate((valid) => {
+                    console.log('valid',valid,eform)
+                    if (valid) {
+                        editTableData(api,eform).then(res=>{
+                            if(res.status == 200){
+                                if(res.data.state == 1){
+                                    that.$message({
+                                        message: '编辑成功!',
+                                        type: 'success',
+                                        duration: 600
+                                    });
+                                    setTimeout(()=>{
+                                        that.editFormVisible = false;
+                                        that.$refs['tabPane'].getTableData({},that);
+                                    },60)
+                                }else{
+                                    that.$message({
+                                        message: '编辑失败',
+                                        type: 'info',
+                                        duration: 600
+                                    });
+                                }
+                            }
+                        }).catch(err => {
+                            that.$message({
+                                message: '更新失败',
+                                type: 'error',
+                                duration: 600
+                            });
+                        })
+                    }
+                });
+            },
+            cancelEdit(){
+                this.editFormVisible = false;
+            },
+            cancelDel:function () {
+                this.delForm.delVisible = false;
+            },
             showRolePermission: function (index, row) {
                 this.isShowPermission = true;
                 let _this = this;
@@ -345,36 +542,37 @@
             }
         },
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            }
-            this.tableheight = common.gwh() - 143;
-            var user = sessionStorage.getItem('user');
-            this.user = user
-            if (user) {
-                user = JSON.parse(user);
-                for (var item of user.authlist) {
-                    if (AUTH_ID.employeePermission_Role == item.auth_id) {
-                        // console.log(item.sub_auth)
-                        this.showdelete = common.showSubDel(item.sub_auth)
-                        this.showEdit = common.showSubEdit(item.sub_auth)
-                        this.hideAdd = !common.showSubAdd(item.sub_auth)
-                        this.showPermission = common.showSubPermission(item.sub_auth)
-                        if(!this.showEdit&&!this.showdelete&&!this.showPermission){
-                            this.hideOptions = true;
-                        }
-                        break;
-                    }
-                }
-            }
+            // window.onresize = () => {
+            //     this.tableheight = common.gwh() - 143;
+            // }
+            // this.tableheight = common.gwh() - 143;
+            // var user = sessionStorage.getItem('user');
+            // this.user = user
+            // if (user) {
+            //     user = JSON.parse(user);
+            //     for (var item of user.authlist) {
+            //         if (AUTH_ID.employeePermission_Role == item.auth_id) {
+            //             // console.log(item.sub_auth)
+            //             this.showdelete = common.showSubDel(item.sub_auth)
+            //             this.showEdit = common.showSubEdit(item.sub_auth)
+            //             this.hideAdd = !common.showSubAdd(item.sub_auth)
+            //             this.showPermission = common.showSubPermission(item.sub_auth)
+            //             if(!this.showEdit&&!this.showdelete&&!this.showPermission){
+            //                 this.hideOptions = true;
+            //             }
+            //             break;
+            //         }
+            //     }
+            // }
         },
         activated() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            }
-            this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.$refs['tabPane'].getTableData({},this)
+            // window.onresize = () => {
+            //     this.tableheight = common.gwh() - 143;
+            // }
+            // this.tableheight = common.gwh() - 143;
+            // this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
+            // this.$refs['bolinkuniontable'].getTableData({})
         }
     }
 

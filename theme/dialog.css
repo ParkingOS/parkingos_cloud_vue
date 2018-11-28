@@ -419,12 +419,12 @@
     overflow: auto;
     margin: 0; }
   .el-dialog__header {
-    padding: 0px;
+    padding: 20px;
     padding-bottom: 10px; }
   .el-dialog__headerbtn {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 20px;
+    right: 20px;
     padding: 0;
     background: transparent;
     border: none;
@@ -434,7 +434,7 @@
     .el-dialog__headerbtn .el-dialog__close {
       color: #909399; }
     .el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close {
-      color: #262B53; }
+      color: #3C75CF; }
   .el-dialog__title {
     line-height: 24px;
     font-size: 18px;
@@ -444,7 +444,7 @@
     color: #333;
     font-size: 14px; }
   .el-dialog__footer {
-    padding: 0px;
+    padding: 20px;
     padding-top: 10px;
     text-align: right;
     -webkit-box-sizing: border-box;
@@ -453,7 +453,7 @@
     text-align: center; }
     .el-dialog--center .el-dialog__body {
       text-align: initial;
-      padding: 25px 5px 30px; }
+      padding: 25px 25px 30px; }
     .el-dialog--center .el-dialog__footer {
       text-align: inherit; }
 

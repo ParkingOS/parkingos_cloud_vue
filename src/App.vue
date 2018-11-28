@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style lang="scss">
-	body {
+	html,body {
 		margin: 0px;
 		padding: 0px;
 		font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;

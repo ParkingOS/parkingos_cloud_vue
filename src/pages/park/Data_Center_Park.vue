@@ -314,10 +314,9 @@
         },
         activated(){
             let that = this;
+            that.getDatas();
             clearInterval(this.dataInteval);
-            console.log(this.dataInteval)
             this.dataInteval = setInterval(that.getDatas, 10000);
-            console.log(this.dataInteval)
         },
         deactivated(){
             clearInterval(this.dataInteval);

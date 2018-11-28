@@ -12,7 +12,7 @@ const router = new VueRouter({
 });
 const service = axios.create({
     baseURL: path, // api 的 base_url
-    timeout: 5000 // request timeout
+    //timeout: 5000 // request timeout
 })
 
 // request interceptor

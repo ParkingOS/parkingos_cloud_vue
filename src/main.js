@@ -19,26 +19,22 @@ import './styles/index.scss'; // global css
 import './common/js/const.js';
 import 'babel-polyfill'
 import QRCode from 'qrcode';
-
+import VueClipboard from 'vue-clipboard2'
 import scroll from 'vue-seamless-scroll';
-
 Vue.use(scroll)
-
 Vue.use(QRCode)
-
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(BaiduMap,{
   ak:'Ona5elzlpSrwOeeAI1k0EE2yHtpLoxlN'
 });
-
+Vue.use(VueClipboard)
 Vue.prototype.$axios=axios;
 Vue.prototype.$qs=require('qs');
 
 Vue.prototype.QRCode=QRCode
 
 Vue.prototype.common=common;
-
 const router = new VueRouter({
     routes
 });

@@ -828,7 +828,7 @@
     line-height: normal;
     height: 40px; }
     .el-checkbox.is-bordered.is-checked {
-      border-color: #262B53; }
+      border-color: #3C75CF; }
     .el-checkbox.is-bordered.is-disabled {
       border-color: #ebeef5;
       cursor: not-allowed; }
@@ -902,20 +902,20 @@
       color: #999;
       cursor: not-allowed; }
     .el-checkbox__input.is-checked .el-checkbox__inner {
-      background-color: #262B53;
-      border-color: #262B53; }
+      background-color: #3C75CF;
+      border-color: #3C75CF; }
       .el-checkbox__input.is-checked .el-checkbox__inner::after {
         -webkit-transform: rotate(45deg) scaleY(1);
         transform: rotate(45deg) scaleY(1); }
     .el-checkbox__input.is-checked + .el-checkbox__label {
-      color: #262B53; }
+      color: #3C75CF; }
     .el-checkbox__input.is-focus {
       /*focus时 视觉上区分*/ }
       .el-checkbox__input.is-focus .el-checkbox__inner {
-        border-color: #262B53; }
+        border-color: #3C75CF; }
     .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-      background-color: #262B53;
-      border-color: #262B53; }
+      background-color: #3C75CF;
+      border-color: #3C75CF; }
       .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
         content: '';
         position: absolute;
@@ -943,7 +943,7 @@
     -webkit-transition: border-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46), background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
     transition: border-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46), background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46); }
     .el-checkbox__inner:hover {
-      border-color: #262B53; }
+      border-color: #3C75CF; }
     .el-checkbox__inner::after {
       -webkit-box-sizing: content-box;
       box-sizing: content-box;
@@ -1012,7 +1012,7 @@
     .el-checkbox-button__inner.is-round {
       padding: 12px 20px; }
     .el-checkbox-button__inner:hover {
-      color: #262B53; }
+      color: #3C75CF; }
     .el-checkbox-button__inner [class*="el-icon-"] {
       line-height: 0.9; }
       .el-checkbox-button__inner [class*="el-icon-"] + span {
@@ -1025,12 +1025,12 @@
     z-index: -1; }
   .el-checkbox-button.is-checked .el-checkbox-button__inner {
     color: #fff;
-    background-color: #262B53;
-    border-color: #262B53;
-    -webkit-box-shadow: -1px 0 0 0 #7d8098;
-    box-shadow: -1px 0 0 0 #7d8098; }
+    background-color: #3C75CF;
+    border-color: #3C75CF;
+    -webkit-box-shadow: -1px 0 0 0 #8aace2;
+    box-shadow: -1px 0 0 0 #8aace2; }
   .el-checkbox-button.is-checked:first-child .el-checkbox-button__inner {
-    border-left-color: #262B53; }
+    border-left-color: #3C75CF; }
   .el-checkbox-button.is-disabled .el-checkbox-button__inner {
     color: #999;
     cursor: not-allowed;
@@ -1047,7 +1047,7 @@
     -webkit-box-shadow: none !important;
     box-shadow: none !important; }
   .el-checkbox-button.is-focus .el-checkbox-button__inner {
-    border-color: #262B53; }
+    border-color: #3C75CF; }
   .el-checkbox-button:last-child .el-checkbox-button__inner {
     border-radius: 0 4px 4px 0; }
   .el-checkbox-button--medium .el-checkbox-button__inner {
@@ -1089,13 +1089,13 @@
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    color: #62382a; }
+    color: #6d5d68; }
   .el-tree__drop-indicator {
     position: absolute;
     left: 0;
     right: 0;
     height: 1px;
-    background-color: #262B53; }
+    background-color: #3C75CF; }
 
 .el-tree-node {
   white-space: nowrap;
@@ -1105,7 +1105,7 @@
     .el-tree-node:focus > .el-tree-node__content {
       background-color: #f5f7fa; }
   .el-tree-node.is-drop-inner > .el-tree-node__content .el-tree-node__label {
-    background-color: #262B53;
+    background-color: #3C75CF;
     color: #fff; }
   .el-tree-node__content {
     display: -webkit-box;
@@ -1157,4 +1157,4 @@
     display: block; }
 
 .el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
-  background-color: #eeeef1; }
+  background-color: #eff4fb; }

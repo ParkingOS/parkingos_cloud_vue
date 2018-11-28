@@ -1,48 +1,55 @@
 <template>
     <el-row class="container">
-        <el-col :span="24" class="header not-print">
-            <el-col :span="17">
-                <div style="display:flex">
-                    <div style="width:40px;height:40px;margin-left: 20px;">
-                        <i style="width:40px;height:40px;font-size:40px" class="icon iconfont icon-park"></i>
-                    </div>
-                    <div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">
-                        智慧停车云
-                    </div>
-                </div>
-            </el-col>
-            <el-col :span="7" style="padding-right:10px">
-                <div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute;">{{nickname}}:
-                    {{sysUserName}}
-                </div>
-                <el-menu
-                        style="height:50px;width: 100px;float: right;background-color:#2d3a4b;border-right: solid 0px #e6e6e6;"
-                        @select="selectTop">
-                    <el-menu-item index="/loginCloud" style="height:50px;"><span
-                            style="color:#fff;font-size:13px;float: right;height:50px;color: #109EFF">退出登录</span>
-                        <!--<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>-->
-                    </el-menu-item>
-                </el-menu>
-            </el-col>
+        <!--<el-col :span="24" class="header not-print">-->
+            <!--<el-col :span="17">-->
+                <!--<div style="display:flex">-->
+                    <!--<div style="width:40px;height:40px;margin-left: 20px;">-->
+                        <!--<i style="width:40px;height:40px;font-size:40px" class="icon iconfont icon-park"></i>-->
+                    <!--</div>-->
+                    <!--<div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">-->
+                        <!--智慧停车云-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</el-col>-->
+            <!--<el-col :span="7" style="padding-right:10px">-->
+                <!--<div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute;">{{nickname}}:-->
+                    <!--{{sysUserName}}-->
+                <!--</div>-->
+                <!--<el-menu-->
+                        <!--style="height:50px;width: 100px;float: right;background-color:#2d3a4b;border-right: solid 0px #e6e6e6;"-->
+                        <!--@select="selectTop">-->
+                    <!--<el-menu-item index="/loginCloud" style="height:50px;"><span-->
+                            <!--style="color:#fff;font-size:13px;float: right;height:50px;color: #109EFF">退出登录</span>-->
+                        <!--&lt;!&ndash;<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>&ndash;&gt;-->
+                    <!--</el-menu-item>-->
+                <!--</el-menu>-->
+            <!--</el-col>-->
 
-        </el-col>
-
+        <!--</el-col>-->
+        <div class="mian-header" style="border-bottom: 1px solid #ebeef5;">
+            <div class="logo">
+                <div class="logo-one">
+                    <img src="../assets/images/within-logo.png">
+                </div>
+                <div class="logo-two">
+                    <img src="../assets/images/within-logo2.png">
+                </div>
+            </div>
+            <div class="console">
+                <div class="img-box"><img src="../assets/images/login-user.png"></div>
+                <div class="username">{{nickname}}:{{sysUserName}}</div>
+                <div class="outlogin" @click="logout">退出</div>
+            </div>
+        </div>
         <el-col :span="24" class="main">
             <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
-                <!--<div style="height: 38px;width: 100%;">-->
-                <!--<el-radio-group v-model="isCollapse"-->
-                <!--style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">-->
-                <!--<el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>-->
-                <!--<el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>-->
-                <!--</el-radio-group>-->
-                <!--</div>-->
-                <el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"
-                           class="menu-expan-button menu-expan-button2">
-                    <i class="menu-icon icon iconfont icon-menuclose"></i>
-                </el-button>
-                <el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button">
-                    <i class="menu-icon icon iconfont icon-menuopen"></i>
-                </el-button>
+                <!--<el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"-->
+                           <!--class="menu-expan-button menu-expan-button2">-->
+                    <!--<i class="menu-icon icon iconfont icon-menuclose"></i>-->
+                <!--</el-button>-->
+                <!--<el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button">-->
+                    <!--<i class="menu-icon icon iconfont icon-menuopen"></i>-->
+                <!--</el-button>-->
                 <el-menu class="el-menu-vertical-demo el-parkingos-menu" @open="handleopen"
                          @close="handleclose"
                          @select="handleselect"

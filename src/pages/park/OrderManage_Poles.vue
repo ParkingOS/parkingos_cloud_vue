@@ -153,7 +153,7 @@
                         subs: [{
                             label: '收费员',
                             prop: 'uin',
-                            width: '165',
+                            // width: '165',
                             type: 'selection',
                             selectlist: this.collectors,
                             editable: true,
@@ -313,7 +313,7 @@
                     reason_start:'',
                 };
                 let currentTime =  common.currentDateArray(1);
-                that.searchFormData.currentData = [new Date(currentTime[0]),new Date(currentTime[1])];
+                that.searchFormData.currentData = [common.timestampFormat(currentTime[0]),common.timestampFormat(currentTime[1])];
                 that.searchFormData.ctime_start = common.timestampFormat(currentTime[0]);
                 that.searchFormData.ctime_end = common.timestampFormat(currentTime[1]);
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));

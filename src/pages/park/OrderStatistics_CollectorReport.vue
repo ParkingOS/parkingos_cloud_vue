@@ -20,7 +20,7 @@
     <!--&gt;</common-table>-->
     <!--</section>-->
 
-    <section>
+    <section style="margin: 0 20px;margin-top: 5px">
         <el-tabs v-model="activeName" type="card">
             <el-tab-pane name="tableStyle" class="tab-content-pad">
                 <span slot="label"><i class="el-icon-tickets"></i> 表格模式</span>
@@ -29,6 +29,7 @@
                         :tableheight="tableheight"
                         :fieldsstr="fieldsstr"
                         :tableitems="tableitems"
+                        :orderfield="orderfield"
                         :btswidth="btswidth"
                         :hide-export="hideExport"
                         :exportapi="exportapi"
@@ -48,7 +49,7 @@
 
                 <section class="date-picker-sec">
                     <section>
-                        <el-select v-model="selParkId" filterable placeholder="全部" @change="changeanalysisdatepark">
+                        <el-select v-model="selParkId" filterable placeholder="全部" @change="changeanalysisdatepark" size="mini">
                             <el-option
                                     v-for="item in parklistChart"
                                     :key="item.value_no"
@@ -68,6 +69,7 @@
                         <!--:picker-options="chartPickerOptions" >-->
                         <!--</el-date-picker>-->
                         <el-date-picker
+                                size="mini"
                                 v-model="chartDate"
                                 type="date"
                                 align="right"
@@ -152,7 +154,6 @@
                 pageSize: 20,
                 total: 0,
                 orderby: 'desc',
-                orderfield: 'id',
                 table: [],
                 sform: {},
                 showWorkDetail: false,
@@ -350,13 +351,9 @@
             initChart: function () {
                 //初始化图表
                 this.chart = echarts.init(document.getElementById('chart'));
-                console.log('chart加载');
-                console.log(this.chart);
             },
             changeanalysisdate(input2) {
                 //修改车场统计分析日期
-                console.log(input2);
-                console.log(this.chartDate);
                 this.queryForChart();
             },
             changeanalysisdatepark(val) {
@@ -378,10 +375,6 @@
                     formdata.comid = '';
                 }
                 if (isFirst !== 1) {
-                    //formdata.time = 'between';//this.chartDate[1].getTime() ;
-                    // formdata.time_start = this.chartDate[0].getTime(); //;
-                    // formdata.time_end = this.chartDate[1].getTime();
-                    //formdata.date = this.chartDate[0] + '至' + this.chartDate[1];
                     formdata.date = new Date(this.chartDate).getTime()/1000;
                 }
 
@@ -509,9 +502,9 @@
         },
         mounted() {
             window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
+                this.tableheight = common.gwh() - 200;
             };
-            this.tableheight = common.gwh() - 143;
+            this.tableheight = common.gwh() - 200;
 
 
         },
@@ -521,9 +514,9 @@
         activated() {
             this.activeName= 'tableStyle',
             window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
+                this.tableheight = common.gwh() - 200;
             };
-            this.tableheight = common.gwh() - 143;
+            this.tableheight = common.gwh() - 200;
             this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
             this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''});
             // this.getTableData(this.sform);
@@ -537,7 +530,7 @@
             this.start_placeholder = common.currentDate();
             //console.log('chenbowen~~~~~~~~~~~~~~~'+common.getFirstDayOfWeek());
             this.end_placeholder = common.currentDate() + ' 23:59:59';
-            this.chartDate = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
+            // this.chartDate = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
             this.selParkId = -1;
 
             let _this = this;

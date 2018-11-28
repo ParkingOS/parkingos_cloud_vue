@@ -1,5 +1,5 @@
 <template>
-    <section style="margin: 0 20px">
+    <section style="padding: 21px 16px;margin: 0 10px;background: #fff">
         <sticky class-name="sub-navbar" :fixedDom="fixedDom" stickyTop='50' zIndex='999' v-on:topShow="topShowFn">
             <ul style="display: flex;" v-if="topShow">
                 <template v-for="items in TableItems" >
@@ -13,12 +13,13 @@
         </sticky>
         <!--列表-->
         <el-table
+                :stripe="stripe"
                 :loading="loading"
                 :data="tableData"
                 border
                 resizable="false"
                 highlight-current-row
-                style="width:100%;padding-bottom: 70px"
+                style="width:100%;"
                 :min-height="300"
                 v-loading="loading"
                 @sort-change="sortChange"
@@ -63,9 +64,15 @@
             <!--工具条-->
             <el-col :span="24"  align="bottom" style="margin-top:5px;margin-bottom:5px">
                 <el-col :span="24" align="right">
-                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                                   :current-page="currentPage" :page-sizes="[20, 40, 80]" :page-size="pageSize"
-                                   layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="currentPage"
+                            :page-sizes="[20, 40, 80]"
+                            :page-size="pageSize"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            background
+                            :total="total"></el-pagination>
                 </el-col>
             </el-col>
         </div>
@@ -73,7 +80,7 @@
         <el-dialog
                 :visible.sync="delForm.delVisible"
                 :show-close="false"
-                custom-class="deleteTip">
+                custom-class="custom-dialog deleteTip">
 
             <header class="dialog-header" slot="title">
                 <span class="dialog-title-icon"></span>提示
@@ -87,26 +94,76 @@
                 <el-button @click="cancelDel" size="small" style="width: 90px;margin-left: 60px">取 消</el-button>
             </footer>
         </el-dialog>
+        <!--没封装数据的删除提示框-->
+        <el-dialog
+                :visible.sync="delForm.delVisible2"
+                :show-close="false"
+                custom-class="custom-dialog deleteTip">
+
+            <header class="dialog-header" slot="title">
+                <span class="dialog-title-icon"></span>提示
+                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="cancelDel"></i>
+            </header>
+            <div class="dialog-body" style="height: 100px;line-height: 100px;text-align: center;font-size: 24px">
+                <p><i class="el-icon-warning" style="margin-right: 19px;color: #f44336"></i> 删除后不可恢复！确定此操作？</p>
+            </div>
+            <footer slot="footer" class="dialog-footer">
+                <el-button type="primary" size="small" @click="handledelete2" style="width: 90px;">确 定</el-button>
+                <el-button @click="cancelDel" size="small" style="width: 90px;margin-left: 60px">取 消</el-button>
+            </footer>
+        </el-dialog>
+        <!--添加-->
+        <custom-add-form
+                v-if="addTo"
+                ref="addref"
+                :value="addRowData"
+                :addFormConfig="TableItems"
+                title="添加"
+                v-on:input="onAddInput"
+                v-on:add="onAdd"
+                v-on:cancelAdd="cancelAdd"
+                :addVisible="addFormVisible"></custom-add-form>
+        <!--编辑-->
+        <custom-edit-form
+                v-if="editTo"
+                ref="editref"
+                :value="editRowData"
+                :editFormConfig="TableItems"
+                title="编辑"
+                v-on:input="onEditInput"
+                v-on:edit="onEdit"
+                v-on:cancelEdit="cancelEdit"
+                :editVisible="editFormVisible"></custom-edit-form>
     </section>
 </template>
 
 <script>
     import {path} from '../../api/api';
-    import { getTableQuery,delTableData } from '../../api/base'
+    import { getTableQuery,delTableData ,editTableData,addTableData} from '../../api/base'
     import common from '../../common/js/common';
     import Printd from 'printd';
     import axios from 'axios'
     import TableExpand from './TableExpand'
+    import customEditForm from '../edit-form/editForm'
+    import customAddForm from '../add-form/addForm'
     import expand from './expand'
     import ElButton from 'element-ui/packages/button/src/button';
     import Sticky from './sticky'
     export default {
         components: {
             ElButton,
-            TableExpand,expand,Sticky
+            TableExpand,
+            expand,
+            Sticky,
+            customEditForm,
+            customAddForm
         },
         data(){
             return {
+                rowdata:{},
+                editFormVisible:false,
+                addFormVisible:false,
+                addFormData:{},
                 off:true,
                 loading:false,
                 topShow:false,
@@ -130,33 +187,138 @@
             }
         },
         props:{
+            stripe:Boolean,
             TableItems:{
                 type:Array,
                 default:[],
             },
+            editRowData:Object,
+            addRowData:Object,
             formatCollectors:Array,
             pname:Array,
             singleDoubleType:Array,
             alignPos:String,
             btsWidth:String,
             queryapi:String,
+            editapi:String,
+            addapi:String,
+            addTo:Number,
+            editForm:Object,
+            editTo:Number,
             exportapi:String,
             delapi:String,
             fieldsstr:String,
-            orderfield:String,
+            orderfield:{
+                type:String,
+                default:'id'
+            },
             fixedDom:String,
             searchForm:Object,
             delForm:{
                 type:Object,
                 default:()=>{
                     return {
-                        delVisible:false
+                        delVisible:false,
+                        delVisible2:false
                     }
 
                 }
-            }
+            },
         },
         methods:{
+            //编辑
+            cancelEdit(){
+                this.editFormVisible = false;
+            },
+            onEdit: function () {
+                //发送ajax,提交表单更新
+                let that = this;
+                let api = this.editapi;
+                let eform = this.rowdata;
+                eform = common.generateForm(eform);
+                this.$refs.editref.$refs.editForm.validate((valid) => {
+                    if (valid) {
+                        editTableData(api,eform).then(res=>{
+                            if(res.status == 200){
+                                if(res.data.state == 1){
+                                    that.$message({
+                                        message: '编辑成功!',
+                                        type: 'success',
+                                        duration: 600
+                                    });
+                                    setTimeout(()=>{
+                                        that.editFormVisible = false;
+                                        that.getTableData(that.sform,that);
+                                    },60)
+                                }else{
+                                    that.$message({
+                                        message: res.data.msg,
+                                        type: 'info',
+                                        duration: 600
+                                    });
+                                }
+                            }
+                        }).catch(err => {
+                            that.$message({
+                                message: '更新失败',
+                                type: 'error',
+                                duration: 600
+                            });
+                        })
+                    }
+                });
+            },
+            onEditInput:function (eform) {
+                this.rowdata=eform;
+                this.$emit('editInput',this.rowdata)
+            },
+            //添加
+            cancelAdd:function () {
+                this.addFormVisible = false;
+            },
+            onAdd:function () {
+                //发送请求,添加一条记录
+                let that = this;
+                let api = this.addapi;
+                let aform = this.addFormData;
+                aform = common.generateForm(aform);
+                this.$refs.addref.$refs.addForm.validate((valid) => {
+                    if (valid) {
+                        addTableData(api,aform).then(res=>{
+                            if(res.status == 200){
+                                if(res.data.state == 1){
+                                    that.$message({
+                                        message: '添加成功!',
+                                        type: 'success',
+                                        duration: 600
+                                    });
+                                    setTimeout(()=>{
+                                        // that.addFormData = {};
+                                        that.addFormVisible = false;
+                                        that.getTableData({},that);
+                                    },60)
+                                }else{
+                                    that.$message({
+                                        message: res.data.msg,
+                                        type: 'info',
+                                        duration: 600
+                                    });
+                                }
+                            }
+                        }).catch(err => {
+                            that.$message({
+                                message: '更新失败',
+                                type: 'error',
+                                duration: 600
+                            });
+                        })
+                    }
+                });
+            },
+            onAddInput(aform) {
+                this.addFormData = aform;
+                this.$emit('addInput',this.addFormData)
+            },
             topShowFn(val){
                 this.topShow = val;
             },
@@ -176,13 +338,13 @@
                 // this.$refs['refTable'].toggleRowExpansion(row)
             },
             getTableData(sform,that){
-                var nform =  sform,url = that.queryapi;
+                var nform = sform,url = that.queryapi;
                 nform.rp = this.pageSize;
                 nform.page = this.currentPage;
                 nform.orderby = this.orderby;
                 nform.fieldsstr = this.fieldsstr;
                 nform.orderfield = this.orderfield;
-                nform.comid = sessionStorage.getItem('comid');
+                nform = common.generateForm(nform);
                 that.loading = true;
                 getTableQuery(url,sform).then(response =>{
                     that.loading = false;
@@ -246,10 +408,10 @@
                 dform.token = sessionStorage.getItem('token');
                 dform = common.generateForm(dform);
                 delTableData(url,dform).then(response=>{
-                    console.log('response--dform',response)
                     if(response.data.state == 1){
                         that.$emit('cancelDel',false)
-                        that.tableData.splice(that.delForm.$index,1)
+                        that.tableData.splice(that.delForm.$index,1);
+                        that.total = that.total - 1;
                         that.$message({
                             message:response.data.msg ,
                             type: 'success'
@@ -257,6 +419,37 @@
                     }else{
                         that.$message({
                             message: response.data.msg,
+                            type: 'warning'
+                        });
+                    }
+
+                }).catch(err=>{
+                    that.$message({
+                        message: '网络错误，请稍后重试',
+                        type: 'warning'
+                    });
+                })
+            },
+
+            //没封装的删除
+            handledelete2() {
+                let that = this;
+                let url = this.delapi;
+                let dform = JSON.parse(JSON.stringify( this.delForm ));
+                dform.token = sessionStorage.getItem('token');
+                dform = common.generateForm(dform);
+                delTableData(url,dform).then(response=>{
+                    if(response.data == 1){
+                        that.$emit('cancelDel',false)
+                        that.tableData.splice(that.delForm.$index,1);
+                        that.total = that.total - 1;
+                        that.$message({
+                            message:'已删除' ,
+                            type: 'success'
+                        });
+                    }else{
+                        that.$message({
+                            message: '删除失败',
                             type: 'warning'
                         });
                     }
@@ -297,6 +490,16 @@
                 },
                 deep:true
             },
+            addTo:function (newVal,oldVal) {
+                if(newVal != 0){
+                    this.addFormVisible = true;
+                }
+            },
+            editTo:function (newVal,oldVal) {
+                if(newVal != 0){
+                    this.editFormVisible = true;
+                }
+            }
         }
     };
 
@@ -313,11 +516,10 @@
         padding: 0;
     }
     .pagination-pos{
-        position: fixed;
-        bottom: 17px;
-        left: 180px;
-        right: 40px;
-        z-index: 999;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 20px;
         background: #fff;
+        padding-bottom: 10px;
     }
 </style>

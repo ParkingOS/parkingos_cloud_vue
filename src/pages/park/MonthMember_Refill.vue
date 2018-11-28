@@ -65,9 +65,6 @@
                     <el-button size="mini" @click="resetForm">刷新</el-button>
                 </el-form-item>
                 <div class="second-search-item-style" v-show="isShow">
-                    <el-form-item label="车主姓名" class="clear-style margin-left-clear">
-                        <el-input v-model="searchFormData.name" placeholder="" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
                     <el-form-item label="月卡编号" class="clear-style margin-left-clear">
                         <el-input v-model="searchFormData.card_id" placeholder="" size="mini" style="width: 140px"></el-input>
                     </el-form-item>
@@ -104,7 +101,6 @@
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
-    // import CommonTable from '../../components/CommonTable'
     import TabPane from '../../components/table/TabPane';
     import countTo from 'vue-count-to';
     export default {
@@ -264,7 +260,7 @@
                         'value_no':'2'
                     },
                     {
-                        'value_name':'购买时间',
+                        'value_name':'续费时间',
                         'value_no':'3'
                     },
                 ],

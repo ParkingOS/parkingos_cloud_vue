@@ -1,110 +1,128 @@
 <template>
-    <section style="margin:0 20px;padding-top: 10px">
+    <section class="right-wrapper-size" id="scrollBarDom">
+        <header class="custom-header">
+            访客人员管理
+        </header>
         <!--//////////////////搜索条件+操作按钮//////////////////////-->
-        <el-form :inline="true" v-model="formItem" class="demo-form-inline">
-            <el-form-item label="车牌号" class="inp-margin-buttom">
-                <el-input v-model="formItem.car_number" size="mini" placeholder="车牌号"></el-input>
-            </el-form-item>
-            <el-form-item label="状态:" class="inp-margin-buttom">
-                <el-select placeholder="全部" v-model="formItem.state" size="mini">
-                    <el-option
-                            label="全部"
-                            value="">
-                    </el-option>
-                    <el-option
-                            v-for="item in stateType"
-                            :key="item.value_no"
-                            :label="item.value_name"
-                            :value="item.value_no">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item class="inp-margin-buttom">
-                <el-button type="primary" @click="search" size="mini">搜索</el-button>
-                <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                    <el-button type="primary" @click="handleExport" size="mini">导出</el-button>
-                </el-tooltip>
-                <el-button @click="getCode()" icon="search" type="primary" size="mini">访客二维码
-                </el-button>
-                <el-button @click="visitorSet()"  type="primary" size="mini">访客设置
-                </el-button>
-            </el-form-item>
-        </el-form>
+        <div class="workbench-wrapper">
+            <el-form :inline="true" v-model="formItem" class="demo-form-inline">
+                <el-form-item label="车牌号" class="clear-style margin-left-clear">
+                    <el-input v-model="formItem.car_number" size="mini" placeholder="车牌号"></el-input>
+                </el-form-item>
+                <el-form-item label="状态:" class="clear-style">
+                    <el-select placeholder="全部" v-model="formItem.state" size="mini">
+                        <el-option
+                                label="全部"
+                                value="">
+                        </el-option>
+                        <el-option
+                                v-for="item in stateType"
+                                :key="item.value_no"
+                                :label="item.value_name"
+                                :value="item.value_no">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item class="clear-style">
+                    <el-button type="primary" @click="searchFn" size="mini">搜索</el-button>
+
+                    <el-button @click="getCode()" icon="search" type="primary" size="mini">访客二维码
+                    </el-button>
+                    <el-button @click="visitorSet()"  type="primary" size="mini">访客设置
+                    </el-button>
+                </el-form-item>
+                <el-form-item class="clear-style float-right">
+                    <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
+                        <el-button @click="exportFn" size="mini">导出</el-button>
+                    </el-tooltip>
+                    <el-button size="mini" @click="resetForm">刷新</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
 
         <!--//////////////////////table/////////////////////////////////////////-->
-        <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
-                  v-loading="loading" @sort-change="sortChange">
-            <!--子项折叠最终通过rowStyle实现。实际是项的显示/隐藏-->
-            <el-table-column v-for="(items, index) in tableitems" :key="items.subs[0].prop"
-                             :label="items.subs[0].label" :align="items.subs[0].prop=='name'?'left':'center'"
-                             min-width="50"
-                             :width="items.subs[0].prop=='car_number'||items.subs[0].prop=='mobile'||items.subs[0].prop=='state'?130:200"
-                             :sortable="!items.subs[0].unsortable">
-                <!--设置部分列宽度-->
-                <template scope="scope">
-                    <el-button v-if="items.subs[0].prop=='state'" size="small" type="text"
-                               style="color: #0000ff;"
-                               @click="handleShowEditStart(scope.$index, scope.row)">{{stateformat(scope.row[items.subs[0].prop])}}
-                    </el-button>
-                    <span v-else-if="items.subs[0].prop=='create_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>
-                    <span v-else-if="items.subs[0].prop=='begin_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>
-                    <span v-else-if="items.subs[0].prop=='end_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>
-                    <span v-else>{{scope.row[items.subs[0].prop]}}</span>
-                    <!--不同列的表现形式、格式化-->
-                </template>
+        <!--<el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"-->
+                  <!--v-loading="loading" @sort-change="sortChange">-->
+            <!--&lt;!&ndash;子项折叠最终通过rowStyle实现。实际是项的显示/隐藏&ndash;&gt;-->
+            <!--<el-table-column v-for="(items, index) in tableitems" :key="items.subs[0].prop"-->
+                             <!--:label="items.subs[0].label" :align="items.subs[0].prop=='name'?'left':'center'"-->
+                             <!--min-width="50"-->
+                             <!--:width="items.subs[0].prop=='car_number'||items.subs[0].prop=='mobile'||items.subs[0].prop=='state'?130:200"-->
+                             <!--:sortable="!items.subs[0].unsortable">-->
+                <!--&lt;!&ndash;设置部分列宽度&ndash;&gt;-->
+                <!--<template scope="scope">-->
+                    <!--<el-button v-if="items.subs[0].prop=='state'" size="small" type="text"-->
+                               <!--style="color: #0000ff;"-->
+                               <!--@click="handleShowEditStart(scope.$index, scope.row)">{{stateformat(scope.row[items.subs[0].prop])}}-->
+                    <!--</el-button>-->
+                    <!--<span v-else-if="items.subs[0].prop=='create_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>-->
+                    <!--<span v-else-if="items.subs[0].prop=='begin_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>-->
+                    <!--<span v-else-if="items.subs[0].prop=='end_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>-->
+                    <!--<span v-else>{{scope.row[items.subs[0].prop]}}</span>-->
+                    <!--&lt;!&ndash;不同列的表现形式、格式化&ndash;&gt;-->
+                <!--</template>-->
 
-            </el-table-column>
+            <!--</el-table-column>-->
 
-        </el-table>
-        <!--工具条-->
-        <el-col :span="24" align="bottom" style="margin-top:5px;margin-bottom:5px">
-            <el-col :span="24" align="right">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                               :current-page="currentPage" :page-sizes="[20, 40, 80]" :page-size="pageSize"
-                               layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-            </el-col>
-        </el-col>
+        <!--</el-table>-->
+        <!--&lt;!&ndash;工具条&ndash;&gt;-->
+        <!--<el-col :span="24" align="bottom" style="margin-top:5px;margin-bottom:5px">-->
+            <!--<el-col :span="24" align="right">-->
+                <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"-->
+                               <!--:current-page="currentPage" :page-sizes="[20, 40, 80]" :page-size="pageSize"-->
+                               <!--layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>-->
+            <!--</el-col>-->
+        <!--</el-col>-->
 
-
+        <div class="table-wrapper-style">
+            <tab-pane
+                    :queryapi="queryapi"
+                    :exportapi="exportapi"
+                    :orderfield="orderfield"
+                    :fieldsstr="fieldsstr"
+                    :table-items="tableitems"
+                    align-pos="right"
+                    bts-width="200"
+                    :searchForm="searchForm"
+                    fixedDom="scrollBarDom"
+                    ref="tabPane"
+            ></tab-pane>
+        </div>
 
         <!--/////////////////////////////////////////////////////////////////////////-->
         <!--访客二维码-->
         <el-dialog
-            title="访客二维码"
-            :visible.sync="codeDialog"
-            width="25%"
-            center>
-            <el-form style="margin-bottom:50px">
-                 <el-row>
-                <el-col :span="23" :offset="1" style="padding-top:0px;margin-top: 8px;margin-bottom:7px">
-                    地址:
-                </el-col>
-                <el-col :span="23" :offset="1" >
-                    <el-input v-model="qrurl" ></el-input>
-                </el-col>
-                </el-row>
-
-
-                <el-form-item style="text-align: center">
-                    <img style="display: inline-block" :src="qrsrc"/>
+                custom-class="custom-dialog"
+                :show-close="false"
+            :visible.sync="codeDialog">
+            <header class="dialog-header" slot="title">
+                <span class="dialog-title-icon"></span>访客二维码
+                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="codeDialog = false"></i>
+            </header>
+            <div style="width: 100%;text-align: center">
+                <img :src="qrsrc" style="display: inline-block;width: 300px;height: 300px">
+                <div>
+                    <el-input v-model="qrurl" style="width: 380px"></el-input>
                     <el-button @click="down" type="primary" icon="el-icon-download">下载二维码</el-button>
-                    <!--<a  :href="downloadQrUrl" style="font-size:10px;text-decoration:none" >下载二维码</a>-->
-                </el-form-item>
-
-            </el-form>
-
+                </div>
+            </div>
         </el-dialog>
         <canvas id="canvas" style="display:none"></canvas>
         <canvas id="img" style="display:none"></canvas>
 
         <!--修改状态-->
         <el-dialog
-                title="审核状态"
+                custom-class="custom-dialog"
+                :show-close="false"
                 :visible.sync="startModel"
-                width="25%">
-            <el-form v-model="startForm" class="demo-form-inline" label-width="80px">
-                <el-form-item label="状态:" class="inp-margin-buttom">
-                    <el-select placeholder="全部" v-model="startForm.state">
+               >
+            <header class="dialog-header" slot="title">
+                <span class="dialog-title-icon"></span>审核状态
+                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="startModel = false"></i>
+            </header>
+            <el-form v-model="startForm" class="demo-form-inline" label-width="200px">
+                <el-form-item label="状态:">
+                    <el-select placeholder="全部" v-model="startForm.state" style="width: 240px" size="mini">
                         <el-option
                                 v-for="item in stateType"
                                 :key="item.value_no"
@@ -114,30 +132,36 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注:">
-                    <el-input type="textarea" maxlength="20" v-model="startForm.remark"  :autosize="{ minRows: 2, maxRows: 3}" style="resize:none"></el-input>
+                    <el-input type="textarea" maxlength="20" style="width: 240px;resize:none" v-model="startForm.remark"  :autosize="{ minRows: 2, maxRows: 3}"></el-input>
                     <p><sup style="color: red">*</sup>提示:备注还可输入<span style="color: red" v-text="20- result"></span>/20个字符</p>
                 </el-form-item>
 
-                <el-form-item class="inp-margin-buttom">
-                    <el-button plain @click="cancel">取消</el-button>
-                    <el-button type="primary" @click="confirm">确定</el-button>
+                <!--<el-form-item class="inp-margin-buttom">-->
+                    <!--<el-button plain @click="cancel">取消</el-button>-->
+                    <!--<el-button type="primary" @click="confirm">确定</el-button>-->
 
-                </el-form-item>
+                <!--</el-form-item>-->
             </el-form>
-
+            <footer slot="footer" class="dialog-footer">
+                <el-button @click="cancel" size="small" style="width: 90px;">取 消</el-button>
+                <el-button type="primary" size="small" @click="confirm" style="width: 90px;margin-left: 60px">确 定</el-button>
+            </footer>
 
         </el-dialog>
 
 
 
         <el-dialog
-            title="访客设置"
-            :visible.sync="visitorSetModel"
-            width="25%"
-            center>
+                custom-class="custom-dialog"
+                :show-close="false"
+            :visible.sync="visitorSetModel">
+            <header class="dialog-header" slot="title">
+                <span class="dialog-title-icon"></span>访客设置
+                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="visitorSetModel = false"></i>
+            </header>
             <el-form v-model="visitorSetForm" class="demo-form-inline" label-width="100px">
                <el-form-item label="认证业主:" class="inp-margin-buttom">
-                    <el-select placeholder="全部" v-model="visitorSetForm.access_cert">
+                    <el-select placeholder="全部" v-model="visitorSetForm.access_cert" size="mini">
                         <el-option
                                 v-for="item in accessType"
                                 :key="item.value_no"
@@ -145,7 +169,7 @@
                                 :value="item.value_no">
                         </el-option>
                     </el-select>
-                    <el-select placeholder="全部" v-model="visitorSetForm.auto_cert">
+                    <el-select placeholder="全部" v-model="visitorSetForm.auto_cert" size="mini">
                         <el-option
                                 v-for="item in autoType"
                                 :key="item.value_no"
@@ -155,7 +179,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="非认证业主:" class="inp-margin-buttom">
-                    <el-select placeholder="全部" v-model="visitorSetForm.access_not_cert">
+                    <el-select placeholder="全部" v-model="visitorSetForm.access_not_cert" size="mini">
                         <el-option
                                 v-for="item in accessType"
                                 :key="item.value_no"
@@ -163,7 +187,7 @@
                                 :value="item.value_no">
                         </el-option>
                     </el-select>
-                    <el-select placeholder="全部" v-model="visitorSetForm.auto_not_cert">
+                    <el-select placeholder="全部" v-model="visitorSetForm.auto_not_cert" size="mini">
                         <el-option
                                 v-for="item in autoType"
                                 :key="item.value_no"
@@ -172,13 +196,11 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-
-                <el-form-item  class="inp-margin-buttom-self">
-                    <el-button plain @click="cancelSet">取消</el-button>
-                    <el-button type="primary" @click="confirmSet">确定</el-button>
-                </el-form-item>
             </el-form>
-
+            <footer slot="footer" class="dialog-footer">
+                <el-button type="primary" size="small" @click="confirmSet"  style="width: 90px;">确 定</el-button>
+                <el-button @click="cancelSet" size="small" style="width: 90px;margin-left: 60px">取 消</el-button>
+            </footer>
         </el-dialog>
 
     </section>
@@ -189,15 +211,16 @@
     import {path,server} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
+    // import CommonTable from '../../components/CommonTable'
     import axios from 'axios'
-
+    import TabPane from '../../components/table/TabPane';
     export default {
         components: {
-            CommonTable
+            TabPane
         },
         data() {
             return {
+                searchForm:{},
                 qrurl:'',
                 downloadQrUrl:'',
                 codeDialog:false,
@@ -229,7 +252,7 @@
                             subs: [{
                                 label: '编号',
                                 prop: 'id',
-                                width: '60',
+                                width: '100',
                                 type: 'str',
 
                                 searchable: true,
@@ -271,15 +294,18 @@
                         subs: [{
                             label: '申请时间',
                             prop: 'create_time',
-                            width: '150',
+                            width: '160',
                             type: 'date',
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                             format: function (row) {
-                                return common.dateformat(row.create_time)
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.create_time))
+                                ]);
                             }
                         }]
                     }, {
@@ -288,15 +314,18 @@
                        subs: [{
                            label: '开始时间',
                            prop: 'begin_time',
-                           width: '150',
+                           width: '160',
                            type: 'date',
                            editable: true,
                            searchable: true,
                            addable: true,
                            unsortable: true,
                            align: 'center',
-                            format: function (row) {
-                               return common.dateformat(row.create_time)
+                           columnType:'render',
+                           render: (h, params) => {
+                               return h('div', [
+                                   h('span', common.dateformat(params.row.begin_time))
+                               ]);
                            }
                        }]
                    }, {
@@ -305,15 +334,18 @@
                           subs: [{
                               label: '结束时间',
                               prop: 'end_time',
-                              width: '150',
+                              width: '160',
                               type: 'date',
                               editable: true,
                               searchable: true,
                               addable: true,
                               unsortable: true,
                               align: 'center',
-                               format: function (row) {
-                                  return common.dateformat(row.create_time)
+                              columnType:'render',
+                              render: (h, params) => {
+                                  return h('div', [
+                                      h('span', common.dateformat(params.row.end_time))
+                                  ]);
                               }
                           }]
                       }, {
@@ -330,15 +362,37 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format: (row) => {
-                                if(row.state== 0){
-                                    return '待审批'
+                            columnType:'render',
+                            render: (h, params) => {
+                                let btnStr = '待审核'
+                                switch (params.row.state){
+                                    case 0:
+                                        btnStr = '待审核'
+                                        break;
+                                    case 1:
+                                        btnStr = '已通过'
+                                        break;
+                                    default:
+                                        btnStr = '已拒绝'
                                 }
-                                else if(row.state==1){
-                                     return '已通过'
-                                }else if(row.state==2){
-                                     return '已拒绝'
-                                }
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.handleShowEditStart(params.index, params.row)
+                                            }
+                                        }
+                                    }, btnStr),
+
+                                ]);
                             }
                         }]
                     }, {
@@ -347,7 +401,6 @@
                         subs: [{
                             label: '备注',
                             prop: 'remark',
-                            width: '200',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -488,7 +541,8 @@
                     } else {
                         if (ret > 0 || ret.state == 1) {
                             //更新成功
-                            vm.getTableData(vm.sform);
+                            vm.$refs['tabPane'].getTableData(vm.formItem,vm);
+                            // vm.getTableData(vm.sform);
                             vm.$message({
                                 message: '添加成功!',
                                 type: 'success',
@@ -816,44 +870,44 @@
             //    console.log(this.imgdialog_url);
             //    this.imgDialog = true
             // }
+        //----------------------------------------------------------------//
+            searchFn() {
+                /*
+                * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
+                * */
+                let sform = this.formItem;
+                sform.state_start = sform.state;
+                this.searchForm = JSON.parse(JSON.stringify( sform ))
+            },
+            resetForm(){
+                this.initFn(this)
+            },
+            exportFn(){
+                /*
+                * 导出数据，通过ref 进行定位拉取
+                * */
+                this.$refs['tabPane'].handleExport()
+            },
+            initFn(that){
+                /*
+                * 初始化操作
+                * 点击刷新时 和初进入页面时
+                * */
+                that.formItem = {
+                    car_number:'',
+                    state:''
+                },
+                that.searchForm = JSON.parse(JSON.stringify( that.formItem ));
+            },
         },
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-
-            this.tableheight = common.gwh() - 143;
-            var user = sessionStorage.getItem('user');
-            this.user = user;
-            if (user) {
-                user = JSON.parse(user);
-                console.log(user.authlist.length);
-                //for (var item of user.authlist) {
-                //    if (AUTH_ID.orderManage_Poles == item.auth_id) {
-                //        // console.log(item.sub_auth)
-                //        this.hideExport = !common.showSubExport(item.sub_auth);
-                //        this.hideSearch = !common.showSubSearch(item.sub_auth);
-                //        break;
-                //    }
-                //}
-
-            }
-
-
+            this.$refs['tabPane'].getTableData({},this);
         },
         beforeMount(){
-            this.tableheight=common.gwh()-150;
+            // this.tableheight=common.gwh()-150;
         },
         activated() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 150;
-            };
-            this.tableheight = common.gwh() - 150;
             this.imgSize = common.gww()/4;
-            // this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.formItem.car_number = '';
-            this.formItem.state = '';
-            this.getTableData({});
             this.getVisitorSet({});
             let _this = this;
 

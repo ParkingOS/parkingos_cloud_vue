@@ -1,30 +1,45 @@
 <template>
-    <section>
-        <common-table
-                :queryapi="queryapi"
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">用券明细<span style="margin: 2px">-</span>用券明细</p>
+                <div class="float-right"><el-button type="text" size="mini" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="resetForm">刷新</el-button></div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" v-model="formItem" class="shop-custom-form-search">
+                    <div class="console-main">
+
+                        <el-form-item label="名称" >
+                            <el-input v-model="formItem.role_name" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" style="width: 86px" icon="el-icon-search">搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                    <el-button type="primary" style="width: 114px" @click="handleAdd">添加角色</el-button>
+                            </el-form-item>
+                        </div>
+                    </div>
+                </el-form>
+            </div>
+        </div>
+        <tab-pane
+                :addTo="addTo"
                 :addapi="addapi"
-                :tableheight="tableheight"
-                :fieldsstr="fieldsstr"
-                :tableitems="tableitems"
-                :btswidth="btswidth"
-                :hide-export="hideExport"
-                :hide-options="hideOptions"
-                :searchtitle="searchtitle"
-                :hideTool="hideTool"
-                :hideSearch="hideSearch"
-                :hideAdd="hideAdd"
-                :showEdit="showEdit"
+                :addRowData="addRowData"
+                v-on:addInput="addInput"
+                :stripe="true"
+                :queryapi="queryapi"
                 :orderfield="orderfield"
-                :showdelete="showdelete"
-                :showPermission="showPermission"
-                :addtitle="addtitle"
-                :delapi="delapi"
-                :editapi="editapi"
-                :addFormRules="addFormRules"
-                :editFormRules="editFormRules"
-                v-on:showRolePermission="showRolePermission"
-                ref="bolinkuniontable"
-        ></common-table>
+                :fieldsstr="fieldsstr"
+                :table-items="tableitems"
+                align-pos="right"
+                bts-width="200"
+                :searchForm="searchForm"
+                fixedDom="scrollBarDom"
+                ref="tabPane"
+        ></tab-pane>
         <el-dialog title="权限设置" :visible.sync="isShowPermission" style="overflow: scroll" width="50%">
             <div v-for="sub of permissions">
 
@@ -71,13 +86,24 @@
     import common from '../../common/js/common'
     import {AUTH_ID_SHOP} from '../../common/js/const'
     import CommonTable from '../../components/CommonTable'
+    import TabPane from '../../components/table/TabPane';
 
     export default {
         components: {
-            CommonTable
+            CommonTable,TabPane
         },
         data() {
             return {
+                //添加
+                addRowData:{
+
+                },
+                addTo:0,
+                searchForm:{},
+                formItem:{
+                    role_name:''
+                },
+                //////////////////////////////////////////
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
@@ -118,15 +144,23 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '名称',
+                                label: '角色名称',
                                 prop: 'role_name',
                                 width: '123',
-                                type: 'str',
                                 editable: true,
                                 searchable: true,
-                                addable: true,
+                                addtable: true,
                                 unsortable: true,
                                 align: 'center',
+                                "type": "input",
+                                "disable": false,
+                                "readonly": false,
+                                "value": '',
+                                'size':'',
+                                "subtype": "text",
+                                "rules": [
+                                    {required: true, message: '请填写角色名称', trigger: 'blur'}
+                                ],
                             },
                         ]
                     },
@@ -153,17 +187,89 @@
                     }, {
                         hasSubs: false,
                         subs: [{
-                            label: '备注',
+                            label: '备注信息',
                             prop: 'resume',
                             width: '180',
-                            type: 'str',
                             editable: true,
                             searchable: true,
-                            addable: true,
+                            addtable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": '',
+                            'size':'',
+                            "subtype": "textarea",
                         }]
-                    }
+                    },{
+                        hasSubs:false,
+                        subs: [{
+                            label: '操作',
+                            columnType:'render',
+                            align: 'center',
+                            width:'180',
+                            unsortable: true,
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            color:'#3C75CF'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                // this.editFormVisible = true;
+                                                // this.rowdata = params.row;
+                                            }
+                                        }
+                                    }, '编辑'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            color:'#3C75CF'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                // this.showRolePermission(params.index,params.row);
+                                            }
+                                        }
+                                    }, '编辑权限'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            color:'#F56D6D'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                // this.delForm = {
+                                                //     $index:params.index,
+                                                //     delVisible:true,
+                                                //     id:params.row.id,
+                                                // }
+
+                                            }
+                                        }
+                                    }, '删除'),
+                                ]);
+                            }
+                        }]
+                    },
+
                 ],
                 searchtitle: '高级查询',
                 addtitle: '添加角色',
@@ -181,54 +287,7 @@
                 dialogloading: false,
                 permissions: [],
                 authlist: {
-                    // nickname:'',
-                    // allAuth:[
-                    // {
-                    //     subname: '订单管理',
-                    //     ischeck: false,
-                    //     subpermission: [
-                    //         {
-                    //             subname: '订单记录',
-                    //             ischeck: false,
-                    //             subpermission: [
-                    //                 {subname: '查看', ischeck: false},
-                    //                 {subname: '导出', ischeck: false}
-                    //             ]
-                    //         }, {
-                    //             subname: '抬杆记录',
-                    //             ischeck: false,
-                    //             subpermission: [
-                    //                 {subname: '查看', ischeck: false},
-                    //                 {subname: '导出', ischeck: false}
-                    //             ]
-                    //         }
-                    //     ]
-                    // },
-                    // {
-                    //     subname: '月卡会员',
-                    //     ischeck: false,
-                    //     subpermission: [
-                    //         {
-                    //             subname: '月卡续费记录',
-                    //             ischeck: false,
-                    //             subpermission: [
-                    //                 {subname: '查看', ischeck: false},
-                    //                 {subname: '导出', ischeck: false}
-                    //             ]
-                    //         }, {
-                    //             subname: '月卡会员',
-                    //             ischeck: false,
-                    //             subpermission: [
-                    //                 {subname: '查看', ischeck: false},
-                    //                 {subname: '导出', ischeck: false},
-                    //                 {subname: '注册会员修改车牌', ischeck: false},
-                    //                 {subname: '删除', ischeck: false},
-                    //                 {subname: '续费', ischeck: false}
-                    //             ]
-                    //         }
-                    //     ]
-                    // },
-                    // ]
+
                 },
                 nickname: '',
                 checksub: false,
@@ -236,6 +295,32 @@
             }
         },
         methods: {
+            //添加
+            handleAdd(){
+                // this.addRowData.operator = sessionStorage.getItem('nickname');
+                this.addTo++;
+            },
+            addInput(aform){
+                this.addRowData = aform;
+            },
+            searchFn(){
+                let sform = this.formItem;
+                this.searchForm = JSON.parse(JSON.stringify( sform ))
+            },
+            resetForm(){
+                this.initFn(this)
+            },
+            initFn(that){
+                /*
+                * 初始化操作
+                * 点击刷新时 和初进入页面时
+                * */
+                that.formItem ={
+                    role_name:''
+                };
+                that.searchForm = JSON.parse(JSON.stringify( that.formItem ));
+            },
+            /////////////////////////////////////////////////////
             showRolePermission: function (index, row) {
                 this.isShowPermission = true;
                 let _this = this;
@@ -345,36 +430,10 @@
             }
         },
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            }
-            this.tableheight = common.gwh() - 143;
-            var user = sessionStorage.getItem('user');
-            this.user = user
-            if (user) {
-                user = JSON.parse(user);
-                for (var item of user.authlist) {
-                    if (AUTH_ID_SHOP.shopRole == item.auth_id) {
-                        // console.log(item.sub_auth)
-                        this.showdelete = common.showSubDel(item.sub_auth)
-                        this.showEdit = common.showSubEdit(item.sub_auth)
-                        this.hideAdd = !common.showSubAdd(item.sub_auth)
-                        this.showPermission = common.showSubPermission(item.sub_auth)
-                        if(!this.showEdit&&!this.showdelete&&!this.showPermission){
-                            this.hideOptions = true;
-                        }
-                        break;
-                    }
-                }
-            }
+
         },
         activated() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            }
-            this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+            this.$refs['tabPane'].getTableData({},this);
         }
     }
 

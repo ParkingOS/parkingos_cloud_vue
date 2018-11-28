@@ -1,103 +1,156 @@
 <template>
-    <section>
-        <common-table
-                :queryapi="queryapi"
-                :tableheight="tableheight"
-                :fieldsstr="fieldsstr"
-                :tableitems="tableitems"
-                :btswidth="btswidth"
-                :href = "href"
-                :hideAdd="hideAdd"
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">固定码管理<span style="margin: 2px">-</span>固定码管理</p>
+                <div class="float-right"><el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button></div>
+            </header>
+             <div class="shop-custom-console">
+                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                     <div class="advanced-options" v-show="isShow">
+                         <el-form-item label="状态">
+                             <el-select v-model="searchFormData.state" placeholder="请选择" class="shop-custom-input">
+                                 <el-option
+                                         v-for="item in stateList"
+                                         :key="item.value_no"
+                                         :label="item.value_name"
+                                         :value="item.value_no">
+                                 </el-option>
+                             </el-select>
+                         </el-form-item>
+                     </div>
+                     <div class="console-main">
+                         <el-form-item>
+                             <el-select v-model="searchFormData.time_type" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
+                                 <el-option label="创建时间" value="1"></el-option>
+                                 <el-option label="开始时间" value="2"></el-option>
+                                 <el-option label="结束时间" value="3"></el-option>
+                             </el-select>
+                             <el-date-picker
+                                     style="width: 350px"
+                                     class="shop-custom-datepicker"
+                                     v-model="searchFormData.currentData"
+                                     type="datetimerange"
+                                     range-separator="至"
+                                     :default-time="['00:00:00','23:59:59']"
+                                     start-placeholder="请输入时间"
+                                     end-placeholder="请输入时间"
+                                     value-format="timestamp"
+                                     @change="changeDateFormat"
+                             >
+                             </el-date-picker>
+                         </el-form-item>
+                         <el-form-item label="名称">
+                             <el-input style="width: 140px" v-model="searchFormData.name" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                         </el-form-item>
+                         <el-form-item class="shop-clear-style">
+                             <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                             <el-button type="text"
+                                        @click="changeMore"
+                                        icon="el-icon-circle-plus-outline"
+                                        style="color:#3C75CF;font-size: 16px;">高级搜索</el-button>
+                         </el-form-item>
+                         <div class="float-right">
+                             <el-form-item class="shop-clear-style">
+                                 <el-button type="primary" icon="el-icon-plus" style="padding: 12px 10px" @click="addFixedCode">添加固定码</el-button>
+                                 <el-button type="primary" icon="el-icon-setting" style="padding: 12px 10px" @click="setPublic">公众号设置</el-button>
+                             </el-form-item>
+                         </div>
+                     </div>
 
-                :orderfield="orderfield"
+                 </el-form>
+             </div>
+        </div>
+        <!--table-->
+        <div class="table-wrapper-style">
+            <tab-pane
+                    :stripe="true"
+                    :queryapi="queryapi"
+                    :orderfield="orderfield"
+                    :fieldsstr="fieldsstr"
+                    :table-items="tableitems"
+                    align-pos="right"
+                    bts-width="200"
+                    :searchForm="searchForm"
+                    fixedDom="scrollBarDom"
+                    ref="tabPane"
+            ></tab-pane>
+        </div>
+        <!--添加固定码-->
+        <el-dialog custom-class="shop-fixedCode-dialog" :visible.sync="addFormVisible" @close="closeFn">
+            <header class="fixed-code__title" slot="title">
+                添加固定码
+            </header>
+            <el-steps :active="activeIndex" simple style="padding: 18px 20%;">
+                <el-step title="Step 1" ></el-step>
+                <el-step title="Step 2" ></el-step>
+            </el-steps>
+            <el-form ref="addFormPark" label-width="80px" :model="addFormPark" :rules="addFormRules" class="custom-form-style fiexd-code-form">
+                <div v-show="activeIndex == 1">
+                    <el-form-item label="名称"  :prop="name">
+                        <el-input v-model.trim="addFormPark.name"  placeholder="请输入固定码名称"></el-input>
+                    </el-form-item>
 
-                :hide-export="hideExport"
-                :hide-options="hideOptions"
-                :searchtitle="searchtitle"
-
-                :showCustomizeAdd="showCustomizeAdd"
-                v-on:customizeadd="customizeadd"
-
-                :hideTool="hideTool"
-
-                :addtitle="addtitle"
-                :addapi="addapi"
-                :editapi="editapi"
-
-                :showCode="showCode"
-
-                :showPublic="showPublic"
-
-                :hideSearch="hideSearch"
-                :showEdit="showEdit"
-                :showdelete="showdelete"
-                v-on:handlePublic="handlePublic"
-                v-on:selfExport="selfExport"
-                ref="bolinkuniontable"
-        ></common-table>
-
-        <el-dialog
-                :title="addtitle"
-                :visible.sync="showRegisPark"
-                width="30%">
-            <el-form ref="addFormPark" label-width="120px" style="margin-bottom:-30px"
-                     :model="addFormPark" :rules="addFormRules">
-
-                  <el-form-item label="名称"  :prop="name">
-                     <el-input v-model="addFormPark.name" style="width:90%" placeholder=""></el-input>
-                 </el-form-item>
-
-                 <el-form-item label="减免类型">
-                    <el-select v-model="reducetype" style="width:90%">
-                        <el-option
-                                v-for="item in reduceType"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="单张额度" v-if="showamount" :prop="amount_limit">
-                    <el-input v-model="addFormPark.amount_limit" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="总张数" v-if="showfree" :prop="free_limit">
-                    <el-input v-model="addFormPark.free_limit" style="width:90%" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="起始日期" prop="begin_time">
-                    <el-date-picker type="datetime" placeholder="选择日期时间" v-model="addFormPark.begin_time"
-                    style="width: 90%" ></el-date-picker>
-                </el-form-item>
-                <el-form-item label="固定码有效期" prop="validite_time">
-                    <el-input v-model="addFormPark.validite_time" style="width:90%" placeholder="单位为小时"></el-input>
-                </el-form-item>
-                 <el-form-item label="状态" >
-                    <el-select v-model="state" style="width:90%">
-                        <el-option
-                                v-for="item in stateList"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
+                    <el-form-item label="减免类型">
+                        <el-select v-model="reducetype" style="width: 292px">
+                            <el-option
+                                    v-for="item in reduceType"
+                                    :label="item.value_name"
+                                    :value="item.value_no"
+                            >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="单张额度" v-if="showamount" :prop="amount_limit">
+                        <el-input v-model.number="addFormPark.amount_limit"  placeholder="请输入单张的额度"></el-input>
+                    </el-form-item>
+                    <el-form-item label="总张数" v-if="showfree" :prop="free_limit">
+                        <el-input v-model.number="addFormPark.free_limit"  placeholder="请输入总张数"></el-input>
+                    </el-form-item>
+                    <div class="fixed-code-btn">
+                        <el-button type="primary" style="width: 144px" @click="nextStep">下一步</el-button>
+                    </div>
+                </div>
+                <div v-show="activeIndex == 2">
+                    <el-form-item label="起始日期" prop="begin_time">
+                        <el-date-picker type="datetime" placeholder="选择日期时间" v-model="addFormPark.begin_time" style="width: 292px"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="有效期" prop="end_time">
+                        <el-date-picker type="datetime" placeholder="选择日期时间" v-model="addFormPark.end_time" style="width: 292px"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="状态" >
+                        <el-select v-model="state" style="width: 292px">
+                            <el-option
+                                    v-for="item in stateList"
+                                    :label="item.value_name"
+                                    :value="item.value_no"
+                            >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <div class="fixed-code-btn">
+                        <el-button style="width: 144px;margin-right: 47px" @click="upperStep">上一步</el-button>
+                        <el-button type="primary" style="width: 144px" :loading="addloading" @click="handleAdd">添加</el-button>
+                    </div>
+                </div>
             </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="showRegisPark = false" size="small">取 消</el-button>
-                <el-button type="primary" size="small" @click="handleAdd" :loading="addloading">确 定</el-button>
-            </span>
         </el-dialog>
 
-
-
-        <el-dialog
-                title="公众号设置"
-                :visible.sync="showPublicDialog"
-                width="30%">
-            <div align='left' style="color:red">如果启用了公众号设置，必须关注该公众号才能使用固定码功能，且只支持微信扫码！</div>
-            <el-form ref="publicForm" label-width="120px" style="margin-bottom:-30px"
-                     :model="publicFormModel" :rules="publicFormRules">
+        <!--公众号设置-->
+        <el-dialog custom-class="shop-fixedCode-dialog" :visible.sync="showPublicDialog" @close="closeFn1">
+            <header class="fixed-code__title" slot="title">
+                公众号设置
+            </header>
+            <div class="fixes-code__tip">
+                如果启用了公众号设置，必须关注该公众号才能使用固定码功能，且只支持微信扫码！
+            </div>
+            <el-form ref="publicForm"
+                     label-width="120px"
+                     class="custom-form-style fiexd-code-form1"
+                     :model="publicFormModel"
+                     :rules="publicFormRules">
                 <el-form-item label="公众号设置" >
-                    <el-select v-model="public_state" style="width:90%">
+                    <el-select v-model="public_state" style="width: 328px">
                         <el-option
                                 v-for="item in setList"
                                 :key="item.value_no"
@@ -107,22 +160,86 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                 <el-form-item label="公众号appid"  :prop="appid" v-if="showPublicSet">
-                     <el-input v-model="publicFormModel.appid" style="width:90%" placeholder=""></el-input>
-                 </el-form-item>
-                 <el-form-item label="公众号秘钥"  :prop="secret" v-if="showPublicSet">
-                      <el-input v-model="publicFormModel.secret" style="width:90%" placeholder=""></el-input>
-                  </el-form-item>
-                  <el-form-item label="关注地址"  :prop="concern_address" v-if="showPublicSet">
-                       <el-input v-model="publicFormModel.concern_address" style="width:90%" placeholder=""></el-input>
-                  </el-form-item>
+                <el-form-item label="公众号appid"  :prop="appid" v-if="showPublicSet">
+                    <el-input v-model="publicFormModel.appid" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="公众号秘钥"  :prop="secret" v-if="showPublicSet">
+                    <el-input v-model="publicFormModel.secret" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="关注地址"  :prop="concern_address" v-if="showPublicSet">
+                    <el-input v-model="publicFormModel.concern_address" placeholder=""></el-input>
+                </el-form-item>
+                <div class="fixed-code-btn">
+                    <el-button type="primary" style="width: 144px" @click="addPublic" :loading="addloading">确定</el-button>
+                </div>
             </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="cancelSet" size="small">取 消</el-button>
-                <el-button type="primary" size="small" @click="addPublic" :loading="addloading">确 定</el-button>
-            </span>
+
         </el-dialog>
 
+        <!--操作-->
+        <el-dialog custom-class="shop-fixedCode-dialog shop-fixedCode-edit" :visible.sync="showOperation" @close="closeFn2">
+            <header class="fixed-code__title" slot="title">
+                编辑
+            </header>
+            <el-form ref="pwdForm"
+                     label-width="100px"
+                     class="custom-form-style fiexd-code-form2"
+                     :model="pwdFormModel"
+                     :rules="pwdFormRules">
+                <el-form-item label="状态"  v-show="availableState">
+                    <el-select v-model="pwdFormModel.public_state" style="width:250px">
+                        <el-option
+                                v-for="item in stateList"
+                                :key="item.value_no"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="密码管理" >
+                    <el-select v-model="pwd_state" style="width:250px">
+                        <el-option
+                                v-for="item in setList"
+                                :key="item.value_no"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="密码"  :prop="password" v-if="showPwdSet">
+                    <el-input v-model="pwdFormModel.password" style="width:250px" placeholder=""></el-input>
+                </el-form-item>
+                <div style="text-align: center">
+                    <el-button type="primary" style="width: 144px" @click="addPwd" :loading="addloading">确定</el-button>
+                </div>
+            </el-form>
+        </el-dialog>
+
+        <!--展示二维码-->
+        <el-dialog
+                center
+                top="20vh"
+                custom-class="custom-shop-dialog"
+                :visible.sync="qrCodeView">
+            <div class="shop-dialog-content">
+                <img :src="qrsrc">
+            </div>
+            <div style="margin-top: 15px;">
+                <el-input placeholder="请输入内容" v-model="qrurl" readonly="readonly" class="custom-append-style">
+                    <el-button
+                            slot="append"
+                            @click="copyLink">复制链接</el-button>
+                </el-input>
+            </div>
+            <div class="shop-dialog-footer" style="margin-top: 15px;">
+                <el-button type="primary" style="background: #3C75CF;color: #FFF"><a style="color: #FFFFFF;" :href="qrsrc" download>保存到本地</a></el-button>
+            </div>
+        </el-dialog>
+        <!--canvas 容器隐藏-->
+        <canvas id="canvas" style="display:none"></canvas>
+        <canvas id="img" style="display:none"></canvas>
     </section>
 </template>
 
@@ -132,14 +249,266 @@
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID_SHOP} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
+    import TabPane from '../../components/table/TabPane';
+    import ElButton from 'element-ui/packages/button/src/button';
+    import ElFormItem from 'element-ui/packages/form/src/form-item';
 
     export default {
         components: {
-            CommonTable
+            ElFormItem,
+            ElButton,
+            TabPane
         },
         data() {
             return {
+                copyBtn:null,
+                qrurl:'',
+                qrsrc:'',
+                qrCodeView:false,
+                availableState:false,
+                showOperation:false,
+                activeIndex:1,
+                addFormPark: {
+                    name:'',
+                    reducetype:'',
+                    end_time:'',
+                    amount_limit:'',
+                    free_limit:'',
+                    state:'',
+                },
+                addFormVisible:false,
+                available:require('../../assets/images/shop/state-available.png'),
+                unavailable:require('../../assets/images/shop/state-unavailable.png'),
+                searchForm:{},
+                isShow:false,
+                searchFormData:{
+                    currentData:null,
+                    name:'', //名称
+                    state:'', //状态
+                    state_start:'',//
+                    time_type:'1',
+                },
+                tableitems: [
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '名称',
+                                prop: 'name',
+                                width: '200',
+                                type: 'str',
+                                editable: false,
+                                searchable: true,
+                                addtable: true,
+                                hidden:'',
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '创建日期',
+                            prop: 'create_time',
+                            width: '160',
+                            type: 'date',
+                            unsortable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.create_time))
+                                ]);
+                            }
+                        }]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '开始日期',
+                            prop: 'begin_time',
+                            width: '160',
+                            type: 'date',
+                            unsortable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.begin_time))
+                                ]);
+                            }
+                        }]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '结束日期',
+                            prop: 'end_time',
+                            width: '160',
+                            type: 'date',
+                            unsortable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.end_time))
+                                ]);
+                            }
+                        }]
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '剩余时长',
+                                prop: 'time_limit',
+                                width: '120',
+                                type: 'str',
+                                hidden:false,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '剩余金额',
+                                prop: 'money_limit',
+                                width: '120',
+                                type: 'str',
+                                hidden:false,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '剩余张数',
+                                prop: 'free_limit',
+                                width: '80',
+                                type: 'str',
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '状态',
+                            prop: 'state',
+                            width: '100',
+                            type: 'date',
+                            unsortable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                let str = '',className = '',colors='';
+                                switch (params.row.state){
+                                    case 0:
+                                        str = '可用';className = 'el-icon-circle-check';colors = 'rgba(125,198,115,1)';
+                                        break;
+                                    case 1:
+                                        str = '不可用';className = 'el-icon-circle-close';colors = 'rgba(245,109,109,1)';
+                                        break;
+                                    default:
+                                        str = '过期';className = 'el-icon-circle-close';colors = 'rgba(245,109,109,1)';
+                                }
+                                return h('div', [
+                                    h('i',{
+                                        class:className,
+                                        style:{
+                                            color:colors,
+                                            marginRight:'4px'
+                                        }
+                                    },''),
+                                    h('span', str)
+                                ]);
+                            }
+                        }]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '二维码',
+                            prop: 'end_time',
+                            width: '78',
+                            type: 'date',
+                            unsortable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton',{
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.qrurl = params.row.code_src;
+                                                this.genqr(this.qrurl)
+                                            }
+                                        },
+                                        style:{
+                                            color:'rgba(51,121,233,0.8)'
+                                        }
+                                    }, '查看')
+                                ]);
+                            }
+                        }]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '操作',
+                            width: '78',
+                            type: 'date',
+                            unsortable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            color:'rgba(51,121,233,1)',
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                // console.log('---',params.row.state)
+                                                if(params.row.state == 0){
+                                                    this.availableState = true;
+                                                }else{
+                                                    this.availableState = false;
+                                                }
+                                                this.pwd_state = params.row.use_pwd+'';
+                                                this.pwdFormModel.password = params.row.pass_word;
+                                                this.pwdFormModel.id = params.row.id;
+                                                this.pwdFormModel.public_state = params.row.state;
+                                                this.showOperation = true;
+                                            }
+                                        }
+                                    }, '详情')
+                                ]);
+                            }
+                        }]
+                    },
+                ],
+                pwdFormModel:{
+                    id:'',
+                    password:'',
+                    public_state:0,
+                },
+                //------------------------------------------
+                showPwdSet:false,
                 showPublicSet:false,
                 loading: false,
                 hideExport: true,
@@ -154,13 +523,9 @@
                 showPublic:true,
                 hideAdd: true,
 
-                addFormPark: {
-                    begin_time:'',
-                    validite_time:'24',
-                    amount_limit:'',
-                    free_limit:'',
-                },
+
                 public_state:'0',
+                pwd_state:'0',
                 publicFormModel:{
                     id:'',
                     appid:'',
@@ -169,6 +534,7 @@
                 },
                 showRegisPark: false,
                 showPublicDialog:false,
+                showPwdDialog:false,
                 showCustomizeAdd:true,
 
                 showamount:true,
@@ -197,201 +563,16 @@
                 },
                 hideTool: false,
                 showEdit: true,
+                showPassWord:false,
                 queryapi: '/fixcode/query',
                 selfexportapi:'/fixcode/downloadCode',
                 addapi:'/fixcode/add',
                 editapi:'/fixcode/edit',
                 publicapi:'/fixcode/public',
+                pwdapi:'/fixcode/setpwd',
                 btswidth: '160',
                 href:'https://www.baidu.com/s?wd=node-pre-gyp+install+--fallback-to-build&ie=UTF-8&tn=39042058_20_oem_dg',
                 fieldsstr: 'id__park_id__operate_time__ticketfree_limit__ticket_limit__ticket_money__operate_type__add_money__state__create_time__name',
-                tableitems: [
-                 {
-                       hasSubs: false, subs: [
-                           {
-                               label: '名称',
-                               prop: 'name',
-                               width: '123',
-                               type: 'str',
-                               editable: false,
-                               searchable: true,
-                               addable: true,
-                               hidden:'',
-                               unsortable: true,
-                               align: 'center',
-                           },
-                       ]
-                   },
-                   {
-                       hasSubs: false,
-                       subs: [{
-                           label: '创建日期',
-                           prop: 'create_time',
-                           width: '180',
-                           type: 'date',
-                           editable: false,
-                           searchable: true,
-                           addable: true,
-                           unsortable: true,
-                           align: 'center',
-                           format: function (row) {
-                               return common.dateformat(row.create_time)
-                           }
-                       }]
-                   },
-                   {
-                      hasSubs: false,
-                      subs: [{
-                          label: '开始日期',
-                          prop: 'begin_time',
-                          width: '180',
-                          type: 'date',
-                          editable: false,
-                          searchable: true,
-                          addable: true,
-                          unsortable: true,
-                          align: 'center',
-                          format: function (row) {
-                              return common.dateformat(row.begin_time)
-                          }
-                      }]
-                  },
-                  {
-                        hasSubs: false,
-                        subs: [{
-                            label: '结束日期',
-                            prop: 'end_time',
-                            width: '180',
-                            type: 'date',
-                            editable: false,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.end_time)
-                            }
-                        }]
-                    },
-                   {
-                         hasSubs: false,
-                         subs: [{
-                             label: '有效期/小时',
-                             prop: 'validite_time',
-                             width: '180',
-                             type: 'str',
-                             editable: false,
-                             searchable: false,
-                             addable: true,
-                             unsortable: true,
-                             hidden: "",
-                             align: 'center',
-                         }]
-                     },
-                   {
-                       hasSubs: false, subs: [
-                           {
-                               label: '剩余时长',
-                               prop: 'time_limit',
-                               width: '123',
-                               type: 'str',
-                               editable: false,
-                               searchable: false,
-                               addable: true,
-                               hidden:'',
-                               unsortable: true,
-                               align: 'center',
-                           },
-                       ]
-                   },
-                  {
-                     hasSubs: false, subs: [
-                          {
-                              label: '剩余金额',
-                              prop: 'money_limit',
-                              width: '123',
-                              type: 'str',
-                              editable: false,
-                              searchable: false,
-                              addable: true,
-                              hidden:'',
-                              unsortable: true,
-                              align: 'center',
-                          },
-                      ]
-                  },
-                    {
-                       hasSubs: false, subs: [
-                           {
-                               label: '剩余张数',
-                               prop: 'free_limit',
-                               width: '123',
-                               type: 'str',
-                               editable: false,
-                               searchable: false,
-                               addable: true,
-                               unsortable: true,
-                               align: 'center',
-                           },
-                       ]
-                   },
-                       {
-
-                         hasSubs: false,
-
-                         subs: [{
-                             label: '状态',
-                             prop: 'state',
-                             width: '100',
-                             type: 'selection',
-                             selectlist:stateType,
-                             editable: true,
-                             searchable: true,
-                             addable: true,
-
-                             unsortable: true,
-                             align: 'center',
-                             format:(row) => {
-                                if(row.state==0){
-
-                                    return '可用'
-                                }else if(row.state==1){
-
-                                    return '不可用'
-                                }else{
-
-                                    return '已过期'
-                                }
-                             }
-
-                             //format: (row) => {
-
-                                 //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
-                                 //也就是data中的this,可以获取到this.aroles
-                                 //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
-                               //  return common.nameformat(row, stateType, 'state');
-                                 //return common.nameformat(row, genderType, 'sex');
-                             //}
-                         }]
-                     },
-                     {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '二维码链接',
-                            prop: 'code_src',
-                            width: '180',
-                            type: 'str',
-                            editable: false,
-                            searchable: false,
-                            addable: false,
-                            unsortable: true,
-                            align: 'center',
-
-                        }]
-                    },
-
-                ],
                 searchtitle: '高级查询',
                 addtitle:"添加固定码",
 
@@ -430,37 +611,106 @@
                    concern_address:[
                      {required: true, message: '请输入公众号关注地址', trigger: 'blur'}
                    ],
-               }
+               },
+               password:'password',
+               pwdFormRules: {
+                  password: [
+                      {required: true, message: '请输入4位数字密码',min:4,max:4, trigger: 'blur'}
+                  ],
+              }
             }
         },
-         methods: {
-
-            customizeadd: function () {
-                //显示注册新车场
-                this.showRegisPark = true;
-
-                this.addressTitle = '';
-                this.addFormPark.validite_time='24';
+        methods:{
+            copyLink() {
+                let _this = this;
+                this.$copyText(this.qrurl).then(function (e) {
+                    _this.$message({
+                        message: '复制成功，已复制到剪切板',
+                        type: 'success'
+                    });
+                }, function (e) {
+                    _this.$message({
+                        message: '复制失败，请手动操作',
+                        type: 'warning'
+                    });
+                })
             },
+            genqr(url){
+                var canvas = document.getElementById('canvas')
+                this.QRCode.toCanvas(canvas, url,{ errorCorrectionLevel: 'H' }, function (error) {
+                    if (error){} else{}
+                })
+                var context=canvas.getContext('2d');
+                var imageData = context.getImageData(0,0,canvas.width,canvas.height);
 
-            selfExport(params){
-                var api = this.selfexportapi;
-                 window.open(path + api + '?'+params);
+                var img = document.getElementById("img");
+                img.width=canvas.width
+                img.height=canvas.height
+                var context2 = img.getContext('2d');
+                context2.fillStyle="white";
+                context2.fillRect(0,0,canvas.width,(canvas.height));
+                context2.putImageData(imageData,0,0);
+                context2.font="bold 10px 微软雅黑"
+                context2.fillStyle="black"
+
+                var url = img.toDataURL("image/png");
+                this.qrsrc = url;
+                this.qrCodeView = true;
             },
-            handlePublic(){
-                this.publicFormModel =common.clone(this.tempSetForm);
-                this.public_state=this.tempSetForm.public_state
-                this.showPublicDialog=true
-            },
-            cancelSet:function () {
-                this.showPublicDialog = false;
+            addPwd(){
+                let _this = this;
+                this.$refs.pwdForm.validate((valid) => {
+                    if (valid) {
+                        _this.addloading = true;
+                        let aform = _this.generateForm(_this.pwdFormModel);
+                        aform.pwd_state=_this.pwd_state;
+                        aform.password=_this.pwdFormModel.password;
+                        aform.id=_this.pwdFormModel.id;
+                        _this.$axios.post(path + _this.pwdapi, _this.$qs.stringify(aform), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            }
+                        }).then(function (response) {
+                            let ret = response.data;
+                            if (ret > 0 || ret.state === 1) {
+                                //更新成功
+                                _this.$refs['tabPane'].getTableData({},_this);
+                                _this.$message({
+                                    message: '编辑成功!',
+                                    type: 'success',
+                                    duration: 600
+                                });
+                                _this.showOperation = false;
+                            } else {
+                                //更新失败
+                                _this.$message({
+                                    message: ret.msg,
+                                    type: 'error',
+                                    duration: 1200
+                                });
+                            }
+                            _this.addloading = false
+
+                        }).catch(function (error) {
+                            //更新失败
+                            _this.$message({
+                                message: '请求失败!' + error.data,
+                                type: 'error',
+                                duration: 1200
+                            });
+                            _this.addloading = false;
+                        })
+                    }
+                })
             },
             addPublic(){
                 let _this = this;
                 this.$refs.publicForm.validate((valid) => {
                     if (valid) {
                         _this.addloading = true;
-                        let aform = _this.generateForm(_this.publicFormModel);
+                        let aform = _this.publicFormModel;
+                        aform.loginuin = common.attachParams('loginuin', 1);
+                        aform.shopid = common.attachParams('shopid', 1);
                         aform.public_state=_this.public_state;
                         _this.$axios.post(path + _this.publicapi, _this.$qs.stringify(aform), {
                             headers: {
@@ -471,7 +721,6 @@
 
                             if (ret > 0 || ret.state === 1) {
                                 //更新成功
-                                //_this.$refs['bolinkuniontable'].getTableData({});
                                 _this.getShopAccountInfo();
                                 _this.$message({
                                     message: '添加成功!',
@@ -501,31 +750,48 @@
                     }
                 })
             },
-
+            setPublic(){
+                this.publicFormModel =common.clone(this.tempSetForm);
+                this.public_state=this.tempSetForm.public_state
+                this.showPublicDialog=true
+            },
+            closeFn(){
+                this.$refs['addFormPark'].clearValidate()
+            },
+            closeFn1(){
+                this.$refs['publicForm'].clearValidate()
+            },
+            closeFn2(){
+                this.$refs['pwdForm'].clearValidate()
+            },
+            addFixedCode(){
+                // this.$refs['addFormPark'].clearValidate();
+                this.addFormVisible = true;
+            },
             handleAdd(){
                 let _this = this;
 
                 this.$refs.addFormPark.validate((valid) => {
-
                     if (valid) {
                         _this.addloading = true;
-                        let aform = _this.generateForm(_this.addFormPark);
+                        let aform = _this.addFormPark;
+                        aform.loginuin = common.attachParams('loginuin', 1);
+                        aform.shopid = common.attachParams('shopid', 1);
                         _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
                         }).then(function (response) {
                             let ret = response.data;
-
                             if (ret > 0 || ret.state === 1) {
                                 //更新成功
-                                _this.$refs['bolinkuniontable'].getTableData({});
+                                _this.$refs['tabPane'].getTableData({},_this);
                                 _this.$message({
                                     message: '添加成功!',
                                     type: 'success',
                                     duration: 600
                                 });
-                                _this.showRegisPark = false;
+                                _this.addFormVisible = false;
                                 _this.addFormPark = {};
                             } else {
                                 //更新失败
@@ -549,100 +815,107 @@
                     }
                 })
             },
+            upperStep(){
+                this.activeIndex = 1;
+            },
+            nextStep(){
+                this.activeIndex = 2;
+            },
+            resetForm(){
+                this.initFn(this)
+            },
+            initFn(that){
+                /*
+                * 初始化操作
+                * 点击刷新时 和初进入页面时
+                * */
+                that.searchFormData ={
+                    currentData:null,
+                    name:'', //名称
+                    state:'', //状态
+                    state_start:'',//
+                    time_type:'1',
+                };
+                that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
+            },
+            changeMore(){
+                this.isShow = !this.isShow
+            },
+            changeDateFormat:function () {
+                ;
+            },
+            searchFn() {
+                /*
+                * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
+                * */
+                let sform = this.searchFormData;
+                sform.state_start = sform.state;
+                if(sform.currentData != null){
+                    if(sform.time_type == '1'){
+                        sform.create_time = 'between';
+                        sform.create_time_start = sform.currentData[0];
+                        sform.create_time_end = sform.currentData[1];
+                    }else if(sform.time_type == '2'){
+                        sform.begin_time = 'between';
+                        sform.begin_time_start = sform.currentData[0];
+                        sform.begin_time_end = sform.currentData[1];
+                    }else{
+                        sform.end_time = 'between';
+                        sform.end_time_start = sform.currentData[0];
+                        sform.end_time_end = sform.currentData[1];
+                    }
+                }
+
+                this.searchForm = JSON.parse(JSON.stringify( sform ))
+            },
+            getShopAccountInfo(){
+                let vm = this;
+                vm.$axios.post(path+"/shopaccount/shopinfo?id="+sessionStorage.getItem('shopid'),{
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
+                    if(ret.ticket_unit==1||ret.ticket_unit==2||ret.ticket_unit==3){
+                        vm.tableitems[5].subs[0].hidden = "true";
+                    }
+
+                    else if(ret.ticket_unit==4){
+                        //金额  隐藏剩余时长
+                        vm.tableitems[4].subs[0].hidden = "true";
+                    }
+
+                    if(ret.support_type==0){
+                        vm.reduceType=[
+                            { 'value_name': '减免券','value_no': 1},
+                        ]
+                    }
+                    //console.log("~~~~~:"+ret.appid)
+                    vm.tempSetForm.id= ret.id;
+                    vm.public_state= ret.public_state+'';
+                    vm.tempSetForm.public_state= ret.public_state+'';
+                    if(ret.appid&&ret.secret&&ret.concern_address){
+                        vm.tempSetForm.appid= ret.appid;
+                        vm.tempSetForm.secret= ret.secret;
+                        vm.tempSetForm.concern_address= ret.concern_address;
+                    }
+                });
+            },
             generateForm(sform) {
                 //用来构建相同的参数
-                //sform.token = common.attachParams('token');
-                //sform.groupid = common.attachParams('groupid', 1);
-                //sform.cityid = common.attachParams('cityid', 1);
-                //sform.unionid = common.attachParams('unionid', 1);
-                //sform.channelid = common.attachParams('channelid', 1);
                 sform.loginuin = common.attachParams('loginuin', 1);
-                //sform.ishdorder = common.attachParams('ishdorder', 1);
-                //sform.roleid = common.attachParams('loginroleid', 1);
                 sform.shopid = common.attachParams('shopid', 1);
                 sform.type = this.reducetype;
                 sform.state = this.state;
                 return sform;
             },
-            getShopAccountInfo(){
-                  let vm = this;
-                  vm.$axios.post(path+"/shopaccount/shopinfo?id="+sessionStorage.getItem('shopid'),{
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                      }
-                  }).then(function (response) {
-                    let ret = response.data;
-                    //var ret = eval('('+result+')')
-                    //vm.account=ret;
-
-                    //vm.shopname=ret.name
-                    if(ret.ticket_unit==1||ret.ticket_unit==2||ret.ticket_unit==3){
-                        //时长
-                        //alert('nihao');
-                        //alert(vm.tableitems[3].subs[0].hidden)
-                        vm.tableitems[4].subs[0].hidden = "true";
-                        //alert('nihuai');
-                    }
-
-                    else if(ret.ticket_unit==4){
-                        //金额  隐藏剩余时长
-                        vm.tableitems[3].subs[0].hidden = "true";
-                     }
-
-                     if(ret.support_type==0){
-                        vm.reduceType=[
-                            { 'value_name': '减免券','value_no': 1},
-                        ]
-                     }
-                     //console.log("~~~~~:"+ret.appid)
-                     vm.tempSetForm.id= ret.id;
-                     vm.public_state= ret.public_state+'';
-                     vm.tempSetForm.public_state= ret.public_state+'';
-                     if(ret.appid&&ret.secret&&ret.concern_address){
-                        vm.tempSetForm.appid= ret.appid;
-                        vm.tempSetForm.secret= ret.secret;
-                        vm.tempSetForm.concern_address= ret.concern_address;
-                     }
-                  });
-                },
         },
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            }
-            this.tableheight = common.gwh() - 143;
-
-            var user = sessionStorage.getItem('user');
-            // console.log(user)
-            if (user) {
-                user = JSON.parse(user);
-
-                for (var item of user.authlist) {
-                    if (AUTH_ID_SHOP.fixCode == item.auth_id) {
-                        this.showEdit = common.showSubEdit(item.sub_auth);
-                        this.showPublic=common.showPublic(item.sub_auth);
-                        this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
-                        if(!this.showEdit){
-                           this.hideOptions=true
-                        }
-                        break;
-                    }
-                }
-
-            }
-
-
-
+            this.getShopAccountInfo()
+            this.$refs['tabPane'].getTableData({},this);
         },
         activated() {
-            this.getShopAccountInfo()
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            }
-            this.tableheight = common.gwh() - 143;
-            //this.addFormPark.validite_time=24;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
+
         },
         watch: {
             reducetype : function (val) {
@@ -668,13 +941,48 @@
                     this.showPublicSet=false
                 }
             },
+            pwd_state:function (val) {
+              if(val==1){
+                  this.showPwdSet=true
+              }else{
+                  this.showPwdSet=false
+              }
+            },
         },
     }
 
 </script>
 
-<style>
-    .gutter {
-        display: none
+<style lang="scss" scoped>
+    .fiexd-code-form{
+        position: relative;
+        padding: 30px 53px 0 53px;
+        height: 275px;
+    }
+    .fiexd-code-form1{
+        position: relative;
+        padding: 50px 20px 0 10px;
+        height: 275px;
+    }
+    .fiexd-code-form2{
+        padding: 30px 53px 25px 53px;
+        /*height: 275px;*/
+    }
+    .fixed-code-btn{
+        position: absolute;
+        bottom: -25px;
+        display: block;
+        width: 448px;
+        text-align: center;
+    }
+    .fixes-code__tip{
+        position: relative;
+        top:18px;
+        padding: 10px 23px;
+        border-radius: 4px;
+        background: rgba(216,216,216,0.27);
+        font-size: 14px;
+        color: #858585;
+        margin: 0 37px;
     }
 </style>

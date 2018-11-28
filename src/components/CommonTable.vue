@@ -198,7 +198,7 @@
                     </div>
                     <div v-if="showCollectorSelector" style="float: left;margin-right: 10px;">
                         <el-select v-model="currentcollect" placeholder="请选择收费员" @change="changeanalysisdatecollect"
-                                   style="float: left;margin-right: 30px;">
+                                   style="float: left;margin-right: 30px;" size="mini">
                             <el-option
                                     v-for="item in collectors"
                                     :key="item.value_no"
@@ -270,6 +270,7 @@
 
                         <span class="demonstration">日期</span>
                         <el-date-picker
+                                size="mini"
                                 v-model="datesselector"
                                 type="datetimerange"
                                 align="right"
@@ -288,6 +289,7 @@
 
                         <span class="demonstration">日期</span>
                        <el-date-picker
+                               size="mini"
                                v-model="datesselector"
                                type="date"
                                align="right"
@@ -342,6 +344,7 @@
                      <div v-if="showdateSelectorMonth22" style="float: left;margin-right: 10px;">
                         <!--<div style="float: left;margin-right: 10px;">-->
                         <el-date-picker
+                                size="mini"
                                 v-model="monthReportStart"
                                 type="month"
                                 value-format="yyyy-MM"
@@ -350,6 +353,7 @@
                         </el-date-picker>
                         <span> 至 </span>
                         <el-date-picker
+                                size="mini"
                                 v-model="monthReportEnd"
                                 type="month"
                                 value-format="yyyy-MM"
@@ -357,7 +361,7 @@
                                 :placeholder="end_month_placeholder11">
                         </el-date-picker>
                         <el-tooltip class="item" effect="dark" content="最多支持12个月的数据查询" placement="bottom">
-                            <el-button type="primary" @click="handleSearchMonthReport" align="center">查询
+                            <el-button type="primary" @click="handleSearchMonthReport" align="center" size="mini">查询
                             </el-button>
                         </el-tooltip>
                     </div>
@@ -388,7 +392,7 @@
                     </el-button>
 
                     <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                        <el-button type="primary" @click="handleExport" v-if="!hideExport">导出
+                        <el-button type="primary" @click="handleExport" v-if="!hideExport" size="mini">导出
                         </el-button>
                     </el-tooltip>
                     <el-button @click="changeParkText" type="text" v-if="showParkInfo" style="color: #109EFF;">
@@ -430,7 +434,7 @@
                 <el-col :span="2" align="right" style="float: right">
                     <!--<span style="color:red;font-size:8px">提示:刷新后会重置高级查询</span>-->
                     <!--<el-button @click="reset" type="primary" size="small">清空高级查询</el-button>-->
-                    <el-button @click="refresh" type="text">刷新&nbsp;&nbsp;</el-button>
+                    <el-button @click="refresh" size="mini">刷新</el-button>
                 </el-col>
             </el-col>
 
@@ -448,6 +452,10 @@
                     <el-button v-if="showCustomizeEdit" type="text" size="small"
                                @click="handleCustomizeEdit(scope.$index, scope.row)">
                         编辑
+                    </el-button>
+                    <el-button v-if="showPassWord" type="text" size="small"
+                               @click="handlePwdEdit(scope.$index, scope.row)">
+                        密码管理
                     </el-button>
                     <el-button v-if="showShopEdit" :disabled='scope.row.state==2' size="small" type="text" @click="handleCustomizeEdit(scope.$index, scope.row)">
                         编辑
@@ -1030,7 +1038,7 @@
         props: ['tableitems', 'fieldsstr', 'hideOptions', 'hideExport', 'hideAdd', 'showCustomizeAdd', 'showCustomizeEdit', 'hideSearch', 'showLeftTitle', 'leftTitle', 'editFormRules', 'addFormRules',
             'tableheight', 'bts', 'btswidth', 'queryapi', 'queryparams', 'exportapi', 'editapi', 'addapi', 'resetapi', 'delapi', 'searchtitle', 'addtitle', 'addfailmsg',
             'dialogsize', 'showqrurl', 'showdelete','showlogout','showrefund', 'showmapdialog', 'showMap', 'showsetting','showShopSetting', 'hidePagination', 'showRefillInfo', 'showParkInfo','showTicketInfo', 'showBusinessOrder', 'hideTool', 'showanalysisdate', 'showresetpwd','showresetdata', 'showdateSelector','showdateSelector22','showdateSelector33','showdateSelector10', 'showCollectorSelector', 'showshopdateSelector','showParkSelector','showoperateSelector', 'showdateSelectorMonth','showdateSelectorMonth22',
-            'showModifyCarNumber', 'showmRefill', 'showEdit','showShopEdit', 'showImg','showCode','showPublic', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2'],
+            'showModifyCarNumber', 'showmRefill', 'showEdit','showShopEdit', 'showImg','showCode','showPublic', 'showImgSee', 'showCommutime', 'showSettingFee', 'showPermission', 'imgapi', 'showUploadMonthCard','showSuperimposed','hideLift','hideVisitor','indexHide','parentMsg','parentSf','orderfield','editdisable','showParkInfo2','showPassWord'],
         methods: {
             changeTimer:function (value) {
                 console.log(value)
@@ -1745,6 +1753,9 @@
             },
             handleCustomizeEdit(index, row) {
                 this.$emit('customizeedit', index, row);
+            },
+            handlePwdEdit(index, row) {
+                 this.$emit('handlePwdEdit', index, row);
             },
             handlePermission(index, row) {
                 //员工权限-角色管理-编辑权限
@@ -2470,9 +2481,9 @@
     }
 
     /*table表格 表头背景色*/
-    /*.el-table th {*/
-        /*background-color: #F5F7FA;*/
-    /*}*/
+    .el-table th {
+        background-color: #F5F7FA;
+    }
 
     .el-table tr {
         overflow: hidden;

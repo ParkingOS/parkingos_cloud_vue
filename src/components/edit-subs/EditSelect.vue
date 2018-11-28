@@ -1,6 +1,6 @@
 <template>
   <div class="number" style="margin-right: 15px">
-				<el-select v-model.trim="selectForm.select" @change="uptoeditdialog" :disabled="disable" style="width:100%" size="mini">
+				<el-select v-model="selectForm.select" @change="uptoeditdialog" :disabled="disable" style="width:100%">
 					<el-option
 						v-for="item in selectlist"
 						:label="item.value_name"

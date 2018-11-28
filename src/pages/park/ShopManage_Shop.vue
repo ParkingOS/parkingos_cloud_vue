@@ -1,39 +1,48 @@
 <template>
-    <div>
-        <section>
-            <common-table
+    <section class="right-wrapper-size" id="scrollBarDom">
+        <header class="custom-header">
+            商户管理
+        </header>
+        <div class="workbench-wrapper">
+            <el-form :inline="true"  class="demo-form-inline">
+                <el-form-item label="类型" class="clear-style margin-left-clear">
+                    <el-select v-model="superimposed" @change="changeSuperimposed" placeholder="请选择" size="mini" style="width: 140px">
+                        <el-option
+                                v-for="item in superimposedType"
+                                :key="item.value_no"
+                                :label="item.value_name"
+                                :value="item.value_no">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item class="clear-style float-right">
+                    <el-button type="primary" size="mini" @click="showadd">添加商户</el-button>
+                    <el-button size="mini" @click="resetForm">刷新</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+        <div class="table-wrapper-style">
+            <tab-pane
                     :queryapi="queryapi"
-                    :addapi="addapi"
-                    :showCustomizeAdd="showCustomizeAdd"
-                    :editapi="editapi"
-                    :hideAdd="hideAdd"
-                    :delapi="delapi"
-                    :tableheight="tableheight"
                     :fieldsstr="fieldsstr"
-                    :tableitems="tableitems"
-                    :btswidth="btswidth"
-                    :hide-export="hideExport"
-                    :addtitle="addtitle"
-                    :showdelete="showdelete"
-                    :showlogout="showlogout"
-                    :showrefund="showrefund"
-                    :showresetpwd="showresetpwd"
-                    :showmRefill="showmRefill"
-                    :hideOptions="hideOptions"
-                    :showSuperimposed ="showSuperimposed"
-                    :hideSearch="hideSearch"
-                    :showShopEdit="showShopEdit"
-                    :showShopSetting="showsetting"
+                    :table-items="tableitems"
+                    align-pos="right"
+                    bts-width="200"
+                    :searchForm="searchForm"
+                    fixedDom="scrollBarDom"
+                    ref="tabPane"
+            ></tab-pane>
+        </div>
 
-                    v-on:showLogout="showLogout"
-                    v-on:showRefund="showRefund"
-                    v-on:showrefill="showrefill"
-                    v-on:showSetting="showSetting"
-                    v-on:customizeadd="showadd"
-                    v-on:customizeedit="showeditshop"
-                    ref="bolinkuniontable"
-            ></common-table>
-        </section>
+        <custom-edit-form
+                ref="editref"
+                :value="rowdata"
+                :editFormConfig="tableitems"
+                title="编辑"
+                v-on:input="onEditInput"
+                v-on:edit="onEdit"
+                v-on:cancelEdit="cancelEdit"
+                :editVisible="editFormVisible"></custom-edit-form>
         <!--重置密码-->
         <el-dialog
                 title="重置密码"
@@ -42,16 +51,16 @@
                 size="tiny">
             <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
                 <el-form-item label="请输入新密码">
-                    <el-input v-model="pwd1" style="width:90%"></el-input>
+                    <el-input v-model="pwd1" style="width:90%" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="再次输入密码">
-                    <el-input v-model="pwd2" style="width:90%"></el-input>
+                    <el-input v-model="pwd2" style="width:90%" size="mini"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-				<el-button @click="resetPwdVisible = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="resetPwd">确 定</el-button>
-			</span>
+            <el-button @click="resetPwdVisible = false" size="small">取 消</el-button>
+            <el-button type="primary" size="small" @click="resetPwd">确 定</el-button>
+        </span>
         </el-dialog>
         <!--注册员工-->
         <el-dialog
@@ -61,48 +70,54 @@
                 size="tiny">
             <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
                 <el-form-item label="编号" v-if="showInput">
-                    <el-input :disabled="true" v-model="user.id" style="width:90%"></el-input>
+                    <el-input :disabled="true" v-model="user.id" style="width:90%" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名">
-                    <el-input v-model="user.nickname" style="width:90%"></el-input>
+                    <el-input v-model="user.nickname" style="width:90%" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="登陆账号"  v-if="showInput">
-                    <el-input v-model="user.strid" :disabled="true" style="width:90%"></el-input>
+                    <el-input v-model="user.strid" :disabled="true" style="width:90%" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="电话">
-                    <el-input v-model="user.phone" style="width:90%"></el-input>
+                    <el-input v-model="user.phone" style="width:90%" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="手机">
-                    <el-input v-model="user.mobile" style="width:90%"></el-input>
+                    <el-input v-model="user.mobile" style="width:90%" size="mini"></el-input>
                 </el-form-item>
 
 
                 <el-form-item label="创建时间" v-if="showInput">
-                    <el-input :disabled="true" v-model="user.reg_time" style="width:90%"></el-input>
+                    <el-input :disabled="true" v-model="user.reg_time" style="width:90%" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="最近登陆时间" v-if="showInput">
-                    <el-input :disabled="true" v-model="user.logon_time" style="width:90%"></el-input>
+                    <el-input :disabled="true" v-model="user.logon_time" style="width:90%" size="mini"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-				<el-button @click="regUserVisible = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="saveUser">保存</el-button>
-			</span>
+            <el-button @click="regUserVisible = false" size="small">取 消</el-button>
+            <el-button type="primary" size="small" @click="saveUser">保存</el-button>
+        </span>
         </el-dialog>
         <!--员工管理-->
         <el-dialog
-                title="商户设置-员工管理"
+                custom-class="custom-dialog"
+                :close-on-click-modal="false"
+                :show-close="false"
                 :visible.sync="employeeVisible"
-                >
-
+        >
+            <header class="dialog-header" slot="title">
+                <span class="dialog-title-icon"></span>商户设置-员工管理
+                <!--<el-button type="primary"  @click="regUser" size="mini">注册员工</el-button>-->
+                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="employeeVisible=false"></i>
+            </header>
             <div>
-                <el-button type="primary"  @click="regUser">注册员工</el-button>
-            </div>
+            <el-button type="primary"  @click="regUser" size="mini">注册员工</el-button>
+        </div>
             <template>
                 <el-table
                         :data="employeeData"
                         style="width: 100%"
-                        max-height="250">
+                        height="250">
                     <el-table-column
                             fixed="left"
                             label="操作"
@@ -111,7 +126,7 @@
                             <el-button
                                     @click.native.prevent="handleEdit(scope.row)"
                                     type="text"
-                                    >
+                            >
                                 编辑
                             </el-button>
                             <el-button
@@ -124,7 +139,7 @@
                             <el-button
                                     @click.native.prevent="resetPassword(scope.row)"
                                     type="text"
-                                    >
+                            >
                                 修改密码
                             </el-button>
                         </template>
@@ -192,38 +207,46 @@
         </el-dialog>
         <!--renewDialog-->
         <el-dialog
-                :title="renewTitle"
+                custom-class="custom-dialog"
+                :close-on-click-modal="false"
+                :show-close="false"
                 :visible.sync="renewVisible"
-                width="35%"
-                size="tiny">
-            <el-form label-width="150px" style="margin-bottom:-30px">
-
+                >
+            <header class="dialog-header" slot="title">
+                <span class="dialog-title-icon"></span>{{renewTitle}}
+                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="renewVisible=false"></i>
+            </header>
+            <el-form label-width="200px" class="dialog-form-width">
                 <el-form-item :label="discount_money_title" v-if="showTicketTime">
-                    <el-input v-model="ticket_val" style="width:70%"></el-input>
+                    <el-input v-model="ticket_val" size="mini"></el-input>
                     <span>{{discount_money_body}}</span>
                 </el-form-item>
-                <el-form-item label="减免券(元):" v-if="showTicketMoney">
-                    <el-input v-model="ticket_val" style="width:70%"></el-input>
+                <el-form-item label="减免券(元):" v-if="showTicketMoney" >
+                    <el-input v-model="ticket_val" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="全免券(张):">
-                    <el-input v-model="ticketfree_limit" style="width:70%"></el-input>
+                    <el-input v-model="ticketfree_limit" size="mini"></el-input>
                     <span>(每张{{free_money}}元)</span>
                 </el-form-item>
                 <el-form-item label="应收金额(元):">
-                    <el-input v-model="totalMoney" :disabled="true" style="width:70%"></el-input>
+                    <el-input v-model="totalMoney" :disabled="true" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="当前折扣(%):">
-                    <el-input v-model="discount_percent" :disabled="true" style="width:70%"></el-input>
+                    <el-input v-model="discount_percent" :disabled="true" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="实收金额(元):">
-                    <el-input v-model="addmoney" :disabled="true" style="width:70%"></el-input>
+                    <el-input v-model="addmoney" :disabled="true" size="mini"></el-input>
                 </el-form-item>
 
             </el-form>
 
-            <span slot="footer" class="dialog-footer">
-			    <el-button type="primary" @click="renewSub" :disabled="renewDisabled">确 定</el-button>
-			</span>
+            <!--<span slot="footer" class="dialog-footer">-->
+            <!--<el-button type="primary" @click="renewSub" :disabled="renewDisabled">确 定</el-button>-->
+        <!--</span>-->
+            <footer slot="footer" class="dialog-footer">
+                <el-button size="small" style="width: 90px;" @click="renewVisible = false">取 消</el-button>
+                <el-button type="primary" size="small" @click="renewSub" :disabled="renewDisabled" style="width: 90px;margin-left: 60px">确 定</el-button>
+            </footer>
         </el-dialog>
 
 
@@ -238,9 +261,9 @@
             <br/>
             <div style="margin-left:50px;vertical-align:middle;">确定删除吗?此操作不可恢复!</div>
             <span slot="footer" class="dialog-footer">
-				<el-button @click="delVisible = false" size="small">取 消</el-button>
-				<el-button type="primary" @click="handledelete" size="small">确 定</el-button>
-			</span>
+            <el-button @click="delVisible = false" size="small">取 消</el-button>
+            <el-button type="primary" @click="handledelete" size="small">确 定</el-button>
+        </span>
 
         </el-dialog>
 
@@ -257,21 +280,26 @@
             <div style="margin-left:50px;vertical-align:middle;" v-if="showShopDelete">完全删除该商户的所有信息，车场平台不可见该商户信息，确定删除吗？</div>
             <div style="margin-left:50px;vertical-align:middle;" v-if="showShoplogOut">须先退款当前剩余额度，注销后该商户账号不可用，未使用的优惠券失效，确定销户吗？</div>
             <span slot="footer" class="dialog-footer">
-				<el-button @click="logoutTip = false" size="small">取 消</el-button>
-				<el-button type="primary" :disabled="logoutDisabled" @click="logoutShop" size="small">确 定</el-button>
-			</span>
+            <el-button @click="logoutTip = false" size="small">取 消</el-button>
+            <el-button type="primary" :disabled="logoutDisabled" @click="logoutShop" size="small">确 定</el-button>
+        </span>
 
         </el-dialog>
 
         <!--销户或删除-->
         <el-dialog
-                title="商户销户"
+                :close-on-click-modal="false"
+                :show-close="false"
                 :visible.sync="logoutVisible"
                 width="30%"
                 size="tiny">
+            <header class="dialog-header" slot="title">
+                <span class="dialog-title-icon"></span>商户销户
+                <i class="iconfont icon-guanbi dialog-header-iconfont" style="position: absolute;right: 20px;top:15px;font-size: 20px;cursor: pointer" @click="logoutVisible=false"></i>
+            </header>
             <el-form ref="logoutForm" label-width="120px" style="margin-bottom:-30px">
-                 <el-form-item label="销户">
-                    <el-select v-model="logoutState" filterable style="width:90%">
+                <el-form-item label="销户">
+                    <el-select v-model="logoutState" filterable style="width:90%" size="mini">
                         <el-option
                                 v-for="item in logoutType"
                                 :label="item.value_name"
@@ -282,14 +310,14 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="logoutVisible = false" size="small">取 消</el-button>
-                <el-button type="primary" size="small" @click="confirmLogout">确 定</el-button>
-            </span>
+            <el-button @click="logoutVisible = false" size="small">取 消</el-button>
+            <el-button type="primary" size="small" @click="confirmLogout">确 定</el-button>
+        </span>
         </el-dialog>
 
 
-          <!--退款-->
-         <el-dialog
+        <!--退款-->
+        <el-dialog
                 title="商户退款"
                 :visible.sync="refundVisible"
                 width="35%"
@@ -317,34 +345,38 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="refundVisible = false" size="small">取 消</el-button>
-                <el-button type="primary" size="small" @click="refundShop" :disabled="refundDisabled">确 定</el-button>
-            </span>
+            <el-button @click="refundVisible = false" size="small">取 消</el-button>
+            <el-button type="primary" size="small" @click="refundShop" :disabled="refundDisabled">确 定</el-button>
+        </span>
         </el-dialog>
 
         <!--添加商户-->
         <el-dialog
-                :title="shopTitle"
                 :visible.sync="showRegis"
-                width="30%"
-                size="tiny"
+                custom-class="custom-dialog"
+                :close-on-click-modal="false"
+                :show-close="false"
                 @close="closeTest">
-            <el-form ref="shopForm" label-width="120px" style="margin-bottom:-30px" :rules="shopFormRules"
+            <header class="dialog-header" slot="title">
+                <span class="dialog-title-icon"></span>{{shopTitle}}
+                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="showRegis=false"></i>
+            </header>
+            <el-form ref="shopForm" label-width="200px" class="dialog-form-width" :rules="shopFormRules"
                      :model="shopForm">
                 <el-form-item label="编号">
-                    <el-input :disabled="true" v-model="shopForm.id" style="width:90%" placeholder=""></el-input>
+                    <el-input :disabled="true" v-model="shopForm.id" placeholder="" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="商户名称" :prop="name">
-                    <el-input v-model="shopForm.name" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="shopForm.name" placeholder="" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="地址">
-                    <el-input v-model="shopForm.address" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="shopForm.address" placeholder="" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="手机">
-                    <el-input v-model="shopForm.mobile" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="shopForm.mobile" placeholder="" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="优惠券类型">
-                    <el-select v-model="shop_ticket_type" filterable style="width:90%">
+                    <el-select v-model="shop_ticket_type" filterable style="width:250px" size="mini">
                         <el-option
                                 v-for="item in ticketType"
                                 :label="item.value_name"
@@ -354,8 +386,8 @@
                     </el-select>
                 </el-form-item>
 
-                 <el-form-item label="全免券">
-                    <el-select v-model="shop_support_type" filterable style="width:90%">
+                <el-form-item label="全免券">
+                    <el-select v-model="shop_support_type" filterable style="width:250px" size="mini">
                         <el-option
                                 v-for="item in handInputType"
                                 :label="item.value_name"
@@ -365,7 +397,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="优惠券单位">
-                    <el-select v-model="unit" filterable style="width:90%">
+                    <el-select v-model="unit" filterable style="width:250px" size="mini">
                         <el-option
                                 v-for="item in ticketUnit"
                                 :label="item.value_name"
@@ -375,75 +407,79 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="默认显示额度" :prop="default_limit">
-                    <el-input v-model="shopForm.default_limit" style="width:90%" placeholder=""
+                    <el-input v-model="shopForm.default_limit" placeholder="" size="mini"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="商户折扣/%" :prop="v_discount_percent">
-                    <el-input v-model="shopForm.v_discount_percent" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="shopForm.v_discount_percent" placeholder="" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item :label="discount_money_name" v-if="showDiscountMoney" :prop="v_discount_money">
-                    <el-input v-model="shopForm.v_discount_money" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="shopForm.v_discount_money" placeholder="" size="mini"></el-input>
                 </el-form-item>
 
                 <el-form-item label="全免每张/元" :prop="v_free_money">
-                    <el-input v-model="shopForm.v_free_money" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="shopForm.v_free_money" placeholder="" size="mini"></el-input>
                 </el-form-item>
 
                 <el-form-item label="有效期/小时" :prop="validite_time">
-                    <el-input v-model="shopForm.validite_time" style="width:90%" placeholder=""></el-input>
+                    <el-input v-model="shopForm.validite_time" placeholder="" size="mini"></el-input>
                 </el-form-item>
 
                 <el-form-item label="手输额度" >
-                     <el-select v-model="hand_input_enable" filterable style="width:90%">
+                    <el-select v-model="hand_input_enable" filterable style="width:250px" size="mini">
                         <el-option
                                 v-for="item in handInputType"
                                 :label="item.value_name"
                                 :value="item.value_no"
                         >
                         </el-option>
-                     </el-select>
+                    </el-select>
                 </el-form-item>
 
-                  <el-form-item label="叠加限制" >
-                     <el-select v-model="use_limit" filterable style="width:90%">
+                <el-form-item label="叠加限制" >
+                    <el-select v-model="use_limit" filterable style="width:250px" size="mini">
                         <el-option
                                 v-for="item in useLimitType"
                                 :label="item.value_name"
                                 :value="item.value_no"
                         >
                         </el-option>
-                     </el-select>
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item label="全免券使用限制" >
-                     <el-select v-model="free_limit_times" filterable style="width:90%">
+                    <el-select v-model="free_limit_times" filterable style="width:250px" size="mini">
                         <el-option
                                 v-for="item in freeLimitTime"
                                 :label="item.value_name"
                                 :value="item.value_no"
                         >
                         </el-option>
-                     </el-select>
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item label="固定码使用" >
-                     <el-select v-model="use_fix_code" filterable style="width:90%">
+                    <el-select v-model="use_fix_code" filterable style="width:250px" size="mini">
                         <el-option
                                 v-for="item in useFixCode"
                                 :label="item.value_name"
                                 :value="item.value_no"
                         >
                         </el-option>
-                     </el-select>
+                    </el-select>
                 </el-form-item>
             </el-form>
-            <span slot="footer" class="dialog-footer">				
-				<el-button type="primary" size="small" @click="loadDefaultData">重 置</el-button>
-				<el-button type="primary" size="small" @click="handleRegis">保 存</el-button>
-			</span>
+            <!--<span slot="footer" class="dialog-footer">-->
+            <!--<el-button type="primary" size="small" @click="loadDefaultData">重 置</el-button>-->
+            <!--<el-button type="primary" size="small" @click="handleRegis">保 存</el-button>-->
+        <!--</span>-->
+            <footer slot="footer" class="dialog-footer">
+                <el-button size="small" style="width: 90px;" @click="loadDefaultData">重 置</el-button>
+                <el-button type="primary" size="small" @click="handleRegis" style="width: 90px;margin-left: 60px">确 定</el-button>
+            </footer>
         </el-dialog>
 
-    </div>
+    </section>
 
 
 </template>
@@ -470,13 +506,21 @@
     import common from '../../common/js/common'
     import CommonTable from '../../components/CommonTable'
     import {AUTH_ID} from '../../common/js/const'
-
+    import TabPane from '../../components/table/TabPane';
+    import customEditForm from '../../components/edit-form/editForm'
     export default {
         components: {
-            CommonTable
+            CommonTable,TabPane,customEditForm
         },
         data() {
             return {
+                rowdata:{},
+                searchFormData:{
+                    count:0
+                },
+                editFormVisible:false,
+                searchForm:{},
+                superimposed:'1',
                 logoutDisabled:false,
                 refundDisabled:false,
                 logoutModel:{},
@@ -527,7 +571,20 @@
                 free_limit_times:0,
                 use_fix_code:1,
                 discount_money_name: '每小时/元',
+                superimposedType: [
+                    {'value_name': '限制一张', 'value_no': '0'},
+                    {'value_name': '限制两张', 'value_no': '2'},
+                    {'value_name': '限制三张', 'value_no': '3'},
+                    {'value_name': '限制四张', 'value_no': '4'},
+                    {'value_name': '限制五张', 'value_no': '5'},
+                    {'value_name': '限制六张', 'value_no': '6'},
+                    {'value_name': '限制七张', 'value_no': '7'},
+                    {'value_name': '限制八张', 'value_no': '8'},
 
+                    {'value_name': '限制九张', 'value_no': '9'},
+
+                    {'value_name': '不限制', 'value_no': '1'}
+                ],
                 ticketUnit: [
                     {'value_name': '分钟', 'value_no': 1},
                     {'value_name': '小时', 'value_no': 2},
@@ -624,18 +681,35 @@
                 parkid: '',
                 btswidth: '210',
                 fieldsstr: 'id__name__address__create_time__mobile__validite_time__ticket_money__ticket_type__default_limit__discount_percent__hand_input_enable__use_limit__free_limit_times__use_fix_code',
-                tableitems: [{
+                tableitems: [
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '',
+                            nameType:'shop',
+                            columnType:'expand',
+                            align: 'center',
+                            width:'50',
+                        }]
+                    },
+                    {
                     hasSubs: false, subs: [
                         {
                             label: '编号',
                             prop: 'id',
                             width: '123',
-                            type: 'str',
-                            editable: false,
+                            editable: true,
                             searchable: true,
                             addable: false,
                             unsortable: true,
                             align: 'center',
+                            hidden:true,
+                            "type": "input",
+                            "disable": true,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "text",
                         },
                     ]
                 },
@@ -645,13 +719,22 @@
                         subs: [{
                             label: '商户名称',
                             prop: 'name',
-                            width: '123',
-                            type: 'str',
+                            width: '180',
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "text",
+                            "rules": [
+                                {required: true, message: '商户名称不能为空', trigger: 'blur'}
+                            ],
                         }]
                     }, {
 
@@ -660,12 +743,18 @@
                             label: '地址',
                             prop: 'address',
                             width: '180',
-                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            hidden:true,
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "text",
                         }]
                     }, {
 
@@ -680,25 +769,70 @@
                             addable: false,
                             unsortable: true,
                             align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.create_time)
+                            hidden:true,
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.create_time))
+                                ]);
                             }
                         }]
                     }, {
 
                         hasSubs: false,
                         subs: [{
-                            label: '手机',
+                            label: '手机号码',
                             prop: 'mobile',
                             width: '180',
-                            type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
+                            hidden:true,
                             align: 'center',
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "text",
                         }]
                     }, {
+                        hasSubs:false,
+                        subs: [{
+                            label: '优惠券额度',
+                            align: 'center',
+                            width:'120',
+                            unsortable: true,
+                            columnType:'render',
+                            render: (h, params) => {
+                                let unit = '元';
+                                let str = '';
+                                if (params.row.ticket_unit == 1) {
+                                    unit = "分钟";
+                                    str = params.row.ticket_limit+unit;
+                                } else if (params.row.ticket_unit == 2) {
+                                    unit = "小时";
+                                    str = params.row.ticket_limit+unit;
+                                } else if (params.row.ticket_unit == 3) {
+                                    unit = "天";
+                                    str = params.row.ticket_limit+unit;
+                                } else {
+                                    unit = "元";
+                                    str = params.row.ticket_money+unit;
+                                }
+                                return h('div', [
+                                    h('span', {
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                            }
+                                        }
+                                    }, str),
+                                ]);
+                            }
+                        }]
+                    },{
                         hasSubs: false,
                         subs: [{
                             label: '优惠券额度(分钟)',
@@ -716,7 +850,8 @@
                                 } else {
                                     return "";
                                 }
-                            }
+                            },
+                            hidden:true,
                         }]
                     },
                     {
@@ -737,7 +872,8 @@
                                 } else {
                                     return "";
                                 }
-                            }
+                            },
+                            hidden:true,
                         }]
                     },
                     {
@@ -758,21 +894,41 @@
                                 } else {
                                     return "";
                                 }
-                            }
+                            },
+                            hidden:true,
                         }]
                     },
                     {
                         hasSubs: false,
                         subs: [{
-                            label: '全免券额度(张)',
+                            label: '全免券额度',
                             prop: 'ticketfree_limit',
-                            width: '180',
+                            width: '120',
                             type: 'str',
                             editable: false,
                             searchable: false,
                             addable: false,
                             unsortable: true,
                             align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                let str = params.row.ticketfree_limit+'张';
+                                return h('div', [
+                                    h('span', {
+                                        props: {
+
+                                        },
+                                        style: {
+
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                            }
+                                        }
+                                    }, str),
+                                ]);
+                            }
                         }]
                     }, {
 
@@ -793,13 +949,14 @@
                                 } else {
                                     return row.ticket_money;
                                 }
-                            }
+                            },
+                            hidden:true,
                         }]
                     }, {
 
                         hasSubs: false,
                         subs: [{
-                            label: '优惠类型',
+                            label: '优惠券类型',
                             prop: 'ticket_type',
                             width: '100',
                             type: 'selection',
@@ -809,6 +966,24 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
+                            "type": "radio",
+                            "value": "",
+                            "button": false,
+                            "border": true,
+                            "rules": [],
+                            'size':'mini',
+                            "options": [
+                                {
+                                    "value": "1",
+                                    "label": "时长减免",
+                                    "disabled": false
+                                },
+                                {
+                                    "value": "2",
+                                    "label": "金额减免",
+                                    "disabled": false
+                                }
+                            ],
                             format: function (row) {
                                 if (row.ticket_type == 1) {
                                     return "时长减免"
@@ -817,7 +992,8 @@
                                 } else {
                                     return row.ticket_type;
                                 }
-                            }
+                            },
+                            hidden:true,
                         }]
                     },
                     {
@@ -827,8 +1003,6 @@
                             label: '全免券',
                             prop: 'support_type',
                             width: '100',
-                            type: 'str',
-
                             editable: true,
                             searchable: true,
                             addable: true,
@@ -840,7 +1014,26 @@
                                 } else if (row.support_type == 0) {
                                     return "不支持";
                                 }
-                            }
+                            },
+                            hidden:true,
+                            "type": "radio",
+                            "value": "",
+                            "button": false,
+                            "border": true,
+                            "rules": [],
+                            'size':'mini',
+                            "options": [
+                                {
+                                    "value": "1",
+                                    "label": "支持",
+                                    "disabled": false
+                                },
+                                {
+                                    "value": "0",
+                                    "label": "不支持",
+                                    "disabled": false
+                                }
+                            ],
                         }]
                     },
 
@@ -866,7 +1059,21 @@
                                 } else {
                                     return "元";
                                 }
-                            }
+                            },
+                            hidden:true,
+                            "type": "radio",
+                            "value": "",
+                            "button": false,
+                            "border": true,
+                            "rules": [],
+                            'size':'mini',
+                            "options": [
+                                {
+                                    "value": "2",
+                                    "label": "元",
+                                    "disabled": false
+                                }
+                            ],
                         }]
                     }, {
                         hasSubs: false,
@@ -874,27 +1081,51 @@
                             label: '默认显示额度',
                             prop: 'default_limit',
                             width: '180',
-                            type: 'str',
                             editable: true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "text",
                         }]
-                    }
-                    , {
+                    } ,
+                    {
 
                         hasSubs: false,
                         subs: [{
-                            label: '有效期/小时',
+                            label: '有效期',
                             prop: 'validite_time',
-                            width: '123',
+                            width: '130',
                             type: 'number',
                             editable: true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                let str = params.row.validite_time+'小时';
+                                return h('div', [
+                                    h('span', {
+                                        props: {
+
+                                        },
+                                        style: {
+
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                            }
+                                        }
+                                    }, str),
+                                ]);
+                            }
                         }]
                     },
                     {
@@ -915,7 +1146,8 @@
                                 } else if (row.hand_input_enable == 1) {
                                     return "支持";
                                 }
-                            }
+                            },
+                            hidden:true,
                         }]
                     },
                     {
@@ -930,39 +1162,59 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format: function (row) {
+                            columnType:'render',
+                            render: (h, params) => {
+                                let str = '';
+                                switch (params.row.use_limit){
+                                    case 0:
+                                        str = '无限制';
+                                        break;
+                                    case 1:
+                                        str = '限制一张';
+                                        break;
+                                    case 2:
+                                        str = '限制两张';
+                                        break;
+                                    case 3:
+                                        str = '限制三张';
+                                        break;
+                                    case 4:
+                                        str = '限制四张';
+                                        break;
+                                    case 5:
+                                        str = '限制五张';
+                                        break;
+                                    case 6:
+                                        str = '限制六张';
+                                        break;
+                                    case 7:
+                                        str = '限制七张';
+                                        break;
+                                    case 8:
+                                        str = '限制八张';
+                                        break;
+                                    case 9:
+                                        str = '限制九张';
+                                        break;
+                                    default:
+                                        str = '无限制'
+                                }
+                                return h('div', [
+                                    h('span', {
+                                        props: {
 
-                                if(row.use_limit == 0){
-                                    return "无限制";
-                                }
-                                else if (row.use_limit == 1) {
+                                        },
+                                        style: {
 
-                                    return "限制一张";
-                                } else if (row.use_limit == 2) {
-                                    return "限制二张";
-                                }
-                                else if (row.use_limit == 3) {
-                                    return "限制三张";
-                                }
-                                else if (row.use_limit == 4) {
-                                    return "限制四张";
-                                }
-                                else if(row.use_limit == 5){
-                                    return "限制五张";
-                                }
-                                else if(row.use_limit == 6){
-                                    return "限制六张";
-                                }
-                                else if(row.use_limit == 7){
-                                  return "限制七张";
-                                }
-                                else if(row.use_limit == 8){
-                                  return "限制八张";
-                                }
-                                else if(row.use_limit == 9){
-                                  return "限制九张";
-                                }
-                            }
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                            }
+                                        }
+                                    }, str),
+                                ]);
+                            },
                         }]
                     },
                     {
@@ -983,7 +1235,8 @@
                                 } else if (row.free_limit_times == 1) {
                                     return "多次有效";
                                 }
-                            }
+                            },
+                            hidden:true,
                         }]
                     },
                     {
@@ -1004,6 +1257,131 @@
                                 } else if (row.use_fix_code == 1) {
                                     return "支持";
                                 }
+                            },
+                            hidden:true,
+                        }]
+                    },
+                    {
+                        hasSubs:false,
+                        subs: [{
+                            label: '操作',
+                            columnType:'render',
+                            align: 'center',
+                            width: '244',
+                            unsortable: true,
+                            render: (h, params) => {
+                                let isDisabled = params.row.state == 2 ? true:false;
+
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small',
+                                            disabled:isDisabled
+                                        },
+                                        style: {
+                                            marginRight: '5px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                let row = params.row;
+                                                this.shopForm.id = row.id
+                                                this.shopForm.name = row.name
+                                                this.shopForm.address = row.address
+                                                this.shopForm.mobile = row.mobile
+                                                this.shopForm.v_free_money = row.free_money + ""
+                                                this.shopForm.default_limit = row.default_limit
+                                                this.shopForm.validite_time = row.validite_time + ""
+                                                this.shopForm.ticket_limit = row.ticket_limit + ""
+                                                this.shopForm.v_discount_money = row.discount_money + ""
+                                                this.shopForm.v_discount_percent = row.discount_percent + ""
+                                                this.shopTitle = "编辑"
+                                                this.shop_ticket_type = row.ticket_type
+                                                this.shop_support_type =row.support_type
+                                                this.hand_input_enable = row.hand_input_enable
+                                                this.free_limit_times=row.free_limit_times;
+                                                this.use_fix_code=row.use_fix_code;
+                                                this.use_limit = row.use_limit
+                                                this.unit = row.ticket_unit
+                                                this.showRegis = true
+
+                                            }
+                                        }
+                                    }, '编辑'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small',
+                                            disabled:isDisabled
+                                        },
+                                        style: {
+                                            marginRight: '5px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.shop_id = params.row.id;
+
+                                                //请求员工数据
+                                                var user = sessionStorage.getItem('user')
+                                                user = JSON.parse(user)
+                                                this.loadData();
+                                                //设置
+                                                this.employeeVisible = true;
+                                            }
+                                        }
+                                    }, '设置'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small',
+                                            disabled:isDisabled
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            color:isDisabled ?'': '#F54B4B'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.showLogout(params.row)
+                                            }
+                                        }
+                                    }, '销户'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small',
+                                            disabled:isDisabled
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.showrefill(params.index,params.row)
+                                            }
+                                        }
+                                    }, '续费'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small',
+                                            disabled:isDisabled
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.showRefund(params.row)
+                                            }
+                                        }
+                                    }, '退款'),
+                                ]);
                             }
                         }]
                     },
@@ -1026,6 +1404,50 @@
             }
         },
         methods: {
+            changeSuperimposed : function(value){
+                let vm = this;
+                let api = "/shop/changeSuperimposed";
+                let sform = {'comid': '',superimposed:''};
+                sform.superimposed = value;
+                sform = common.generateForm(sform);
+
+                vm.$axios.post(path + api, vm.$qs.stringify(sform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    // console.log(ret)
+                    let ret = response.data;
+                    vm.loading = false;
+                    if (ret.validate != 'undefined' && ret.validate == '0') {
+                        vm.loading = false;
+                        //未携带令牌.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('未携带令牌,请重新登录!');
+                        }, 150);
+                    } else if (ret.validate != 'undefined' && ret.validate == '1') {
+                        vm.loading = false;
+                        //过期.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录过期,请重新登录!');
+                        }, 150);
+                    } else if (ret.validate != 'undefined' && ret.validate == '2') {
+                        vm.loading = false;
+                        //令牌无效.重新登录
+                        setTimeout(() => {
+                            vm.alertInfo('登录异常,请重新登录!');
+                        }, 150);
+                    } else {
+                        console.log(ret);
+                    }
+                }).catch(function (error) {
+                    vm.loading = false;
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error);
+                    }, 150);
+                });
+
+            },
             closeTest:function(){
                 this.$refs['shopForm'].clearValidate()
             },
@@ -1184,7 +1606,7 @@
                                 type: 'success',
                                 duration: 600,
                             });
-                            vm.$refs.bolinkuniontable.getTableData({});
+                            vm.$refs['tabPane'].getTableData({},vm);
                             vm.renewVisible=false;
                         } else {
                             //更新失败
@@ -1214,7 +1636,6 @@
             },
             loadData() {
                 var vm = this;
-
                 var formObj = {}
                 formObj.shop_id = this.shop_id;
                 formObj.page = this.page;
@@ -1399,7 +1820,7 @@
                           if (ret > 0 || ret.state == 1) {
                               // if (ret > 0) {
                               //成功
-                              vm.$refs['bolinkuniontable'].getTableData({})
+                              vm.$refs['tabPane'].getTableData({},vm);
                               vm.$message({
                                   message: ret.msg,
                                   type: 'success',
@@ -1466,7 +1887,7 @@
                         if (ret > 0 || ret.state == 1) {
                             // if (ret > 0) {
                             //删除成功
-                            vm.$refs['bolinkuniontable'].getTableData({})
+                            vm.$refs['tabPane'].getTableData({},vm);
                             vm.$message({
                                 message: ret.msg,
                                 type: 'success',
@@ -1618,7 +2039,7 @@
 
                             if (ret > 0 || ret.state == 1) {
                                 //更新成功
-                                _this.$refs['bolinkuniontable'].getTableData({})
+                                _this.$refs['tabPane'].getTableData({},_this);
                                 _this.$message({
                                     message: '添加成功!',
                                     type: 'success',
@@ -1640,15 +2061,6 @@
 
 
                         }).catch(function (error) {
-                            // setTimeout(() => {
-                            //     _this.alertInfo('请求失败!'+error)
-                            // }, 150)
-                            //更新失败
-                            // _this.$message({
-                            //     message: '请求失败!'+error.data,
-                            //     type: 'error',
-                            //     duration: 1200
-                            // });
                             _this.resetloading = false;
                         })
                     }
@@ -1693,46 +2105,68 @@
                     this.totalMoney = ticketfree_limit * this.free_money + this.totalMoney;
                 }
                 this.addmoney = this.totalMoney * this.discount_percent / 100;
-            }
+            },
+        //    //////////////////////////////////////////////////////////////////////////////
+            onEditInput:function (eform) {
+                this.rowdata=eform;
+            },
+            onEdit: function () {
+                //发送ajax,提交表单更新
+                let that = this;
+                let api = this.editapi;
+                let eform = this.rowdata;
+                eform = common.generateForm(eform);
+                this.$refs.editref.$refs.editForm.validate((valid) => {
+                    console.log('valid',valid,eform)
+                    if (valid) {
+                        editTableData(api,eform).then(res=>{
+                            if(res.status == 200){
+                                if(res.data.state == 1){
+                                    that.$message({
+                                        message: '更新成功!',
+                                        type: 'success',
+                                        duration: 600
+                                    });
+                                    setTimeout(()=>{
+                                        that.editFormVisible = false;
+                                        that.$refs['tabPane'].getTableData(that.formItem,that);
+                                    },60)
+                                }else{
+                                    that.$message({
+                                        message: res.data.msg,
+                                        type: 'info',
+                                        duration: 600
+                                    });
+                                }
+                            }
+                        }).catch(err => {
+                            that.$message({
+                                message: '更新失败',
+                                type: 'error',
+                                duration: 600
+                            });
+                        })
+                    }
+                });
+            },
+            cancelEdit(){
+                this.editFormVisible = false;
+            },
+            resetForm(){
+                let that = this;
+                that.searchFormData.count = that.searchFormData.count++;
+                that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
+            },
         }
         ,
         mounted() {
-        	window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            var user = sessionStorage.getItem('user');
-            if (user) {
-                user = JSON.parse(user);
-                for (var item of user.authlist) {
-                	
-                    if (AUTH_ID.shopManage_Shop == item.auth_id) {
-                    	this.showCustomizeAdd = common.showSubAdd(item.sub_auth)
-                        this.showShopEdit = common.showSubEdit(item.sub_auth)
-                        this.showsetting = common.showSetting(item.sub_auth)
-                        //this.showdelete = common.showSubDel(item.sub_auth)
-                        this.showlogout = common.showSubDel(item.sub_auth)
-                        this.showrefund=common.showRefund(item.sub_auth)
-                        this.showmRefill = common.showSubReFill(item.sub_auth)
-                        if(this.showShopEdit==false&&this.showsetting==false&&this.showlogout==false&&this.showmRefill==false&&this.showrefund==false){
-                        	this.hideOptions=true;
-                        }
-                        break;
-                    }
-                }
-            }
+            this.$refs['tabPane'].getTableData({},this);
         },
         activated() {
-            console.log('active')
-            console.log(distinctslist)
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 135;
-            }
-            this.tableheight = common.gwh() - 135;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            this.$refs['bolinkuniontable'].getTableData({})
-            //所有厂商,所有服务商
-            //this.axios.all([common.getServerList(), common.getUnionList(), common.getBankInfo(), common.getBaPayUnionList()])
+            let that = this;
+            common.getSuperimposed().then(function (response) {
+                that.superimposed = response.data.superimposed
+            })
         },
         created() {
 

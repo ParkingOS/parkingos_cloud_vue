@@ -1,58 +1,66 @@
 <template>
-    <section>
+    <section class="right-wrapper-size" id="scrollBarDom">
+        <header class="custom-header">
+            业主管理
+        </header>
         <!--//////////////////搜索条件+操作按钮//////////////////////-->
-        <el-form :inline="true" v-model="formItem" class="demo-form-inline">
-            <el-form-item label="姓名" class="inp-margin-buttom">
-                <el-input v-model="formItem.name" placeholder="业主姓名"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号" class="inp-margin-buttom">
-                <el-input v-model="formItem.phone" placeholder="业主手机号"></el-input>
-            </el-form-item>
-            <el-form-item class="inp-margin-buttom">
-                <el-button type="primary" @click="search">搜索</el-button>
-                <el-button type="primary" @click="handleAdd">添加</el-button>
-                <el-button type="primary" @click="handleImport">导入</el-button>
-                <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                    <el-button type="primary" @click="handleExport">导出</el-button>
-                </el-tooltip>
-            </el-form-item>
-        </el-form>
+        <div class="workbench-wrapper">
+            <el-form :inline="true" v-model="formItem" class="demo-form-inline">
+                <el-form-item label="姓名" class="clear-style margin-left-clear">
+                    <el-input v-model="formItem.name" placeholder="业主姓名" size="mini"></el-input>
+                </el-form-item>
+                <el-form-item label="手机号" class="clear-style">
+                    <el-input v-model="formItem.phone" placeholder="业主手机号" size="mini"></el-input>
+                </el-form-item>
+                <el-form-item class="clear-style">
+                    <el-button type="primary" @click="searchFn" size="mini">搜索</el-button>
+                    <el-button type="primary" @click="handleAdd" size="mini">添加</el-button>
+                    <el-button type="primary" @click="handleImport" size="mini">导入</el-button>
+                </el-form-item>
+                <el-form-item class="clear-style float-right">
+                    <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
+                        <el-button @click="exportFn" size="mini">导出</el-button>
+                    </el-tooltip>
+                    <el-button size="mini" @click="resetForm">刷新</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
 
-        <!--//////////////////////table/////////////////////////////////////////-->
-        <el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"
-                  v-loading="loading" @sort-change="sortChange">
 
-             <el-table-column label="操作" :width="btswidth" v-if="!hideOptions" align="center" fixed="left">
-                     <template scope="scope">
-                         <el-button  size="small" type="text" @click="handleEdit(scope.row)">
-                             编辑
-                         </el-button>
-                     </template>
-             </el-table-column>
-            <!--子项折叠最终通过rowStyle实现。实际是项的显示/隐藏-->
-            <el-table-column v-for="(items, index) in tableitems" :key="items.subs[0].prop"
-                             :label="items.subs[0].label" :align="items.subs[0].prop=='name'?'left':'center'"
-                             min-width="50"
-                             :width="items.subs[0].prop=='identity_card'||items.subs[0].prop=='phone'||items.subs[0].prop=='home_number'||items.subs[0].prop=='remark'?200:130"
-                             :sortable="!items.subs[0].unsortable">
-                <!--设置部分列宽度-->
-                <template scope="scope">
-                    <span v-if="items.subs[0].prop=='state'">{{stateformat(scope.row[items.subs[0].prop])}}</span>
-                    <span v-else>{{scope.row[items.subs[0].prop]}}</span>
-                    <!--不同列的表现形式、格式化-->
-                </template>
+        <div class="table-wrapper-style">
+            <tab-pane
+                    :queryapi="queryapi"
+                    :exportapi="exportapi"
+                    :orderfield="orderfield"
+                    :fieldsstr="fieldsstr"
+                    :table-items="tableitems"
+                    align-pos="right"
+                    bts-width="200"
+                    :searchForm="searchForm"
+                    fixedDom="scrollBarDom"
+                    ref="tabPane"
+            ></tab-pane>
+        </div>
+        <!--表单编辑-->
+        <custom-edit-form
+                ref="editref"
+                :value="rowdata"
+                :editFormConfig="tableitems"
+                title="编辑"
+                v-on:input="onEditInput"
+                v-on:edit="onEdit"
+                v-on:cancelEdit="cancelEdit"
+                :editVisible="editFormVisible"></custom-edit-form>
 
-            </el-table-column>
-
-        </el-table>
-        <!--工具条-->
-        <el-col :span="24" align="bottom" style="margin-top:5px;margin-bottom:5px">
-            <el-col :span="24" align="right">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                               :current-page="currentPage" :page-sizes="[20, 40, 80]" :page-size="pageSize"
-                               layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-            </el-col>
-        </el-col>
+        <custom-add-form
+                ref="addref"
+                :value="addFormData"
+                :addFormConfig="tableitems"
+                title="添加"
+                v-on:input="onAddInput"
+                v-on:add="onAdd"
+                v-on:cancelAdd="cancelAdd"
+                :addVisible="addFormVisible"></custom-add-form>
 
        <el-dialog
                :title="addHomeOwnerTitle"
@@ -110,24 +118,37 @@
             <el-button @click="showUpload = false" size="small" type="primary">确 定</el-button>
         </span>
        </el-dialog>
-
     </section>
 </template>
-
 
 <script>
     import {path,server,checkMobile} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
+    // import CommonTable from '../../components/CommonTable'
     import axios from 'axios'
-
+    import TabPane from '../../components/table/TabPane';
+    import AddForm from '../../components/AddForm';
+    import EditForm from '../../components/EditForm';
+    import customEditForm from '../../components/edit-form/editForm'
+    import customAddForm from '../../components/add-form/addForm'
+    import { editTableData,addTableData } from '../../api/base'
     export default {
         components: {
-            CommonTable
+            TabPane,EditForm,AddForm,
+            customEditForm,customAddForm
         },
         data() {
+            let that = this;
             return {
+                addFormData:{
+                    state:'0'
+                },
+                addFormVisible:false,
+                addloading:false,
+                searchForm:{},
+                editFormVisible:false,
+                editloading:false,
                 user: {
                     id:'',
                     name: '',
@@ -160,6 +181,8 @@
                 imgSize:450,
                 queryapi: '/homeowner/query',
                 exportapi: '/homeowner/exportExcel',
+                editapi:'/homeowner/add',
+                addapi:'/homeowner/add',
                 uploadapi: path + '/homeowner/importExcel?1=1' + common.commonParams(),
                 btswidth: '100',
                 showUpload:false,
@@ -169,13 +192,60 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '姓名',
+                            label: '操作',
                             prop: 'name',
-                            width: '130',
+                            width: '100',
                             type: 'str',
                             searchable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.editFormVisible = true;
+                                                this.rowdata = params.row
+                                                this.rowdata.state = this.rowdata.state+''
+                                            }
+                                        }
+                                    }, '编辑'),
+
+                                ]);
+                            }
+                        }]
+                    },
+                    {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '姓名',
+                            prop: 'name',
+                            width: '130',
+                            unsortable: true,
+                            editable: true,
+                            addtable: true,
+                            align: 'center',
+
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            "placeholder": "请输入姓名",
+                            "rules": [
+                                {required: true, message: '请输入业主姓名', trigger: 'blur'}
+                            ],
+                            'size':'mini',
+                            "subtype": "text",
                         }]
                     }, {
 
@@ -184,10 +254,16 @@
                             label: '房号',
                             prop: 'home_number',
                             width: '130',
-                            type: 'str',
-                            searchable: true,
                             unsortable: true,
+                            editable: true,
+                            addtable: true,
                             align: 'center',
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "text",
 
                         }]
                     }, {
@@ -197,15 +273,19 @@
                             label: '手机号',
                             prop: 'phone',
                             width: '150',
-                            type: 'date',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
+                            addtable: true,
                             unsortable: true,
+                            editable: true,
                             align: 'center',
-                             format: function (row) {
-                                return common.dateformat(row.create_time)
-                            }
+                            "type": "input",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "text",
+                            "rules": [
+                                {required: true, message: '手机号不能为空', trigger: 'blur'}
+                            ],
                         }]
                     }, {
 
@@ -213,16 +293,20 @@
                        subs: [{
                            label: '身份证号',
                            prop: 'identity_card',
-                           width: '150',
-                           type: 'date',
-                           editable: true,
+                           width: '200',
+                           type: 'str',
                            searchable: true,
-                           addable: true,
+                           addtable: true,
                            unsortable: true,
+                           editable: true,
                            align: 'center',
-                            format: function (row) {
-                               return common.dateformat(row.create_time)
-                           }
+                           "type": "input",
+                           "disable": false,
+                           "readonly": false,
+                           "value": "",
+                           'size':'mini',
+                           "subtype": "text",
+
                        }]
                    }, {
 
@@ -230,16 +314,39 @@
                           subs: [{
                               label: '状态',
                               prop: 'state',
-                              width: '150',
-                              type: 'date',
+                              width: '80',
+                              selectlist: [
+                                  {'value_no': '0', 'value_name': '正常'},
+                                  {'value_no': '1', 'value_name': '禁用'}
+                              ],
                               editable: true,
-                              searchable: true,
-                              addable: true,
+                              addtable: true,
                               unsortable: true,
                               align: 'center',
-                               format: function (row) {
-                                  return common.dateformat(row.create_time)
-                              }
+                              columnType:'render',
+                              render: (h, params) => {
+                                  return h('div', [
+                                      h('span', this.stateformat(params.row.state))
+                                  ]);
+                              },
+                              "type": "radio",
+                              "value": "",
+                              "button": false,
+                              "border": true,
+                              "rules": [],
+                              'size':'mini',
+                              "options": [
+                                  {
+                                      "value_no": "0",
+                                      "value_name": "正常",
+                                      "disabled": false
+                                  },
+                                  {
+                                      "value_no": "1",
+                                      "value_name": "禁用",
+                                      "disabled": false
+                                  }
+                              ]
                           }]
                       }, {
 
@@ -247,13 +354,18 @@
                         subs: [{
                             label: '备注',
                             prop: 'remark',
-                            width: '200',
-                            type: 'str',
                             editable: true,
                             searchable: true,
-                            addable: true,
+                            addtable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            "type": "textarea",
+                            "disable": false,
+                            "readonly": false,
+                            "value": "",
+                            'size':'mini',
+                            "subtype": "textarea",
+                            'rows':'2'
                         }]
                     }
 
@@ -284,7 +396,6 @@
                     if(state=='0')return "正常"
                     if(state=='1')return "禁用"
                 },
-                rowdata: {},
                 table: [],
                 pageSize: 20,
                 currentPage: 1,
@@ -325,6 +436,9 @@
                     name: [
                         {required: true, message: '请输入业主姓名', trigger: 'blur'}
                     ]
+                    // name: [
+                    //     {required: true, message: '请输入业主姓名', trigger: 'blur'}
+                    // ]
                 },
             }
         },
@@ -509,13 +623,6 @@
                      }
                  })
             },
-            handleAdd(){
-              this.user = {
-                "state":"0"
-              };
-              this.addHomeOwnerTitle="添加业主"
-              this.addHomeOwnerVisible=true
-            },
              handleEdit(row) {
                 this.user =common.clone(row);
                 this.user.state=row.state+"";
@@ -687,52 +794,153 @@
             //    console.log(this.imgdialog_url);
             //    this.imgDialog = true
             // }
+            //----------------------------------------------------------------//
+            handleAdd(){
+                // this.user = {
+                //   "state":"0"
+                // };
+                // this.addHomeOwnerTitle="添加业主"
+                // this.addHomeOwnerVisible=true
+                this.addFormVisible = true;
+
+            },
+            closeadd:function () {
+                ;
+            },
+            onAddInput:function (aform) {
+
+                this.addFormData = aform;
+            },
+            onAdd:function () {
+                console.log('aform',this.addFormData)
+            //发送请求,添加一条记录
+                let that = this;
+                let api = this.addapi;
+                let aform = this.addFormData;
+                aform = common.generateForm(aform);
+                this.$refs.addref.$refs.addForm.validate((valid) => {
+                    if (valid) {
+                        addTableData(api,aform).then(res=>{
+                            if(res.status == 200){
+                                if(res.data.state == 1){
+                                    that.$message({
+                                        message: '更新成功!',
+                                        type: 'success',
+                                        duration: 600
+                                    });
+                                    setTimeout(()=>{
+                                        that.addFormVisible = false;
+                                        that.$refs['tabPane'].getTableData({},that);
+                                    },60)
+                                }else{
+                                    that.$message({
+                                        message: res.data.msg,
+                                        type: 'info',
+                                        duration: 600
+                                    });
+                                }
+                            }
+                        }).catch(err => {
+                            that.$message({
+                                message: '更新失败',
+                                type: 'error',
+                                duration: 600
+                            });
+                        })
+                    }
+                });
+            },
+            cancelAdd:function () {
+                this.addFormVisible = false;
+            },
+            onEditInput:function (eform) {
+                this.rowdata=eform;
+            },
+            onEdit: function () {
+                //发送ajax,提交表单更新
+                let that = this;
+                let api = this.editapi;
+                let eform = this.rowdata;
+                eform = common.generateForm(eform);
+                this.$refs.editref.$refs.editForm.validate((valid) => {
+                    console.log('valid',valid,eform)
+                    if (valid) {
+                        editTableData(api,eform).then(res=>{
+                            if(res.status == 200){
+                                if(res.data.state == 1){
+                                    that.$message({
+                                        message: '更新成功!',
+                                        type: 'success',
+                                        duration: 600
+                                    });
+                                    setTimeout(()=>{
+                                        that.editFormVisible = false;
+                                        that.$refs['tabPane'].getTableData(that.formItem,that);
+                                    },60)
+                                }else{
+                                    that.$message({
+                                        message: res.data.msg,
+                                        type: 'info',
+                                        duration: 600
+                                    });
+                                }
+                            }
+                        }).catch(err => {
+                            that.$message({
+                                message: '更新失败',
+                                type: 'error',
+                                duration: 600
+                            });
+                        })
+                    }
+                });
+            },
+            cancelEdit(){
+                this.editFormVisible = false;
+            },
+            searchFn() {
+                /*
+                * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
+                * */
+                let sform = this.formItem;
+                this.searchForm = JSON.parse(JSON.stringify( sform ))
+            },
+            resetForm(){
+                this.initFn(this)
+            },
+            exportFn(){
+                /*
+                * 导出数据，通过ref 进行定位拉取
+                * */
+                this.$refs['tabPane'].handleExport()
+            },
+            initFn(that){
+                /*
+                * 初始化操作
+                * 点击刷新时 和初进入页面时
+                * */
+                that.formItem = {
+                    name:'',
+                    phone:''
+                },
+                    that.searchForm = JSON.parse(JSON.stringify( that.formItem ));
+            },
         },
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-
-            this.tableheight = common.gwh() - 143;
-            var user = sessionStorage.getItem('user');
-            this.user = user;
-            if (user) {
-                user = JSON.parse(user);
-                console.log(user.authlist.length);
-                //for (var item of user.authlist) {
-                //    if (AUTH_ID.orderManage_Poles == item.auth_id) {
-                //        // console.log(item.sub_auth)
-                //        this.hideExport = !common.showSubExport(item.sub_auth);
-                //        this.hideSearch = !common.showSubSearch(item.sub_auth);
-                //        break;
-                //    }
-                //}
-
-            }
-
-
+            this.$refs['tabPane'].getTableData({},this);
         },
         beforeMount(){
-            this.tableheight=common.gwh()-150;
+
         },
         activated() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 150;
-            };
-            this.tableheight = common.gwh() - 150;
-            this.imgSize = common.gww()/4;
-            // this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.formItem.name = '';
-            this.formItem.phone = '';
-            this.getTableData({});
-            let _this = this;
+
 
         },
         watch: {
 
-            collectors: function (val) {
-                this.tableitems[3].subs[0].selectlist = val
-            },
+            // collectors: function (val) {
+            //     this.tableitems[3].subs[0].selectlist = val
+            // },
         },
         computed:{
             result:function(){

@@ -61,6 +61,63 @@
                 </div>
             </el-form>
         </div>
+        <div v-if="nameType == 'shop'" style="width: 100%">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <div>
+                    <el-form-item label="创建时间">
+                        <span>{{common.dateformat(expandData.create_time)}}</span>
+                    </el-form-item>
+                    <el-form-item label="优惠类型">
+                        <span>{{expandData.ticket_type == 1? '时长减免':'金额减免'}}</span>
+                    </el-form-item>
+                </div>
+                <div>
+                    <el-form-item label="地址">
+                        <span>{{expandData.address}}</span>
+                    </el-form-item>
+                    <el-form-item label="联系方式">
+                        <span>{{expandData.mobile}}</span>
+                    </el-form-item>
+                </div>
+                <div class="custem-width">
+                    <el-form-item label="手输额度">
+                        <span>{{expandData.hand_input_enable == 0?'不支持':'支持'}}</span>
+                    </el-form-item>
+                    <el-form-item label="全免券">
+                        <span>{{expandData.free_limit_times == 0?'不支持':'支持'}}</span>
+                    </el-form-item>
+                    <el-form-item label="固定码使用">
+                        <span>{{expandData.use_fix_code == 0?'不支持':'支持'}}</span>
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
+        <div v-if="nameType == 'coupon'" style="width: 100%">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <div>
+                    <el-form-item label="创建时间">
+                        <span>{{common.dateformat(expandData.create_time)}}</span>
+                    </el-form-item>
+                    <el-form-item label="使用时间">
+                        <span>{{common.dateformat(expandData.use_time)}}</span>
+                    </el-form-item>
+                </div>
+
+            </el-form>
+        </div>
+        <div v-if="nameType == 'employee-permission'" style="width: 100%">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <div>
+                    <el-form-item label="创建时间">
+                        <span>{{common.dateformat(expandData.reg_time)}}</span>
+                    </el-form-item>
+                    <el-form-item label="电话">
+                        <span>{{expandData.phone}}</span>
+                    </el-form-item>
+                </div>
+
+            </el-form>
+        </div>
     </div>
 </template>
 
@@ -132,6 +189,17 @@
 <style lang="scss">
     .demo-table-expand {
         font-size: 0;
+        .custem-width{
+            .el-form-item {
+                margin-right: 0;
+                margin-bottom: 0;
+                width: 25%;
+            }
+            label {
+                width: 90px;
+                color: #99a9bf;
+            }
+        }
         .el-form-item {
             margin-right: 0;
             margin-bottom: 0;
