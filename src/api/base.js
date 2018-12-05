@@ -39,3 +39,14 @@ export function addTableData($url,$sform) {
         }
     })
 }
+
+export function getPayState($url,$sform) {
+    return request({
+        url: $url,
+        method: 'get',
+        params:$sform,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    })
+}

@@ -2,7 +2,7 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">用券明细<span style="margin: 2px">-</span>用券明细</p>
+                <p style="float: left">员工管理<span style="margin: 2px">-</span>角色管理</p>
                 <div class="float-right"><el-button type="text" size="mini" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="resetForm">刷新</el-button></div>
             </header>
             <div class="shop-custom-console">
@@ -17,65 +17,80 @@
                         </el-form-item>
                         <div class="float-right">
                             <el-form-item class="shop-clear-style">
-                                    <el-button type="primary" style="width: 114px" @click="handleAdd">添加角色</el-button>
+                                    <el-button type="primary" style="width: 114px" v-if="hideAdd" @click="handleAdd" icon="el-icon-circle-plus-outline">添加角色</el-button>
                             </el-form-item>
                         </div>
                     </div>
                 </el-form>
             </div>
         </div>
-        <tab-pane
-                :addTo="addTo"
-                :addapi="addapi"
-                :addRowData="addRowData"
-                v-on:addInput="addInput"
-                :stripe="true"
-                :queryapi="queryapi"
-                :orderfield="orderfield"
-                :fieldsstr="fieldsstr"
-                :table-items="tableitems"
-                align-pos="right"
-                bts-width="200"
-                :searchForm="searchForm"
-                fixedDom="scrollBarDom"
-                ref="tabPane"
-        ></tab-pane>
-        <el-dialog title="权限设置" :visible.sync="isShowPermission" style="overflow: scroll" width="50%">
-            <div v-for="sub of permissions">
-
-                <el-checkbox @change="subchange(sub)" v-model="sub.ischeck">{{sub.subname}}</el-checkbox>
-
-                <div style="margin-left: 40px;" v-for="sub_ of sub.subpermission">
-
-                    <el-checkbox @change="sub_change(sub,sub_)" v-model="sub_.ischeck">{{sub_.subname}}</el-checkbox>
-                    <div style="margin-left: 20px;display: flex;flex-direction: row;">
-                        <div style="margin-left: 20px;"
-                             v-for="sub__ of sub_.subpermission">
-
-                            <el-checkbox @change="sub__change(sub,sub_,sub__)"
-                                         v-model="sub__.ischeck">{{sub__.subname}}
-                            </el-checkbox>
-                            <div style="margin-left: 20px;display: flex;flex-direction: row;"><div style="margin-left: 20px">
-
-                                <el-checkbox v-for="sub___ of sub__.subpermission"
-                                             @change="sub___change(sub,sub_,sub__,sub___)"
-                                             v-model="sub___.ischeck">{{sub___.subname}}
-                                </el-checkbox>
-                            </div></div>
-
-                            <!--</el-checkbox>-->
+        <div class="table-wrapper-style">
+            <tab-pane
+                    :delapi="delapi"
+                    :del-form="delForm"
+                    v-on:cancelDel="cancelDel"
+                    :editTo="editTo"
+                    :editapi="editapi"
+                    :editRowData="editRowData"
+                    v-on:editInput="editInput"
+                    addTitle="添加"
+                    :dialogStyle="dialogStyle"
+                    :addTo="addTo"
+                    :addapi="addapi"
+                    :addRowData="addRowData"
+                    v-on:addInput="addInput"
+                    :stripe="true"
+                    :queryapi="queryapi"
+                    :orderfield="orderfield"
+                    :fieldsstr="fieldsstr"
+                    :table-items="tableitems"
+                    align-pos="right"
+                    bts-width="200"
+                    :searchForm="searchForm"
+                    fixedDom="scrollBarDom"
+                    ref="tabPane"
+            ></tab-pane>
+        </div>
+        <el-dialog
+                width="600px"
+                :show-close="false"
+                :visible.sync="isShowPermission"
+                custom-class="custom-dialog">
+            <header class="dialog-header" slot="title">
+                权限设置<i class="el-icon-close dialog-header-iconfont" @click="isShowPermission = false"></i>
+            </header>
+            <div class="set-jurisdiction">
+                <div style="padding: 10px">
+                    <div v-for="sub of permissions" style="padding-bottom: 10px">
+                        <div class="dividing-wrapper">
+                            <el-checkbox @change="subchange(sub)" v-model="sub.ischeck">{{sub.subname}}</el-checkbox><p class="dividing-line"></p>
                         </div>
+                        <div style="margin-left: 40px;" v-for="sub_ of sub.subpermission">
+                            <el-checkbox @change="sub_change(sub,sub_)" v-model="sub_.ischeck">{{sub_.subname}}</el-checkbox>
+                            <div style="margin-left: 20px;display: flex;flex-direction: row;">
+                                <div style="margin-left: 20px;"
+                                     v-for="sub__ of sub_.subpermission">
+                                    <el-checkbox @change="sub__change(sub,sub_,sub__)"
+                                                 v-model="sub__.ischeck">{{sub__.subname}}
+                                    </el-checkbox>
+                                    <div style="margin-left: 20px;display: flex;flex-direction: row;"><div style="margin-left: 20px">
+                                        <el-checkbox v-for="sub___ of sub__.subpermission"
+                                                     @change="sub___change(sub,sub_,sub__,sub___)"
+                                                     v-model="sub___.ischeck">{{sub___.subname}}
+                                        </el-checkbox>
+                                    </div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div style="width: 100%;height: 1px;background-color:#475669;margin: 20px 0;"></div>-->
+
                     </div>
-
                 </div>
-                <div style="width: 100%;height: 1px;background-color:#475669;margin: 20px 0;"></div>
-
             </div>
-            <span slot="footer" class="dialog-footer">
-				<el-button @click="isShowPermission = false" size="small">取 消</el-button>
-				<el-button type="primary" size="small" @click="handleSavePermission"
-                           :loading="dialogloading">确 定</el-button>
-            </span>
+            <footer slot="footer" class="dialog-footer">
+                <el-button @click="isShowPermission = false" class="dialog-footer-btn">取 消</el-button>
+                <el-button type="primary" style="margin-left: 60px" @click="handleSavePermission" :loading="dialogloading" class="dialog-footer-btn">确 定</el-button>
+            </footer>
         </el-dialog>
     </section>
 </template>
@@ -94,10 +109,18 @@
         },
         data() {
             return {
-                //添加
-                addRowData:{
-
+                dialogStyle:{
+                    dialogWidth:'478px',
+                    dialogFormLableWidth:'100px',
+                    dialogFormWidth:''
                 },
+                //删除
+                delForm:{},
+                //编辑
+                editRowData:{},
+                editTo:0,
+                //添加
+                addRowData:{},
                 addTo:0,
                 searchForm:{},
                 formItem:{
@@ -138,7 +161,7 @@
                             searchable: true,
                             addable: false,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
                         }]
                     },
                     {
@@ -161,6 +184,7 @@
                                 "rules": [
                                     {required: true, message: '请填写角色名称', trigger: 'blur'}
                                 ],
+                                placeholder:'请输入角色名称'
                             },
                         ]
                     },
@@ -201,6 +225,7 @@
                             "value": '',
                             'size':'',
                             "subtype": "textarea",
+                            placeholder:'请输入角色备注信息'
                         }]
                     },{
                         hasSubs:false,
@@ -209,6 +234,7 @@
                             columnType:'render',
                             align: 'center',
                             width:'180',
+                            hidden:false,
                             unsortable: true,
                             render: (h, params) => {
                                 return h('div', [
@@ -219,13 +245,14 @@
                                         },
                                         style: {
                                             marginRight: '5px',
-                                            color:'#3C75CF'
+                                            color:'#3C75CF',
+                                            display:this.showEdit?'':'none',
                                         },
                                         on: {
                                             click: () => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                // this.editFormVisible = true;
-                                                // this.rowdata = params.row;
+                                                this.editRowData = params.row;
+                                                this.editTo++;
                                             }
                                         }
                                     }, '编辑'),
@@ -235,12 +262,13 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            color:'#3C75CF'
+                                            color:'#3C75CF',
+                                            display:this.showPermission?'':'none',
                                         },
                                         on: {
                                             click: () => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                // this.showRolePermission(params.index,params.row);
+                                                this.showRolePermission(params.index,params.row);
                                             }
                                         }
                                     }, '编辑权限'),
@@ -251,16 +279,17 @@
                                         },
                                         style: {
                                             marginRight: '5px',
-                                            color:'#F56D6D'
+                                            color:'#F56D6D',
+                                            display:this.showdelete?'':'none',
                                         },
                                         on: {
                                             click: () => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                // this.delForm = {
-                                                //     $index:params.index,
-                                                //     delVisible:true,
-                                                //     id:params.row.id,
-                                                // }
+                                                this.delForm = {
+                                                    $index:params.index,
+                                                    delVisible:true,
+                                                    id:params.row.id,
+                                                }
 
                                             }
                                         }
@@ -295,9 +324,19 @@
             }
         },
         methods: {
+            //删除
+            cancelDel(){
+                this.delForm.delVisible = false;
+            },
+            //编辑
+            editInput(eform){
+                this.editRowData = eform;
+            },
             //添加
             handleAdd(){
-                // this.addRowData.operator = sessionStorage.getItem('nickname');
+                this.addRowData = {
+
+                };
                 this.addTo++;
             },
             addInput(aform){
@@ -427,13 +466,39 @@
                     sub1.ischeck = true;
                     sub.ischeck = true;
                 }
+            },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID_SHOP.shopRole == item.auth_id) {
+                            this.showdelete = common.showSubDel(item.sub_auth)
+                            this.showEdit = common.showSubEdit(item.sub_auth)
+                            this.hideAdd = common.showSubAdd(item.sub_auth)
+                            this.showPermission = common.showSubPermission(item.sub_auth)
+                            if(!this.showEdit&&!this.showdelete&&!this.showPermission){
+                                this.hideOptions = true;
+                            }
+                            break;
+                        }
+                    }
+
+                }
             }
         },
         mounted() {
 
         },
         activated() {
+            this.setAuthorityFn();
             this.$refs['tabPane'].getTableData({},this);
+        },
+        watch: {
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[len -1].subs[0].hidden = val
+            },
         }
     }
 

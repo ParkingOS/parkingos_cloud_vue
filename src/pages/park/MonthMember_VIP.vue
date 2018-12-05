@@ -2,6 +2,10 @@
     <section class="right-wrapper-size" id="scrollBarDom">
         <header class="custom-header">
             月卡会员
+            <div class="float-right">
+                <el-button size="mini" @click="exportFn" v-if="!hideExport">导出</el-button>
+                <el-button size="mini" @click="resetForm">刷新</el-button>
+            </div>
         </header>
         <div class="workbench-wrapper">
             <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
@@ -38,9 +42,8 @@
                     <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
                 </el-form-item>
                 <el-form-item class="clear-style float-right">
-                    <el-button type="primary" size="mini" @click="registerMember">注册会员</el-button>
-                    <el-button size="mini" @click="exportFn">导出</el-button>
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
+                    <el-button type="primary" size="mini" @click="setSMS" v-if="showSetSMS">短信设置</el-button>
+                    <el-button type="primary" size="mini" @click="registerMember" v-if="showCustomizeAdd">注册会员</el-button>
                 </el-form-item>
                 <div class="second-search-item-style" v-show="isShow">
                     <el-form-item label="车主姓名" class="clear-style margin-left-clear">
@@ -88,14 +91,15 @@
             ></tab-pane>
         </div>
         <!--月卡续费的dialog-->
-        <el-dialog :visible.sync="showRefill" custom-class="custom-dialog" :show-close="false">
+        <el-dialog
+                width="600px"
+                :visible.sync="showRefill" custom-class="custom-dialog" :show-close="false">
             <header class="dialog-header" slot="title">
-                <span class="dialog-title-icon"></span>月卡续费
-                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="showRefill = false"></i>
+                月卡续费<i class="el-icon-close dialog-header-iconfont" @click="showRefill = false"></i>
             </header>
-            <el-form ref="refillForm" label-width="200px" :rules="refillFormRules" :model="refillForm" class="dialog-form-width">
+            <el-form ref="refillForm" label-width="120px" :rules="refillFormRules" :model="refillForm" class="dialog-form-width">
                 <el-form-item label="包月产品" :prop="p_name">
-                    <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" size="mini" style="width: 250px">
+                    <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal"  style="width: 100%">
                         <el-option
                                 v-for="item in pname"
                                 :label="item.value_name"
@@ -105,7 +109,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="续费月数" :prop="months">
-                    <el-select v-model="refillForm.months" @change="getRefillTotal"  size="mini" style="width: 250px">
+                    <el-select v-model="refillForm.months" @change="getRefillTotal"   style="width: 100%">
                         <el-option
                                 v-for="item in [1,2,3,4,5,6,7,8,9,10,11,12]"
                                 :label="item"
@@ -115,46 +119,46 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="应收金额" :prop="total">
-                    <el-input v-model.trim="refillForm.total" placeholder=""  size="mini" :readonly="readonly"></el-input>
+                    <el-input v-model.trim="refillForm.total" placeholder=""  :readonly="readonly"></el-input>
                 </el-form-item>
                 <el-form-item label="实收金额" :prop="act_total">
-                    <el-input v-model.trim="refillForm.act_total"  size="mini" placeholder=""></el-input>
+                    <el-input v-model.trim="refillForm.act_total"   placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="起始日期">
-                    <el-date-picker type="datetime" v-model="refillstartDate"  size="mini" style="width: 250px"
+                    <el-date-picker type="datetime" v-model="refillstartDate"  style="width: 100%"
                      :readonly='datereadonly'></el-date-picker>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model.trim="refillForm.remark"  size="mini" placeholder="" :readonly=true></el-input>
+                    <el-input v-model.trim="refillForm.remark"  placeholder="" :readonly=true></el-input>
                 </el-form-item>
             </el-form>
             <footer slot="footer" class="dialog-footer">
-                <el-button @click="showRefill = false" size="small" style="width: 90px;">取 消</el-button>
-                <el-button type="primary" size="small" @click="handleRefill" :loading="resetloading" style="width: 90px;margin-left: 60px">确 定</el-button>
+                <el-button @click="showRefill = false"  class="custom-btns-style">取 消</el-button>
+                <el-button type="primary"  @click="handleRefill" :loading="resetloading" class="custom-btns-style" style="margin-left: 60px">确 定</el-button>
 			</footer>
         </el-dialog>
         <el-dialog
+                width="600px"
                 :show-close="false"
                 :visible.sync="showRegis"
                 custom-class="custom-dialog custom-dialog-register"
                 @close="closeDialog">
             <header class="dialog-header" slot="title">
-                <span class="dialog-title-icon"></span>注册会员
-                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="showRegis = false"></i>
+                注册会员<i class="el-icon-close dialog-header-iconfont" @click="showRegis = false"></i>
             </header>
-            <el-form ref="refillForm" label-width="200px" :rules="refillFormRules" :model="refillForm" class="dialog-form-width">
-                <el-tabs v-model="selectActive" @tab-click="selectChange" style="width: 600px" type="card">
+            <el-form ref="refillForm" label-width="120px" :rules="refillFormRules" :model="refillForm" class="dialog-form-width">
+                <el-tabs v-model="selectActive" @tab-click="selectChange"  type="card">
                     <el-tab-pane name="1">
                         <span slot="label"><i style="color: red">*</i> 必填项</span>
                         <div class="dialog-form-width">
                             <el-form-item label="车牌号码" :prop="car_number">
-                                <el-input v-model.trim="refillForm.car_number" size="mini" placeholder=""></el-input>
+                                <el-input v-model.trim="refillForm.car_number" placeholder=""></el-input>
                             </el-form-item>
                             <el-form-item label="起始日期" :prop="b_time">
-                                <el-date-picker type="date" placeholder="选择日期时间" size="mini" v-model="refillForm.b_time" style="width: 250px"></el-date-picker>
+                                <el-date-picker type="date" placeholder="选择日期时间" v-model="refillForm.b_time" style="width:100%"></el-date-picker>
                             </el-form-item>
                             <el-form-item label="购买月数" :prop="months">
-                                <el-select v-model="refillForm.months" @change="getRefillTotal" style="width:250px" size="mini">
+                                <el-select v-model="refillForm.months" @change="getRefillTotal" style="width:100%">
                                     <el-option
                                             v-for="item in [1,2,3,4,5,6,7,8,9,10,11,12]"
                                             :label="item"
@@ -164,7 +168,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="单双日限行">
-                                <el-radio-group v-model="refillForm.limit_day_type" size="mini" style="width: 250px">
+                                <el-radio-group v-model="refillForm.limit_day_type" style="width: 250px">
                                     <el-radio  v-for="(item,index) in singleDoubleType" :key="index" :label="item.value_no" border>{{item.value_name}}</el-radio >
                                 </el-radio-group>
                             </el-form-item>
@@ -174,13 +178,13 @@
                     <el-tab-pane label="选填项" name="0">
                         <div class="dialog-form-width">
                             <el-form-item label="车主姓名">
-                                <el-input v-model.trim="refillForm.name" size="mini" placeholder=""></el-input>
+                                <el-input v-model.trim="refillForm.name" placeholder=""></el-input>
                             </el-form-item>
                             <el-form-item label="车位">
-                                <el-input v-model.trim="refillForm.p_lot" size="mini" placeholder="多个车位,用英文','隔开"></el-input>
+                                <el-input v-model.trim="refillForm.p_lot" placeholder="多个车位,用英文','隔开"></el-input>
                             </el-form-item>
                             <el-form-item label="车辆类型">
-                                <el-select v-model="refillForm.car_type_id" @change="getProByCar" style="width:250px" size="mini">
+                                <el-select v-model="refillForm.car_type_id" @change="getProByCar" style="width:100%">
                                     <el-option
                                             v-for="item in cartype"
                                             :label="item.value_name"
@@ -190,7 +194,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="包月产品" :prop="p_name">
-                                <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" size="mini" style="width:250px">
+                                <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal" style="width:100%">
                                     <el-option
                                             v-for="item in newPname"
                                             :label="item.value_name"
@@ -200,24 +204,69 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="联系电话">
-                                <el-input v-model.trim="refillForm.mobile" size="mini"  placeholder=""></el-input>
+                                <el-input v-model.trim="refillForm.mobile"  placeholder=""></el-input>
                             </el-form-item>
                             <el-form-item label="地址">
-                                <el-input v-model.trim="refillForm.address" size="mini" placeholder=""></el-input>
+                                <el-input v-model.trim="refillForm.address" placeholder=""></el-input>
                             </el-form-item>
                             <el-form-item label="备注">
-                                <el-input v-model.trim="refillForm.remark" size="mini" placeholder="" :readonly=true></el-input>
+                                <el-input v-model.trim="refillForm.remark" placeholder="" :readonly=true></el-input>
                             </el-form-item>
                         </div>
                     </el-tab-pane>
                 </el-tabs>
             </el-form>
             <footer slot="footer" class="dialog-footer">
-                <el-button @click="showRegis = false" size="small" style="width: 90px;">取 消</el-button>
-                <el-button type="primary" size="small" @click="handleRegis" :loading="resetloading" style="width: 90px;margin-left: 60px">确 定</el-button>
+                <el-button @click="showRegis = false"  style="width: 90px;">取 消</el-button>
+                <el-button type="primary"  @click="handleRegis" :loading="resetloading" style="width: 90px;margin-left: 60px">确 定</el-button>
             </footer>
         </el-dialog>
 
+        <!--短信通知设置-->
+        <el-dialog
+                width="600px"
+                :show-close="false"
+                :visible.sync="setSmSVible"
+                custom-class="custom-dialog custom-dialog-sms"
+                @close="closeDialog">
+            <header class="dialog-header" slot="title">
+                短信通知设置<i class="el-icon-close dialog-header-iconfont" @click="setSmSVible = false"></i>
+            </header>
+            <div class="sms-header">
+                <p>短信剩余<span class="sms-count"><countTo :startVal='0' :endVal='smsData.message_count' :duration='1000'></countTo></span>条</p>
+                <div class="renewal-btn" @click="goShopSms"><img :src="renewalImg" class="renewalImg">去续费</div>
+            </div>
+            <el-form ref="refillForm" label-width="120px" :rules="refillFormRules" :model="refillForm" class="dialog-form-width">
+                <el-form-item label="续费提前通知">
+                    <el-select v-model="smsData.before_notice" style="width: 100%">
+                        <el-option
+                                v-for="item in [3,5,10,30]"
+                                :label="item"
+                                :value="item"
+                        >
+                            <span style="float: left">{{ item }}</span>
+                            <span style="float: right; color: #8492a6; font-size: 13px">天</span>
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="短信通知频率">
+                    <el-select v-model="smsData.send_freq"   style="width: 100%">
+                        <el-option label="每天一条" :value="0"></el-option>
+                        <el-option label="只发一次" :value="1"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="月卡购买通知">
+                    <el-radio-group v-model="smsData.notice_switch">
+                        <el-radio :label="1">开</el-radio>
+                        <el-radio :label="0">关</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-form>
+            <footer slot="footer" class="dialog-footer">
+                <el-button @click="setSmSVible = false" class="custom-btns-style">取 消</el-button>
+                <el-button type="primary"  @click="handleSmS" :loading="resetloading" style="margin-left: 60px" class="custom-btns-style">确 定</el-button>
+            </footer>
+        </el-dialog>
     </section>
 </template>
 
@@ -240,7 +289,7 @@
     import CommonTable from '../../components/CommonTable'
     import AddDate from '../../components/add-subs/AddDate'
     import TabPane from '../../components/table/TabPane';
-    // import EditForm from '../../components/EditForm';
+    import countTo from 'vue-count-to';
     import axios from 'axios'
     import ElRadioButton from 'element-ui/packages/radio/src/radio-button';
     import { editTableData } from '../../api/base'
@@ -249,10 +298,21 @@
             ElRadioButton,
             CommonTable,
             AddDate,
-            TabPane
+            TabPane,
+            countTo
         },
         data() {
             return {
+                highlightindex:sessionStorage.getItem('highlightindex'),
+                renewalImg:require('../../assets/images/renewal.png'),
+                //短信模块
+                smsData:{
+                    message_count:0,
+                    before_notice:30,
+                    send_freq:0,
+                    notice_switch:1,
+                },
+                setSmSVible:false,
                 //编辑
                 editRowData:{},
                 editTo:0,
@@ -283,6 +343,7 @@
                 addapi: '/vip/add',
                 editapi: '/vip/edit',
                 delapi: '/vip/delete',
+                getsms:'/vip/getmessageset',
                 delForm:{},
                 delVisible:false,
                 loading: false,
@@ -290,9 +351,10 @@
                 showresetpwd: false,
                 hideExport: false,
                 tableheight: '',
-                hideOptions: false,
+                hideOptions: undefined,
+                showSetSMS:false,
                 showEdit: true,
-                showdelete: true,
+                showdelete: false,
                 showModifyCarNumber: true,
                 showmRefill: true,
                 showCustomizeAdd: false,
@@ -344,7 +406,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                                 "rules": [
                                     {required: true, message: '请输入车牌号', trigger: 'blur'}
@@ -367,7 +429,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                             },
                         ]
@@ -389,7 +451,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text"
                             },
                         ]
@@ -411,7 +473,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                             },
                         ]
@@ -438,7 +500,7 @@
                                 "button": false,
                                 "border": true,
                                 "rules": [],
-                                'size':'mini',
+                                'size':'',
                                 "options": singleDoubleType
                             },
                         ]
@@ -451,7 +513,7 @@
                                 width: '180',
                                 type: 'date',
                                 searchable: true,
-                                unsortable: false,
+                                unsortable: true,
                                 align: 'center',
                                 columnType:'render',
                                 render: (h, params) => {
@@ -471,7 +533,7 @@
                                 type: 'date',
                                 selectlist: centerpayset,
                                 searchable: true,
-                                unsortable: false,
+                                unsortable: true,
                                 align: 'center',
                                 columnType:'render',
                                 render: (h, params) => {
@@ -505,6 +567,7 @@
                             columnType:'render',
                             align: 'center',
                             width:'150',
+                            hidden:this.hideOptions,
                             unsortable: true,
                             render: (h, params) => {
                                 return h('div', [
@@ -514,13 +577,12 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            marginRight: '5px'
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none'
                                         },
                                         on: {
                                             click: () => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                // this.editFormVisible = true;
-                                                // this.rowdata = params.row
                                                 this.editRowData = params.row;
                                                 this.editRowData.limit_day_type = this.editRowData.limit_day_type+'';
                                                 this.editTo++;
@@ -533,7 +595,8 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            marginRight: '5px'
+                                            marginRight: '5px',
+                                            display:this.showmRefill?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -549,7 +612,8 @@
                                         },
                                         style: {
                                             marginRight: '5px',
-                                            color:'#F54B4B'
+                                            color:'#F54B4B',
+                                            display:this.showdelete?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -641,9 +705,81 @@
                     },
                 ],
                 refillstartDate: 0,
+
             }
         },
         methods: {
+            goShopSms(){
+                this.setSmSVible = false;
+                sessionStorage.setItem('highlightindex', '/SystemManage_AddedService_Sms');
+                this.$router.push({path: '/SystemManage_AddedService_Sms'});
+
+            },
+            //短信设置
+            setSMS(){
+                let _this = this;
+                axios.get(path+this.getsms, {
+                    params: { 'comid': sessionStorage.getItem('comid') }
+                }).then(function (response) {
+                    if(response.status == 200){
+                        _this.setSmSVible = true;
+                        _this.smsData = response.data;
+                    }else{
+                        _this.$message({
+                            message: '获取失败，请稍后重试',
+                            type: 'error',
+                            duration: 600
+                        });
+                    }
+                }).catch(function (error) {
+                    _this.$message({
+                        message: '获取失败，请稍后重试',
+                        type: 'error',
+                        duration: 600
+                    });
+                });
+            },
+            handleSmS(){
+                let _this = this;
+                let aform = this.smsData;
+                aform.comid = sessionStorage.getItem('comid');
+                _this.$axios.post(path + '/vip/tomessageset', _this.$qs.stringify(aform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    if(response.status == 200){
+                        let res = response.data;
+                        if(res.state == 1){
+                            _this.setSmSVible = false;
+                            _this.$message({
+                                message: res.msg,
+                                type: 'success',
+                                duration: 600
+                            });
+                        }else{
+                            _this.$message({
+                                message: res.msg,
+                                type: 'error',
+                                duration: 600
+                            });
+                        }
+                    }else{
+                        _this.$message({
+                            message: '设置失败,请稍后重试',
+                            type: 'error',
+                            duration: 600
+                        });
+                    }
+
+                }).catch(function (error) {
+                    _this.$message({
+                        message: '设置失败,请稍后重试',
+                        type: 'error',
+                        duration: 600
+                    });
+                })
+            },
             getProByCar:function(){
                 //alert(this.refillForm.car_type_id);
                 var carId = this.refillForm.car_type_id
@@ -879,6 +1015,7 @@
                 // console.log('val',val)
             },
             registerMember(){
+                this.refillForm.remark = '云平台注册';
                 this.showRegis = true;
                 this.selectActive = '1';
             },
@@ -940,31 +1077,93 @@
                     }
                 });
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    if(user.self_setting){//如果设置了，那么日期可以修改
+                        this.datereadonly=false;
+                    }
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.monthMember_VIP == item.auth_id) {
+                            this.hideExport = !common.showSubExport(item.sub_auth);
+                            this.hideSearch = !common.showSubSearch(item.sub_auth);
+                            this.showdelete = common.showSubDel(item.sub_auth);
+                            this.showmRefill = common.showSubReFill(item.sub_auth);
+                            this.showEdit = common.showSubEdit(item.sub_auth);
+                            this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
+                            this.showSetSMS = common.showSetSMS(item.sub_auth);
+                            console.log(!this.showEdit&&!this.showdelete&&!this.showmRefill)
+                            if(!this.showEdit&&!this.showdelete&&!this.showmRefill){
+                                 this.hideOptions = true;
+                            }else{
+                                this.hideOptions = false;
+                            }
+                            break;
+                        }
+                    }
+
+                }
+
+            }
         },
         beforeMount(){
             this.currentHeight = common.gwh() - 55 ;
         },
         mounted() {
-            this.currentHeight = common.gwh() - 55 ;
-            window.addEventListener('resize', () => {
-                this.currentHeight = common.gwh() - 55;
-            });
+            this.setAuthorityFn()
             this.getQuery();
             this.$refs['tabPane'].getTableData({},this);
-            var user = sessionStorage.getItem('user');
-            if (user) {
-                user = JSON.parse(user);
-                if(user.self_setting){//如果设置了，那么日期可以修改
-                    this.datereadonly=false;
-                }
-            }
+
         },
         activated() {
 
         },
         watch: {
-
+            hideOptions:function (val,oldVal) {
+                this.tableitems[10].subs[0].hidden = val
+            }
         }
     }
 
 </script>
+<style lang="scss" scoped>
+    .sms-header{
+        position: relative;
+        height:55px;
+        background:rgba(216,216,216,0.273);
+        border-radius:4px;
+        line-height: 55px;
+        padding: 0 29px;
+        margin-bottom: 40px;
+        p{
+            font-size: 16px;
+            color: #363636;
+            .sms-count{
+                margin-left: 25px;
+                margin-right: 5px;
+                font-size: 22px;
+                color: #3C75CF;
+            }
+        }
+        .renewal-btn{
+            position: absolute;
+            top:50%;
+            right: 30px;
+            transform: translateY(-50%);
+            width:97px;
+            height:31px;
+            line-height: 31px;
+            text-align: center;
+            background:linear-gradient(151deg,rgba(250,217,97,1) 0%,rgba(247,107,28,1) 100%);
+            border-radius:23px 23px 23px 23px;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+            .renewalImg{
+                vertical-align: middle;
+                margin-right: 3px;
+            }
+        }
+    }
+</style>

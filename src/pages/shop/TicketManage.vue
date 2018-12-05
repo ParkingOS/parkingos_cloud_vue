@@ -46,7 +46,7 @@
                         <div class="float-right">
                             <el-form-item class="shop-clear-style">
                                 <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                                    <el-button type="primary" style="width: 114px" @click="exportFn">导出</el-button>
+                                    <el-button type="primary" style="width: 114px" @click="exportFn" v-if="hideExport">导出</el-button>
                                 </el-tooltip>
                             </el-form-item>
                         </div>
@@ -58,6 +58,7 @@
         <div class="table-wrapper-style">
             <tab-pane
                     :stripe="true"
+                    :exportapi="exportapi"
                     :queryapi="queryapi"
                     :orderfield="orderfield"
                     :fieldsstr="fieldsstr"
@@ -91,7 +92,7 @@
             return {
                 searchForm:{},
                 formItem:{
-                    create_time:'between',
+                    create_time:'',
                     create_time_start:'',
                     create_time_end:'',
                     car_number:'',
@@ -193,8 +194,18 @@
                             align: 'center',
                             columnType:'render',
                             render: (h, params) => {
+                                let str = ''; let ticket_unit = params.row.ticket_unit; let money = params.row.money;
+                                if(ticket_unit == 1 && money!=0){
+                                    str = money+'分钟'
+                                }else if(ticket_unit == 2 && money!=0){
+                                    str = money+'小时'
+                                }else if(ticket_unit == 3 && money!=0){
+                                    str = money+'天'
+                                }else{
+                                    str = '';
+                                }
                                 return h('div', [
-                                    h('span', params.row.money +'小时')
+                                    h('span', str)
                                 ]);
                             }
                         }]
@@ -430,9 +441,11 @@
             changeDateFormat(val){
 
                 if(val == null){
+                    this.formItem.create_time='';
                     this.formItem.create_time_start = '';
                     this.formItem.create_time_end = ''
                 }else{
+                    this.formItem.create_time='between';
                     this.formItem.create_time_start = val[0];
                     this.formItem.create_time_end = val[1]
                 }
@@ -452,7 +465,7 @@
                 * 点击刷新时 和初进入页面时
                 * */
                 that.formItem ={
-                    create_time:'between',
+                    create_time:'',
                     create_time_start:'',
                     create_time_end:'',
                     car_number:'',
@@ -485,19 +498,32 @@
                 if(ret.ticket_unit==1||ret.ticket_unit==2||ret.ticket_unit==3){
                     //时长
                     vm.tableitems[5].subs[0].hidden = "true";
-                    vm.sform.hidden_type=2
+                    // vm.sform.hidden_type=2
                     vm.hidden_type = 2;
                 }
 
                 else if(ret.ticket_unit==4){
                     //金额  隐藏时长
                     vm.tableitems[4].subs[0].hidden = "true";
-                    vm.sform.hidden_type=1
+                    // vm.sform.hidden_type=1
                     vm.hidden_type = 1;
                  }
 
               });
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID_SHOP.ticketManage == item.auth_id) {
+                            this.hideExport = common.showSubExport(item.sub_auth)
+                            break;
+                        }
+                    }
+
+                }
+            }
         },
          beforeMount(){
 
@@ -511,6 +537,7 @@
             // }
         },
         activated() {
+            this.setAuthorityFn();
             this.getQuery();
             this.initFn(this);
             this.$refs['tabPane'].getTableData({},this);

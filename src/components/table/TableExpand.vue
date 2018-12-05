@@ -84,7 +84,7 @@
                         <span>{{expandData.hand_input_enable == 0?'不支持':'支持'}}</span>
                     </el-form-item>
                     <el-form-item label="全免券">
-                        <span>{{expandData.free_limit_times == 0?'不支持':'支持'}}</span>
+                        <span>{{expandData.support_type == 0?'不支持':'支持'}}</span>
                     </el-form-item>
                     <el-form-item label="固定码使用">
                         <span>{{expandData.use_fix_code == 0?'不支持':'支持'}}</span>
@@ -113,6 +113,19 @@
                     </el-form-item>
                     <el-form-item label="电话">
                         <span>{{expandData.phone}}</span>
+                    </el-form-item>
+                </div>
+
+            </el-form>
+        </div>
+        <div v-if="nameType == 'fixCode'" style="width: 100%">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <div>
+                    <el-form-item label="可用时段">
+                        <span>{{expandData.time_inuse}}</span>
+                    </el-form-item>
+                    <el-form-item label="">
+
                     </el-form-item>
                 </div>
 

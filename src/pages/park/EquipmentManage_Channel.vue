@@ -37,7 +37,7 @@
                     <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
                 </el-form-item>
                 <el-form-item class="clear-style-4 float-right">
-                    <el-button size="mini" @click="handleAdd" type="primary">添加通道</el-button>
+                    <el-button size="mini" @click="handleAdd" type="primary" v-if="hideAdd">添加通道</el-button>
                     <el-button size="mini" @click="resetForm">刷新</el-button>
                 </el-form-item>
                 <div class="second-search-item-style" v-show="isShow">
@@ -51,18 +51,8 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <!--<el-form-item label="月卡第二辆车" class="clear-style-4">-->
-                        <!--<el-select v-model="searchFormData.month2_set" placeholder="月卡第二辆车" size="mini" style="width: 140px">-->
-                            <!--<el-option-->
-                                    <!--v-for="item in channlManager"-->
-                                    <!--:key="item.value_no"-->
-                                    <!--:label="item.value_name"-->
-                                    <!--:value="item.value_no">-->
-                            <!--</el-option>-->
-                        <!--</el-select>-->
-                    <!--</el-form-item>-->
                     <el-form-item label="说明" class="clear-style">
-                        <el-input v-model="searchFormData.description" placeholder="集团主机号" size="mini" style="width: 140px"></el-input>
+                        <el-input v-model="searchFormData.description" placeholder="说明" size="mini" style="width: 140px"></el-input>
                     </el-form-item>
                 </div>
 
@@ -166,6 +156,7 @@
                             align: 'center',
                             fixed:'left',
                             width:'100',
+                            hidden:false,
                             unsortable: true,
                             render: (h, params) => {
                                 return h('div', [
@@ -175,7 +166,8 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            marginRight: '5px'
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none',
                                         },
                                         on: {
                                             click: () => {
@@ -204,7 +196,8 @@
                                         },
                                         style: {
                                             marginRight: '5px',
-                                            color:'red'
+                                            color:'red',
+                                            display:this.showdelete?'':'none',
                                         },
                                         on: {
                                             click: () => {
@@ -251,7 +244,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                         }]
                     },
@@ -278,7 +271,7 @@
                             "button": false,
                             "border": true,
                             "rules": [],
-                            'size':'mini',
+                            'size':'',
                             "options": channlManagerType
                         }]
                     },{
@@ -304,7 +297,7 @@
                             "button": false,
                             "border": true,
                             "rules": [],
-                            'size':'mini',
+                            'size':'',
                             "options": this.worksite_id
                         }]
                     },{
@@ -330,7 +323,7 @@
                             "button": false,
                             "border": true,
                             "rules": [],
-                            'size':'mini',
+                            'size':'',
                             "options": channlManager
                         }]
                     },
@@ -377,15 +370,20 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "textarea",
                         }]
                     },
                 ],
                 worksite_id:undefined,
+                hideAdd:false,
+                showEdit:false,
+                showdelete:false,
+                hideOptions:false,
             }
         },
         mounted() {
+            this.setAuthorityFn();
             this.getQuery();
             this.$refs['tabPane'].getTableData({},this)
         },
@@ -532,11 +530,34 @@
                     .then(axios.spread(function (ret) {
                         _this.worksite_id = ret.data;
                     }))
+            },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.equipmentManage_Channel == item.auth_id) {
+                            this.hideAdd= !common.showSubAdd(item.sub_auth)
+                            this.showEdit= common.showSubEdit(item.sub_auth)
+                            this.showdelete= common.showSubDel(item.sub_auth)
+                            if(this.showEdit==false&&this.showdelete==false){
+                                this.hideOptions= true
+                            }
+                            break;
+                        }
+                    }
+
+                }
+
             }
         },
         activated() {
         },
         watch: {
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[0].subs[0].hidden = val
+            },
             worksite_id:function (newVal,oldVal) {
                 this.tableitems[4].subs[0].options = newVal;
             }

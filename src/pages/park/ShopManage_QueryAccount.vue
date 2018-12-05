@@ -127,7 +127,7 @@
                         subs: [{
                             label: '商户编号',
                             prop: 'shop_id',
-                            width: '123',
+                            width: '112',
                             type: 'number',
                             editable: true,
                             searchable: false,

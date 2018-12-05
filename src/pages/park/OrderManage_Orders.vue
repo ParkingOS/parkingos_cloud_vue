@@ -36,7 +36,7 @@
                         <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px;"></i> 更多选项</el-button>
                     </el-form-item>
                     <el-form-item class="clear-style float-right">
-                        <el-button size="mini" @click="exportFn" native-type="button">导出</el-button>
+                        <el-button size="mini" @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>
                         <el-button size="mini" @click="resetForm" native-type="button">刷新</el-button>
                     </el-form-item>
                     <div class="second-search-item-style" v-show="isShow">
@@ -106,6 +106,8 @@
         data() {
             var that = this;
             return {
+                hideExport:true,
+                hideSearch:true,
                 isShow:false,
                 currentHeight:'500',
                 queryapi: '/order/query',
@@ -706,16 +708,27 @@
                     .then(axios.spread(function (ret) {
                         _this.collectors = ret.data;
                     }));
+            },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.orderManage_Orders == item.auth_id) {
+                            this.hideExport = !common.showSubExport(item.sub_auth);
+                            this.hideSearch = true;
+                            break;
+                        }
+                    }
+
+                }
             }
         },
         beforeMount(){
-            this.currentHeight = common.gwh() - 55 ;
+
         },
         mounted() {
-            this.currentHeight = common.gwh() - 55 ;
-            window.addEventListener('resize', () => {
-                this.currentHeight = common.gwh() - 55;
-            });
+            this.setAuthorityFn()
             this.initFn(this)
             this.getQuery()
             this.$refs['tabPane'].getTableData({},this)

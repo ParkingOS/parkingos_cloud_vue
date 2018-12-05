@@ -12,7 +12,7 @@
             <div class="console">
                 <div class="img-box"><img src="../assets/images/login-user.png"></div>
                 <div class="username">{{nickname}}:{{sysUserName}}</div>
-                <div class="outlogin" @click="logout">退出</div>
+                <div class="outlogin" @click="isoutloginVisible">退出</div>
             </div>
         </div>
 
@@ -35,19 +35,20 @@
                          @select="handleselect"
                          unique-opened
                          text-color="#fff"
-                         active-text-color="#74DBFF"
+                         active-text-color="#64C0FF"
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 
                     <el-submenu v-if="this.showParkItem.data_Center_park" index="/data">
                         <template slot="title">
-                            <i class="iconfont icon-shujuzhongxin"></i>
+                            <i class="menu-icon iconfont icon-shujuzhongxin"></i>
                             <span class="menuitem">数据中心</span></template>
                         <el-menu-item index="/data_Center_park" v-if="this.showParkItem.data_Center_park">数据中心
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.orderManage" index="/orderManage">
-                        <template slot="title"><i class="iconfont icon-yewudingdan"></i>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-dingdanguanli"></i>
                             <span class="menuitem">订单管理</span></template>
                         <el-menu-item index="/orderManage_Orders" v-if="this.showParkItem.orderManage_Orders">订单记录
                         </el-menu-item>
@@ -55,7 +56,8 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.monthMember" index="/monthMember">
-                        <template slot="title"><i class="iconfont icon-yueqiahuiyuan"></i>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-yueqiahuiyuan"></i>
                             <span class="menuitem">月卡会员</span></template>
                         <el-menu-item index="/monthMember_VIP" v-if="this.showParkItem.monthMember_VIP">月卡会员
                         </el-menu-item>
@@ -63,8 +65,9 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.vistorManage" index="/vistorManage">
-                        <template slot="title"><i class="iconfont icon-fangkeguanli"></i><span
-                                class="menuitem">访客管理</span></template>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-fangkeguanli"></i>
+                            <span class="menuitem">访客管理</span></template>
                         <el-menu-item index="/vistorManage_VistorMember" v-if="this.showParkItem.vistorManage_VistorMember">访客人员管理
                         </el-menu-item>
                         <el-menu-item index="/vistorManage_homeOwner" v-if="this.showParkItem.vistorManage_homeOwner">业主管理
@@ -80,7 +83,8 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.orderStatistics" index="/orderStatistics">
-                        <template slot="title"><i class="iconfont icon-tongjifenxi"></i>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-shujufenxi"></i>
                             <span class="menuitem">统计分析</span></template>
                         <el-menu-item index="/orderStatistics_CollectorReport"
                                   v-if="this.showParkItem.orderStatistics_CollectorReport">收费员日报
@@ -89,17 +93,16 @@
                         <el-menu-item index="/orderStatistics_DailyReport"
                                       v-if="this.showParkItem.orderStatistics_DailyReport">车场日报
                         </el-menu-item>
-                        <!--<el-menu-item index="/orderStatistics_Settlement"-->
-                        <!--v-if="this.showParkItem.orderStatistics_DailyReport">日报统计-->
-                        <!--</el-menu-item>-->
+
                         <el-menu-item index="/orderStatistics_MonthReport"
                                       v-if="this.showParkItem.orderStatistics_MonthReport">车场月报
                         </el-menu-item>
 
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.shopManage" index="/shopManage">
-                        <template slot="title"><i class="iconfont icon-shanghuguanli"></i><span
-                                class="menuitem">商户管理</span></template>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-shanghuguanli"></i>
+                            <span class="menuitem">商户管理</span></template>
                         <el-menu-item index="/shopManage_Shop" v-if="this.showParkItem.shopManage_Shop">商户管理
                         </el-menu-item>
                         <el-menu-item index="/shopManage_QueryAccount"
@@ -110,8 +113,10 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu index="/equipmentManage" v-if="this.showParkItem.equipmentManage">
-                        <template slot="title"><i class="iconfont icon-shebeiguanli"></i><span
-                                class="menuitem">设备管理</span></template>
+                        <template slot="title">
+
+                            <i class="menu-icon iconfont icon-shebeiguanli"></i>
+                            <span class="menuitem">设备管理</span></template>
                         <el-menu-item index="/equipmentManage_Monitor"
                                       v-if="this.showParkItem.equipmentManage_Monitor">
                             监控管理
@@ -136,8 +141,9 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.employeePermission" index="/employeePermission">
-                        <template slot="title"><i class="iconfont icon-yuangongguanli"></i><span
-                                class="menuitem">员工权限</span></template>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-yuangongguanli"></i>
+                            <span class="menuitem">员工权限</span></template>
                         <el-menu-item index="/employeePermission_Role"
                                       v-if="this.showParkItem.employeePermission_Role">
                             角色管理
@@ -148,7 +154,8 @@
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu index="/systemManage" v-if="this.showParkItem.systemManage">
-                        <template slot="title"><i class="iconfont icon-xitongshezhi1"></i>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-xitongguanli"></i>
                             <span class="menuitem">系统管理</span></template>
                         <el-menu-item index="/systemManage_BlackList"
                                       v-if="this.showParkItem.systemManage_BlackList">
@@ -183,16 +190,20 @@
                                       v-if="this.showParkItem.systemManage_MonthCard">
                             月卡套餐管理
                         </el-menu-item>
-                        <el-menu-item index="/systemManage_Logs" v-if="this.showParkItem.systemManage_Logs">系统日志
-                        </el-menu-item>
+                        <el-menu-item index="/systemManage_Logs" v-if="this.showParkItem.systemManage_Logs">系统日志</el-menu-item>
+
+                        <el-submenu index="/system_addedService" v-if="this.showParkItem.systemManage_AddedService">
+                            <template slot="title"><span class="menuitem" style="font-size: 14px;">增值服务</span>
+                            </template>
+                            <el-menu-item index="/SystemManage_AddedService_Sms" v-if="this.showParkItem.systemManage_AddedService_Sms">短信服务</el-menu-item>
+                        </el-submenu>
 
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.centerMonitor||this.showUnionItem.centerMonitor" index="centerMonitor"
                                 style="font-weight: normal;padding-bottom: 20px">
-                        <template slot="title"><i class="iconfont icon-zhongyangjiankong1"></i><span
-                                class="menuitem">中央监控</span></template>
-                        <!--<el-menu-item index="centerMonitor" v-if="this.showParkItem.centerMonitor">中央监控-->
-                        <!--</el-menu-item>-->
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-zhongyangjiankong"></i>
+                            <span class="menuitem">中央监控</span></template>
                         <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor||this.showUnionItem.centerMonitor">中央监控
                         </el-menu-item>
                     </el-submenu>
@@ -211,6 +222,24 @@
                         </transition>
                     <!--</el-col>-->
                 </div>
+                <!--退出提示-->
+                <el-dialog
+                        width="478px"
+                        :visible.sync="outloginVisible"
+                        :show-close="false"
+                        custom-class="custom-dialog deleteTip">
+
+                    <header class="dialog-header" slot="title">
+                        提示<i class="el-icon-close dialog-header-iconfont" @click="outloginVisible = false"></i>
+                    </header>
+                    <div class="dialog-body" style="height: 40px;line-height: 40px;text-align: center;font-size: 16px">
+                        <p>真的要退出吗?</p>
+                    </div>
+                    <footer slot="footer" class="dialog-footer">
+                        <el-button type="primary" class="dialog-footer-btn" @click="logout" >确 定</el-button>
+                        <el-button @click="outloginVisible = false" class="dialog-footer-btn" style="margin-left: 36px">取 消</el-button>
+                    </footer>
+                </el-dialog>
             </section>
         </el-col>
 
@@ -226,6 +255,7 @@
     export default {
         data() {
             return {
+                outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
                 active: '',
@@ -317,24 +347,20 @@
                 // console.log('>>>' + a.split('_')[0])
                 this.$router.push(a);
             },
+            isoutloginVisible(){
+                this.outloginVisible = true;
+            },
             //退出登录
             logout: function () {
                 var _this = this;
                 let user = sessionStorage.getItem('user');
                 let u = JSON.parse(user);
                 let logoutParams = {userid: u.userid, token: sessionStorage.getItem('token')};
-                this.$confirm('确认退出吗?', '提示', {
-                    //type: 'warning'
-                }).then(() => {
-                    //this.$post(path+"/user/dologout",logoutParams)
-                    sessionStorage.removeItem('user');
-                    sessionStorage.removeItem('token');
-                    localStorage.removeItem('comid');
-                    localStorage.removeItem('groupid');
-                    _this.$router.push('/login');
-                }).catch(() => {
-
-                });
+                sessionStorage.removeItem('user');
+                sessionStorage.removeItem('token');
+                localStorage.removeItem('comid');
+                localStorage.removeItem('groupid');
+                _this.$router.push('/login');
             },
 
         },
@@ -391,6 +417,16 @@
             window.addEventListener('resize', () => {
                 this.currentHeight =  (document.body.clientHeight - 45) + 'px'
             });
+        },
+        watch: {
+            $route: {
+                handler: function(val, oldVal){
+                    this.highlightindex = val.fullPath;
+                    sessionStorage.setItem('highlightindex',this.highlightindex)
+                },
+                // 深度观察监听
+                deep: true
+            }
         },
 
 

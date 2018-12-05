@@ -1,17 +1,21 @@
 <template>
     <div class="complexedit">
         <el-dialog
+                :width="dialogStyle.dialogWidth"
                 :visible.sync="editVisible"
                 custom-class="custom-dialog"
                 @close="onClose"
                 :show-close="false"
                 :close-on-click-modal="false">
             <header class="dialog-header" slot="title">
-                <span class="dialog-title-icon"></span>{{title}}
-                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="cancelEdit"></i>
+                {{title}}<i class="el-icon-close dialog-header-iconfont" @click="cancelEdit"></i>
             </header>
 
-            <el-form :model="value" label-width="200px" ref="editForm" class="dialog-form-width">
+            <el-form
+                    :model="value"
+                    :label-width="dialogStyle.dialogFormLableWidth"
+                    ref="editForm"
+                    :style="{width:dialogStyle.dialogFormWidth}" >
                 <el-input v-model="value.id" style="display:none"></el-input>
                 <template v-for="items in editFormConfig">
                     <dynamic-form-item
@@ -23,20 +27,13 @@
                             @input="handleInput($event, item.prop)"
                             :style="{'min-width':columnMinWidth}"></dynamic-form-item>
                 </template>
-                <!--<dynamic-form-item-->
-                        <!--v-for="item in editFormConfig.formItemList"-->
-                        <!--:key="item.key"-->
-                        <!--v-if="value[item.key]!==undefined"-->
-                        <!--:item="item"-->
-                        <!--:value="value[item.key]"-->
-                        <!--@input="handleInput($event, item.key)"-->
-                        <!--:style="{'min-width':columnMinWidth}"></dynamic-form-item>-->
                 <slot/>
             </el-form>
             <footer slot="footer" class="dialog-footer">
-                <el-button size="small" style="width: 90px;" @click="cancelEdit">取 消</el-button>
-                <el-button type="primary" size="small" style="width: 90px;margin-left: 60px" @click="editSubmit">确 定</el-button>
-
+                <!--<el-button size="small" style="width: 90px;" @click="cancelEdit">取 消</el-button>-->
+                <!--<el-button type="primary" size="small" style="width: 90px;margin-left: 60px" @click="editSubmit">确 定</el-button>-->
+                <el-button @click="cancelEdit" class="dialog-footer-btn">取 消</el-button>
+                <el-button type="primary" style="margin-left: 60px" @click="editSubmit" class="dialog-footer-btn">确 定</el-button>
             </footer>
         </el-dialog>
     </div>
@@ -74,6 +71,18 @@
             },
             title:{
                 type:String
+            },
+            dialogStyle:{
+                type:Object,
+                default:()=>{
+                    return {
+                        dialogWidth:'470px',
+                        dialogFormLableWidth:'100px',
+                        dialogFormWidth:''
+
+                    }
+
+                }
             }
         },
         methods:{

@@ -56,53 +56,15 @@
 
             <el-form-item class="clear-style-10">
                 <el-button type="primary" @click="searchFn" size="mini">搜索</el-button>
-                <!--<el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">-->
-                    <!--<el-button type="primary" @click="handleExport" v-if="!hideExport" size="mini">导出</el-button>-->
-                <!--</el-tooltip>-->
             </el-form-item>
               <el-form-item class="clear-style-10 float-right">
                   <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                    <el-button size="mini" @click="exportFn">导出</el-button>
+                    <el-button size="mini" @click="exportFn" v-if="hideExport">导出</el-button>
                   </el-tooltip>
                   <el-button size="mini" @click="resetForm">刷新</el-button>
               </el-form-item>
         </el-form>
         </div>
-
-            <!--<el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"-->
-                  <!--v-loading="loading" @sort-change="sortChange">-->
-            <!--&lt;!&ndash;子项折叠最终通过rowStyle实现。实际是项的显示/隐藏&ndash;&gt;-->
-            <!--<el-table-column v-for="(items, index) in tableitems" :key="items.subs[0].prop"-->
-                             <!--:label="items.subs[0].label" :align="items.subs[0].prop=='name'?'left':'center'"-->
-                             <!--min-width="50"-->
-                             <!--:width="items.subs[0].prop=='car_number'||items.subs[0].prop=='mobile'||items.subs[0].prop=='state'?130:200"-->
-                             <!--:sortable="!items.subs[0].unsortable">-->
-                <!--&lt;!&ndash;设置部分列宽度&ndash;&gt;-->
-                <!--<template scope="scope">-->
-
-                    <!--<span v-if="items.subs[0].prop=='create_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>-->
-                    <!--<span v-else-if="items.subs[0].prop=='limit_day'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>-->
-                    <!--<span v-else-if="items.subs[0].prop=='use_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>-->
-                    <!--<span v-else-if="items.subs[0].prop=='state'">{{stateformat(scope.row[items.subs[0].prop])}}</span>-->
-                    <!--<span v-else-if="items.subs[0].prop=='type'">{{typeformat(scope.row[items.subs[0].prop])}}</span>-->
-                    <!--<span v-else-if="items.subs[0].prop=='money'">{{moneyformat(scope.row)}}</span>-->
-                    <!--<span v-else-if="items.subs[0].prop=='umoney'">{{umoneyformat(scope.row)}}</span>-->
-                    <!--<span v-else>{{scope.row[items.subs[0].prop]}}</span>-->
-                    <!--&lt;!&ndash;不同列的表现形式、格式化&ndash;&gt;-->
-                <!--</template>-->
-
-            <!--</el-table-column>-->
-        <!--</el-table>-->
-
-         <!--&lt;!&ndash;工具条&ndash;&gt;-->
-        <!--<el-col :span="24" align="bottom" style="margin-top:5px;margin-bottom:5px">-->
-            <!--<el-col :span="24" align="right">-->
-                <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"-->
-                               <!--:current-page="currentPage" :page-sizes="[20, 40, 80]" :page-size="pageSize"-->
-                               <!--layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>-->
-            <!--</el-col>-->
-        <!--</el-col>-->
-
         <div class="table-wrapper-style">
             <tab-pane
                     :exportapi="exportapi"
@@ -495,192 +457,24 @@
                 * */
                 this.$refs['tabPane'].handleExport()
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.shopManage_Coupon == item.auth_id) {
+                            this.hideExport = common.showSubExport(item.sub_auth)
+                            break;
+                        }
+                    }
+
+                }
+
+            }
              ////////////////////////////////////////////////////////////////////////////////
-            //  search:function () {
-            //     this.sform = {};
-            //     if(this.formItem.car_number != ""){
-            //         this.sform.car_number = this.formItem.car_number;
-            //     }
-            //     if(this.formItem.state != ""){
-            //         this.sform.state = this.formItem.state;
-            //         this.sform.state_start = this.formItem.state;
-            //     }
-            //     if(this.formItem.datesselector != ""){
-            //          this.createtime_start = (new Date(this.formItem.datesselector[0].replace(new RegExp(/-/gm) ,"/"))).getTime();
-            //          this.createtime_end = (new Date(this.formItem.datesselector[1].replace(new RegExp(/-/gm) ,"/"))).getTime();
-            //
-            //          this.sform.create_time = this.createtime;
-            //          this.sform.create_time_start = this.createtime_start;
-            //          this.sform.create_time_end = this.createtime_end;
-            //     }
-            //     if(this.formItem.shop != ""){
-            //         this.sform.shop_id = this.formItem.shop;
-            //         this.sform.shop_id_start = this.formItem.shop;
-            //     }
-            //     this.getTableData(this.sform)
-            // },
-            //分页变动
-            // handleSizeChange(val) {
-            //     this.pageSize = val;
-            //     this.getTableData(this.sform);
-            // },
-            // handleCurrentChange(val) {
-            //     this.currentPage = val;
-            //     console.log('page change')
-            //     this.sform.date = this.searchDate
-            //     this.getTableData(this.sform);
-            // },
-            //排序变动
-            // sortChange(val) {
-            //     if (val.order != null && val.order.substring(0, 1) == "a") {
-            //         this.orderby = "asc";
-            //     } else {
-            //         this.orderby = "desc";
-            //     }
-            //     this.orderfield = val.prop;
-            //     console.log('sort change')
-            //     this.getTableData(this.sform);
-            // },
-             //拉取表格数据
-            // getTableData(sform1) {
-            //     let vm = this;
-            //     this.loading = false;
-            //     let api = this.queryapi;
-            //     sform1.rp = this.pageSize;
-            //     sform1.page = this.currentPage;
-            //     sform1.orderby = this.orderby;
-            //     sform1.orderfield = this.orderfield;
-            //     sform1.fieldsstr = this.fieldsstr;
-            //     this.sform = common.generateForm(sform1);
-            //     //保证5秒后把loading干掉
-            //     setTimeout(() => {
-            //         vm.loading = false;
-            //     }, 5000);
-            //     vm.$axios.post(path + api, vm.$qs.stringify(this.sform), {
-            //         headers: {
-            //             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            //         }
-            //     }).then(function (response) {
-            //         vm.loading = false;
-            //         // console.log('resset loading!!!!!');
-            //         let ret = response.data;
-            //         if (ret.validate != 'undefined' && ret.validate == '0') {
-            //             vm.loading = false;
-            //             //未携带令牌.重新登录
-            //             setTimeout(() => {
-            //                 vm.alertInfo('未携带令牌,请重新登录!');
-            //             }, 150);
-            //         } else if (ret.validate != 'undefined' && ret.validate == '1') {
-            //             vm.loading = false;
-            //             //过期.重新登录
-            //             setTimeout(() => {
-            //                 vm.alertInfo('登录过期,请重新登录!');
-            //             }, 150);
-            //         } else if (ret.validate != 'undefined' && ret.validate == '2') {
-            //             vm.loading = false;
-            //             //令牌无效.重新登录
-            //             setTimeout(() => {
-            //                 vm.alertInfo('登录异常,请重新登录!');
-            //             }, 150);
-            //         } else {
-            //             //  console.log('这是查询出来的结果'+ret);
-            //             if (ret.total == 0) {
-            //                 vm.table = [];
-            //             } else {
-            //                 vm.table = ret.rows;
-            //             }
-            //             if (ret.actReceivable != undefined) {
-            //                 //月卡续费记录实收
-            //                 vm.actualpay = ret.actReceivable + '元';
-            //             }
-            //             if (ret.amountReceivable != undefined) {
-            //                 //月卡续费记录应收
-            //                 vm.shouldpay = ret.amountReceivable + '元';
-            //             }
-            //             if (ret.blank != undefined) {
-            //                 //订单记录 车位统计-空车位
-            //                 vm.parkspace_blank = ret.blank;
-            //             }
-            //             if (ret.parktotal != undefined) {
-            //                 //订单记录 车位统计-场内停车
-            //                 vm.parkspace_park = ret.parktotal;
-            //             }
-            //             if (ret.cashpay != undefined) {
-            //                 //集团 业务订单-订单记录-现金支付
-            //                 vm.cashpay = ret.cashpay + '元';
-            //             }
-            //             if (ret.elepay != undefined) {
-            //                 //集团 业务订单-订单记录-手机支付
-            //                 vm.elepay = ret.elepay + '元';
-            //             }
-            //             if (ret.sumtotal != undefined) {
-            //                 //集团 业务订单-订单记录-订单总金额
-            //                 vm.sumtotal = ret.sumtotal + '元';
-            //             }
-            //
-            //             vm.total = ret.total;
-            //
-            //             vm.loading = false;
-            //         }
-            //         //  console.log("get table 55555:",vm.$refs['search'].searchForm);
-            //     }).catch(function (error) {
-            //         vm.loading = false;
-            //         setTimeout(() => {
-            //             vm.alertInfo('请求失败!' + error);
-            //         }, 150);
-            //     });
-            //
-            // },
-            //导出表格数据
-            // handleExport() {
-            //     let vm = this;
-            //     let api = this.exportapi;
-            //     let params = '';
-            //     if (common.getLength(this.sform) == 0) {
-            //         params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
-            //     } else {
-            //         for (var x in this.sform) {
-            //             if(x=='car_number'||x=='nickname1'){
-            //                 params += x + '=' + encodeURI(encodeURI(this.sform[x])) + '&';
-            //             }else{
-            //                 params += x + '=' + this.sform[x] + '&';
-            //             }
-            //         }
-            //     }
-            //     let groupid = sessionStorage.getItem('groupid');
-            //     let cityid = sessionStorage.getItem('cityid');
-            //     if (groupid != 'undefined' && !(params.indexOf('groupid=') > -1)) {
-            //         params += '&groupid=' + groupid;
-            //     }
-            //     if (cityid != 'undefined' && !(params.indexOf('cityid=') > -1)) {
-            //         params += '&cityid=' + cityid;
-            //     }
-            //     // params += '&groupid=' + groupid + '&cityid=' + cityid
-            //     if (params.indexOf('comid=') > -1) {
-            //         window.open(path + api + '?' + params);
-            //     } else {
-            //         window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
-            //     }
-            //
-            // },
-            // alertInfo(msg) {
-            //     this.$alert(msg, '提示', {
-            //         confirmButtonText: '确定',
-            //         type: 'warning',
-            //         callback: action => {
-            //             sessionStorage.removeItem('user');
-            //             sessionStorage.removeItem('token');
-            //             localStorage.removeItem('comid');
-            //             localStorage.removeItem('groupid');
-            //             if(this.$router){
-            //                 this.$router.push('/login');
-            //             }
-            //
-            //         }
-            //     });
-            // },
         },
         mounted() {
+            this.setAuthorityFn();
             this.initFn(this);
             this.getQuery();
             this.$refs['tabPane'].getTableData({},this);

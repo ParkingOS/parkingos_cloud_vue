@@ -21,7 +21,7 @@
                      </div>
                      <div class="console-main">
                          <el-form-item>
-                             <el-select v-model="searchFormData.time_type" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
+                             <el-select v-model="searchFormData.time_type" @change="setTimeChange" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
                                  <el-option label="创建时间" value="1"></el-option>
                                  <el-option label="开始时间" value="2"></el-option>
                                  <el-option label="结束时间" value="3"></el-option>
@@ -47,13 +47,12 @@
                              <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
                              <el-button type="text"
                                         @click="changeMore"
-                                        icon="el-icon-circle-plus-outline"
-                                        style="color:#3C75CF;font-size: 16px;">高级搜索</el-button>
+                                        style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
                          </el-form-item>
                          <div class="float-right">
                              <el-form-item class="shop-clear-style">
-                                 <el-button type="primary" icon="el-icon-plus" style="padding: 12px 10px" @click="addFixedCode">添加固定码</el-button>
-                                 <el-button type="primary" icon="el-icon-setting" style="padding: 12px 10px" @click="setPublic">公众号设置</el-button>
+                                 <el-button type="primary" icon="el-icon-plus" style="padding: 12px 10px" @click="addFixedCode" v-if="showCustomizeAdd">添加固定码</el-button>
+                                 <el-button type="primary" icon="el-icon-setting" style="padding: 12px 10px" @click="setPublic" v-if="showPublic">公众号设置</el-button>
                              </el-form-item>
                          </div>
                      </div>
@@ -61,6 +60,7 @@
                  </el-form>
              </div>
         </div>
+
         <!--table-->
         <div class="table-wrapper-style">
             <tab-pane
@@ -82,8 +82,8 @@
                 添加固定码
             </header>
             <el-steps :active="activeIndex" simple style="padding: 18px 20%;">
-                <el-step title="Step 1" ></el-step>
-                <el-step title="Step 2" ></el-step>
+                <el-step title="步骤 1" icon="iconfont icon-icon-test1"></el-step>
+                <el-step title="步骤 2" icon="iconfont icon-icon-test"></el-step>
             </el-steps>
             <el-form ref="addFormPark" label-width="80px" :model="addFormPark" :rules="addFormRules" class="custom-form-style fiexd-code-form">
                 <div v-show="activeIndex == 1">
@@ -118,8 +118,26 @@
                     <el-form-item label="有效期" prop="end_time">
                         <el-date-picker type="datetime" placeholder="选择日期时间" v-model="addFormPark.end_time" style="width: 292px"></el-date-picker>
                     </el-form-item>
+                    <el-form-item label="可用时段">
+                        <el-time-picker
+                                style="width: 292px"
+                                is-range
+                                arrow-control
+                                v-model="addFormPark.time_inuse"
+                                :picker-options="{
+                                  format:'HH:mm'
+                                }"
+                                format="HH:mm"
+                                value-format="HH:mm"
+                                range-separator="至"
+                                start-placeholder="开始时间"
+                                end-placeholder="结束时间"
+                                placeholder="选择时间范围"
+                                >
+                        </el-time-picker>
+                    </el-form-item>
                     <el-form-item label="状态" >
-                        <el-select v-model="state" style="width: 292px">
+                        <el-select v-model="addFormPark.state" style="width: 292px">
                             <el-option
                                     v-for="item in stateList"
                                     :label="item.value_name"
@@ -186,7 +204,7 @@
                      class="custom-form-style fiexd-code-form2"
                      :model="pwdFormModel"
                      :rules="pwdFormRules">
-                <el-form-item label="状态"  v-show="availableState">
+                <el-form-item label="状态" >
                     <el-select v-model="pwdFormModel.public_state" style="width:250px">
                         <el-option
                                 v-for="item in stateList"
@@ -197,7 +215,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="密码管理" >
+                <el-form-item label="密码管理" v-show="pwdFormModel.public_state == 0">
                     <el-select v-model="pwd_state" style="width:250px">
                         <el-option
                                 v-for="item in setList"
@@ -208,8 +226,8 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="密码"  :prop="password" v-if="showPwdSet">
-                    <el-input v-model="pwdFormModel.password" style="width:250px" placeholder=""></el-input>
+                <el-form-item label="密码" v-if="pwdFormModel.public_state == 0 && showPwdSet">
+                    <el-input v-model.trim="pwdFormModel.password" style="width:250px" placeholder=""></el-input>
                 </el-form-item>
                 <div style="text-align: center">
                     <el-button type="primary" style="width: 144px" @click="addPwd" :loading="addloading">确定</el-button>
@@ -274,11 +292,14 @@
                     end_time:'',
                     amount_limit:'',
                     free_limit:'',
-                    state:'',
+                    state:0,
+                    time_inuse:'',
                 },
                 addFormVisible:false,
                 available:require('../../assets/images/shop/state-available.png'),
                 unavailable:require('../../assets/images/shop/state-unavailable.png'),
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
                 searchForm:{},
                 isShow:false,
                 searchFormData:{
@@ -290,11 +311,21 @@
                 },
                 tableitems: [
                     {
+                        hasSubs: false,
+                        subs: [{
+                            label: '',
+                            nameType:'fixCode',
+                            columnType:'expand',
+                            align: 'center',
+                            width:'50',
+                        }]
+                    },
+                    {
                         hasSubs: false, subs: [
                             {
                                 label: '名称',
                                 prop: 'name',
-                                width: '200',
+                                width: '150',
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
@@ -414,7 +445,7 @@
                                         str = '不可用';className = 'el-icon-circle-close';colors = 'rgba(245,109,109,1)';
                                         break;
                                     default:
-                                        str = '过期';className = 'el-icon-circle-close';colors = 'rgba(245,109,109,1)';
+                                        str = '过期';className = 'el-icon-circle-close';colors = 'rgba(140,140,140,1)';
                                 }
                                 return h('div', [
                                     h('i',{
@@ -467,36 +498,44 @@
                             label: '操作',
                             width: '78',
                             type: 'date',
+                            hidden:false,
                             unsortable: true,
                             align: 'center',
                             columnType:'render',
                             render: (h, params) => {
+                                let state = params.row.state;let off = false;
+                                if(state != 0 && state != 1){
+                                    off = true;
+                                }else{
+                                    off = false;
+                                }
                                 return h('div', [
                                     h('ElButton', {
                                         props: {
                                             type: 'text',
-                                            size: 'small'
+                                            size: 'small',
+                                            disabled:off
                                         },
                                         style: {
-                                            color:'rgba(51,121,233,1)',
+                                            color:off?'': 'rgba(51,121,233,1)',
+                                            display:this.showEdit?'':'none'
                                         },
                                         on: {
                                             click: () => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                // console.log('---',params.row.state)
-                                                if(params.row.state == 0){
-                                                    this.availableState = true;
-                                                }else{
-                                                    this.availableState = false;
-                                                }
                                                 this.pwd_state = params.row.use_pwd+'';
-                                                this.pwdFormModel.password = params.row.pass_word;
+                                                if(params.row.pass_word == undefined ||params.row.pass_word == null){
+                                                    this.pwdFormModel.password = '';
+                                                }else{
+                                                    this.pwdFormModel.password = params.row.pass_word;
+                                                }
+
                                                 this.pwdFormModel.id = params.row.id;
                                                 this.pwdFormModel.public_state = params.row.state;
                                                 this.showOperation = true;
                                             }
                                         }
-                                    }, '详情')
+                                    }, '编辑')
                                 ]);
                             }
                         }]
@@ -569,7 +608,7 @@
                 addapi:'/fixcode/add',
                 editapi:'/fixcode/edit',
                 publicapi:'/fixcode/public',
-                pwdapi:'/fixcode/setpwd',
+                pwdapi:'/fixcode/editAndPwd',
                 btswidth: '160',
                 href:'https://www.baidu.com/s?wd=node-pre-gyp+install+--fallback-to-build&ie=UTF-8&tn=39042058_20_oem_dg',
                 fieldsstr: 'id__park_id__operate_time__ticketfree_limit__ticket_limit__ticket_money__operate_type__add_money__state__create_time__name',
@@ -588,7 +627,7 @@
                         {required: true, message: '请输入固定码名称', trigger: 'blur'}
                     ],
                     amount_limit: [
-                        {required: true, message: '请输入总额度', trigger: 'blur'}
+                        {required: true, message: '请输入单张额度', trigger: 'blur'}
                     ],
                     free_limit:[
                       {required: true, message: '请输入总张数', trigger: 'blur'}
@@ -621,6 +660,9 @@
             }
         },
         methods:{
+            setTimeChange(val){
+
+            },
             copyLink() {
                 let _this = this;
                 this.$copyText(this.qrurl).then(function (e) {
@@ -661,8 +703,17 @@
                 let _this = this;
                 this.$refs.pwdForm.validate((valid) => {
                     if (valid) {
+                        if((_this.pwd_state == 1) && ((this.pwdFormModel.password == '' || isNaN(this.pwdFormModel.password)) || this.pwdFormModel.password.length != 4)){
+                            _this.$message({
+                                message: '请输入密码（四位数字）',
+                                type: 'error',
+                                duration: 3000
+                            });
+                            return;
+                        }
                         _this.addloading = true;
                         let aform = _this.generateForm(_this.pwdFormModel);
+                        aform.state = _this.pwdFormModel.public_state;
                         aform.pwd_state=_this.pwd_state;
                         aform.password=_this.pwdFormModel.password;
                         aform.id=_this.pwdFormModel.id;
@@ -757,6 +808,7 @@
             },
             closeFn(){
                 this.$refs['addFormPark'].clearValidate()
+                this.activeIndex = 1;
             },
             closeFn1(){
                 this.$refs['publicForm'].clearValidate()
@@ -777,6 +829,7 @@
                         let aform = _this.addFormPark;
                         aform.loginuin = common.attachParams('loginuin', 1);
                         aform.shopid = common.attachParams('shopid', 1);
+                        aform.type = this.reducetype;
                         _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -848,7 +901,8 @@
                 /*
                 * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
                 * */
-                let sform = this.searchFormData;
+                let sform = {};
+                sform = JSON.parse(JSON.stringify( this.searchFormData )) ;
                 sform.state_start = sform.state;
                 if(sform.currentData != null){
                     if(sform.time_type == '1'){
@@ -909,8 +963,26 @@
                 sform.state = this.state;
                 return sform;
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID_SHOP.fixCode == item.auth_id) {
+                            this.showEdit = common.showSubEdit(item.sub_auth);
+                            this.showPublic=common.showPublic(item.sub_auth);
+                            this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
+                            if(!this.showEdit){
+                                this.hideOptions=true
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         },
         mounted() {
+            this.setAuthorityFn();
             this.getShopAccountInfo()
             this.$refs['tabPane'].getTableData({},this);
         },
@@ -918,6 +990,10 @@
 
         },
         watch: {
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[len -1].subs[0].hidden = val
+            },
             reducetype : function (val) {
                 if(val==1){//时长减免
 
@@ -971,8 +1047,10 @@
     .fixed-code-btn{
         position: absolute;
         bottom: -25px;
+        left: 0;
+        right: 0;
         display: block;
-        width: 448px;
+        margin: 0 auto;
         text-align: center;
     }
     .fixes-code__tip{

@@ -244,7 +244,7 @@
                             "rules": [
                                 {required: true, message: '请输入业主姓名', trigger: 'blur'}
                             ],
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                         }]
                     }, {
@@ -262,7 +262,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
 
                         }]
@@ -281,7 +281,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                             "rules": [
                                 {required: true, message: '手机号不能为空', trigger: 'blur'}
@@ -304,7 +304,7 @@
                            "disable": false,
                            "readonly": false,
                            "value": "",
-                           'size':'mini',
+                           'size':'',
                            "subtype": "text",
 
                        }]
@@ -334,7 +334,7 @@
                               "button": false,
                               "border": true,
                               "rules": [],
-                              'size':'mini',
+                              'size':'',
                               "options": [
                                   {
                                       "value_no": "0",
@@ -363,7 +363,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "textarea",
                             'rows':'2'
                         }]
@@ -927,7 +927,8 @@
             },
         },
         mounted() {
-            this.$refs['tabPane'].getTableData({},this);
+            this.initFn(this);
+            // this.$refs['tabPane'].getTableData({},this);
         },
         beforeMount(){
 

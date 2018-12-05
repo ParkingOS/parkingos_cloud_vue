@@ -3,7 +3,7 @@
         <header class="custom-header">
             系统管理-时租价格管理
             <div class="float-right">
-                <el-button @click="handleAdd" type="primary" size="mini" >添加价格</el-button>
+                <el-button @click="handleAdd" type="primary" size="mini" v-if="hideAdd">添加价格</el-button>
                 <el-button size="mini" @click="resetForm">刷新</el-button>
             </div>
         </header>
@@ -46,9 +46,6 @@
                 <el-form-item class="clear-style">
                     <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
                 </el-form-item>
-                <!--<el-form-item class="clear-style-4 float-right">-->
-                    <!--<el-button size="mini" @click="resetForm">刷新</el-button>-->
-                <!--</el-form-item>-->
             </el-form>
         </div>
         <div class="table-wrapper-style">
@@ -141,6 +138,7 @@
                         columnType:'render',
                         align: 'center',
                         width:'100',
+                        hidden:false,
                         unsortable: true,
                         render: (h, params) => {
                             return h('div', [
@@ -150,7 +148,8 @@
                                         size: 'small'
                                     },
                                     style: {
-                                        marginRight: '5px'
+                                        marginRight: '5px',
+                                        display:this.showEdit?'':'none',
                                     },
                                     on: {
                                         click: () => {
@@ -167,7 +166,8 @@
                                     },
                                     style: {
                                         marginRight: '5px',
-                                        color:'red'
+                                        color:'red',
+                                        display:this.showdelete?'':'none',
                                     },
                                     on: {
                                         click: () => {
@@ -263,7 +263,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                             "rules": [
                                 {required: true, message: '请输入车辆类型', trigger: 'blur'}
@@ -284,7 +284,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "textarea",
                             "rules": [
                                 {required: true, message: '请输入价格描述', trigger: 'blur'}
@@ -302,11 +302,13 @@
                     describe: [
                         {required: true, message: '请输入价格描述', trigger: 'blur'}
                     ],
-                }
+                },
+                hideAdd:false,
+                hideExport:false,
+                showEdit:false,
+                showdelete:false,
+                hideOptions:false,
             }
-        },
-        mounted() {
-            this.$refs['tabPane'].getTableData({},this)
         },
         methods:{
             searchFn() {
@@ -402,9 +404,38 @@
             cancelDel(){
                 this.delForm.delVisible = false;
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.systemManage_Price == item.auth_id) {
+                            this.hideAdd = common.showSubAdd(item.sub_auth)
+                            this.hideExport = common.showSubExport(item.sub_auth)
+                            this.showEdit = common.showSubEdit(item.sub_auth)
+                            this.showdelete = common.showSubDel(item.sub_auth)
+                            if(!this.showEdit&&!this.showdelete){
+                                this.hideOptions = true;
+                            }
+                            break;
+                        }
+                    }
+
+                }
+            }
+        },
+        mounted() {
+            this.setAuthorityFn();
+            this.$refs['tabPane'].getTableData({},this)
         },
         activated() {
 
+        },
+        watch: {
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[0].subs[0].hidden = val
+            },
         }
     }
 

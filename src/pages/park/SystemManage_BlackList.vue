@@ -3,7 +3,7 @@
         <header class="custom-header">
             系统管理-黑名单管理
             <div class="float-right">
-                <el-button @click="handleAdd" type="primary" size="mini" >添加黑名单</el-button>
+                <el-button @click="handleAdd" type="primary" size="mini" v-if="hideAdd">添加黑名单</el-button>
                 <el-button size="mini" @click="resetForm">刷新</el-button>
             </div>
         </header>
@@ -75,6 +75,7 @@
                         columnType:'render',
                         align: 'center',
                         width:'100',
+                        hidden:false,
                         unsortable: true,
                         render: (h, params) => {
                             return h('div', [
@@ -84,7 +85,8 @@
                                         size: 'small'
                                     },
                                     style: {
-                                        marginRight: '5px'
+                                        marginRight: '5px',
+                                        display:this.showEdit?'':'none'
                                     },
                                     on: {
                                         click: () => {
@@ -102,7 +104,8 @@
                                     },
                                     style: {
                                         marginRight: '5px',
-                                        color:'red'
+                                        color:'red',
+                                        display:this.showdelete?'':'none'
                                     },
                                     on: {
                                         click: () => {
@@ -150,7 +153,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                                 "rules": [
                                     {required: true, message: '请输入车牌号', trigger: 'blur'}
@@ -182,7 +185,7 @@
                         subs: [{
                             label: '修改时间',
                             prop: 'utime',
-                            width: '180',
+                            width: '167',
                             type: 'date',
                             searchable: true,
                             unsortable: true,
@@ -220,7 +223,7 @@
                             "rules": [
                                 {required: true, message: '请选择角色', trigger: 'blur'}
                             ],
-                            'size':'mini',
+                            'size':'',
                             "options": blackStateType,
                         }]
                     },{
@@ -239,7 +242,7 @@
                             "disable": false,
                             "readonly": true,
                             "value": '',
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                         }]
                     }, {
@@ -258,7 +261,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "textarea",
                         }]
                     },
@@ -274,7 +277,11 @@
                     operator: [
                         {required: true, message: '请输入操作人', trigger: 'blur'}
                     ],
-                }
+                },
+                hideAdd:false,
+                showEdit:false,
+                showdelete:false,
+                hideOptions:false,
             }
         },
         methods:{
@@ -300,12 +307,37 @@
                 that.searchFormData.count = that.searchFormData.count++;
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.systemManage_BlackList == item.auth_id) {
+                            this.hideAdd = common.showSubAdd(item.sub_auth)
+                            this.showEdit = common.showSubEdit(item.sub_auth)
+                            this.showdelete = common.showSubDel(item.sub_auth)
+                            if(!this.showEdit&&!this.showdelete){
+                                this.hideOptions = true;
+                            }
+                            break;
+                        }
+                    }
+
+                }
+            }
         },
         mounted() {
+            this.setAuthorityFn();
             this.$refs['tabPane'].getTableData({},this)
         },
         activated() {
 
+        },
+        watch: {
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[0].subs[0].hidden = val
+            },
         }
     }
 

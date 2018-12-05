@@ -34,7 +34,7 @@
                     <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
                 </el-form-item>
                 <el-form-item class="clear-style float-right">
-                    <el-button size="mini" @click="exportFn">导出</el-button>
+                    <el-button size="mini" @click="exportFn" v-if="!hideExport">导出</el-button>
                     <el-button size="mini" @click="resetForm">刷新</el-button>
                 </el-form-item>
                 <div class="second-search-item-style" v-show="isShow">
@@ -73,7 +73,7 @@
             ></tab-pane>
         </div>
         <el-dialog :visible.sync="imgDialog" custom-class="custom-dialog-ordermanage">
-            <i class="iconfont icon-guanbi dialog-header-iconfont" @click="imgDialog = false"></i>
+            <i class="el-icon-close dialog-header-iconfont" @click="imgDialog = false"></i>
             <img v-bind:src="imgdialog_url" style="display: inline-block;width: 100%;height: 100%;"/>
         </el-dialog>
     </section>
@@ -95,6 +95,7 @@
         },
         data() {
             return {
+                hideExport:true,
                 imgDialog:false,
                 imgdialog_url:'',
                 orderfield:'id',
@@ -350,16 +351,27 @@
                         })
                         _this.reasons = reason.data;
                     }))
+            },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.orderManage_Poles == item.auth_id) {
+                            this.hideExport = !common.showSubExport(item.sub_auth);
+                            this.hideSearch = true;
+                            break;
+                        }
+                    }
+
+                }
             }
         },
         beforeMount(){
-            this.currentHeight = common.gwh() - 55 ;
+
         },
         mounted() {
-            this.currentHeight = common.gwh() - 55 ;
-            window.addEventListener('resize', () => {
-                this.currentHeight = common.gwh() - 55;
-            });
+            this.setAuthorityFn(this);
             this.initFn(this)
             this.getQuery()
             this.$refs['tabPane'].getTableData({},this)

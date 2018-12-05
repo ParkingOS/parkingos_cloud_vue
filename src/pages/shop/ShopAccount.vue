@@ -1,19 +1,30 @@
 <template>
   <section class="right-wrapper-size">
-      <header class="shop-custom-header">
-          <p>商户管理<span style="margin: 2px">-</span>商户管理</p>
-      </header>
-      <div class="shop-info"
-           :style="{'background': 'url('+shopBgImg+') no-repeat,#fff',
+      <header class="shop-account-header" :style="{'background': 'url('+shopBgImg+') no-repeat,#fff',
            'background-size': '234px 100px',
            'background-position':'95% center'
            }">
-        <div class="shop-info-title"><span class="shop-info-title-icon"></span>商户信息</div>
+          <p class="shop-header-title">商户管理<span style="margin: 2px">-</span>商户管理</p>
           <div class="shop-info-content">
               <p class="shop-name"><label>商户名称:</label>{{accountModify.name}}</p>
               <p class="shop-address"><label>商户地址:</label>{{accountModify.address}}</p>
           </div>
-      </div>
+
+      </header>
+
+
+
+      <!--<div class="shop-info"-->
+           <!--:style="{'background': 'url('+shopBgImg+') no-repeat,#fff',-->
+           <!--'background-size': '234px 100px',-->
+           <!--'background-position':'95% center'-->
+           <!--}">-->
+        <!--<div class="shop-info-title"><span class="shop-info-title-icon"></span>商户信息</div>-->
+          <!--<div class="shop-info-content">-->
+              <!--<p class="shop-name"><label>商户名称:</label>{{accountModify.name}}</p>-->
+              <!--<p class="shop-address"><label>商户地址:</label>{{accountModify.address}}</p>-->
+          <!--</div>-->
+      <!--</div>-->
       <div class="shop-coupon-info">
           <div class="shop-info-item">
               <CarReduce
@@ -24,6 +35,7 @@
           </div>
           <div class="shop-info-item shop-info__margin">
               <FreeCarReduce
+                      :disable="disable"
                       :reductionList="reductionList"
                       ticketUnit="张"
                       :ticketLimit="ticketfree_limit"
@@ -48,12 +60,14 @@ import common from '../../common/js/common'
 import CarReduce from './CarReduce'
 import FreeCarReduce from './FreeCarReduce'
 
+
 export default {
   components:{
       CarReduce,FreeCarReduce
   },
   data(){
     return{
+        disable:false,
         ticketfree_limit:'获取中...',
         ticketLimit:'获取中...',
         ticketUnit:'元',
@@ -194,6 +208,11 @@ export default {
                 vm.accountModify.address=ret.address
                 vm.reductionList = ret.default_limit.split(',')
                 vm.ticketfree_limit=ret.ticketfree_limit+''
+
+                if(ret.support_type==0){
+                    vm.disable=true
+                }
+
                 //----------------------------------------------------------
 
             });
@@ -215,15 +234,54 @@ export default {
 </script>
 
 <style lang="scss">
+    .shop-account-header{
+        padding: 10px 20px;
+        background: #fff;
+        margin-bottom: 20px;
+        font-size: 18px;
+        color: #363636;
+        .shop-header-title{
+            margin-bottom: 15px;
+            padding: 0;
+            position: relative;
+            font-size: 18px;
+            font-weight: bold;
+            color: #363636;
+            .shop-info-title-icon{
+                position: absolute;
+                left: -16px;
+                top:2px;
+                display: inline-block;
+                width: 2px;
+                height: 20px;
+                background: #576FDA;
+            }
+        }
+        .shop-info-content {
+            p {
+                font-size: 16px;
+                color: #363636;
+                label {
+                    margin-right: 5px;
+                }
+            }
+            p.shop-name {
+                margin-bottom: 10px;
+            }
+            p.shop-address {
+                padding-bottom: 10px;
+            }
+        }
+    }
     //商户端公用样式
     .shop-info{
-        padding: 15px 28px;
-        margin: 20px;
+        padding: 12px 28px 8px 28px;
+        margin:12px 20px 10px 20px;
         background: #FFFFFF;
         box-shadow: 0 5px 8px 0 rgba(0,0,0,0.03);
         border-radius: 2px;
         .shop-info-title{
-            margin-bottom: 23px;
+            margin-bottom: 10px;
             padding: 0;
                 position: relative;
                 font-size: 18px;
@@ -248,7 +306,7 @@ export default {
             }
         }
             p.shop-name{
-                margin-bottom: 18px;
+                margin-bottom: 10px;
         }
             p.shop-address{
                 padding-bottom: 10px;
@@ -291,6 +349,7 @@ export default {
                 .item-content__scancode{
                     position: relative;
                     top:0;
+                    overflow: hidden;
                     width: 370px;
                     height: 278px;
                     background: rgba(216,216,216,0.07);
@@ -303,8 +362,7 @@ export default {
                     .scancode-btn{
                         position: absolute;
                         width: 100%;
-                        bottom: 53px;
-                        /*margin-top: 39px;*/
+                        bottom: 28px;
                         text-align: center;
                     }
                     .scancode-btn2{

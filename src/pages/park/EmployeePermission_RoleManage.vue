@@ -1,7 +1,7 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
         <header class="custom-header">
-            员工权限-角色管理 <div class="float-right"><el-button @click="handleAdd" type="primary" size="mini" >添加角色</el-button>
+            员工权限-角色管理 <div class="float-right"><el-button @click="handleAdd" type="primary" size="mini" v-if="hideAdd">添加角色</el-button>
             <el-button size="mini" @click="resetForm">刷新</el-button></div>
         </header>
 
@@ -38,80 +38,47 @@
                 v-on:edit="onEdit"
                 v-on:cancelEdit="cancelEdit"
                 :editVisible="editFormVisible"></custom-edit-form>
-        <!--<common-table-->
-                <!--:queryapi="queryapi"-->
-                <!--:addapi="addapi"-->
-                <!--:tableheight="tableheight"-->
-                <!--:fieldsstr="fieldsstr"-->
-                <!--:tableitems="tableitems"-->
-                <!--:btswidth="btswidth"-->
-                <!--:hide-export="hideExport"-->
-                <!--:hide-options="hideOptions"-->
-                <!--:searchtitle="searchtitle"-->
-                <!--:hideTool="hideTool"-->
-                <!--:hideSearch="hideSearch"-->
-                <!--:hideAdd="hideAdd"-->
-                <!--:showEdit="showEdit"-->
-                <!--:orderfield="orderfield"-->
-                <!--:showdelete="showdelete"-->
-                <!--:showPermission="showPermission"-->
-                <!--:addtitle="addtitle"-->
-                <!--:delapi="delapi"-->
-                <!--:editapi="editapi"-->
-                <!--:addFormRules="addFormRules"-->
-                <!--:editFormRules="editFormRules"-->
-                <!--v-on:showRolePermission="showRolePermission"-->
-                <!--ref="bolinkuniontable"-->
-        <!--&gt;</common-table>-->
-        <!--<el-dialog title="权限设置" :visible.sync="isShowPermission" style="overflow: scroll" width="50%">-->
         <el-dialog
+                    width="650px"
                    :visible.sync="isShowPermission"
-                   custom-class="custom-dialog"
-                   width="800px"
+                    custom-class="custom-dialog"
                    :show-close="false"
                    :close-on-click-modal="false">
             <header class="dialog-header" slot="title">
-                <span class="dialog-title-icon"></span>权限设置
-                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="isShowPermission = false"></i>
+                权限设置<i class="el-icon-close dialog-header-iconfont" @click="isShowPermission = false"></i>
             </header>
-            <div v-for="sub of permissions">
-                <el-checkbox @change="subchange(sub)" v-model="sub.ischeck">{{sub.subname}}</el-checkbox>
 
-                <div style="margin-left: 40px;" v-for="sub_ of sub.subpermission">
+            <el-scrollbar class="set-jurisdiction">
+                <div  style="padding: 10px">
+                    <div v-for="sub of permissions" style="padding-bottom: 10px">
+                        <div class="dividing-wrapper">
+                            <el-checkbox @change="subchange(sub)" v-model="sub.ischeck">{{sub.subname}}</el-checkbox><p class="dividing-line"></p>
+                        </div>
+                        <div style="margin-left: 40px;" v-for="sub_ of sub.subpermission">
+                            <el-checkbox @change="sub_change(sub,sub_)" v-model="sub_.ischeck">{{sub_.subname}}</el-checkbox>
+                            <div style="margin-left: 20px;display: flex;flex-wrap:wrap;">
+                                <div style="margin-left: 20px;"
+                                     v-for="sub__ of sub_.subpermission">
+                                    <el-checkbox @change="sub__change(sub,sub_,sub__)"
+                                                 v-model="sub__.ischeck">{{sub__.subname}}
+                                    </el-checkbox>
+                                    <div style="margin-left: 20px;display: flex;flex-direction: row;"><div style="margin-left: 20px">
+                                        <el-checkbox v-for="sub___ of sub__.subpermission"
+                                                     @change="sub___change(sub,sub_,sub__,sub___)"
+                                                     v-model="sub___.ischeck">{{sub___.subname}}
+                                        </el-checkbox>
+                                    </div></div>
 
-                    <el-checkbox @change="sub_change(sub,sub_)" v-model="sub_.ischeck">{{sub_.subname}}</el-checkbox>
-                    <div style="margin-left: 20px;display: flex;flex-direction: row;">
-                        <div style="margin-left: 20px;"
-                             v-for="sub__ of sub_.subpermission">
-
-                            <el-checkbox @change="sub__change(sub,sub_,sub__)"
-                                         v-model="sub__.ischeck">{{sub__.subname}}
-                            </el-checkbox>
-                            <div style="margin-left: 20px;display: flex;flex-direction: row;"><div style="margin-left: 20px">
-
-                                <el-checkbox v-for="sub___ of sub__.subpermission"
-                                             @change="sub___change(sub,sub_,sub__,sub___)"
-                                             v-model="sub___.ischeck">{{sub___.subname}}
-                                </el-checkbox>
-                            </div></div>
-
-                            <!--</el-checkbox>-->
+                                    <!--</el-checkbox>-->
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                 </div>
-                <div style="width: 100%;height: 1px;background-color:#475669;margin: 20px 0;"></div>
-
-            </div>
-            <!--<span slot="footer" class="dialog-footer">-->
-				<!--<el-button @click="isShowPermission = false" size="small">取 消</el-button>-->
-				<!--<el-button type="primary" size="small" @click="handleSavePermission"-->
-                           <!--:loading="dialogloading">确 定</el-button>-->
-            <!--</span>-->
+            </el-scrollbar>
             <footer slot="footer" class="dialog-footer">
                 <el-button size="small" style="width: 90px;" @click="isShowPermission = false">取 消</el-button>
                 <el-button type="primary" :loading="dialogloading" size="small" style="width: 90px;margin-left: 60px" @click="handleSavePermission">确 定</el-button>
-
             </footer>
         </el-dialog>
     </section>
@@ -175,6 +142,7 @@
                             align: 'center',
                             fixed:'left',
                             width:'180',
+                            hidden:false,
                             unsortable: true,
                             render: (h, params) => {
                                 return h('div', [
@@ -184,7 +152,8 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            marginRight: '5px'
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -201,7 +170,8 @@
                                         },
                                         style: {
                                             marginRight: '5px',
-                                            color:'red'
+                                            color:'red',
+                                            display:this.showdelete?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -221,8 +191,7 @@
                                             size: 'small'
                                         },
                                         style: {
-
-
+                                            display:this.showPermission?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -264,7 +233,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                             },
                         ]
@@ -304,7 +273,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                         }]
                     }
@@ -539,40 +508,39 @@
                     sub1.ischeck = true;
                     sub.ischeck = true;
                 }
+            },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.employeePermission_Role == item.auth_id) {
+                            this.showdelete = common.showSubDel(item.sub_auth)
+                            this.showEdit = common.showSubEdit(item.sub_auth)
+                            this.hideAdd = common.showSubAdd(item.sub_auth)
+                            this.showPermission = common.showSubPermission(item.sub_auth)
+                            if(!this.showEdit&&!this.showdelete&&!this.showPermission){
+                                this.hideOptions = true;
+                            }
+                            break;
+                        }
+                    }
+
+                }
             }
         },
         mounted() {
-            // window.onresize = () => {
-            //     this.tableheight = common.gwh() - 143;
-            // }
-            // this.tableheight = common.gwh() - 143;
-            // var user = sessionStorage.getItem('user');
-            // this.user = user
-            // if (user) {
-            //     user = JSON.parse(user);
-            //     for (var item of user.authlist) {
-            //         if (AUTH_ID.employeePermission_Role == item.auth_id) {
-            //             // console.log(item.sub_auth)
-            //             this.showdelete = common.showSubDel(item.sub_auth)
-            //             this.showEdit = common.showSubEdit(item.sub_auth)
-            //             this.hideAdd = !common.showSubAdd(item.sub_auth)
-            //             this.showPermission = common.showSubPermission(item.sub_auth)
-            //             if(!this.showEdit&&!this.showdelete&&!this.showPermission){
-            //                 this.hideOptions = true;
-            //             }
-            //             break;
-            //         }
-            //     }
-            // }
+
         },
         activated() {
+            this.setAuthorityFn();
             this.$refs['tabPane'].getTableData({},this)
-            // window.onresize = () => {
-            //     this.tableheight = common.gwh() - 143;
-            // }
-            // this.tableheight = common.gwh() - 143;
-            // this.$refs['bolinkuniontable'].$refs['search'].resetSearch()
-            // this.$refs['bolinkuniontable'].getTableData({})
+        },
+        watch:{
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[0].subs[0].hidden = val
+            },
         }
     }
 

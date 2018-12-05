@@ -1,6 +1,6 @@
 
 @import "element-variables.scss";
-$--parkingos-aside-bgcolor:#193C7B;
+$--parkingos-aside-bgcolor:#162949;
 .container {
   position: absolute;
   top: 0px;
@@ -199,11 +199,11 @@ $--parkingos-aside-bgcolor:#193C7B;
 .menu-icon {
   /*左侧菜单栏图标*/
   //color: #6d9eeb;
-  color: #b5b5b5;
+  color: #ffffff;
   width: 50px;
   height: 50px;
   font-size: 20px;
-  margin-right: 5px;
+  //margin-right: 5px;
 }
 
 .menu-expan-button {

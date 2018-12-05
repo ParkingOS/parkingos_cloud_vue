@@ -22,23 +22,22 @@
                                     :rules="item.rules"
                                     v-if="item.visible"
                             >
-                                <el-input  v-model.number="codeReduce.freeLimit" :disabled="item.isDisabled" :placeholder="item.placeholder" class="custom-input-height"></el-input>
+                                <el-input  v-model.trim="codeReduce.freeLimit" :disabled="item.isDisabled" :placeholder="item.placeholder" class="custom-input-height"></el-input>
                             </el-form-item>
                         </el-form>
 
-                        <div style="margin-left: 33px;margin-bottom: 20px">
+                        <div style="margin-left: 33px;margin-bottom: 20px" v-show="showFree">
                             <el-radio-group v-model="free_limit_times" @change="radioValueChange">
                                 <el-radio :label="0">单次有效</el-radio>
                                 <el-radio :label="1">多次有效</el-radio>
                             </el-radio-group>
                         </div>
-
                         <div>
                             <el-checkbox v-model="codeReduce.isauto" style="margin-left: 33px">自动更新</el-checkbox>
                         </div>
 
                         <div class="shop-common-btn scancode-btn2">
-                            <el-button type="primary" @click="getTicketCode" :loading="loading" class="custom-primary-btn" style="width: 144px">获取</el-button>
+                            <el-button type="primary" @click="getTicketCode" :loading="loading" class="custom-primary-btn" style="width: 144px" :disabled="disable">获取</el-button>
                         </div>
                     </div>
                 </el-tab-pane>
@@ -57,7 +56,7 @@
                                     <el-input slot="reference" @change="changeCarNumber" v-model.trim="carNumReduce.car_number" placeholder="请输入车牌号" class="custom-input-height"></el-input>
                                 </el-popover>
                             </el-form-item>
-                            <div style="margin-top: 21px">
+                            <div style="margin-top: 21px" v-show="showFree">
                                 <el-radio-group v-model="free_limit_times" @change="radioValueChange">
                                     <el-radio :label="0">单次有效</el-radio>
                                     <el-radio :label="1">多次有效</el-radio>
@@ -70,11 +69,11 @@
                                     :rules="item.rules"
                                     v-if="item.visible"
                             >
-                                <el-input  v-model.number="carNumReduce.freeLimit" :disabled="item.isDisabled" :placeholder="item.placeholder" class="custom-input-height"></el-input>
+                                <el-input  v-model.trim="carNumReduce.freeLimit" :disabled="item.isDisabled" :placeholder="item.placeholder" class="custom-input-height"></el-input>
                             </el-form-item>
                         </el-form>
                         <div class="shop-common-btn scancode-btn" style="margin-top: 21px">
-                            <el-button type="primary" @click="useTicketByCarNumber" :loading="reduceSubmitLoading" class="custom-primary-btn" style="width: 144px">确定</el-button>
+                            <el-button type="primary" @click="useTicketByCarNumber" :loading="reduceSubmitLoading" class="custom-primary-btn" style="width: 144px" :disabled="disable">确定</el-button>
                         </div>
                     </div>
                 </el-tab-pane>
@@ -84,9 +83,9 @@
                             <el-form-item prop="number" :rules="[
                                 { validator:checkNumber,required: true,  trigger: 'blur' }
                             ]">
-                                <el-input v-model.number="educeExportForm.number" placeholder="请输入单张优惠额度" class="custom-input-height"></el-input>
+                                <el-input v-model.trim="educeExportForm.number" placeholder="请输入优惠券数量" class="custom-input-height"></el-input>
                             </el-form-item>
-                            <div style="margin-top: 21px">
+                            <div style="margin-top: 21px" v-show="showFree">
                                 <el-radio-group v-model="free_limit_times" @change="radioValueChange">
                                     <el-radio :label="0">单次有效</el-radio>
                                     <el-radio :label="1">多次有效</el-radio>
@@ -99,11 +98,11 @@
                                     :rules="item.rules"
                                     v-if="item.visible"
                             >
-                                <el-input  v-model.number="educeExportForm.freeLimit" :disabled="item.isDisabled" :placeholder="item.placeholder" class="custom-input-height"></el-input>
+                                <el-input  v-model.trim="educeExportForm.freeLimit" :disabled="item.isDisabled" :placeholder="item.placeholder" class="custom-input-height"></el-input>
                             </el-form-item>
                         </el-form>
                         <div class="shop-common-btn scancode-btn" style="margin-top: 21px">
-                            <el-button type="primary" @click="exportReduce" :loading="exportReduceLoading" class="custom-primary-btn" style="width: 144px">导出</el-button>
+                            <el-button type="primary" @click="exportReduce" :loading="exportReduceLoading" class="custom-primary-btn" style="width: 144px" :disabled="disable">导出</el-button>
                             <el-popover
                                     placement="top-start"
                                     width="230"
@@ -120,6 +119,7 @@
         <el-dialog
                 center
                 top="20vh"
+                @close="closeFn"
                 custom-class="custom-shop-dialog"
                 :visible.sync="qrCodeView">
             <div class="shop-dialog-content">
@@ -130,6 +130,7 @@
                 <el-button type="primary" class="custom-dialog-btn" @click="handleCodeReduce">新建窗口打开</el-button>
             </div>
         </el-dialog>
+
         <!--当前订单-->
         <el-dialog
                 center
@@ -194,9 +195,14 @@
                     return []
                 }
             },
+            disable:{
+                type:Boolean,
+                defalut:false
+            }
         },
         data(){
             return{
+                timer2:null,
                 checkNumber:checkNumber,
                 freeCodeReduceArr:[{
                     rules:[],
@@ -241,7 +247,7 @@
                 carNumReduceFormRules:{
                     reduce: [
                         { required: true, message: '请输入减免金额'},
-                        { type: 'number', message: '金额必须为数字值'}
+                        { validator:checkMoney, message: '金额必须为数字值'}
                     ],
                     car_number:[
                         { required: true, message: '请输入车牌号'},
@@ -261,7 +267,7 @@
                 withdrawFormRules:{
                     freeLimit: [
                         { required: true, message: '请输入减免时长'},
-                        { type: 'number', message: '金额必须为数字值'}
+                        { validator:checkMoney, message: '金额必须为数字值'}
                     ],
                 },
                 loading: false,
@@ -320,19 +326,23 @@
                 shopname:'获取中...',
 
                 ticketfree_limit:'获取中...',
-
+                showFree:false,
             }
         },
         mounted(){
+
         },
         methods:{
+            closeFn(){
+                clearInterval(this.timer2)
+            },
             radioValueChange(val){
                 if(val == 1){
                     this.freeCodeReduceArr[0].visible = false;
                     this.freeCodeReduceArr.push({
                         rules:[
                             { required: true, message: '请输入减免时长'},
-                            { type: 'number', message: '金额必须为数字值'}
+                            { validator:checkMoney, message: '金额必须为数字值'}
                         ],
                         isDisabled:false,
                         placeholder:'请输入有效时间（小时）',
@@ -518,7 +528,6 @@
                     if (valid) {
                         vm.loading = true;
                         vm.type=4;
-                        // vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&uin="+sessionStorage.getItem('loginuin')+"&type="+vm.type+"&reduce="+vm.codeReduce.reduce+"&isauto="+(vm.codeReduce.isauto?1:0),{
                         vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&uin="+sessionStorage.getItem('loginuin')+"&type="+vm.type+"&isauto="+(vm.codeReduce.isauto?1:0)+"&free_limit_times="+vm.free_limit_times+"&time_range="+vm.codeReduce.freeLimit,{
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -529,6 +538,10 @@
                             if(ret.state==1){
                                 vm.code = ret.code;
                                 vm.ticket_url = ret.ticket_url;
+                                //第一次获取成功后，开启定时任务
+                                if(vm.qrCodeView == false){
+                                    vm.timer2 = window.setInterval(vm.getFreeCodeStatus,10000)
+                                }
                                 vm.genqr(vm.ticket_url)
                                 vm.$emit('refresh')
                             }else{
@@ -587,38 +600,59 @@
 
                     vm.shopname=ret.name
                     if(ret.ticket_unit==1){
-                        vm.ticketLimit=ret.ticket_limit
-                        vm.ticketUnit = '分钟'
                     }else if(ret.ticket_unit==2){
-                        vm.ticketLimit=ret.ticket_limit
-                        vm.ticketUnit = '小时'
-                    }
-                    else if(ret.ticket_unit==3){
-                        vm.ticketLimit=ret.ticket_limit
-                        vm.ticketUnit = '天'
+                    }else if(ret.ticket_unit==3){
                     }else if(ret.ticket_unit==4){
-                        vm.ticketLimit=ret.ticket_money
-                        vm.ticketUnit = '元'
                         vm.type = '5'
                     }
+                    console.log('ret.free_limit_times',ret.free_limit_times)
+                    if(ret.free_limit_times==1){
+                        vm.showFree = true;
+                        vm.free_limit_times=0;
+                    }else{
+                        vm.showFree = false;
+                        vm.free_limit_times=0;
+                    }
+
                     vm.accountModify.id=ret.id
                     vm.accountModify.name=ret.name
                     vm.accountModify.address=ret.address
-                    vm.reductionList = ret.default_limit.split(',')
+                    // vm.reductionList = ret.default_limit.split(',')
                 });
             },
             //新打开页面
             handleCodeReduce() {
                 let routeData = this.$router.resolve({
-                    name: "CodeReduce",
-
+                    name: "FreeCodeReduce",
                 });
-                window.open(routeData.href+'?url='+encodeURIComponent(encodeURIComponent(this.ticket_url)), '_blank');
+                let parems = "?"+this.type+'-'+this.codeReduce.isauto+'-'+this.free_limit_times+'-'+this.codeReduce.freeLimit
+                window.open(routeData.href+parems, '_blank');
+            },
+        //    自动更新
+            getFreeCodeStatus(){
+                let vm = this;
+                vm.$axios.post(path+"/shopticket/ifchangecode?code="+vm.code,{
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
+                    console.log('陈博文'+ret.state);
+                    if(ret.state==1){
+                        vm.getTicketCode();
+                        vm.$message({
+                            message: "二维码已更新" ,
+                            type: 'success',
+                            duration: 1200
+                        });
+                    }
+                });
             },
         },
+
         activated(){
             console.log('reductionList',this.reductionList)
-            // this.getShopAccountInfo()
+            this.getShopAccountInfo()
         },
         watch:{
             account:function(val,oldVal){

@@ -1,7 +1,8 @@
 <template>
-  <section>
-    <div>
-      <img :src="qrsrc" alt="">
+  <section class="car-reduce-bg" :style="{background:'url('+bgimg+'),#1D1D1D no-repeat','background-size':'100% 100%'}">
+    <div class="car-reduce-content">
+      <img :src="qrsrc" style="width: 318px;height: 318px;margin-bottom: 33px">
+      <div class="tip" :style="{background:'url('+tipbg+'),#1D1D1D no-repeat','background-size':'290px 52px'}">扫码支付</div>
     </div>
       <canvas id="canvas" style="display:none"></canvas>
       <canvas id="img" style="display:none"></canvas>
@@ -9,24 +10,62 @@
 
 </template>
 
-<script>
 
+<script>
+    import { path } from '../api/api';
 
 
 export default {
   data(){
     return {
+        timer:null,
         $url:'',
         qrsrc:'',
+        bgimg:require('../assets/images/shop/carbg.png'),
+        tipbg:require('../assets/images/shop/ocr-tip-bg.png'),
+        type:'',
+        reduce:'',
+        isauto:'',
+        ticket_url:'',
+        code:'',
     }
   },
   mounted(){
-      let urls = window.location.href.split('=')[1];
-      this.$url = decodeURIComponent(decodeURIComponent(urls));
-      console.log(decodeURIComponent(decodeURIComponent(urls)))
-      this.genqr(this.$url)
+      let urls = window.location.href.split('?')[1];
+      let data = urls.split('-');
+      this.type = data[0];
+      this.reduce = data[1];
+      this.isauto = data[2];
+      this.getTicketCode();
   },
     methods:{
+        //获取减免二维码
+        getTicketCode(){
+            let vm = this;
+            vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&uin="+sessionStorage.getItem('loginuin')+"&type="+vm.type+"&reduce="+vm.reduce+"&isauto="+(vm.isauto?1:0),{
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function (response) {
+
+                let ret = response.data;
+                if(ret.state==1){
+                    //第一次获取成功后，开启定时任务
+                    vm.timer = window.setInterval(vm.getCodeStatus,10000)
+                    vm.code = ret.code;
+                    vm.ticket_url = ret.ticket_url;
+                    vm.genqr(vm.ticket_url)
+                }else{
+                    vm.$message({
+                        message: "获取失败" + ret.error,
+                        type: 'error',
+                        duration: 1200
+                    });
+                }
+
+            });
+
+        },
         genqr(url){
             var canvas = document.getElementById('canvas');
             this.QRCode.toCanvas(canvas, url,{ errorCorrectionLevel: 'H' }, function (error) {
@@ -47,6 +86,24 @@ export default {
             var url = img.toDataURL("image/png");
             this.qrsrc = url;
         },
+        getCodeStatus(){
+            let vm = this;
+            vm.$axios.post(path+"/shopticket/ifchangecode?code="+vm.code,{
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function (response) {
+                let ret = response.data;
+                if(ret.state==1){
+                    vm.getTicketCode();
+                    vm.$message({
+                        message: "二维码已更新" ,
+                        type: 'success',
+                        duration: 1200
+                    });
+                }
+            });
+        },
     },
   activated(){
 
@@ -59,7 +116,27 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
+  .car-reduce-bg{
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .car-reduce-content{
+    position: absolute;
+    width: 318px;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .tip{
+    margin: 0 auto;
+    width: 290px;
+    height: 52px;
+    line-height: 52px;
+    font-size: 22px;
+    color: #FFFFFF;
+    text-align: center;
+  }
 
 </style>

@@ -61,7 +61,7 @@
                     <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
                 </el-form-item>
                 <el-form-item class="clear-style float-right">
-                    <el-button size="mini" @click="exportFn">导出</el-button>
+                    <el-button size="mini" @click="exportFn" v-if="!hideExport">导出</el-button>
                     <el-button size="mini" @click="resetForm">刷新</el-button>
                 </el-form-item>
                 <div class="second-search-item-style" v-show="isShow">
@@ -109,6 +109,7 @@
         },
         data() {
             return {
+                hideExport:false,
                 searchForm:{},
                 searchFormData:{
                     time_type:'3',
@@ -320,11 +321,26 @@
                 };
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.monthMember_Refill == item.auth_id) {
+                            this.hideExport = !common.showSubExport(item.sub_auth);
+                            break;
+                        }
+                    }
+
+                }
+
+            }
         },
         beforeMount(){
 
         },
         mounted() {
+            this.setAuthorityFn()
             this.$refs['tabPane'].getTableData({},this);
         },
     }

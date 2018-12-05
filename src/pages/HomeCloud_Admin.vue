@@ -38,7 +38,7 @@
             <div class="console">
                 <div class="img-box"><img src="../assets/images/login-user.png"></div>
                 <div class="username">{{nickname}}:{{sysUserName}}</div>
-                <div class="outlogin" @click="logout">退出</div>
+                <div class="outlogin" @click="isoutloginVisible">退出</div>
             </div>
         </div>
         <el-col :span="24" class="main">
@@ -54,7 +54,7 @@
                          @close="handleclose"
                          @select="handleselect"
                          unique-opened
-                          text-color="#fff" active-text-color="#109EFF"
+                          text-color="#fff" active-text-color="#64C0FF"
                          :default-active="highlightindex"
                          :collapse="isCollapse">
 
@@ -66,32 +66,37 @@
                     </el-submenu>
 
                      <el-submenu v-if="this.showShopItem.shop" index="/shop">
-                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
-                                class="menuitem">商户管理</span></template>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-shanghuguanli"></i>
+                            <span class="menuitem">商户管理</span></template>
                         <el-menu-item index="/shop" v-if="this.showShopItem.shop">商户管理
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showShopItem.fixCode" index="/fixCode">
-                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
-                                class="menuitem">固定码管理</span></template>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-gudingmaguanli"></i>
+                            <span class="menuitem">固定码管理</span></template>
                         <el-menu-item index="/fixCode" v-if="this.showShopItem.fixCode">固定码管理
                         </el-menu-item>
                     </el-submenu>
                      <el-submenu v-if="this.showShopItem.ticketManage" index="/ticketManage">
-                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
-                                class="menuitem">用券明细</span></template>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-yongquanmingxi"></i>
+                            <span class="menuitem">用券明细</span></template>
                         <el-menu-item index="/ticketManage" v-if="this.showShopItem.ticketManage">用券明细
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showShopItem.shopRecharge" index="/shopRecharge">
-                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
-                                class="menuitem">充值明细</span></template>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-chongzhimingxi1"></i>
+                            <span class="menuitem">充值明细</span></template>
                         <el-menu-item index="/shopRecharge" v-if="this.showShopItem.shopRecharge">充值明细
                         </el-menu-item>
                     </el-submenu>
                      <el-submenu v-if="this.showShopItem.member" index="/shopMember">
-                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
-                                class="menuitem">员工管理</span></template>
+                        <template slot="title">
+                            <i class="menu-icon iconfont icon-yuangongguanli"></i>
+                            <span class="menuitem">员工管理</span></template>
                         <el-menu-item index="/shopRole" v-if="this.showShopItem.shopRole">角色管理
                         </el-menu-item>
                         <el-menu-item index="/shopMember"  v-if="this.showShopItem.shopMember">员工管理
@@ -136,6 +141,24 @@
                         </keep-alive>
                     </el-col>
                 </div>
+                <!--退出提示-->
+                <el-dialog
+                        width="478px"
+                        :visible.sync="outloginVisible"
+                        :show-close="false"
+                        custom-class="custom-dialog deleteTip">
+
+                    <header class="dialog-header" slot="title">
+                        提示<i class="el-icon-close dialog-header-iconfont" @click="outloginVisible = false"></i>
+                    </header>
+                    <div class="dialog-body" style="height: 40px;line-height: 40px;text-align: center;font-size: 16px">
+                        <p>真的要退出吗?</p>
+                    </div>
+                    <footer slot="footer" class="dialog-footer">
+                        <el-button type="primary" class="dialog-footer-btn" @click="logout" >确 定</el-button>
+                        <el-button @click="outloginVisible = false" class="dialog-footer-btn" style="margin-left: 36px">取 消</el-button>
+                    </footer>
+                </el-dialog>
             </section>
         </el-col>
 
@@ -149,6 +172,7 @@
     export default {
         data() {
             return {
+                outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
                 active: '',
@@ -234,24 +258,32 @@
                 // console.log('>>>' + a.split('_')[0])
                 this.$router.push(a);
             },
+            isoutloginVisible(){
+                this.outloginVisible = true;
+            },
             //退出登录
             logout: function () {
                 var _this = this;
                 let user = sessionStorage.getItem('user');
                 let u = JSON.parse(user);
                 let logoutParams = {userid: u.userid, token: sessionStorage.getItem('token')};
-                this.$confirm('确认退出吗?', '提示', {
-                    //type: 'warning'
-                }).then(() => {
-                    //this.$post(path+"/user/dologout",logoutParams)
-                    sessionStorage.removeItem('user');
-                    sessionStorage.removeItem('token');
-                    localStorage.removeItem('comid');
-                    localStorage.removeItem('groupid');
-                    _this.$router.push('/login');
-                }).catch(() => {
-
-                });
+                sessionStorage.removeItem('user');
+                sessionStorage.removeItem('token');
+                localStorage.removeItem('comid');
+                localStorage.removeItem('groupid');
+                _this.$router.push('/login');
+                // this.$confirm('确认退出吗?', '提示', {
+                //     //type: 'warning'
+                // }).then(() => {
+                //     //this.$post(path+"/user/dologout",logoutParams)
+                //     sessionStorage.removeItem('user');
+                //     sessionStorage.removeItem('token');
+                //     localStorage.removeItem('comid');
+                //     localStorage.removeItem('groupid');
+                //     _this.$router.push('/login');
+                // }).catch(() => {
+                //
+                // });
             }
 
         },

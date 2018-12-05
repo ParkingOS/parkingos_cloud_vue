@@ -3,7 +3,7 @@ import '../theme/index.css'; //主题色
 
 //全局引入iconfont
 import './assets/iconfont/iconfont.css'
-
+import './assets/shop-iconfont/iconfont.css'
 import Vue from 'vue';
 import App from './App';
 import ElementUI from 'element-ui';

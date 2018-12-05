@@ -15,7 +15,7 @@
                     <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
                 </el-form-item>
                 <el-form-item class="clear-style float-right">
-                    <el-button size="mini" @click="handleAdd" type="primary">添加工作站</el-button>
+                    <el-button size="mini" @click="handleAdd" type="primary" v-if="hideAdd">添加工作站</el-button>
                     <el-button size="mini" @click="resetForm">刷新</el-button>
                 </el-form-item>
 
@@ -103,6 +103,7 @@
                             align: 'center',
                             fixed:'left',
                             width:'100',
+                            hidden:false,
                             unsortable: true,
                             render: (h, params) => {
                                 return h('div', [
@@ -112,7 +113,8 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            marginRight: '5px'
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none',
                                         },
                                         on: {
                                             click: () => {
@@ -130,7 +132,8 @@
                                         },
                                         style: {
                                             marginRight: '5px',
-                                            color:'red'
+                                            color:'red',
+                                            display:this.showdelete?'':'none',
                                         },
                                         on: {
                                             click: () => {
@@ -192,7 +195,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                         }]
                     }, {
@@ -201,7 +204,7 @@
                         subs: [{
                             label: '说明',
                             prop: 'description',
-                            width: '563',
+                            width: '550',
                             editable: true,
                             searchable: true,
                             addtable: true,
@@ -211,14 +214,19 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "textarea",
                         }]
                     },
                 ],
+                hideAdd:false,
+                showEdit:false,
+                showdelete:false,
+                hideOptions:false,
             }
         },
         mounted() {
+            this.setAuthorityFn();
             this.$refs['tabPane'].getTableData({},this)
         },
         methods:{
@@ -344,11 +352,33 @@
                 let sform = this.searchFormData;
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.equipmentManage_WorkStation == item.auth_id) {
+                            this.hideAdd= common.showSubAdd(item.sub_auth)
+                            this.showEdit= common.showSubEdit(item.sub_auth)
+                            this.showdelete= common.showSubDel(item.sub_auth)
+                            if(this.showEdit==false&&this.showdelete==false){
+                                this.hideOptions= true
+                            }
+                            break;
+                        }
+                    }
+
+                }
+
+            }
         },
         activated() {
         },
         watch: {
-
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[0].subs[0].hidden = val
+            },
         },
     }
 </script>

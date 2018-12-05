@@ -29,7 +29,7 @@
                     <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
                 </el-form-item>
                 <el-form-item class="clear-style-4 float-right">
-                    <el-button size="mini" @click="handleAdd" type="primary">注册员工</el-button>
+                    <el-button size="mini" @click="handleAdd" type="primary" v-if="hideAdd">注册员工</el-button>
                     <el-button size="mini" @click="resetForm">刷新</el-button>
                 </el-form-item>
             </el-form>
@@ -67,10 +67,10 @@
                 width="560px">
             <el-form ref="passwordRef" :model="resPwd" :rules="rules"  label-width="200px" style="margin-bottom:-30px">
                 <el-form-item label="请输入新密码" prop="pass" >
-                    <el-input type="password" v-model="resPwd.pass" style="width:240px" size="mini" ></el-input>
+                    <el-input type="password" v-model="resPwd.pass" style="width:240px" size="" ></el-input>
                 </el-form-item>
                 <el-form-item label="再次输入密码" prop="checkPass">
-                    <el-input type="password" v-model="resPwd.checkPass" style="width:240px" size="mini"></el-input>
+                    <el-input type="password" v-model="resPwd.checkPass" style="width:240px" size=""></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -214,7 +214,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                                 "rules": [
                                     {required: true, message: '请输入姓名', trigger: 'blur'}
@@ -251,7 +251,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                             }
                         ]
@@ -260,7 +260,7 @@
                             {
                                 label: '手机',
                                 prop: 'mobile',
-                                width: '123',
+                                width: '113',
                                 type: 'str',
                                 editable: true,
                                 searchable: true,
@@ -271,7 +271,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                             }
                         ]
@@ -300,7 +300,7 @@
                                 "rules": [
                                     {required: true, message: '请选择角色', trigger: 'blur'}
                                 ],
-                                'size':'mini',
+                                'size':'',
                                 "options": this.aroles,
                             }
                         ]
@@ -344,7 +344,7 @@
                                 "rules": [
                                     {required: true, message: '请选择角色', trigger: 'blur'}
                                 ],
-                                'size':'mini',
+                                'size':'',
                                 "options": genderType,
                             }
                         ]
@@ -402,7 +402,8 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            marginRight: '5px'
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -421,7 +422,8 @@
                                         },
                                         style: {
                                             marginRight: '5px',
-                                            color:'red'
+                                            color:'red',
+                                            display:this.showdelete?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -441,7 +443,8 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            marginRight: '5px'
+                                            marginRight: '5px',
+                                            display:this.showresetpwd?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -496,7 +499,7 @@
                 * */
                 let sform = this.searchFormData;
                 sform.id = sform.id_start;
-                sform.role_id = sform.role_id_start;
+                sform.role_id_start = sform.role_id;
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
             initFn(that){
@@ -626,14 +629,38 @@
                     }
                 });
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.employeePermission_Manage == item.auth_id) {
+                            this.showdelete = common.showSubDel(item.sub_auth);
+                            this.showresetpwd = common.showSubReset(item.sub_auth);
+                            this.showEdit = common.showSubEdit(item.sub_auth);
+                            this.hideAdd = common.showSubAdd(item.sub_auth);
+                            if (!this.showEdit && !this.showdelete && !this.showresetpwd) {
+                                this.hideOptions = true;
+                            }
+                            break;
+                        }
+                    }
+
+                }
+            }
         },
         mounted() {
-            this.getQuery();
-            this.$refs['tabPane'].getTableData({},this)
         },
         activated() {
+            this.setAuthorityFn();
+            this.getQuery();
+            this.$refs['tabPane'].getTableData({},this);
         },
         watch: {
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[len -1].subs[0].hidden = val
+            },
             aroles: function (val) {
                 this.tableitems[6].subs[0].options = val;
             }

@@ -29,7 +29,7 @@
                     <!--<el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>-->
                 </el-form-item>
                 <el-form-item class="clear-style float-right">
-                    <el-button size="mini" @click="handleAdd" type="primary">添加监控器</el-button>
+                    <el-button size="mini" @click="handleAdd" type="primary" v-if="hideAdd">添加监控器</el-button>
                     <el-button size="mini" @click="resetForm">刷新</el-button>
                 </el-form-item>
             </el-form>
@@ -133,6 +133,7 @@
                             align: 'center',
                             fixed:'left',
                             width:'100',
+                            hidden:false,
                             unsortable: true,
                             render: (h, params) => {
                                 return h('div', [
@@ -142,7 +143,8 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            marginRight: '5px'
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -165,7 +167,8 @@
                                         },
                                         style: {
                                             marginRight: '5px',
-                                            color:'red'
+                                            color:'red',
+                                            display:this.showdelete?'':'none'
                                         },
                                         on: {
                                             click: () => {
@@ -212,7 +215,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                             "rules": [
                                 {required: true, message: '请输入名称', trigger: 'blur'}
@@ -242,7 +245,7 @@
                             "button": false,
                             "border": true,
                             "rules": [],
-                            'size':'mini',
+                            'size':'',
                             "options": this.channelType
                         }]
                     }, {
@@ -269,7 +272,7 @@
                             "button": false,
                             "border": true,
                             "rules": [],
-                            'size':'mini',
+                            'size':'',
                             "options": [
                                 {
                                     "value_no": "0",
@@ -299,14 +302,14 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                         }]
                     }, {
 
                         hasSubs: false,
                         subs: [{
-                            width:'433',
+                            width:'420',
                             label: '地址',
                             prop: 'play_src',
                             editable: true,
@@ -318,7 +321,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "text",
                         }]
                     },
@@ -329,6 +332,7 @@
             }
         },
         mounted() {
+            this.setAuthorityFn();
             this.getQuery();
             this.$refs['tabPane'].getTableData({},this)
         },
@@ -464,13 +468,35 @@
                     .then(axios.spread(function (ret) {
                         _this.channelType = ret.data;
                     }))
+            },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.equipmentManage_Monitor == item.auth_id) {
+                            this.hideAdd= common.showSubAdd(item.sub_auth)
+                            this.showEdit= common.showSubEdit(item.sub_auth)
+                            this.showdelete= common.showSubDel(item.sub_auth)
+                            if(this.showEdit==false&&this.showdelete==false){
+                                this.hideOptions= true
+                            }
+                            break;
+                        }
+                    }
+
+                }
+
             }
         },
         activated() {
         },
         watch: {
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[0].subs[0].hidden = val
+            },
             channelType:function (newVal,oldVal) {
-                console.log('newval',newVal)
                 this.tableitems[3].subs[0].options = newVal;
             }
         },

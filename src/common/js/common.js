@@ -376,6 +376,11 @@ export default {
             + '&nickname=' + nickname;
         return axios.get(path + '/vip/renewproduct' + param);
     },
+    getSmsInfo() {
+        //短信续费
+        let param = '?token=' + sessionStorage.getItem('token');
+        return axios.get(path + '/getdata/getmessageprice' + param);
+    },
     getLength: function (obj) {
         var count = 0;
         for (var key in obj) {
@@ -425,6 +430,13 @@ export default {
             return true;
         }
         if (sub_auth.indexOf('添加') > -1) {
+            return true;
+        }
+        return false;
+    },
+    showSetSMS: function (sub_auth) {
+        //显示新增
+        if (sub_auth.indexOf('短信设置') > -1) {
             return true;
         }
         return false;

@@ -92,12 +92,12 @@
         <!--/////////////////////////////////////////////////////////////////////////-->
         <!--访客二维码-->
         <el-dialog
+                width="650px"
                 custom-class="custom-dialog"
                 :show-close="false"
             :visible.sync="codeDialog">
             <header class="dialog-header" slot="title">
-                <span class="dialog-title-icon"></span>访客二维码
-                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="codeDialog = false"></i>
+                访客二维码<i class="el-icon-close dialog-header-iconfont" @click="codeDialog = false"></i>
             </header>
             <div style="width: 100%;text-align: center">
                 <img :src="qrsrc" style="display: inline-block;width: 300px;height: 300px">
@@ -112,17 +112,17 @@
 
         <!--修改状态-->
         <el-dialog
+                width="478px"
                 custom-class="custom-dialog"
                 :show-close="false"
                 :visible.sync="startModel"
                >
             <header class="dialog-header" slot="title">
-                <span class="dialog-title-icon"></span>审核状态
-                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="startModel = false"></i>
+                审核状态<i class="el-icon-close dialog-header-iconfont" @click="startModel = false"></i>
             </header>
-            <el-form v-model="startForm" class="demo-form-inline" label-width="200px">
+            <el-form v-model="startForm" class="demo-form-inline" label-width="80px">
                 <el-form-item label="状态:">
-                    <el-select placeholder="全部" v-model="startForm.state" style="width: 240px" size="mini">
+                    <el-select placeholder="全部" v-model="startForm.state"  style="width: 100%">
                         <el-option
                                 v-for="item in stateType"
                                 :key="item.value_no"
@@ -132,19 +132,13 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注:">
-                    <el-input type="textarea" maxlength="20" style="width: 240px;resize:none" v-model="startForm.remark"  :autosize="{ minRows: 2, maxRows: 3}"></el-input>
+                    <el-input type="textarea" maxlength="20" style="width: 100%;resize:none" v-model="startForm.remark"  :autosize="{ minRows: 2, maxRows: 3}"></el-input>
                     <p><sup style="color: red">*</sup>提示:备注还可输入<span style="color: red" v-text="20- result"></span>/20个字符</p>
                 </el-form-item>
-
-                <!--<el-form-item class="inp-margin-buttom">-->
-                    <!--<el-button plain @click="cancel">取消</el-button>-->
-                    <!--<el-button type="primary" @click="confirm">确定</el-button>-->
-
-                <!--</el-form-item>-->
             </el-form>
             <footer slot="footer" class="dialog-footer">
-                <el-button @click="cancel" size="small" style="width: 90px;">取 消</el-button>
-                <el-button type="primary" size="small" @click="confirm" style="width: 90px;margin-left: 60px">确 定</el-button>
+                <el-button @click="cancel" class="custom-btns-style">取 消</el-button>
+                <el-button type="primary"  @click="confirm" style="margin-left: 60px" class="custom-btns-style">确 定</el-button>
             </footer>
 
         </el-dialog>
@@ -152,16 +146,16 @@
 
 
         <el-dialog
+                width="650px"
                 custom-class="custom-dialog"
                 :show-close="false"
             :visible.sync="visitorSetModel">
             <header class="dialog-header" slot="title">
-                <span class="dialog-title-icon"></span>访客设置
-                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="visitorSetModel = false"></i>
+                访客设置<i class="el-icon-close dialog-header-iconfont" @click="visitorSetModel = false"></i>
             </header>
             <el-form v-model="visitorSetForm" class="demo-form-inline" label-width="100px">
                <el-form-item label="认证业主:" class="inp-margin-buttom">
-                    <el-select placeholder="全部" v-model="visitorSetForm.access_cert" size="mini">
+                    <el-select placeholder="全部" v-model="visitorSetForm.access_cert" >
                         <el-option
                                 v-for="item in accessType"
                                 :key="item.value_no"
@@ -169,7 +163,7 @@
                                 :value="item.value_no">
                         </el-option>
                     </el-select>
-                    <el-select placeholder="全部" v-model="visitorSetForm.auto_cert" size="mini">
+                    <el-select placeholder="全部" v-model="visitorSetForm.auto_cert" >
                         <el-option
                                 v-for="item in autoType"
                                 :key="item.value_no"
@@ -179,7 +173,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="非认证业主:" class="inp-margin-buttom">
-                    <el-select placeholder="全部" v-model="visitorSetForm.access_not_cert" size="mini">
+                    <el-select placeholder="全部" v-model="visitorSetForm.access_not_cert" >
                         <el-option
                                 v-for="item in accessType"
                                 :key="item.value_no"
@@ -187,7 +181,7 @@
                                 :value="item.value_no">
                         </el-option>
                     </el-select>
-                    <el-select placeholder="全部" v-model="visitorSetForm.auto_not_cert" size="mini">
+                    <el-select placeholder="全部" v-model="visitorSetForm.auto_not_cert">
                         <el-option
                                 v-for="item in autoType"
                                 :key="item.value_no"
@@ -198,8 +192,8 @@
                 </el-form-item>
             </el-form>
             <footer slot="footer" class="dialog-footer">
-                <el-button type="primary" size="small" @click="confirmSet"  style="width: 90px;">确 定</el-button>
-                <el-button @click="cancelSet" size="small" style="width: 90px;margin-left: 60px">取 消</el-button>
+                <el-button type="primary"  @click="confirmSet" class="custom-btns-style">确 定</el-button>
+                <el-button @click="cancelSet" style="margin-left: 60px" class="custom-btns-style">取 消</el-button>
             </footer>
         </el-dialog>
 

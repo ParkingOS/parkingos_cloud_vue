@@ -23,7 +23,7 @@
                                     <div class="derate-amount">
                                         <span v-for="item in reductionList" @click="selectQuota(item)">{{item}}</span>
                                     </div>
-                                    <el-input slot="reference" v-model.number="codeReduce.reduce" placeholder="输入减免额度" class="custom-input-height"></el-input>
+                                    <el-input slot="reference" v-model.trim="codeReduce.reduce" placeholder="输入减免额度" class="custom-input-height" :readonly="readonly"></el-input>
                                 </el-popover>
                             </el-form-item>
                         </el-form>
@@ -44,7 +44,7 @@
                                     <div class="derate-amount">
                                         <span v-for="item in reductionList" @click="carSelectQuota(item)">{{item}}</span>
                                     </div>
-                                    <el-input slot="reference" v-model.number="carNumReduce.reduce" placeholder="请输入减免额度" class="custom-input-height"></el-input>
+                                    <el-input slot="reference" v-model.trim="carNumReduce.reduce" placeholder="请输入减免额度" class="custom-input-height" :readonly="readonly"></el-input>
                                 </el-popover>
                             </el-form-item>
                             <el-form-item prop="car_number" style="position: relative">
@@ -75,11 +75,11 @@
                                     <div class="derate-amount">
                                         <span v-for="item in reductionList" @click="reduceSelectQuota(item)">{{item}}</span>
                                     </div>
-                                    <el-input slot="reference" v-model.number="educeExportForm.reduce" placeholder="请输入单张优惠额度" class="custom-input-height"></el-input>
+                                    <el-input slot="reference" v-model.trim="educeExportForm.reduce" placeholder="请输入单张优惠额度" class="custom-input-height" :readonly="readonly"></el-input>
                                 </el-popover>
                             </el-form-item>
                             <el-form-item prop="number">
-                                <el-input v-model.number="educeExportForm.number" placeholder="请输入优惠券数量" class="custom-input-height"></el-input>
+                                <el-input v-model.trim="educeExportForm.number" placeholder="请输入优惠券数量" class="custom-input-height"></el-input>
                             </el-form-item>
                         </el-form>
                         <div class="shop-common-btn scancode-btn">
@@ -100,6 +100,7 @@
         <el-dialog
                 center
                 top="20vh"
+                @close="closeFn"
                 custom-class="custom-shop-dialog"
                 :visible.sync="qrCodeView">
             <div class="shop-dialog-content">
@@ -150,6 +151,7 @@
 </template>
 
 <script>
+
     import { path,server,carditems,checkPhone,checkMoney,checkNumber,dtypelist,cardtypeitems,otypelist,accountitems,belongitems,settleitems,percision } from '../../api/api';
     import common from '../../common/js/common'
     import CustomKeyboard from '../../components/CustomKeyboard'
@@ -175,6 +177,7 @@
         },
         data(){
             return{
+                timer:null,
                 keyboardStart:'text',
                 visibleKeyboard:false,
                 visibleExportReduction:false,
@@ -211,7 +214,7 @@
                 carNumReduceFormRules:{
                     reduce: [
                         { required: true, message: '请输入减免金额'},
-                        { type: 'number', message: '金额必须为数字值'}
+                        { validator:checkMoney, message: '金额必须为数字值'}
                     ],
                     car_number:[
                         { required: true, message: '请输入车牌号'},
@@ -231,7 +234,7 @@
                 withdrawFormRules:{
                     reduce: [
                         { required: true, message: '请输入减免金额'},
-                        { type: 'number', message: '金额必须为数字值'}
+                        { validator:checkMoney, message: '金额必须为数字值'}
                     ],
                 },
                 loading: false,
@@ -290,12 +293,17 @@
                 shopname:'获取中...',
 
                 ticketfree_limit:'获取中...',
-
+                readonly:false,
             }
         },
         mounted(){
+            this.getShopAccountInfo()
         },
         methods:{
+            closeFn(){
+                console.log('关闭了弹窗')
+                clearInterval(this.timer)
+            },
             changeCarNumber(val){
                 this.carNumReduce.car_number = val.toUpperCase()
             },
@@ -451,8 +459,24 @@
                                     vm.currentOrderForm.derate_duration=ret.derate_duration;
                                 }
                             }else if(ret.state==0||ret.state==3){
-
+                                let errmsg = '';
+                                if(ret.errmsg.indexOf('<br/>')>-1){
+                                    errmsg = ret.errmsg.replace('<br/>',',');
+                                }else{
+                                    errmsg = ret.errmsg
+                                }
+                                vm.$message({
+                                    message: errmsg,
+                                    type: 'warning',
+                                    duration: 3000
+                                });
                             }else{
+                                vm.$message({
+                                    message: ret.error,
+                                    type: 'error',
+                                    duration: 2000
+                                });
+                                vm.currentOrderVisible = true;
                                 vm.orderInfoVisible = false;
                             }
                         });
@@ -465,7 +489,6 @@
                 vm.$refs.codeReduce.validate((valid) => {
                     if (valid) {
                         vm.loading = true;
-                        console.log('1111')
                         vm.$axios.post(path+"/shopticket/createticket?shopid="+sessionStorage.getItem('shopid')+"&uin="+sessionStorage.getItem('loginuin')+"&type="+vm.type+"&reduce="+vm.codeReduce.reduce+"&isauto="+(vm.codeReduce.isauto?1:0),{
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -476,6 +499,10 @@
                             if(ret.state==1){
                                 vm.code = ret.code;
                                 vm.ticket_url = ret.ticket_url;
+                                //第一次获取成功后，开启定时任务
+                                if(vm.qrCodeView == false){
+                                    vm.timer = window.setInterval(vm.getCodeStatus,10000)
+                                }
                                 vm.genqr(vm.ticket_url)
                                 vm.$emit('refresh')
                             }else{
@@ -532,64 +559,62 @@
                 }).then(function (response) {
                     let ret = response.data;
 
-                    vm.shopname=ret.name
+                    if(ret.hand_input_enable==1){
+                        vm.readonly=false;
+                    }else{
+                        vm.readonly=true;
+                    }
+
+                    vm.shopname=ret.name;
                     if(ret.ticket_unit==1){
-                        vm.ticketLimit=ret.ticket_limit
-                        vm.ticketUnit = '分钟'
+                        // vm.ticketLimit=ret.ticket_limit;
+                        // vm.ticketUnit = '分钟'
                     }else if(ret.ticket_unit==2){
-                        vm.ticketLimit=ret.ticket_limit
-                        vm.ticketUnit = '小时'
+                        // vm.ticketLimit=ret.ticket_limit;
+                        // vm.ticketUnit = '小时'
                     }
                     else if(ret.ticket_unit==3){
-                        vm.ticketLimit=ret.ticket_limit
-                        vm.ticketUnit = '天'
+                        // vm.ticketLimit=ret.ticket_limit;
+                        // vm.ticketUnit = '天';
                     }else if(ret.ticket_unit==4){
-                        vm.ticketLimit=ret.ticket_money
-                        vm.ticketUnit = '元'
+                        // vm.ticketLimit=ret.ticket_money;
+                        // vm.ticketUnit = '元';
                         vm.type = '5'
                     }
-                    vm.accountModify.id=ret.id
-                    vm.accountModify.name=ret.name
-                    vm.accountModify.address=ret.address
-                    vm.reductionList = ret.default_limit.split(',')
-
-                    //----------------------------------------------------------
-                    //var ret = eval('('+result+')')
-                    // vm.account=ret;
-                    // if(ret.hand_input_enable==1){
-                    //     vm.infoModify.hand_input_enable='支持';
-                    // }else{
-                    //     vm.infoModify.hand_input_enable='不支持';
-                    // }
-                    //
-                    //
-                    // if(ret.support_type==0){
-                    //     vm.disable=true
-                    // }
-                    // vm.ticketfree_limit=ret.ticketfree_limit
-                    //
-                    // vm.infoModify.id=ret.id
-                    // vm.infoModify.default_limit=ret.default_limit
-                    // vm.infoModify.validite_time=ret.validite_time
-                    // vm.temp=common.clone(vm.accountModify)
-                    // vm.infotemp=common.clone(vm.infoModify)
-
-                    //    ----------------------------------------------
-
+                    vm.accountModify.id=ret.id;
+                    vm.accountModify.name=ret.name;
+                    vm.accountModify.address=ret.address;
                 });
             },
             //新打开页面
             handleCodeReduce() {
                 let routeData = this.$router.resolve({
                     name: "CodeReduce",
-
                 });
-                window.open(routeData.href+'?url='+encodeURIComponent(encodeURIComponent(this.ticket_url)), '_blank');
+                let parems = "?"+this.type+'-'+this.codeReduce.reduce+'-'+this.codeReduce.isauto
+                window.open(routeData.href+parems, '_blank');
+            },
+            getCodeStatus(){
+                let vm = this;
+                vm.$axios.post(path+"/shopticket/ifchangecode?code="+vm.code,{
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ret = response.data;
+                    if(ret.state==1){
+                        vm.getTicketCode();
+                        vm.$message({
+                            message: "二维码已更新" ,
+                            type: 'success',
+                            duration: 1200
+                        });
+                    }
+                });
             },
         },
         activated(){
-            console.log('reductionList',this.reductionList)
-            // this.getShopAccountInfo()
+
         },
         watch:{
             account:function(val,oldVal){

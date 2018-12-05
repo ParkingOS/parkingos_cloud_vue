@@ -48,8 +48,8 @@ export default {
     this.handleScroll()
   },
   destroyed() {
-      document.getElementById(this.fixedDom).removeEventListener('scroll', this.handleScroll)
-      document.getElementById(this.fixedDom).removeEventListener('resize', this.handleReize)
+      // document.getElementById(this.fixedDom).removeEventListener('scroll', this.handleScroll)
+      // document.getElementById(this.fixedDom).removeEventListener('resize', this.handleReize)
   },
   methods: {
     sticky() {

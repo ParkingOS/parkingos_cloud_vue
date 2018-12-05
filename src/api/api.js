@@ -1,17 +1,13 @@
 
 // export const path = window.parkingosapi;
-// export const path = 'http://yun.bolink.club/cloud';
-export const path = 'http://test.bolink.club/cloud';
-//   export const path = 'http://192.168.199.205:12305';
+export const path = 'http://yun.bolink.club/cloud';
+// export const path = 'http://test.bolink.club/cloud';
 // export const path = 'http://pub.ghparking.com/cloud';
-// export const path = 'http://120.79.98.201:8081/cloud';
 // export const server = 'http://pub.ghparking.com';
-// export const server = 'http://yun.bolink.club';
-export const server = 'http://test.bolink.club';
-// export const server = 'http://120.79.98.201';
-// export const server = 'http://192.168.199.205:12308';
-// export const path = 'http://192.168.192.1:12305';
-//export const path = "http://localhost:8085"
+export const server = 'http://yun.bolink.club';
+// export const server = 'http://test.bolink.club';
+export const path2 = 'https://yun.bolink.club';
+// export const path2 = 'https://test.bolink.club';
 //beta设置为5   s.bolink设置为2
 export const percision = 5;
 
@@ -79,6 +75,8 @@ export const types = [
     {'value_no': 'member', 'value_name': '员工模块'},
     {'value_no': 'product', 'value_name': '月卡套餐'},
     {'value_no': 'homeowner', 'value_name': '业主管理'},
+    {'value_no': 'message', 'value_name': '增值服务'},
+    // {'value_no': 'addservice', 'value_name': '增值服务'},
     {'value_no': '', 'value_name': '全部'}
 ];
 

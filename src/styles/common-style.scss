@@ -1,4 +1,8 @@
 @import "element-variables.scss";
+.custom-btns-style{
+  width: 144px;
+  height: 46px;
+}
 
 .el-button--text,.el-button--text:hover{
   color: $--parkingos-button-text-color;
@@ -9,18 +13,26 @@
 .margin-20{
   margin:20px;
 }
-/*
-*  dialog
-*/
+$--custom-dialog-header-bg:#193C7B;
+  /*
+  *  dialog
+  */
 ::-ms-clear, ::-ms-reveal{display: none;}
 .custom-dialog{
-  width: 640px;
-  border-radius: 10px;
+  //position: absolute;
+  //top:50%;
+  //left: 50%;
+  //transform: translate(-50%,-50%);
+  //margin: 0;
+  border-radius: 6px;
   .el-dialog__header{
     position: relative;
-    padding: 0 20px;
-    line-height: 52px;
-    border-bottom: 1px solid #cccccc;
+    padding: 0 24px;
+    line-height: 48px;
+    background: $--custom-dialog-header-bg;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 6px 6px 0 0;
     font-weight: bold;
     .el-dialog__headerbtn{
       position: absolute;
@@ -32,21 +44,112 @@
     .dialog-header-iconfont{
       position: absolute;
       right: 20px;
-      top:0px;
-      font-size: 30px;
+      top:50%;
+      transform: translateY(-50%);
+      font-size: 18px;
       font-weight: normal;
       cursor: pointer;
     }
   }
   .el-dialog__body{
     //padding: 0;
+    padding: 30px 50px;
+    .info-icon{
+      display: inline-block;
+      vertical-align: middle;
+      width: 26px;
+      height: 24px;
+      margin-right: 16px;
+    }
+    .set-jurisdiction{
+      background: #FBFEFF;
+      border: 1px solid #D4D4D4;
+      border-radius: 2px;
+      height: 413px;
+      .el-scrollbar__wrap{overflow-x:hidden;}
+    }
   }
   .el-dialog__footer{
-    border-top: 1px solid #cccccc;
-    padding: 20px 0;
-    //padding: 0;
+    padding:0 0 20px 0;
+    .dialog-footer-btn{
+      width: 144px;
+      height: 46px;
+    }
   }
 }
+.custom-dialog-top{
+  border-radius: 6px;
+  .el-dialog__header{
+    position: relative;
+    padding: 0 24px;
+    line-height: 48px;
+    background: $--custom-dialog-header-bg;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 6px 6px 0 0;
+    font-weight: bold;
+    .el-dialog__headerbtn{
+      position: absolute;
+      top:50%;
+      right: 20px;
+      transform: translateY(-50%);
+      font-size: 30px;
+    }
+    .dialog-header-iconfont{
+      position: absolute;
+      right: 20px;
+      top:50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      font-weight: normal;
+      cursor: pointer;
+    }
+  }
+  .el-dialog__body{
+    //padding: 0;
+    padding: 30px 50px;
+    .info-icon{
+      display: inline-block;
+      vertical-align: middle;
+      width: 26px;
+      height: 24px;
+      margin-right: 16px;
+    }
+    .set-jurisdiction{
+      background: #FBFEFF;
+      border: 1px solid #D4D4D4;
+      border-radius: 2px;
+      height: 413px;
+      .el-scrollbar__wrap{overflow-x:hidden;}
+    }
+  }
+  .el-dialog__footer{
+    padding:0 0 20px 0;
+    .dialog-footer-btn{
+      width: 144px;
+      height: 46px;
+    }
+  }
+}
+.custom-dialog-sms{
+  .el-dialog__body{
+    padding-top:18px;
+    padding-bottom: 10px;
+  }
+}
+//分割线
+.dividing-wrapper{
+  position: relative;
+  .dividing-line{
+    position: absolute;
+    width: calc(100% - 100px);
+    top:0;
+    right: 0;
+    height: 10px;
+    border-bottom: 1px dashed #979797;
+  }
+}
+
 
 //自定义dialog
 .custom-dialog-register{
@@ -99,6 +202,43 @@
 }
 .dialog-form-width{
   width: 450px;
+}
+.em-edit-dialog {
+  .el-dialog__body {
+    padding: 0;
+    .custom-tab-wrapper{
+      position: relative;
+      height: 54px;
+      background:rgba(245,247,250,1);
+      .tab-item-wrapper{
+        position: absolute;
+        left: 23px;
+        bottom: 0;
+        width: 212px;
+        height: 48px;
+        display: flex;
+        .tab-item{
+          flex: 1;
+          text-align: center;
+          height: 48px;
+          line-height: 48px;
+          box-sizing: border-box;
+          color: #909399;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        .tab-item-active{
+          border-top: 1px solid #193C7B;
+          background: #FFFFFF;
+          color: #3C75CF;
+        }
+      }
+    }
+    .tab-content{
+      padding: 30px 50px 10px 50px;
+      height: 380px;
+    }
+  }
 }
 //////////////////////////////////////////////////////////////////
 .mian-header{
@@ -361,7 +501,7 @@
 .custom-form-style{
   .el-form-item{
     .el-form-item__label{
-      line-height: 40px;
+      //line-height: 40px;
     }
     .el-form-item__content{
       .el-form-item__error{

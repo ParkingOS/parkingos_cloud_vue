@@ -1,5 +1,5 @@
 <template>
-    <div class="login-wrapper" :style="{'background': 'url('+loginBg+') no-repeat','background-size': '100% 100%',
+    <div class="login-wrapper" :style="{'background': 'url('+loginBg+'),#112068 no-repeat','background-size': '100% 100%',
         'background-position': 'center center'}">
 
         <div class="header-wrapper">
@@ -8,6 +8,7 @@
             <div class="logo-title" :style="{'background':'url('+logoTipImg+') no-repeat','background-size': '100% 100%',
         'background-position': 'center center'}"></div>
         </div>
+
         <div class="main-wrapper">
             <div class="login" v-if="loginShow">
                 <p class="login-title">用户登录</p>
@@ -674,6 +675,7 @@
                             var u = ret.user;
                             if(u.authlist==""){
                                 _this.$message.error("没有权限");
+                                _this.logining = false;
                                 return;
                             }
                             sessionStorage.setItem('user', JSON.stringify(u));

@@ -29,7 +29,7 @@
                     <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
                 </el-form-item>
                 <el-form-item class="clear-style-10 float-right">
-                    <el-button @click="handleAdd" type="primary" size="mini" >添加套餐</el-button>
+                    <el-button @click="handleAdd" type="primary" size="mini" v-if="hideAdd">添加套餐</el-button>
                     <el-button size="mini" @click="resetForm">刷新</el-button>
                 </el-form-item>
                 <div class="second-search-item-style" v-show="isShow">
@@ -159,6 +159,7 @@
                         columnType:'render',
                         align: 'center',
                         width:'100',
+                        hidden:false,
                         unsortable: true,
                         render: (h, params) => {
                             return h('div', [
@@ -168,7 +169,8 @@
                                         size: 'small'
                                     },
                                     style: {
-                                        marginRight: '5px'
+                                        marginRight: '5px',
+                                        display:this.showEdit?'':'none',
                                     },
                                     on: {
                                         click: () => {
@@ -185,7 +187,8 @@
                                     },
                                     style: {
                                         marginRight: '5px',
-                                        color:'red'
+                                        color:'red',
+                                        display:this.showdelete?'':'none',
                                     },
                                     on: {
                                         click: () => {
@@ -247,7 +250,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                                 "rules": [
                                     {required: true, message: '请输入名称', trigger: 'blur'}
@@ -277,7 +280,7 @@
                                 "disable": false,
                                 "readonly": false,
                                 "value": "",
-                                'size':'mini',
+                                'size':'',
                                 "subtype": "text",
                                 "rules": [
                                     {required: true, message: '请输入价格', trigger: 'blur'}
@@ -291,7 +294,7 @@
                         subs: [{
                             label: '创建时间',
                             prop: 'create_time',
-                            width: '180',
+                            width: '174',
                             type: 'date',
                             searchable: true,
                             unsortable: true,
@@ -309,7 +312,7 @@
                         subs: [{
                             label: '修改时间',
                             prop: 'update_time',
-                            width: '180',
+                            width: '174',
                             type: 'date',
                             searchable: true,
                             unsortable: true,
@@ -350,7 +353,7 @@
                             "rules": [
                                 {required: true, message: '请选择车型', trigger: 'blur'}
                             ],
-                            'size':'mini',
+                            'size':'',
                             "options": this.cartype,
                         }]
                     }, {
@@ -370,7 +373,7 @@
                             "disable": false,
                             "readonly": false,
                             "value": "",
-                            'size':'mini',
+                            'size':'',
                             "subtype": "textarea",
                         }]
                     }, {
@@ -408,11 +411,11 @@
                     ]
                 },
                 cartype:undefined,
+                hideAdd:false,
+                showEdit:false,
+                showdelete:false,
+                hideOptions:false,
             }
-        },
-        mounted() {
-            this.getQuery()
-            this.$refs['tabPane'].getTableData({},this)
         },
         methods:{
             changeMore(){
@@ -507,13 +510,38 @@
                         _this.cartype = retcartype.data;
                     }))
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.systemManage_MonthCard == item.auth_id) {
+                            this.hideAdd = common.showSubAdd(item.sub_auth)
+                            this.showEdit = common.showSubEdit(item.sub_auth)
+                            this.showdelete = common.showSubDel(item.sub_auth)
+                            if(!this.showEdit&&!this.showdelete){
+                                this.hideOptions = true;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+        mounted() {
+            this.setAuthorityFn();
+            this.getQuery()
+            this.$refs['tabPane'].getTableData({},this)
         },
         activated() {
 
 
         },
         watch: {
-
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[0].subs[0].hidden = val
+            },
             cartype: function (val) {
                 this.tableitems[7].subs[0].options = val
             }

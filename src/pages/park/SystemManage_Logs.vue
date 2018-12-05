@@ -288,7 +288,7 @@
                         subs: [{
                             label: '备注',
                             prop: 'remark',
-                            width: '150',
+                            width: '138',
                             type: 'str',
                             editable: true,
                             searchable: true,

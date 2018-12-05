@@ -48,7 +48,7 @@ import SystemManage_CarManage_BindType from './pages/park/SystemManage_CarManage
 import SystemManage_Price from './pages/park/SystemManage_Price.vue';
 import SystemManage_MonthCard from './pages/park/SystemManage_MonthCard.vue';
 import SystemManage_Logs from './pages/park/SystemManage_Logs.vue';
-
+import SystemManage_AddedService_Sms from './pages/park/SystemManage_Sms';
 
 //cyz add
 import  MonitorApp from './MonitorApp.vue';
@@ -314,8 +314,8 @@ let routes = [
             {path: '/systemManage_CarManage_BindType', component: SystemManage_CarManage_BindType, name: '车型管理son'},
             {path: '/systemManage_Price', component: SystemManage_Price, name: '价格管理'},
             {path: '/systemManage_MonthCard', component: SystemManage_MonthCard, name: '月卡套餐管理'},
-            {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'}
-
+            {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'},
+            {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'}//增值服务-短信服务
 
         ]
     },

@@ -78,47 +78,48 @@
         </div>
         <!--删除提示框-->
         <el-dialog
+                width="478px"
                 :visible.sync="delForm.delVisible"
                 :show-close="false"
                 custom-class="custom-dialog deleteTip">
 
             <header class="dialog-header" slot="title">
-                <span class="dialog-title-icon"></span>提示
-                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="cancelDel"></i>
+                提示<i class="el-icon-close dialog-header-iconfont" @click="cancelDel"></i>
             </header>
-            <div class="dialog-body" style="height: 100px;line-height: 100px;text-align: center;font-size: 24px">
-                 <p><i class="el-icon-warning" style="margin-right: 19px;color: #f44336"></i> 删除后不可恢复！确定此操作？</p>
+            <div class="dialog-body" style="height: 40px;line-height: 40px;text-align: center;font-size: 16px">
+                 <p><img class="info-icon" :src="infoIcon"> 确认删除？此操作不可恢复！</p>
             </div>
             <footer slot="footer" class="dialog-footer">
-                <el-button type="primary" size="small" @click="handledelete" style="width: 90px;">确 定</el-button>
-                <el-button @click="cancelDel" size="small" style="width: 90px;margin-left: 60px">取 消</el-button>
+                <el-button type="primary" class="dialog-footer-btn" @click="handledelete" >确 定</el-button>
+                <el-button @click="cancelDel" class="dialog-footer-btn" style="margin-left: 36px">取 消</el-button>
             </footer>
         </el-dialog>
         <!--没封装数据的删除提示框-->
         <el-dialog
+                width="478px"
                 :visible.sync="delForm.delVisible2"
                 :show-close="false"
                 custom-class="custom-dialog deleteTip">
 
             <header class="dialog-header" slot="title">
-                <span class="dialog-title-icon"></span>提示
-                <i class="iconfont icon-guanbi dialog-header-iconfont" @click="cancelDel"></i>
+                提示<i class="el-icon-close dialog-header-iconfont" @click="cancelDel"></i>
             </header>
-            <div class="dialog-body" style="height: 100px;line-height: 100px;text-align: center;font-size: 24px">
-                <p><i class="el-icon-warning" style="margin-right: 19px;color: #f44336"></i> 删除后不可恢复！确定此操作？</p>
+            <div class="dialog-body" style="height: 40px;line-height: 40px;text-align: center;font-size: 16px">
+                <p><img class="info-icon" :src="infoIcon"> 确认删除？此操作不可恢复！</p>
             </div>
             <footer slot="footer" class="dialog-footer">
-                <el-button type="primary" size="small" @click="handledelete2" style="width: 90px;">确 定</el-button>
-                <el-button @click="cancelDel" size="small" style="width: 90px;margin-left: 60px">取 消</el-button>
+                <el-button type="primary" class="dialog-footer-btn" @click="handledelete2" >确 定</el-button>
+                <el-button @click="cancelDel" class="dialog-footer-btn" style="margin-left: 36px">取 消</el-button>
             </footer>
         </el-dialog>
         <!--添加-->
         <custom-add-form
                 v-if="addTo"
                 ref="addref"
+                :dialogStyle="dialogStyle"
                 :value="addRowData"
                 :addFormConfig="TableItems"
-                title="添加"
+                :title="addTitle"
                 v-on:input="onAddInput"
                 v-on:add="onAdd"
                 v-on:cancelAdd="cancelAdd"
@@ -127,6 +128,7 @@
         <custom-edit-form
                 v-if="editTo"
                 ref="editref"
+                :dialogStyle="dialogStyle"
                 :value="editRowData"
                 :editFormConfig="TableItems"
                 title="编辑"
@@ -184,6 +186,7 @@
                 total:0,
                 tableData:[],
                 sform:{}, //搜索的条件
+                infoIcon:require('../../assets/images/info-icon.png'),
             }
         },
         props:{
@@ -224,6 +227,8 @@
 
                 }
             },
+            dialogStyle:Object,
+            addTitle:String,
         },
         methods:{
             //编辑

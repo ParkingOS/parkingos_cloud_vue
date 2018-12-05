@@ -2,7 +2,7 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">用券明细<span style="margin: 2px">-</span>用券明细</p>
+                <p style="float: left">充值明细<span style="margin: 2px">-</span>充值明细</p>
                 <div class="float-right"><el-button type="text" size="mini" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="resetForm">刷新</el-button></div>
             </header>
             <div class="shop-custom-console">
@@ -244,9 +244,10 @@
                 * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
                 * */
                 let sform = this.formItem;
-                //encodeURI(encodeURI('至'))
-                if(sform.currentData != null){
-                    sform.date = sform.currentData[0]+encodeURI(encodeURI('至'))+sform.currentData[0];
+                if(sform.currentData != null && sform.currentData != ''){
+                    sform.date = sform.currentData[0]+encodeURI(encodeURI('至'))+sform.currentData[1];
+                }else{
+                    sform.date = '';
                 }
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
