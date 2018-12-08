@@ -699,50 +699,54 @@
                             // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                             if (u.oid == ROLE_ID.GROUP) {
                                 // _this.$router.push({path: '/bolinkunion'});
-                            } else if (u.oid == ROLE_ID.CITYREGIS) {
-                                _this.$router.push({path: '/CreateUin'});
-                            } else if (u.oid == ROLE_ID.CHANNEL) {
-                                // _this.$router.push({path: '/account'});
-                            } else if (u.oid == ROLE_ID.UNION) {
-                                // _this.$router.push({path: '/account'});
-                                for (let item in _this.showUnionItem) {
-                                    //第一层循环，取出标签的 v-if
-                                    for (let p in AUTH_ID_UNION) {
-                                        //第二层循环，取出AUTH_ID的item
-                                        if (p == item) {
-                                            //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
-                                            _this.showUnionItem[item] = common.pageShow(u, AUTH_ID_UNION[p]);
-                                            if (_this.highlightindex == '') {
-                                                //没有导航到任意界面，则继续检测
-                                                if (item.indexOf('_') > -1) {
-                                                    //带下划线的才是页面
-                                                    if (_this.showUnionItem[item]) {
-                                                        _this.highlightindex = '/' + item;
-                                                        _this.expandindex = '/' + item.split('_')[0];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                sessionStorage.setItem('showUnionItem', JSON.stringify(_this.showUnionItem));
-                                if (_this.highlightindex == '') {
-                                    _this.$router.push({path: '/index_Union'});
-                                } else {
-                                    // _this.highlightindex = '/data_Center';//先写死跳转到数据中心。后面权限加上了这句就注释掉
-                                    _this.$router.push({path: _this.highlightindex});
-                                    sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                }
-                            } else if (u.oid == ROLE_ID.CITY) {
-                                for(let item in showShopItem_const){
-                                    showShopItem_const[item] = false;
-                                }
-                                sessionStorage.removeItem('showShopItem');
-                                _this.highlightindex = '/union_manage';
-                                _this.$router.push({path: _this.highlightindex});
-                                sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                // _this.$router.push({path: '/Park_Manage'});
-                            } else if (u.oid == ROLE_ID.SHOP) {
+                            }
+                            // else if (u.oid == ROLE_ID.CITYREGIS) {
+                            //     _this.$router.push({path: '/CreateUin'});
+                            // }
+                            // else if (u.oid == ROLE_ID.CHANNEL) {
+                            //     // _this.$router.push({path: '/account'});
+                            // }
+                            // else if (u.oid == ROLE_ID.UNION) {
+                            //     // _this.$router.push({path: '/account'});
+                            //     for (let item in _this.showUnionItem) {
+                            //         //第一层循环，取出标签的 v-if
+                            //         for (let p in AUTH_ID_UNION) {
+                            //             //第二层循环，取出AUTH_ID的item
+                            //             if (p == item) {
+                            //                 //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
+                            //                 _this.showUnionItem[item] = common.pageShow(u, AUTH_ID_UNION[p]);
+                            //                 if (_this.highlightindex == '') {
+                            //                     //没有导航到任意界面，则继续检测
+                            //                     if (item.indexOf('_') > -1) {
+                            //                         //带下划线的才是页面
+                            //                         if (_this.showUnionItem[item]) {
+                            //                             _this.highlightindex = '/' + item;
+                            //                             _this.expandindex = '/' + item.split('_')[0];
+                            //                         }
+                            //                     }
+                            //                 }
+                            //             }
+                            //         }
+                            //     }
+                            //     sessionStorage.setItem('showUnionItem', JSON.stringify(_this.showUnionItem));
+                            //     if (_this.highlightindex == '') {
+                            //         _this.$router.push({path: '/index_Union'});
+                            //     } else {
+                            //         // _this.highlightindex = '/data_Center';//先写死跳转到数据中心。后面权限加上了这句就注释掉
+                            //         _this.$router.push({path: _this.highlightindex});
+                            //         sessionStorage.setItem('highlightindex', _this.highlightindex);
+                            //     }
+                            // }
+                            // else if (u.oid == ROLE_ID.CITY) {
+                            //     for(let item in showShopItem_const){
+                            //         showShopItem_const[item] = false;
+                            //     }
+                            //     sessionStorage.removeItem('showShopItem');
+                            //     _this.highlightindex = '/union_manage';
+                            //     _this.$router.push({path: _this.highlightindex});
+                            //     sessionStorage.setItem('highlightindex', _this.highlightindex);
+                            // }
+                            else if (u.oid == ROLE_ID.SHOP) {
                                 //alert(JSON.stringify(u.authlist))
                                 for (let item in _this.showShopItem) {
                                     //第一层循环，取出标签的 v-if
@@ -775,12 +779,13 @@
                                 _this.$router.push({path: _this.highlightindex});
                                 sessionStorage.setItem('highlightindex', _this.highlightindex);
                                 // _this.$router.push({path: '/Park_Manage'});
-                            } else if (u.oid == ROLE_ID.BOSS) {
-                                _this.highlightindex = '/city_manage';
-                                _this.$router.push({path: _this.highlightindex});
-                                sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                //_this.$router.push({path: '/City_Manage'});
-                            } else if (u.oid == ROLE_ID.PARK) {
+                            }
+                            // else if (u.oid == ROLE_ID.BOSS) {
+                            //     _this.highlightindex = '/city_manage';
+                            //     _this.$router.push({path: _this.highlightindex});
+                            //     sessionStorage.setItem('highlightindex', _this.highlightindex);
+                            // }
+                            else if (u.oid == ROLE_ID.PARK) {
                                 //先跳转空页面，然后再根据数据情况显示页面再跳转
                                 // _this.$router.push({path: '/index'});
                                 // _this.$router.push({path: '/orderManage_Orders'});
@@ -832,6 +837,14 @@
 
                             } else if (u.role == 6) {
 
+                            }else{
+                                _this.$message({
+                                    message: '新版云平台页面，暂时只支持车场端和商户端',
+                                    type: 'warning',
+                                    duration:6000,
+                                    showClose:true
+                                });
+                                _this.logining = false;
                             }
                         } else {
                             _this.logining = false;
