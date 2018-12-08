@@ -58,10 +58,16 @@
                     <el-submenu v-if="this.showParkItem.monthMember" index="/monthMember">
                         <template slot="title">
                             <i class="menu-icon iconfont icon-yueqiahuiyuan"></i>
-                            <span class="menuitem">月卡会员</span></template>
+                            <span class="menuitem">会员管理</span></template>
                         <el-menu-item index="/monthMember_VIP" v-if="this.showParkItem.monthMember_VIP">月卡会员
                         </el-menu-item>
                         <el-menu-item index="/monthMember_Refill" v-if="this.showParkItem.monthMember_Refill">月卡续费记录
+                        </el-menu-item>
+                        <el-menu-item index="/prepay_card" v-if="this.showParkItem.prepay_card">储值卡会员
+                        </el-menu-item>
+                        <el-menu-item index="/prepay_card_trade" v-if="this.showParkItem.prepay_card_trade">储值卡充值记录
+                        </el-menu-item>
+                        <el-menu-item index="/prepay_card_use" v-if="this.showParkItem.prepay_card_use">储值卡使用记录
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.vistorManage" index="/vistorManage">

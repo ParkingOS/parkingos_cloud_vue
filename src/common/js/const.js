@@ -6,6 +6,9 @@ export const AUTH_ID = {
     monthMember: 7, //月卡会员-大菜单
     monthMember_Refill: 297, //月卡续费记录
     monthMember_VIP: 298, //月卡会员-小菜单
+    prepay_card:336,
+    prepay_card_trade:337,
+    prepay_card_use:338,
     orderStatistics: 11, //统计分析
     orderStatistics_DailyReport: 12, //统计分析-时租订单统计-日报
     orderStatistics_MonthReport: 314, //统计分析-时租订单统计-日报
@@ -58,6 +61,9 @@ export const showParkItem_const = {
     monthMember: false,
     monthMember_Refill: false,
     monthMember_VIP: false,
+    prepay_card:false,
+    prepay_card_trade:false,
+    prepay_card_use:false,
     orderStatistics: false,
     orderStatistics_DailyReport: false,
     orderStatistics_MonthReport: false,

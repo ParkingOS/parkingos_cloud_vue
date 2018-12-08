@@ -2,6 +2,7 @@
 // export const path = window.parkingosapi;
 export const path = 'http://yun.bolink.club/cloud';
 // export const path = 'http://test.bolink.club/cloud';
+// export const path = 'http://192.168.199.205:10203/cloud';
 // export const path = 'http://pub.ghparking.com/cloud';
 // export const server = 'http://pub.ghparking.com';
 export const server = 'http://yun.bolink.club';
@@ -76,6 +77,7 @@ export const types = [
     {'value_no': 'product', 'value_name': '月卡套餐'},
     {'value_no': 'homeowner', 'value_name': '业主管理'},
     {'value_no': 'message', 'value_name': '增值服务'},
+    {'value_no': 'prepaycard', 'value_name': '储值卡会员'},
     // {'value_no': 'addservice', 'value_name': '增值服务'},
     {'value_no': '', 'value_name': '全部'}
 ];

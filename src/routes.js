@@ -20,6 +20,9 @@ import OrderManage_Poles from './pages/park/OrderManage_Poles.vue';
 import OrderManage_OrderDetail from './pages/park/OrderManage_OrderDetail.vue';
 import MonthMember_Refill from './pages/park/MonthMember_Refill.vue';
 import MonthMember_VIP from './pages/park/MonthMember_VIP.vue';
+import PrepayCard_VIP from './pages/park/PrepayCard_VIP.vue';
+import PrepayCard_Trade from './pages/park/PrepayCard_Trade.vue';
+import PrepayCard_Use from './pages/park/PrepayCard_Use.vue';
 import OnlinePay_CashManage from './pages/park/OnlinePay_CashManage.vue';
 import OnlinePay_Income from './pages/park/OnlinePay_Income.vue';
 import OrderStatistics_DailyReport from './pages/park/OrderStatistics_DailyReport.vue';
@@ -229,7 +232,10 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/monthMember_Refill', component: MonthMember_Refill, name: '月卡续费记录'},
-            {path: '/monthMember_VIP', component: MonthMember_VIP, name: '月卡会员'}
+            {path: '/monthMember_VIP', component: MonthMember_VIP, name: '月卡会员'},
+            {path: '/prepay_card', component: PrepayCard_VIP, name: '储值卡会员'},
+            {path: '/prepay_card_trade', component: PrepayCard_Trade, name: '储值卡充值记录'},
+            {path: '/prepay_card_use', component: PrepayCard_Use, name: '储值卡使用记录'},
         ]
     },
     {
