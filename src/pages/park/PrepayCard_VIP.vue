@@ -1,59 +1,67 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            储值卡会员
-            <div class="float-right">
-                <el-button size="mini" @click="resetForm">刷新</el-button>
-            </div>
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item label="类型" class="clear-style margin-left-clear">
-                    <el-select v-model="searchFormData.time_type" placeholder="请选择" size="mini" style="width: 140px">
-                        <el-option
-                                v-for="item in timerType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-date-picker
-                            style="width: 312px"
-                            size="mini"
-                            v-model="searchFormData.currentData"
-                            type="datetimerange"
-                            range-separator="-"
-                            :default-time="['00:00:00','23:59:59']"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            value-format="timestamp"
-                            @change="changeDateFormat"
-                    >
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="车牌号" class="clear-style">
-                    <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                    <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-button type="primary" size="mini" @click="registerMember" v-if="showCustomizeAdd">注册会员</el-button>
-                </el-form-item>
-                <div class="second-search-item-style" v-show="isShow">
-                    <el-form-item label="车主姓名" class="clear-style margin-left-clear">
-                        <el-input v-model="searchFormData.name" placeholder="请输入车主姓名" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="储值卡编号" class="clear-style">
-                        <el-input v-model="searchFormData.card_id" placeholder="请输入储值卡编号" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">会员管理<span style="margin: 2px">-</span>储值卡会员</p>
+                <div class="float-right">
+                    <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
-            </el-form>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="advanced-options" v-show="isShow">
+                        <el-form-item label="车主姓名" class="clear-style">
+                            <el-input v-model="searchFormData.name" placeholder="请输入车主姓名" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="储值卡编号" class="clear-style">
+                            <el-input v-model="searchFormData.card_id" placeholder="请输入储值卡编号" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                    </div>
+                    <div class="console-main">
+                        <el-form-item>
+                            <el-select v-model="searchFormData.time_type" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
+                                <el-option
+                                        v-for="item in timerType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="车牌号" class="clear-style margin-left-20">
+                            <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button type="text"
+                                       @click="changeMore"
+                                       style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <el-button type="primary" @click="registerMember" v-if="showCustomizeAdd">注册会员</el-button>
+                                <!--<el-button type="primary"  @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>-->
+                            </el-form-item>
+                        </div>
+                    </div>
+
+                </el-form>
+            </div>
         </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :editTo="editTo"
@@ -174,6 +182,8 @@
         },
         data() {
             return {
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
                 highlightindex:sessionStorage.getItem('highlightindex'),
                 renewalImg:require('../../assets/images/renewal.png'),
                 //短信模块
@@ -237,77 +247,6 @@
                 resetCarnumber: '',
                 btswidth: '200',
                 tableitems: [
-
-                     {
-                        hasSubs:false,
-                        subs: [{
-                            label: '操作',
-                            columnType:'render',
-                            align: 'center',
-                            width:'150',
-                            hidden:this.hideOptions,
-                            unsortable: true,
-                            render: (h, params) => {
-                                return h('div', [
-                                    h('ElButton', {
-                                        props: {
-                                            type: 'text',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '5px',
-                                            display:this.showEdit?'':'none'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.editRowData = params.row;
-                                                this.editTo++;
-                                            }
-                                        }
-                                    }, '编辑'),
-                                    h('ElButton', {
-                                        props: {
-                                            type: 'text',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '5px',
-                                            display:this.showmRefill?'':'none'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.showrefill(params.index, params.row)
-                                            }
-                                        }
-                                    }, '续费'),
-                                    h('ElButton', {
-                                        props: {
-                                            type: 'text',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '5px',
-                                            color:'#F54B4B',
-                                            display:this.showdelete?'':'none'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.delForm = {
-                                                    $index:params.index,
-                                                    delVisible:true,
-                                                    id:params.row.id,
-                                                    card_id:params.row.card_id
-                                                }
-                                            }
-                                        }
-                                    }, '删除'),
-                                ]);
-                            }
-                        }]
-                    },
                     {
                         hasSubs: false, subs: [
                             {
@@ -441,7 +380,76 @@
                             },
                         ]
                     },
-
+                    {
+                        hasSubs:false,
+                        subs: [{
+                            label: '操作',
+                            columnType:'render',
+                            align: 'center',
+                            width:'150',
+                            hidden:this.hideOptions,
+                            unsortable: true,
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.editRowData = params.row;
+                                                this.editTo++;
+                                            }
+                                        }
+                                    }, '编辑'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            display:this.showmRefill?'':'none'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.showrefill(params.index, params.row)
+                                            }
+                                        }
+                                    }, '续费'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            color:'#F54B4B',
+                                            display:this.showdelete?'':'none'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.delForm = {
+                                                    $index:params.index,
+                                                    delVisible:true,
+                                                    id:params.row.id,
+                                                    card_id:params.row.card_id
+                                                }
+                                            }
+                                        }
+                                    }, '删除'),
+                                ]);
+                            }
+                        }]
+                    },
                 ],
                 searchtitle: '高级查询',
                 addtitle: '注册会员',
@@ -512,8 +520,8 @@
         methods: {
             goShopSms(){
                 this.setSmSVible = false;
-                sessionStorage.setItem('highlightindex', '/SystemManage_AddedService_Sms');
-                this.$router.push({path: '/SystemManage_AddedService_Sms'});
+                sessionStorage.setItem('highlightindex', '/systemManage_AddedService_Sms');
+                this.$router.push({path: '/systemManage_AddedService_Sms'});
 
             },
             //短信设置
@@ -868,7 +876,8 @@
         },
         watch: {
             hideOptions:function (val,oldVal) {
-                this.tableitems[0].subs[0].hidden = val
+                let len = this.tableitems.length;
+                this.tableitems[len -1].subs[0].hidden = val
             }
         }
     }

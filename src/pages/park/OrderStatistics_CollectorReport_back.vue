@@ -1,106 +1,100 @@
 <template>
-    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
-        <div class="shop-custom-operation">
-            <header class="shop-custom-header">
-                <p style="float: left">统计分析<span style="margin: 2px">-</span>收费员日报</p>
-                <div class="float-right">
-                    <el-button type="text"  icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="resetForm">刷新</el-button>
-                </div>
-            </header>
-            <div class="shop-custom-console">
-                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
-                    <div class="console-main">
-                        <el-form-item label="选择时间">
-                            <el-date-picker
-                                    style="width: 150px"
-                                    class="shop-custom-date"
-                                    v-model="searchFormData.currentData"
-                                    type="date"
-                                    :placeholder="start_placeholder"
-                                    value-format="timestamp"
-                            >
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item label="收费员" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.selParkId" placeholder="请选择" class="shop-custom-input">
-                                <el-option
-                                        v-for="item in parklistChart"
-                                        :key="item.value_no"
-                                        :label="item.value_name"
-                                        :value="item.value_no">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item class="shop-clear-style">
-                            <el-button type="primary" @click="queryForChart" icon="el-icon-search">搜索</el-button>
-                        </el-form-item>
-                        <div class="float-right">
-                            <el-form-item class="shop-clear-style">
-                                <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                                    <el-button type="primary" @click="handleExport"  native-type="button">导出</el-button>
-                                </el-tooltip>
-                            </el-form-item>
-                        </div>
-                    </div>
+    <!--<section>-->
+    <!--<common-table-->
+    <!--:queryapi="queryapi"-->
+    <!--:tableheight="tableheight"-->
+    <!--:fieldsstr="fieldsstr"-->
+    <!--:tableitems="tableitems"-->
+    <!--:btswidth="btswidth"-->
+    <!--:hide-export="hideExport"-->
+    <!--:exportapi="exportapi"-->
+    <!--:hide-options="hideOptions"-->
+    <!--:searchtitle="searchtitle"-->
+    <!--:showdateSelector="showdateSelector"-->
+    <!--:showCollectorSelector="showCollectorSelector"-->
+    <!--:hideTool="hideTool"-->
+    <!--:hideSearch="hideSearch"-->
+    <!--:hideAdd="hideAdd"-->
+    <!--:hidePagination="hidePagination"-->
+    <!--ref="bolinkuniontable"-->
+    <!--&gt;</common-table>-->
+    <!--</section>-->
 
-                </el-form>
-            </div>
-        </div>
-        <!--折线图-->
-        <div class="charts-wrapper">
-            <div  id="chart" class="count-charts-style" ></div>
-        </div>
+    <section style="margin: 0 20px;margin-top: 5px">
+        <el-tabs v-model="activeName" type="card">
+            <el-tab-pane name="tableStyle" class="tab-content-pad">
+                <span slot="label"><i class="el-icon-tickets"></i> 表格模式</span>
+                <common-table
+                        :queryapi="queryapi"
+                        :tableheight="tableheight"
+                        :fieldsstr="fieldsstr"
+                        :tableitems="tableitems"
+                        :orderfield="orderfield"
+                        :btswidth="btswidth"
+                        :hide-export="hideExport"
+                        :exportapi="exportapi"
+                        :hide-options="hideOptions"
+                        :searchtitle="searchtitle"
+                        :showdateSelector33="showdateSelector33"
+                        :showCollectorSelector="showCollectorSelector"
+                        :hideTool="hideTool"
+                        :hideSearch="hideSearch"
+                        :hideAdd="hideAdd"
+                        :hidePagination="hidePagination"
+                        ref="bolinkuniontable"
+                ></common-table>
+            </el-tab-pane>
+            <el-tab-pane name="chartStyle" class="tab-content-pad">
+                <span slot="label"><i class="el-icon-picture"></i> 图表模式</span>
 
-        <div class="count-table-wrapper-style">
-            <el-table
-                    :data="tableData"
-                    style="width: 100%">
-                <el-table-column
-                        align="center"
-                        type="index"
-                        label="索引"
-                        width="70">
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="name"
-                        label="收费员"
-                        width="110">
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="scount"
-                        label="总订单数">
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="amount_receivable"
-                        label="应收金额">
-                </el-table-column>
-                <el-table-column label="实收金额" align="center">
-                    <el-table-column
-                            align="center"
-                            prop="cash_pay"
-                            label="现金支付">
-                    </el-table-column>
-                    <el-table-column
-                            align="center"
-                            prop="electronic_pay"
-                            label="电子支付">
-                    </el-table-column>
-                    <el-table-column
-                            align="center"
-                            prop="act_total"
-                            label="合计">
-                    </el-table-column>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="free_pay"
-                        label="减免金额">
-                </el-table-column>
-            </el-table>
-        </div>
+                <section class="date-picker-sec">
+                    <section>
+                        <el-select v-model="selParkId" filterable placeholder="全部" @change="changeanalysisdatepark" size="mini">
+                            <el-option
+                                    v-for="item in parklistChart"
+                                    :key="item.value_no"
+                                    :label="item.value_name"
+                                    :value="item.value_no">
+                            </el-option>
+                        </el-select>
+                        <!--<el-date-picker-->
+                        <!--v-model="chartDate"-->
+                        <!--type="datetimerange"-->
+                        <!--format="yyyy-MM-dd hh:mm:ss"-->
+                        <!--align="right"-->
+                        <!--unlink-panels-->
+                        <!--range-separator="至"-->
+                        <!--start-placeholder="开始日期"-->
+                        <!--end-placeholder="结束日期"-->
+                        <!--:picker-options="chartPickerOptions" >-->
+                        <!--</el-date-picker>-->
+                        <el-date-picker
+                                size="mini"
+                                v-model="chartDate"
+                                type="date"
+                                align="right"
+                                unlink-panels
+
+                                :placeholder="start_placeholder"
+
+                                @change="changeanalysisdate"
+                                >
+                        </el-date-picker>
+                        <!--<el-button type="primary" @click="queryForChart">确定</el-button>-->
+                    </section>
+
+                </section>
+                <!--<section >-->
+                    <!--<div  id="chart"  v-bind:style="{height:chartHeight,width:chartWidth}" style="overflow-y: auto;padding-right: 30px;"></div>-->
+                    <!--&lt;!&ndash;<div id="chart" :style="chartstyles"></div>&ndash;&gt;-->
+                <!--</section>-->
+                <section class="chart-sec">
+                    <!--<div  id="chart" class="chart-style"  style="overflow-y: auto;padding-right: 30px;width:800px;height:460px;"></div>-->
+                    <div  id="chart" class="chart-style"  :style='chartstyles'></div>
+                </section>
+            </el-tab-pane>
+        </el-tabs>
+
 
     </section>
 
@@ -120,12 +114,6 @@
         },
         data() {
             return {
-                tableData:[],
-                searchFormData:{
-                    currentData:'',
-                    selParkId:'',
-                },
-                /////////////////////////////////////////
                 //图表相关
                 start_placeholder: '',
                 end_placeholder: '',
@@ -360,32 +348,18 @@
             };
         },
         methods: {
-            resetForm(){
-                this.initFn(this)
-            },
-            initFn(that){
-                /*
-                * 初始化操作
-                * 点击刷新时 和初进入页面时
-                * */
-                that.searchFormData={
-                    currentData:'',
-                    selParkId:'',
-                };
-                that.queryForChart();
-            },
-            searchFn(){
-
-            },
-            exportFn(){
-
-            },
-            ////////////////////////////////////////////////////////
             initChart: function () {
                 //初始化图表
                 this.chart = echarts.init(document.getElementById('chart'));
             },
-
+            changeanalysisdate(input2) {
+                //修改车场统计分析日期
+                this.queryForChart();
+            },
+            changeanalysisdatepark(val) {
+                this.selParkId = val;
+                this.queryForChart();
+            },
             queryForChart: function (isFirst) {
                 let api = this.queryapi;
                 var formdata = {};
@@ -395,20 +369,15 @@
                 formdata.orderby = this.orderby;
                 formdata.orderfield = this.orderfield;
                 formdata.fieldsstr = this.fieldsstr;
-                if(this.searchFormData.currentData != null && this.searchFormData.currentData != ''){
-                    formdata.date = (this.searchFormData.currentData)/1000;
-                }else{
-                    formdata.date = '';
-                }
-                if (this.searchFormData.selParkId > 0) {
-                    formdata.out_uid = 3;
-                    formdata.out_uid_start = this.searchFormData.selParkId;
-                    formdata.comid = '';
-                }else {
-                    formdata.out_uid = '';
-                    formdata.out_uid_start = '';
+                if (this.selParkId > 0) {
+                    formdata.out_uid = this.selParkId;
+                    formdata.out_uid_start = this.selParkId;
                     formdata.comid = '';
                 }
+                if (isFirst !== 1) {
+                    formdata.date = new Date(this.chartDate).getTime()/1000;
+                }
+
                 formdata = common.generateForm(formdata);
                 vm.$axios.post(path + api, vm.$qs.stringify(formdata), {
                     headers: {
@@ -416,23 +385,34 @@
                     }
                 }).then(function (response) {
                     // 把配置和数据放这里
+
                     let seriesData = [
+                        // {
+                        //     name:'订单总数',
+                        //     type:'line',
+                        //     stack: '总量',
+                        //     areaStyle: {normal: {}},
+                        //     data:[]
+                        // },
                         {
                             name: '现金支付',
                             type: 'line',
                             stack: '总量1',
+                            // areaStyle: {normal: {}},
                             data: []
                         },
                         {
                             name: '应收金额',
                             type: 'line',
                             stack: '总量2',
+                            // areaStyle: {normal: {}},
                             data: []
                         },
                         {
                             name: '电子支付',
                             type: 'line',
                             stack: '总量3',
+                            // areaStyle: {normal: {}},
                             data: []
                         },
                         {
@@ -445,6 +425,7 @@
                                     position: 'top'
                                 }
                             },
+                            // areaStyle: {normal: {}},
                             data: []
                         },
                         {
@@ -457,16 +438,17 @@
                                     position: 'top'
                                 }
                             },
+                            // areaStyle: {normal: {}},
                             data: []
                         }
                     ];
                     let xAxisData = [];
                     let dataRows = response.data.rows;
-                    vm.tableData = dataRows;
-                    // console.log(response.data.rows);
+                    console.log(response.data.rows);
                     for (let i = 0; i < dataRows.length; i++) {
                         let rData = dataRows[i];
                         xAxisData[i] = rData.name;
+                        //seriesData[0].data[i] = rData.scount  ;//订单总数
                         seriesData[0].data[i] = rData.cash_pay; //现金支付
                         seriesData[1].data[i] = rData.amount_receivable;  //应收金额
                         seriesData[2].data[i] = rData.electronic_pay;  //电子支付
@@ -486,7 +468,6 @@
                                 }
                             }
                         },
-                        color:['#727BDD','#00CAAA','#FAB127','#51A5DE','#76DDFB'],
                         legend: {
                             data: ['现金支付', '应收金额', '电子支付', '实收金额', '减免金额']
                         },
@@ -517,95 +498,74 @@
                         series: seriesData
                     });
                 });
-            },
-            getQuery(){
-                let _this = this;
-                _this.$nextTick(function () {
-                    axios.all([common.getCollector()])
-                        .then(axios.spread(function (ret) {
-                            _this.parklistChart = ret.data;
-                            _this.parklistChart.push({
-                                    value_name: '全部',
-                                    value_no: -1
-                                }
-                            );
-                            _this.queryForChart(1);
-                        }));
-                });
-            },
-            //导出表格数据
-            handleExport() {
-                let vm = this;
-                let api = this.exportapi;
-                let params = '';
-                if (common.getLength(this.searchFormData) == 0) {
-                    params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
-                } else {
-                    for (var x in this.searchFormData) {
-                        //console.log(this.sform[x])
-                        if(x=='car_number'||x=='nickname1'){
-                            params += x + '=' + encodeURI(encodeURI(this.searchFormData[x])) + '&';
-                        }else{
-                            params += x + '=' + this.searchFormData[x] + '&';
-                        }
-
-                    }
-                }
-                let groupid = sessionStorage.getItem('groupid');
-                let cityid = sessionStorage.getItem('cityid');
-                if (groupid != 'undefined' && !(params.indexOf('groupid=') > -1)) {
-                    params += '&groupid=' + groupid;
-                }
-                if (cityid != 'undefined' && !(params.indexOf('cityid=') > -1)) {
-                    params += '&cityid=' + cityid;
-                }
-                if (params.indexOf('comid=') > -1) {
-                    window.open(path + api + '?' + params);
-                } else {
-                    window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
-                }
-
-            },
+            }
         },
         mounted() {
-            this.initChart();
-        },
+            window.onresize = () => {
+                this.tableheight = common.gwh() - 200;
+            };
+            this.tableheight = common.gwh() - 200;
 
+
+        },
+        created(){
+            this.chartstyles = 'overflow-y: auto;padding-right: 30px;width: ' + (common.gww() - 566) + 'px;height: ' + (common.gwh() - 187) + 'px;';
+        },
         activated() {
+            this.activeName= 'tableStyle',
+            window.onresize = () => {
+                this.tableheight = common.gwh() - 200;
+            };
+            this.tableheight = common.gwh() - 200;
+            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
+            this.$refs['bolinkuniontable'].getTableData({date: '', out_uid: ''});
+            // this.getTableData(this.sform);
+            this.chartHeight = (common.gwh()-200)+'px';
+            this.chartWidth = (common.gww()/(common.gwh()-200))*common.gwh();
+            // console.log(common.gwh());
+            // console.log(common.gww());
+            // 637
+            // 1366
+            //this.start_placeholder = common.getFirstDayOfWeek();
             this.start_placeholder = common.currentDate();
-            this.getQuery();
-            this.chart.resize();
-            window.addEventListener('resize', () => {
-                this.chart.resize();
+            //console.log('chenbowen~~~~~~~~~~~~~~~'+common.getFirstDayOfWeek());
+            this.end_placeholder = common.currentDate() + ' 23:59:59';
+            // this.chartDate = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
+            this.selParkId = -1;
+
+            let _this = this;
+            _this.$nextTick(function () {
+                axios.all([common.getCollector()])
+                    .then(axios.spread(function (ret) {
+                        _this.parklistChart = ret.data;
+                        _this.parklistChart.push({
+                                value_name: '全部',
+                                value_no: -1
+                            }
+                        );
+                        _this.queryForChart(1);
+                    }));
             });
+
+            this.initChart();
         }
     };
 
 </script>
 
 <style>
+    .gutter {
+        display: none
+    }
 
-    .charts-wrapper{
-        margin: 12px;
-        padding: 23px 45px 38px 20px;
-        height: 327px;
-        background: #fff;
-    }
-    .count-charts-style {
-        /*width: 100%;*/
-        height: 100%;
-    }
-    .count-table-wrapper-style{
-        margin: 14px 12px;
-        padding: 20px 16px;
-        background: #fff;
-    }
     .date-picker-sec, .chart-sec {
         width: 100%;
         display: flex;
         justify-content: space-around;
     }
 
-
+    .chart-style {
+        padding-top: 60px;
+    }
 </style>
 

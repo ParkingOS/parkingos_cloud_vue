@@ -1,71 +1,79 @@
 <template>
-    <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            月卡会员
-            <div class="float-right">
-                <el-button size="mini" @click="exportFn" v-if="!hideExport">导出</el-button>
-                <el-button size="mini" @click="resetForm">刷新</el-button>
-            </div>
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item label="类型" class="clear-style margin-left-clear">
-                    <el-select v-model="searchFormData.time_type" placeholder="请选择" size="mini" style="width: 140px">
-                        <el-option
-                                v-for="item in timerType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-date-picker
-                            style="width: 312px"
-                            size="mini"
-                            v-model="searchFormData.currentData"
-                            type="datetimerange"
-                            range-separator="-"
-                            :default-time="['00:00:00','23:59:59']"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            value-format="timestamp"
-                            @change="changeDateFormat"
-                    >
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="车牌号" class="clear-style">
-                    <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                    <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-button type="primary" size="mini" @click="setSMS" v-if="showSetSMS">短信设置</el-button>
-                    <el-button type="primary" size="mini" @click="registerMember" v-if="showCustomizeAdd">注册会员</el-button>
-                </el-form-item>
-                <div class="second-search-item-style" v-show="isShow">
-                    <el-form-item label="车主姓名" class="clear-style margin-left-clear">
-                        <el-input v-model="searchFormData.name" placeholder="请输入车主姓名" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="月卡编号" class="clear-style">
-                        <el-input v-model="searchFormData.card_id" placeholder="请输入月卡编号" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="套餐名称" class="clear-style margin-left-20">
-                        <el-select v-model="searchFormData.pid" placeholder="请选择" size="mini">
-                            <el-option
-                                    v-for="item in pname"
-                                    :key="item.value_no"
-                                    :label="item.value_name"
-                                    :value="item.value_no">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">会员管理<span style="margin: 2px">-</span>月卡会员</p>
+                <div class="float-right">
+                    <el-button type="text" icon="el-icon-message" @click="setSMS" v-if="showSetSMS">短信设置</el-button>
+                    <el-button type="text" icon="el-icon-printer"  @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>
+                    <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
-            </el-form>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="advanced-options" v-show="isShow">
+                        <el-form-item label="车主姓名" class="clear-style">
+                            <el-input v-model="searchFormData.name" placeholder="请输入车主姓名" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="月卡编号" class="clear-style">
+                            <el-input v-model="searchFormData.card_id" placeholder="请输入月卡编号" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="套餐名称" class="clear-style margin-left-20">
+                            <el-select v-model="searchFormData.pid" placeholder="请选择" class="shop-custom-input">
+                                <el-option
+                                        v-for="item in pname"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </div>
+                    <div class="console-main">
+                        <el-form-item>
+                            <el-select v-model="searchFormData.time_type" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
+                                <el-option
+                                        v-for="item in timerType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="车牌号" class="clear-style margin-left-20">
+                            <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button type="text"
+                                       @click="changeMore"
+                                       style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <el-button type="primary" @click="registerMember" v-if="showCustomizeAdd">注册会员</el-button>
+                                <!--<el-button type="primary"  @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>-->
+                            </el-form-item>
+                        </div>
+                    </div>
+
+                </el-form>
+            </div>
         </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :editTo="editTo"
@@ -303,6 +311,8 @@
         },
         data() {
             return {
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
                 highlightindex:sessionStorage.getItem('highlightindex'),
                 renewalImg:require('../../assets/images/renewal.png'),
                 //短信模块
@@ -581,7 +591,7 @@
                                             display:this.showEdit?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.editRowData = params.row;
                                                 this.editRowData.limit_day_type = this.editRowData.limit_day_type+'';
@@ -599,7 +609,7 @@
                                             display:this.showmRefill?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.showrefill(params.index, params.row)
                                             }
@@ -616,7 +626,7 @@
                                             display:this.showdelete?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.delForm = {
                                                     $index:params.index,
@@ -711,8 +721,8 @@
         methods: {
             goShopSms(){
                 this.setSmSVible = false;
-                sessionStorage.setItem('highlightindex', '/SystemManage_AddedService_Sms');
-                this.$router.push({path: '/SystemManage_AddedService_Sms'});
+                sessionStorage.setItem('highlightindex', '/systemManage_AddedService_Sms');
+                this.$router.push({path: '/systemManage_AddedService_Sms'});
 
             },
             //短信设置

@@ -1,18 +1,50 @@
 <template>
     <div class="table-expand-reset">
         <div v-if="nameType == 'order-manage'">
-            <el-row>
-                <el-col :span="12"><div class="">入场收费员:{{common.nameformat(expandData, formatCollectors, 'uid')}}</div></el-col>
-                <el-col :span="12"><div class="">出场收费员:{{common.nameformat(expandData, formatCollectors, 'out_uid')}}</div></el-col>
+            <el-row :gutter="20">
+                <el-col :span="12" class="order-expand-style">
+                    <div class="order-expand-box order-expand-box-left">
+                        <div class="order-img-box">
+                            <img style="width: 203px;height: 115px;vertical-align: middle;" :src="img_in" alt="入场图片">
+                            <span>入场图片</span>
+                        </div>
+
+                        <div class="order-expand-info">
+                            <p><span>入场方式：</span>{{expandData.c_type}}</p>
+                            <p><span>入场通道：</span>{{expandData.in_passid}}</p>
+                            <p><span>入场时间：</span>{{common.dateformat(expandData.create_time)}}</p>
+                            <p><span>收费人员：</span>{{common.nameformat(expandData, formatCollectors, 'uid')}}</p>
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="12" class="order-expand-style">
+                    <div class="order-expand-box">
+                        <div class="order-img-box">
+                            <img style="width: 203px;height: 115px;vertical-align: middle;" :src="img_out" alt="出场图片">
+                            <span>出场图片</span>
+                        </div>
+                        <div class="order-expand-info">
+                            <p><span>停车时长：</span>{{expandData.duration}}</p>
+                            <p><span>出场通道：</span>{{expandData.out_passid}}</p>
+                            <p><span>出场时间：</span>{{common.dateformat(expandData.end_time)}}</p>
+                            <p><span>收费人员：</span>{{common.nameformat(expandData, formatCollectors, 'out_uid')}}</p>
+                        </div>
+                    </div>
+                </el-col>
             </el-row>
-            <el-row>
-                <el-col :span="12"><div class="">入场通道:{{expandData.in_passid}}</div></el-col>
-                <el-col :span="12"><div class="">出场通道:{{expandData.out_passid}}</div></el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12"><div class="">入场图片: <img style="width: 143px;height: 80px;vertical-align: middle" :src="img_in" alt="入场图片"> </div></el-col>
-                <el-col :span="12"><div class="">出场图片: <img style="width: 143px;height: 80px;vertical-align: middle" :src="img_out" alt="出场图片"> </div></el-col>
-            </el-row>
+
+            <!--<el-row>-->
+                <!--<el-col :span="12"><div class="">入场收费员:{{common.nameformat(expandData, formatCollectors, 'uid')}}</div></el-col>-->
+                <!--<el-col :span="12"><div class="">出场收费员:{{common.nameformat(expandData, formatCollectors, 'out_uid')}}</div></el-col>-->
+            <!--</el-row>-->
+            <!--<el-row>-->
+                <!--<el-col :span="12"><div class="">入场通道:{{expandData.in_passid}}</div></el-col>-->
+                <!--<el-col :span="12"><div class="">出场通道:{{expandData.out_passid}}</div></el-col>-->
+            <!--</el-row>-->
+            <!--<el-row>-->
+                <!--<el-col :span="12"><div class="">入场图片: <img style="width: 143px;height: 80px;vertical-align: middle" :src="img_in" alt="入场图片"> </div></el-col>-->
+                <!--<el-col :span="12"><div class="">出场图片: <img style="width: 143px;height: 80px;vertical-align: middle" :src="img_out" alt="出场图片"> </div></el-col>-->
+            <!--</el-row>-->
         </div>
         <div v-if="nameType == 'month-member'" style="width: 100%">
             <el-form label-position="left" inline class="demo-table-expand">
@@ -223,6 +255,39 @@
             color: #99a9bf;
         }
     }
-
+    .order-expand-box{
+        height: 115px;
+        .order-img-box{
+            position: relative;
+            float: left;
+            span{
+                position: absolute;
+                bottom: 5px;
+                right: 17px;
+                z-index: 2;
+                font-size: 14px;
+                color: rgba(255,255,255,0.80);
+            }
+        }
+    }
+    .order-expand-box-left{
+        border-right: 1px dotted #979797;
+    }
+    .order-expand-info{
+        margin-left: 230px;
+        p{
+            line-height: 28px;
+            font-size: 14px;
+            color: rgba(0,0,0,0.80);
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            span{
+                font-size: 14px;
+                color: rgba(0,0,0,0.80);
+                font-weight: 700;
+            }
+        }
+    }
 
 </style>

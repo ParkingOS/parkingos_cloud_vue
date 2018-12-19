@@ -104,7 +104,8 @@
                             }
                         }
                     },
-                    color: ['#5396FA', '#FF9900','#28E483'],
+                    // color: ['#5396FA', '#FF9900','#28E483'],
+                    color: ['#3CC1AF', '#418BEC','#EBA23C'],
                     series: [{
                         name: '收费汇总',
                         type: 'pie',
@@ -124,8 +125,15 @@
                         },
                         itemStyle:{
                             normal:{
-                                borderColor:'#fff',
-                                borderWidth:2,
+                                // borderColor:'#fff',
+                                // borderWidth:2,
+                                // color: new echarts.graphic.LinearGradient(
+                                //     0, 0, 1, 0,
+                                //     [
+                                //         {offset: 0, color: '#FFE06D'},
+                                //         {offset: 1, color: '#D96E13'}
+                                //     ]
+                                // ),
                             }
                         },
                         data: that.chartsData
@@ -148,13 +156,8 @@
                             let name = '';
                             let str = '';
                             let len = ret.name.length;
-                            console.log('---',ret)
                             if(len > 6){
                                 name = ret.name.substr(0,6)+'...'
-                                // let deg = Math.ceil((len/6))
-                                // for(let i=0;i<deg;i++){
-                                //     name += ret.name.substr((i*6),6)
-                                // }
                             }else{
                                name = ret.name;
                             }
@@ -225,23 +228,17 @@
                                     color: new echarts.graphic.LinearGradient(
                                         0, 0, 1, 0,
                                         [
-                                            {offset: 0, color: '#8693F3'},
-                                            {offset: 1, color: '#D688FE'}
+                                            {offset: 0, color: '#4590EE'},
+                                            {offset: 1, color: '#6DBFFF'}
                                         ]
                                     ),
-                                    // label:{
-                                    //     show:true,
-                                    //     textStyle:{
-                                    //         fontSize:'10px'
-                                    //     }
-                                    // }
                                 },
                                 emphasis: {
                                     color: new echarts.graphic.LinearGradient(
-                                        0, 0, 0, 1,
+                                        0, 0, 1, 0,
                                         [
-                                            {offset: 0, color: '#8693F3'},
-                                            {offset: 1, color: '#D688FE'}
+                                            {offset: 0, color: '#4590EE'},
+                                            {offset: 1, color: '#6DBFFF'}
                                         ]
                                     )
                                 },
@@ -262,7 +259,7 @@
                         trigger: 'axis',
                         formatter: function (params) {
                             let name = params[0].name +'时'+'<br/>'
-                            let val = '使用率占比:' +((params[0].value)*100).toFixed(2)+'%'
+                            let val = '使用率占比:' +((params[0].value))+'%'
                             return name + val;
                         },
                         axisPointer: {
@@ -302,8 +299,11 @@
                         name:'使用率',
                         nameLocation:'end',
                         type: 'value',
-                        max:1.0,
-                        min:0.0,
+                        max:100,
+                        min:0,
+                        axisLabel:{
+                          formatter:'{value}%'
+                        },
                         axisLine:{
                             show:false,
                             lineStyle:{
@@ -325,7 +325,7 @@
                             itemStyle: {
                                 normal: {   //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
                                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
-                                            offset: 0, color: '#BC8DEE' // 0% 处的颜色
+                                            offset: 0, color: '#338BE4' // 0% 处的颜色
                                         },{
                                             offset: 1, color: '#fff' // 100% 处的颜色
                                         }]
@@ -333,15 +333,15 @@
                                     lineStyle: {        // 系列级个性化折线样式
                                         width: 2,
                                         type: 'solid',
-                                        color: "#BC8DEE"
+                                        color: "#57A4F6"
                                     }
                                 },
                                 emphasis: {
-                                    color: '#BC8DEE',
+                                    color: '#57A4F6',
                                     lineStyle: {        // 系列级个性化折线样式
                                         width:2,
                                         type: 'dotted',
-                                        color: "#BC8DEE" //折线的颜色
+                                        color: "#57A4F6" //折线的颜色
                                     }
                                 }
                             },//线条样式

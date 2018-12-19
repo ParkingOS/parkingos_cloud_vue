@@ -213,8 +213,8 @@
                 visibleCarNumber:false,
                 carNumReduceFormRules:{
                     reduce: [
-                        { required: true, message: '请输入减免金额'},
-                        { validator:checkMoney, message: '金额必须为数字值'}
+                        { required: true, message: '请输入减免额度'},
+                        { validator:checkMoney, message: '额度必须为数字值'}
                     ],
                     car_number:[
                         { required: true, message: '请输入车牌号'},
@@ -233,8 +233,8 @@
                 qrCodeView:false,
                 withdrawFormRules:{
                     reduce: [
-                        { required: true, message: '请输入减免金额'},
-                        { validator:checkMoney, message: '金额必须为数字值'}
+                        { required: true, message: '请输入减免额度'},
+                        { validator:checkMoney, message: '额度必须为数字值'}
                     ],
                 },
                 loading: false,

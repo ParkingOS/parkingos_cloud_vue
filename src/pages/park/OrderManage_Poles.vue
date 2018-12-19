@@ -1,62 +1,73 @@
 <template>
-    <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            订单管理-抬杆记录
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item class="clear-style">
-                    <el-date-picker
-                            size="mini"
-                            v-model="searchFormData.currentData"
-                            type="datetimerange"
-                            range-separator="-"
-                            :default-time="['00:00:00','23:59:59']"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            value-format="timestamp"
-                            @change="changeDateFormat"
-                    >
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="收费员" class="clear-style">
-                    <el-select v-model="searchFormData.uin" placeholder="请选择" size="mini">
-                        <el-option
-                                v-for="item in collectors"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                    <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-button size="mini" @click="exportFn" v-if="!hideExport">导出</el-button>
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-                <div class="second-search-item-style" v-show="isShow">
-                    <el-form-item label="抬杆编号" class="clear-style">
-                        <el-input v-model="searchFormData.liftrod_id" placeholder="请输入抬杆编号" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="通道" class="clear-style">
-                        <el-input v-model="searchFormData.out_channel_id" placeholder="请输入通道名称" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="抬杆原因" class="clear-style margin-left-20">
-                        <el-select v-model="searchFormData.reason" placeholder="请选择" size="mini">
-                            <el-option
-                                    v-for="item in reasons"
-                                    :key="item.value_no"
-                                    :label="item.value_name"
-                                    :value="item.value_no">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </div>
-            </el-form>
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">订单管理<span style="margin: 2px">-</span>抬杆记录</p>
+                <div class="float-right"><el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button></div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="advanced-options" v-show="isShow">
+                        <el-form-item label="抬杆编号" class="clear-style">
+                            <el-input v-model="searchFormData.liftrod_id" placeholder="请输入抬杆编号" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="通道" class="clear-style">
+                            <el-input v-model="searchFormData.out_channel_id" placeholder="请输入通道名称" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="抬杆原因" class="clear-style margin-left-20">
+                            <el-select v-model="searchFormData.reason" placeholder="请选择" class="shop-custom-input">
+                                <el-option
+                                        v-for="item in reasons"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </div>
+                    <div class="console-main">
+                        <el-form-item label="时间范围">
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="收费员" class="clear-style margin-left-20">
+                            <el-select v-model="searchFormData.uin" placeholder="请选择" class="shop-custom-input">
+                                <el-option
+                                        v-for="item in collectors"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button type="text"
+                                       @click="changeMore"
+                                       style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <el-button type="primary"  @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>
+                            </el-form-item>
+                        </div>
+                    </div>
+
+                </el-form>
+            </div>
         </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :orderfield="orderfield"
@@ -72,8 +83,10 @@
                     ref="tabPane"
             ></tab-pane>
         </div>
-        <el-dialog :visible.sync="imgDialog" custom-class="custom-dialog-ordermanage">
-            <i class="el-icon-close dialog-header-iconfont" @click="imgDialog = false"></i>
+        <el-dialog :visible.sync="imgDialog" custom-class="custom-dialog-ordermanage" :show-close="false">
+            <header slot="title" class="custom-dialog-title">
+                图片信息<i class="el-icon-close dialog-header-iconfont" @click="imgDialog = false"></i>
+            </header>
             <img v-bind:src="imgdialog_url" style="display: inline-block;width: 100%;height: 100%;"/>
         </el-dialog>
     </section>
@@ -95,6 +108,8 @@
         },
         data() {
             return {
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
                 hideExport:true,
                 imgDialog:false,
                 imgdialog_url:'',
@@ -239,7 +254,7 @@
                                             marginRight: '5px'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.imgdialog_url = path + this.imgapi + '?liftrodid=' + encodeURI(encodeURI(params.row['liftrod_id'])) + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
                                                 this.imgDialog = true;

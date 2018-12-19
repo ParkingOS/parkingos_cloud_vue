@@ -1,6 +1,6 @@
 <template>
     <section style="padding: 21px 16px;margin: 0 10px;background: #fff">
-        <sticky class-name="sub-navbar" :fixedDom="fixedDom" stickyTop='50' zIndex='999' v-on:topShow="topShowFn">
+        <sticky class-name="sub-navbar" :fixedDom="fixedDom" stickyTop='50' zIndex='90' v-on:topShow="topShowFn">
             <ul style="display: flex;" v-if="topShow">
                 <template v-for="items in TableItems" >
                     <li
@@ -229,6 +229,15 @@
             },
             dialogStyle:Object,
             addTitle:String,
+            addedValue:{
+                type:Object,
+                default:()=>{
+                    return {
+
+                    }
+
+                }
+            }
         },
         methods:{
             //编辑
@@ -298,9 +307,14 @@
                                         duration: 600
                                     });
                                     setTimeout(()=>{
-                                        // that.addFormData = {};
                                         that.addFormVisible = false;
-                                        that.getTableData({},that);
+                                        if(that.addedValue.shop_id != undefined){
+                                            this.getTableData(that.addedValue,that)
+                                        }else{
+                                            that.getTableData({},that);
+                                        }
+
+                                        // that.getTableData(that.sform,that);
                                     },60)
                                 }else{
                                     that.$message({
@@ -414,11 +428,17 @@
                 dform = common.generateForm(dform);
                 delTableData(url,dform).then(response=>{
                     if(response.data.state == 1){
-                        that.$emit('cancelDel',false)
+                        that.$emit('cancelDel',false);
                         that.tableData.splice(that.delForm.$index,1);
                         that.total = that.total - 1;
+                        let msg = '';
+                        if(response.data.msg == undefined){
+                            msg = '删除成功!';
+                        }else {
+                            msg = response.data.msg;
+                        }
                         that.$message({
-                            message:response.data.msg ,
+                            message:msg,
                             type: 'success'
                         });
                     }else{
@@ -427,7 +447,6 @@
                             type: 'warning'
                         });
                     }
-
                 }).catch(err=>{
                     that.$message({
                         message: '网络错误，请稍后重试',

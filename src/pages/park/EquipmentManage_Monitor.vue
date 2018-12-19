@@ -1,39 +1,54 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            设备管理-监控管理
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item label="编号" class="clear-style margin-left-clear">
-                    <el-input v-model="searchFormData.id" placeholder="请输入编号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="名称" class="clear-style">
-                    <el-input v-model="searchFormData.name" placeholder="请输入名称" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="通道" class="clear-style">
-                    <el-select v-model="searchFormData.channel_id" placeholder="请选择通道" size="mini" style="width: 140px">
-                        <el-option
-                                v-for="item in channelType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="地址" class="clear-style">
-                    <el-input v-model="searchFormData.play_src" placeholder="请输入地址" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                    <!--<el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>-->
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-button size="mini" @click="handleAdd" type="primary" v-if="hideAdd">添加监控器</el-button>
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-            </el-form>
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">设备管理<span style="margin: 2px">-</span>监控管理</p>
+                <div class="float-right">
+                    <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="console-main">
+                        <el-form-item label="编号">
+                            <el-input style="width: 140px" v-model="searchFormData.id" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="名称">
+                            <el-input style="width: 140px" v-model="searchFormData.name" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item  class="clear-style" label="通道">
+                            <el-select v-model="searchFormData.channel_id"  filterable
+                                       placeholder="请选择" class="shop-custom-input" style="width: 140px">
+                                <!--<el-option-->
+                                        <!--label="全部商户"-->
+                                        <!--value="">-->
+                                <!--</el-option>-->
+                                <el-option
+                                        v-for="item in channelType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="地址">
+                            <el-input style="width: 140px" v-model="searchFormData.play_src" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <el-button  @click="handleAdd" type="primary" v-if="hideAdd">添加监控器</el-button>
+                            </el-form-item>
+                        </div>
+                    </div>
+
+                </el-form>
+            </div>
         </div>
+
+
         <div class="table-wrapper-style">
             <tab-pane
                     :delapi="delapi"
@@ -125,67 +140,6 @@
                 btswidth: '100',                 //按钮宽度
                 fieldsstr: 'id__name__channel_id__net_status__is_show__show_order__play_src__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
-                    {
-                        hasSubs:false,
-                        subs: [{
-                            label: '操作',
-                            columnType:'render',
-                            align: 'center',
-                            fixed:'left',
-                            width:'100',
-                            hidden:false,
-                            unsortable: true,
-                            render: (h, params) => {
-                                return h('div', [
-                                    h('ElButton', {
-                                        props: {
-                                            type: 'text',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '5px',
-                                            display:this.showEdit?'':'none'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.editFormVisible = true;
-                                                this.rowdata = params.row;
-                                                this.rowdata.is_show = this.rowdata.is_show+'';
-                                                if(this.rowdata.channel_id == undefined){
-                                                    this.rowdata.channel_id = '';
-                                                }else{
-                                                    this.rowdata.channel_id = this.rowdata.channel_id+'';
-                                                }
-                                            }
-                                        }
-                                    }, '编辑'),
-                                    h('ElButton', {
-                                        props: {
-                                            type: 'text',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '5px',
-                                            color:'red',
-                                            display:this.showdelete?'':'none'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.delForm = {
-                                                    $index:params.index,
-                                                    delVisible:true,
-                                                    id:params.row.id,
-                                                }
-
-                                            }
-                                        }
-                                    }, '删除'),
-                                ]);
-                            }
-                        }]
-                    },
                     {
                         hasSubs: false,
                         subs: [{
@@ -323,6 +277,66 @@
                             "value": "",
                             'size':'',
                             "subtype": "text",
+                        }]
+                    },
+                    {
+                        hasSubs:false,
+                        subs: [{
+                            label: '操作',
+                            columnType:'render',
+                            align: 'center',
+                            width:'100',
+                            hidden:false,
+                            unsortable: true,
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.editFormVisible = true;
+                                                this.rowdata = params.row;
+                                                this.rowdata.is_show = this.rowdata.is_show+'';
+                                                if(this.rowdata.channel_id == undefined){
+                                                    this.rowdata.channel_id = '';
+                                                }else{
+                                                    this.rowdata.channel_id = this.rowdata.channel_id+'';
+                                                }
+                                            }
+                                        }
+                                    }, '编辑'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            color:'red',
+                                            display:this.showdelete?'':'none'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.delForm = {
+                                                    $index:params.index,
+                                                    delVisible:true,
+                                                    id:params.row.id,
+                                                }
+
+                                            }
+                                        }
+                                    }, '删除'),
+                                ]);
+                            }
                         }]
                     },
                 ],
@@ -494,10 +508,10 @@
         watch: {
             hideOptions:function (val,oldVal) {
                 let len = this.tableitems.length;
-                this.tableitems[0].subs[0].hidden = val
+                this.tableitems[len -1].subs[0].hidden = val
             },
             channelType:function (newVal,oldVal) {
-                this.tableitems[3].subs[0].options = newVal;
+                this.tableitems[2].subs[0].options = newVal;
             }
         },
     }

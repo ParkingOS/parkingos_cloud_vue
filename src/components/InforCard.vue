@@ -1,11 +1,11 @@
 <template>
-    <el-card :style="{backgroundColor:color,height: '100px',color:'#fff',position:'relative',overflow: 'hidden'}">
+    <el-card :style="{background:color,height: '100px',color:'#fff',position:'relative',overflow: 'hidden',borderRadius:'6px'}" shadow="never">
         <img class="bg-img" :src="bgImg" >
         <el-col :span="18">
             <div>
                 <p class="info-card-tip">{{introText}}</p>
                 <p class="info-card-count">
-                    <countTo :startVal='0' :endVal='endVal' :duration='3000'></countTo>
+                    <countTo :startVal='0' :endVal='endVal' :decimals="retain" :duration='1000'></countTo>
                 </p>
             </div>
         </el-col>
@@ -27,6 +27,7 @@
           }
         },
         props: {
+            retain:Number,
             idName: String,
             endVal: Number,
             color: String,

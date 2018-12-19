@@ -1,90 +1,182 @@
 <template>
-    <section class="right-wrapper-size">
-        <header class="custom-header" @click="saveModify" style="cursor: pointer">
-            <i class="el-icon-arrow-left"></i>订单管理-订单记录-详情页
-        </header>
-        <div class="workbench-wrapper">
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">订单管理<span style="margin: 2px">-</span>订单记录<span style="margin: 2px">-</span>详情页</p>
+                <div class="float-right">
+                    <!--<el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>-->
+                    <el-button type="text" size="mini" style="font-size: 14px;color: #1E1E1E;" @click="saveModify" ><img :src="orderImg" style="margin-right: 5px;vertical-align: text-top">返回</el-button>
+                </div>
+            </header>
+        </div>
+        <div class="order-base-info">
             <p class="order-title"><span class="bar-icon"></span>基本信息</p>
             <el-row type="flex" justify="start" align="center" class="order-detail-row">
-                <el-col :span="4" class="order-detail-lable">订单编号</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.order_id_local}}</el-col>
-                <el-col :span="4" class="order-detail-lable">车牌号码</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.car_number}}</el-col>
-            </el-row>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">
-                <el-col :span="4" class="order-detail-lable">车型</el-col>
-                <el-col :span="8" class="order-detail-content" style="border-right: 1px solid #EEE">{{currentRow.car_type}}</el-col>
-            </el-row>
-            <p class="order-title"><span class="bar-icon"></span>出入场信息</p>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row">
-                <el-col :span="4" class="order-detail-lable">入场方式</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.c_type}}</el-col>
-                <el-col :span="4" class="order-detail-lable">停车时长</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.duration}}</el-col>
-            </el-row>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">
-                <el-col :span="4" class="order-detail-lable">入场通道</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.in_passid}}</el-col>
-                <el-col :span="4" class="order-detail-lable">出场通道</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.out_passid}}</el-col>
-            </el-row>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">
-                <el-col :span="4" class="order-detail-lable">入场时间</el-col>
-                <el-col :span="8" class="order-detail-content">{{common.dateformat(currentRow.create_time)}}</el-col>
-                <el-col :span="4" class="order-detail-lable">出场时间</el-col>
-                <el-col :span="8" class="order-detail-content">{{common.dateformat(currentRow.end_time)}}</el-col>
-            </el-row>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">
-                <el-col :span="4" class="order-detail-lable">入场收费员</el-col>
-                <el-col :span="8" class="order-detail-content">{{common.nameformat(currentRow, collectors, 'uid')}}</el-col>
-                <el-col :span="4" class="order-detail-lable">出场收费员</el-col>
-                <el-col :span="8" class="order-detail-content">{{common.nameformat(currentRow, collectors, 'out_uid')}}</el-col>
-            </el-row>
-
-            <p class="order-title"><span class="bar-icon"></span>收费信息</p>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row">
-                <el-col :span="4" class="order-detail-lable">支付方式</el-col>
-                <el-col :span="8" class="order-detail-content" style="border-right: 1px solid #EEE">{{common.nameformat(currentRow, orderPayType, 'pay_type')}}</el-col>
-            </el-row>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">
-                <el-col :span="4" class="order-detail-lable">应收金额</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.amount_receivable}}</el-col>
-                <el-col :span="4" class="order-detail-lable">实收金额</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.total}}</el-col>
-            </el-row>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">
-                <el-col :span="4" class="order-detail-lable">减免金额</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.reduce_amount}}</el-col>
-                <el-col :span="4" class="order-detail-lable">优惠原因</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.freereasons}}</el-col>
-            </el-row>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">
-                <el-col :span="4" class="order-detail-lable">电子预付金额</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.electronic_prepay}}</el-col>
-                <el-col :span="4" class="order-detail-lable">电子结算金额</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.electronic_pay}}</el-col>
-            </el-row>
-            <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">
-                <el-col :span="4" class="order-detail-lable">现金预付金额</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.cash_prepay}}</el-col>
-                <el-col :span="4" class="order-detail-lable">现金结算金额</el-col>
-                <el-col :span="8" class="order-detail-content">{{currentRow.cash_pay}}</el-col>
-            </el-row>
-            <p class="order-title"><span class="bar-icon"></span>影像信息</p>
-            <el-row type="flex" justify="center" align="center">
-                <el-col :span="10"  class="out_photo">
-                    <p class="out_photo_text">入场图片</p>
-                    <img :src="imgpath+img_in" style="display: inline-block;width: 100%;height: 100%">
-                </el-col>
-                <el-col :span="1"></el-col>
-                <el-col :span="10" class="out_photo">
-                    <p class="out_photo_text">出场图片</p>
-                    <img :src="imgpath+img_out" style="display: inline-block;width: 100%;height: 100%">
-                </el-col>
+                <el-col :span="3" class="order-detail-lable">订单编号</el-col>
+                <el-col :span="5" class="order-detail-content">{{currentRow.order_id_local}}</el-col>
+                <el-col :span="3" class="order-detail-lable">车牌号码</el-col>
+                <el-col :span="5" class="order-detail-content">{{currentRow.car_number}}</el-col>
+                <el-col :span="3" class="order-detail-lable">车型信息</el-col>
+                <el-col :span="5" class="order-detail-content" style="border-right: 1px solid #EEE">{{currentRow.car_type}}</el-col>
             </el-row>
         </div>
-
+        <div class="order-base-info">
+            <p class="order-title"><span class="bar-icon"></span>收费信息</p>
+            <el-row type="flex" justify="start" align="center" class="order-money-wrapper" style="margin-bottom: 20px">
+                <el-col class="order-info-receivable" :span="10">
+                    <p class="rece-title">应收金额</p>
+                    <div class="rece-content"><span class="rece-money">{{currentRow.amount_receivable}}元</span>（<span>实收金额 {{currentRow.total}} 元</span><span>减免金额 {{currentRow.reduce_amount}} 元）</span></div>
+                </el-col>
+                <el-col class="order-info-receivable order-info-receipts" :span="14">
+                    <p class="rece-title">实收金额</p>
+                    <div class="rece-content"><span class="rece-money" style="color:#3C75CF">{{currentRow.total}}元</span>(<span>电子预付 {{currentRow.electronic_prepay}} 元</span><span>现金预付 {{currentRow.cash_prepay}} 元</span><span>电子结算 {{currentRow.electronic_pay}} 元</span><span>现金结算 {{currentRow.cash_pay}} 元</span>)</div>
+                </el-col>
+            </el-row>
+            <el-row type="flex" justify="start" align="center" class="order-detail-row">
+                <el-col :span="3" class="order-detail-lable">支付方式</el-col>
+                <el-col :span="7" class="order-detail-content">{{common.nameformat(currentRow, orderPayType, 'pay_type')}}</el-col>
+                <el-col :span="3" class="order-detail-lable">优惠原因</el-col>
+                <el-col :span="11" class="order-detail-content">{{currentRow.freereasons}}</el-col>
+            </el-row>
+        </div>
+        <div class="order-base-info" style="padding-bottom: 30px">
+            <p class="order-title"><span class="bar-icon"></span>出入场信息</p>
+            <div class="entrance-info">
+                <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border:none">
+                    <el-col style="width: 341px;margin-right: 62px">
+                        <img :src="imgpath+img_in" style="width: 341px;height: 185px">
+                    </el-col>
+                    <el-col class="order-wrapper-s">
+                        <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-bottom: none;">
+                            <el-col :span="6" class="order-detail-lable">入场方式</el-col>
+                            <el-col :span="18" class="order-detail-content">{{currentRow.c_type}}</el-col>
+                        </el-row>
+                        <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-bottom: none">
+                            <el-col :span="6" class="order-detail-lable">入场通道</el-col>
+                            <el-col :span="18" class="order-detail-content">{{currentRow.in_passid}}</el-col>
+                        </el-row>
+                        <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-bottom: none">
+                            <el-col :span="6" class="order-detail-lable" >入场时间</el-col>
+                            <el-col :span="18" class="order-detail-content">{{common.dateformat(currentRow.create_time)}}</el-col>
+                        </el-row>
+                        <el-row type="flex" justify="start" align="center" class="order-detail-row">
+                            <el-col :span="6" class="order-detail-lable">收费人员</el-col>
+                            <el-col :span="18" class="order-detail-content">{{common.nameformat(currentRow, collectors, 'uid')}}</el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+                <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border:none;margin-top: 20px">
+                    <el-col style="width: 341px;margin-right: 62px">
+                        <img :src="imgpath+img_out" style="width: 341px;height: 185px">
+                    </el-col>
+                    <el-col class="order-wrapper-s">
+                        <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-bottom: none;">
+                            <el-col :span="6" class="order-detail-lable">停车时长</el-col>
+                            <el-col :span="18" class="order-detail-content">{{currentRow.duration}}</el-col>
+                        </el-row>
+                        <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-bottom: none">
+                            <el-col :span="6" class="order-detail-lable">出场通道</el-col>
+                            <el-col :span="18" class="order-detail-content">{{currentRow.out_passid}}</el-col>
+                        </el-row>
+                        <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-bottom: none">
+                            <el-col :span="6" class="order-detail-lable" >出场时间</el-col>
+                            <el-col :span="18" class="order-detail-content">{{common.dateformat(currentRow.end_time)}}</el-col>
+                        </el-row>
+                        <el-row type="flex" justify="start" align="center" class="order-detail-row">
+                            <el-col :span="6" class="order-detail-lable">收费人员</el-col>
+                            <el-col :span="18" class="order-detail-content">{{common.nameformat(currentRow, collectors, 'out_uid')}}</el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
     </section>
+    <!--<section class="right-wrapper-size">-->
+        <!--<header class="custom-header" @click="saveModify" style="cursor: pointer">-->
+            <!--<i class="el-icon-arrow-left"></i>订单管理-订单记录-详情页-->
+        <!--</header>-->
+        <!--<div class="workbench-wrapper">-->
+            <!--<p class="order-title"><span class="bar-icon"></span>基本信息</p>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row">-->
+                <!--<el-col :span="4" class="order-detail-lable">订单编号</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.order_id_local}}</el-col>-->
+                <!--<el-col :span="4" class="order-detail-lable">车牌号码</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.car_number}}</el-col>-->
+            <!--</el-row>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">-->
+                <!--<el-col :span="4" class="order-detail-lable">车型</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content" style="border-right: 1px solid #EEE">{{currentRow.car_type}}</el-col>-->
+            <!--</el-row>-->
+            <!--<p class="order-title"><span class="bar-icon"></span>出入场信息</p>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row">-->
+                <!--<el-col :span="4" class="order-detail-lable">入场方式</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.c_type}}</el-col>-->
+                <!--<el-col :span="4" class="order-detail-lable">停车时长</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.duration}}</el-col>-->
+            <!--</el-row>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">-->
+                <!--<el-col :span="4" class="order-detail-lable">入场通道</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.in_passid}}</el-col>-->
+                <!--<el-col :span="4" class="order-detail-lable">出场通道</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.out_passid}}</el-col>-->
+            <!--</el-row>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">-->
+                <!--<el-col :span="4" class="order-detail-lable">入场时间</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{common.dateformat(currentRow.create_time)}}</el-col>-->
+                <!--<el-col :span="4" class="order-detail-lable">出场时间</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{common.dateformat(currentRow.end_time)}}</el-col>-->
+            <!--</el-row>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">-->
+                <!--<el-col :span="4" class="order-detail-lable">入场收费员</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{common.nameformat(currentRow, collectors, 'uid')}}</el-col>-->
+                <!--<el-col :span="4" class="order-detail-lable">出场收费员</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{common.nameformat(currentRow, collectors, 'out_uid')}}</el-col>-->
+            <!--</el-row>-->
+
+            <!--<p class="order-title"><span class="bar-icon"></span>收费信息</p>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row">-->
+                <!--<el-col :span="4" class="order-detail-lable">支付方式</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content" style="border-right: 1px solid #EEE">{{common.nameformat(currentRow, orderPayType, 'pay_type')}}</el-col>-->
+            <!--</el-row>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">-->
+                <!--<el-col :span="4" class="order-detail-lable">应收金额</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.amount_receivable}}</el-col>-->
+                <!--<el-col :span="4" class="order-detail-lable">实收金额</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.total}}</el-col>-->
+            <!--</el-row>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">-->
+                <!--<el-col :span="4" class="order-detail-lable">减免金额</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.reduce_amount}}</el-col>-->
+                <!--<el-col :span="4" class="order-detail-lable">优惠原因</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.freereasons}}</el-col>-->
+            <!--</el-row>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">-->
+                <!--<el-col :span="4" class="order-detail-lable">电子预付金额</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.electronic_prepay}}</el-col>-->
+                <!--<el-col :span="4" class="order-detail-lable">电子结算金额</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.electronic_pay}}</el-col>-->
+            <!--</el-row>-->
+            <!--<el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-top: none;">-->
+                <!--<el-col :span="4" class="order-detail-lable">现金预付金额</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.cash_prepay}}</el-col>-->
+                <!--<el-col :span="4" class="order-detail-lable">现金结算金额</el-col>-->
+                <!--<el-col :span="8" class="order-detail-content">{{currentRow.cash_pay}}</el-col>-->
+            <!--</el-row>-->
+            <!--<p class="order-title"><span class="bar-icon"></span>影像信息</p>-->
+            <!--<el-row type="flex" justify="center" align="center">-->
+                <!--<el-col :span="10"  class="out_photo">-->
+                    <!--<p class="out_photo_text">入场图片</p>-->
+                    <!--<img :src="imgpath+img_in" style="display: inline-block;width: 100%;height: 100%">-->
+                <!--</el-col>-->
+                <!--<el-col :span="1"></el-col>-->
+                <!--<el-col :span="10" class="out_photo">-->
+                    <!--<p class="out_photo_text">出场图片</p>-->
+                    <!--<img :src="imgpath+img_out" style="display: inline-block;width: 100%;height: 100%">-->
+                <!--</el-col>-->
+            <!--</el-row>-->
+        <!--</div>-->
+
+    <!--</section>-->
 
 </template>
 
@@ -100,6 +192,7 @@
                 currentIndex: 0,
                 currentRow: {},
                 defalut:require('@/assets/images/no_car_photo.png'),
+                orderImg:require('@/assets/images/order-back.png'),
                 img_in: '',
                 img_out: '',
                 imgpath: '',

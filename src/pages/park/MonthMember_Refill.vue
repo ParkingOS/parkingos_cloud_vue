@@ -1,82 +1,94 @@
 <template>
-    <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            月卡会员-月卡续费记录
-        </header>
-        <div class="refill-money-wrapper bgcolor-white margin-20" style="margin-top: 0;text-align: center">
-            <el-row type="flex" justify="center" align="center">
-                <el-col :span="12" style="border-right: 2px solid #DDDDDD;color: #F5B962;">
-                    <div class="refill-money-left">
-                        <i class="iconfont icon-jine money-icon" ></i>
-                        <p class="refill-month-title">应收金额</p>
-                        <p class="refill-month-count" >
-                            <countTo :startVal='0' :endVal='amountReceivable' :duration='1000'></countTo>元
-                        </p>
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">会员管理<span style="margin: 2px">-</span>月卡续费记录</p>
+                <div class="float-right">
+                    <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div style="display: block;background: #fff">
+                <div class="refill-money-wrapper bgcolor-white" style="margin-top: 0;text-align: center">
+                    <el-row type="flex" justify="center" align="center">
+                        <el-col :span="12" style="border-right: 2px solid #DDDDDD;color: #F5B962;">
+                            <div class="refill-money-left">
+                                <i class="iconfont icon-jine money-icon" ></i>
+                                <p class="refill-month-title">应收金额</p>
+                                <p class="refill-month-count" >
+                                    <countTo :startVal='0' :endVal='amountReceivable' :decimals="2" :duration='1000'></countTo>元
+                                </p>
+                            </div>
+                        </el-col>
+                        <el-col :span="12" style="color: #8693F3">
+                            <div class="refill-money-left">
+                                <i class="iconfont icon-jine money-icon" ></i>
+                                <p class="refill-month-title">实收金额</p>
+                                <p class="refill-month-count">
+                                    <countTo :startVal='0' :endVal='actReceivable' :decimals="2" :duration='1000'></countTo>元
+                                </p>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+            </div>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="advanced-options" v-show="isShow">
+                        <el-form-item label="月卡编号" class="clear-style">
+                            <el-input v-model="searchFormData.card_id" placeholder="" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="收费员" class="clear-style">
+                            <el-input v-model="searchFormData.collector" placeholder="" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="购买流水号" class="clear-style">
+                            <el-input v-model="searchFormData.trade_no" placeholder="" class="shop-custom-input"></el-input>
+                        </el-form-item>
                     </div>
-                </el-col>
-                <el-col :span="12" style="color: #8693F3">
-                    <div class="refill-money-left">
-                        <i class="iconfont icon-jine money-icon" ></i>
-                        <p class="refill-month-title">实收金额</p>
-                        <p class="refill-month-count">
-                            <countTo :startVal='0' :endVal='actReceivable' :duration='1000'></countTo>元
-                        </p>
+                    <div class="console-main">
+                        <el-form-item>
+                            <el-select v-model="searchFormData.time_type" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
+                                <el-option
+                                        v-for="item in timerType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="车牌号" class="clear-style margin-left-20">
+                            <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button type="text"
+                                       @click="changeMore"
+                                       style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <!--<el-button type="primary" @click="registerMember" v-if="showCustomizeAdd">注册会员</el-button>-->
+                                <el-button type="primary"  @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>
+                            </el-form-item>
+                        </div>
                     </div>
 
-                </el-col>
-            </el-row>
+                </el-form>
+            </div>
         </div>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item label="类型" class="clear-style margin-left-clear">
-                    <el-select v-model="searchFormData.time_type" placeholder="请选择" size="mini" style="width: 140px">
-                        <el-option
-                                v-for="item in timerType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-date-picker
-                            style="width: 312px"
-                            size="mini"
-                            v-model="searchFormData.currentData"
-                            type="datetimerange"
-                            range-separator="-"
-                            :default-time="['00:00:00','23:59:59']"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            value-format="timestamp"
-                            @change="changeDateFormat"
-                    >
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="车牌号" class="clear-style">
-                    <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                    <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-button size="mini" @click="exportFn" v-if="!hideExport">导出</el-button>
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-                <div class="second-search-item-style" v-show="isShow">
-                    <el-form-item label="月卡编号" class="clear-style margin-left-clear">
-                        <el-input v-model="searchFormData.card_id" placeholder="" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="收费员" class="clear-style">
-                        <el-input v-model="searchFormData.collector" placeholder="" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="购买流水号" class="clear-style">
-                        <el-input v-model="searchFormData.trade_no" placeholder="" size="mini" style="width: 180px"></el-input>
-                    </el-form-item>
-                </div>
-            </el-form>
-        </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :queryapi="queryapi"
@@ -109,6 +121,8 @@
         },
         data() {
             return {
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
                 hideExport:false,
                 searchForm:{},
                 searchFormData:{
@@ -349,8 +363,9 @@
 
 <style scoped lang="scss">
     .refill-money-wrapper{
-        padding: 20px;
-
+        padding:0 0 20px 0;
+        margin: 0 20px;
+        border-bottom: 1px dotted #979797;
     }
     .refill-money-left{
         display: inline-block;

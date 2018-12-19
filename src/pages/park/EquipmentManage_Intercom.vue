@@ -1,48 +1,61 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            设备管理-对讲管理
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item label="名称" class="clear-style-4 margin-left-clear">
-                    <el-input v-model="searchFormData.name" placeholder="请输入名称" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="分机号" class="clear-style-4">
-                    <el-input v-model="searchFormData.tele_phone_start" placeholder="请输入编号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="车场主机号" class="clear-style-4">
-                    <el-input v-model="searchFormData.park_phone_start" placeholder="车场主机" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="监控名称" class="clear-style-4">
-                    <el-select v-model="searchFormData.monitor_id" placeholder="监控名称" size="mini" style="width: 140px">
-                        <el-option
-                                v-for="item in showType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style-4">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                    <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style-4 float-right">
-                    <el-button size="mini" @click="handleAdd" type="primary" v-if="hideAdd">添加对讲</el-button>
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-                <div class="second-search-item-style" v-show="isShow">
-                    <el-form-item label="编号" class="clear-style margin-left-clear">
-                        <el-input v-model="searchFormData.id" placeholder="请输入编号" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="集团主机号" class="clear-style">
-                        <el-input v-model="searchFormData.group_phone_start" placeholder="集团主机号" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">设备管理<span style="margin: 2px">-</span>对讲管理</p>
+                <div class="float-right">
+                    <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="advanced-options" v-show="isShow">
+                        <el-form-item  class="clear-style" label="监控名称">
+                            <el-select v-model="searchFormData.monitor_id"  filterable
+                                       placeholder="请选择" class="shop-custom-input" style="width: 140px">
+                                <el-option
+                                        v-for="item in showType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="编号">
+                            <el-input style="width: 140px" v-model="searchFormData.id" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="集团主机号">
+                            <el-input style="width: 140px" v-model="searchFormData.group_phone_start" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                    </div>
+                    <div class="console-main">
+                        <el-form-item label="名称">
+                            <el-input style="width: 140px" v-model="searchFormData.name" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="分机号">
+                            <el-input style="width: 140px" v-model="searchFormData.tele_phone_start" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="车场主机号">
+                            <el-input style="width: 140px" v-model="searchFormData.park_phone_start" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button type="text"
+                                       @click="changeMore"
+                                       style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <el-button  @click="handleAdd" type="primary" v-if="hideAdd">添加对讲</el-button>
 
-            </el-form>
+                            </el-form-item>
+                        </div>
+                    </div>
+
+                </el-form>
+            </div>
         </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :delapi="delapi"
@@ -96,6 +109,8 @@
         },
         data: function () {
             return {
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
                 isShow:false,
                 delForm:{
 
@@ -140,62 +155,6 @@
                 btswidth: '100',                 //按钮宽度
                 fieldsstr: 'id__name__tele_phone__park_phone__group_phone__monitor_id__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
-                    {
-                        hasSubs:false,
-                        subs: [{
-                            label: '操作',
-                            columnType:'render',
-                            align: 'center',
-                            fixed:'left',
-                            width:'100',
-                            hidden:this.hideOptions,
-                            unsortable: true,
-                            render: (h, params) => {
-                                return h('div', [
-                                    h('ElButton', {
-                                        props: {
-                                            type: 'text',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '5px',
-                                            display:this.showEdit?'':'none'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.editFormVisible = true;
-                                                this.rowdata = params.row;
-                                                this.rowdata.monitor_id = this.rowdata.monitor_id+'';
-                                            }
-                                        }
-                                    }, '编辑'),
-                                    h('ElButton', {
-                                        props: {
-                                            type: 'text',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '5px',
-                                            color:'red',
-                                            display:this.showdelete?'':'none'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.delForm = {
-                                                    $index:params.index,
-                                                    delVisible2:true,
-                                                    id:params.row.id,
-                                                }
-
-                                            }
-                                        }
-                                    }, '删除'),
-                                ]);
-                            }
-                        }]
-                    },
                     {
                         hasSubs: false,
                         subs: [{
@@ -313,6 +272,61 @@
                             "rules": [],
                             'size':'',
                             "options": this.showType
+                        }]
+                    },
+                    {
+                        hasSubs:false,
+                        subs: [{
+                            label: '操作',
+                            columnType:'render',
+                            align: 'center',
+                            width:'100',
+                            hidden:this.hideOptions,
+                            unsortable: true,
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.editFormVisible = true;
+                                                this.rowdata = params.row;
+                                                this.rowdata.monitor_id = this.rowdata.monitor_id+'';
+                                            }
+                                        }
+                                    }, '编辑'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            color:'red',
+                                            display:this.showdelete?'':'none'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.delForm = {
+                                                    $index:params.index,
+                                                    delVisible2:true,
+                                                    id:params.row.id,
+                                                }
+
+                                            }
+                                        }
+                                    }, '删除'),
+                                ]);
+                            }
                         }]
                     },
                 ],
@@ -489,10 +503,10 @@
         watch: {
             hideOptions:function (val,oldVal) {
                 let len = this.tableitems.length;
-                this.tableitems[0].subs[0].hidden = val
+                this.tableitems[len-1].subs[0].hidden = val
             },
             showType:function (newVal,oldVal) {
-                this.tableitems[6].subs[0].options = newVal;
+                this.tableitems[5].subs[0].options = newVal;
             }
         },
     }

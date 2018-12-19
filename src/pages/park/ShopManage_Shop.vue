@@ -1,26 +1,34 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            商户管理
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true"  class="demo-form-inline">
-                <el-form-item label="叠加用券" class="clear-style margin-left-clear">
-                    <el-select v-model="superimposed" @change="changeSuperimposed" placeholder="请选择" size="mini" style="width: 140px">
-                        <el-option
-                                v-for="item in superimposedType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-button type="primary" size="mini" @click="showadd" v-if="showCustomizeAdd">添加商户</el-button>
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-            </el-form>
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">商户管理<span style="margin: 2px">-</span>商户管理</p>
+                <div class="float-right"><el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button></div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true"  class="shop-custom-form-search">
+                    <div class="console-main">
+                        <el-form-item label="叠加用券" class="clear-style margin-left-clear">
+                            <el-select v-model="superimposed" @change="changeSuperimposed" placeholder="请选择" class="shop-custom-input" style="width: 150px">
+                                <el-option
+                                        v-for="item in superimposedType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <div class="float-right">
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="showadd" v-if="showCustomizeAdd" style="outline: none">添加商户</el-button>
+                        </el-form-item>
+                        </div>
+                    </div>
+                </el-form>
+
+            </div>
         </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :queryapi="queryapi"
@@ -348,8 +356,133 @@
         </el-dialog>
 
         <!--添加商户-->
+        <!--<el-dialog-->
+                <!--width="550px"-->
+                <!--:visible.sync="showRegis"-->
+                <!--custom-class="custom-dialog-top"-->
+                <!--:close-on-click-modal="false"-->
+                <!--:show-close="false"-->
+                <!--@close="closeTest">-->
+            <!--<header class="dialog-header" slot="title">-->
+                <!--{{shopTitle}}<i class="el-icon-close dialog-header-iconfont" @click="showRegis=false"></i>-->
+            <!--</header>-->
+            <!--<el-form ref="shopForm" label-width="120px" :rules="shopFormRules"-->
+                     <!--:model="shopForm">-->
+                <!--<el-form-item label="编号">-->
+                    <!--<el-input :disabled="true" v-model="shopForm.id" placeholder=""></el-input>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="商户名称" :prop="name">-->
+                    <!--<el-input v-model="shopForm.name" placeholder=""></el-input>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="地址">-->
+                    <!--<el-input v-model="shopForm.address" placeholder=""></el-input>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="手机">-->
+                    <!--<el-input v-model="shopForm.mobile" placeholder=""></el-input>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="优惠券类型">-->
+                    <!--<el-select v-model="shop_ticket_type" filterable style="width:100%">-->
+                        <!--<el-option-->
+                                <!--v-for="item in ticketType"-->
+                                <!--:label="item.value_name"-->
+                                <!--:value="item.value_no"-->
+                        <!--&gt;-->
+                        <!--</el-option>-->
+                    <!--</el-select>-->
+                <!--</el-form-item>-->
+
+                <!--<el-form-item label="全免券">-->
+                    <!--<el-select v-model="shop_support_type" filterable style="width:100%">-->
+                        <!--<el-option-->
+                                <!--v-for="item in handInputType"-->
+                                <!--:label="item.value_name"-->
+                                <!--:value="item.value_no"-->
+                        <!--&gt;-->
+                        <!--</el-option>-->
+                    <!--</el-select>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="优惠券单位">-->
+                    <!--<el-select v-model="unit" filterable style="width:100%">-->
+                        <!--<el-option-->
+                                <!--v-for="item in ticketUnit"-->
+                                <!--:label="item.value_name"-->
+                                <!--:value="item.value_no"-->
+                        <!--&gt;-->
+                        <!--</el-option>-->
+                    <!--</el-select>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="默认显示额度" :prop="default_limit">-->
+                    <!--<el-input v-model="shopForm.default_limit" placeholder=""-->
+                    <!--&gt;</el-input>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="商户折扣/%" :prop="v_discount_percent">-->
+                    <!--<el-input v-model="shopForm.v_discount_percent" placeholder=""></el-input>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item :label="discount_money_name" v-if="showDiscountMoney" :prop="v_discount_money">-->
+                    <!--<el-input v-model="shopForm.v_discount_money" placeholder="" ></el-input>-->
+                <!--</el-form-item>-->
+
+                <!--<el-form-item label="全免每张/元" :prop="v_free_money">-->
+                    <!--<el-input v-model="shopForm.v_free_money" placeholder=""></el-input>-->
+                <!--</el-form-item>-->
+
+                <!--<el-form-item label="有效期/小时" :prop="validite_time">-->
+                    <!--<el-input v-model="shopForm.validite_time" placeholder=""></el-input>-->
+                <!--</el-form-item>-->
+
+                <!--<el-form-item label="手输额度" >-->
+                    <!--<el-select v-model="hand_input_enable" filterable style="width:100%">-->
+                        <!--<el-option-->
+                                <!--v-for="item in handInputType"-->
+                                <!--:label="item.value_name"-->
+                                <!--:value="item.value_no"-->
+                        <!--&gt;-->
+                        <!--</el-option>-->
+                    <!--</el-select>-->
+                <!--</el-form-item>-->
+
+                <!--<el-form-item label="叠加限制" >-->
+                    <!--<el-select v-model="use_limit" filterable style="width:100%">-->
+                        <!--<el-option-->
+                                <!--v-for="item in useLimitType"-->
+                                <!--:label="item.value_name"-->
+                                <!--:value="item.value_no"-->
+                        <!--&gt;-->
+                        <!--</el-option>-->
+                    <!--</el-select>-->
+                <!--</el-form-item>-->
+
+                <!--<el-form-item label="全免券使用限制" >-->
+                    <!--<el-select v-model="free_limit_times" filterable style="width:100%">-->
+                        <!--<el-option-->
+                                <!--v-for="item in freeLimitTime"-->
+                                <!--:label="item.value_name"-->
+                                <!--:value="item.value_no"-->
+                        <!--&gt;-->
+                        <!--</el-option>-->
+                    <!--</el-select>-->
+                <!--</el-form-item>-->
+
+                <!--<el-form-item label="固定码使用" >-->
+                    <!--<el-select v-model="use_fix_code" filterable style="width:100%">-->
+                        <!--<el-option-->
+                                <!--v-for="item in useFixCode"-->
+                                <!--:label="item.value_name"-->
+                                <!--:value="item.value_no"-->
+                        <!--&gt;-->
+                        <!--</el-option>-->
+                    <!--</el-select>-->
+                <!--</el-form-item>-->
+            <!--</el-form>-->
+            <!--<footer slot="footer" class="dialog-footer">-->
+                <!--<el-button @click="loadDefaultData" class="custom-btns-style">重 置</el-button>-->
+                <!--<el-button type="primary" @click="handleRegis" style="margin-left: 60px" class="custom-btns-style">确 定</el-button>-->
+            <!--</footer>-->
+        <!--</el-dialog>-->
+
+        <!--添加商户-->
         <el-dialog
-                width="550px"
+                width="840px"
                 :visible.sync="showRegis"
                 custom-class="custom-dialog-top"
                 :close-on-click-modal="false"
@@ -358,120 +491,136 @@
             <header class="dialog-header" slot="title">
                 {{shopTitle}}<i class="el-icon-close dialog-header-iconfont" @click="showRegis=false"></i>
             </header>
+            <el-steps :active="activeIndex" simple style="padding: 18px 20%;">
+                <el-step title="步骤 1" icon="iconfont icon-icon-test1"></el-step>
+                <el-step title="步骤 2" icon="iconfont icon-icon-test"></el-step>
+            </el-steps>
             <el-form ref="shopForm" label-width="120px" :rules="shopFormRules"
                      :model="shopForm">
-                <el-form-item label="编号">
-                    <el-input :disabled="true" v-model="shopForm.id" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="商户名称" :prop="name">
-                    <el-input v-model="shopForm.name" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="地址">
-                    <el-input v-model="shopForm.address" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="手机">
-                    <el-input v-model="shopForm.mobile" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="优惠券类型">
-                    <el-select v-model="shop_ticket_type" filterable style="width:100%">
-                        <el-option
-                                v-for="item in ticketType"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
+                <div v-show="activeIndex == 1">
+                    <div class="add-shop-form-wrapper">
+                        <div class="add-shop-wrapper-left">
+                            <el-form-item label="商户名称" :prop="name">
+                                <el-input v-model="shopForm.name" placeholder=""></el-input>
+                            </el-form-item>
+                            <el-form-item label="地址信息">
+                                <el-input v-model="shopForm.address" placeholder=""></el-input>
+                            </el-form-item>
+                            <el-form-item label="手机号码">
+                                <el-input v-model="shopForm.mobile" placeholder=""></el-input>
+                            </el-form-item>
+                            <el-form-item label="商户折扣(%)" :prop="v_discount_percent">
+                                <el-input v-model="shopForm.v_discount_percent" placeholder=""></el-input>
+                            </el-form-item>
+                        </div>
+                        <div class="add-shop-wrapper-right">
+                            <el-form-item label="有效期/小时" :prop="validite_time">
+                                <el-input v-model="shopForm.validite_time" placeholder=""></el-input>
+                            </el-form-item>
+                            <el-form-item label="手输额度" >
+                                <el-select v-model="hand_input_enable" filterable style="width:100%">
+                                    <el-option
+                                            v-for="item in handInputType"
+                                            :label="item.value_name"
+                                            :value="item.value_no"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="叠加限制" >
+                                <el-select v-model="use_limit" filterable style="width:100%">
+                                    <el-option
+                                            v-for="item in useLimitType"
+                                            :label="item.value_name"
+                                            :value="item.value_no"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="固定码使用" >
+                                <el-select v-model="use_fix_code" filterable style="width:100%">
+                                    <el-option
+                                            v-for="item in useFixCode"
+                                            :label="item.value_name"
+                                            :value="item.value_no"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </div>
+                    <div style="display: block;text-align: center">
+                        <el-button type="primary" style="text-align: center;width: 144px" @click="nextStep">下一步</el-button>
+                    </div>
+                </div>
 
-                <el-form-item label="全免券">
-                    <el-select v-model="shop_support_type" filterable style="width:100%">
-                        <el-option
-                                v-for="item in handInputType"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="优惠券单位">
-                    <el-select v-model="unit" filterable style="width:100%">
-                        <el-option
-                                v-for="item in ticketUnit"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="默认显示额度" :prop="default_limit">
-                    <el-input v-model="shopForm.default_limit" placeholder=""
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="商户折扣/%" :prop="v_discount_percent">
-                    <el-input v-model="shopForm.v_discount_percent" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item :label="discount_money_name" v-if="showDiscountMoney" :prop="v_discount_money">
-                    <el-input v-model="shopForm.v_discount_money" placeholder="" ></el-input>
-                </el-form-item>
+                <div v-show="activeIndex == 2">
+                    <div style="width: 390px;padding-left: 30px;padding-top: 30px">
+                        <el-form-item label="优惠券类型">
+                            <el-select v-model="shop_ticket_type" filterable style="width:100%">
+                                <el-option
+                                        v-for="item in ticketType"
+                                        :label="item.value_name"
+                                        :value="item.value_no"
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </div>
+                    <div class="add-shop-form-wrapper" style="padding-top:0 ">
+                        <div class="add-shop-wrapper-left">
+                            <el-form-item label="全免券">
+                                <el-select v-model="shop_support_type" filterable style="width:100%">
+                                    <el-option
+                                            v-for="item in handInputType"
+                                            :label="item.value_name"
+                                            :value="item.value_no"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="优惠券单位">
+                                <el-select v-model="unit" filterable style="width:100%">
+                                    <el-option
+                                            v-for="item in ticketUnit"
+                                            :label="item.value_name"
+                                            :value="item.value_no"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="默认显示额度" :prop="default_limit">
+                                <el-input v-model="shopForm.default_limit" placeholder=""
+                                ></el-input>
+                            </el-form-item>
+                        </div>
+                        <div class="add-shop-wrapper-right">
+                            <el-form-item :label="discount_money_name" v-if="showDiscountMoney" :prop="v_discount_money">
+                                <el-input v-model="shopForm.v_discount_money" placeholder="" ></el-input>
+                            </el-form-item>
 
-                <el-form-item label="全免每张/元" :prop="v_free_money">
-                    <el-input v-model="shopForm.v_free_money" placeholder=""></el-input>
-                </el-form-item>
-
-                <el-form-item label="有效期/小时" :prop="validite_time">
-                    <el-input v-model="shopForm.validite_time" placeholder=""></el-input>
-                </el-form-item>
-
-                <el-form-item label="手输额度" >
-                    <el-select v-model="hand_input_enable" filterable style="width:100%">
-                        <el-option
-                                v-for="item in handInputType"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="叠加限制" >
-                    <el-select v-model="use_limit" filterable style="width:100%">
-                        <el-option
-                                v-for="item in useLimitType"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="全免券使用限制" >
-                    <el-select v-model="free_limit_times" filterable style="width:100%">
-                        <el-option
-                                v-for="item in freeLimitTime"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="固定码使用" >
-                    <el-select v-model="use_fix_code" filterable style="width:100%">
-                        <el-option
-                                v-for="item in useFixCode"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
+                            <el-form-item label="全免每张/元" :prop="v_free_money">
+                                <el-input v-model="shopForm.v_free_money" placeholder=""></el-input>
+                            </el-form-item>
+                            <el-form-item label="全免券使用限制" label-width="135px">
+                                <el-select v-model="free_limit_times" filterable style="width:100%">
+                                    <el-option
+                                            v-for="item in freeLimitTime"
+                                            :label="item.value_name"
+                                            :value="item.value_no"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </div>
+                    <div style="display: block;text-align: center">
+                        <el-button @click="prveStep" class="custom-btns-style">上一步</el-button>
+                        <el-button type="primary" @click="handleRegis" style="margin-left: 60px" class="custom-btns-style">确 定</el-button>
+                    </div>
+                </div>
             </el-form>
-            <footer slot="footer" class="dialog-footer">
-                <el-button @click="loadDefaultData" class="custom-btns-style">重 置</el-button>
-                <el-button type="primary" @click="handleRegis" style="margin-left: 60px" class="custom-btns-style">确 定</el-button>
-            </footer>
         </el-dialog>
-
     </section>
 
 
@@ -501,12 +650,15 @@
     import {AUTH_ID} from '../../common/js/const'
     import TabPane from '../../components/table/TabPane';
     import customEditForm from '../../components/edit-form/editForm'
+    import ElButton from 'element-ui/packages/button/src/button';
     export default {
         components: {
+            ElButton,
             CommonTable,TabPane,customEditForm
         },
         data() {
             return {
+                activeIndex:1,
                 rowdata:{},
                 searchFormData:{
                     count:0
@@ -1201,7 +1353,7 @@
 
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                             }
                                         }
@@ -1278,7 +1430,7 @@
                                             display:this.showShopEdit?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 let row = params.row;
                                                 this.shopForm.id = row.id
@@ -1315,16 +1467,20 @@
                                             display:this.showsetting?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.shop_id = params.row.id;
 
-                                                //请求员工数据
-                                                var user = sessionStorage.getItem('user')
-                                                user = JSON.parse(user)
-                                                this.loadData();
-                                                //设置
-                                                this.employeeVisible = true;
+                                                //跳转到商户自家的员工管理
+                                                this.$router.push({path: '/ShopManage_Coupon_Staff?shop_id='+params.row.id});
+
+                                                // this.shop_id = params.row.id;
+                                                //
+                                                // //请求员工数据
+                                                // var user = sessionStorage.getItem('user')
+                                                // user = JSON.parse(user)
+                                                // this.loadData();
+                                                // //设置
+                                                // this.employeeVisible = true;
                                             }
                                         }
                                     }, '设置'),
@@ -1340,7 +1496,7 @@
                                             display:this.showlogout?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.showLogout(params.row)
                                             }
@@ -1357,7 +1513,7 @@
                                             display:this.showmRefill?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.showrefill(params.index,params.row)
                                             }
@@ -1374,7 +1530,7 @@
                                             display:this.showrefund?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.showRefund(params.row)
                                             }
@@ -1403,6 +1559,12 @@
             }
         },
         methods: {
+            nextStep(){
+                this.activeIndex = 2;
+            },
+            prveStep(){
+              this.activeIndex = 1;
+            },
             changeSuperimposed : function(value){
                 let vm = this;
                 let api = "/shop/changeSuperimposed";
@@ -1448,6 +1610,7 @@
 
             },
             closeTest:function(){
+                this.activeIndex = 1;
                 this.$refs['shopForm'].clearValidate()
             },
             showLogout: function (row) {
@@ -2236,3 +2399,24 @@
     }
 
 </script>
+<style scoped lang="scss">
+    .add-shop-form-wrapper{
+        padding: 30px 30px 0 30px;
+        display: flex;
+        .add-shop-wrapper-left{
+            position: relative;
+            flex: 1;
+        }
+        .add-shop-wrapper-left::after{
+            position: absolute;
+            top: 0;
+            right: -20px;
+            bottom: 25px;
+            border: 1px dotted #979797;;
+            content: '';
+        }
+        .add-shop-wrapper-right{
+            flex:1;
+        }
+    }
+</style>

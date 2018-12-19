@@ -259,11 +259,12 @@ $--parkingos-aside-bgcolor:#162949;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 10px;
-  padding-top: 0;
   background-color: #f4f4f4;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.content-padding{
+  padding:0px 12px 14px 12px;
 }
 .center-park-margin{
   margin-bottom: 20px;
@@ -285,7 +286,7 @@ $--parkingos-aside-bgcolor:#162949;
   width: 3px;
   height: 14px;
   margin-right: 6px;
-  background: #8693F3;
+  background-image: linear-gradient(-170deg, #6DBFFF 0%, #1355D9 100%);
 }
 .seamless-item-title{
   font-size: 12px;

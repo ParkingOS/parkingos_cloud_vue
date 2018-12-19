@@ -1,31 +1,38 @@
 <template>
-    <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            业主管理
-        </header>
-        <!--//////////////////搜索条件+操作按钮//////////////////////-->
-        <div class="workbench-wrapper">
-            <el-form :inline="true" v-model="formItem" class="demo-form-inline">
-                <el-form-item label="姓名" class="clear-style margin-left-clear">
-                    <el-input v-model="formItem.name" placeholder="业主姓名" size="mini"></el-input>
-                </el-form-item>
-                <el-form-item label="手机号" class="clear-style">
-                    <el-input v-model="formItem.phone" placeholder="业主手机号" size="mini"></el-input>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" @click="searchFn" size="mini">搜索</el-button>
-                    <el-button type="primary" @click="handleAdd" size="mini">添加</el-button>
-                    <el-button type="primary" @click="handleImport" size="mini">导入</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                        <el-button @click="exportFn" size="mini">导出</el-button>
-                    </el-tooltip>
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">访客管理<span style="margin: 2px">-</span>业主管理</p>
+                <div class="float-right">
+                    <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="formItem" class="shop-custom-form-search">
+                    <div class="console-main">
+                        <el-form-item label="姓名" class="clear-style margin-left-20">
+                            <el-input v-model="formItem.name" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="手机号" class="clear-style margin-left-20">
+                            <el-input v-model="formItem.phone" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <el-button type="primary" @click="handleAdd">添加</el-button>
+                                <el-button type="primary" @click="handleImport">导入</el-button>
+                                <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
+                                    <el-button type="primary" @click="exportFn"  native-type="button">导出</el-button>
+                                </el-tooltip>
+                            </el-form-item>
+                        </div>
+                    </div>
 
+                </el-form>
+            </div>
+        </div>
 
         <div class="table-wrapper-style">
             <tab-pane
@@ -100,23 +107,31 @@
             <el-button type="primary" size="small" @click="saveUser">保存</el-button>
         </span>
        </el-dialog>
-
-
        <el-dialog
-               title="导入业主"
+               :show-close="false"
                :visible.sync="showUpload"
-               width="30%">
-           <el-upload class="upload-demo" ref="upload" :action="uploadapi" :auto-upload="false"
-                      :on-success="uploadSuccess" :on-remove="handleRemove" :on-change="handleChange">
-               <el-button slot="trigger" size="small" type="primary" @click="handleSelect">选取文件</el-button>
-               <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定导入
-               </el-button>
-               <div slot="tip" class="el-upload__tip">请选择Excel文件，支持xls,xlsx等格式</div>
-           </el-upload>
-           <div v-html="uploadMsg"></div>
-           <span slot="footer" class="dialog-footer">
-            <el-button @click="showUpload = false" size="small" type="primary">确 定</el-button>
-        </span>
+               custom-class="import-owners"
+               width="479px">
+           <header class="dialog-header" slot="title">
+               导入业主<i class="el-icon-close dialog-header-iconfont" @click="showUpload = false"></i>
+           </header>
+           <div class="import-tip">
+               请选择Excel文件，支持xls,xlsx等格式。 <a href="https://image.bolink.club/%E4%B8%9A%E4%B8%BB%E7%AE%A1%E7%90%86.xlsx" download class="import-download">点击下载</a>
+           </div>
+           <div class="import-input-wrapper">
+               <el-upload class="upload-demo" ref="upload" :action="uploadapi" :auto-upload="false"
+                          :on-success="uploadSuccess" :on-remove="handleRemove" :on-change="handleChange">
+                   <el-button slot="trigger" size="small" type="primary" @click="handleSelect">选取文件</el-button>
+                   <!--<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定导入-->
+                   <!--</el-button>-->
+                   <!--<div slot="tip" class="el-upload__tip">请选择Excel文件，支持xls,xlsx等格式</div>-->
+               </el-upload>
+           </div>
+           <div style="margin-top: 15px;height: 20px" v-html="uploadMsg"></div>
+            <div style="margin-top:15px;text-align:center">
+                <el-button style="margin-left: 10px;box-shadow: 0 3px 6px 0 rgba(51,121,233,0.30);" type="primary" @click="submitUpload">确定导入</el-button>
+            </div>
+
        </el-dialog>
     </section>
 </template>
@@ -188,42 +203,6 @@
                 showUpload:false,
                 fieldsstr: 'id__name__phone',
                 tableitems: [
-                    {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '操作',
-                            prop: 'name',
-                            width: '100',
-                            type: 'str',
-                            searchable: true,
-                            unsortable: true,
-                            align: 'center',
-                            columnType:'render',
-                            render: (h, params) => {
-                                return h('div', [
-                                    h('ElButton', {
-                                        props: {
-                                            type: 'text',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '5px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.editFormVisible = true;
-                                                this.rowdata = params.row
-                                                this.rowdata.state = this.rowdata.state+''
-                                            }
-                                        }
-                                    }, '编辑'),
-
-                                ]);
-                            }
-                        }]
-                    },
                     {
 
                         hasSubs: false,
@@ -367,7 +346,43 @@
                             "subtype": "textarea",
                             'rows':'2'
                         }]
-                    }
+                    },
+                    {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '操作',
+                            prop: 'name',
+                            width: '100',
+                            type: 'str',
+                            searchable: true,
+                            unsortable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.editFormVisible = true;
+                                                this.rowdata = params.row
+                                                this.rowdata.state = this.rowdata.state+''
+                                            }
+                                        }
+                                    }, '编辑'),
+
+                                ]);
+                            }
+                        }]
+                    },
 
                 ],
                 uploadMsg: '',

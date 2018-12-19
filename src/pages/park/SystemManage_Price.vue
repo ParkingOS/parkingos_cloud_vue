@@ -1,53 +1,57 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            系统管理-时租价格管理
-            <div class="float-right">
-                <el-button @click="handleAdd" type="primary" size="mini" v-if="hideAdd">添加价格</el-button>
-                <el-button size="mini" @click="resetForm">刷新</el-button>
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">系统管理<span style="margin: 2px">-</span>时租价格管理</p>
+                <div class="float-right">
+                    <el-button @click="handleAdd" type="text" icon="el-icon-plus"  v-if="hideAdd">添加价格</el-button>
+                    <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="console-main">
+                        <el-form-item>
+                            <el-select v-model="searchFormData.time_type" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
+                                <el-option
+                                        v-for="item in timeTypeOption"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="编号">
+                            <el-input style="width: 120px" v-model="searchFormData.id_start" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="车辆类型">
+                            <el-input style="width: 120px" v-model="searchFormData.car_type_zh" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="价格描述">
+                            <el-input style="width: 100px" v-model="searchFormData.describe" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                        </el-form-item>
+                    </div>
+
+                </el-form>
             </div>
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item class="clear-style margin-left-clear">
-                    <el-select v-model="searchFormData.time_type"  size="mini" style="width: 100px">
-                        <el-option
-                                v-for="item in timeTypeOption"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style-4">
-                    <el-date-picker
-                            style="width: 312px"
-                            size="mini"
-                            v-model="searchFormData.currentData"
-                            type="datetimerange"
-                            range-separator="-"
-                            :default-time="['00:00:00','23:59:59']"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            value-format="timestamp"
-                            @change="changeDateFormat"
-                    >
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="编号" class="clear-style-4">
-                    <el-input v-model="searchFormData.id_start" placeholder="编号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="车辆类型" class="clear-style-4">
-                    <el-input v-model="searchFormData.car_type_zh" placeholder="车辆类型" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="价格描述" class="clear-style-4">
-                    <el-input v-model="searchFormData.describe" placeholder="价格描述" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                </el-form-item>
-            </el-form>
         </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :editTo="editTo"
@@ -131,60 +135,8 @@
                 btswidth: '100',
                 fieldsstr: 'id__create_time__update_time__car_type_zh__describe',
                 orderfield:'id',
-                tableitems: [{
-                    hasSubs:false,
-                    subs: [{
-                        label: '操作',
-                        columnType:'render',
-                        align: 'center',
-                        width:'100',
-                        hidden:false,
-                        unsortable: true,
-                        render: (h, params) => {
-                            return h('div', [
-                                h('ElButton', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px',
-                                        display:this.showEdit?'':'none',
-                                    },
-                                    on: {
-                                        click: () => {
-                                            window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                            this.editRowData = params.row;
-                                            this.editTo++;
-                                        }
-                                    }
-                                }, '编辑'),
-                                h('ElButton', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px',
-                                        color:'red',
-                                        display:this.showdelete?'':'none',
-                                    },
-                                    on: {
-                                        click: () => {
-                                            window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                            this.delForm = {
-                                                $index:params.index,
-                                                delVisible:true,
-                                                id:params.row.id,
-                                            }
-
-                                        }
-                                    }
-                                }, '删除'),
-                            ]);
-                        }
-                    }]
-                },{
+                tableitems: [
+                    {
                     hasSubs:false,
                     subs: [{
                         label: '索引',
@@ -291,7 +243,60 @@
                             ],
                         }]
                     },
+                    {
+                        hasSubs:false,
+                        subs: [{
+                            label: '操作',
+                            columnType:'render',
+                            align: 'center',
+                            width:'100',
+                            hidden:false,
+                            unsortable: true,
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none',
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.editRowData = params.row;
+                                                this.editTo++;
+                                            }
+                                        }
+                                    }, '编辑'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            color:'red',
+                                            display:this.showdelete?'':'none',
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.delForm = {
+                                                    $index:params.index,
+                                                    delVisible:true,
+                                                    id:params.row.id,
+                                                }
 
+                                            }
+                                        }
+                                    }, '删除'),
+                                ]);
+                            }
+                        }]
+                    },
                 ],
                 searchtitle: '高级查询',
                 addtitle: '添加价格',
@@ -394,6 +399,7 @@
             },
             //添加
             handleAdd(){
+                this.addRowData = {};
                 this.addRowData.operator = sessionStorage.getItem('nickname');
                 this.addTo++;
             },
@@ -434,7 +440,7 @@
         watch: {
             hideOptions:function (val,oldVal) {
                 let len = this.tableitems.length;
-                this.tableitems[0].subs[0].hidden = val
+                this.tableitems[len -1].subs[0].hidden = val
             },
         }
     }

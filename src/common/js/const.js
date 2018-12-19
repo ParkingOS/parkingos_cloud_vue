@@ -39,8 +39,8 @@ export const AUTH_ID = {
     systemManage_Price: 28, //时租价格管s理
     systemManage_MonthCard: 29, //月卡套餐管理
     systemManage_Logs: 80, //系统日志
-    systemManage_AddedService:333, //增值服务
     systemManage_AddedService_Sms:334,//短信服务
+    systemManage_AddedService:333, //增值服务
     onlinePay: 8, //电子支付
     onlinePay_Income: 10, //电子收款
     onlinePay_CashManage: 9, //提现管理
@@ -91,14 +91,14 @@ export const showParkItem_const = {
     systemManage_Account: false,
     systemManage_Params: false,
     systemManage_FreeReason: false,
-    systemManage_CarManage: false,
     systemManage_CarManage_CarType: false,
     systemManage_CarManage_BindType: false,
+    systemManage_CarManage: false,
     systemManage_Price: false,
     systemManage_MonthCard: false,
     systemManage_Logs: false,
-    systemManage_AddedService:false,
     systemManage_AddedService_Sms:false,
+    systemManage_AddedService:false,
     vistorManage_VistorMember:false,
     vistorManage_homeOwner:false,
     vistorManage:false,

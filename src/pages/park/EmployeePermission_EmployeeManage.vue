@@ -1,38 +1,47 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            员工权限-员工管理
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item label="编号" class="clear-style margin-left-clear">
-                    <el-input v-model="searchFormData.id_start" placeholder="编号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="姓名" class="clear-style">
-                    <el-input v-model="searchFormData.nickname" placeholder="姓名" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="登录账号" class="clear-style">
-                    <el-input v-model="searchFormData.strid" placeholder="登录账号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">员工权限<span style="margin: 2px">-</span>员工管理</p>
+                <div class="float-right">
+                    <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="console-main">
+                        <el-form-item label="编号">
+                            <el-input style="width: 140px" v-model="searchFormData.id_start" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="姓名">
+                            <el-input style="width: 140px" v-model="searchFormData.nickname" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="登录账号">
+                            <el-input style="width: 140px" v-model="searchFormData.strid" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item  class="clear-style" label="角色">
+                            <el-select v-model="searchFormData.role_id"  filterable
+                                       placeholder="请选择" class="shop-custom-input" style="width: 140px">
+                                <el-option
+                                        v-for="item in aroles"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <el-button @click="handleAdd" type="primary" v-if="hideAdd">注册员工</el-button>
+                            </el-form-item>
+                        </div>
+                    </div>
 
-                <el-form-item label="角色" class="clear-style">
-                    <el-select v-model="searchFormData.role_id"  size="mini" style="width: 140px">
-                        <el-option
-                                v-for="item in aroles"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style-4 float-right">
-                    <el-button size="mini" @click="handleAdd" type="primary" v-if="hideAdd">注册员工</el-button>
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-            </el-form>
+                </el-form>
+            </div>
         </div>
 
         <div class="table-wrapper-style">
@@ -406,7 +415,7 @@
                                             display:this.showEdit?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.editRowData = params.row;
                                                 this.editRowData.role_id = this.editRowData.role_id+'';
@@ -426,7 +435,7 @@
                                             display:this.showdelete?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.delForm = {
                                                     $index:params.index,
@@ -447,7 +456,7 @@
                                             display:this.showresetpwd?'':'none'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.rowid = params.row.id;
                                                 this.resetPwdVisible = true;

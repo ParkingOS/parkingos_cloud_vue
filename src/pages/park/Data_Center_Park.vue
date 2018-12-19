@@ -1,55 +1,68 @@
 <template>
     <section class="data-center-park" style="">
-        <h3 class="title">数据中心</h3>
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">数据中心<span style="margin: 2px">-</span>数据中心</p>
+                <div class="float-right"><el-button type="text" size="mini" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="getDatas">刷新</el-button></div>
+            </header>
+        </div>
+        <div class="content-padding">
         <!--第一部分统计数量的卡片-->
-        <el-row class="center-park-margin" :gutter="10">
-            <el-col :xs="24" :sm="12" :md="5">
+        <el-row class="center-park-margin" :gutter="13" type="flex" justify="space-between">
+            <el-col :xs="24" :sm="12" >
                 <infor-card
                         id-name="allCount"
                         :end-val="otherData.receiveTotal"
                         iconType="iconfont icon-jine"
-                        color="#8693F3"
+                        color="linear-gradient(163deg, #FFE06D 0%, #D96E13 100%)"
                         :iconSize="36"
+                        :retain="2"
                         intro-text="总收入（元）"
                 ></infor-card>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="4">
+            <!--color="linear-gradient(170deg, #6DBFFF 0%, #1355D9 100%)"-->
+            <el-col :xs="24" :sm="12" >
                 <infor-card
                         id-name="allCount"
                         :end-val="otherData.parkEmpty"
                         iconType="iconfont icon-chewei"
-                        color="#BC8DEE"
+                        color="linear-gradient(170deg, #6DBFFF 0%, #4C97F1 100%)"
                         :iconSize="36"
+                        :retain="0"
                         intro-text="空车位（个）"
                 ></infor-card>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="5">
+            <!--color="linear-gradient(-44deg, #3023AE 0%, #53A0FD 100%)"-->
+            <el-col :xs="24" :sm="12" >
                 <infor-card
                         id-name="allCount"
                         :end-val="otherData.monthTotal"
                         iconType="iconfont icon-huiyuan1"
-                        color="#50E4A0"
+                        color="linear-gradient(-44deg, #3C4EC9 0%, #53A0FD 100%)"
                         :iconSize="36"
+                        :retain="0"
                         intro-text="月卡会员（人）"
                 ></infor-card>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="5">
+            <el-col :xs="24" :sm="12" >
                 <infor-card
                         id-name="allCount"
                         :end-val="otherData.ticketCount"
                         iconType="iconfont icon-quan"
-                        color="#F5B962"
+                        color="linear-gradient(165deg, #6DFF7C 0%, #138ED9 100%)"
                         :iconSize="36"
+                        :retain="0"
                         intro-text="优惠券发放（张）"
                 ></infor-card>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="5">
+            <el-col :xs="24" :sm="12" >
                 <infor-card
                         id-name="allCount"
                         :end-val="otherData.vistorCount"
                         iconType="iconfont icon-fangke"
-                        color="#61AFF6"
+                        color="linear-gradient(135deg, #FFB2A2 0%, #F76B1C 100%)"
                         :iconSize="36"
+                        :retain="0"
                         intro-text="访客未处理（人）"
                 ></infor-card>
             </el-col>
@@ -86,7 +99,7 @@
                             </svg>
                             <p>暂无数据</p>
                         </div>
-                        <vue-seamless-scroll v-show="parkState.length != 0" :data="parkState" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="parkState.length>0">
+                        <vue-seamless-scroll :class-option="classOption" v-show="parkState.length != 0" :data="parkState" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="parkState.length>0">
                             <ul>
                                 <li  v-for='(item,index) in parkState' :key="index" class="seamless-item-style">
                                     <el-row type="flex">
@@ -124,7 +137,7 @@
                                         :current-val = inOutCarsCount.inCars
                                         count-bar-title="今日入场车辆"
                                         :img-src="baseImg.ruchang"
-                                        count-bar-color="linear-gradient(-90deg,rgba(39,227,130,1),rgba(116,248,199,1))"
+                                        count-bar-color="linear-gradient(-270deg, #54DF97 3%, #3ABFB2 97%)"
                                 ></count-bar>
                             </div>
                             <div style="margin-bottom: 24px">
@@ -133,7 +146,7 @@
                                         :current-val = inOutCarsCount.outCars
                                         count-bar-title="今日离场车辆"
                                         :img-src="baseImg.chuchang"
-                                        count-bar-color="linear-gradient(-90deg,rgba(255,159,15,1),rgba(251,195,116,1))"
+                                        count-bar-color=" linear-gradient(90deg, #F8D03B 0%, #E9A03A 98%)"
                                 ></count-bar>
                             </div>
                             <div style="margin-bottom: 24px">
@@ -142,7 +155,7 @@
                                         :current-val = inOutCarsCount.inPark
                                         count-bar-title="今日在场车辆"
                                         :img-src="baseImg.zaichang"
-                                        count-bar-color="linear-gradient(-90deg,rgba(82,147,250,1),rgba(116,217,250,1))"
+                                        count-bar-color="linear-gradient(90deg, #6DBFFF 0%, #4590EE 100%)"
                                 ></count-bar>
                             </div>
 
@@ -171,7 +184,7 @@
                             </svg>
                             <p>暂无数据</p>
                         </div>
-                        <vue-seamless-scroll v-show="inPartData.length>0" :data="inPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="inPartData.length>0">
+                        <vue-seamless-scroll :class-option="classOption" v-show="inPartData.length>0" :data="inPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="inPartData.length>0">
                             <ul>
                                 <li  v-for='(item,index) in inPartData' :key="index" class="seamless-item-style">
                                     <el-row type="flex">
@@ -206,7 +219,7 @@
                             </svg>
                             <p>暂无数据</p>
                         </div>
-                        <vue-seamless-scroll v-show="outPartData.length>0" :data="outPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="outPartData.length>0">
+                        <vue-seamless-scroll :class-option="classOption" v-show="outPartData.length>0" :data="outPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="outPartData.length>0">
                             <ul>
                                 <li  v-for='(item,index) in outPartData' :key="index" class="seamless-item-style">
                                     <el-row type="flex">
@@ -253,7 +266,7 @@
                             </svg>
                             <p>暂无数据</p>
                         </div>
-                        <vue-seamless-scroll v-show="exceptionDataPole.length>0" :data="exceptionDataPole" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="exceptionDataPole.length>0">
+                        <vue-seamless-scroll :class-option="classOption" v-show="exceptionDataPole.length>0" :data="exceptionDataPole" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="exceptionDataPole.length>0">
                             <ul>
                                 <li  v-for='(item,index) in exceptionDataPole' :key="index" class="seamless-item-style">
                                     <el-row type="flex">
@@ -269,6 +282,7 @@
                 </el-card>
             </el-col>
         </el-row>
+        </div>
     </section>
 </template>
 <script>
@@ -353,6 +367,14 @@
         deactivated(){
             clearInterval(this.dataInteval);
         },
+        computed: {
+            classOption () {
+                return {
+                    step:0.5,
+                    direction: 1
+                }
+            }
+        },
         methods: {
             getDatas() {
                 let that = this;
@@ -429,7 +451,7 @@
                     rData.name = [];
                     for (var i = 0; i < berthData.length; i++) {
                         rData.name.push(berthData[i].time);
-                        rData.value.push(((berthData[i].percent)/100));
+                        rData.value.push(((berthData[i].percent)));
                     }
                 }
                 return rData;

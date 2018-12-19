@@ -1,55 +1,65 @@
 <template>
-    <section class="right-wrapper-size">
-        <div class="shop-custom-operation">
-            <header class="shop-custom-header">
-                <p style="float: left">系统管理<span style="margin: 2px">-</span>账号管理</p>
-            </header>
-        </div>
-        <div class="sys-info-wrapper">
-            <el-row >
-                <el-col :span="12" style="padding: 10px">
-                        <div class="sys-info-title">基本信息</div>
-                        <div>
-                            <el-row>
-                                <el-form style="width:90%;margin-top: 20px;" label-width="100px">
-                                    <el-form-item label="车场编号">
-                                        <el-input :readonly="paridreadonly" v-model="parkid"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="车场名称">
-                                        <el-input v-model="parkname"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="车位总数">
-                                        <el-input v-model="parkspacenums"></el-input>
-                                    </el-form-item>
-                                </el-form>
-                            </el-row>
-                        </div>
-                </el-col>
-                <el-col :span="12" style="padding: 10px">
-                        <div class="sys-info-title">联系信息</div>
-                        <div>
-                            <el-row>
-                                <el-form style="width:90%;margin-top: 20px;" label-width="100px">
-                                    <el-form-item label="电话号码">
-                                        <el-input v-model="telephone"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="手机号码">
-                                        <el-input v-model="mobilephone"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="详细地址">
-                                        <el-input v-model="address"></el-input>
-                                    </el-form-item>
-                                </el-form>
-                            </el-row>
-                        </div>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col style="text-align: center">
-                    <el-button type="primary" @click="saveModify" >保存信息</el-button>
-                </el-col>
-            </el-row>
-        </div>
+    <section style="padding: 10px;"  >
+        <el-row>
+            <el-col style="margin-left: 10px;">
+                <el-button type="primary" @click="saveModify" >保存信息</el-button>
+            </el-col>
+        </el-row>
+        <el-row style="margin-top:28px"  >
+            <el-col :span="8" style="padding: 10px">
+                <el-card style="height:240px">
+                    <div>基本信息</div>
+                    <div>
+                        <el-row>
+                            <el-form style="width:90%;margin-top: 20px;" label-width="100px">
+                                <el-form-item label="车场编号">
+                                    <el-input :readonly="paridreadonly" v-model="parkid"></el-input>
+                                </el-form-item>
+                                <el-form-item label="车场名称">
+                                    <el-input v-model="parkname"></el-input>
+                                </el-form-item>
+                                <el-form-item label="车位总数">
+                                    <el-input v-model="parkspacenums"></el-input>
+                                </el-form-item>
+                            </el-form>
+                        </el-row>
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="8" style="padding: 10px">
+                <el-card style="height:240px">
+                    <div>位置信息</div>
+                    <div>
+                        <el-row>
+                            <el-form style="width:90%;margin-top: 20px;" label-width="100px">
+                                <el-form-item label="详细地址">
+                                    <el-input v-model="address"></el-input>
+                                </el-form-item>
+                            </el-form>
+                        </el-row>
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="8" style="padding: 10px">
+                <el-card style="height:240px">
+                    <div>联系方式</div>
+                    <div>
+                        <el-row>
+                            <el-form style="width:90%;margin-top: 20px;" label-width="100px">
+                                <el-form-item label="电话">
+                                    <el-input v-model="telephone"></el-input>
+                                </el-form-item>
+                                <el-form-item label="手机">
+                                    <el-input v-model="mobilephone"></el-input>
+                                </el-form-item>
+
+                            </el-form>
+                        </el-row>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
+
         <input v-show="false" v-model.number="center.lng">
         <input v-show="false" v-model.number="center.lat">
         <el-dialog :visible.sync="mapVisible" @close="dclose" top="10%" width="50%" style="padding-bottom: 50px;height: 800px;">
@@ -373,26 +383,10 @@
 </script>
 
 <style scoped>
-    .sys-info-wrapper{
-        background: #fff;
-        margin: 14px 12px;
-        padding:36px 0;
-    }
-    .sys-info-title{
-        position: relative;
-        font-size: 18px;
-        color: #363636;
-        text-indent: 10px;
-        font-weight: bold;
-    }
-    .sys-info-title::before{
-        position: absolute;
-        top: 0;
-        left: 0;
-        content: "";
-        display: inline-block;
-        width: 3px;
-        height: 20px;
-        background-image: linear-gradient(-170deg, #6DBFFF 0%, #1355D9 100%);
+    .el-dialog__body {
+        padding: 60px 20px;
+        color: #606266;
+        line-height: 24px;
+        font-size: 14px;
     }
 </style>

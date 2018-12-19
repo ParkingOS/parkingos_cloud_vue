@@ -30,6 +30,7 @@ import OrderStatistics_CollectorReport from './pages/park/OrderStatistics_Collec
 import OrderStatistics_MonthReport from './pages/park/OrderStatistics_MonthReport.vue';
 import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue';
 import ShopManage_Shop from './pages/park/ShopManage_Shop.vue';
+import ShopMange_Shop_Staff from './pages/park/shopMange_Shop_Staff.vue';
 import ShopManage_QueryAccount from './pages/park/ShopManage_QueryAccount.vue';
 import EquipmentManage_Monitor from './pages/park/EquipmentManage_Monitor.vue';
 import EquipmentManage_Intercom from './pages/park/EquipmentManage_Intercom.vue';
@@ -276,9 +277,14 @@ let routes = [
         name: '商户管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/shopManage_Coupon', component: ShopManage_Coupon, name: '商户管理'},
+            {
+                path: '/shopManage_Coupon',
+                component: ShopManage_Coupon,
+                name: '商户管理',
+            },
             {path: '/shopManage_Shop', component: ShopManage_Shop, name: '流水查询'},
-            {path: '/shopManage_QueryAccount', component: ShopManage_QueryAccount, name: '优惠券管理'}
+            {path: '/shopManage_QueryAccount', component: ShopManage_QueryAccount, name: '优惠券管理'},
+            {path: '/ShopManage_Coupon_Staff', component: ShopMange_Shop_Staff, name: '员工管理'},
         ]
     },
     {

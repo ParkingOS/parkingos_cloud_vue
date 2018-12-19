@@ -107,7 +107,7 @@ $--custom-dialog-header-bg:#193C7B;
   }
   .el-dialog__body{
     //padding: 0;
-    padding: 30px 50px;
+    padding: 0 0 30px 0;
     .info-icon{
       display: inline-block;
       vertical-align: middle;
@@ -124,6 +124,7 @@ $--custom-dialog-header-bg:#193C7B;
     }
   }
   .el-dialog__footer{
+    display: none;
     padding:0 0 20px 0;
     .dialog-footer-btn{
       width: 144px;
@@ -162,30 +163,103 @@ $--custom-dialog-header-bg:#193C7B;
 }
 .custom-dialog-ordermanage{
   position: relative;
-  width: 710px;
-  height: 400px;
+  width: 478px;
+  height: 318px;
+  border-radius: 6px 6px 0px 0px;
+  overflow: hidden;
+  border-radius: 6px;
   .el-dialog__header{
-    display: none;
+    padding: 0 20px;
+    margin: 0;
+    background: #193C7B;
   }
-  .el-dialog__body{
-    padding: 0;
-    width: 710px;
-    height: 400px;
-    text-align: center;
+  .custom-dialog-title{
+    position: relative;
+    height: 47px;
+    line-height: 47px;
+    font-size: 18px;
+    color: #FFFFFF;
+
+    border-radius: 6px 6px 0px 0px;
     .dialog-header-iconfont{
       position: absolute;
-      right: 20px;
+      right: 0;
       top:10px;
-      font-size: 30px;
+      font-size: 24px;
       font-weight: normal;
       cursor: pointer;
     }
+  }
+  .el-dialog__body{
+    padding: 18px;
+    height: 234px;
+    text-align: center;
   }
   .el-dialog__footer{
     display: none;
   }
 }
 
+//导入业主
+.import-owners{
+  border-radius: 6px;
+  .el-dialog__header{
+    position: relative;
+    padding: 0 24px;
+    line-height: 48px;
+    background: $--custom-dialog-header-bg;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 6px 6px 0 0;
+    font-weight: bold;
+    .el-dialog__headerbtn{
+      position: absolute;
+      top:50%;
+      right: 20px;
+      transform: translateY(-50%);
+      font-size: 30px;
+    }
+    .dialog-header-iconfont{
+      position: absolute;
+      right: 20px;
+      top:50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      font-weight: normal;
+      cursor: pointer;
+    }
+  }
+  .import-tip{
+    background: rgba(216,216,216,0.27);
+    border-radius: 4px;
+    padding: 8px 0;
+    display: block;
+    text-align: center;
+    margin-bottom: 15px;
+    a{
+      margin-left: 5px;
+      font-size: 14px;
+      color: #80a4dc;
+      text-decoration: none;
+    }
+  }
+  .import-input-wrapper{
+    position: relative;
+    height: 32px;
+    border: 1px solid #3C75CF;
+    border-radius: 6px;
+    .upload-demo{
+      position: absolute;
+      top:0;
+      right: 0;
+      .el-upload-list{
+        position: absolute;
+        top: -5px;
+        left: -340px;
+      }
+    }
+  }
+}
 
 .dialog-header{
   .dialog-title-icon{
@@ -253,7 +327,7 @@ $--custom-dialog-header-bg:#193C7B;
     float: left;
     display: flex;
     height:41px;
-    margin-left: 23px;
+    margin-left: 20px;
     .logo-one{
       position: relative;
       width: 23px;
@@ -268,7 +342,7 @@ $--custom-dialog-header-bg:#193C7B;
       }
     }
     .logo-two{
-      margin-left: 24px;
+      margin-left: 16px;
       position: relative;
       img{
         position: absolute;
@@ -372,7 +446,6 @@ $--custom-dialog-header-bg:#193C7B;
 //  overflow-x: hidden !important;
 //}
 .workbench-wrapper{
-  //height: 30px;
   padding: 15px 20px;
   margin: 0 20px 20px 20px;
   background-color: #fff;
@@ -418,31 +491,67 @@ $--custom-dialog-header-bg:#193C7B;
     padding: 8px 0;
   }
 }
+.order-base-info{
+  margin: 14px 12px;
+  padding: 20px 25px;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.03);
+}
 .order-title{
-  padding: 0 10px;
-  font-size: 14px;
+  position: relative;
+  padding: 0 10px 20px 0;
+  font-size: 16px;
   font-weight: bolder;
-  height: 46px;
-  line-height: 46px;
+  text-indent: 10px;
+  //height: 46px;
+  //line-height: 46px;
   .bar-icon{
+    position: absolute;
+    top:0;
+    left: 0;
     display:inline-block;;
     width: 3px;
-    height: 14px;
+    height: 20px;
     margin-right: 6px;
     background: #8693F3;
   }
 }
+.order-wrapper-s{
+  .order-detail-row{
+    border:1px solid;
+    border-color: #D4D4D4;
+    .order-detail-lable{
+      //width:200px;
+      height:45px;
+      line-height: 45px;
+      text-align: center;
+      border-right:1px solid;
+      border-color: #E7E9EA;
+      background:#F6F8FA;
+      box-sizing: border-box;
+    }
+    .order-detail-content{
+      height:45px;
+      line-height: 45px;
+      text-align: center;
+      border-color: #EEE;
+      background:rgba(255,255,255,1);
+      box-sizing: border-box;
+    }
+  }
+}
 .order-detail-row{
   border:1px solid;
-  border-color: #EEE;
+  border-color: #D4D4D4;
   .order-detail-lable{
     //width:200px;
     height:40px;
     line-height: 40px;
     text-align: center;
     border-right:1px solid;
-    border-color: #EEE;
-    background:rgba(244,248,255,1);
+    border-color: #E7E9EA;
+    background:#F6F8FA;
   }
   .order-detail-content{
     height:40px;
@@ -452,29 +561,49 @@ $--custom-dialog-header-bg:#193C7B;
     background:rgba(255,255,255,1);
   }
 }
-.out_photo{
-  position:relative;
-  width: 530px;
-  height: 300px;
-  text-align: center;
-  margin: 0 !important;
-  padding: 0 !important;
-  border-radius: 4px;
-  overflow: hidden;
-  .out_photo_text{
-    position: absolute;
-    right: 0;
-    top:0;
-    z-index: 3;
-    width:80px;
-    height:30px;
-    line-height: 30px;
-    font-size:14px;
-    font-weight:bold;
-    color:rgba(255,255,255,1);
-    background:rgba(14,95,246,1);
+.order-money-wrapper{
+  .order-info-receivable{
+    .rece-title{
+      line-height: 26px;
+      font-size: 12px;
+      color: #000000;
+    }
+    .rece-content{
+      span{
+        margin-right: 8px;
+        font-size: 16px;
+        color: #747474;
+      }
+      .rece-money{
+        font-size: 32px;
+        color: #EB8512;
+      }
+    }
   }
 }
+//.out_photo{
+//  position:relative;
+//  width: 530px;
+//  height: 300px;
+//  text-align: center;
+//  margin: 0 !important;
+//  padding: 0 !important;
+//  border-radius: 4px;
+//  overflow: hidden;
+//  .out_photo_text{
+//    position: absolute;
+//    right: 0;
+//    top:0;
+//    z-index: 3;
+//    width:80px;
+//    height:30px;
+//    line-height: 30px;
+//    font-size:14px;
+//    font-weight:bold;
+//    color:rgba(255,255,255,1);
+//    background:rgba(14,95,246,1);
+//  }
+//}
 
 .float-right{
   float: right;
@@ -675,6 +804,13 @@ $--shop-from-item__bordercolor:#D4D4D4;
         border:none;
         .el-range-input{
           background: none;
+        }
+      }
+      .shop-custom-date{
+        background: none;
+        .el-input__inner{
+          background: none;
+          border:none;
         }
       }
     }

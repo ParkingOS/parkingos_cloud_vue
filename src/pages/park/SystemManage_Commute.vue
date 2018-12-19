@@ -1,60 +1,65 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            系统管理-上下班管理
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item class="clear-style margin-left-clear">
-                    <el-select v-model="searchFormData.work_type"  size="mini" style="width: 100px">
-                        <el-option
-                                v-for="item in workTypeOption"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style-4">
-                    <el-date-picker
-                            style="width: 312px"
-                            size="mini"
-                            v-model="searchFormData.currentData"
-                            type="datetimerange"
-                            range-separator="-"
-                            :default-time="['00:00:00','23:59:59']"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            value-format="timestamp"
-                            @change="changeDateFormat"
-                    >
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="姓名" class="clear-style-4">
-                    <el-input v-model="searchFormData.uinName" placeholder="收费员姓名" size="mini" style="width: 120px"></el-input>
-                </el-form-item>
-                <el-form-item label="编号" class="clear-style-4">
-                    <el-input v-model="searchFormData.uid_start" placeholder="收费员编号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="状态" class="clear-style-4">
-                    <el-select v-model="searchFormData.state_start"  size="mini" style="width: 140px">
-                        <el-option
-                                v-for="item in commuteStateType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">系统管理<span style="margin: 2px">-</span>上下班管理</p>
+                <div class="float-right">
+                    <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="console-main">
+                        <el-form-item>
+                            <el-select v-model="searchFormData.work_type" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
+                                <el-option
+                                        v-for="item in workTypeOption"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="姓名">
+                            <el-input style="width: 120px" v-model="searchFormData.uinName" class="shop-custom-input" placeholder="收费员姓名"></el-input>
+                        </el-form-item>
+                        <el-form-item label="编号">
+                            <el-input style="width: 120px" v-model="searchFormData.uid_start" class="shop-custom-input" placeholder="收费员编号"></el-input>
+                        </el-form-item>
+                        <el-form-item  class="clear-style" label="状态">
+                            <el-select v-model="searchFormData.state_start"  filterable
+                                       placeholder="请选择" class="shop-custom-input" style="width: 140px">
+                                <el-option
+                                        v-for="item in commuteStateType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                        </el-form-item>
+                    </div>
 
-                <el-form-item class="clear-style">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style-4 float-right">
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-            </el-form>
+                </el-form>
+            </div>
         </div>
+
+
         <div class="table-wrapper-style">
             <tab-pane
                     :queryapi="queryapi"

@@ -1,52 +1,60 @@
 <template>
-    <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            商户管理-流水查询
-        </header>
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item label="商户名称"  class="clear-style margin-left-clear">
-                    <el-input v-model="searchFormData.shop_name" placeholder="请输入商户名称" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item label="操作人" class="clear-style">
-                    <el-input v-model="searchFormData.nickname" placeholder="操作人" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item class="clear-style" label="操作时间">
-                    <el-date-picker
-                            style="width: 312px"
-                            size="mini"
-                            v-model="searchFormData.currentData"
-                            type="datetimerange"
-                            range-separator="-"
-                            :default-time="['00:00:00','23:59:59']"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            value-format="timestamp"
-                            @change="changeDateFormat"
-                    >
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-                <div class="second-search-item-style" v-show="isShow">
-                    <el-form-item label="流水类型" class="clear-style margin-left-clear">
-                        <el-select v-model="searchFormData.operate_type" placeholder="请选择" size="mini" style="width: 140px">
-                            <el-option
-                                    v-for="item in operateType"
-                                    :key="item.value_no"
-                                    :label="item.value_name"
-                                    :value="item.value_no">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </div>
-            </el-form>
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">商户管理<span style="margin: 2px">-</span>流水查询</p>
+                <div class="float-right"><el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button></div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="advanced-options" v-show="isShow">
+                        <el-form-item label="流水类型" class="clear-style">
+                            <el-select v-model="searchFormData.operate_type" placeholder="请选择" class="shop-custom-input">
+                                <el-option
+                                        v-for="item in operateType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+
+                    </div>
+                    <div class="console-main">
+                        <el-form-item label="商户名称">
+                            <el-input style="width: 140px" v-model="searchFormData.shop_name" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="操作人">
+                            <el-input style="width: 140px" v-model="searchFormData.nickname" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="操作时间">
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button type="text"
+                                       @click="changeMore"
+                                       style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
+                        </el-form-item>
+                    </div>
+
+                </el-form>
+            </div>
         </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :queryapi="queryapi"
@@ -60,23 +68,6 @@
                     ref="tabPane"
             ></tab-pane>
         </div>
-        <!--<common-table-->
-                <!--:queryapi="queryapi"-->
-                <!--:tableheight="tableheight"-->
-                <!--:fieldsstr="fieldsstr"-->
-                <!--:tableitems="tableitems"-->
-                <!--:btswidth="btswidth"-->
-                <!--:hide-export="hideExport"-->
-                <!--:hide-options="hideOptions"-->
-                <!--:searchtitle="searchtitle"-->
-                <!--:hideTool="hideTool"-->
-                <!--:orderfield="orderfield"-->
-
-                <!--:showParkInfo="showParkInfo"-->
-                <!--:hideSearch="hideSearch"-->
-                <!--:hideAdd="hideAdd"-->
-                <!--ref="bolinkuniontable"-->
-        <!--&gt;</common-table>-->
     </section>
 </template>
 
@@ -95,6 +86,8 @@
         },
         data() {
             return {
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
                 isShow:false,
                 searchForm:{},
                 searchFormData:{
@@ -195,7 +188,7 @@
                                 return h('div', [
                                     h('span', {
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                             }
                                         }

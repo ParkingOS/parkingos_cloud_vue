@@ -1,58 +1,56 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            储值卡会员-储值卡使用记录
-        </header>
-
-        <div class="workbench-wrapper">
-            <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                <el-form-item label="类型" class="clear-style margin-left-clear">
-                    <el-select v-model="searchFormData.time_type" placeholder="请选择" size="mini" style="width: 140px">
-                        <el-option
-                                v-for="item in timerType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-date-picker
-                            style="width: 312px"
-                            size="mini"
-                            v-model="searchFormData.currentData"
-                            type="datetimerange"
-                            range-separator="-"
-                            :default-time="['00:00:00','23:59:59']"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            value-format="timestamp"
-                            @change="changeDateFormat"
-                    >
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="车牌号" class="clear-style">
-                    <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" size="mini" style="width: 140px"></el-input>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" size="mini" @click="searchFn">搜索</el-button>
-                    <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px"></i> 更多选项</el-button>
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-                <div class="second-search-item-style" v-show="isShow">
-                    <el-form-item label="姓名" class="clear-style margin-left-clear">
-                        <el-input v-model="searchFormData.name" placeholder="" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">会员管理<span style="margin: 2px">-</span>储值卡使用记录</p>
+                <div class="float-right">
+                    <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
-            </el-form>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="console-main">
+                        <el-form-item>
+                            <el-select v-model="searchFormData.time_type" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
+                                <el-option
+                                        v-for="item in timerType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="车牌号" class="clear-style margin-left-20">
+                            <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="姓名" class="clear-style">
+                            <el-input v-model="searchFormData.name" placeholder="" class="shop-custom-input" style="width: 120px"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                        </el-form-item>
+                    </div>
+
+                </el-form>
+            </div>
         </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :queryapi="queryapi"
-                    :exportapi="exportapi"
                     :orderfield="orderfield"
                     :fieldsstr="fieldsstr"
                     :table-items="tableitems"
@@ -122,7 +120,7 @@
                         subs: [{
                             label: '车牌号码',
                             prop: 'car_number',
-                            width: '165',
+                            width: '240',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -150,7 +148,7 @@
                         subs: [{
                             label: '扣费前金额',
                             prop: 'deducted_money_before',
-                            width: '180',
+                            width: '130',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -164,7 +162,7 @@
                         subs: [{
                             label: '扣费金额',
                             prop: 'deducted_money',
-                            width: '180',
+                            width: '130',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -178,7 +176,7 @@
                         subs: [{
                             label: '扣费后金额',
                             prop: 'deducted_money_after',
-                            width: '180',
+                            width: '130',
                             type: 'str',
                             editable: true,
                             searchable: true,

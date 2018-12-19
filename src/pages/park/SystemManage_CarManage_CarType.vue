@@ -1,12 +1,15 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            系统管理-车型管理-车型设定
-            <div class="float-right">
-                <el-button @click="handleAdd" type="primary" size="mini" v-if="hideAdd">添加车型</el-button>
-                <el-button size="mini" @click="resetForm">刷新</el-button>
-            </div>
-        </header>
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">系统管理<span style="margin: 2px">-</span>车型管理<span style="margin: 2px">-</span>车型设定</p>
+                <div class="float-right">
+                    <el-button @click="handleAdd" type="text" icon="el-icon-plus"  v-if="hideAdd">添加车型</el-button>
+                    <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+        </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :editTo="editTo"
@@ -69,61 +72,8 @@
                 editapi: '/cartype/edit',
                 btswidth: '100',
                 fieldsstr: 'id__name__cartype_id__sort',
-                tableitems: [{
-                    hasSubs:false,
-                    subs: [{
-                        label: '操作',
-                        columnType:'render',
-                        align: 'center',
-                        width:'100',
-                        hidden:false,
-                        unsortable: true,
-                        render: (h, params) => {
-                            return h('div', [
-                                h('ElButton', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px',
-                                        display:this.showEdit?'':'none'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                            this.editRowData = params.row;
-                                            this.editRowData.state = this.editRowData.state+'';
-                                            this.editTo++;
-                                        }
-                                    }
-                                }, '编辑'),
-                                h('ElButton', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px',
-                                        color:'red',
-                                        display:this.showdelete?'':'none'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                            this.delForm = {
-                                                $index:params.index,
-                                                delVisible:true,
-                                                id:params.row.id,
-                                            }
-
-                                        }
-                                    }
-                                }, '删除'),
-                            ]);
-                        }
-                    }]
-                },{
+                tableitems: [
+                    {
                     hasSubs:false,
                     subs: [{
                         label: '索引',
@@ -210,8 +160,62 @@
                             "subtype": "text",
 
                         }]
-                    }
+                    },
+                    {
+                        hasSubs:false,
+                        subs: [{
+                            label: '操作',
+                            columnType:'render',
+                            align: 'center',
+                            width:'100',
+                            hidden:false,
+                            unsortable: true,
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            display:this.showEdit?'':'none'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.editRowData = params.row;
+                                                this.editRowData.state = this.editRowData.state+'';
+                                                this.editTo++;
+                                            }
+                                        }
+                                    }, '编辑'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
+                                            color:'red',
+                                            display:this.showdelete?'':'none'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.delForm = {
+                                                    $index:params.index,
+                                                    delVisible:true,
+                                                    id:params.row.id,
+                                                }
 
+                                            }
+                                        }
+                                    }, '删除'),
+                                ]);
+                            }
+                        }]
+                    },
 
                 ],
                 searchtitle: '高级查询',
@@ -241,6 +245,7 @@
             },
             //添加
             handleAdd(){
+                this.addRowData = {};
                 this.addRowData.operator = sessionStorage.getItem('nickname');
                 this.addTo++;
             },
@@ -286,7 +291,7 @@
         watch: {
             hideOptions:function (val,oldVal) {
                 let len = this.tableitems.length;
-                this.tableitems[0].subs[0].hidden = val
+                this.tableitems[len -1].subs[0].hidden = val
             },
         }
     };

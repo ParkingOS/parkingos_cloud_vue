@@ -1,70 +1,77 @@
 <template>
     <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            商户管理-优惠券管理
-        </header>
-        <div class="workbench-wrapper">
-          <el-form :inline="true" v-model="formItem" class="demo-form-inline">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">商户管理<span style="margin: 2px">-</span>流水查询</p>
+                <div class="float-right">
+                    <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="formItem" class="shop-custom-form-search">
+                    <div class="console-main">
+                        <el-form-item  class="clear-style">
+                            <el-select v-model="formItem.shop_id"  filterable
+                                       placeholder="请选择" class="shop-custom-input" style="width: 140px">
+                                <el-option
+                                        label="全部商户"
+                                        value="">
+                                </el-option>
+                                <el-option
+                                        v-for="item in shops"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="车牌号">
+                            <el-input style="width: 140px" v-model="formItem.car_number" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item  class="clear-style-10">
+                            <el-select placeholder="全部" v-model="formItem.state" class="shop-custom-input" style="width: 140px">
+                                <el-option
+                                        label="全部状态"
+                                        value="">
+                                </el-option>
+                                <el-option
+                                        v-for="item in stateType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="创建时间">
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="formItem.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
 
-            <el-form-item  class="clear-style-10 margin-left-clear">
-               <el-select placeholder="全部" v-model="formItem.shop_id" size="mini" style="width: 140px">
-                   <el-option
-                           label="全部商户"
-                           value="">
-                   </el-option>
-                   <el-option
-                           v-for="item in shops"
-                           :key="item.value_no"
-                           :label="item.value_name"
-                           :value="item.value_no">
-                   </el-option>
-               </el-select>
-            </el-form-item>
-            <el-form-item label="车牌号" class="clear-style-10">
-                <el-input v-model="formItem.car_number" placeholder="车牌号" size="mini" style="width: 140px"></el-input>
-            </el-form-item>
-            <el-form-item  class="clear-style-10">
-                <el-select placeholder="全部" v-model="formItem.state" size="mini" style="width: 140px">
-                    <el-option
-                            label="全部状态"
-                            value="">
-                    </el-option>
-                    <el-option
-                            v-for="item in stateType"
-                            :key="item.value_no"
-                            :label="item.value_name"
-                            :value="item.value_no">
-                    </el-option>
-                </el-select>
-            </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <el-button type="primary"  @click="exportFn" native-type="button" v-if="hideExport">导出</el-button>
+                            </el-form-item>
+                        </div>
+                    </div>
 
-             <el-form-item label="创建时间" class="clear-style-10">
-                 <el-date-picker
-                         style="width: 312px"
-                         size="mini"
-                         v-model="formItem.currentData"
-                         type="datetimerange"
-                         range-separator="-"
-                         :default-time="['00:00:00','23:59:59']"
-                         start-placeholder="开始日期"
-                         end-placeholder="结束日期"
-                         value-format="timestamp"
-                         @change="changeDateFormat"
-                 >
-                 </el-date-picker>
-            </el-form-item>
-
-            <el-form-item class="clear-style-10">
-                <el-button type="primary" @click="searchFn" size="mini">搜索</el-button>
-            </el-form-item>
-              <el-form-item class="clear-style-10 float-right">
-                  <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                    <el-button size="mini" @click="exportFn" v-if="hideExport">导出</el-button>
-                  </el-tooltip>
-                  <el-button size="mini" @click="resetForm">刷新</el-button>
-              </el-form-item>
-        </el-form>
+                </el-form>
+            </div>
         </div>
+
         <div class="table-wrapper-style">
             <tab-pane
                     :exportapi="exportapi"
@@ -173,7 +180,7 @@
                         subs: [{
                             label: '编号',
                             prop: 'id',
-                            width: '123',
+                            width: '110',
                             type: 'number',
                             editable: true,
                             searchable: true,

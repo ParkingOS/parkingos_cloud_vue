@@ -1,78 +1,50 @@
 <template>
-    <section class="right-wrapper-size" id="scrollBarDom">
-        <header class="custom-header">
-            访客人员管理
-        </header>
-        <!--//////////////////搜索条件+操作按钮//////////////////////-->
-        <div class="workbench-wrapper">
-            <el-form :inline="true" v-model="formItem" class="demo-form-inline">
-                <el-form-item label="车牌号" class="clear-style margin-left-clear">
-                    <el-input v-model="formItem.car_number" size="mini" placeholder="车牌号"></el-input>
-                </el-form-item>
-                <el-form-item label="状态:" class="clear-style">
-                    <el-select placeholder="全部" v-model="formItem.state" size="mini">
-                        <el-option
-                                label="全部"
-                                value="">
-                        </el-option>
-                        <el-option
-                                v-for="item in stateType"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="clear-style">
-                    <el-button type="primary" @click="searchFn" size="mini">搜索</el-button>
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">访客管理<span style="margin: 2px">-</span>访客人员管理</p>
+                <div class="float-right">
+                    <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="formItem" class="shop-custom-form-search">
+                    <div class="console-main">
+                        <el-form-item label="车牌号" class="clear-style margin-left-20">
+                            <el-input v-model="formItem.car_number" placeholder="请输入车牌号" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="状态" class="clear-style margin-left-20">
+                            <el-select v-model="formItem.state" placeholder="请选择" class="shop-custom-input">
+                                <el-option
+                                        label="全部"
+                                        value="">
+                                </el-option>
+                                <el-option
+                                        v-for="item in stateType"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button @click="getCode()" icon="search" type="primary" >访客二维码
+                            </el-button>
+                            <el-button @click="visitorSet()"  type="primary" >访客设置
+                            </el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <!--<el-button type="primary" @click="registerMember" v-if="showCustomizeAdd">注册会员</el-button>-->
+                                <el-button type="primary"  @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>
+                            </el-form-item>
+                        </div>
+                    </div>
 
-                    <el-button @click="getCode()" icon="search" type="primary" size="mini">访客二维码
-                    </el-button>
-                    <el-button @click="visitorSet()"  type="primary" size="mini">访客设置
-                    </el-button>
-                </el-form-item>
-                <el-form-item class="clear-style float-right">
-                    <el-tooltip class="item" effect="dark" content="导出内容为当前查询条件下所有数据" placement="bottom">
-                        <el-button @click="exportFn" size="mini">导出</el-button>
-                    </el-tooltip>
-                    <el-button size="mini" @click="resetForm">刷新</el-button>
-                </el-form-item>
-            </el-form>
+                </el-form>
+            </div>
         </div>
-
-        <!--//////////////////////table/////////////////////////////////////////-->
-        <!--<el-table :data="table" border highlight-current-row style="width:100%;" :height="tableheight"-->
-                  <!--v-loading="loading" @sort-change="sortChange">-->
-            <!--&lt;!&ndash;子项折叠最终通过rowStyle实现。实际是项的显示/隐藏&ndash;&gt;-->
-            <!--<el-table-column v-for="(items, index) in tableitems" :key="items.subs[0].prop"-->
-                             <!--:label="items.subs[0].label" :align="items.subs[0].prop=='name'?'left':'center'"-->
-                             <!--min-width="50"-->
-                             <!--:width="items.subs[0].prop=='car_number'||items.subs[0].prop=='mobile'||items.subs[0].prop=='state'?130:200"-->
-                             <!--:sortable="!items.subs[0].unsortable">-->
-                <!--&lt;!&ndash;设置部分列宽度&ndash;&gt;-->
-                <!--<template scope="scope">-->
-                    <!--<el-button v-if="items.subs[0].prop=='state'" size="small" type="text"-->
-                               <!--style="color: #0000ff;"-->
-                               <!--@click="handleShowEditStart(scope.$index, scope.row)">{{stateformat(scope.row[items.subs[0].prop])}}-->
-                    <!--</el-button>-->
-                    <!--<span v-else-if="items.subs[0].prop=='create_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>-->
-                    <!--<span v-else-if="items.subs[0].prop=='begin_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>-->
-                    <!--<span v-else-if="items.subs[0].prop=='end_time'">{{common.dateformat(scope.row[items.subs[0].prop])}}</span>-->
-                    <!--<span v-else>{{scope.row[items.subs[0].prop]}}</span>-->
-                    <!--&lt;!&ndash;不同列的表现形式、格式化&ndash;&gt;-->
-                <!--</template>-->
-
-            <!--</el-table-column>-->
-
-        <!--</el-table>-->
-        <!--&lt;!&ndash;工具条&ndash;&gt;-->
-        <!--<el-col :span="24" align="bottom" style="margin-top:5px;margin-bottom:5px">-->
-            <!--<el-col :span="24" align="right">-->
-                <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"-->
-                               <!--:current-page="currentPage" :page-sizes="[20, 40, 80]" :page-size="pageSize"-->
-                               <!--layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>-->
-            <!--</el-col>-->
-        <!--</el-col>-->
 
         <div class="table-wrapper-style">
             <tab-pane
@@ -379,7 +351,7 @@
                                             marginRight: '5px'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.handleShowEditStart(params.index, params.row)
                                             }

@@ -1,47 +1,15 @@
 <template>
-    <section class="right-wrapper-size" id="scrollBarDom">
-            <header class="custom-header">
-                订单管理-订单记录
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">订单管理<span style="margin: 2px">-</span>订单记录</p>
+                <div class="float-right"><el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button></div>
             </header>
-            <div class="workbench-wrapper">
-                <el-form :inline="true" :model="searchFormData" class="demo-form-inline">
-                    <el-form-item label="" class="clear-style margin-left-clear">
-                        <el-radio-group v-model="searchFormData.orderfield" size="mini" @change="changeRadio">
-                            <el-radio-button label="create_time">按入场时间</el-radio-button>
-                            <el-radio-button label="end_time">按出场时间</el-radio-button>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item class="clear-style">
-                        <el-date-picker
-                                style="width: 370px"
-                                size="mini"
-                                v-model="searchFormData.currentData"
-                                type="datetimerange"
-                                range-separator="-"
-                                :default-time="['00:00:00','23:59:59']"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期"
-                                value-format="timestamp"
-                                :picker-options="pickerOptions"
-                                @change="changeDateFormat"
-                        >
-                            <!--:picker-options="pickerOptions"-->
-                        </el-date-picker>
-                    </el-form-item>
-                    <el-form-item label="车牌号" class="clear-style">
-                        <el-input v-model="searchFormData.car_number" placeholder="请输入车牌号" size="mini" style="width: 140px"></el-input>
-                    </el-form-item>
-                    <el-form-item class="clear-style">
-                        <el-button type="primary" size="mini" @click="searchFn" native-type="button">搜索</el-button>
-                        <el-button type="text" size="mini" @click="changeMore" style="color: rgb(14, 95, 246)"> <i :class="isShow ? 'iconfont icon-gengduo-zhankaizhuangtai': 'iconfont icon-gengduo-shouqizhuangtai'" style="font-size: 12px;"></i> 更多选项</el-button>
-                    </el-form-item>
-                    <el-form-item class="clear-style float-right">
-                        <el-button size="mini" @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>
-                        <el-button size="mini" @click="resetForm" native-type="button">刷新</el-button>
-                    </el-form-item>
-                    <div class="second-search-item-style" v-show="isShow">
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="advanced-options" v-show="isShow">
                         <el-form-item label="订单状态" class="clear-style">
-                            <el-select v-model="searchFormData.state" placeholder="请选择" size="mini">
+                            <el-select v-model="searchFormData.state" placeholder="请选择" class="shop-custom-input">
                                 <el-option
                                         v-for="item in orderStateType"
                                         :key="item.value_no"
@@ -51,7 +19,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="支付方式" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.pay_type" placeholder="请选择" size="mini">
+                            <el-select v-model="searchFormData.pay_type" placeholder="请选择" class="shop-custom-input">
                                 <el-option
                                         v-for="item in orderPayType"
                                         :key="item.value_no"
@@ -60,16 +28,54 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="实收金额" class="clear-style margin-left-20">
-                            <el-input size="mini" v-model="searchFormData.total_start"
-                                      style="width: 80px;"></el-input>
-                            <span style="margin-top: 10px;"> - </span>
-                            <el-input size="mini" v-model="searchFormData.total_end"
-                                      style="width: 80px;"></el-input>
+                        <el-form-item label="实收金额" >
+                            <el-input v-model.number="searchFormData.total_start" placeholder="请输入" class="shop-custom-input" style="width: 171px"></el-input>
+                        </el-form-item>
+                        <span style="line-height: 40px;font-size: 16px">-</span>
+                        <el-form-item style="margin-left: 10px">
+                            <el-input v-model.number="searchFormData.total_end" placeholder="请输入" class="shop-custom-input" style="width: 171px"></el-input>
                         </el-form-item>
                     </div>
+                    <div class="console-main">
+                        <el-form-item>
+                            <el-select v-model="searchFormData.orderfield" @change="changeRadio" placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 100px">
+                                <el-option label="入场时间" value="create_time"></el-option>
+                                <el-option label="出场时间" value="end_time"></el-option>
+                            </el-select>
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    :picker-options="pickerOptions"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="车牌号">
+                            <el-input style="width: 140px" v-model="searchFormData.car_number" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button type="text"
+                                       @click="changeMore"
+                                       style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
+                        </el-form-item>
+                        <div class="float-right">
+                            <el-form-item class="shop-clear-style">
+                                <el-button type="primary"  @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>
+                            </el-form-item>
+                        </div>
+                    </div>
+
                 </el-form>
             </div>
+        </div>
 
             <div class="table-wrapper-style">
                 <tab-pane
@@ -106,6 +112,8 @@
         data() {
             var that = this;
             return {
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
                 hideExport:true,
                 hideSearch:true,
                 isShow:false,
@@ -179,7 +187,77 @@
                             unsortable: true,
                             align: 'center'
                         }]
+                    },{
+                        hasSubs: false, subs: [
+                            {
+                                label: '车牌号码',
+                                prop: 'car_number',
+
+                                type: 'str',
+                                searchable: true,
+                                unsortable: true,
+                                align: 'center'
+                            }
+                        ]
                     }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '入场时间',
+                            prop: 'create_time',
+                            unsortable: true,
+                            type: 'date',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.create_time))
+                                ]);
+                            }
+                        }]
+                    },  {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '出场时间',
+                            prop: 'end_time',
+                            type: 'date',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.end_time))
+                                ]);
+                            }
+                        }]
+                    },{
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '支付方式',
+                            prop: 'pay_type',
+                            type: 'selection',
+                            selectlist: orderPayType,
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.nameformat(params.row, orderPayType, 'pay_type'))
+                                ]);
+                            }
+                        }]
+                    },{
 
                         hasSubs: false,
                         subs: [{
@@ -192,19 +270,6 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '车牌号码',
-                                prop: 'car_number',
-
-                                type: 'str',
-                                searchable: true,
-                                unsortable: true,
-                                align: 'center'
-                            }
-                        ]
                     },
                     {
 
@@ -234,6 +299,20 @@
                             unsortable: true,
                             align: 'center'
                         }]
+                    },{
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '实收金额',
+                            prop: 'total',
+                            width: '100',
+                            type: 'number',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
                     },  {
 
                         hasSubs: false,
@@ -254,27 +333,7 @@
                                 ]);
                             }
                         }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '支付方式',
-                            prop: 'pay_type',
-                            type: 'selection',
-                            selectlist: orderPayType,
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center',
-                            columnType:'render',
-                            render: (h, params) => {
-                                return h('div', [
-                                    h('span', common.nameformat(params.row, orderPayType, 'pay_type'))
-                                ]);
-                            }
-                        }]
-                    }, {
+                    },  {
 
                         hasSubs: false,
                         subs: [{
@@ -315,59 +374,6 @@
                             align: 'center'
                         }]
                     }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '实收金额',
-                            prop: 'total',
-                            width: '100',
-                            type: 'number',
-
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    },{
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '入场时间',
-                            prop: 'create_time',
-                            unsortable: true,
-                            type: 'date',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            align: 'center',
-                            columnType:'render',
-                            render: (h, params) => {
-                                return h('div', [
-                                    h('span', common.dateformat(params.row.create_time))
-                                ]);
-                            }
-                        }]
-                    },  {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '出场时间',
-                            prop: 'end_time',
-                            type: 'date',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center',
-                            columnType:'render',
-                            render: (h, params) => {
-                                return h('div', [
-                                    h('span', common.dateformat(params.row.end_time))
-                                ]);
-                            }
-                        }]
-                    },{
 
                         hasSubs: false,
                         subs: [{
@@ -563,7 +569,7 @@
                                             marginRight: '5px'
                                         },
                                         on: {
-                                            click: () => {
+                                            click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.handleShowOrderDetail(params.index,params.row)
                                             }
