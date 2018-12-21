@@ -311,7 +311,16 @@
                             searchable: true,
                             addable: true,
                             unsortable: true,
-                            align: 'center'
+                            align: 'center',
+                            columnType:'render',
+                            render: (h, params) => {
+                                let n = common.accAdd(params.row.electronic_prepay,params.row.cash_prepay);
+                                let n1 = common.accAdd(params.row.electronic_pay,params.row.cash_pay);
+                                let str = common.accAdd(n,n1);
+                                return h('div', [
+                                    h('span', str)
+                                ]);
+                            }
                         }]
                     },  {
 

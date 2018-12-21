@@ -267,6 +267,7 @@
                 z-index: 2;
                 font-size: 14px;
                 color: rgba(255,255,255,0.80);
+                text-shadow:2px 0px 2px #000;
             }
         }
     }
