@@ -1,3 +1,49 @@
+
+@mixin scaleHeightPx($px) {
+  @media screen and (max-width:1366px){
+    $scale: 1 !default;//设置一个默认的缩放比例
+    height:$px*$scale;
+  }
+  @media screen and (min-width:1367px) and (max-width:1920px){
+    $scale: 1.4 !default;//设置一个默认的缩放比例
+    height:$px*$scale;
+  }
+}
+@mixin scaleFontSize($px){
+  @media screen and (max-width:1366px){
+    $scale: 1 !default;//设置一个默认的缩放比例
+    font-size: $px*$scale;
+  }
+  @media screen and (min-width:1367px) and (max-width:1920px){
+    $scale: 1.4 !default;//设置一个默认的缩放比例
+    font-size: $px*$scale;
+  }
+}
+@mixin scaleMargin($px1,$px2,$px3,$px4){
+  @media screen and (max-width:1366px){
+    $scale: 1 !default;//设置一个默认的缩放比例
+    margin: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
+  }
+  @media screen and (min-width:1367px) and (max-width:1920px){
+    $scale: 1.4 !default;//设置一个默认的缩放比例
+    margin: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
+  }
+
+}
+
+@mixin scalePadding($px1,$px2,$px3,$px4){
+  @media screen and (max-width:1366px){
+    $scale: 1 !default;//设置一个默认的缩放比例
+    padding: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
+  }
+  @media screen and (min-width:1367px) and (max-width:1920px){
+    $scale: 1.4 !default;//设置一个默认的缩放比例
+    padding: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
+  }
+
+}
+
+//////////////////////////////////////////////////////////////
 @mixin clearfix {
   &:after {
     content: "";
