@@ -4,7 +4,11 @@
     $scale: 1 !default;//设置一个默认的缩放比例
     height:$px*$scale;
   }
-  @media screen and (min-width:1367px) and (max-width:1920px){
+  @media screen and (min-width:1367px) and (max-width:1600px){
+    $scale: 1.17 !default;//设置一个默认的缩放比例
+    height:$px*$scale;
+  }
+  @media screen and (min-width:1601px) and (max-width:1920px){
     $scale: 1.4 !default;//设置一个默认的缩放比例
     height:$px*$scale;
   }
@@ -14,7 +18,11 @@
     $scale: 1 !default;//设置一个默认的缩放比例
     font-size: $px*$scale;
   }
-  @media screen and (min-width:1367px) and (max-width:1920px){
+  @media screen and (min-width:1367px) and (max-width:1600px){
+    $scale: 1.17 !default;//设置一个默认的缩放比例
+    font-size: $px*$scale;
+  }
+  @media screen and (min-width:1601px) and (max-width:1920px){
     $scale: 1.4 !default;//设置一个默认的缩放比例
     font-size: $px*$scale;
   }
@@ -24,7 +32,11 @@
     $scale: 1 !default;//设置一个默认的缩放比例
     margin: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
   }
-  @media screen and (min-width:1367px) and (max-width:1920px){
+  @media screen and (min-width:1367px) and (max-width:1600px){
+    $scale: 1.17 !default;//设置一个默认的缩放比例
+    margin: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
+  }
+  @media screen and (min-width:1601px) and (max-width:1920px){
     $scale: 1.4 !default;//设置一个默认的缩放比例
     margin: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
   }
@@ -36,12 +48,39 @@
     $scale: 1 !default;//设置一个默认的缩放比例
     padding: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
   }
-  @media screen and (min-width:1367px) and (max-width:1920px){
+  @media screen and (min-width:1367px) and (max-width:1600px){
+    $scale: 1.17 !default;//设置一个默认的缩放比例
+    padding: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
+  }
+  @media screen and (min-width:1601px) and (max-width:1920px){
     $scale: 1.4 !default;//设置一个默认的缩放比例
     padding: ($px1*$scale) ($px2*$scale) ($px3*$scale) ($px4*$scale);
   }
 
 }
+
+@mixin scalePosBottomRight($px1,$px2){
+  @media screen and (max-width:1366px){
+    $scale: 1 !default;//设置一个默认的缩放比例
+    position: absolute;
+    right:$px1*$scale;
+    bottom:$px2*$scale;
+  }
+  @media screen and (min-width:1367px) and (max-width:1600px){
+    $scale: 1.17 !default;//设置一个默认的缩放比例
+    position: absolute;
+    right:$px1*$scale;
+    bottom:$px2*$scale;
+  }
+  @media screen and (min-width:1601px) and (max-width:1920px){
+    $scale: 1.4 !default;//设置一个默认的缩放比例
+    position: absolute;
+    right:$px1*$scale;
+    bottom:$px2*$scale;
+  }
+
+}
+
 
 //////////////////////////////////////////////////////////////
 @mixin clearfix {

@@ -16,7 +16,7 @@ import axios from 'axios';
 import BaiduMap from 'vue-baidu-map';
 import './styles/element-variables.scss'; // global css
 import './styles/index.scss'; // global css
-import './common/fonts/customfont.css'
+import './styles/common-style.scss'
 import './common/js/const.js';
 import 'babel-polyfill'
 import QRCode from 'qrcode';

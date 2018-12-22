@@ -4,7 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">数据中心<span style="margin: 2px">-</span>数据中心</p>
                 <div class="float-right">
-                    <el-button type="text" size="mini" icon=" iconfont icon-shujuzhongxin" style="font-size: 14px;color: #1E1E1E;" @click="getDataScreen">数据大屏</el-button>
+                    <!--<el-button type="text" size="mini" icon=" iconfont icon-shujuzhongxin" style="font-size: 14px;color: #1E1E1E;" @click="getDataScreen">数据大屏</el-button>-->
                     <el-button type="text" size="mini" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="getDatas">刷新</el-button>
                 </div>
             </header>

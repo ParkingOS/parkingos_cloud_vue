@@ -10,13 +10,13 @@
         </div>
         <div v-if="type == 'total'" class="total-wrapper">
             <div style="padding:8px 0 0 0">{{countBarTitle}} {{countWidth}}</div>
-            <div :style="{display:'flex',alignItems:'center',justifyContent:'center'}" >
+            <div :style="{display:'flex',alignItems:'center',justifyContent:'center',paddingTop:'5px'}" >
                 <div :style="{flex:1}">
                     <div class="count-bar-style-total">
                         <div class="count-bar-item-style"  :style="{background:countBarColor,width:countWidth}"></div>
                     </div>
                 </div>
-                <div :style="{width:'100px',fontWeight:'bold',marginLeft:'15px'}"><countTo :startVal='0' :endVal='newVal' :duration='1000'></countTo>元</div>
+                <div :style="{width:'80px',fontWeight:'bold',marginLeft:'15px'}"><countTo :startVal='0' :endVal='newVal' :duration='1000'></countTo>元</div>
             </div>
         </div>
 
@@ -74,8 +74,9 @@
                 if(this.currentVal == 0){
 
                 }else{
-                    this.countWidth = Math.ceil((this.currentVal / this.maxVal)*100) +'%'
-
+                    // this.countWidth = Math.ceil((this.currentVal / this.maxVal)*100) +'%'
+                    let round = (this.currentVal / this.maxVal)*100;
+                    this.countWidth = Math.round(round * 100) / 100 +'%';
                 }
             }
         },
@@ -86,8 +87,9 @@
                     if(this.currentVal == 0){
 
                     }else{
-                        this.countWidth = Math.ceil((this.currentVal / this.maxVal)*100) +'%'
-
+                        // this.countWidth = Math.ceil((this.currentVal / this.maxVal)*100) +'%'
+                        let round = (this.currentVal / this.maxVal)*100;
+                        this.countWidth = Math.round(round * 100) / 100 +'%';
                     }
                 },
                 deep:true
@@ -119,5 +121,4 @@
         height: 100%;
         transition: all 1s;
     }
-
 </style>
