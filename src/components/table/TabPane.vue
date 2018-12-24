@@ -521,6 +521,7 @@
             },
             editTo:function (newVal,oldVal) {
                 if(newVal != 0){
+                    this.rowdata = this.editRowData;
                     this.editFormVisible = true;
                 }
             }

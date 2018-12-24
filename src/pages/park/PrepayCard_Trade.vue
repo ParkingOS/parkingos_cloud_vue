@@ -129,7 +129,7 @@
                         subs: [{
                             label: '车主姓名',
                             prop: 'name',
-                            width: '140',
+                            width: '120',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -144,7 +144,7 @@
                         subs: [{
                             label: '车牌号码',
                             prop: 'car_number',
-                            width: '245',
+                            width: '180',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -158,7 +158,7 @@
                         subs: [{
                             label: '续费时间',
                             prop: 'pay_time',
-                            width: '210',
+                            width: '180',
                             type: 'date',
                             editable: true,
                             searchable: true,
@@ -179,7 +179,7 @@
                         subs: [{
                             label: '充值前金额',
                             prop: 'add_money_before',
-                            width: '180',
+                            width: '100',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -193,7 +193,7 @@
                         subs: [{
                             label: '充值金额',
                             prop: 'add_money',
-                            width: '180',
+                            width: '100',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -207,7 +207,36 @@
                         subs: [{
                             label: '充值后金额',
                             prop: 'add_money_after',
-                            width: '180',
+                            width: '100',
+                            type: 'str',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
+                    },
+                    {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '续费方式',
+                            prop: 'trade_type',
+                            width: '130',
+                            type: 'str',
+                            editable: true,
+                            searchable: true,
+                            addable: true,
+                            unsortable: true,
+                            align: 'center'
+                        }]
+                    },
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '流水号',
+                            prop: 'trade_no',
+                            width: '240',
                             type: 'str',
                             editable: true,
                             searchable: true,

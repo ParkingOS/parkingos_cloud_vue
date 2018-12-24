@@ -2,7 +2,7 @@
     <section class="data-screen-wrapper" :style="wrapperStyle">
         <header class="header" ref="header" :style="headerStyle">
             <span class="header-title">智慧停车指挥中心</span>
-            <div class="header-date">{{headerDate}}</div>
+            <div class="customDigigface header-date">{{headerDate}}</div>
         </header>
         <div class="main" :style="mainStyle">
             <div class="subject">
@@ -21,7 +21,7 @@
                                         <el-row :gutter="33" class="info-content__body">
                                             <el-col :span="12"  class="info-content__col">
                                                 <div  class="info-content__col__item" :style="infoItemStyle">
-                                                    <p class="info-content__item_text_top" style="color:#02CAFF">
+                                                    <p class="customDigigface info-content__item_text_top" style="color:#02CAFF">
                                                         {{otherData.parkEmpty}}
                                                     </p>
                                                     <p class="info-content__item_text_bottom">空车位（个）</p>
@@ -29,7 +29,7 @@
                                             </el-col>
                                             <el-col :span="12" class="info-content__col">
                                                 <div class="info-content__col__item" :style="infoItemStyle">
-                                                    <p class="info-content__item_text_top" style="color:#FFED74">{{otherData.monthTotal}}</p>
+                                                    <p class="customDigigface info-content__item_text_top" style="color:#FFED74">{{otherData.monthTotal}}</p>
                                                     <p class="info-content__item_text_bottom">月卡会员（人）</p>
                                                 </div>
                                             </el-col>
@@ -37,13 +37,13 @@
                                         <el-row :gutter="33" class="info-content__body info-content__body_bottom">
                                             <el-col :span="12"  class="info-content__col">
                                                 <div  class="info-content__col__item" :style="infoItemStyle">
-                                                    <p class="info-content__item_text_top" style="color:#ABFF74">{{otherData.ticketCount}}</p>
+                                                    <p class="customDigigface info-content__item_text_top" style="color:#ABFF74">{{otherData.ticketCount}}</p>
                                                     <p class="info-content__item_text_bottom">优惠券发放（张）</p>
                                                 </div>
                                             </el-col>
                                             <el-col :span="12" class="info-content__col">
                                                 <div class="info-content__col__item" :style="infoItemStyle">
-                                                    <p class="info-content__item_text_top" style="color:#FE7153">{{otherData.vistorCount}}</p>
+                                                    <p class="customDigigface info-content__item_text_top" style="color:#FE7153">{{otherData.vistorCount}}</p>
                                                     <p class="info-content__item_text_bottom">访客未处理（人）</p>
                                                 </div>
                                             </el-col>
@@ -114,7 +114,7 @@
                                         <el-row :gutter="8" justify="space-between" class="income-body__money" type="flex">
                                             <el-col class="money-list-item" v-for="(item,index) in moneyList"
                                                     :key="index">
-                                                <div :style="incomeBg" class="money-list-item__text">
+                                                <div :style="incomeBg" class="customDigigface money-list-item__text">
                                                     <span class="item__text">{{item}}</span>
                                                 </div>
                                                 </el-col>
@@ -166,15 +166,15 @@
                                     <div class="subject-inout__title">进出车辆统计</div>
                                     <el-row class="subject-inout__body" type="flex" justify="space-between" :style="inoutcount">
                                         <el-col class="subject-inout__body__item">
-                                            <div class="subject-inout__text__top" style="color: #57F986;">{{inOutCarsCount.inCars}}</div>
+                                            <div class="customDigigface subject-inout__text__top" style="color: #57F986;">{{inOutCarsCount.inCars}}</div>
                                             <div class="subject-inout__text__bottom">入场车辆</div>
                                         </el-col>
                                         <el-col class="subject-inout__body__item">
-                                            <div class="subject-inout__text__top" style="color: #F9A957;">{{inOutCarsCount.outCars}}</div>
+                                            <div class="customDigigface subject-inout__text__top" style="color: #F9A957;">{{inOutCarsCount.outCars}}</div>
                                             <div class="subject-inout__text__bottom">离场车辆</div>
                                         </el-col>
                                         <el-col class="subject-inout__body__item">
-                                            <div class="subject-inout__text__top" style="color: #5782F9;">{{inOutCarsCount.inPark}}</div>
+                                            <div class="customDigigface subject-inout__text__top" style="color: #5782F9;">{{inOutCarsCount.inPark}}</div>
                                             <div class="subject-inout__text__bottom">在场车辆</div>
                                         </el-col>
                                     </el-row>
@@ -320,29 +320,7 @@
 
                 moneyList:['-','-','-','-','-','-','-','-'],
                 newVal:201821,
-                inPartData:[
-                    {
-                        parkName:'B2 A11 旋转入口',
-                        time:'15:05:00',
-                        cartId:'京A231B2'
-                    },{
-                        parkName:'B2 A11 旋转入口',
-                        time:'15:05:01',
-                        cartId:'京A231B2'
-                    },{
-                        parkName:'B2 A11 旋转入口',
-                        time:'15:05:02',
-                        cartId:'京A231B2'
-                    },{
-                        parkName:'B2 A11 旋转入口',
-                        time:'15:05:03',
-                        cartId:'京A231B2'
-                    },{
-                        parkName:'B2 A11 旋转入口',
-                        time:'15:05:03',
-                        cartId:'京A231B2'
-                    }
-                ],
+                inPartData:[],
                 incomeBg:{
                     background:'url('+require('@/assets/images/screen/incomeBg.png')+')',
                     backgroundSize:'100% 100%',
@@ -385,7 +363,7 @@
                     backgroundRepeat:'no-repeat'
                 },
                 wrapperStyle:{
-                    background:'url('+require('@/assets/images/screen/screenBg.png')+')',
+                    background:'url('+require('@/assets/images/screen/screenBg.png')+'),#041535',
                     backgroundSize:'100% 100%',
                     backgroundRepeat:'no-repeat'
                 },
@@ -737,7 +715,7 @@
             }
             .header-date{
                 @include scalePosBottomRight(100px,3px);
-                font-family: CustomDigigface;
+                /*font-family: CustomDigigface;*/
                 font-size: 18px;
                 color: #28D0FD;
             }
@@ -791,7 +769,7 @@
                             height: 100%;
                             text-align: center;
                             .info-content__item_text_top{
-                                font-family: CustomDigigface;
+                                /*font-family: CustomDigigface;*/
                                 @include scaleFontSize(24px);
                                 color: #02CAFF;
                                 height: 60%;
@@ -859,7 +837,7 @@
                         height: 100%;
                         .money-list-item__text{
                             position: relative;
-                            font-family: CustomDigigface;
+                            /*font-family: CustomDigigface;*/
                             height: 100%;
                             text-align: center;
                             @include scaleFontSize(40px);
@@ -956,7 +934,7 @@
                     .subject-inout__text__top{
                         height: 65%;
                         line-height: 2.5;
-                        font-family: CustomDigigface;
+                        /*font-family: CustomDigigface;*/
                         @include scaleFontSize(27px);
                         color: #57F986;
                     }
