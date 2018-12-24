@@ -510,7 +510,7 @@
                         top:'12',
                         left: '0',
                         right: '10',
-                        bottom: '8',
+                        bottom: '15',
                         containLabel: true
                     },
                     xAxis: {
