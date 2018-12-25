@@ -28,13 +28,13 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="实收金额" >
-                            <el-input v-model.number="searchFormData.total_start" placeholder="请输入" class="shop-custom-input" style="width: 171px"></el-input>
-                        </el-form-item>
-                        <span style="line-height: 40px;font-size: 16px">-</span>
-                        <el-form-item style="margin-left: 10px">
-                            <el-input v-model.number="searchFormData.total_end" placeholder="请输入" class="shop-custom-input" style="width: 171px"></el-input>
-                        </el-form-item>
+                        <!--<el-form-item label="实收金额" >-->
+                            <!--<el-input v-model.number="searchFormData.total_start" placeholder="请输入" class="shop-custom-input" style="width: 171px"></el-input>-->
+                        <!--</el-form-item>-->
+                        <!--<span style="line-height: 40px;font-size: 16px">-</span>-->
+                        <!--<el-form-item style="margin-left: 10px">-->
+                            <!--<el-input v-model.number="searchFormData.total_end" placeholder="请输入" class="shop-custom-input" style="width: 171px"></el-input>-->
+                        <!--</el-form-item>-->
                     </div>
                     <div class="console-main">
                         <el-form-item>

@@ -56,6 +56,7 @@ import SystemManage_AddedService_Sms from './pages/park/SystemManage_Sms';
 
 //cyz add
 import  MonitorApp from './MonitorApp.vue';
+import  DataScreen from './pages/park/Data_Screen.vue'
 
 //cyz add end
 //云平台页面-集团
@@ -335,6 +336,11 @@ let routes = [
         path: '/monitorApp',
         component:MonitorApp ,
         name: '自定义监控'
+    },
+    {
+        path: '/dataScreen',
+        component:DataScreen ,
+        name: '数据大屏'
     },
     /*
     * 以下是集团页面

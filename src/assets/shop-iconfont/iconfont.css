@@ -6,7 +6,14 @@
   url('iconfont.ttf?t=1543574131446') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
   url('iconfont.svg?t=1543574131446#iconfont') format('svg'); /* iOS 4.1- */
 }
-
+@font-face {font-family: "CustomDigigface";
+  src: url('DIGITAL-Regular.eot?t=1543574131446'); /* IE9*/
+  src:url('DIGITAL-Regular.eot?t=1543574131446#iefix') format('embedded-opentype'),
+          url('DIGITAL-Regular.ttf?t=1543574131446') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+}
+.customDigigface{
+  font-family:"CustomDigigface" !important;
+}
 .iconfont {
   font-family:"iconfont" !important;
   font-size:16px;
