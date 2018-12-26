@@ -169,6 +169,24 @@
             </footer>
         </el-dialog>
 
+        <el-dialog
+                width="600px"
+                :show-close="false"
+                :visible.sync="Tips"
+                custom-class="custom-dialog custom-dialog-sms"
+                >
+            <header class="dialog-header" slot="title">
+                提示<i class="el-icon-close dialog-header-iconfont" @click="Tips = false"></i>
+            </header>
+            <div class="custom_tips">
+                <p>从2018年12月28日开始,访客申请发送短信验证码功能收取短信费用,车场需及时购买短信服务,保证该功能正常使用!</p>
+                <P>短信购买方式:登录页面前往车场新版,在系统管理的增值服务中购买!</p>
+            </div>
+            <footer slot="footer" class="dialog-footer">
+                <el-button @click="Tips = false" class="custom-btns-style">确 定</el-button>
+            </footer>
+        </el-dialog>
+
     </section>
 </template>
 
@@ -186,6 +204,7 @@
         },
         data() {
             return {
+                Tips:false,
                 searchForm:{},
                 qrurl:'',
                 downloadQrUrl:'',
@@ -876,7 +895,7 @@
             this.imgSize = common.gww()/4;
             this.getVisitorSet({});
             let _this = this;
-
+            _this.Tips=true;
         },
         watch: {
 
@@ -909,6 +928,10 @@
     .inp-margin-buttom-self{
         margin-bottom: 10px!important;
         text-align:right
+    }
+    .custom_tips{
+         font-size: 16px;
+         line-height: 45px;
     }
 </style>
 
