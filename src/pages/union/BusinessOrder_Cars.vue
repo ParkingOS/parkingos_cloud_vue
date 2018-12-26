@@ -1,36 +1,89 @@
 <template>
-    <section>
-        <CommonTable
-                :queryapi="queryapi"
-                :exportapi="exportapi"
-                :tableheight="tableheight"
-                :fieldsstr="fieldsstr"
-                :tableitems="tableitems"
-                :btswidth="btswidth"
-                :hide-export="hideExport"
-                :hide-options="hideOptions"
-                :searchtitle="searchtitle"
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">业务订单<span style="margin: 2px">-</span>在场车辆</p>
+                <div class="float-right">
+                    <el-button type="text" icon="el-icon-printer"  @click="exportFn" native-type="button" >导出</el-button>
+                    <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="advanced-options" v-show="isShow">
+                        <el-form-item label="车场订单编号" class="clear-style">
+                            <el-input v-model="searchFormData.order_id_local" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="收费员" class="clear-style margin-left-20">
+                            <el-select v-model="searchFormData.uid_start" placeholder="请选择" class="shop-custom-input" style="width: 170px">
+                                <el-option
+                                        v-for="item in collectors"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </div>
+                    <div class="console-main">
+                        <el-form-item label="入场时间">
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="所属车场" class="clear-style margin-left-20">
+                            <el-select v-model="searchFormData.comid_start"  filterable placeholder="请选择" class="shop-custom-input" style="width: 180px">
+                                <el-option
+                                        v-for="item in parklist"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="车牌号" class="clear-style">
+                            <el-input style="width: 140px" v-model="searchFormData.car_number" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button type="text"
+                                       @click="changeMore"
+                                       style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
+                        </el-form-item>
+                        <!--<div class="float-right">-->
+                            <!--<el-form-item class="shop-clear-style">-->
+                                <!--<el-button type="primary"  @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>-->
+                            <!--</el-form-item>-->
+                        <!--</div>-->
+                    </div>
 
-                :orderfield="orderfield"
-
-                :hideTool="hideTool"
-
-                :hideSearch="hideSearch"
-                :hideAdd="hideAdd"
-                :showImg="showImg"
-                v-on:showImg_Order="showImgDialog"
-                :imgapi="imgapi"
-                ref="bolinkuniontable"
-        ></CommonTable>
-        <el-dialog title="车辆图片" :visible.sync="imgDialog" width="40%">
-            <p>入场图片</p>
-            <div v-for="img in img_in">
-                <img v-bind:src="imgpath+img" :width="imgSize*4/3" :height="imgSize"/>
+                </el-form>
             </div>
-            <span slot="footer" class="dialog-footer">
-				<el-button @click="imgDialog = false" size="small">确 认</el-button>
-			</span>
-        </el-dialog>
+        </div>
+        <div class="table-wrapper-style">
+            <tab-pane
+                    :orderfield="orderfield"
+                    :queryapi="queryapi"
+                    :exportapi="exportapi"
+                    :fieldsstr="fieldsstr"
+                    :table-items="tableitems"
+                    align-pos="right"
+                    bts-width="200"
+                    :searchForm="searchForm"
+                    fixedDom="scrollBarDom"
+                    ref="tabPane"
+            ></tab-pane>
+        </div>
     </section>
 </template>
 
@@ -40,16 +93,34 @@
     import util from '../../common/js/util';
     import common from '../../common/js/common';
     import {AUTH_ID_UNION} from '../../common/js/const';
-    import CommonTable from '../../components/CommonTable';
-
+    import TabPane from '../../components/table/TabPane';
     import axios from 'axios';
 
     export default {
         components: {
-            CommonTable
+            TabPane
         },
         data() {
             return {
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
+                searchFormData:{
+                    currentData:'',
+                    create_time:'',
+                    create_time_start:'',
+                    create_time_end:'',
+                    comid_start:'',
+                    car_number:'',
+                    uid:'',
+                    uid_start:'',
+                    order_id_local:''
+                },
+                searchForm:{
+
+                },
+                isShow:false,
+
+                ////////////////////////////////////////
                 loading: false,
                 hideExport: false,
                 hideSearch: false,
@@ -70,12 +141,22 @@
                 fieldsstr: 'id__groupid__comid__berthsec_id__cid__uid__prepaid__parking_type__c_type__car_number__create_time__duration__state__id__in_passid__order_id_local',
                 tableitems: [
                     {
+                        hasSubs: false,
+                        subs: [{
+                            label: '',
+                            nameType:'business-order-cars',
+                            columnType:'expand',
+                            align: 'center',
+                            width:'50',
+                        }]
+                    },
+                    {
 
                         hasSubs: false,
                         subs: [{
                             label: '编号',
                             prop: 'id',
-                            width: '123',
+                            // width: '100',
                             type: 'number',
 
                             searchable: true,
@@ -89,69 +170,42 @@
                         subs: [{
                             label: '所属车场',
                             prop: 'comid',
-                            width: '150',
+                            // width: '150',
                             type: 'selection',
                             selectlist: this.parklist,
                             searchable: true,
                             unsortable: true,
                             align: 'center',
-                            format: (row) => {
-                                let result = common.nameformat(row, this.parklist, 'comid');
-                                if (result == '请选择')
-                                    result = '';
-                                return result;
+                            columnType:'render',
+                            render: (h, params) => {
+                                let result = common.nameformat(params.row, this.parklist, 'comid');
+                                if (result == '请选择')result = '';
+                                return h('div', [
+                                    h('span', result)
+                                ]);
                             }
 
                         }]
                     },
-                    // {
-                    //
-                    //     hasSubs: false,
-                    //     subs: [{
-                    //         label: '所属泊位段',
-                    //         prop: 'berthsec_id',
-                    //         width: '123',
-                    //         type: 'str',
-                    //
-                    //         searchable: true,
-                    //
-                    //         unsortable: true,
-                    //         align: 'center'
-                    //     }]
-                    // }, {
-                    //
-                    //     hasSubs: false,
-                    //     subs: [{
-                    //         label: '泊位编号',
-                    //         prop: 'cid',
-                    //         width: '123',
-                    //         type: 'str',
-                    //
-                    //         searchable: true,
-                    //
-                    //         unsortable: true,
-                    //         align: 'center'
-                    //     }]
-                    // },
                     {
 
                         hasSubs: false,
                         subs: [{
                             label: '入场收费员',
                             prop: 'uid',
-                            width: '150',
+                            // width: '120',
                             type: 'selection',
                             selectlist: this.collectors,
                             searchable: true,
-
                             unsortable: true,
                             align: 'center',
-                            format: (row) => {
-                                let result = common.nameformat(row, this.collectors, 'uid');
-                                if (result == '请选择')
-                                    result = '';
-                                return result;
-                                // return common.nameformat(row, this.collectors, 'uid');
+                            columnType:'render',
+                            render: (h, params) => {
+                                let result = common.nameformat(params.row, this.collectors, 'uid');
+                                if (result == '请选择')result = '';
+                                return h('div', [
+                                    h('span', result)
+                                ]);
                             }
                         }]
                     }, {
@@ -180,9 +234,6 @@
                             hidden: true,
                             unsortable: true,
                             align: 'center',
-                            format: (row) => {
-                                return common.nameformat(row, parkType, 'parking_type');
-                            }
                         }]
                     },
                     {
@@ -191,9 +242,9 @@
                         subs: [{
                             label: '入场方式',
                             prop: 'c_type',
-                            width: '123',
+                            width: '100',
                             type: 'str',
-
+                            hidden:true,
                             searchable: true,
 
                             unsortable: true,
@@ -205,7 +256,7 @@
                             {
                                 label: '车牌号',
                                 prop: 'car_number',
-                                width: '123',
+                                // width: '100',
                                 type: 'str',
 
                                 searchable: true,
@@ -220,15 +271,19 @@
                         subs: [{
                             label: '入场时间',
                             prop: 'create_time',
-                            width: '180',
+                            // width: '160',
                             type: 'date',
                             editable: true,
                             searchable: true,
                             addable: true,
-                            unsortable: false,
+                            unsortable: true,
                             align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.create_time);
+                            columnType:'render',
+                            render: (h, params) => {
+                                let result = common.dateformat(params.row.create_time)
+                                return h('div', [
+                                    h('span', result)
+                                ]);
                             }
                         }]
                     }, {
@@ -237,10 +292,10 @@
                         subs: [{
                             label: '停车时长',
                             prop: 'duration',
-                            width: '180',
+                            width: '120',
                             type: 'number',
                             editable: true,
-
+                            hidden:true,
                             addable: true,
                             unsortable: true,
                             align: 'center'
@@ -255,12 +310,16 @@
                             type: 'selection',
                             selectlist: orderStateType,
                             editable: true,
-
+                            hidden:true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format: function (row) {
-                                return common.nameformat(row, orderStateType, 'state');
+                            columnType:'render',
+                            render: (h, params) => {
+                                let result = common.nameformat(params.row, orderStateType, 'state')
+                                return h('div', [
+                                    h('span', result)
+                                ]);
                             }
                         }]
                     }, {
@@ -282,24 +341,20 @@
                         subs: [{
                             label: '入场通道',
                             prop: 'in_passid',
-                            width: '123',
+                            // width: '123',
                             type: 'str',
                             editable: true,
                             searchable: true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format: function (row) {
-                                let pass = row.in_passid;
-                                return pass == '' || pass == undefined ? '无' : pass;
-                            }
                         }]
                     }, {
                         hasSubs: false,
                         subs: [{
                             label: '车场订单编号',
                             prop: 'order_id_local',
-                            width: '200',
+                            // width: '200',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -307,7 +362,7 @@
                             unsortable: true,
                             align: 'center'
                         }]
-                    }
+                    },
 
                 ],
                 searchtitle: '高级查询',
@@ -321,59 +376,70 @@
             };
         },
         methods: {
-            showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&id=' + row.id + '&comid=' + row.comid + '&token=' + sessionStorage.getItem('token');
-                console.log(this.imgdialog_url);
-
+            searchFn() {
+                /*
+                * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
+                * */
+                let sform = JSON.parse(JSON.stringify( this.searchFormData ));
+                sform.uid = sform.uid_start;
+                this.searchForm = JSON.parse(JSON.stringify( sform ))
+            },
+            changeDateFormat(val){
+                if(val == null){
+                    this.searchFormData.create_time= '';
+                    this.searchFormData.create_time_start = '';
+                    this.searchFormData.create_time_end = '';
+                }else{
+                    this.searchFormData.create_time= 'between';
+                    this.searchFormData.create_time_start = val[0];
+                    this.searchFormData.create_time_end = val[1];
+                }
+            },
+            exportFn(){
+                /*
+                * 导出数据，通过ref 进行定位拉取
+                * */
+                this.$refs['tabPane'].handleExport()
+            },
+            initFn(that){
+                /*
+                * 初始化操作
+                * 点击刷新时 和初进入页面时
+                * */
+                that.searchFormData ={
+                    currentData:'',
+                    create_time:'',
+                    create_time_start:'',
+                    create_time_end:'',
+                    comid_start:'',
+                    car_number:'',
+                    uid:'',
+                    uid_start:'',
+                    order_id_local:''
+                };
+                that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
+            },
+            resetForm(){
+                this.initFn(this)
+            },
+            changeMore(){
+                this.isShow = !this.isShow
+            },
+            getQuery(){
                 let _this = this;
-                axios.all([axios.get(this.imgdialog_url)])
-                    .then(axios.spread(function (ret) {
-                        _this.img_in = ret.data.in;
-                        _this.img_out = ret.data.out;
-                        _this.imgpath = path;
-                        console.log(_this.img_in);
-                        console.log(_this.img_out);
+                axios.all([common.getAllCollector(), common.getAllParks()])
+                    .then(axios.spread(function (ret, parks) {
+                        _this.collectors = ret.data;
+                        _this.parklist = parks.data;
                     }));
-
-                this.imgDialog = true;
-            }
+            },
         },
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            let user = sessionStorage.getItem('user');
-            if (user) {
-                user = JSON.parse(user);
-                console.log(user.authlist.length);
-                for (var item of user.authlist) {
-                    if (AUTH_ID_UNION.businessOrder_Cars == item.auth_id) {
-                        console.log(item.sub_auth);
-                        // this.hideExport = !common.showSubExport(item.sub_auth);
-                        // this.hideSearch = !common.showSubSearch(item.sub_auth)
-                        break;
-                    }
-                }
-
-            }
+            this.getQuery();
+            this.initFn(this);
         },
         activated() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            this.imgSize = common.gww() / 4;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.$refs['bolinkuniontable'].getTableData({});
-            // getCollector
-            let _this = this;
-            axios.all([common.getAllCollector(), common.getAllParks()])
-                .then(axios.spread(function (ret, parks) {
-                    _this.collectors = ret.data;
-                    _this.parklist = parks.data;
-                    // console.log(ret.data)
-                }));
+
         },
         watch: {
             collectors: function (val) {

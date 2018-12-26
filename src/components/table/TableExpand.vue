@@ -32,19 +32,6 @@
                     </div>
                 </el-col>
             </el-row>
-
-            <!--<el-row>-->
-                <!--<el-col :span="12"><div class="">入场收费员:{{common.nameformat(expandData, formatCollectors, 'uid')}}</div></el-col>-->
-                <!--<el-col :span="12"><div class="">出场收费员:{{common.nameformat(expandData, formatCollectors, 'out_uid')}}</div></el-col>-->
-            <!--</el-row>-->
-            <!--<el-row>-->
-                <!--<el-col :span="12"><div class="">入场通道:{{expandData.in_passid}}</div></el-col>-->
-                <!--<el-col :span="12"><div class="">出场通道:{{expandData.out_passid}}</div></el-col>-->
-            <!--</el-row>-->
-            <!--<el-row>-->
-                <!--<el-col :span="12"><div class="">入场图片: <img style="width: 143px;height: 80px;vertical-align: middle" :src="img_in" alt="入场图片"> </div></el-col>-->
-                <!--<el-col :span="12"><div class="">出场图片: <img style="width: 143px;height: 80px;vertical-align: middle" :src="img_out" alt="出场图片"> </div></el-col>-->
-            <!--</el-row>-->
         </div>
         <div v-if="nameType == 'month-member'" style="width: 100%">
             <el-form label-position="left" inline class="demo-table-expand">
@@ -163,6 +150,59 @@
 
             </el-form>
         </div>
+        <div v-if="nameType == 'business-order-cars'">
+            <el-row :gutter="20">
+                <el-col :span="12" class="order-expand-style">
+                    <div class="order-expand-box">
+                        <div class="order-img-box">
+                            <img style="width: 203px;height: 115px;vertical-align: middle;" :src="img_in" alt="入场图片">
+                            <span>入场图片</span>
+                        </div>
+
+                        <div class="order-expand-info">
+                            <p><span>入场方式：</span>{{expandData.c_type}}</p>
+                            <p><span>停车时长：</span>{{expandData.duration}}</p>
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="12" class="order-expand-style">
+
+                </el-col>
+            </el-row>
+        </div>
+        <div v-if="nameType == 'business-order-orders'">
+            <el-row :gutter="20">
+                <el-col :span="12" class="order-expand-style">
+                    <div class="order-expand-box order-expand-box-left">
+                        <div class="order-img-box">
+                            <img style="width: 203px;height: 115px;vertical-align: middle;" :src="img_in" alt="入场图片">
+                            <span>入场图片</span>
+                        </div>
+
+                        <div class="order-expand-info">
+                            <p><span>车型：</span>{{expandData.car_type}}</p>
+                            <p><span>入场方式：</span>{{expandData.c_type}}</p>
+                            <p><span>入场通道：</span>{{expandData.in_passid}}</p>
+                            <p><span>入场时间：</span>{{common.dateformat(expandData.create_time)}}</p>
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="12" class="order-expand-style">
+                    <div class="order-expand-box">
+                        <div class="order-img-box">
+                            <img style="width: 203px;height: 115px;vertical-align: middle;" :src="img_out" alt="出场图片">
+                            <span>出场图片</span>
+                        </div>
+                        <div class="order-expand-info">
+                            <p><span>收款人名称：</span>{{common.nameformat(expandData, formatCollectors, 'out_uid')}}</p>
+                            <p><span>收款人账号：</span>{{expandData.out_uid}}</p>
+                            <p><span>出场通道：</span>{{expandData.out_passid}}</p>
+                            <p><span>出场时间：</span>{{common.dateformat(expandData.end_time)}}</p>
+                        </div>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
     </div>
 </template>
 
@@ -204,7 +244,7 @@
         },
         mounted(){
             let that = this;
-            if(that.nameType == 'order-manage'){
+            if(that.nameType == 'order-manage' || that.nameType == 'business-order-cars' ||that.nameType == 'business-order-orders'){
                 this.imgdialog_url = path + this.imgapi + '?orderid=' + this.expandData.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
                 axios.all([axios.get(this.imgdialog_url)])
                     .then(axios.spread(function (ret) {

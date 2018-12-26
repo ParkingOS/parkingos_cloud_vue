@@ -63,6 +63,7 @@ import  DataScreen from './pages/park/Data_Screen.vue'
 import Data_Center from './pages/union/Data_Center.vue';
 import BusinessOrder_Cars from './pages/union/BusinessOrder_Cars.vue';
 import BusinessOrder_Orders from './pages/union/BusinessOrder_Orders.vue';
+import BusinessOrder_Details from './pages/union/BusinessOrderDetails.vue';
 import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue';
 import Member_MonthVIP from './pages/union/Member_MonthVIP.vue';
 import Member_BlackList from './pages/union/Member_BlackList.vue';
@@ -363,7 +364,8 @@ let routes = [
         children: [
             {path: '/businessOrder_Orders', component: BusinessOrder_Orders, name: '订单记录'},
             {path: '/businessOrder_Poles', component: BusinessOrder_Poles, name: '抬杆记录'},
-            {path: '/businessOrder_Cars', component: BusinessOrder_Cars, name: '在场车辆'}
+            {path: '/businessOrder_Cars', component: BusinessOrder_Cars, name: '在场车辆'},
+            {path: '/businessOrder_Details', component: BusinessOrder_Details, name: '订单记录详情'},
         ]
     },
 

@@ -1,170 +1,170 @@
 <template>
     <el-row class="container">
-        <el-col :span="24" class="header not-print">
-            <el-col :span="17">
-                <div style="display:flex">
-                    <div style="width:40px;height:40px;margin-left: 20px;">
-                        <i style="width:40px;height:40px;font-size:40px" class=" icon iconfont icon-park"></i>
-                    </div>
-                    <div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">
-                        智慧停车云
-                    </div>
+        <div class="mian-header" style="border-bottom: 1px solid #ebeef5;">
+            <div class="logo">
+                <div class="logo-one">
+                    <img src="../assets/images/within-logo.png">
                 </div>
-            </el-col>
-            <el-col :span="7" style="padding-right:10px">
-                <div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute">{{nickname}}:
-                    {{sysUserName}}
+                <div class="logo-two">
+                    <img src="../assets/images/within-logo2.png">
                 </div>
-                <el-menu
-                        style="height:50px;width: 100px;float: right;border-right: solid 0px #e6e6e6;"
-                        @select="selectTop" class="logout-button">
-                    <el-menu-item index="/loginCloud" style="height:50px;"><span
-                            style="color:#fff;font-size:13px;float: right;height:50px;color: #109EFF">退出登录</span>
-                        <!--<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>-->
-                    </el-menu-item>
-                </el-menu>
-            </el-col>
-
-        </el-col>
+            </div>
+            <div class="console">
+                <div class="img-box"><img src="../assets/images/login-user.png"></div>
+                <div class="username">{{nickname}}:{{sysUserName}}</div>
+                <div class="outlogin" @click="isoutloginVisible">退出</div>
+            </div>
+        </div>
 
         <el-col :span="24" class="main">
-            <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
-                <!--<el-radio-group v-model="isCollapse"-->
-                <!--style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">-->
-                <!--<el-radio-button :label="false" style="flex: 1;text-align:right;">展开</el-radio-button>-->
-                <!--<el-radio-button :label="true" v-show="!isCollapse" style="flex: 1">收起</el-radio-button>-->
-                <!--</el-radio-group>-->
-                <el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"
-                           class="menu-expan-button menu-expan-button2">
-                    <i class="menu-icon icon iconfont icon-menuclose"></i>
-                </el-button>
-                <el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button">
-                    <i class="menu-icon icon iconfont icon-menuopen"></i>
-                </el-button>
-                <el-menu class="el-menu-vertical-demo" @open="handleopen"
-                         @close="handleclose"
-                         @select="handleselect"
-                         unique-opened
-                          text-color="#fff" active-text-color="#109EFF"
-                         :default-active="highlightindex"
-                         :collapse="isCollapse">
+            <aside :class="isCollapse?'scroll-hidden menu-collapsed':'scroll-hidden menu-expanded'">
+                <!--应用element内置自定义滚动条-->
+                <el-scrollbar :native="true">
+                    <div :style="{height: currentHeight}">
+                        <el-menu class="el-menu-vertical-demo" @open="handleopen"
+                                 @close="handleclose"
+                                 @select="handleselect"
+                                 unique-opened
+                                 text-color="#fff"
+                                 active-text-color="#64C0FF"
+                                 :default-active="highlightindex"
+                                 :collapse="isCollapse">
 
+                            <el-submenu v-if="this.showUnionItem.data_Center" index="/data">
+                                <template slot="title">
+                                    <i class="menu-icon iconfont icon-shujuzhongxin"></i>
+                                    <span class="menuitem">数据中心</span></template>
+                                <el-menu-item index="/data_Center" v-if="this.showUnionItem.data_Center">数据中心
+                                </el-menu-item>
+                            </el-submenu>
+                            <el-submenu v-if="this.showUnionItem.businessOrder" index="/businessOrder">
+                                <template slot="title">
+                                    <i class="menu-icon icon iconfont icon-order"></i>
+                                    <span
+                                            class="menuitem">业务订单</span></template>
+                                <el-menu-item index="/businessOrder_Cars" v-if="this.showUnionItem.businessOrder_Cars">在场车辆
+                                </el-menu-item>
+                                <el-menu-item index="/businessOrder_Orders" v-if="this.showUnionItem.businessOrder_Orders">
+                                    订单记录
+                                </el-menu-item>
+                                <el-menu-item index="/businessOrder_Poles" v-if="this.showUnionItem.businessOrder_Poles">
+                                    抬杆记录
+                                </el-menu-item>
+                            </el-submenu>
+                            <el-submenu v-if="this.showUnionItem.member" index="/member">
+                                <template slot="title">
+                                    <i class="menu-icon iconfont icon-yueqiahuiyuan"></i><span
+                                        class="menuitem">会员</span>
+                                </template>
+                                <el-menu-item index="/member_MonthVIP" v-if="this.showUnionItem.member_MonthVIP">
+                                    月卡会员
+                                </el-menu-item>
+                                <el-menu-item index="/member_BlackList" v-if="this.showUnionItem.member_BlackList">
+                                    黑名单管理
+                                </el-menu-item>
+                            </el-submenu>
+                            <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
+                                <template slot="title">
+                                    <i class="menu-icon iconfont icon-shujufenxi"></i><span
+                                        class="menuitem">财务报表</span></template>
 
-                    <el-submenu v-if="this.showUnionItem.data_Center" index="/data">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-analysis"></i>
-                            <span class="menuitem">数据中心</span></template>
-                        <el-menu-item index="/data_Center" v-if="this.showUnionItem.data_Center">数据中心
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.businessOrder" index="/businessOrder">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-order"></i>
-                            <span
-                                    class="menuitem">业务订单</span></template>
-                        <el-menu-item index="/businessOrder_Cars" v-if="this.showUnionItem.businessOrder_Cars">在场车辆
-                        </el-menu-item>
-                        <el-menu-item index="/businessOrder_Orders" v-if="this.showUnionItem.businessOrder_Orders">
-                            订单记录
-                        </el-menu-item>
-                        <el-menu-item index="/businessOrder_Poles" v-if="this.showUnionItem.businessOrder_Poles">
-                            抬杆记录
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.member" index="/member">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-monthvip"></i><span
-                                class="menuitem">会员</span>
-                        </template>
-                        <el-menu-item index="/member_MonthVIP" v-if="this.showUnionItem.member_MonthVIP">
-                            月卡会员
-                        </el-menu-item>
-                        <el-menu-item index="/member_BlackList" v-if="this.showUnionItem.member_BlackList">
-                            黑名单管理
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-analysis"></i><span
-                                class="menuitem">财务报表</span></template>
+                                <el-menu-item index="/strategicAnalysis_DailyParkReport"
+                                              v-if="this.showUnionItem.strategicAnalysis_DailyParkReport">
+                                    车场日报统计
+                                </el-menu-item>
 
-                         <el-menu-item index="/strategicAnalysis_DailyParkReport"
-                                      v-if="this.showUnionItem.strategicAnalysis_DailyParkReport">
-                            车场日报统计
-                        </el-menu-item>
+                                <el-menu-item index="/strategicAnalysis_DailyReport"
+                                              v-if="this.showUnionItem.strategicAnalysis_DailyReport">
+                                    集团日报统计
+                                </el-menu-item>
+                                <el-menu-item index="/strategicAnalysis_MonthReport"
+                                              v-if="this.showUnionItem.strategicAnalysis_MonthReport">
+                                    集团月报统计
+                                </el-menu-item>
 
-                        <el-menu-item index="/strategicAnalysis_DailyReport"
-                                      v-if="this.showUnionItem.strategicAnalysis_DailyReport">
-                            集团日报统计
-                        </el-menu-item>
-                        <el-menu-item index="/strategicAnalysis_MonthReport"
-                                      v-if="this.showUnionItem.strategicAnalysis_MonthReport">
-                            集团月报统计
-                        </el-menu-item>
+                            </el-submenu>
+                            <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
+                                <template slot="title">
+                                    <i class="menu-icon iconfont icon-xitongguanli"></i>
+                                    <span
+                                            class="menuitem">系统设置</span>
+                                </template>
+                                <el-submenu index="/systemSetting_Company" v-if="this.showUnionItem.systemSetting_Company">
+                                    <template slot="title"><span class="menuitem" style="font-size: 14px;">企业信息</span>
+                                    </template>
+                                    <el-menu-item index="/systemSetting_Account"
+                                                  v-if="this.showUnionItem.systemSetting_Account">账户信息
+                                    </el-menu-item>
+                                </el-submenu>
+                                <el-menu-item index="/systemSetting_Park" v-if="this.showUnionItem.systemSetting_Park">
+                                    停车场
+                                </el-menu-item>
+                                <el-submenu index="/systemSetting_HR" v-if="this.showUnionItem.systemSetting_HR">
+                                    <template slot="title"><span class="menuitem" style="font-size: 14px;">人力资源</span>
+                                    </template>
+                                    <el-menu-item index="/systemSetting_RoleManage"
+                                                  v-if="this.showUnionItem.systemSetting_RoleManage">角色管理
+                                    </el-menu-item>
+                                    <el-menu-item index="/systemSetting_EmployeeManage"
+                                                  v-if="this.showUnionItem.systemSetting_EmployeeManage">员工管理
+                                    </el-menu-item>
+                                </el-submenu>
+                                <el-submenu index="/systemSetting_LogsManage"
+                                            v-if="this.showUnionItem.systemSetting_LogsManage">
+                                    <template slot="title"><span class="menuitem" style="font-size: 14px;">日志管理</span>
+                                    </template>
+                                    <el-menu-item index="/systemSetting_LogsOperates"
+                                                  v-if="this.showUnionItem.systemSetting_LogsOperates">操作日志管理
+                                    </el-menu-item>
+                                    <el-menu-item index="/systemSetting_LogsCollector"
+                                                  v-if="this.showUnionItem.systemSetting_LogsCollector">收费员日志
+                                    </el-menu-item>
+                                </el-submenu>
+                            </el-submenu>
+                            <el-submenu v-if="this.showUnionItem.centerMonitor" index="centerMonitor"
+                                        style="font-weight: normal">
+                                <template slot="title">
+                                    <i class="menu-icon iconfont icon-zhongyangjiankong"></i><span
+                                        class="menuitem">中央监控</span></template>
+                                <!--<el-menu-item index="centerMonitor"-->
+                                <!--v-if="this.showUnionItem.centerMonitor">中央监控-->
+                                <!--</el-menu-item>-->
+                                <el-menu-item index="/monitorApp" v-if="this.showUnionItem.centerMonitor">中央监控
+                                </el-menu-item>
+                            </el-submenu>
 
-                    </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.systemSetting" index="/systemSetting">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-systemsetting"></i>
-                            <span
-                                    class="menuitem">系统设置</span>
-                        </template>
-                        <el-submenu index="/systemSetting_Company" v-if="this.showUnionItem.systemSetting_Company">
-                            <template slot="title"><span class="menuitem" style="font-size: 14px;">企业信息</span>
-                            </template>
-                            <el-menu-item index="/systemSetting_Account"
-                                          v-if="this.showUnionItem.systemSetting_Account">账户信息
-                            </el-menu-item>
-                        </el-submenu>
-                        <el-menu-item index="/systemSetting_Park" v-if="this.showUnionItem.systemSetting_Park">
-                            停车场
-                        </el-menu-item>
-                        <el-submenu index="/systemSetting_HR" v-if="this.showUnionItem.systemSetting_HR">
-                            <template slot="title"><span class="menuitem" style="font-size: 14px;">人力资源</span>
-                            </template>
-                            <el-menu-item index="/systemSetting_RoleManage"
-                                          v-if="this.showUnionItem.systemSetting_RoleManage">角色管理
-                            </el-menu-item>
-                            <el-menu-item index="/systemSetting_EmployeeManage"
-                                          v-if="this.showUnionItem.systemSetting_EmployeeManage">员工管理
-                            </el-menu-item>
-                        </el-submenu>
-                        <el-submenu index="/systemSetting_LogsManage"
-                                    v-if="this.showUnionItem.systemSetting_LogsManage">
-                            <template slot="title"><span class="menuitem" style="font-size: 14px;">日志管理</span>
-                            </template>
-                            <el-menu-item index="/systemSetting_LogsOperates"
-                                          v-if="this.showUnionItem.systemSetting_LogsOperates">操作日志管理
-                            </el-menu-item>
-                            <el-menu-item index="/systemSetting_LogsCollector"
-                                          v-if="this.showUnionItem.systemSetting_LogsCollector">收费员日志
-                            </el-menu-item>
-                        </el-submenu>
-                    </el-submenu>
-                    <el-submenu v-if="this.showUnionItem.centerMonitor" index="centerMonitor"
-                                style="font-weight: normal">
-                        <template slot="title">
-                            <i class="menu-icon icon iconfont icon-monitor"></i><span
-                                class="menuitem">中央监控</span></template>
-                        <!--<el-menu-item index="centerMonitor"-->
-                                      <!--v-if="this.showUnionItem.centerMonitor">中央监控-->
-                        <!--</el-menu-item>-->
-                        <el-menu-item index="/monitorApp" v-if="this.showUnionItem.centerMonitor">中央监控
-                        </el-menu-item>
-                    </el-submenu>
-
-                </el-menu>
-                <!--</div>-->
+                        </el-menu>
+                    </div>
+                </el-scrollbar>
             </aside>
             <section class="content-container">
                 <div class="grid-content bg-purple-light">
-                    <el-col :span="24" class="content-wrapper">
+                    <!--<el-col :span="24" class="content-wrapper">-->
+                    <transition name="fade-transform" mode="out-in">
                         <keep-alive>
                             <router-view></router-view>
-
                         </keep-alive>
-                    </el-col>
+                    </transition>
+                    <!--</el-col>-->
                 </div>
+                <!--退出提示-->
+                <el-dialog
+                        width="478px"
+                        :visible.sync="outloginVisible"
+                        :show-close="false"
+                        custom-class="custom-dialog deleteTip">
+
+                    <header class="dialog-header" slot="title">
+                        提示<i class="el-icon-close dialog-header-iconfont" @click="outloginVisible = false"></i>
+                    </header>
+                    <div class="dialog-body" style="height: 40px;line-height: 40px;text-align: center;font-size: 16px">
+                        <p>真的要退出吗?</p>
+                    </div>
+                    <footer slot="footer" class="dialog-footer">
+                        <el-button type="primary" class="dialog-footer-btn" @click="logout" >确 定</el-button>
+                        <el-button @click="outloginVisible = false" class="dialog-footer-btn" style="margin-left: 36px">取 消</el-button>
+                    </footer>
+                </el-dialog>
             </section>
         </el-col>
     </el-row>
@@ -178,6 +178,7 @@
     export default {
         data() {
             return {
+                outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
                 active: '',
@@ -209,7 +210,8 @@
                 //showParkItem: sessionStorage.getItem('showParkItem') == null ? showParkItem_const : JSON.parse(sessionStorage.getItem('showParkItem')),
                 showUnionItem: sessionStorage.getItem('showUnionItem') == null ? showUnionItem_const : JSON.parse(sessionStorage.getItem('showUnionItem')),
                 expandindex: '',   //'/order',//展开的sub_menu
-                highlightindex: sessionStorage.getItem('highlightindex')//'/orderManage_Poles',//高亮的item
+                highlightindex: sessionStorage.getItem('highlightindex'),//'/orderManage_Poles',//高亮的item
+                currentHeight:'500px'
             };
         },
         methods: {
@@ -266,25 +268,40 @@
                 // console.log('>>>' + a.split('_')[0])
                 this.$router.push(a);
             },
+            isoutloginVisible(){
+                this.outloginVisible = true;
+            },
             //退出登录
             logout: function () {
                 var _this = this;
                 let user = sessionStorage.getItem('user');
                 let u = JSON.parse(user);
                 let logoutParams = {userid: u.userid, token: sessionStorage.getItem('token')};
-                this.$confirm('确认退出吗?', '提示', {
-                    //type: 'warning'
-                }).then(() => {
-                    //this.$post(path+"/user/dologout",logoutParams)
-                    sessionStorage.removeItem('user');
-                    sessionStorage.removeItem('token');
-                    localStorage.removeItem('comid');
-                    localStorage.removeItem('groupid');
-                    _this.$router.push('/login');
-                }).catch(() => {
-
-                });
-            }
+                sessionStorage.removeItem('user');
+                sessionStorage.removeItem('token');
+                localStorage.removeItem('comid');
+                localStorage.removeItem('groupid');
+                _this.$router.push('/login');
+            },
+            //退出登录
+            // logout: function () {
+            //     var _this = this;
+            //     let user = sessionStorage.getItem('user');
+            //     let u = JSON.parse(user);
+            //     let logoutParams = {userid: u.userid, token: sessionStorage.getItem('token')};
+            //     this.$confirm('确认退出吗?', '提示', {
+            //         //type: 'warning'
+            //     }).then(() => {
+            //         //this.$post(path+"/user/dologout",logoutParams)
+            //         sessionStorage.removeItem('user');
+            //         sessionStorage.removeItem('token');
+            //         localStorage.removeItem('comid');
+            //         localStorage.removeItem('groupid');
+            //         _this.$router.push('/login');
+            //     }).catch(() => {
+            //
+            //     });
+            // }
         },
         mounted() {
             // console.log('home  mounted');
@@ -323,6 +340,11 @@
                 }
 
             }
+
+            this.currentHeight =  (document.body.clientHeight - 45) + 'px'
+            window.addEventListener('resize', () => {
+                this.currentHeight =  (document.body.clientHeight - 45) + 'px'
+            });
         }
     };
 

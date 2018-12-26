@@ -24,6 +24,10 @@
             }
         },
         props:{
+            pieTitle:{
+              type:String,
+              default:'收费员'
+            },
             isShow:{
               type:Boolean,
               default:true,
@@ -175,7 +179,7 @@
                             }else{
                                name = ret.name;
                             }
-                            str = '<p>收费员:'+name+'</p>'+'<p>金额:'+ret.value+'元</p>';
+                            str = '<p>'+that.pieTitle+':'+name+'</p>'+'<p>金额:'+ret.value+'元</p>';
                             return str
                         }
                     },

@@ -1,680 +1,509 @@
 <template>
-    <section class="data-sec" :style="containStyle">
-        <div style="display: flex;flex-direction: row;width: 100%;height: 100%;align-content: stretch;">
-            <div style="flex: 1;width: 0;display:flex ;flex-direction: column">
-                <div style="flex: 2;padding: 10px 10px 10px 10px;overflow-y: auto;display: flex;flex-align:center;align-items: flex-start;;justify-content: flex-start;">
-
-                    <div class="data-box" style="width: 100%;">
-                        <div class="title">今日收费汇总</div>
-                        <div class="body">
-                            <div class="item" style="padding-top: 10px;margin-bottom: 10px">
-                                <div class="item-txt">电子收费</div>
-                                <NumberRoller ref="roll_elepay"></NumberRoller>
-                            </div>
-
-                            <div class="item" style="margin-bottom: 10px">
-                                <div class="item-txt">现金收费</div>
-                                <NumberRoller ref="roll_cashpay"></NumberRoller>
-                            </div>
-
-                            <div class="item" style="margin-bottom: 10px">
-                                <div class="item-txt">优惠减免</div>
-                                <NumberRoller ref="roll_reduce"></NumberRoller>
-                            </div>
-                        </div>
-                    </div>
-
+    <section class="data-center-park" style="">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">数据中心<span style="margin: 2px">-</span>数据中心</p>
+                <div class="float-right">
+                    <el-button type="text" size="mini" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="getDatas">刷新</el-button>
                 </div>
-                <div style="flex: 3;padding: 10px;overflow-y: auto">
-                    <div class="data-box" ref="echartBox">
-                        <div class="title">今日收费构成</div>
-                        <div class="body" style="padding: 0;">
-                            <div id="todayMoneyChart" v-bind:style="topParkChartSize"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="title" style="padding-left: 10px;">车场在线状态</div>
-                <div style="flex: 2;margin: 0 10px 10px 10px;overflow-y: auto;background-color: white;">
-                    <div class="data-box" style="margin-top: 0px;">
+            </header>
+        </div>
+        <div class="content-padding">
+            <!--第一部分统计数量的卡片-->
+            <el-row class="center-park-margin" :gutter="13" type="flex" justify="space-between">
+                <el-col :xs="24" :sm="12" >
+                    <infor-card
+                            id-name="allCount"
+                            :end-val="otherData.receiveTotal"
+                            iconType="iconfont icon-jine"
+                            color="linear-gradient(163deg, #FFE06D 0%, #D96E13 100%)"
+                            :iconSize="36"
+                            :retain="2"
+                            intro-text="总收入（元）"
+                    ></infor-card>
+                </el-col>
+                <el-col :xs="24" :sm="12" >
+                    <infor-card
+                            id-name="allCount"
+                            :end-val="otherData.parkEmpty"
+                            iconType="iconfont icon-chewei"
+                            color="linear-gradient(170deg, #6DBFFF 0%, #4C97F1 100%)"
+                            :iconSize="36"
+                            :retain="0"
+                            intro-text="空车位（个）"
+                    ></infor-card>
+                </el-col>
+                <el-col :xs="24" :sm="12" >
+                    <infor-card
+                            id-name="allCount"
+                            :end-val="otherData.monthTotal"
+                            iconType="iconfont icon-huiyuan1"
+                            color="linear-gradient(-44deg, #3C4EC9 0%, #53A0FD 100%)"
+                            :iconSize="36"
+                            :retain="0"
+                            intro-text="月卡会员（人）"
+                    ></infor-card>
+                </el-col>
+                <el-col :xs="24" :sm="12" >
+                    <infor-card
+                            id-name="allCount"
+                            :end-val="otherData.ticketCount"
+                            iconType="iconfont icon-quan"
+                            color="linear-gradient(165deg, #6DFF7C 0%, #138ED9 100%)"
+                            :iconSize="36"
+                            :retain="0"
+                            intro-text="优惠券发放（张）"
+                    ></infor-card>
+                </el-col>
+                <el-col :xs="24" :sm="12" >
+                    <infor-card
+                            id-name="allCount"
+                            :end-val="otherData.vistorCount"
+                            iconType="iconfont icon-fangke"
+                            color="linear-gradient(135deg, #FFB2A2 0%, #F76B1C 100%)"
+                            :iconSize="36"
+                            :retain="0"
+                            intro-text="访客未处理（人）"
+                    ></infor-card>
+                </el-col>
+            </el-row>
 
-                        <div class="body">
-                            <div class="item-list">
-                                <div class="bar-item" v-for='item in parkState'
-                                     style="width: 100%;display: flex;flex-align:center;flex-direction: row;align-items: center;">
-                                    <div :class="item.state===0?'bar bar-red':'bar bar-green'"
-                                         style="width:40px;height: 40px;"></div>
-                                    <div class="bar-text" style="flex: 1;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.parkName}}</div>
-                                    <!--<span>123</span>-->
+            <!--第二部分 今日收费汇总 车场状态 今日收费车场排行-->
+            <el-row class="center-park-margin" :gutter="20">
+                <el-col :xs="24" :sm="12" :md="8">
+                    <charts-pie
+                            charts-title="今日收费构成"
+                            charts-type="pie"
+                            :charts-wrapper-height="currentHeight"
+                            :charts-data="incomePie"
+                    ></charts-pie>
+                </el-col>
+
+                <el-col :xs="24" :sm="12" :md="8">
+                    <el-card :body-style="{ padding: '10px 0' }">
+                        <div :style="{height:currentHeight}">
+                            <p class="card-title"><span class="bar-icon"></span>车场在线状态</p>
+                            <el-row type="flex" class="seamless-item-title">
+                                <el-col :span="8"  justify="center" align="center">状态</el-col>
+                                <el-col :span="16"  justify="center" align="center">名称</el-col>
+                            </el-row>
+                            <div v-show="parkState.length == 0" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)',textAlign:'center',color:'#a1a1a1' }">
+                                <!--<i class="iconfont icon-wushuju" style="font-size: 60px"></i>-->
+                                <svg width="59px" height="60px" viewBox="0 0 59 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+                                    <title>Bitmap</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <image id="Bitmap" x="0" y="0" width="59" height="60" xlink:href="data:image/png;base64,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"></image>
+                                    </g>
+                                </svg>
+                                <p>暂无数据</p>
+                            </div>
+                            <vue-seamless-scroll :class-option="classOption" v-show="parkState.length != 0" :data="parkState" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="parkState.length>0">
+                                <ul>
+                                    <li  v-for='(item,index) in parkState' :key="index" class="seamless-item-style">
+                                        <el-row type="flex">
+                                            <el-col :span="8"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;line-height: 40px;vertical-align: middle;">
+                                                <img :src="item.state == 1 ? baseImg.shangxian:baseImg.xiaxian" alt="" style="display: inline-block">
+                                            </el-col>
+                                            <el-col :span="16"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.parkName}}</el-col>
+                                        </el-row>
+                                    </li>
+                                </ul>
+                            </vue-seamless-scroll>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :xs="24" :sm="12" :md="8">
+                    <charts-pie
+                            pie-title="车场名称"
+                            charts-title="今日收费车场排行"
+                            charts-type="bar"
+                            :charts-data="rankData"
+                            :charts-wrapper-height="currentHeight"
+                    ></charts-pie>
+                </el-col>
+            </el-row>
+
+            <!--第三部分 进出车辆统计 入场车辆信息 出场车辆信息-->
+            <el-row class="center-park-margin" :gutter="20">
+                <el-col :xs="24" :sm="12" :md="8">
+                    <el-card :body-style="{ padding: '10px' }">
+                        <div :style="{height:currentHeight}">
+                            <p class="card-title"><span class="bar-icon"></span>进出车辆统计</p>
+                            <div v-bind:style="{ overflow: 'hidden',height:'calc(100% - 30px)' }">
+                                <div style="margin-bottom: 24px;margin-top: 24px">
+                                    <count-bar
+                                            :max-val = inOutCarsCount.maxVal
+                                            :current-val = inOutCarsCount.inCars
+                                            count-bar-title="今日入场车辆"
+                                            :img-src="baseImg.ruchang"
+                                            count-bar-color="linear-gradient(-270deg, #54DF97 3%, #3ABFB2 97%)"
+                                    ></count-bar>
                                 </div>
-                            </div>
-                        </div>
-                        <!--<div class="body">-->
-                        <!--<div style="display: flex;flex-direction: column;">-->
-                        <!--<div v-for='item in parkState' style="background-color: green">-->
-                        <!--&lt;!&ndash;<span>{{item.parkName}}</span>&ndash;&gt;-->
-                        <!--<div :class="item.state===0?'bar bar-red':'bar bar-green'">{{item.parkName}}</div>-->
-                        <!--<div class="bar-text">{{item.parkName}}</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                    </div>
-                </div>
-            </div>
-            <div style="flex: 2;width: 0;display:flex ;flex-direction: column">
-                <!--<div style="flex: 1;padding: 80px 10px 10px 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;align-items: center;">-->
-                <div :style="rollstyle">
-                    <div class="data-box cart-box" ref="scrollBox">
-                        <div class="title" style="width: 100%;">入场车辆</div>
-                        <div style="background-color: white;color: black;padding:5px;overflow: hidden;">
-                            <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;flex-align:center;background-color: #F5F7FA;height: 48px;">
-                                <span style="flex: 2;text-align: center;">车场名称</span>
-                                <span style="flex: 1;text-align: center;">时间</span>
-                                <span style="flex: 2;text-align: center;">车牌号</span></div>
-                                <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxInCarHeight + 'px' }" >
-
-                              <div  v-bind:class="[scrollBoxInCar ? '' : '', 'box']" >
-                                  <vue-seamless-scroll :data="inPartData" class="seamless-warp" v-bind:style="{ overflow: 'hidden',height:scrollBoxInCarHeight + 'px' }">
-                                      <ul class="con1 conE" >
-                                          <li  v-for='(item,index) in inPartData' :key="index">
-                                              <div :style="styledouble">
-                                                  <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.parkName}}</span>
-                                                  <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
-                                                  <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.cartId}}</span>
-                                              </div>
-                                          </li>
-                                      </ul>
-                                  </vue-seamless-scroll>
-                              </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="data-box cart-box" >
-                        <div class="title" >出场车辆</div>
-                        <div style="background-color: white;color: black;padding:5px;">
-                            <div style="background: lightgray;display: flex;flex-direction: row;align-items: center;flex-align:center;background-color: #F5F7FA;height: 48px;">
-                                <span style="flex: 2;text-align: center;">车场名称</span>
-                                <span style="flex: 1;text-align: center;">时间</span>
-                                <span style="flex: 2;text-align: center;">车牌号</span></div>
-                                <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxOutCarHeight + 'px' }" >
-                                <div  v-bind:class="[scrollBoxOutCar ? '' : '', 'box']"  >
-                                    <vue-seamless-scroll :data="outPartData" class="seamless-warp" v-bind:style="{ overflow: 'hidden',height:scrollBoxOutCarHeight + 'px' }">
-                                        <ul class="con1 conE" >
-                                            <li  v-for='(item,index) in outPartData' :key="index">
-                                                <div :style="styledouble">
-                                                    <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.parkName}}</span>
-                                                    <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
-                                                    <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.cartId}}</span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </vue-seamless-scroll>
+                                <div style="margin-bottom: 24px">
+                                    <count-bar
+                                            :max-val = inOutCarsCount.maxVal
+                                            :current-val = inOutCarsCount.outCars
+                                            count-bar-title="今日离场车辆"
+                                            :img-src="baseImg.chuchang"
+                                            count-bar-color=" linear-gradient(90deg, #F8D03B 0%, #E9A03A 98%)"
+                                    ></count-bar>
                                 </div>
-                              </div>
-                        </div>
-                    </div>
-                </div>
-                <div style="flex: 1;padding: 10px;">
-                    <div class="data-box" ref="posuse">
-                        <div class="title">泊位使用率</div>
-                        <div class="body" style="padding: 10px 0;">
-                            <div id="placeChart" v-bind:style="placeChartSize"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="flex: 1;width: 0;display:flex ;flex-direction: column">
-                <!--<div style="flex: 3;padding: 5px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;justify-content: center;">-->
-                <div :style="rollstyle2">
-                <div class="data-box" style="width: 100%;">
-                        <div class="title">今日收费车场排行</div>
-                        <div class="body" style="padding: 0">
-                            <div id="topParkChart" v-bind:style="topParkChartSize"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="flex: 2;padding: 5px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;flex-align:center;justify-content: center;">
-                    <div class="data-box" style="width: 100%;">
-                        <div class="title">进出车统计</div>
-                        <div class="body">
-                            <div class="item" style="padding-top: 10px;margin-bottom: 10px">
-                                <div class="item-txt">今日入场</div>
-                                <NumberRoller ref="roll_incar"></NumberRoller>
-                            </div>
-                            <div class="item" style="margin-bottom: 10px">
-                                <div class="item-txt">今日离场</div>
-                                <NumberRoller ref="roll_outcar"></NumberRoller>
-                            </div>
-                            <div class="item" style="margin-bottom: 10px">
-                                <div class="item-txt">在场车辆</div>
-                                <NumberRoller ref="roll_inpark"></NumberRoller>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="title" style="padding-left: 10px;">异常抬杆</div>
-                <div ref="scrollBoxException" style="flex: 2;margin: 0 10px 10px 10px;overflow: hidden;margin-bottom: 10px;background-color: white;">
-                    <div class="data-box" style="margin-top: 0px;">
-                        <div style="background: white;color: black;padding:5px;">
-                            <div style="background: lightgray;display: flex;flex-align:center;
-                            flex-direction: row;align-items: center;flex-align:center;background-color: #F5F7FA;height: 48px;">
-                                <span style="flex: 1;text-align: center;">时间</span>
-                                <span style="flex: 1;text-align: center;">通道</span>
-                                <span style="flex: 1;text-align: center;">收费员</span>
-                                <span style="flex: 2;text-align: center;">原因</span>
-                            </div>
-                            <div v-bind:style="{ background:'white', overflow: 'hidden',height:scrollBoxExceptionHeight + 'px' }" >
-                                <div  v-bind:class="[scrollBoxException ? 'animation' : '', 'box']"  >
-
-                                    <vue-seamless-scroll :data="exceptionDataPole" class="seamless-warp" v-bind:style="{ overflow: 'hidden',height:scrollBoxExceptionHeight + 'px' }">
-                                        <ul class="con1 conE" >
-                                            <li  v-for='(item,index) in exceptionDataPole' :key="index">
-                                                <div :style="styledouble">
-                                                    <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</span>
-                                                    <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.passid}}</span>
-                                                    <span style="flex: 1;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.uin}}</span>
-                                                    <span style="flex: 2;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.reason}}</span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </vue-seamless-scroll>
+                                <div style="margin-bottom: 24px">
+                                    <count-bar
+                                            :max-val = inOutCarsCount.maxVal
+                                            :current-val = inOutCarsCount.inPark
+                                            count-bar-title="今日在场车辆"
+                                            :img-src="baseImg.zaichang"
+                                            count-bar-color="linear-gradient(90deg, #6DBFFF 0%, #4590EE 100%)"
+                                    ></count-bar>
                                 </div>
+
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </el-card>
+                </el-col>
+                <el-col :xs="24" :sm="12" :md="8">
+                    <el-card :body-style="{ padding: '10px 0' }">
+                        <div :style="{height:currentHeight}">
+                            <p class="card-title"><span class="bar-icon"></span>入场车辆信息</p>
+                            <el-row type="flex" class="seamless-item-title">
+                                <el-col :span="8"  justify="center" align="center">车场名称</el-col>
+                                <el-col :span="8"  justify="center" align="center">时间</el-col>
+                                <el-col :span="8"  justify="center" align="center">车牌号</el-col>
+                            </el-row>
+                            <div v-show="inPartData.length == 0" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)',textAlign:'center',color:'#a1a1a1' }">
+                                <!--<i class="iconfont icon-wushuju" style="font-size: 60px"></i>-->
+                                <svg width="59px" height="60px" viewBox="0 0 59 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+                                    <title>Bitmap</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <image id="Bitmap" x="0" y="0" width="59" height="60" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADsAAAA8CAYAAADYIMILAAAAAXNSR0IArs4c6QAACJlJREFUaAXtmmtsFFUUx7fbB22BFhGVYBOwtARYaLG0CKUkVDRiNBGxPPyiqID6wQhofOAjIhg0mhjgQzERBU0UKhUJAV9IidbaNy1QxBSKTZBH5dVW6Wvb+jvDTjvdnZ3ODC27RG5y99zHueec/73nnntnZh2OIEidnZ3O0tLS6rKysg39aY6zP4VbkN0JbwJ5rNEYJmNlSUnJViMeo76gABsSEiJgJZ27Qnx/AZqEB7wDb4pvr7mWoACrmtrR0RGilr0pQH+mrbWxsXG8d5/ZephZxkDy4bq56I91Op3pmZmZbru2BBVYXDTOGwiB62Xa5pJXp6Sk/Obdb6UeNGAB+iGGH/I2HvedTl9+amrqm959/6s6QWsGebZZ0MrKsiceYvbeZdAYcgtZjY5m5djhE92t5HRWzWdFjQTi2pn0r5ZVhx4hf2fEr/aFMTCDyjfk8wD+BQFRamd/UnRJ5L1MBP7XjB7scpaXl8+BroZfjchrCFrZZsYLj8yusheY3WFmBwWCD3eNRK9EZQfztLylpeWj9PT0Jiu2CNhY8iUrgwLBy2JcBvD4hoaGExw/zXZsCGOWmnANv4e5HaFXOyYnJyc0Pj4+G9u+nTx58g5VHuXf1bIdGlQ3KBWAy+WSuLGE/fyE2tYXNFjB/iPgWNk/+gKkKkM5etSKP0oUnMYsT/PX3w/tAzwy7+W0WKGVzwS0tLW17Zw6depJbbuZcgibfj97dhIBYIjeAJS9TruE+6BK2JyRlpb2qxWjDFe2qKjoDoQJ0J0I7zHDVpT0JS/n6iBsyWeFdyNXd4H86TMEGxoaOsozcB2zWONPyLVux9u2oXNxVVVVBMFMbmGmUm8Bqk2kMJM3m5J27ZiURaqrq+vN/h4WGTIDUrkj4zqGfD0kXoMKLhwqauLi4izd4YMKRH/P0w2w/T3DgZJvGI2NjOKiMZItPZbLRgd8lvaOyGXfOSUmREREVCYnJ9cZ6eqrPltgq6urB9TX1/8pRmC0bVtkLLehUwi43bYQCwNtgT1w4ICbp5JNLIz6EG1B5RVWgErqQMY+y4NtDrAFdv78+e3oW2xTZ8CG3YjGAZt6L8VcC6Pz8/MHezXLjc7WItlyY2/lfVUXEET5eVB5aJ9Bjo6MjHQAWlTIW4qtsbGx7xEcz0qD1WQLbF5eXlhMTMznGCWvXiVpQ7IcRW5OpBVTpkwpUHpN/PA69zEeNz+FVV21IgJYBTpaobdAZ9G3CqCroPIB7GxiYqK89jWdbIHlThqK0oVGWrhOS6Q2BVY+QwJoAfxHAfUKz9a7JFJ7y2cyEpjElfTJyjuoj7PyXsoWWJlRXGsEhrlQ3O65WCi2UY8A6AWMKPM2Vq+OnJ9ov5v8BiDX6PGobcg8RvnJ4uLi9ejYjf4jTNRYHj9Nvb6xBVaUY9hpiGTbiZXZiMECdAnyPjYriO1RcfDgwQmtra3nmNwSttVQM1/31P1hVk+f8bE6kwD6NAK3WAGqGpCUlHQRj0qiPpj0pdpuRAMGFjfcLIYBdJFQO4kVrmLcZ+SsioqKXq+cAQFbWFh4GwYm44Kf2AGpHYMrL5e62+1+TtuuVw4IWN5tzRFj2tvbN+oZZaWN7z0X4JdseDqIzICAZUWVd9CsylExog+SPEyMJAZoz3sfsQEBi1Hixo6MjIxGH4tsNDB5Z2QY0d3wdAkIWBt4ehsiXyIdNTU1PhcR7UDDmdAyepe5w85izyV4t0udSNvS1NSU62/lWAm5BMyWQMVnDFv3XK1ePGUC9Q7Po6e2q0fZFlgO8UjOuL0Y3UOYWkG5gwu8PK1sUNu0lP7vGfs8gSqT9q3aPpvlOxmX19tYW2BnzpzZyv5YhtGpGO2Gdr2Doh6B0vPkPf6Uw7NX+qCvQq4KLHY86FGf7U+f2m4LLEbK3linCrFKuUi0cScW456FplAvtypD5QfoJsodyPhKbfNH5Q2fADbc2P4GX017VFTUMsaLR/woX9rtyGKiPmDcrWBYYGa80+N2A/SY6VNCOn36m1NvkMk2zwcpOW+H8vKuTOKAyaEKG+67hsIL5CKeerabGRvGrOyCMY3BS4muxWEkqJPg0UIQShMh8OiufGVl5cDo6Gi3GUV6PDwqFvGIlsWkbucyfwYb5vIYt0+PV20rKCgYGh4evhablnraXKzwZsqnyetxZ6G6KYRB8kFaAD+gy0EjPHOYvZ1qP0dGDHNyiHocWfnSp/ZZoOIt4sZvAXY/OuTDspz7hZSzmejC2tra43Kc8IQ0HH0u2h6l/ymypMPkUvIiclfi2HPxH0f5I5hP6nJPBKajdBzM7ShTEuUxFF4jz9O6igesnJXDfSRabEBnLquZxbfWQc3NzW+jS7nYG4j5wqNXJno6+W9kvMRRt46zXc7sIUzKBM8TEdXu1AW2u6m7JI9NPE2cRNhCDNrW3XOlJKC926zWuVQ0aMfgkuEAvged08jJlCWu/AVPITSPVauF533qL5Lly/spcg3uOxEqL+fqITGMm8gCyep3JUOw7CflH6EoWQDYnK5RAS549ujjAAyhfBfmFJIF8GgxjbaLkCHeLn1d3o1ZNSVgAiocgPIWUv6PHE/9mICl7SbIedy5iu3pkjZJvYENFyaEXxIaLAlw92FLE96mnATQHdiYRdtoAFeLnQAeBmlgdQ/joXJ3NgaLUPWcTRHmQCc+qI0CzBbsGIFtS8ld11T2Z64HcAI8x8VWACv/y4TvEA8u4w33rAzgWNqDkPspSiC4TLZ1xWScvyQ2RJEl2Il7Sl10KF4F1UtrAbJSrwN7H8ber+k7Dk+C53+Q56hH9ApWBDJTayHyKkWeZOyeqwztkUS35AZmXv4sKqsk10aZUMniop30yQTU0x1K+QTlHbhtGdRvwm0fgVduVccAnCiMYDB+jeFX2nXQoQFcg7k/kJ8xtbLXATZdE3Hp2XiErPBA6Kr/AE7LY1osSGQOAAAAAElFTkSuQmCC"></image>
+                                    </g>
+                                </svg>
+                                <p>暂无数据</p>
+                            </div>
+                            <vue-seamless-scroll :class-option="classOption" v-show="inPartData.length>0" :data="inPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="inPartData.length>0">
+                                <ul>
+                                    <li  v-for='(item,index) in inPartData' :key="index" class="seamless-item-style">
+                                        <el-row type="flex">
+                                            <el-col :span="8"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.parkName}}</el-col>
+                                            <el-col :span="8"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</el-col>
+                                            <el-col :span="8"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.cartId}}</el-col>
+                                        </el-row>
+                                    </li>
+                                </ul>
+                            </vue-seamless-scroll>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :xs="24" :sm="12" :md="8">
+                    <el-card :body-style="{ padding: '10px 0' }">
+                        <div :style="{height:currentHeight}">
+                            <p class="card-title"><span class="bar-icon"></span>出场车辆信息</p>
+                            <el-row type="flex" class="seamless-item-title">
+                                <el-col :span="8"  justify="center" align="center">车场名称</el-col>
+                                <el-col :span="8"  justify="center" align="center">时间</el-col>
+                                <el-col :span="8"  justify="center" align="center">车牌号</el-col>
+                            </el-row>
+                            <div v-show="outPartData.length == 0" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)',textAlign:'center',color:'#a1a1a1' }">
+                                <!--<i class="iconfont icon-wushuju" style="font-size: 60px"></i>-->
+                                <svg width="59px" height="60px" viewBox="0 0 59 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+                                    <title>Bitmap</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <image id="Bitmap" x="0" y="0" width="59" height="60" xlink:href="data:image/png;base64,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"></image>
+                                    </g>
+                                </svg>
+                                <p>暂无数据</p>
+                            </div>
+                            <vue-seamless-scroll :class-option="classOption" v-show="outPartData.length>0" :data="outPartData" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="outPartData.length>0">
+                                <ul>
+                                    <li  v-for='(item,index) in outPartData' :key="index" class="seamless-item-style">
+                                        <el-row type="flex">
+                                            <el-col :span="8"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.parkName}}</el-col>
+                                            <el-col :span="8"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</el-col>
+                                            <el-col :span="8"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.cartId}}</el-col>
+                                        </el-row>
+                                    </li>
+                                </ul>
+                            </vue-seamless-scroll>
+                        </div>
+                    </el-card>
+                </el-col>
+            </el-row>
+            <!--第四部分 泊位使用率 异常抬杆-->
+            <el-row class="center-park-margin" :gutter="20">
+                <el-col :xs="24" :sm="12" :md="12">
+                    <charts-pie
+                            charts-title="泊位使用率"
+                            charts-type="line"
+                            :charts-data="berthData"
+                            :charts-wrapper-height="currentHeight"
+                    ></charts-pie>
+                </el-col>
+                <el-col :xs="24" :sm="12" :md="12">
+                    <el-card :body-style="{ padding: '10px 0' }">
+                        <div :style="{height:currentHeight}">
+                            <p class="card-title"><span class="bar-icon"></span>异常抬杆</p>
+                            <el-row type="flex" class="seamless-item-title">
+                                <el-col :span="6"  justify="center" align="center">通道名称</el-col>
+                                <el-col :span="6"  justify="center" align="center">时间</el-col>
+                                <el-col :span="6"  justify="center" align="center">收费员</el-col>
+                                <el-col :span="6"  justify="center" align="center">原因</el-col>
+                            </el-row>
+                            <div v-show="exceptionDataPole.length == 0" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)',textAlign:'center',color:'#a1a1a1' }">
+                                <!--<i class="iconfont icon-wushuju" style="font-size: 60px"></i>-->
+                                <svg width="59px" height="60px" viewBox="0 0 59 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+                                    <title>Bitmap</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <image id="Bitmap" x="0" y="0" width="59" height="60" xlink:href="data:image/png;base64,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"></image>
+                                    </g>
+                                </svg>
+                                <p>暂无数据</p>
+                            </div>
+                            <vue-seamless-scroll :class-option="classOption" v-show="exceptionDataPole.length>0" :data="exceptionDataPole" v-bind:style="{ overflow: 'hidden',height:'calc(100% - 60px)' }" v-if="exceptionDataPole.length>0">
+                                <ul>
+                                    <li  v-for='(item,index) in exceptionDataPole' :key="index" class="seamless-item-style">
+                                        <el-row type="flex">
+                                            <el-col :span="6"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.passid}}</el-col>
+                                            <el-col :span="6"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.time}}</el-col>
+                                            <el-col :span="6"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.uin}}</el-col>
+                                            <el-col :span="6"  justify="center" align="center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">{{item.reason}}</el-col>
+                                        </el-row>
+                                    </li>
+                                </ul>
+                            </vue-seamless-scroll>
+                        </div>
+                    </el-card>
+                </el-col>
+            </el-row>
         </div>
     </section>
 </template>
-
-
 <script>
     import {path, orderStateType, orderPayType, parkType} from '../../api/api';
     import util from '../../common/js/util';
     import echarts from 'echarts';
-    import common from '../../common/js/common';
-    import {AUTH_ID_UNION} from '../../common/js/const';
-    import NumberRoller from '../../components/NumberRoller';
-    import '../../common/css/datacenter.css';
     import axios from 'axios';
-    import vueSeamlessScroll from 'vue-seamless-scroll'
+    import inforCard from  '../../components/InforCard'
+    import chartsPie from  '../../components/ChartsPie'
+    import countBar from '../../components/CountBar'
     export default {
         components: {
-            NumberRoller,vueSeamlessScroll
+            inforCard,chartsPie,countBar
         },
-        data() {
+        data () {
             return {
-                timer:null,
-                scrollBoxInCar:false,
-                scrollBoxOutCar:false,
-                scrollBoxOutCarHeight: 240,
-                scrollBoxInCarHeight: 240,
-                scrollBoxException:false,
-                scrollBoxExceptionHeight: 0,
-                animate: false,//用于循环滚动在/出场车辆列表
-                animate2: false,//用于循环滚动在/出场车辆列表
-                animate3: false,//用于循环滚动在/出场车辆列表
-                stylesingle: ' display: flex;flex-direction: row;align-items: center;flex-align:center;',
-                styledouble: ' display: flex;flex-direction: row;align-items: center;flex-align:center;',
-                transfer: false,
-                transfer2: false,
-                transfer3: false,
-                transInteval: '',//循环
-                transInteval2: '',//循环
-                transInteval3: '',//循环
-                dataInteval: '',//循环获取页面数据
-                dataInitCount: 0,
-
-                containStyle: '',
-                flexStyle4: '',
-                flexStyle3: '',
-                flexStyle33: '',
-                flexStyle2: '',
-                flexStyle22: '',
-                topParkChartSize: {
-                    width: '1px',
-                    height: '200px'
-                }, topParkChartSize2: {
-                    width: '1px',
-                    height: '200px'
+                baseImg:{
+                    'ruchang':require('@/assets/images/ruchang.png'),
+                    'chuchang':require('@/assets/images/chuchang.png'),
+                    'zaichang':require('@/assets/images/zaichang.png'),
+                    'shangxian':require('@/assets/images/shangxian.png'),
+                    'xiaxian':require('@/assets/images/xiaxian.png'),
                 },
-                placeChartSize: {
-                    width: '1px',
-                    height: '1px'
+                chargeSummaryData:[{
+                    value: 0,
+                    name: '电子支付'
                 },
-                rollstyle: '',
-                rollstyle2:'',
-                dataaaa: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    {
+                        value: 0,
+                        name: '现金支付'
+                    },
+                    {
+                        value: 0,
+                        name: '优惠减免'
+                    }], //今日收费汇总数据
+                otherData:{
+                    monthTotal:0, //月卡
+                    parkEmpty:0,    //空车位
+                    receiveTotal:0,//总收入
+                    ticketCount:0,//优惠券
+                    vistorCount:0,//访客
+                },
+                topParkChartData:[],//今日收费车场排行
                 parkState: [],//车场在线状态
                 inPartData: [],//入场车辆轮播
                 outPartData: [],//出场车辆轮播
-                berthData: {},//泊位使用率
-                rankData: {},//收费排行
+                berthData: [],//泊位使用率
+                rankData: [],//收费排行
                 exceptionData: {},//异常列表
                 exceptionDataPole: [],//异常列表抬杆轮播
                 incomePie: [],//今日收费构成饼图
-                responseData: {},//请求接口返回的数据
-                response: '{"totalIncome":{"elePay":123,"cashPay":456},"totalIncomPie":[{"value":335,"name":"电子"},{"value":310,"name":"现金"},{"value":144,"name":"减免"}],"parkState":[{"parkName":"车场1","state":0},{"parkName":"车场1","state":1},{"parkName":"车场2","state":1},{"parkName":"车场3","state":1},{"parkName":"车场4","state":1},{"parkName":"车场5","state":0},{"parkName":"车场6","state":0},{"parkName":"车场7","state":1},{"parkName":"车场8","state":1},{"parkName":"车场9","state":1}],"inPartData":[{"parkName":"上地车场","time":"10:12","cartId":"京N1qw11"},{"parkName":"上地车场","time":"10:12","cartId":"京N1zx1"},{"parkName":"上地车场","time":"10:12","cartId":"京N15411"},{"parkName":"上地车场","time":"10:12","cartId":"京N111bv"},{"parkName":"上地车场","time":"10:12","cartId":"京N1te11"},{"parkName":"上地车场","time":"10:12","cartId":"京N1qw11"}],"outPartData":[{"parkName":"上地车场","time":"10:12","cartId":"京N1qw11"},{"parkName":"上地车场","time":"10:12","cartId":"京N1zx1"},{"parkName":"上地车场","time":"10:12","cartId":"京N15411"},{"parkName":"上地车场","time":"10:12","cartId":"京N111bv"},{"parkName":"上地车场","time":"10:12","cartId":"京N1te11"},{"parkName":"上地车场","time":"10:12","cartId":"京N1qw11"}],"berthPercentData":[{"time":"17","percent":3},{"time":"18","percent":30},{"time":"19","percent":23},{"time":"20","percent":13}],"parkRank":[{"parkName":"车场1","total":"4324"},{"parkName":"车场2","total":"3999"},{"parkName":"车场3","total":"3456"},{"parkName":"车场4","total":"2345"},{"parkName":"车场5","total":"876"}],"inOutCarsCount":{"inPark":168,"outCars":543,"inCars":893},"exceptionEvents":[{"exception":"异常1","count":234},{"exception":"异常2","count":345},{"exception":"异常3","count":456},{"exception":"异常4","count":567},{"exception":"异常5","count":678}]}'
-            };
+                inOutCarsCount:{
+                    inCars:0, //今日入场车辆
+                    inPark:0,//今日在场车辆
+                    outCars:0,//今日离场车辆
+                    maxVal:0 //最大值
+                },//进出车辆统计
+                currentHeight:'200px',
+                dataInteval:null, //定时器
+            }
+        },
+        mounted () {
+            let that = this;
+            that.getDatas();
+            this.dataInteval = setInterval(that.getDatas, 60000);
+        },
+        updated () {
+
+
+
+        },
+        computed: {
+
+
+        },
+        activated(){
+            let that = this;
+            that.getDatas();
+            clearInterval(this.dataInteval);
+            this.dataInteval = setInterval(that.getDatas, 60000);
+        },
+        deactivated(){
+            clearInterval(this.dataInteval);
+        },
+        computed: {
+            classOption () {
+                return {
+                    step:0.5,
+                    direction: 1
+                }
+            }
         },
         methods: {
-            getPlaceData(data) {
-                //将返回的泊位数据组装给echarts
-                let rData = {};
-                rData.value = [];
-                rData.name = [];
-                for (var i = 0; i < data.length; i++) {
-                    rData.name.push(data[i].time);
-                    rData.value.push(data[i].percent);
-                }
-                this.berthData = rData;
-            },
-            getRank(data) {
-                //将返回的收费车场排行组装给echarts
-                let rData = {};
-                rData.value = [];
-                rData.name = [];
-                for (var i = data.length - 1; i >= 0; i--) {
-                    rData.name.push(data[i].parkName);
-                    rData.value.push(data[i].total);
-                }
-                this.rankData = rData;
-            },
-            getException(data) {
-                //将返回的异常事件组装给echarts
-                let rData = {};
-                rData.value = [];
-                rData.name = [];
-                for (var i = 0; i < data.length; i++) {
-                    rData.name.push(data[i].parkName);
-                    rData.value.push(data[i].total);
-                }
-                this.exceptionData = rData;
-            },
-            initChart: function () {
-                //收费车场排行
-                // this.topParkChart = echarts.init(document.getElementById('topParkChart'));
-                // // this.eventChart = echarts.init(document.getElementById('eventChart'));
-                // this.todayMoneyChart = echarts.init(document.getElementById('todayMoneyChart'));
-                // this.placeChart = echarts.init(document.getElementById('placeChart'));
-
-                if (this.dataInitCount <= 0) {
-                    this.topParkChart = echarts.init(document.getElementById('topParkChart'));
-                    // this.eventChart = echarts.init(document.getElementById('eventChart'));
-                    this.todayMoneyChart = echarts.init(document.getElementById('todayMoneyChart'));
-                    this.placeChart = echarts.init(document.getElementById('placeChart'));
-                    // console.log('第一次初始化')
-
-                } else {
-                    // console.log('后面不在初始化')
-                }
-                this.placeChart.setOption({
-                    tooltip: {
-                        trigger: 'axis',
-                        formatter: '{b}时:{c}%'
-                    },
-                    legend: {
-                        data: ['使用率%']
-                    },
-                    grid: {
-                        containLabel: true,
-                        x1: 50,
-                        x2: 50,
-                        y1: 10,
-                        y2: 35
-                    },
-                    xAxis: {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: this.berthData.name,
-                        // data: [1,2,3,4,5,6,7,8,9,10],
-                        axisLabel: {
-                            show: true,
-                            interval: 0,
-                            formatter: '{value}\n时'
-                        }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        axisLabel: {
-                            show: true,
-                            interval: 'auto',
-                            formatter: '{value}'
-                        },
-                        show: true
-                    },
-                    series: [{
-                        name: '使用率%',
-                        type: 'line',
-                        stack: '总量',
-                        data: this.berthData.value,
-                        // data: [1,2,3,4,5,6,7,8,9,10],
-                        itemStyle: {
-                            normal: {
-                                label: {
-                                    show: true,
-                                    formatter: '{c}'
-                                }
-                            }
-                        }
-                    }]
-                });
-
-
-                this.todayMoneyChart.setOption({
-                    title: {
-                        show: false
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: '{a} <br/>{b} : {c} ({d}%)'
-                    },
-                    legend: {
-                        show: false
-                    },
-                    series: [
-                        {
-                            name: '收费占比',
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '50%'],
-                            data: this.incomePie,
-                            itemStyle: {
-                                emphasis: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                }
-                            }
-                        }
-                    ]
-                });
-                // this.eventChart.setOption({
-                //     title: {
-                //         show: false
-                //     },
-                //     tooltip: {
-                //         trigger: 'axis',
-                //         axisPointer: {
-                //             type: 'shadow'
-                //         }
-                //     },
-                //     grid: {
-                //         show: false,
-                //         left: '3%',
-                //         right: '4%',
-                //         bottom: '3%',
-                //         containLabel: true
-                //     },
-                //     xAxis: {
-                //         show: false,
-                //         type: 'value',
-                //         axisLine: {
-                //             show: false
-                //         },
-                //         boundaryGap: [0, 0.01]
-                //     },
-                //     yAxis: {
-                //         axisLine: {
-                //             show: false
-                //         },
-                //         position: 'right',
-                //         type: 'category',
-                //         data: this.exceptionData.name
-                //     },
-                //     series: [
-                //         {
-                //             // name: '2011年',
-                //             type: 'bar',
-                //             label: {
-                //                 normal: {
-                //                     show: true,
-                //                     position: 'inside'
-                //                 }
-                //             },
-                //             data: this.exceptionData.value
-                //         }
-                //     ]
-                // });
-                this.topParkChart.setOption({
-                    title: {
-                        show: false
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'shadow'
-                        }
-                    },
-                    grid: {
-                        show: false,
-                        left: '3%',
-                        right: '4%',
-                        bottom: '2%',
-                        top: '4%',
-                        containLabel: true
-                    },
-                    xAxis: {
-                        show: false,
-                        type: 'value',
-                        axisLine: {
-                            show: false
-                        },
-                        // boundaryGap: [0, 0.01],
-                        axisLabel: {
-
-                        }
-                    },
-                    yAxis: {
-                        axisLine: {
-                            show: false
-                        },
-                        axisLabel:{
-                            formatter: function (value) {
-                                if(value.length >= 5){
-                                    return value.substring(0,5)
-                                }else{
-                                    return value;
-                                }
-                            }
-                        },
-                        position: 'right',
-                        type: 'category',
-                        data: this.rankData.name
-                    },
-                    series: [
-                        {
-                            // name: '2011年',
-                            type: 'bar',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'inside'
-                                }
-                            },
-                            data: this.rankData.value
-                        }
-                    ]
-                });
-            },
-
-            calIsScrollExec(data) {
-                clearInterval(this.timer)
-              let height = 0;
-              if(data.length>0){
-                height = data.length*48;
-              }
-              this.scrollBoxExceptionHeight =  height;
-              let scrollBoxHeight = parseInt(window.getComputedStyle(this.$refs.scrollBoxException).height.replace('px',''))-58;
-              console.log(scrollBoxHeight+' '+height)
-                if(scrollBoxHeight<this.scrollBoxExceptionHeight){
-                  this.scrollBoxException =  true;
-                }
-            },
-
-            calIsScroll(data,type) {
-              let scrollBoxHeight = parseInt(window.getComputedStyle(this.$refs.scrollBox).height.replace('px',''))-58;
-              // scrollBoxInCar:true,
-              // scrollBoxOutCar:true,
-              // scrollBoxOutCarHeight: 240,
-              // scrollBoxInCarHeight: 0,
-              let height = 0;
-              if(data.length>0){
-                height = data.length*48;
-              }
-              if(type == 1){
-                this.scrollBoxInCarHeight =  height;
-                if(scrollBoxHeight<this.scrollBoxInCarHeight){
-                  this.scrollBoxInCar =  true;
-                }
-              }
-              else if(type == 2){
-                this.scrollBoxOutCarHeight =  height;
-                if(scrollBoxHeight<this.scrollBoxOutCarHeight){
-
-                  this.scrollBoxOutCar =  true;
-                }
-              }
-
-            },
             getDatas() {
-                let _this = this;
+                let that = this;
                 //增加随机数
                 var tmp = Math.random().toString();
                 axios.all([axios.get(path + '/getparkinfo/bygroupid?ran='+tmp+'&groupid=' + sessionStorage.getItem('groupid'))])
-                // axios.all([axios.get('http://192.168.136.1:8080/cloud/getparkinfo/bygroupid?groupid=' + sessionStorage.getItem('groupid'))])
                     .then(axios.spread(function (ret) {
-                        console.log(ret);
+                        // console.log('获取到的数据',ret)
+                        if(ret.status == 200){
+                            let parkAllData = ret.data;
 
-                        // if(_this.dataInitCount>0&&_this.dataInitCount<2){
-                        // _this.responseData = JSON.parse(_this.response);
-                        // }else{
-                        _this.responseData = ret.data;
-                        // }
-                        // _this.dataInitCount++;
-                        console.log(_this.responseData);
-                        let tempData = _this.responseData.inPartData;
-                        if(JSON.stringify(tempData) != JSON.stringify(_this.inPartData)){
-                          _this.inPartData = _this.responseData.inPartData;
-                          _this.calIsScroll(_this.inPartData,1);
+                            /*
+                            * 总收入、空车位、月卡会员、优惠券发放、访客未处理人
+                            * */
+
+                            // let otherData = parkAllData.otherData;
+                            // that.otherData = otherData;
+
+                            let totalIncomPie= parkAllData.totalIncomPie; //今日收费汇总
+                            that.incomePie = totalIncomPie; //今日收费汇总
+                            let parkState = parkAllData.parkState; //车场状态
+                            that.parkState = parkState; //车场状态
+                            /*
+                            * parkRank 今日收费排行
+                            * 信息组装成 echarts 格式数据
+                            * rankData
+                            * */
+                            let rankData = parkAllData.parkRank; //今日收费排行
+                            that.rankData = that.renkDataFormat(rankData)
+
+                            /*
+                            * 进出车辆统计
+                            * 获取最大值 maxValue
+                            *数据重组，获取最大值
+                            * */
+                            let inOutCarsCount = parkAllData.inOutCarsCount;
+                            that.inOutCarsCount = that.maxValFormat(inOutCarsCount)
+
+                            /*
+                            * 入场车辆信息
+                            * inPartData
+                            * */
+                            let inPartData = parkAllData.inPartData
+                            that.inPartData = inPartData;
+
+                            /*
+                            *出场车辆信息
+                            * outPartData
+                            * */
+                            let outPartData = parkAllData.outPartData
+                            that.outPartData = outPartData;
+
+                            /*
+                            *异常抬杆列表
+                            * exceptionDataPole
+                            * */
+                            let exceptionDataPole = parkAllData.exceptionEvents
+                            that.exceptionDataPole = exceptionDataPole;
+
+                            /*
+                            * 泊位使用率
+                            * berthPercentData
+                            * */
+                            let berthPercentData = parkAllData.berthPercentData;
+                            that.berthData = that.berthDataFormat(berthPercentData)
                         }
-                        tempData = _this.responseData.outPartData;
-                        if(JSON.stringify(tempData) != JSON.stringify(_this.outPartData)){
-                            _this.outPartData = _this.responseData.outPartData;
-                            _this.calIsScroll(_this.outPartData,2);
-                        }
-                        //异常抬杆
-                        tempData = _this.responseData.exceptionEvents;
-                        if(JSON.stringify(tempData) != JSON.stringify(_this.exceptionDataPole)){
-                          _this.exceptionDataPole = _this.responseData.exceptionEvents;
-                          _this.calIsScrollExec(_this.exceptionDataPole);
-                        }
-
-                        _this.parkState = _this.responseData.parkState;
-
-                        // _this.exceptionDataPole = _this.responseData.outPartData;
-                        _this.getPlaceData(_this.responseData.berthPercentData);
-                        _this.getRank(_this.responseData.parkRank);
-                        // _this.getException(_this.responseData.exceptionEvents);
-                        _this.incomePie = _this.responseData.totalIncomPie;
-                        //需要数据初始化以后再初始化图表。否则会绘制失败
-                        _this.initChart();
-                        //数字滚动的部分
-                        _this.$refs['roll_cashpay'].init(_this.responseData.totalIncome.cashPay);
-                        _this.$refs['roll_elepay'].init(_this.responseData.totalIncome.elePay);
-                        _this.$refs['roll_reduce'].init(_this.responseData.totalIncome.freePay);
-                        _this.$refs['roll_incar'].init(_this.responseData.inOutCarsCount.inCars);
-                        _this.$refs['roll_outcar'].init(_this.responseData.inOutCarsCount.outCars);
-                        _this.$refs['roll_inpark'].init(_this.responseData.inOutCarsCount.inPark);
-
-
-                        if (_this.dataInitCount > 0) {
-                            return;
-                        }
-                        _this.dataInitCount++;
-                        _this.transInteval = setInterval(_this.scroll, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
-                        _this.transInteval2 = setInterval(_this.scroll2, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
-                        _this.transInteval3 = setInterval(_this.scroll3, 1500); // 在钩子函数中调用我在method 里面写的scroll()方法，注意此处不要忘记加this,我在这个位置掉了好几次坑，都是因为忘记写this。
-
                     }));
-
+            },
+            //格式化泊位使用率数据
+            berthDataFormat(berthData){
+                let rData = [];
+                if(berthData.length > 0){
+                    rData.value = [];
+                    rData.name = [];
+                    for (var i = 0; i < berthData.length; i++) {
+                        rData.name.push(berthData[i].time);
+                        rData.value.push(((berthData[i].percent)));
+                    }
+                }
+                return rData;
+            },
+            //格式化今日收费排行数据
+            renkDataFormat(rankData){
+                let rData = [];
+                if(rankData.length>0){
+                    rData.value = [];
+                    rData.name = [];
+                    for (var i = rankData.length - 1; i >= 0; i--) {
+                        rData.name.push(rankData[i].parkName);
+                        rData.value.push(rankData[i].total);
+                    }
+                }
+                return rData;
+            },
+            //格式化进出车辆统计数据
+            maxValFormat(data){
+                let arr = [data.inCars,data.inPark,data.outCars];
+                arr.sort(function (a,b) {
+                    return a - b;
+                })
+                let maxVal = 10;
+                if(arr[arr.length - 1] == 0){
+                    maxVal = 10;
+                }else{
+                    maxVal =Math.ceil((arr[arr.length - 1])*(1.2));
+                }
+                let obj = {
+                    inCars:data.inCars,
+                    inPark:data.inPark,
+                    outCars:data.outCars,
+                    maxVal:maxVal
+                }
+                // console.log('data-----',obj)
+                return obj
+            },
+            //跳转到数据大屏
+            getDataScreen(){
+                let routeData = this.$router.resolve({
+                    name: "数据大屏",
+                });
+                window.open(routeData.href, '_blank');
             }
-        },
-        mounted() {
-
-        },
-        activated() {
-
-            let that = this;
-            let widthCssstr = window.getComputedStyle(that.$refs.echartBox).width.replace('px', '');
-            ;
-            let intwidth = parseInt(widthCssstr);
-            that.topParkChartSize.width = (intwidth - 20) + 'px';
-            that.topParkChartSize2.width = (intwidth - 20) + 'px';
-            that.topParkChartSize.height = (intwidth * 0.75) + 'px';
-            that.topParkChartSize2.height = (intwidth - 45) + 'px';
-
-            let widthCss = window.getComputedStyle(that.$refs.echartBox).width;
-            let posCss = window.getComputedStyle(that.$refs.posuse).width.replace('px', '');
-            let intCss = parseInt(posCss);
-            // that.topParkChartSize.height = that.topParkChartSize.width = widthCss;
-            console.log(widthCss);
-            that.placeChartSize.height = ((intCss / 2) - 20) + 'px';
-            that.placeChartSize.width = intCss + 'px';
-
-            // <div style="flex: 1;padding: 80px 10px 10px 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;align-items: center;">
-
-            if (common.gww() < 1400) {
-                this.rollstyle2 = 'flex: 3;padding: 6px 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;flex-align:center;justify-content: center;';
-            } else {
-                this.rollstyle2 = 'flex: 3;padding: 0 10px 10px 10px;overflow-y: auto;display: flex;align-items: center;flex-align:center;justify-content: center;';
-
-            }
-            this.rollstyle = 'flex: 1;padding: 8px; 10px 0 10px;display: flex;flex-direction: row;justify-content: space-around;overflow: hidden;';
-            // }
-            window.onresize = () => {
-                // var widthCss = window.getComputedStyle(this.$refs.echartBox).width;
-                // this.topParkChartSize.height = this.topParkChartSize.width = widthCss;
-                let widthCssstr = window.getComputedStyle(this.$refs.echartBox).width.replace('px', '');
-                ;
-                let intwidth = parseInt(widthCssstr);
-                this.topParkChartSize.width = (intwidth - 20) + 'px';
-                this.topParkChartSize2.width = (intwidth - 20) + 'px';
-                this.topParkChartSize.height = (intwidth * 0.75) + 'px';
-                this.topParkChartSize2.height = (intwidth - 45) + 'px';
-
-                var posCss = window.getComputedStyle(that.$refs.posuse).width.replace('px', '');
-                var intCss = parseInt(posCss);
-
-                that.placeChartSize.height = ((intCss / 2) - 20) + 'px';
-
-                that.placeChartSize.width = intCss + 'px';
-
-                this.topParkChart.resize();
-                this.todayMoneyChart.resize();
-                // this.eventChart.resize();
-                this.placeChart.resize();
-            };
-
-            this.dataInitCount = 0;
-            that.getDatas();
-            this.dataInteval = setInterval(that.getDatas, 60000);
-
-
-        },
-        computed: {},
-        watch: {},
-        created() {
-            this.containStyle = 'height: ' + (common.gwh() - 60) + 'px;overflow-y: auto;';
-
-        },
-        deactivated() {
         }
     };
-
 </script>
 
 <style lang="scss" src="../../styles/Home.scss" scoped>
+
+
 
 </style>
