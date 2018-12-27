@@ -199,9 +199,9 @@
                         <el-menu-item index="/systemManage_Logs" v-if="this.showParkItem.systemManage_Logs">系统日志</el-menu-item>
 
                         <el-submenu index="/system_addedService" v-if="this.showParkItem.systemManage_AddedService">
-                            <template slot="title"><span class="menuitem" style="font-size: 14px;">增值服务</span>
-                            </template>
+                            <template slot="title"><span class="menuitem" style="font-size: 14px;">增值服务</span></template>
                             <el-menu-item index="/systemManage_AddedService_Sms" v-if="this.showParkItem.systemManage_AddedService_Sms">短信服务</el-menu-item>
+                            <el-menu-item index="/systemManage_AddedService_Screen" v-if="this.showParkItem.systemManage_AddedService_Sms">数据大屏</el-menu-item>
                         </el-submenu>
 
                     </el-submenu>

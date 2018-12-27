@@ -284,6 +284,12 @@
         data(){
             let that = this;
             return {
+                dialogArr:[],
+                bigScreen:{
+                    state:1,
+                    warn:3
+                },
+                renewalImg:require('@/assets/images/renewal.png'),
                 headerDate:'',
                 //数据组
                 otherData:{
@@ -449,6 +455,7 @@
             that.getDatas();
             that.getLangDate();
             this.dataInteval = setInterval(that.getDatas, 60000);
+            this.openTip(this)
         },
         computed: {
             classOption () {
@@ -463,6 +470,7 @@
             that.getDatas();
             clearInterval(this.dataInteval);
             this.dataInteval = setInterval(that.getDatas, 60000);
+
         },
         deactivated(){
             clearInterval(this.dataInteval);
@@ -516,55 +524,7 @@
                             }
                             let parkState = parkAllData.parkState; //车场状态
                             that.parkState = parkState; //车场状态
-                            //格式化在线设备数据格式化
-                            that.parkStateOne = [];
-                            that.parkStateTwo = [];
-                            if(parkState.length !=0 && parkState.length<=3){
-                                for(let item in parkState){
-                                    that.parkStateOne.push(parkState[item])
-                                }
-                                if(parkState.length != 3){
-                                    let con = 3 -parkState.length
-                                    for(let i=0;i<con;i++){
-                                        that.parkStateOne.push({
-                                            state:'-1',
-                                            localid:''
-                                        })
-                                    }
-                                }
-                                for(let item in [4,5,6]){
-                                    that.parkStateTwo.push({
-                                        state:'-1',
-                                        localid:''
-                                    })
-                                }
-                            }else if(parkState.length > 3){
-                                var len = parkState.length;
-                                for(let i=0;i<3;i++){
-                                    that.parkStateOne.push(parkState[item])
-                                }
-                                for(let i=3;i<len;i++){
-                                    that.parkStateTwo.push(parkState[item])
-                                }
-                                for(let i=0;i<6-len;i++){
-                                    that.parkStateTwo.push({
-                                        state:'-1',
-                                        localid:''
-                                    })
-                                }
-
-                            }else{
-                                for(let i=0;i<3;i++){
-                                    that.parkStateOne.push({
-                                        state:'-1',
-                                        localid:''
-                                    })
-                                    that.parkStateTwo.push({
-                                        state:'-1',
-                                        localid:''
-                                    })
-                                }
-                            }
+                            that.parkStateFormat(parkState,that);
 
                             /*
                             * parkRank 今日收费排行
@@ -617,6 +577,63 @@
                 that.incomePie.cash = +row[1].value;
                 that.incomePie.reduction = +row[2].value;
                 that.incomePie.all =  parseFloat(row[0].value) + parseFloat(row[1].value)+parseFloat(row[2].value)
+            },
+            //格式化在线设备
+            parkStateFormat(parkState,that){
+                //格式化在线设备数据格式化
+                that.parkStateOne = [];
+                that.parkStateTwo = [];
+                if(parkState.length !=0 && parkState.length<=3){
+                    for(let item in parkState){
+                        that.parkStateOne.push(parkState[item])
+                    }
+                    if(parkState.length != 3){
+                        let con = 3 -parkState.length
+                        for(let i=0;i<con;i++){
+                            that.parkStateOne.push({
+                                state:'-1',
+                                localid:''
+                            })
+                        }
+                    }
+                    for(let item in [4,5,6]){
+                        that.parkStateTwo.push({
+                            state:'-1',
+                            localid:''
+                        })
+                    }
+                }else if(parkState.length > 3){
+                    var len = parkState.length;
+                    for(let i=0;i<3;i++){
+                        that.parkStateOne.push(parkState[i])
+                    }
+                    if(len <6){
+                        for(let i=3;i<len;i++){
+                            that.parkStateTwo.push(parkState[i])
+                        }
+                        for(let i=0;i<6-len;i++){
+                            that.parkStateTwo.push({
+                                state:'-1',
+                                localid:''
+                            })
+                        }
+                    }else if(len >=6){
+                        for(let i=3;i<6;i++){
+                            that.parkStateTwo.push(parkState[i])
+                        }
+                    }
+                }else{
+                    for(let i=0;i<3;i++){
+                        that.parkStateOne.push({
+                            state:'-1',
+                            localid:''
+                        })
+                        that.parkStateTwo.push({
+                            state:'-1',
+                            localid:''
+                        })
+                    }
+                }
             },
             //格式化泊位使用率数据
             berthDataFormat(berthData){
@@ -678,12 +695,40 @@
                 let sumCount = this.prefixInteger(receiveTotal_num,8,'-');
                 return sumCount;
             },
-            //跳转到数据大屏
-            getDataScreen(){
-                let routeData = this.$router.resolve({
-                    name: "数据大屏",
-                });
-                window.open(routeData.href, '_blank');
+            openTip(that){
+                const h = this.$createElement;
+                let str = '该服务还有'+that.bigScreen.warn+'天到期,请及时续费。';
+                that.dialogArr=[];
+                that.dialogArr.push(
+                    that.$notify({
+                        title: '续费提醒',
+                        duration:0,
+                        position: 'bottom-right',
+                        dangerouslyUseHTMLString: true,
+                        message: h('div', {
+                            style:{
+                                textAlign:'center',
+                            }
+                        }, [
+                            h('p', {
+                                style:{
+                                    height:'30px',
+                                    lineHeight:'30px',
+                                    fontSize:'18px'
+                                }
+                            }, str),
+                            h('div', {
+                                class:'screen-btn',
+                                on:{
+                                    click:this.clickFn
+                                }
+                            }, "我要去续费")
+                        ]),
+                    })
+                )
+            },
+            clickFn(){
+                alert('去续费')
             }
         }
     };
