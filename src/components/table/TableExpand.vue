@@ -203,6 +203,26 @@
                 </el-col>
             </el-row>
         </div>
+        <div v-if="nameType == 'memner-monthvip'">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <div>
+                    <el-form-item label="单双号限行">
+                        <span>{{common.nameformat(expandData,pname,'limit_day_type')}}</span>
+                    </el-form-item>
+                    <el-form-item label="车型类型">
+                        <span>{{common.nameformat(expandData, formatCollectors, 'car_type_id')}}</span>
+                    </el-form-item>
+                </div>
+                <div>
+                    <el-form-item label="联系电话">
+                        <span>{{expandData.mobile}}</span>
+                    </el-form-item>
+                    <el-form-item label="备注">
+                        <span>{{expandData.remark}}</span>
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
     </div>
 </template>
 
