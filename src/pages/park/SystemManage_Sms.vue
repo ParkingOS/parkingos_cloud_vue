@@ -66,6 +66,7 @@
                             <el-select placeholder="使用模块" v-model="searchFormData2.type" class="shop-custom-input shop-custom-suffix" style="width: 100px">
                                 <el-option label="全部" value=""></el-option>
                                 <el-option label="月卡" :value="1"></el-option>
+                                <el-option label="访客" :value="2"></el-option>
                             </el-select>
                         </el-form-item>
                         <!--<el-form-item >-->
@@ -299,8 +300,14 @@
                             align: 'center',
                             columnType:'render',
                             render: (h, params) => {
+                                let str = params.row.money;
+                                if(str==undefined){
+                                    str="";
+                                }else{
+                                    str= params.row.money+' 元'
+                                }
                                 return h('div', [
-                                    h('span', params.row.money+' 元')
+                                    h('span', str)
                                 ]);
                             }
                         }]
@@ -378,6 +385,8 @@
                                 let str = '';
                                 if(params.row.type == 1){
                                     str = '月卡'
+                                }else if(params.row.type == 2){
+                                    str = '访客'
                                 }
                                 return h('div', [
                                     h('span', str)
