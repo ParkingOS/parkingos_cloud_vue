@@ -4,6 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">访客管理<span style="margin: 2px">-</span>访客人员管理</p>
                 <div class="float-right">
+                    <el-button type="text" icon="el-icon-message" @click="setSMS" v-if="showSetSMS">短信购买</el-button>
                     <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -169,6 +170,50 @@
             </footer>
         </el-dialog>
 
+
+
+<!--短信通知设置-->
+        <el-dialog
+                width="600px"
+                :show-close="false"
+                :visible.sync="setSmSVible"
+                custom-class="custom-dialog custom-dialog-sms"
+                >
+            <header class="dialog-header" slot="title">
+                短信购买<i class="el-icon-close dialog-header-iconfont" @click="setSmSVible = false"></i>
+            </header>
+            <div class="sms-header">
+                <p>短信剩余<span class="sms-count"><countTo :startVal='0' :endVal='smsData.message_count' :duration='1000'></countTo></span>条</p>
+                <div class="renewal-btn" @click="goShopSms"><img :src="renewalImg" class="renewalImg">去续费</div>
+            </div>
+            <p class="custom_tips">提示:当车场剩余短信为0条时,访客将无法获取对应业主的手机号验证码,导致无法申请访问,请及时进行续费!</p>
+            <footer slot="footer" class="dialog-footer">
+                <el-button @click="setSmSVible = false" class="custom-btns-style">确 定</el-button>
+            </footer>
+        </el-dialog>
+
+
+
+        <el-dialog
+                width="600px"
+                :show-close="false"
+                :visible.sync="Tips"
+                custom-class="custom-dialog custom-dialog-sms"
+                >
+            <header class="dialog-header" slot="title">
+                提示<i class="el-icon-close dialog-header-iconfont" @click="Tips = false"></i>
+            </header>
+            <div class="custom_tips">
+
+                <p>从2018年12月28日开始,访客申请发送短信验证码功能收取短信费用,车场需及时购买短信服务,保证该功能正常使用!</p>
+                <P>短信购买方式:登录页面前往车场新版,在系统管理的增值服务中购买!</p>
+
+            </div>
+            <footer slot="footer" class="dialog-footer">
+                <el-button @click="Tips = false" class="custom-btns-style">确 定</el-button>
+            </footer>
+        </el-dialog>
+
     </section>
 </template>
 
@@ -179,13 +224,25 @@
     import {AUTH_ID} from '../../common/js/const'
     // import CommonTable from '../../components/CommonTable'
     import axios from 'axios'
+    import ElRadioButton from 'element-ui/packages/radio/src/radio-button';
     import TabPane from '../../components/table/TabPane';
+    import countTo from 'vue-count-to';
     export default {
         components: {
-            TabPane
+            ElRadioButton,
+            TabPane,
+            countTo
         },
         data() {
             return {
+                Tips:false,
+                resetloading: false,
+                renewalImg:require('../../assets/images/renewal.png'),
+                smsData:{
+                    message_count:0,
+                },
+                setSmSVible:false,
+                showSetSMS:true,
                 searchForm:{},
                 qrurl:'',
                 downloadQrUrl:'',
@@ -209,6 +266,7 @@
                 queryapi: '/visitor/query',
                 exportapi: '/visitor/exportExcel',
                 getVisitorSetApi: '/visitor/getvisitorset',
+                getsms:'/vip/getmessageset',
                 btswidth: '100',
                 fieldsstr: 'id__car_number__mobile__create_time__begin_time__end_time__remark__state',
                 tableitems: [
@@ -485,6 +543,37 @@
                 this.visitorSetForm =common.clone(this.tempSetForm);
                 this.visitorSetModel = false;
             },
+
+            goShopSms(){
+                this.setSmSVible = false;
+                sessionStorage.setItem('highlightindex', '/systemManage_AddedService_Sms');
+                this.$router.push({path: '/systemManage_AddedService_Sms'});
+
+            },
+            setSMS(){
+                let _this = this;
+                axios.get(path+this.getsms, {
+                    params: { 'comid': sessionStorage.getItem('comid') }
+                }).then(function (response) {
+                    if(response.status == 200){
+                        _this.setSmSVible = true;
+                        _this.smsData = response.data;
+                    }else{
+                        _this.$message({
+                            message: '获取失败，请稍后重试',
+                            type: 'error',
+                            duration: 600
+                        });
+                    }
+                }).catch(function (error) {
+                    _this.$message({
+                        message: '获取失败，请稍后重试',
+                        type: 'error',
+                        duration: 600
+                    });
+                });
+            },
+
             confirm:function () {
                 var vm = this;
                 let aform = common.generateForm(vm.startForm);
@@ -876,7 +965,7 @@
             this.imgSize = common.gww()/4;
             this.getVisitorSet({});
             let _this = this;
-
+            _this.Tips=true;
         },
         watch: {
 
@@ -899,7 +988,7 @@
 
 </script>
 
-<style>
+<style lang="scss" scoped>
     .gutter {
         display: none
     }
@@ -909,6 +998,50 @@
     .inp-margin-buttom-self{
         margin-bottom: 10px!important;
         text-align:right
+    }
+
+    .sms-header{
+        position: relative;
+        height:55px;
+        background:rgba(216,216,216,0.273);
+        border-radius:4px;
+        line-height: 55px;
+        padding: 0 29px;
+        margin-bottom: 40px;
+        p{
+            font-size: 16px;
+            color: #363636;
+            .sms-count{
+                margin-left: 25px;
+                margin-right: 5px;
+                font-size: 22px;
+                color: #3C75CF;
+            }
+        }
+        .renewal-btn{
+            position: absolute;
+            top:50%;
+            right: 30px;
+            transform: translateY(-50%);
+            width:97px;
+            height:31px;
+            line-height: 31px;
+            text-align: center;
+            background:linear-gradient(151deg,rgba(250,217,97,1) 0%,rgba(247,107,28,1) 100%);
+            border-radius:23px 23px 23px 23px;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+            .renewalImg{
+                vertical-align: middle;
+                margin-right: 3px;
+            }
+        }
+    }
+
+    .custom_tips{
+         font-size: 16px;
+         line-height: 45px;
     }
 </style>
 
