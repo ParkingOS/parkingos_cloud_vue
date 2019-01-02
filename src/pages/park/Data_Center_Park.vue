@@ -289,27 +289,36 @@
         </div>
         <el-dialog
                 width="450px"
-                center
                 @close="closeFn"
-                title="数据大屏"
-                custom-class="custom-shop-dialog"
+                :show-close="false"
+                custom-class="custom-dialog custom-shop-dialog"
                 :visible.sync="visibleScreenDialog">
+            <header class="dialog-header" slot="title">
+                数据大屏<i class="el-icon-close dialog-header-iconfont" @click="visibleScreenDialog = false"></i>
+            </header>
             <div class="screen-wrapper" v-if="bigScreen.state == 0">
-                <img :src="baseImg.screenClass" class="screen-img">
+                <img :src="baseImg.screenClass" class="screen-img" style="margin-bottom: 0">
                 <div class="screen-body">
-                    <p class="screen-title">大屏简介</p>
+                    <p class="screen-title" style="">大屏简介</p>
                     <div class="screen-content">
-                        大屏数据高频采集，将车场各项数据可视化，采用炫酷的动态图形展示，增强数据的呈现效果，方便管理方及时了解车位使用情况、收费趋势等信息。
+                        智能停车场实时数据大屏，数据高频采集，将车场各项数据可视化，采用炫酷的动态图形展示，增强数据的呈现效果，方便管理方及时了解车位使用情况、收费趋势等信息。
                     </div>
                 </div>
             </div>
             <div class="screen-wrapper"  v-if="bigScreen.state == 2">
-                <div class="screen-tip">该服务已过期 <p>续费后才能重新使用</p></div>
-
+                <img :src="baseImg.screenClass" class="screen-img" style="margin-bottom: 0">
+                <div class="screen-body">
+                    <div class="screen-content">
+                        该服务已过期<br/>请续费后才能重新使用
+                    </div>
+                </div>
+            </div>
+            <div class="screen-wrapper"  v-if="bigScreen.state == 3">
+                <div class="screen-tip">您购买的大屏服务于{{bigScreen.begin_time}}生效，请耐心等待或继续购买！</div>
             </div>
             <div class="shop-dialog-footer">
-                <div class="screen-btn" v-if="bigScreen.state == 0"><img :src="baseImg.renewalImg" class="screen-img">我要去购买</div>
-                <div class="screen-btn" v-if="bigScreen.state == 2"><img :src="baseImg.renewalImg" class="screen-img">我要去续费</div>
+                <div class="screen-btn" v-if="bigScreen.state == 0" @click="goShopScreen"><img :src="baseImg.renewalImg" class="screen-img">我要去购买</div>
+                <div class="screen-btn" v-if="bigScreen.state == 2 || bigScreen.state == 3" @click="goShopScreen"><img :src="baseImg.renewalImg" class="screen-img">我要去续费</div>
             </div>
         </el-dialog>
     </section>
@@ -331,7 +340,8 @@
                 visibleScreenDialog:false,
                 bigScreen:{
                     state:1,
-                    warn:0
+                    warn:0,
+                    begin_time:''
                 },
                 baseImg:{
                     'ruchang':require('@/assets/images/ruchang.png'),
@@ -527,18 +537,40 @@
                 // console.log('data-----',obj)
                 return obj
             },
+            //去购买，续费
+            goShopScreen(){
+                this.visibleScreenDialog = false;
+                sessionStorage.setItem('highlightindex', '/systemManage_AddedService_Screen');
+                this.$router.push({path: '/systemManage_AddedService_Screen'});
+
+            },
             //跳转到数据大屏
             getDataScreen(){
-                if(this.bigScreen.state == 0 || this.bigScreen.state == 2){
-                    this.visibleScreenDialog = true;
-                }else{
-                    let routeData = this.$router.resolve({
-                        name: "数据大屏",
-                    });
-                    this.$store.commit('setScreenPower',true);
-                    window.open(routeData.href, '_blank');
+                axios.get(path+'/bigscreen/getstate',{params:{
+                        'timestamp':new Date().getTime(),
+                    'comid':sessionStorage.getItem('comid')
+                    }}).then((response)=>{
+                        // console.log('-----',response)
+                    if(response.status == 200){
+                            this.bigScreen = response.data;
+                            if(this.bigScreen.state == 0 || this.bigScreen.state == 2 || this.bigScreen.state == 3){
+                                this.visibleScreenDialog = true;
+                            }else{
+                                let routeData = this.$router.resolve({
+                                    name: "数据大屏",
+                                });
+                                this.$store.commit('setScreenPower',true);
+                                window.open(routeData.href, '_blank');
 
-                }
+                            }
+                    }
+                }).catch((error)=>{
+                    this.$message({
+                        message: '网络异常，请稍后重试!',
+                        type: 'warning'
+                    });
+                })
+
 
             },
             closeFn(){

@@ -8,19 +8,24 @@
 //}
 .screen-wrapper{
   position: relative;
-  height: 180px;
+  height: 200px;
   margin-bottom: 30px;
   .screen-img{
     float: left;
     width: 200px;
     height: 113px;
     margin-right: 20px;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0;
   }
   .screen-body{
     font-size: 16px;
     .screen-title{
       font-size: 18px;
       font-weight: bold;
+      margin: 0;
+      padding: 0;
     }
     .screen-content{
       line-height: 30px;
@@ -902,18 +907,21 @@ $--fixed-code-title-bg: #193C7B;
   width: 478px;
   height: 474px;
   .el-dialog__header{
+    position: relative;
     padding: 0 24px;
     margin: 0;
     height: 48px;
     line-height: 48px;
     background: $--fixed-code-title-bg;
     color: $--alert-danger-color;
-    .el-dialog__headerbtn{
-      &>i{
-        font-size: 16px;
-        color: $--alert-danger-color;
-      }
-
+    .dialog-header-iconfont{
+      position: absolute;
+      right: 20px;
+      top:50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      font-weight: normal;
+      cursor: pointer;
     }
   }
   .el-dialog__body{

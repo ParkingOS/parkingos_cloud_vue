@@ -2,7 +2,7 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">系统管理<span style="margin: 2px">-</span>增值服务<span style="margin: 2px">-</span>短信服务</p>
+                <p style="float: left">增值服务<span style="margin: 2px">-</span>短信服务</p>
                 <div class="float-right"><el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button></div>
             </header>
             <div class="showcase">
@@ -130,10 +130,11 @@
         <!--购买-->
         <el-dialog
                 custom-class="shop-fixedCode-dialog"
+                :show-close="false"
                 :visible.sync="purchaseSMSVisible"
                 @close="closeFn">
             <header class="fixed-code__title" slot="title" style="font-size: 18px;font-weight: bold;">
-                短信购买
+                短信购买<i class="el-icon-close dialog-header-iconfont" @click="purchaseSMSVisible=false"></i>
             </header>
             <el-steps :active="activeIndex" simple style="padding: 18px 20%;">
                 <el-step title="数量选择" icon="iconfont icon-icon-test1"></el-step>

@@ -2,7 +2,7 @@
     <section class="right-wrapper-size" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">商户管理<span style="margin: 2px">-</span>流水查询</p>
+                <p style="float: left">商户管理<span style="margin: 2px">-</span>优惠券管理</p>
                 <div class="float-right">
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>

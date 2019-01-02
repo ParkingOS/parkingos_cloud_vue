@@ -2,7 +2,7 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">系统管理<span style="margin: 2px">-</span>增值服务<span style="margin: 2px">-</span>短信服务</p>
+                <p style="float: left">增值服务<span style="margin: 2px">-</span>数据大屏</p>
                 <div class="float-right"><el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button></div>
             </header>
             <div class="showcase">
@@ -46,7 +46,7 @@
         <div class="table-wrapper-style">
             <div class="custom-tab-wrapper">
                 <div class="tab-item-wrapper">
-                    <div :class="active?'tab-item tab-item-active':'tab-item'" @click="tabTeggle">充值流水</div>
+                    <div :class="active?'tab-item tab-item-active':'tab-item'" >充值流水</div>
                 </div>
             </div>
             <div v-if="active">
@@ -69,10 +69,11 @@
         <!--购买-->
         <el-dialog
                 custom-class="shop-fixedCode-dialog"
+                :show-close="false"
                 :visible.sync="purchaseSMSVisible"
                 @close="closeFn">
             <header class="fixed-code__title" slot="title" style="font-size: 18px;font-weight: bold;">
-                短信购买
+                购买<i class="el-icon-close dialog-header-iconfont" @click="purchaseSMSVisible=false"></i>
             </header>
             <el-steps :active="activeIndex" simple style="padding: 18px 20%;">
                 <el-step title="数量选择" icon="icon"></el-step>
@@ -80,7 +81,7 @@
             </el-steps>
             <el-form ref="addForm" label-width="80px" :model="purchaseSMS" class="custom-form-style fiexd-code-form">
                 <div v-show="activeIndex == 1">
-                    <el-form-item label="购买时长">
+                    <el-form-item label="购买月份">
                         <el-select v-model="purchaseSMS.count" style="width: 292px" @change="changeCount">
                             <el-option
                                     v-for="item in countSelectData"
@@ -92,9 +93,6 @@
                                 <span style="float: right; color: #8492a6; font-size: 13px">月</span>
                             </el-option>
                         </el-select>
-                    </el-form-item>
-                    <el-form-item label="有效期">
-                        <p>{{months}}个月</p>
                     </el-form-item>
                     <el-form-item label="支付费用">
                         <p>{{purchaseSMS.money}} 元</p>
@@ -158,8 +156,8 @@
                 purchaseSMSVisible:false,
                 months:24,
                 purchaseSMS:{
-                    count:2000,
-                    money:0.01
+                    count:3,
+                    money:3
                 },
                 countSelectData:[],
                 activeIndex:1,
@@ -172,16 +170,16 @@
                 searchFormData:{
                     currentData:'',
                 },
-                exportapi: '/message/exportbuytrade',
-                queryapi: 'message/getbuytrade',
+                exportapi: '/bigscreen/exportbuytrade',
+                queryapi: '/bigscreen/getbuytrade',
                 orderfield:'id',
-                fieldsstr:'id__count__utime__etime__money__trade_no',
+                fieldsstr:'id__count__utime__pay_time__etime__money__trade_no',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '购买数量',
-                                prop: 'count',
+                                label: '购买月数',
+                                prop: 'buy_month',
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
@@ -203,7 +201,7 @@
                             columnType:'render',
                             render: (h, params) => {
                                 return h('div', [
-                                    h('span', common.dateformat(params.row.utime))
+                                    h('span', common.dateformat(params.row.pay_time))
                                 ]);
                             }
                         }]
@@ -219,7 +217,7 @@
                             columnType:'render',
                             render: (h, params) => {
                                 return h('div', [
-                                    h('span', common.dateformat(params.row.etime))
+                                    h('span', common.dateformat(params.row.end_time))
                                 ]);
                             }
                         }]
@@ -261,7 +259,7 @@
         },
         methods:{
             transferData(res){
-                this.message_count = res.message_count;
+                this.message_count = res.limit_day;
             },
             genqr(url){
                 var canvas = document.getElementById('canvas')
@@ -292,10 +290,11 @@
                 _this.nextLoad = true;
                 //暂时重置为0.01元
                 // _this.purchaseSMS.money = 0.01;
-                axios.get(path+'/message/tobuy', {
-                    params: { 'comid': sessionStorage.getItem('comid'),'count':this.purchaseSMS.count,'money': this.purchaseSMS.money}
+                axios.get(path+'/bigscreen/tobuy', {
+                    params: { 'comid': sessionStorage.getItem('comid'),'buy_month':this.purchaseSMS.count,'money': this.purchaseSMS.money}
                 }).then(function (response) {
                     _this.nextLoad = false;
+                    // console.log('response',response)
                     if(response.data.state == 1){
                         let _url = path2 + '/zld/buymessage?trade_no='+ response.data.trade_no;
                         _this.trade_no = response.data.trade_no;
@@ -362,11 +361,7 @@
                 this.$refs['tabPane'].handleExport()
             },
             resetForm(){
-                if(this.active){
-                    this.initFn(this)
-                }else{
-                    this.initFn2(this)
-                }
+                this.initFn(this)
             },
             initFn(that){
                 /*
@@ -385,27 +380,30 @@
                 let sform = {};
                 sform = JSON.parse(JSON.stringify( this.searchFormData )) ;
                 if(sform.currentData != null && sform.currentData != ''){
-                    sform.utime = 'between';
-                    sform.utime_start = sform.currentData[0];
-                    sform.utime_end = sform.currentData[1];
+                    sform.pay_time = 'between';
+                    sform.pay_time_start = sform.currentData[0];
+                    sform.pay_time_end = sform.currentData[1];
                 }else{
-                    sform.utime = '';
-                    sform.utime_start = '';
-                    sform.utime_end = '';
+                    sform.pay_time = '';
+                    sform.pay_time_start = '';
+                    sform.pay_time_end = '';
                 }
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
             getQuery(){
-                let _this = this;
-                axios.all([common.getSmsInfo()])
-                    .then(axios.spread(function (ret) {
-                        _this.countSelectData = ret.data;
-                        let len = _this.countSelectData.length;
-                        _this.purchaseSMS = {
-                            count:_this.countSelectData[len -1].count,
-                            money:_this.countSelectData[len -1].totalMoney
-                        }
-                    }))
+                axios.get(path+'/getdata/getbigscreenprice',{params:{
+                        'comid':sessionStorage.getItem('comid')
+                    }}).then((response)=>{
+                    if(response.status == 200){
+                        this.countSelectData = response.data;
+                    }
+                }).catch((error)=>{
+                    console.log(error)
+                    this.$message({
+                        message: '网络异常，请稍后重试!',
+                        type: 'warning'
+                    });
+                })
             },
             getPayStateFn(that){
                 let params = {trade_no:that.trade_no};

@@ -3,6 +3,7 @@ node_modules/
 npm-debug.log
 .editorconfig
 user/
+dist/
 .idea/workspace.xml
 .idea/vcs.xml
 .idea/workspace.xml
