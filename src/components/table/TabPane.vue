@@ -365,6 +365,7 @@
                 nform.orderfield = this.orderfield;
                 nform = common.generateForm(nform);
                 that.loading = true;
+                this.tableData=[];
                 getTableQuery(url,sform).then(response =>{
                     that.loading = false;
                     that.off = true;

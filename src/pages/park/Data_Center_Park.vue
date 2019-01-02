@@ -4,7 +4,8 @@
             <header class="shop-custom-header">
                 <p style="float: left">数据中心<span style="margin: 2px">-</span>数据中心</p>
                 <div class="float-right">
-                    <!--<el-button type="text" size="mini" icon=" iconfont icon-shujuzhongxin" style="font-size: 14px;color: #1E1E1E;" @click="getDataScreen">数据大屏</el-button>-->
+                    <el-button type="text" size="mini" style="font-size: 14px;" @click="getDataScreen">
+                        <img :src="baseImg.screen" style="vertical-align: text-top;width: 16px;height: 16px;margin-right: 5px">数据大屏</el-button>
                     <el-button type="text" size="mini" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="getDatas">刷新</el-button>
                 </div>
             </header>
@@ -286,6 +287,40 @@
             </el-col>
         </el-row>
         </div>
+        <el-dialog
+                width="450px"
+                @close="closeFn"
+                :show-close="false"
+                custom-class="custom-dialog custom-shop-dialog"
+                :visible.sync="visibleScreenDialog">
+            <header class="dialog-header" slot="title">
+                数据大屏<i class="el-icon-close dialog-header-iconfont" @click="visibleScreenDialog = false"></i>
+            </header>
+            <div class="screen-wrapper" v-if="bigScreen.state == 0">
+                <img :src="baseImg.screenClass" class="screen-img" style="margin-bottom: 0">
+                <div class="screen-body">
+                    <p class="screen-title" style="">大屏简介</p>
+                    <div class="screen-content">
+                        智能停车场实时数据大屏，数据高频采集，将车场各项数据可视化，采用炫酷的动态图形展示，增强数据的呈现效果，方便管理方及时了解车位使用情况、收费趋势等信息。
+                    </div>
+                </div>
+            </div>
+            <div class="screen-wrapper"  v-if="bigScreen.state == 2">
+                <img :src="baseImg.screenClass" class="screen-img" style="margin-bottom: 0">
+                <div class="screen-body">
+                    <div class="screen-content">
+                        该服务已过期<br/>请续费后才能重新使用
+                    </div>
+                </div>
+            </div>
+            <div class="screen-wrapper"  v-if="bigScreen.state == 3">
+                <div class="screen-tip">您购买的大屏服务于{{bigScreen.begin_time}}生效，请耐心等待或继续购买！</div>
+            </div>
+            <div class="shop-dialog-footer">
+                <div class="screen-btn" v-if="bigScreen.state == 0" @click="goShopScreen"><img :src="baseImg.renewalImg" class="screen-img">我要去购买</div>
+                <div class="screen-btn" v-if="bigScreen.state == 2 || bigScreen.state == 3" @click="goShopScreen"><img :src="baseImg.renewalImg" class="screen-img">我要去续费</div>
+            </div>
+        </el-dialog>
     </section>
 </template>
 <script>
@@ -302,12 +337,21 @@
         },
         data () {
             return {
+                visibleScreenDialog:false,
+                bigScreen:{
+                    state:1,
+                    warn:0,
+                    begin_time:''
+                },
                 baseImg:{
                     'ruchang':require('@/assets/images/ruchang.png'),
                     'chuchang':require('@/assets/images/chuchang.png'),
                     'zaichang':require('@/assets/images/zaichang.png'),
                     'shangxian':require('@/assets/images/shangxian.png'),
                     'xiaxian':require('@/assets/images/xiaxian.png'),
+                    'screen':require('@/assets/images/screen/screen.png'),
+                    'renewalImg':require('@/assets/images/renewal.png'),
+                    'screenClass':require('@/assets/images/screen/screen.jpg'),
                 },
                 chargeSummaryData:[{
                     value: 0,
@@ -493,19 +537,47 @@
                 // console.log('data-----',obj)
                 return obj
             },
+            //去购买，续费
+            goShopScreen(){
+                this.visibleScreenDialog = false;
+                sessionStorage.setItem('highlightindex', '/systemManage_AddedService_Screen');
+                this.$router.push({path: '/systemManage_AddedService_Screen'});
+
+            },
             //跳转到数据大屏
             getDataScreen(){
-                let routeData = this.$router.resolve({
-                    name: "数据大屏",
-                });
-                window.open(routeData.href, '_blank');
-            }
+                axios.get(path+'/bigscreen/getstate',{params:{
+                        'timestamp':new Date().getTime(),
+                    'comid':sessionStorage.getItem('comid')
+                    }}).then((response)=>{
+                        // console.log('-----',response)
+                    if(response.status == 200){
+                            this.bigScreen = response.data;
+                            if(this.bigScreen.state == 0 || this.bigScreen.state == 2 || this.bigScreen.state == 3){
+                                this.visibleScreenDialog = true;
+                            }else{
+                                let routeData = this.$router.resolve({
+                                    name: "数据大屏",
+                                });
+                                this.$store.commit('setScreenPower',true);
+                                window.open(routeData.href, '_blank');
+
+                            }
+                    }
+                }).catch((error)=>{
+                    this.$message({
+                        message: '网络异常，请稍后重试!',
+                        type: 'warning'
+                    });
+                })
+
+
+            },
+            closeFn(){
+
+            },
         }
     };
 </script>
 
-<style lang="scss" src="../../styles/Home.scss" scoped>
-
-
-
-</style>
+<style lang="scss" src="../../styles/Home.scss" scoped></style>

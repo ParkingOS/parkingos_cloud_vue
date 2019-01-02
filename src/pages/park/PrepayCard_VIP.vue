@@ -632,7 +632,6 @@
                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                            }
                        }).then(function (response) {
-
                            let ret = response.data;
                            if (ret > 0 || ret.state == 1) {
                                //更新成功
@@ -656,6 +655,12 @@
                                 _this.resetloading = false
                            }
                        }).catch(function (error) {
+                            console.log('===>>>prepaycard error:',error);
+                            _this.$message({
+                               message: "请求失败！请重新登录",
+                               type: 'error',
+                               duration: 1200
+                           });
                            _this.resetloading = false;
                        })
                     }

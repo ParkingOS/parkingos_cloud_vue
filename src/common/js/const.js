@@ -17,11 +17,14 @@ export const AUTH_ID = {
     shopManage_Coupon: 305, //优惠券管理
     shopManage_Shop: 299, //商户管理-小菜单
     shopManage_QueryAccount: 300, //流水查询
-    equipmentManage: 16, //设备管理
-    equipmentManage_Monitor: 311, //监控管理
-    equipmentManage_Intercom: 313, //对讲管理
-    equipmentManage_WorkStation: 17,//工作站管理
-    equipmentManage_Channel: 18, //通道管理
+    systemManage_AddedService_Sms:344,//短信服务
+    systemManage_AddedService_Screen:345,//数据大屏
+    systemManage_AddedService:343, //增值服务
+    equipmentManage: 346, //设备管理
+    equipmentManage_Monitor: 347, //监控管理
+    equipmentManage_Intercom: 348, //对讲管理
+    equipmentManage_WorkStation: 349,//工作站管理
+    equipmentManage_Channel: 350, //通道管理
     equipmentManage_Camera: 19, //摄像头管理
     equipmentManage_LED: 20, //LED屏管理
     employeePermission: 21, //员工权限
@@ -39,12 +42,10 @@ export const AUTH_ID = {
     systemManage_Price: 28, //时租价格管s理
     systemManage_MonthCard: 29, //月卡套餐管理
     systemManage_Logs: 80, //系统日志
-    systemManage_AddedService_Sms:338,//短信服务
-    systemManage_AddedService:337, //增值服务
+    centerMonitor: 342, //中央监控
     onlinePay: 8, //电子支付
     onlinePay_Income: 10, //电子收款
     onlinePay_CashManage: 9, //提现管理
-    centerMonitor: 309, //中央监控
 	vistorManage_VistorMember:324,
     vistorManage_homeOwner:336,
     vistorManage:323
@@ -97,6 +98,7 @@ export const showParkItem_const = {
     systemManage_MonthCard: false,
     systemManage_Logs: false,
     systemManage_AddedService_Sms:false,
+    systemManage_AddedService_Screen:false,
     systemManage_AddedService:false,
     vistorManage_VistorMember:false,
     vistorManage_homeOwner:false,

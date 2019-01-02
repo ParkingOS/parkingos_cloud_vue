@@ -118,34 +118,6 @@
                         <el-menu-item index="/shopManage_Coupon" v-if="this.showParkItem.shopManage_Coupon">优惠券管理
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu index="/equipmentManage" v-if="this.showParkItem.equipmentManage">
-                        <template slot="title">
-
-                            <i class="menu-icon iconfont icon-shebeiguanli"></i>
-                            <span class="menuitem">设备管理</span></template>
-                        <el-menu-item index="/equipmentManage_Monitor"
-                                      v-if="this.showParkItem.equipmentManage_Monitor">
-                            监控管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_Intercom"
-                                      v-if="this.showParkItem.equipmentManage_Intercom">对讲管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_WorkStation"
-                                      v-if="this.showParkItem.equipmentManage_WorkStation">
-                            工作站管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_Channel"
-                                      v-if="this.showParkItem.equipmentManage_Channel">
-                            通道管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_Camera"
-                                      v-if="this.showParkItem.equipmentManage_Camera">
-                            摄像头管理
-                        </el-menu-item>
-                        <el-menu-item index="/equipmentManage_LED" v-if="this.showParkItem.equipmentManage_LED">
-                            LED屏管理
-                        </el-menu-item>
-                    </el-submenu>
                     <el-submenu v-if="this.showParkItem.employeePermission" index="/employeePermission">
                         <template slot="title">
                             <i class="menu-icon iconfont icon-yuangongguanli"></i>
@@ -159,10 +131,45 @@
                             员工管理
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu index="/systemManage" v-if="this.showParkItem.systemManage">
+                    <el-submenu index="/system_addedService" v-if="this.showParkItem.systemManage_AddedService">
+                                <template slot="title">
+                                    <i class="el-icon-star-off" style="width: 20px;font-size: 20px;margin-right: 0"></i>
+                                    <span class="menuitem">增值服务</span></template>
+                                <el-menu-item index="/systemManage_AddedService_Sms" v-if="this.showParkItem.systemManage_AddedService_Sms">短信服务</el-menu-item>
+                                <el-menu-item index="/systemManage_AddedService_Screen" v-if="this.showParkItem.systemManage_AddedService_Screen">数据大屏</el-menu-item>
+                            </el-submenu>
+                    <el-submenu index="/systemManage" v-if="this.showParkItem.systemManage"
+                                style="font-weight: normal;padding-bottom: 30px">
                         <template slot="title">
                             <i class="menu-icon iconfont icon-xitongguanli"></i>
                             <span class="menuitem">系统管理</span></template>
+                        <el-submenu index="/equipmentManage" v-if="this.showParkItem.equipmentManage">
+                            <template slot="title">
+                                <!--<i class="menu-icon iconfont icon-shebeiguanli"></i>-->
+                                <span class="menuitem" style="font-size: 14px">设备管理</span></template>
+                            <el-menu-item index="/equipmentManage_Monitor"
+                                          v-if="this.showParkItem.equipmentManage_Monitor">
+                                监控管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_Intercom"
+                                          v-if="this.showParkItem.equipmentManage_Intercom">对讲管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_WorkStation"
+                                          v-if="this.showParkItem.equipmentManage_WorkStation">
+                                工作站管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_Channel"
+                                          v-if="this.showParkItem.equipmentManage_Channel">
+                                通道管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_Camera"
+                                          v-if="this.showParkItem.equipmentManage_Camera">
+                                摄像头管理
+                            </el-menu-item>
+                            <el-menu-item index="/equipmentManage_LED" v-if="this.showParkItem.equipmentManage_LED">
+                                LED屏管理
+                            </el-menu-item>
+                        </el-submenu>
                         <el-menu-item index="/systemManage_BlackList"
                                       v-if="this.showParkItem.systemManage_BlackList">
                             黑名单管理
@@ -197,21 +204,7 @@
                             月卡套餐管理
                         </el-menu-item>
                         <el-menu-item index="/systemManage_Logs" v-if="this.showParkItem.systemManage_Logs">系统日志</el-menu-item>
-
-                        <el-submenu index="/system_addedService" v-if="this.showParkItem.systemManage_AddedService">
-                            <template slot="title"><span class="menuitem" style="font-size: 14px;">增值服务</span>
-                            </template>
-                            <el-menu-item index="/systemManage_AddedService_Sms" v-if="this.showParkItem.systemManage_AddedService_Sms">短信服务</el-menu-item>
-                        </el-submenu>
-
-                    </el-submenu>
-                    <el-submenu v-if="this.showParkItem.centerMonitor||this.showUnionItem.centerMonitor" index="centerMonitor"
-                                style="font-weight: normal;padding-bottom: 20px">
-                        <template slot="title">
-                            <i class="menu-icon iconfont icon-zhongyangjiankong"></i>
-                            <span class="menuitem">中央监控</span></template>
-                        <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor||this.showUnionItem.centerMonitor">中央监控
-                        </el-menu-item>
+                        <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor||this.showUnionItem.centerMonitor">中央监控</el-menu-item>
                     </el-submenu>
 
                 </el-menu>

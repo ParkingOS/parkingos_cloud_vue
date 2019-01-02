@@ -206,26 +206,26 @@
                                     <div class="subject-online__body">
                                         <el-row :gutter="21" class="subject-online__list">
                                             <el-col :span="8"  class="subject-online__item" v-for="item in parkStateOne">
-                                                <div  class="subject-online__col__item" :style="onLine" v-if="item.state == 1">
+                                                <div  class="subject-online__col__item" :style="onLine" v-show="item.state == 1">
                                                     <p class="subject-online__item_text_bottom">{{item.localid}}</p>
                                                 </div>
-                                                <div  class="subject-online__col__item" :style="offLine" v-else-if="item.state == 0">
+                                                <div  class="subject-online__col__item" :style="offLine" v-show="item.state == 0">
                                                     <p class="subject-online__item_text_bottom">{{item.localid}}</p>
                                                 </div>
-                                                <div  class="subject-online__col__item" :style="notUsed" v-else>
+                                                <div  class="subject-online__col__item" :style="notUsed" v-show="(item.state != 1) &&(item.state != 0)">
                                                     <p class="subject-online__item_text_bottom"></p>
                                                 </div>
                                             </el-col>
                                         </el-row>
                                         <el-row :gutter="21" class="subject-online__list subject-online__list__margin">
                                             <el-col :span="8"  class="subject-online__item" v-for="item in parkStateTwo">
-                                                <div  class="subject-online__col__item" :style="onLine" v-if="item.state == 1">
+                                                <div  class="subject-online__col__item" :style="onLine" v-show="item.state == 1">
                                                     <p class="subject-online__item_text_bottom">{{item.localid}}</p>
                                                 </div>
-                                                <div  class="subject-online__col__item" :style="offLine" v-else-if="item.state == 0">
+                                                <div  class="subject-online__col__item" :style="offLine" v-show="item.state == 0">
                                                     <p class="subject-online__item_text_bottom">{{item.localid}}</p>
                                                 </div>
-                                                <div  class="subject-online__col__item" :style="notUsed" v-else>
+                                                <div  class="subject-online__col__item" :style="notUsed" v-show="(item.state != 1) &&(item.state != 0)">
                                                     <p class="subject-online__item_text_bottom"></p>
                                                 </div>
                                             </el-col>
@@ -266,6 +266,23 @@
                 </el-row>
             </div>
         </div>
+        <!--已欠费-->
+        <el-dialog
+                width="600px"
+                :show-close="false"
+                :close-on-click-modal="false"
+                :close-on-press-escape="false"
+                :visible.sync="screenNoticeVisible"
+                custom-class="custom-dialog"
+                >
+            <header class="dialog-header" style="text-align: center" slot="title">
+                大屏续费通知
+            </header>
+            <div class="screen-notice-header" style="height: 250px">
+                <p style="height: 200px;line-height: 200px;text-align: center;font-size: 20px;font-weight: bold">该服务已过期，请充值后继续使用。</p>
+                <div class="screen-btn" style="height: 50px;line-height: 50px" @click="goShopScreen">我要去续费</div>
+            </div>
+        </el-dialog>
     </section>
 </template>
 
@@ -284,6 +301,14 @@
         data(){
             let that = this;
             return {
+                timer:null,
+                screenNoticeVisible:false,
+                dialogArr:[],
+                bigScreen:{
+                    state:1,
+                    warn:3
+                },
+                renewalImg:require('@/assets/images/renewal.png'),
                 headerDate:'',
                 //数据组
                 otherData:{
@@ -332,17 +357,17 @@
                     backgroundRepeat:'no-repeat'
                 },
                 onLine:{
-                    background:'url('+require('@/assets/images/screen/onLine.png')+')',
+                    background:'url('+require('@/assets/images/screen/onLine.png')+') no-repeat',
                     backgroundSize:'100% 100%',
                     backgroundRepeat:'no-repeat'
                 },
                 offLine:{
-                    background:'url('+require('@/assets/images/screen/offLine.png')+')',
+                    background:'url('+require('@/assets/images/screen/offLine.png')+') no-repeat',
                     backgroundSize:'100% 100%',
                     backgroundRepeat:'no-repeat'
                 },
                 notUsed:{
-                    background:'url('+require('@/assets/images/screen/notUsed.png')+')',
+                    background:'url('+require('@/assets/images/screen/notUsed.png')+') no-repeat',
                     backgroundSize:'100% 100%',
                     backgroundRepeat:'no-repeat'
                 },
@@ -449,6 +474,9 @@
             that.getDatas();
             that.getLangDate();
             this.dataInteval = setInterval(that.getDatas, 60000);
+            this.getScreenTime();
+            this.timer = setInterval(that.getScreenTime,3600000);
+            // this.openTip(this)
         },
         computed: {
             classOption () {
@@ -461,11 +489,15 @@
         activated(){
             let that = this;
             that.getDatas();
+            this.getScreenTime();
+            clearInterval(this.timer);
             clearInterval(this.dataInteval);
+            this.timer = setInterval(that.getScreenTime,3600000);
             this.dataInteval = setInterval(that.getDatas, 60000);
         },
         deactivated(){
             clearInterval(this.dataInteval);
+            clearInterval(this.timer);
         },
         methods: {
             getLangDate(){
@@ -516,55 +548,7 @@
                             }
                             let parkState = parkAllData.parkState; //车场状态
                             that.parkState = parkState; //车场状态
-                            //格式化在线设备数据格式化
-                            that.parkStateOne = [];
-                            that.parkStateTwo = [];
-                            if(parkState.length !=0 && parkState.length<=3){
-                                for(let item in parkState){
-                                    that.parkStateOne.push(parkState[item])
-                                }
-                                if(parkState.length != 3){
-                                    let con = 3 -parkState.length
-                                    for(let i=0;i<con;i++){
-                                        that.parkStateOne.push({
-                                            state:'-1',
-                                            localid:''
-                                        })
-                                    }
-                                }
-                                for(let item in [4,5,6]){
-                                    that.parkStateTwo.push({
-                                        state:'-1',
-                                        localid:''
-                                    })
-                                }
-                            }else if(parkState.length > 3){
-                                var len = parkState.length;
-                                for(let i=0;i<3;i++){
-                                    that.parkStateOne.push(parkState[item])
-                                }
-                                for(let i=3;i<len;i++){
-                                    that.parkStateTwo.push(parkState[item])
-                                }
-                                for(let i=0;i<6-len;i++){
-                                    that.parkStateTwo.push({
-                                        state:'-1',
-                                        localid:''
-                                    })
-                                }
-
-                            }else{
-                                for(let i=0;i<3;i++){
-                                    that.parkStateOne.push({
-                                        state:'-1',
-                                        localid:''
-                                    })
-                                    that.parkStateTwo.push({
-                                        state:'-1',
-                                        localid:''
-                                    })
-                                }
-                            }
+                            that.parkStateFormat(parkState,that);
 
                             /*
                             * parkRank 今日收费排行
@@ -617,6 +601,63 @@
                 that.incomePie.cash = +row[1].value;
                 that.incomePie.reduction = +row[2].value;
                 that.incomePie.all =  parseFloat(row[0].value) + parseFloat(row[1].value)+parseFloat(row[2].value)
+            },
+            //格式化在线设备
+            parkStateFormat(parkState,that){
+                //格式化在线设备数据格式化
+                that.parkStateOne = [];
+                that.parkStateTwo = [];
+                if(parkState.length !=0 && parkState.length<=3){
+                    for(let item in parkState){
+                        that.parkStateOne.push(parkState[item])
+                    }
+                    if(parkState.length != 3){
+                        let con = 3 -parkState.length
+                        for(let i=0;i<con;i++){
+                            that.parkStateOne.push({
+                                state:'-1',
+                                localid:''
+                            })
+                        }
+                    }
+                    for(let item in [4,5,6]){
+                        that.parkStateTwo.push({
+                            state:'-1',
+                            localid:''
+                        })
+                    }
+                }else if(parkState.length > 3){
+                    var len = parkState.length;
+                    for(let i=0;i<3;i++){
+                        that.parkStateOne.push(parkState[i])
+                    }
+                    if(len <6){
+                        for(let i=3;i<len;i++){
+                            that.parkStateTwo.push(parkState[i])
+                        }
+                        for(let i=0;i<6-len;i++){
+                            that.parkStateTwo.push({
+                                state:'-1',
+                                localid:''
+                            })
+                        }
+                    }else if(len >=6){
+                        for(let i=3;i<6;i++){
+                            that.parkStateTwo.push(parkState[i])
+                        }
+                    }
+                }else{
+                    for(let i=0;i<3;i++){
+                        that.parkStateOne.push({
+                            state:'-1',
+                            localid:''
+                        })
+                        that.parkStateTwo.push({
+                            state:'-1',
+                            localid:''
+                        })
+                    }
+                }
             },
             //格式化泊位使用率数据
             berthDataFormat(berthData){
@@ -675,15 +716,87 @@
                 let receiveTotal_str = receiveTotal.toString();
                 // let receiveTotal_num =parseInt(receiveTotal_str.substring(0,receiveTotal_str.indexOf('.')));
                 let receiveTotal_num =Math.round(receiveTotal_str);
-                let sumCount = this.prefixInteger(receiveTotal_num,8,'-');
+                let sumCount = this.prefixInteger(receiveTotal_num,7,'-');
                 return sumCount;
             },
-            //跳转到数据大屏
-            getDataScreen(){
-                let routeData = this.$router.resolve({
-                    name: "数据大屏",
-                });
-                window.open(routeData.href, '_blank');
+            openTip(that){
+                const h = this.$createElement;
+                let str = '该服务还有'+that.bigScreen.warn+'天到期,请及时续费。';
+                that.dialogArr.push(
+                    that.$notify({
+                        title: '续费提醒',
+                        duration:0,
+                        position: 'bottom-right',
+                        dangerouslyUseHTMLString: true,
+                        message: h('div', {
+                            style:{
+                                textAlign:'center',
+                            }
+                        }, [
+                            h('p', {
+                                style:{
+                                    height:'30px',
+                                    lineHeight:'30px',
+                                    fontSize:'18px'
+                                }
+                            }, str),
+                            // h('div', {
+                            //     class:'screen-btn',
+                            //     on:{
+                            //         click:this.goShopScreen
+                            //     }
+                            // }, "我要去续费")
+                        ]),
+                    })
+                )
+            },
+            getScreenTime(){
+                axios.get(path+'/bigscreen/getstate',{params:{
+                        'timestamp':new Date().getTime(),
+                        'comid':sessionStorage.getItem('comid')
+                    }}).then((response)=>{
+                    if(response.status == 200){
+                        clearInterval(this.dataInteval);
+                        if(this.dialogArr.length != 0){
+                            this.dialogArr[0].close();
+                            this.dialogArr = [];
+                        }
+                        this.bigScreen = response.data;
+                        if(this.bigScreen.warn == 0 ){
+                            //    正常使用，不做任何操作
+                            this.screenNoticeVisible = false;
+                            this.dataInteval = setInterval(this.getDatas, 60000);
+                        }else if(this.bigScreen.warn == '-1'){
+                            this.screenNoticeVisible = true;
+                        }else{
+                            this.dataInteval = setInterval(this.getDatas, 60000);
+                            this.screenNoticeVisible = false;
+                            this.openTip(this)
+                        }
+                    }
+                }).catch((error)=>{
+                    console.log(error)
+                    this.$message({
+                        message: '网络异常，请稍后重试!',
+                        type: 'warning'
+                    });
+                })
+
+
+            },
+            //去购买，续费
+            goShopScreen(){
+                if(this.dialogArr.length != 0){
+                    this.dialogArr[0].close();
+                    this.dialogArr = [];
+                }
+                this.screenNoticeVisible = false;
+                sessionStorage.setItem('highlightindex', '/systemManage_AddedService_Screen');
+                this.$router.push({path: '/systemManage_AddedService_Screen'});
+
+            },
+            clickFn(){
+
             }
         }
     };
@@ -691,6 +804,9 @@
 
 <style rel="stylesheet/scss" lang="scss">
     @import "../../styles/mixin.scss";
+    .screen-notice-header{
+        height: 300px;
+    }
     .data-screen-wrapper{
         position: absolute;
         top:0;
