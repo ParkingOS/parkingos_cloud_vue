@@ -18,6 +18,7 @@
                                     type="date"
                                     :placeholder="start_placeholder"
                                     value-format="timestamp"
+                                    @change="changeCurrentDate"
                             >
                             </el-date-picker>
                         </el-form-item>
@@ -124,6 +125,7 @@
                 searchFormData:{
                     currentData:'',
                     selParkId:'',
+                    date:''
                 },
                 /////////////////////////////////////////
                 //图表相关
@@ -360,6 +362,14 @@
             };
         },
         methods: {
+            changeCurrentDate(val){
+                if(val != null && val != ''){
+                    this.searchFormData.date = val/1000;
+                }else{
+                    this.searchFormData.date = '';
+                }
+
+            },
             resetForm(){
                 this.initFn(this)
             },
@@ -371,6 +381,7 @@
                 that.searchFormData={
                     currentData:'',
                     selParkId:'',
+                    date:''
                 };
                 that.queryForChart();
             },

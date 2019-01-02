@@ -14,7 +14,7 @@
                             <el-date-picker
                                     style="width: 120px"
                                     class="shop-custom-date"
-                                    v-model="searchFormData.monthReportStart"
+                                    v-model="searchFormData.btime"
                                     type="month"
                                     value-format="yyyy-MM"
                                     :picker-options="pickerOptionsBefore"
@@ -24,7 +24,7 @@
                             <el-date-picker
                                     style="width: 120px"
                                     class="shop-custom-date"
-                                    v-model="searchFormData.monthReportEnd"
+                                    v-model="searchFormData.etime"
                                     type="month"
                                     value-format="yyyy-MM"
                                     :picker-options="pickerOptionsAfter"
@@ -124,8 +124,8 @@
                 start_month_placeholder:'',
                 tableData:[],
                 searchFormData:{
-                    monthReportStart:'',
-                    monthReportEnd:''
+                    btime:'',
+                    etime:''
                 },
                 /////////////////////////////////////////
                 //图表相关
@@ -144,7 +144,7 @@
                 },
                 pickerOptionsAfter: {
                     disabledDate(time) {
-                        var date1 = new Date(that.searchFormData.monthReportStart);
+                        var date1 = new Date(that.searchFormData.btime);
                         var date2 = new Date(date1);
                         return time.getTime() > Date.now() - 8.64e7 || time.getTime() < date2.getTime();
                     }
@@ -192,11 +192,11 @@
                 * 点击刷新时 和初进入页面时
                 * */
                 that.searchFormData={
-                    monthReportStart:'',
-                    monthReportEnd:'',
+                    btime:'',
+                    etime:'',
                 };
-                this.searchFormData.monthReportStart = common.yearStart();
-                this.searchFormData.monthReportEnd = common.currentMonth();
+                this.searchFormData.btime = common.yearStart();
+                this.searchFormData.etime = common.currentMonth();
                 that.queryForChart();
             },
             searchFn(){
@@ -221,8 +221,8 @@
                 formdata.orderfield = this.orderfield;
                 formdata.fieldsstr = this.fieldsstr;
                 formdata.time = 'between';
-                formdata.btime = this.searchFormData.monthReportStart;
-                formdata.etime = this.searchFormData.monthReportEnd;
+                formdata.btime = this.searchFormData.btime;
+                formdata.etime = this.searchFormData.etime;
                 formdata = common.generateForm(formdata);
                 vm.$axios.post(path + api, vm.$qs.stringify(formdata), {
                     headers: {
@@ -376,8 +376,8 @@
 
         activated() {
             this.start_month_placeholder = common.currentMonth();
-            this.searchFormData.monthReportStart = common.yearStart();
-            this.searchFormData.monthReportEnd = common.currentMonth();
+            this.searchFormData.btime = common.yearStart();
+            this.searchFormData.etime = common.currentMonth();
             this.getQuery();
             this.chart.resize();
             window.addEventListener('resize', () => {
