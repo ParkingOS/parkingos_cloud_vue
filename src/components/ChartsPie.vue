@@ -53,6 +53,17 @@
 
             }
         },
+        activated(){
+            let that = this;
+            if(this.chargeSummaryChart){
+                setTimeout(()=>{
+                    that.chargeSummaryChart.resize();
+                    window.addEventListener('resize', () => {
+                        that.chargeSummaryChart.resize();
+                    });
+                },60)
+            }
+        },
         updated () {
         },
         computed: {

@@ -1152,6 +1152,12 @@
         .census-son{
             flex: 1;
             background: #fff;
+            .body{
+                .item{
+                    display: flex;
+                    justify-content: space-around;
+                }
+            }
         }
         .census-bottom{
             margin-bottom: 5px;

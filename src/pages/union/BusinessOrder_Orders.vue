@@ -375,7 +375,7 @@
             },
             transferDataFn(val){
                 this.cashpay = !isNaN(+val.cashpay)?+val.cashpay:0;
-                this.elepay = !isNaN(+val.elepay)?+val.cashpay:0;
+                this.elepay = !isNaN(+val.elepay)?+val.elepay:0;
             },
             searchFn() {
                 /*

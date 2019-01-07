@@ -424,6 +424,13 @@ export default {
         }
         return false;
     },
+    showSubImport: function (sub_auth) {
+        //显示导入
+        if (sub_auth.indexOf('导入') > -1) {
+            return true;
+        }
+        return false;
+    },
     showSubAdd: function (sub_auth) {
         //显示新增
         if (sub_auth.indexOf('注册') > -1) {

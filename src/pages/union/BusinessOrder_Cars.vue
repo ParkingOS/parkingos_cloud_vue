@@ -4,7 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">业务订单<span style="margin: 2px">-</span>在场车辆</p>
                 <div class="float-right">
-                    <el-button type="text" icon="el-icon-printer"  @click="exportFn" native-type="button" >导出</el-button>
+                    <el-button type="text" icon="el-icon-printer"  @click="exportFn" native-type="button" v-if="hideExport">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -433,8 +433,22 @@
                         _this.parklist = parks.data;
                     }));
             },
+            setAuthorityFn(){
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID_UNION.businessOrder_Cars == item.auth_id) {
+                            this.hideExport = common.showSubExport(item.sub_auth);
+                            break;
+                        }
+                    }
+
+                }
+            },
         },
         mounted() {
+            this.setAuthorityFn();
             this.getQuery();
             this.initFn(this);
         },

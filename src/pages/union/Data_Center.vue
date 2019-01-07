@@ -25,12 +25,12 @@
                 <el-col :xs="24" :sm="12" >
                     <infor-card
                             id-name="allCount"
-                            :end-val="otherData.parkEmpty"
+                            :end-val="otherData.parkAliveCount"
                             iconType="iconfont icon-chewei"
                             color="linear-gradient(170deg, #6DBFFF 0%, #4C97F1 100%)"
                             :iconSize="36"
                             :retain="0"
-                            intro-text="空车位（个）"
+                            intro-text="在线车场数（个）"
                     ></infor-card>
                 </el-col>
                 <el-col :xs="24" :sm="12" >
@@ -47,23 +47,12 @@
                 <el-col :xs="24" :sm="12" >
                     <infor-card
                             id-name="allCount"
-                            :end-val="otherData.ticketCount"
+                            :end-val="otherData.blackTotal"
                             iconType="iconfont icon-quan"
                             color="linear-gradient(165deg, #6DFF7C 0%, #138ED9 100%)"
                             :iconSize="36"
                             :retain="0"
-                            intro-text="优惠券发放（张）"
-                    ></infor-card>
-                </el-col>
-                <el-col :xs="24" :sm="12" >
-                    <infor-card
-                            id-name="allCount"
-                            :end-val="otherData.vistorCount"
-                            iconType="iconfont icon-fangke"
-                            color="linear-gradient(135deg, #FFB2A2 0%, #F76B1C 100%)"
-                            :iconSize="36"
-                            :retain="0"
-                            intro-text="访客未处理（人）"
+                            intro-text="黑名单（个）"
                     ></infor-card>
                 </el-col>
             </el-row>
@@ -320,11 +309,10 @@
                         name: '优惠减免'
                     }], //今日收费汇总数据
                 otherData:{
-                    monthTotal:0, //月卡
-                    parkEmpty:0,    //空车位
-                    receiveTotal:0,//总收入
-                    ticketCount:0,//优惠券
-                    vistorCount:0,//访客
+                    blackTotal: 0,
+                    monthTotal: 0,
+                    parkAliveCount: 0,
+                    receiveTotal: 0,
                 },
                 topParkChartData:[],//今日收费车场排行
                 parkState: [],//车场在线状态
@@ -391,8 +379,8 @@
                             * 总收入、空车位、月卡会员、优惠券发放、访客未处理人
                             * */
 
-                            // let otherData = parkAllData.otherData;
-                            // that.otherData = otherData;
+                            let otherData = parkAllData.otherData;
+                            that.otherData = otherData;
 
                             let totalIncomPie= parkAllData.totalIncomPie; //今日收费汇总
                             that.incomePie = totalIncomPie; //今日收费汇总

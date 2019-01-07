@@ -2,9 +2,9 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">会员<span style="margin: 2px">-</span>月卡会员</p>
+                <p style="float: left">会员<span style="margin: 2px">-</span>黑名单管理</p>
                 <div class="float-right">
-                    <el-button type="text"  @click="exportFn" native-type="button" icon="el-icon-printer">导出</el-button>
+                    <el-button type="text"  @click="exportFn" native-type="button" icon="el-icon-printer" v-if="hideExport">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -434,6 +434,7 @@
                     user = JSON.parse(user);
                     for (let item of user.authlist) {
                         if (AUTH_ID_UNION.member_BlackList == item.auth_id) {
+                            this.hideExport = common.showSubExport(item.sub_auth);
                             this.showEdit = common.showSubEdit(item.sub_auth);
                             if (!this.showEdit) {
                                 this.hideOptions = true;

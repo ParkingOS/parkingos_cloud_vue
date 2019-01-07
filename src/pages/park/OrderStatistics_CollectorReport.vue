@@ -23,7 +23,7 @@
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item label="收费员" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.selParkId" placeholder="请选择" class="shop-custom-input">
+                            <el-select v-model="searchFormData.out_uid_start" placeholder="请选择" class="shop-custom-input">
                                 <el-option
                                         v-for="item in parklistChart"
                                         :key="item.value_no"
@@ -124,8 +124,10 @@
                 tableData:[],
                 searchFormData:{
                     currentData:'',
-                    selParkId:'',
-                    date:''
+                    out_uid_start:'',
+                    date:'',
+                    out_uid:3,
+                    
                 },
                 /////////////////////////////////////////
                 //图表相关
@@ -133,7 +135,7 @@
                 end_placeholder: '',
                 activeName: 'tableStyle',
                 chartDate: '',
-                selParkId: -1,
+                out_uid_start: -1,
                 chartHeight: '600px',
                 chartWidth: '800px',
                 chartstyles: '',
@@ -380,8 +382,9 @@
                 * */
                 that.searchFormData={
                     currentData:'',
-                    selParkId:'',
-                    date:''
+                    out_uid_start:'',
+                    date:'',
+                    out_uid:3,
                 };
                 that.queryForChart();
             },
@@ -411,9 +414,9 @@
                 }else{
                     formdata.date = '';
                 }
-                if (this.searchFormData.selParkId > 0) {
+                if (this.searchFormData.out_uid_start > 0) {
                     formdata.out_uid = 3;
-                    formdata.out_uid_start = this.searchFormData.selParkId;
+                    formdata.out_uid_start = this.searchFormData.out_uid_start;
                     formdata.comid = '';
                 }else {
                     formdata.out_uid = '';
@@ -549,17 +552,18 @@
                 let vm = this;
                 let api = this.exportapi;
                 let params = '';
-                if (common.getLength(this.searchFormData) == 0) {
+                let exportForm = JSON.parse(JSON.stringify( vm.searchFormData));
+                exportForm = common.generateForm(exportForm);
+                if (common.getLength(exportForm) == 0) {
                     params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
                 } else {
-                    for (var x in this.searchFormData) {
+                    for (var x in exportForm) {
                         //console.log(this.sform[x])
                         if(x=='car_number'||x=='nickname1'){
-                            params += x + '=' + encodeURI(encodeURI(this.searchFormData[x])) + '&';
+                            params += x + '=' + encodeURI(encodeURI(exportForm[x])) + '&';
                         }else{
-                            params += x + '=' + this.searchFormData[x] + '&';
+                            params += x + '=' + exportForm[x] + '&';
                         }
-
                     }
                 }
                 let groupid = sessionStorage.getItem('groupid');
@@ -575,7 +579,6 @@
                 } else {
                     window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
                 }
-
             },
         },
         mounted() {

@@ -23,7 +23,7 @@
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item label="车场名称" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.selParkId" placeholder="请选择" class="shop-custom-input">
+                            <el-select v-model="searchFormData.comid_start" filterable placeholder="请选择" class="shop-custom-input" >
                                 <el-option
                                         v-for="item in parklistChart"
                                         :key="item.value_no"
@@ -130,7 +130,7 @@
                 tableData:[],
                 searchFormData:{
                     currentData:'',
-                    selParkId:-1,
+                    comid_start:-1,
                     date:'',
                 },
                 /////////////////////////////////////////
@@ -139,7 +139,7 @@
                 end_placeholder: '',
                 activeName: 'tableStyle',
                 chartDate: '',
-                selParkId: -1,
+                comid_start: -1,
                 chartHeight: '600px',
                 chartWidth: '800px',
                 chartstyles: '',
@@ -336,7 +336,12 @@
         },
         methods: {
             changeCurrentDate(val){
-                this.searchFormData.date = val/1000;
+                if(val != null && val != ''){
+                    this.searchFormData.date = val/1000;
+                }else{
+                    this.searchFormData.date = '';
+                }
+
             },
             resetForm(){
                 this.initFn(this)
@@ -348,7 +353,7 @@
                 * */
                 that.searchFormData={
                     currentData:'',
-                    selParkId:'',
+                    comid_start:'',
                     date:''
                 };
                 that.queryForChart();
@@ -379,14 +384,10 @@
                 }else{
                     formdata.date = '';
                 }
-                if (this.searchFormData.selParkId > 0) {
-                    formdata.out_uid = 3;
-                    formdata.out_uid_start = this.searchFormData.selParkId;
-                    formdata.comid = '';
+                if (this.searchFormData.comid_start > 0) {
+                    formdata.comid_start = this.searchFormData.comid_start;
                 }else {
-                    formdata.out_uid = '';
-                    formdata.out_uid_start = '';
-                    formdata.comid = '';
+                    formdata.comid_start = '';
                 }
                 formdata = common.generateForm(formdata);
                 vm.$axios.post(path + api, vm.$qs.stringify(formdata), {
@@ -517,17 +518,18 @@
                 let vm = this;
                 let api = this.exportapi;
                 let params = '';
-                if (common.getLength(this.searchFormData) == 0) {
+                let exportForm = JSON.parse(JSON.stringify( vm.searchFormData));
+                    exportForm = common.generateForm(exportForm);
+                if (common.getLength(exportForm) == 0) {
                     params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
                 } else {
-                    for (var x in this.searchFormData) {
+                    for (var x in exportForm) {
                         //console.log(this.sform[x])
                         if(x=='car_number'||x=='nickname1'){
-                            params += x + '=' + encodeURI(encodeURI(this.searchFormData[x])) + '&';
+                            params += x + '=' + encodeURI(encodeURI(exportForm[x])) + '&';
                         }else{
-                            params += x + '=' + this.searchFormData[x] + '&';
+                            params += x + '=' + exportForm[x] + '&';
                         }
-
                     }
                 }
                 let groupid = sessionStorage.getItem('groupid');

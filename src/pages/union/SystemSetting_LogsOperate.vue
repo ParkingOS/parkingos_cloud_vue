@@ -1,52 +1,143 @@
 <template>
-    <section>
-        <common-table
-                :queryapi="queryapi"
-                :tableheight="tableheight"
-                :fieldsstr="fieldsstr"
-                :tableitems="tableitems"
-                :btswidth="btswidth"
-                :hide-export="hideExport"
-                :hide-options="hideOptions"
-                :searchtitle="searchtitle"
-                :orderfield="orderfield"
-                :hideTool="hideTool"
-                :showdateSelector="showdateSelector"
-                :hideSearch="hideSearch"
-                :hideAdd="hideAdd"
-                :showEdit="showEdit"
-                :showdelete="showdelete"
-                ref="bolinkuniontable"
-        ></common-table>
+    <section class="right-wrapper-size" id="scrollBarDom">
+        <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">系统设置<span style="margin: 2px">-</span>日志管理<span style="margin: 2px">-</span>操作日志管理</p>
+                <div class="float-right">
+                    <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <div class="shop-custom-console">
+                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                    <div class="advanced-options" v-show="isShow">
+                        <el-form-item label="操作时间">
+                            <el-date-picker
+                                    style="width: 350px"
+                                    class="shop-custom-datepicker"
+                                    v-model="searchFormData.currentData"
+                                    type="datetimerange"
+                                    range-separator="至"
+                                    :default-time="['00:00:00','23:59:59']"
+                                    start-placeholder="请输入时间"
+                                    end-placeholder="请输入时间"
+                                    value-format="timestamp"
+                                    @change="changeDateFormat"
+                            >
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="备注">
+                            <el-input style="width: 140px" v-model="searchFormData.remark" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                    </div>
+                    <div class="console-main">
+                        <el-form-item label="编号">
+                            <el-input style="width: 140px" v-model="searchFormData.id_start" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item  class="clear-style" label="操作类型">
+                            <el-select v-model="searchFormData.operate_type"  filterable
+                                       placeholder="请选择" class="shop-custom-input" style="width: 140px">
+                                <el-option
+                                        v-for="item in operateTypes"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item  class="clear-style" label="操作模块">
+                            <el-select v-model="searchFormData.type"  filterable
+                                       placeholder="请选择" class="shop-custom-input" style="width: 140px">
+                                <el-option
+                                        v-for="item in unionTypes"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item class="shop-clear-style">
+                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                            <el-button type="text"
+                                       @click="changeMore"
+                                       style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
+                        </el-form-item>
+                    </div>
+
+                </el-form>
+            </div>
+        </div>
+
+        <div class="table-wrapper-style">
+            <tab-pane
+                    :queryapi="queryapi"
+                    :fieldsstr="fieldsstr"
+                    :orderfield="orderfield"
+                    :table-items="tableitems"
+                    align-pos="right"
+                    bts-width="200"
+                    :searchForm="searchForm"
+                    fixedDom="scrollBarDom"
+                    ref="tabPane"
+            ></tab-pane>
+        </div>
     </section>
 </template>
 
 
 <script>
-    import {unionTypes,operateTypes} from '../../api/api';
-    import common from '../../common/js/common';
-    import {AUTH_ID_UNION} from '../../common/js/const';
-    import CommonTable from '../../components/CommonTable';
-    import axios from 'axios';
+    import {path, unionTypes,operateTypes} from '../../api/api';
+    import util from '../../common/js/util'
+    import common from '../../common/js/common'
+    import {AUTH_ID} from '../../common/js/const'
+    import TabPane from '../../components/table/TabPane';
 
     export default {
         components: {
-            CommonTable
+            TabPane
         },
         data() {
             return {
-                loading: false,
-                hideExport: true,
-                hideSearch: false,
-                showdateSelector: false,
-                hideAdd: true,
-                tableheight: '',
-                showdelete: true,
-                hideOptions: true,
+                noimg:require('../../assets/images/no.png'),
+                offimg:require('../../assets/images/off.png'),
+                unionTypes:unionTypes,
+                operateTypes:operateTypes,
+                isShow:false,
+                timeTypeOption:[
+                    {
+                        'value_no':'0',
+                        'value_name':'创建时间',
+                    },{
+                        'value_no':'1',
+                        'value_name':'修改时间',
+                    },
+                ],
+                //编辑
+                editRowData:{},
+                editTo:0,
+                //添加
+                addRowData:{
+
+                },
+                addTo:0,
+                //删除
+                delForm:{},
+                //搜索
+                searchFormData:{
+                    currentData:'',
+                    operate_time:'between',
+                    operate_time_start:'',
+                    operate_time_end:'',
+                    id:'3',
+                    id_start:'',
+                    log_id:'',
+                    operate_type_start:'',
+                    operate_type:'',
+                    type_start:'',
+                    type:'',
+                    remark:''
+                },
+                searchForm:{},
                 orderfield:'id',
-                hideTool: false,
-                showEdit: true,
-                showdelete: true,
                 queryapi: '/citylog/query',
                 btswidth: '100',
                 fieldsstr: 'id__log_id__operate_time__content__operate_user__remark__operate_type__type',
@@ -79,27 +170,36 @@
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
-                                format:(row) => {
+                                columnType:'render',
+                                render: (h, params) => {
+                                    let str = '';
+                                    switch (params.row.operate_type){
+                                        case 0:
+                                            str = '登录';
+                                            break;
+                                        case 1:
+                                            str = '增加';
+                                            break;
+                                        case 2:
+                                            str = '编辑';
+                                            break;
+                                        case 3:
+                                            str = '删除';
+                                            break;
+                                        case 4:
+                                            str = '导出';
+                                            break;
+                                        case 5:
+                                            str = '导入';
+                                            break;
+                                        default:
+                                            str = '其他操作';
 
-                                if(row.operate_type==1){
-                                    return '增加'
-                                }
-                                else if(row.operate_type==2){
-                                    return '编辑'
-                                }
-                                else if(row.operate_type==3){
-                                    return '删除'
-                                }
-                                else if(row.operate_type==4){
-                                    return '导出'
-                                }
-                                else if(row.operate_type==0){
-                                    return '登录'
-                                }
-                                else{
-                                    return '其他操作'
-                                }
-                             }
+                                    }
+                                    return h('div', [
+                                        h('span', str),
+                                    ]);
+                                },
                             },
                         ]
                     },
@@ -117,13 +217,13 @@
                                 addable: true,
                                 unsortable: true,
                                 align: 'center',
-                                format:(row) => {
+                                columnType:'render',
+                                render: (h, params) => {
 
-                                     //这里注意，一定要使用箭头函数，因为箭头函数中的this是延作用域向上取到最近的一个
-                                     //也就是data中的this,可以获取到this.aroles
-                                     //如果是普通函数，this.aroles获取到的是undefined,因为this的作用域是本身，并没有aroles这个变量
-                                    return common.nameformat(row, unionTypes, 'type');
-                                }
+                                    return h('div', [
+                                        h('span', common.nameformat(params.row, unionTypes, 'type')),
+                                    ]);
+                                },
                             },
                         ]
                     },
@@ -141,9 +241,12 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format: function (row) {
-                                return common.dateformat(row.operate_time);
-                            }
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.dateformat(params.row.operate_time)),
+                                ]);
+                            },
                         }]
                     }, {
 
@@ -151,7 +254,7 @@
                         subs: [{
                             label: '操作内容',
                             prop: 'content',
-                            width: '300',
+                            width: '202',
                             type: 'str',
                             editable: true,
                             searchable: false,
@@ -166,13 +269,12 @@
                             label: '操作员',
                             prop: 'operate_user',
                             width: '123',
-                            type: 'selection',
-                            selectlist: this.collectors,
+                            type: 'str',
                             editable: true,
                             searchable: false,
                             addable: true,
                             unsortable: true,
-                            align: 'center',
+                            align: 'center'
                         }]
                     }, {
 
@@ -180,7 +282,7 @@
                         subs: [{
                             label: '备注',
                             prop: 'remark',
-                            width: '150',
+                            width: '138',
                             type: 'str',
                             editable: true,
                             searchable: true,
@@ -193,47 +295,90 @@
 
                 ],
                 searchtitle: '高级查询',
-                collectors: ''
 
-            };
+            }
         },
         mounted() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            let user = sessionStorage.getItem('user');
-            if (user) {
-                user = JSON.parse(user);
-                for (let item of user.authlist) {
-                    if (AUTH_ID_UNION.systemSetting_LogsOperates == item.auth_id) {
-                        console.log(item.sub_auth);
-                        // this.hideSearch= !common.showSubSearch(item.sub_auth)
-                        // this.hideExport = !common.showSubExport(item.sub_auth)
-                        break;
-                    }
+            this.getQuery()
+            this.$refs['tabPane'].getTableData({},this)
+        },
+        methods:{
+            changeMore(){
+                this.isShow = !this.isShow
+            },
+            searchFn() {
+                /*
+                * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
+                * */
+                let sform = this.searchFormData;
+                sform.type_start = this.searchFormData.type;
+                sform.operate_type_start =this.searchFormData.operate_type;
+                this.searchForm = JSON.parse(JSON.stringify( sform ))
+            },
+            initFn(that){
+                /*
+                * 初始化操作
+                * 点击刷新时 和初进入页面时
+                * */
+                that.searchFormData ={
+                    currentData:'',
+                    operate_time:'between',
+                    operate_time_start:'',
+                    operate_time_end:'',
+                    id:'3',
+                    id_start:'',
+                    log_id:'',
+                    operate_type_start:'',
+                    operate_type:'',
+                    type_start:'',
+                    type:'',
+                    remark:''
+                };
+                that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
+            },
+            resetForm(){
+                this.initFn(this)
+            },
+            //格式化时间
+            changeDateFormat(val){
+                if(val == null){
+                    this.searchFormData.operate_time='';
+                    this.searchFormData.operate_time_start = '';
+                    this.searchFormData.operate_time_end = '';
+                }else{
+                    this.searchFormData.operate_time='between';
+                    this.searchFormData.operate_time_start = val[0];
+                    this.searchFormData.operate_time_end = val[1];
                 }
-            }
+            },
+            //编辑
+            editInput(eform){
+                this.editRowData = eform;
+            },
+            //添加
+            handleAdd(){
+                this.addRowData.operator = sessionStorage.getItem('nickname');
+                this.addTo++;
+            },
+            addInput(aform){
+                this.addRowData = aform;
+            },
+            //删除
+            cancelDel(){
+                this.delForm.delVisible = false;
+            },
+            getQuery(){
+                let _this = this
+                _this.$axios.all([common.getCarType()])
+                    .then(_this.$axios.spread(function (retcartype) {
+                        _this.cartype = retcartype.data;
+                    }))
+            },
         },
         activated() {
-            window.onresize = () => {
-                this.tableheight = common.gwh() - 143;
-            };
-            this.tableheight = common.gwh() - 143;
-            this.$refs['bolinkuniontable'].$refs['search'].resetSearch();
-            this.$refs['bolinkuniontable'].getTableData({});
-            let _this = this;
-            axios.all([common.getAllCollector()])
-                .then(axios.spread(function (collector, reason) {
-                    _this.collectors = collector.data;
-                }));
-        },
-        watch: {
-            collectors: function (val) {
-                this.tableitems[4].subs[0].selectlist = val;
-            }
+
         }
-    };
+    }
 
 </script>
 

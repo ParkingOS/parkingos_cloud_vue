@@ -223,6 +223,26 @@
                 </div>
             </el-form>
         </div>
+        <div v-if="nameType == 'setting-park'">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <div>
+                    <el-form-item label="剩余车位数">
+                        <span>{{expandData.empty}}</span>
+                    </el-form-item>
+                    <el-form-item label="更新时间">
+                        <span>{{common.dateformat(expandData.update_time)}}</span>
+                    </el-form-item>
+                </div>
+                <div>
+                    <el-form-item label="车场地址">
+                        <span>{{expandData.address}}</span>
+                    </el-form-item>
+                    <el-form-item>
+
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
     </div>
 </template>
 
@@ -251,7 +271,7 @@
         },
         methods:{
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&id=' + row.id+ '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
                 let _this = this;
                 axios.all([axios.get(this.imgdialog_url)])
                     .then(axios.spread(function (ret) {
@@ -265,7 +285,12 @@
         mounted(){
             let that = this;
             if(that.nameType == 'order-manage' || that.nameType == 'business-order-cars' ||that.nameType == 'business-order-orders'){
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + this.expandData.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                if(that.nameType == 'business-order-cars' ||that.nameType == 'business-order-orders'){
+                    this.imgdialog_url = path + this.imgapi + '?orderid=' + this.expandData.order_id_local + '&comid=' + this.expandData.comid + '&token=' + sessionStorage.getItem('token');
+                }else{
+                    this.imgdialog_url = path + this.imgapi + '?orderid=' + this.expandData.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                }
+
                 axios.all([axios.get(this.imgdialog_url)])
                     .then(axios.spread(function (ret) {
                         if(ret.status == 200){

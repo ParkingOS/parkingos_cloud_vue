@@ -308,7 +308,7 @@
                                     });
                                     setTimeout(()=>{
                                         that.addFormVisible = false;
-                                        if(that.addedValue.shop_id != undefined){
+                                        if(that.addedValue.shop_id != undefined || that.addedValue.comid != undefined){
                                             this.getTableData(that.addedValue,that)
                                         }else{
                                             that.getTableData({},that);

@@ -4,8 +4,8 @@
             <header class="shop-custom-header">
                 <p style="float: left">会员<span style="margin: 2px">-</span>月卡会员</p>
                 <div class="float-right">
-                    <el-button type="text"  @click="handleImport" native-type="button" icon="el-icon-upload">导入月卡</el-button>
-                    <el-button type="text"  @click="exportFn" native-type="button" icon="el-icon-printer">导出</el-button>
+                    <el-button type="text"  @click="handleImport" native-type="button" icon="el-icon-upload" v-show="hideImport">导入月卡</el-button>
+                    <el-button type="text"  @click="exportFn" native-type="button" icon="el-icon-printer" v-show="hideExport">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -94,10 +94,10 @@
                 custom-class="import-owners"
                 width="479px">
             <header class="dialog-header" slot="title">
-                导入业主<i class="el-icon-close dialog-header-iconfont" @click="showUpload = false"></i>
+                导入月卡<i class="el-icon-close dialog-header-iconfont" @click="showUpload = false"></i>
             </header>
             <div class="import-tip">
-                请选择Excel文件，支持xls,xlsx等格式。 <a href="https://image.bolink.club/%E4%B8%9A%E4%B8%BB%E7%AE%A1%E7%90%86.xlsx" download class="import-download">点击下载</a>
+                请选择Excel文件，支持xls,xlsx等格式。 <a href="https://image.bolink.club/monthcard.xlsx" download class="import-download">点击下载</a>
             </div>
             <div class="import-input-wrapper">
                 <el-upload class="upload-demo" ref="upload" :action="uploadapi" :auto-upload="false"
@@ -114,23 +114,6 @@
             </div>
 
         </el-dialog>
-
-        <!--<el-dialog-->
-                <!--title="导入月卡"-->
-                <!--:visible.sync="showUpload"-->
-                <!--width="30%">-->
-            <!--<el-upload class="upload-demo" ref="upload" :action="uploadapi" :auto-upload="false"-->
-                       <!--:on-success="uploadSuccess" :on-remove="handleRemove" :on-change="handleChange">-->
-                <!--<el-button slot="trigger" size="small" type="primary" @click="handleSelect">选取文件</el-button>-->
-                <!--<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定导入-->
-                <!--</el-button>-->
-                <!--<div slot="tip" class="el-upload__tip">请选择Excel文件，支持xls,xlsx等格式</div>-->
-            <!--</el-upload>-->
-            <!--<div v-html="uploadMsg"></div>-->
-            <!--<span slot="footer" class="dialog-footer">-->
-				<!--<el-button @click="showUpload = false" size="small" type="primary">确 定</el-button>-->
-			<!--</span>-->
-        <!--</el-dialog>-->
 
     </section>
 </template>
@@ -175,6 +158,7 @@
                 resetloading: false,
                 showresetpwd: false,
                 hideExport: false,
+                hideImport:false,
                 tableheight: '',
                 hideOptions: false,
                 showEdit: true,
@@ -506,6 +490,7 @@
                     for (var item of user.authlist) {
                         if (AUTH_ID_UNION.member_MonthVIP == item.auth_id) {
                             this.hideExport = common.showSubExport(item.sub_auth);
+                            this.hideImport = common.showSubImport(item.sub_auth);
                             break;
                         }
                     }
@@ -517,6 +502,7 @@
 
         },
         mounted() {
+            this.setAuthorityFn();
             this.getQuery();
             this.initFn(this);
         },

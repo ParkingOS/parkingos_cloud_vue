@@ -341,17 +341,18 @@
                 let vm = this;
                 let api = this.exportapi;
                 let params = '';
-                if (common.getLength(this.searchFormData) == 0) {
+                let exportForm = JSON.parse(JSON.stringify( vm.searchFormData));
+                exportForm = common.generateForm(exportForm);
+                if (common.getLength(exportForm) == 0) {
                     params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
                 } else {
-                    for (var x in this.searchFormData) {
+                    for (var x in exportForm) {
                         //console.log(this.sform[x])
                         if(x=='car_number'||x=='nickname1'){
-                            params += x + '=' + encodeURI(encodeURI(this.searchFormData[x])) + '&';
+                            params += x + '=' + encodeURI(encodeURI(exportForm[x])) + '&';
                         }else{
-                            params += x + '=' + this.searchFormData[x] + '&';
+                            params += x + '=' + exportForm[x] + '&';
                         }
-
                     }
                 }
                 let groupid = sessionStorage.getItem('groupid');
@@ -367,7 +368,6 @@
                 } else {
                     window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
                 }
-
             },
         },
         mounted() {

@@ -133,6 +133,7 @@
                     out_channel_id:'',
                     reason:'',
                     reason_start:'',
+                    comid:'3',
                     comid_start:'',
                 },
                 searchForm:{},
@@ -155,7 +156,7 @@
                 exportapi: '/cityliftRod/exportExcel',
                 imgapi: '/liftRod/getLiftRodPicture',
                 btswidth: '100',
-                fieldsstr: 'id__liftrod_id__comid__ctime__uin__out_channel_id__reason__resume__url',
+                fieldsstr: 'id__liftrod_id__comid__ctime__uin__out_channel_id__reason__resume__url__comid_start',
                 tableitems: [
                   {
 
@@ -302,7 +303,7 @@
                                         on: {
                                             click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + encodeURI(encodeURI(params.row['liftrod_id'])) + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                                                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + encodeURI(encodeURI(params.row.liftrod_id)) + '&id=' + params.row.id + '&comid=' + params.row.comid + '&token=' + sessionStorage.getItem('token');
                                                 this.imgDialog = true;
 
                                             }
@@ -348,6 +349,7 @@
                     out_channel_id:'',
                     reason:'',
                     reason_start:'',
+                    comid:'3',
                     comid_start:'',
                 };
                 let currentTime =  common.currentDateArray(1);
@@ -404,10 +406,6 @@
 
                 }
             },
-            showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?liftrodid=' + encodeURI(encodeURI(row.liftrod_id)) + '&id=' + row.id + '&comid=' + row.comid + '&token=' + sessionStorage.getItem('token');
-                this.imgDialog = true
-            }
         },
         mounted() {
             this.setAuthorityFn(this);

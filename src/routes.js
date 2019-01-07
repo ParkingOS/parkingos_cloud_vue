@@ -70,6 +70,7 @@ import Member_MonthVIP from './pages/union/Member_MonthVIP.vue';
 import Member_BlackList from './pages/union/Member_BlackList.vue';
 import SystemSetting_Account from './pages/union/SystemSetting_Account.vue';
 import SystemSetting_Park from './pages/union/SystemSetting_Park.vue';
+import SystemSetting_Park_Staff from './pages/union/SystemSetting_Park_Staff.vue'
 import SystemSetting_EmployeeManage from './pages/union/SystemSetting_EmployeeManage.vue';
 import SystemSetting_RoleManage from './pages/union/SystemSetting_RoleManage.vue';
 import SystemSetting_LogsOperate from './pages/union/SystemSetting_LogsOperate.vue';
@@ -82,6 +83,7 @@ import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_Month
 //厂商页面
 import Park_Manage from './pages/city/Park_Manage.vue';
 import Union_Manage from './pages/city/Union_Manage.vue';
+import Union_Manage_Staff from './pages/city/Union_Manage_Staff.vue';
 import Setting_Manage from './pages/city/Setting_Manage.vue';
 
 //总后台页面
@@ -176,7 +178,9 @@ let routes = [
         name: '运营集团',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/union_manage', component: Union_Manage, name: '运营集团'}
+            {path: '/union_manage', component: Union_Manage, name: '运营集团'},
+            {path: '/union_manage_staff', component: Union_Manage_Staff, name: '运营集团'},
+
         ]
     },
     {
@@ -400,10 +404,11 @@ let routes = [
         children: [
             {path: '/systemSetting_Account', component: SystemSetting_Account, name: '账户信息'},
             {path: '/systemSetting_Park', component: SystemSetting_Park, name: '停车场'},
+            {path:'/systemSetting_Park_Staff',component:SystemSetting_Park_Staff,name:'停车场员工'},
             {path: '/systemSetting_EmployeeManage', component: SystemSetting_EmployeeManage, name: '员工管理'},
             {path: '/systemSetting_RoleManage', component: SystemSetting_RoleManage, name: '角色管理'},
             {path: '/systemSetting_LogsOperates', component: SystemSetting_LogsOperate, name: '操作日志管理'},
-            {path: '/systemSetting_LogsCollector', component: SystemSetting_LogsCollector, name: '收费员日志'}
+            {path: '/systemSetting_LogsCollector', component: SystemSetting_LogsCollector, name: '收费员日志'},
 
         ]
     },

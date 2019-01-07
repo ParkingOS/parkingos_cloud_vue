@@ -45,8 +45,8 @@
             <p class="order-title"><span class="bar-icon"></span>出入场信息</p>
             <div class="entrance-info">
                 <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border:none">
-                    <el-col style="width: 341px;margin-right: 62px">
-                        <img :src="imgpath+img_in" style="width: 341px;height: 185px">
+                    <el-col style="width: 361px;margin-right: 42px;overflow: hidden;box-sizing: border-box">
+                        <img :src="imgpath+img_in" style="width: 100%;height: 185px">
                     </el-col>
                     <el-col class="order-wrapper-s">
                         <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-bottom: none">
@@ -69,8 +69,8 @@
                     </el-col>
                 </el-row>
                 <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border:none;margin-top: 20px">
-                    <el-col style="width: 341px;margin-right: 62px">
-                        <img :src="imgpath+img_out" style="width: 341px;height: 185px">
+                    <el-col style="width: 361px;margin-right: 42px;overflow: hidden;box-sizing: border-box">
+                        <img :src="imgpath+img_out" style="width: 100%;height: 185px">
                     </el-col>
                     <el-col class="order-wrapper-s">
                         <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-bottom: none;">
@@ -85,7 +85,7 @@
                             <el-col :span="6" class="order-detail-lable">出场通道</el-col>
                             <el-col :span="18" class="order-detail-content">{{currentRow.out_passid}}</el-col>
                         </el-row>
-                        <el-row type="flex" justify="start" align="center" class="order-detail-row" style="border-bottom: none">
+                        <el-row type="flex" justify="start" align="center" class="order-detail-row" >
                             <el-col :span="6" class="order-detail-lable" >出场时间</el-col>
                             <el-col :span="18" class="order-detail-content">{{common.dateformat(currentRow.end_time)}}</el-col>
                         </el-row>
@@ -140,7 +140,7 @@
                 this.$router.history.go(-1);
             },
             showImgDialog: function (index, row) {
-                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + sessionStorage.getItem('comid') + '&token=' + sessionStorage.getItem('token');
+                this.imgdialog_url = path + this.imgapi + '?orderid=' + row.order_id_local + '&comid=' + row.comid + '&token=' + sessionStorage.getItem('token');
                 let _this = this;
                 axios.all([axios.get(this.imgdialog_url)])
                     .then(axios.spread(function (ret) {

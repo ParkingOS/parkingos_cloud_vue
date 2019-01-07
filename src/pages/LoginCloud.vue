@@ -839,7 +839,7 @@
 
                             }else{
                                 _this.$message({
-                                    message: '新版云平台页面，暂时只支持车场端和商户端',
+                                    message: '新版云平台页面，暂不支持厂商登录',
                                     type: 'warning',
                                     duration:6000,
                                     showClose:true
