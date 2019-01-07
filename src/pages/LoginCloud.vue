@@ -287,7 +287,7 @@
         },
 
         created(){
-        	this.getCookie()
+            this.getCookie()
         },
         methods: {
             getVCode(vm,res){
@@ -303,7 +303,7 @@
                 }).then(function (response) {
                     var ret = response.data;
                     if(ret.state==1){
-                            vm.$message.success('验证码已发送，请注意查收');
+                        vm.$message.success('验证码已发送，请注意查收');
                     }
                     else {
                         vm.time = 30;
@@ -368,7 +368,7 @@
                 }
             },
             changeInputVcode(){
-              this.vcodeError = false;
+                this.vcodeError = false;
             },
             changeInputMobile(){
                 this.mobileError = false;
@@ -432,30 +432,30 @@
                 clearInterval(timer)
                 clearInterval(timer2)
             },
-              //////////////////////////////////////////////////////////////////////
-              iEVersionCheck() {
+            //////////////////////////////////////////////////////////////////////
+            iEVersionCheck() {
 
-                 var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
-                 var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
-                 var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
-                 var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
-                 var fIEVersion = 11;
-                 if(isIE) {
-                     var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
-                     reIE.test(userAgent);
-                     fIEVersion = parseFloat(RegExp["$1"]);
-                 } else if(isEdge) {
-                     fIEVersion = 12;
-                 } else if(isIE11) {
-                     fIEVersion = 11; //IE11
-                 }else{
-                     fIEVersion = -1;//不是ie浏览器
-                 }
-                 if(fIEVersion>0 && fIEVersion <=10){
-                   this.isIE10 = true;
-                 }
-                 console.log('ie10:',this.isIE10);
-             },
+                var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+                var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+                var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+                var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+                var fIEVersion = 11;
+                if(isIE) {
+                    var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+                    reIE.test(userAgent);
+                    fIEVersion = parseFloat(RegExp["$1"]);
+                } else if(isEdge) {
+                    fIEVersion = 12;
+                } else if(isIE11) {
+                    fIEVersion = 11; //IE11
+                }else{
+                    fIEVersion = -1;//不是ie浏览器
+                }
+                if(fIEVersion>0 && fIEVersion <=10){
+                    this.isIE10 = true;
+                }
+                console.log('ie10:',this.isIE10);
+            },
             showPwd() {
                 if (this.passwordType === 'password') {
                     this.passwordType = '';
@@ -561,7 +561,7 @@
                         });
                     }
                 }).catch(function (error) {
-                     vm.$message.error(error.data);
+                    vm.$message.error(error.data);
                 });
             },
 
@@ -621,23 +621,23 @@
             },
             getCookie:function () {
                 if (document.cookie.length>0) {
-                  var arr=document.cookie.split('; ');//这里显示的格式需要切割一下自己可输出看下
-                  for(var i=0;i<arr.length;i++){
-                    var arr2=arr[i].split('=');//再次切割
-                    //判断查找相对应的值
-                    if(arr2[0]=='userName'){
-                      this.loginForm.username=arr2[1];//保存到保存数据的地方
-                      this.checked = true;
-                    }else if(arr2[0]=='userPwd'){
-                      this.loginForm.password=arr2[1];
-                      this.checked = true;
+                    var arr=document.cookie.split('; ');//这里显示的格式需要切割一下自己可输出看下
+                    for(var i=0;i<arr.length;i++){
+                        var arr2=arr[i].split('=');//再次切割
+                        //判断查找相对应的值
+                        if(arr2[0]=='userName'){
+                            this.loginForm.username=arr2[1];//保存到保存数据的地方
+                            this.checked = true;
+                        }else if(arr2[0]=='userPwd'){
+                            this.loginForm.password=arr2[1];
+                            this.checked = true;
+                        }
                     }
-                  }
                 }
-              },
-              clearCookie:function () {
-                  this.setCookie("","",-1);//修改2值都为空，天数为负1天就好了
-              },
+            },
+            clearCookie:function () {
+                this.setCookie("","",-1);//修改2值都为空，天数为负1天就好了
+            },
 
             onSubmit() {
                 this.handleSubmit2();
@@ -869,7 +869,7 @@
                     }
                 }
 
-         }
+            }
             //     });
             // }
         }
