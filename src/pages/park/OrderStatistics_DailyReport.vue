@@ -192,7 +192,7 @@
         methods: {
             changeCurrentDate(val){
                 if(val != null && val != ''){
-                    this.searchFormData.date = val[0] + '至' + val[1];
+                    this.searchFormData.date = val[0] + encodeURI(encodeURI('至')) + val[1];
                 }else{
                     this.searchFormData.date = '';
                 }

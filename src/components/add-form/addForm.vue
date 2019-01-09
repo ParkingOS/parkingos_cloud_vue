@@ -30,9 +30,10 @@
                 </template>
                 <slot/>
             </el-form>
+
             <footer slot="footer" class="dialog-footer">
                 <el-button @click="cancelAdd" class="dialog-footer-btn">取 消</el-button>
-                <el-button type="primary" style="margin-left: 60px" @click="addSubmit" class="dialog-footer-btn">确 定</el-button>
+                <el-button type="primary" style="margin-left: 60px" :loading="addLoading" @click="addSubmit" :disabled="addLoading" class="dialog-footer-btn">确 定</el-button>
             </footer>
         </el-dialog>
     </div>
@@ -47,10 +48,14 @@
         },
         data () {
             return {
-
+                addLoading:false,
             }
         },
         props:{
+            loading:{
+                type:Boolean,
+                default:false
+            },
             addVisible:{
                 type:Boolean,
                 default:false
@@ -88,6 +93,10 @@
         methods:{
             onClose(){
                 this.$refs['addForm'].clearValidate()
+                setTimeout(()=>{
+                    this.addLoading = false;
+                },1000)
+
             },
             handleInput(val, key) {
                 // 这里element-ui没有上报event，直接就是value了
@@ -95,6 +104,7 @@
             },
             addSubmit(){
                 //通知父组件用户点了确定按钮
+                this.addLoading = true;
                 this.$emit('add',true)
             },
             cancelAdd(){
@@ -123,6 +133,15 @@
         mounted() {
             this.setDefaultValue()
         },
+        watch:{
+            loading:function (val) {
+                if(val){
+                    this.addLoading = true;
+                }else{
+                    this.addLoading = false;
+                }
+            }
+        }
     };
 </script>
 

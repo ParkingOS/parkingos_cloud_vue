@@ -535,10 +535,10 @@ export default {
     generateForm(sform) {
         //用来构建相同的参数-表单中添加这几个属性
         sform.token = this.attachParams('token');
-        sform.oid = this.attachParams('oid', 1);
+        sform.oid = sform.oid || this.attachParams('oid', 1);
         sform.comid = sform.comid || this.attachParams('comid', 1);
         sform.groupid =sform.groupid ||this.attachParams('groupid', 1);
-        sform.cityid = this.attachParams('cityid', 1);
+        sform.cityid =sform.cityid || this.attachParams('cityid', 1);
         sform.unionid = this.attachParams('unionid', 1);
         sform.channelid = this.attachParams('channelid', 1);
         sform.loginuin = this.attachParams('loginuin', 1);

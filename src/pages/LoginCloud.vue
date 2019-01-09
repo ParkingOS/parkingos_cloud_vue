@@ -737,15 +737,15 @@
                                     sessionStorage.setItem('highlightindex', _this.highlightindex);
                                 }
                             }
-                            // else if (u.oid == ROLE_ID.CITY) {
-                            //     for(let item in showShopItem_const){
-                            //         showShopItem_const[item] = false;
-                            //     }
-                            //     sessionStorage.removeItem('showShopItem');
-                            //     _this.highlightindex = '/union_manage';
-                            //     _this.$router.push({path: _this.highlightindex});
-                            //     sessionStorage.setItem('highlightindex', _this.highlightindex);
-                            // }
+                            else if (u.oid == ROLE_ID.CITY) {
+                                for(let item in showShopItem_const){
+                                    showShopItem_const[item] = false;
+                                }
+                                sessionStorage.removeItem('showShopItem');
+                                _this.highlightindex = '/union_manage';
+                                _this.$router.push({path: _this.highlightindex});
+                                sessionStorage.setItem('highlightindex', _this.highlightindex);
+                            }
                             else if (u.oid == ROLE_ID.SHOP) {
                                 //alert(JSON.stringify(u.authlist))
                                 for (let item in _this.showShopItem) {
@@ -780,11 +780,11 @@
                                 sessionStorage.setItem('highlightindex', _this.highlightindex);
                                 // _this.$router.push({path: '/Park_Manage'});
                             }
-                            // else if (u.oid == ROLE_ID.BOSS) {
-                            //     _this.highlightindex = '/city_manage';
-                            //     _this.$router.push({path: _this.highlightindex});
-                            //     sessionStorage.setItem('highlightindex', _this.highlightindex);
-                            // }
+                            else if (u.oid == ROLE_ID.BOSS) {
+                                _this.highlightindex = '/city_manage';
+                                _this.$router.push({path: _this.highlightindex});
+                                sessionStorage.setItem('highlightindex', _this.highlightindex);
+                            }
                             else if (u.oid == ROLE_ID.PARK) {
                                 //先跳转空页面，然后再根据数据情况显示页面再跳转
                                 // _this.$router.push({path: '/index'});
@@ -839,7 +839,7 @@
 
                             }else{
                                 _this.$message({
-                                    message: '新版云平台页面，暂不支持厂商登录',
+                                    message: '无登录权限',
                                     type: 'warning',
                                     duration:6000,
                                     showClose:true

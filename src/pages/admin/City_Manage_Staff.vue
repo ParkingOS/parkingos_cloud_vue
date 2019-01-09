@@ -11,23 +11,6 @@
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
                     <div class="console-main">
-
-                        <!--<el-form-item label="创建时间">-->
-                        <!--<el-date-picker-->
-                        <!--style="width: 350px"-->
-                        <!--class="shop-custom-datepicker"-->
-                        <!--v-model="searchFormData.currentData"-->
-                        <!--type="datetimerange"-->
-                        <!--range-separator="至"-->
-                        <!--:default-time="['00:00:00','23:59:59']"-->
-                        <!--start-placeholder="请输入时间"-->
-                        <!--end-placeholder="请输入时间"-->
-                        <!--value-format="timestamp"-->
-                        <!--@change="changeDateFormat"-->
-                        <!--&gt;-->
-                        <!--</el-date-picker>-->
-                        <!--</el-form-item>-->
-
                         <el-form-item label="姓名" class="clear-style margin-left-20">
                             <el-input v-model="searchFormData.nickname" placeholder="请输入姓名" class="shop-custom-input"></el-input>
                         </el-form-item>
@@ -95,7 +78,7 @@
 
 <script>
     import axios from 'axios';
-    import {path,blackStateType} from '../../api/api';
+    import {blackStateType,path} from '../../api/api';
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
     import TabPane from '../../components/table/TabPane';
@@ -118,7 +101,7 @@
                 //添加
                 addRowData:{},
                 addedValue:{
-                    groupid:''
+                    cityid:''
                 },
                 addTo:0,
                 //删除
@@ -128,17 +111,17 @@
                 //搜索
                 searchFormData:{
                     comid:undefined,
-                    oid:2,
-                    groupid:'',
+                    oid:7,
+                    cityid:'',
                     currentData:'',
                     nickname:'',
                     count:0
                 },
                 searchForm:{},
-                queryapi:'/groupmember/query',
-                addapi: '/groupmember/createmember',
-                delapi: '/groupmember/delmember',
-                editapi: '/groupmember/editmember',
+                queryapi:'/citymember/query',
+                addapi: '/citymember/createmember',
+                delapi: '/citymember/delmember',
+                editapi: '/citymember/editmember',
                 btswidth: '100',
                 fieldsstr: 'id__nickname__strid__phone__mobile__role_id__reg_time__sex__logon_time__isview',
                 tableitems: [
@@ -284,7 +267,7 @@
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.editRowData = params.row;
                                                 this.editRowData.role_id = params.row.role_id+'';
-                                                this.editRowData.groupid = this.searchFormData.groupid;
+                                                this.editRowData.cityid = this.searchFormData.cityid;
                                                 this.editTo++;
                                             }
                                         }
@@ -369,7 +352,7 @@
                     'id': this.rowid,
                     'token': sessionStorage.getItem('token')
                 };
-                vm.$axios.post(path + '/groupmember/editpass', vm.$qs.stringify(rform), {
+                vm.$axios.post(path + '/citymember/editpass', vm.$qs.stringify(rform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
@@ -442,10 +425,10 @@
             },
             //添加
             handleAdd(){
-                this.addedValue.groupid = this.searchFormData.groupid;
+                this.addedValue.cityid = this.searchFormData.cityid;
                 this.addedValue.oid = this.searchFormData.oid;
                 this.addRowData = {};
-                this.addRowData.groupid = this.searchFormData.groupid;
+                this.addRowData.cityid = this.searchFormData.cityid;
                 this.addRowData.oid = this.addRowData.oid;
                 this.addTo++;
             },
@@ -498,9 +481,10 @@
         },
         activated() {
             let $url =  document.location.href;
-            this.searchFormData.groupid = $url.split('=')[1];
+            this.searchFormData.cityid = $url.split('=')[1];
+            console.log('$url',this.searchFormData.cityid)
             this.searchFn();
-            this.getQuery(this.searchFormData.groupid);
+            // this.getQuery(this.searchFormData.cityid);
         },
         watch: {
             hideOptions:function (val,oldVal) {

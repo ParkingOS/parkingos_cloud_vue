@@ -33,7 +33,7 @@ export default {
       active: false,
       position: '',
         top:'',
-      width: undefined,
+      width: '1137px',
       height: undefined,
       isSticky: false,
         topN:0,
@@ -68,7 +68,7 @@ export default {
         return
       }
       this.position = ''
-      this.width = 'auto'
+      this.width = '1137px'
       this.active = false
       this.isSticky = false
         this.$emit('topShow',false)

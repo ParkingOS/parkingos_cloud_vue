@@ -103,16 +103,25 @@
                         </el-menu-item>
                     </el-submenu>
 
-
                     <el-submenu v-if="this.admin" index="/city_manage">
-                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                        <template slot="title"><i class="el-icon-tickets"></i><span
                                 class="menuitem">厂商管理</span></template>
                         <el-menu-item index="/city_manage">厂商管理
                         </el-menu-item>
                     </el-submenu>
+
+                    <el-submenu v-if="this.admin" index="/message_service">
+                        <template slot="title"><i class="el-icon-star-off"></i><span
+                                class="menuitem">增值服务</span></template>
+                        <el-menu-item index="/message_service">短信服务
+                        </el-menu-item>
+                        <el-menu-item index="/bigScreen_service">大屏服务
+                        </el-menu-item>
+                    </el-submenu>
+
                     <el-submenu v-if="this.city" index="/union_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
-                                class="menuitem">运营集团管理</span></template>
+                                class="menuitem">运营集团</span></template>
                         <el-menu-item index="/union_manage">运营集团管理
                         </el-menu-item>
                     </el-submenu>

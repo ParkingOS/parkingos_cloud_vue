@@ -82,14 +82,17 @@ import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_Month
 
 //厂商页面
 import Park_Manage from './pages/city/Park_Manage.vue';
+import Park_Manage_Staff from './pages/city/Park_Manage_Staff.vue';
 import Union_Manage from './pages/city/Union_Manage.vue';
 import Union_Manage_Staff from './pages/city/Union_Manage_Staff.vue';
 import Setting_Manage from './pages/city/Setting_Manage.vue';
 
 //总后台页面
 import City_Manage from './pages/admin/City_Manage.vue';
+import City_Manage_Staff from './pages/admin/City_Manage_Staff.vue';
 import CreateUin from './pages/admin/CreateUin.vue';
-
+import Message_Service from './pages/admin/Message_Service.vue';
+import BigScreen_Service from './pages/admin/BigScreen_Service.vue';
 //商户后台页面
 import ShopAccount from './pages/shop/ShopAccount.vue';
 import ShopRecharge from './pages/shop/ShopRecharge.vue';
@@ -118,7 +121,18 @@ let routes = [
         name: '厂商管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/city_manage', component: City_Manage, name: '厂商管理'}
+            {path: '/city_manage', component: City_Manage, name: '厂商管理'},
+            {path: '/city_manage_staff', component: City_Manage_Staff, name: '厂商管理'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '增值服务',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/message_service', component: Message_Service, name: '短信服务'},
+            {path: '/bigScreen_service', component: BigScreen_Service, name: '大屏服务'}
         ]
     },
     //商户页面
@@ -189,7 +203,9 @@ let routes = [
         name: '车场管理',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/park_manage', component: Park_Manage, name: '车场管理'}
+            {path: '/park_manage', component: Park_Manage, name: '车场管理'},
+            {path: '/park_manage_staff', component: Park_Manage_Staff, name: '员工管理'},
+
         ]
     },
     {

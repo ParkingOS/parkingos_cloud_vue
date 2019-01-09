@@ -1,7 +1,7 @@
 <template>
     <section style="padding: 21px 16px;margin: 0 10px;background: #fff">
         <sticky class-name="sub-navbar" :fixedDom="fixedDom" stickyTop='50' zIndex='90' v-on:topShow="topShowFn">
-            <ul style="display: flex;" v-if="topShow">
+            <ul style="display: flex;width:100%" v-show="topShow">
                 <template v-for="items in TableItems" >
                     <li
                         :style="tableitem.width ? {width:tableitem.width+'px',textAlign:'center',lineHeight:'44px',color:'#909399',fontWeight:'500',backgroundColor: '#F4F8FF'} : isWidthStyle"
@@ -120,6 +120,7 @@
                 :value="addRowData"
                 :addFormConfig="TableItems"
                 :title="addTitle"
+                :loading="addLoading"
                 v-on:input="onAddInput"
                 v-on:add="onAdd"
                 v-on:cancelAdd="cancelAdd"
@@ -162,6 +163,7 @@
         },
         data(){
             return {
+                addLoading:false,
                 rowdata:{},
                 editFormVisible:false,
                 addFormVisible:false,
@@ -298,7 +300,9 @@
                 aform = common.generateForm(aform);
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
+                        that.addLoading = true;
                         addTableData(api,aform).then(res=>{
+
                             if(res.status == 200){
                                 if(res.data.state == 1){
                                     that.$message({
@@ -308,15 +312,10 @@
                                     });
                                     setTimeout(()=>{
                                         that.addFormVisible = false;
-                                        if(that.addedValue.shop_id != undefined || that.addedValue.comid != undefined){
-                                            this.getTableData(that.addedValue,that)
-                                        }else{
-                                            that.getTableData({},that);
-                                        }
-
-                                        // that.getTableData(that.sform,that);
-                                    },60)
+                                        that.getTableData(that.addedValue,that);
+                                    },60);
                                 }else{
+                                    that.addLoading = false;
                                     that.$message({
                                         message: res.data.msg,
                                         type: 'info',
@@ -330,6 +329,7 @@
                                 type: 'error',
                                 duration: 600
                             });
+                            that.addLoading = false;
                         })
                     }
                 });
