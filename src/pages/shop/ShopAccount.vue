@@ -26,13 +26,21 @@
           <!--</div>-->
       <!--</div>-->
       <div class="shop-coupon-info">
-          <div class="shop-info-item">
+          <div class="shop-info-item" v-if="showReduce">
               <CarReduce
                       v-on:refresh="refreshFn"
                       :reductionList="reductionList"
                       :ticketUnit="ticketUnit"
                       :ticketLimit="ticketLimit"></CarReduce>
           </div>
+          <div class="shop-info-item" v-if="!showReduce">
+                <CarDiscount
+                        v-on:refresh="refreshFn"
+                        :reductionList="reductionList"
+                        :ticketUnit="ticketUnit"
+                        :ticketTitle="ticketTitle"
+                        :ticketLimit="ticketLimit"></CarDiscount>
+           </div>
           <div class="shop-info-item shop-info__margin">
               <FreeCarReduce
                       :disable="disable"
@@ -59,17 +67,20 @@ import { path,server,carditems,checkPhone,checkMoney,checkNumber,dtypelist,cardt
 import common from '../../common/js/common'
 import CarReduce from './CarReduce'
 import FreeCarReduce from './FreeCarReduce'
+import CarDiscount from './CarDiscount'
 
 
 export default {
   components:{
-      CarReduce,FreeCarReduce
+      CarReduce,FreeCarReduce,CarDiscount
   },
   data(){
     return{
+        showReduce:true,
         disable:false,
         ticketfree_limit:'获取中...',
         ticketLimit:'获取中...',
+        ticketTitle:'减免券',
         ticketUnit:'元',
         reductionList:[],
         inDev:require('../../assets/images/shop/in-dev.png'),
@@ -202,6 +213,12 @@ export default {
                     vm.ticketLimit=ret.ticket_money+''
                     vm.ticketUnit = '元'
                     vm.type = '5'
+                }else if(ret.ticket_unit==5){
+                    vm.ticketLimit=ret.ticket_money+''
+                    vm.ticketUnit = '张'
+                    vm.type = '6'
+                    vm.ticketTitle='折扣券'
+                    vm.showReduce=false
                 }
                 vm.accountModify.id=ret.id
                 vm.accountModify.name=ret.name

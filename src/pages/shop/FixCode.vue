@@ -102,7 +102,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="单张额度" v-if="showamount" :prop="amount_limit">
-                        <el-input v-model.number="addFormPark.amount_limit"  placeholder="请输入单张的额度"></el-input>
+                        <el-input v-model.number="addFormPark.amount_limit" :readonly="inputreadonly"  placeholder="请输入单张的额度"></el-input>
                     </el-form-item>
                     <el-form-item label="总张数" v-if="showfree" :prop="free_limit">
                         <el-input v-model.number="addFormPark.free_limit"  placeholder="请输入总张数"></el-input>
@@ -279,6 +279,9 @@
         },
         data() {
             return {
+                default_limit:'',
+                inputreadonly:false,
+                ticket_unit:2,
                 copyBtn:null,
                 qrurl:'',
                 qrsrc:'',
@@ -818,6 +821,7 @@
             },
             addFixedCode(){
                 // this.$refs['addFormPark'].clearValidate();
+                this.addFormPark.amount_limit=this.default_limit
                 this.addFormVisible = true;
             },
             handleAdd(){
@@ -931,12 +935,12 @@
                 }).then(function (response) {
                     let ret = response.data;
                     if(ret.ticket_unit==1||ret.ticket_unit==2||ret.ticket_unit==3){
-                        vm.tableitems[5].subs[0].hidden = "true";
+                        vm.tableitems[6].subs[0].hidden = "true";
                     }
 
                     else if(ret.ticket_unit==4){
                         //金额  隐藏剩余时长
-                        vm.tableitems[4].subs[0].hidden = "true";
+                        vm.tableitems[5].subs[0].hidden = "true";
                     }
 
                     if(ret.support_type==0){
@@ -945,6 +949,13 @@
                         ]
                     }
                     //console.log("~~~~~:"+ret.appid)
+
+                    vm.ticket_unit=ret.ticket_unit;
+                    if(vm.ticket_unit==5){
+                        vm.default_limit=ret.default_limit;
+                        vm.addFormPark.amount_limit=ret.default_limit;
+                        vm.inputreadonly=true;
+                    }
                     vm.tempSetForm.id= ret.id;
                     vm.public_state= ret.public_state+'';
                     vm.tempSetForm.public_state= ret.public_state+'';
@@ -995,17 +1006,14 @@
                 this.tableitems[len -1].subs[0].hidden = val
             },
             reducetype : function (val) {
-                if(val==1){//时长减免
-
+                if(val==1){//减免
                     this.showamount = false;
-                    this.showfree = false;
                     this.addFormPark.validite_time='24';
                     this.showamount = true;
                     this.showfree = true;
 
                 }else{//全免
                     this.showamount = false;
-                    this.showfree = false;
                     this.addFormPark.validite_time='24'
                     this.showfree = true;
                 }

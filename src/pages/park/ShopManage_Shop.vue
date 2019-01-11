@@ -230,6 +230,10 @@
                 <el-form-item label="减免券(元):" v-if="showTicketMoney" >
                     <el-input v-model="ticket_val"></el-input>
                 </el-form-item>
+                <el-form-item label="折扣券(张):" v-if="showTicketDis">
+                    <el-input v-model="ticket_val" ></el-input>
+                    <span>(每张{{discount_money}}元)</span>
+                </el-form-item>
                 <el-form-item label="全免券(张):">
                     <el-input v-model="ticketfree_limit" ></el-input>
                     <span>(每张{{free_money}}元)</span>
@@ -335,6 +339,10 @@
                 <el-form-item label="减免券(元):" v-if="showTicketMoney">
                     <el-input v-model="ticket_val" style="width:70%"></el-input>
                 </el-form-item>
+                <el-form-item label="折扣券(张):" v-if="showTicketDis">
+                    <el-input v-model="ticket_val" style="width:70%"></el-input>
+                    <span>(每张{{discount_money}}元)</span>
+                </el-form-item>
                 <el-form-item label="全免券(张):">
                     <el-input v-model="ticketfree_limit" style="width:70%"></el-input>
                     <span>(每张{{free_money}}元)</span>
@@ -392,16 +400,6 @@
                             <el-form-item label="有效期/小时" :prop="validite_time">
                                 <el-input v-model="shopForm.validite_time" placeholder=""></el-input>
                             </el-form-item>
-                            <el-form-item label="手输额度" >
-                                <el-select v-model="hand_input_enable" filterable style="width:100%">
-                                    <el-option
-                                            v-for="item in handInputType"
-                                            :label="item.value_name"
-                                            :value="item.value_no"
-                                    >
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
                             <el-form-item label="叠加限制" >
                                 <el-select v-model="use_limit" filterable style="width:100%">
                                     <el-option
@@ -430,20 +428,21 @@
                 </div>
 
                 <div v-show="activeIndex == 2">
-                    <div style="width: 390px;padding-left: 30px;padding-top: 30px">
-                        <el-form-item label="优惠券类型">
-                            <el-select v-model="shop_ticket_type" filterable style="width:100%">
-                                <el-option
-                                        v-for="item in ticketType"
-                                        :label="item.value_name"
-                                        :value="item.value_no"
-                                >
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </div>
-                    <div class="add-shop-form-wrapper" style="padding-top:0 ">
+
+                    <div class="add-shop-form-wrapper">
                         <div class="add-shop-wrapper-left">
+
+                             <el-form-item label="优惠券类型">
+                                <el-select v-model="shop_ticket_type" filterable style="width:100%">
+                                    <el-option
+                                            v-for="item in ticketType"
+                                            :label="item.value_name"
+                                            :value="item.value_no"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+
                             <el-form-item label="全免券">
                                 <el-select v-model="shop_support_type" filterable style="width:100%">
                                     <el-option
@@ -470,6 +469,17 @@
                             </el-form-item>
                         </div>
                         <div class="add-shop-wrapper-right">
+                             <el-form-item label="手输额度" >
+                                <el-select v-model="hand_input_enable" filterable style="width:100%" :disabled="disabled">
+                                    <el-option
+                                            v-for="item in handInputType"
+                                            :label="item.value_name"
+                                            :value="item.value_no"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+
                             <el-form-item :label="discount_money_name" v-if="showDiscountMoney" :prop="v_discount_money">
                                 <el-input v-model="shopForm.v_discount_money" placeholder="" ></el-input>
                             </el-form-item>
@@ -533,6 +543,8 @@
         },
         data() {
             return {
+                disabled:false,
+                editOrAdd:1,
                 activeIndex:1,
                 rowdata:{},
                 searchFormData:{
@@ -586,6 +598,8 @@
                 shop_ticket_type: 1,
                 shop_support_type:1,
                 unit: 2,
+                oldunit:2,
+                old_hand_input_enable:0,
                 hand_input_enable:0,
                 use_limit:1,
                 free_limit_times:0,
@@ -612,7 +626,8 @@
                 ],
                 ticketType: [
                     {'value_name': '时长减免', 'value_no': 1},
-                    {'value_name': '金额减免', 'value_no': 2}
+                    {'value_name': '金额减免', 'value_no': 2},
+                    {'value_name': '折扣减免', 'value_no': 3},
                 ],
                 handInputType: [
                     {'value_name': '不支持', 'value_no': 0},
@@ -653,6 +668,7 @@
                 ticket_type: '',
                 showTicketMoney: false,
                 showTicketTime: false,
+                showTicketDis:false,
                 renewTitle: '',
                 regUserTitle: '',
                 page: 1,
@@ -837,10 +853,13 @@
                                 } else if (params.row.ticket_unit == 3) {
                                     unit = "天";
                                     str = params.row.ticket_limit+unit;
-                                } else {
+                                } else if (params.row.ticket_unit == 4){
                                     unit = "元";
                                     str = params.row.ticket_money+unit;
-                                }
+                                }else if (params.row.ticket_unit == 5){
+                                     unit = "张";
+                                     str = params.row.ticket_money+unit;
+                                 }
                                 return h('div', [
                                     h('span', {
                                         on: {
@@ -1322,12 +1341,14 @@
                                                 this.shop_ticket_type = row.ticket_type
                                                 this.shop_support_type =row.support_type
                                                 this.hand_input_enable = row.hand_input_enable
+                                                this.old_hand_input_enable = row.hand_input_enable
                                                 this.free_limit_times=row.free_limit_times;
                                                 this.use_fix_code=row.use_fix_code;
                                                 this.use_limit = row.use_limit
                                                 this.unit = row.ticket_unit
+                                                this.oldunit = row.ticket_unit
                                                 this.showRegis = true
-
+                                                this.editOrAdd=2;
                                             }
                                         }
                                     }, '编辑'),
@@ -1502,11 +1523,19 @@
                     this.renewTitle = "减免券购买(时长)";
                     this.showTicketTime = true;
                     this.showTicketMoney = false;
-                } else {
+                    this.showTicketDis=false;
+                } else if(row.ticket_type == 2){
                     //金额减免
                     this.renewTitle = "减免券购买(金额)";
                     this.showTicketTime = false;
+                    this.showTicketDis=false;
                     this.showTicketMoney = true;
+                }else if(row.ticket_type == 3){
+                     //折扣减免
+                     this.renewTitle = "减免券购买(折扣)";
+                     this.showTicketTime = false;
+                     this.showTicketMoney = false;
+                     this.showTicketDis=true;
                 }
                 if (row.ticket_unit == 1) {
                     this.discount_money_title = '减免分钟(分):'
@@ -1553,11 +1582,19 @@
                     this.renewTitle = "减免券购买(时长)";
                     this.showTicketTime = true;
                     this.showTicketMoney = false;
-                } else {
+                    this.showTicketDis=false;
+                } else if(row.ticket_type == 2){
                     //金额减免
                     this.renewTitle = "减免券购买(金额)";
                     this.showTicketTime = false;
+                    this.showTicketDis=false;
                     this.showTicketMoney = true;
+                }else if(row.ticket_type == 3){
+                     //折扣减免
+                     this.renewTitle = "减免券购买(折扣)";
+                     this.showTicketTime = false;
+                     this.showTicketMoney = false;
+                     this.showTicketDis=true;
                 }
                 if (row.ticket_unit == 1) {
                     this.discount_money_title = '减免分钟(分):'
@@ -1568,11 +1605,6 @@
                 } else if (row.ticket_unit == 3) {
                     this.discount_money_title = '减免天数(天):'
                     this.discount_money_body = "(每天" + row.discount_money + "元)"
-                } else if (row.ticket_unit == 4) {
-                    //金额减免
-                    this.renewTitle = "减免券购买(金额)";
-                    this.showTicketTime = false;
-                    this.showTicketMoney = true;
                 }
                 this.free_money = row.free_money;
                 this.ticket_val = '';
@@ -2005,7 +2037,9 @@
                 this.loadDefaultData();
                 this.shopForm.id = '';
                 this.shopTitle = '添加商户'
-
+                this.editOrAdd=1;
+                this.shop_ticket_type=1;
+                this.unit=2;
                 this.use_limit=0
                 this.free_limit_times=0
                 this.use_fix_code=1
@@ -2124,6 +2158,7 @@
                 this.use_fix_code=row.use_fix_code;
                 this.use_limit = row.use_limit
                 this.unit = row.ticket_unit
+                this.oldunit = row.ticket_unit
                 this.showRegis = true
             },
             getAddMoney() {
@@ -2132,7 +2167,7 @@
                 var ticket_val = Number(this.ticket_val);
                 var ticketfree_limit = this.ticketfree_limit;
                 if (!isNaN(ticket_val)) {
-                    if (this.ticket_type == 1) {
+                    if (this.ticket_type == 1||this.ticket_type == 3) {
                         this.totalMoney = ticket_val * this.discount_money;
                     } else {
                         this.totalMoney = ticket_val;
@@ -2248,16 +2283,41 @@
                     this.ticketUnit = [
                         {'value_name': '元', 'value_no': 4},
                     ],
-                        this.showDiscountMoney = false,
-                        this.unit = 4
-                } else {
+                    this.showDiscountMoney = false,
+                    this.unit = 4
+                    this.hand_input_enable=this.old_hand_input_enable
+                    this.disabled=false
+                    if(this.editOrAdd==1){
+                        this.shopForm.default_limit ='5,10,20';
+                    }
+                } else if(curVal==1){
                     this.ticketUnit = [
                         {'value_name': '分', 'value_no': 1},
                         {'value_name': '时', 'value_no': 2},
                         {'value_name': '天', 'value_no': 3}
                     ],
-                        this.showDiscountMoney = true,
-                        this.unit = 2
+                    this.showDiscountMoney = true
+                    this.hand_input_enable=this.old_hand_input_enable
+                    this.disabled=false
+                    if(this.oldunit>0&&this.oldunit<4){
+                        this.unit = this.oldunit
+                    }else{
+                        this.unit = 2;
+                    }
+                    if(this.editOrAdd==1){
+                        this.shopForm.default_limit ='5,10,20';
+                    }
+                }else if(curVal==3){
+                    this.ticketUnit = [
+                        {'value_name': '折', 'value_no': 5},
+                    ],
+                    this.showDiscountMoney = true,
+                    this.unit = 5
+                    if(this.editOrAdd==1){
+                        this.shopForm.default_limit ='7';
+                    }
+                    this.hand_input_enable=0
+                    this.disabled=true
                 }
             },
             unit(curVal, oldVal) {
@@ -2265,8 +2325,10 @@
                     this.discount_money_name = "每分钟/元";
                 } else if (curVal == 2) {
                     this.discount_money_name = "每小时/元";
-                } else {
+                } else if(curVal == 3){
                     this.discount_money_name = "每天/元";
+                }else if(curVal == 5){
+                    this.discount_money_name = "折扣每张/元";
                 }
             }
         }

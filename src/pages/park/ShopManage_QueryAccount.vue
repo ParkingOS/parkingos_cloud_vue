@@ -157,21 +157,10 @@
                             addable: true,
                             unsortable: true,
                             align: 'center',
-                            format:function(row){
-                                if(row.ticket_unit==1){
-                                    if(row.ticket_limit==0){
-                                        return "";
-                                    }else{
-                                        return row.ticket_limit;
-                                    }
-                                }else{
-                                    return "";
-                                }
-                            },
                             columnType:'render',
                             render: (h, params) => {
-                                let unit = '元';
-                                let str = '';
+                                var unit = '元';
+                                var str = '';
                                 if (params.row.ticket_unit == 1) {
                                     unit = "分钟";
                                     str = params.row.ticket_limit+unit;
@@ -181,9 +170,14 @@
                                 } else if (params.row.ticket_unit == 3) {
                                     unit = "天";
                                     str = params.row.ticket_limit+unit;
-                                } else {
+                                } else if(params.row.ticket_unit == 4){
                                     unit = "元";
                                     str = params.row.ticket_money+unit;
+                                }else if(params.row.ticket_unit == 5){
+                                    unit = "张";
+                                    str = params.row.ticket_money+unit;
+                                }else{
+                                    str='--'
                                 }
                                 return h('div', [
                                     h('span', {

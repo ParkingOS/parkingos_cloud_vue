@@ -92,6 +92,7 @@
             return {
                 searchForm:{},
                 formItem:{
+                    hidden_type:'',
                     create_time:'',
                     create_time_start:'',
                     create_time_end:'',
@@ -182,7 +183,7 @@
                     {
                         hasSubs: false,
                         subs: [{
-                            label: '优惠时长',
+                            label: '优惠额度',
                             prop: 'money',
                             width: '120',
                             type: 'number',
@@ -194,13 +195,20 @@
                             align: 'center',
                             columnType:'render',
                             render: (h, params) => {
-                                let str = ''; let ticket_unit = params.row.ticket_unit; let money = params.row.money;
+                                var str = '';
+                                var ticket_unit = params.row.ticket_unit;
+                                var money = params.row.money;
+                                var umoney=params.row.umoney;
                                 if(ticket_unit == 1 && money!=0){
                                     str = money+'分钟'
                                 }else if(ticket_unit == 2 && money!=0){
                                     str = money+'小时'
                                 }else if(ticket_unit == 3 && money!=0){
                                     str = money+'天'
+                                }else if(ticket_unit==4&&umoney!=0){
+                                     str=params.row.umoney +'元'
+                                }else if(ticket_unit==5&&umoney!=0){
+                                     str=params.row.umoney +'折'
                                 }else{
                                     str = '';
                                 }
@@ -217,7 +225,7 @@
                             prop: 'umoney',
                             width: '120',
                             type: 'number',
-                            hidden:'',
+                            hidden:true,
                             editable: true,
                             searchable: false,
                             addable: true,
@@ -225,8 +233,15 @@
                             align: 'center',
                             columnType:'render',
                             render: (h, params) => {
+                                var str='';
+                                var ticket_unit = params.row.ticket_unit;
+                                if(ticket_unit==4){
+                                    str=params.row.umoney +'元'
+                                }else if(ticket_unit==5){
+                                    str=params.row.umoney +'张'
+                                }
                                 return h('div', [
-                                    h('span', params.row.umoney +'元')
+                                    h('span', str)
                                 ]);
                             }
                         }]
@@ -413,6 +428,8 @@
                         return "金额减免";
                     }else if(type==4){
                         return "全免券";
+                    }else if(type==6){
+                        return "折扣券";
                     }else{
                         return "";
                     }
@@ -432,10 +449,9 @@
                 /*
                 * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
                 * */
-                let sform = this.formItem;
+                let sform = JSON.parse(JSON.stringify( this.formItem ));
                 sform.uin = sform.shopuser;
                 sform.uin_start = sform.shopuser;
-                sform.hidden_type=this.hidden_type;
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
             changeDateFormat(val){
@@ -451,7 +467,7 @@
                 }
             },
             resetForm(){
-                this.initFn(this)
+                this.initFn(this,this.formItem.hidden_type)
             },
             exportFn(){
                 /*
@@ -459,12 +475,13 @@
                 * */
                 this.$refs['tabPane'].handleExport()
             },
-            initFn(that){
+            initFn(that,val){
                 /*
                 * 初始化操作
                 * 点击刷新时 和初进入页面时
                 * */
                 that.formItem ={
+                    hidden_type:'',
                     create_time:'',
                     create_time_start:'',
                     create_time_end:'',
@@ -473,6 +490,7 @@
                     currentData:'',
                     shopuser:'',
                 };
+                that.formItem.hidden_type=val;
                 let currentTime =  common.currentDateArray(1);
                 that.formItem.currentData = [common.timestampFormat(currentTime[0]),common.timestampFormat(currentTime[1])];
                 that.formItem.create_time_start = common.timestampFormat(currentTime[0]);
@@ -497,18 +515,19 @@
                 let ret = response.data;
                 if(ret.ticket_unit==1||ret.ticket_unit==2||ret.ticket_unit==3){
                     //时长
-                    vm.tableitems[5].subs[0].hidden = "true";
+                    //vm.tableitems[5].subs[0].hidden = "true";
                     // vm.sform.hidden_type=2
-                    vm.hidden_type = 2;
+                    vm.formItem.hidden_type = 2;
                 }
 
                 else if(ret.ticket_unit==4){
                     //金额  隐藏时长
-                    vm.tableitems[4].subs[0].hidden = "true";
-                    // vm.sform.hidden_type=1
-                    vm.hidden_type = 1;
+                    //vm.tableitems[4].subs[0].hidden = "true";
+                    vm.formItem.hidden_type = 1;
+                 }else if(ret.ticket_unit==5){
+                    vm.formItem.hidden_type = 3;
                  }
-
+                 vm.initFn(vm,vm.formItem.hidden_type);
               });
             },
             setAuthorityFn(){
@@ -537,10 +556,11 @@
             // }
         },
         activated() {
+           // this.initFn(this);
             this.setAuthorityFn();
             this.getQuery();
-            this.initFn(this);
-            this.$refs['tabPane'].getTableData({},this);
+
+            //this.$refs['tabPane'].getTableData({},this);
         }
     }
 

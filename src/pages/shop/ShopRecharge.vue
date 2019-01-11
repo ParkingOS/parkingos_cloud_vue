@@ -154,6 +154,8 @@
                                         str = params.row.ticket_limit+' 天'
                                     }else if(unit==4){
                                         str = params.row.ticket_money+' 元'
+                                    }else if(unit==5){
+                                        str = params.row.ticket_money+' 张'
                                     }
                                     return h('div', [
                                         h('span', str )
@@ -220,8 +222,16 @@
                           align: 'center',
                           columnType:'render',
                           render: (h, params) => {
+                                var str ='';
+                                if(params.row.operate_type == 1){
+                                    str='续费'
+                                }else if(params.row.operate_type == 2){
+                                    str='回收充值'
+                                }else if(params.row.operate_type == 3){
+                                    str='退款';
+                                }
                               return h('div', [
-                                  h('span', params.row.operate_type == 1 ?'续费':'回收充值')
+                                  h('span', str)
                               ]);
                           }
                       }]

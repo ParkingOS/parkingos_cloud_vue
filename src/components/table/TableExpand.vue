@@ -114,9 +114,14 @@
         <div v-if="nameType == 'coupon'" style="width: 100%">
             <el-form label-position="left" inline class="demo-table-expand">
                 <div>
+                     <el-form-item label="编号">
+                        <span>{{expandData.id}}</span>
+                    </el-form-item>
                     <el-form-item label="创建时间">
                         <span>{{common.dateformat(expandData.create_time)}}</span>
                     </el-form-item>
+                </div>
+                <div>
                     <el-form-item label="使用时间">
                         <span>{{common.dateformat(expandData.use_time)}}</span>
                     </el-form-item>

@@ -174,21 +174,7 @@
                             width:'50',
                         }]
                     },
-                    {
 
-                        hasSubs: false,
-                        subs: [{
-                            label: '编号',
-                            prop: 'id',
-                            width: '110',
-                            type: 'number',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, 
                     {
                         hasSubs: false, subs: [
                             {
@@ -243,7 +229,7 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '优惠时长',
+                            label: '优惠额度',
                             prop: 'money',
                             width: '120',
                             type: 'number',
@@ -270,6 +256,7 @@
                             type: 'number',
                             editable: true,
                             searchable: true,
+                            hidden:true,
                             addable: true,
                             unsortable: true,
                             align: 'center',
@@ -375,6 +362,10 @@
                         return row.money+'小时';
                      }else if(row.ticket_unit==3&&row.money!=0){
                         return row.money+'天';
+                     }if(row.ticket_unit==4&&row.umoney!=0){
+                        return row.umoney+'元';
+                     }else if(row.ticket_unit==5&&row.umoney!=0){
+                        return row.umoney+'折';
                      }else{
                         return "";
                      }
@@ -382,6 +373,8 @@
                 umoneyformat:function(row){
                     if(row.ticket_unit==4&&row.umoney!=0){
                         return row.umoney+'元';
+                     }else if(row.ticket_unit==5&&row.umoney!=0){
+                        return row.umoney+'张';
                      }else{
                         return "";
                      }
@@ -402,6 +395,8 @@
                         return "金额减免";
                     }else if(type==4){
                         return "全免券";
+                    }else if(type==6){
+                         return "折扣券";
                     }else{
                         return "";
                     }
