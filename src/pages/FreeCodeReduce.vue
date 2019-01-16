@@ -54,10 +54,11 @@
                     let ret = response.data;
                     if(ret.state==1){
                         //第一次获取成功后，开启定时任务
+                        window.clearInterval(vm.timer)
                         vm.timer = window.setInterval(vm.getCodeStatus,10000)
                         vm.code = ret.code;
                         vm.ticket_url = ret.ticket_url;
-                        vm.genqr(vm.ticket_url)
+                        vm.genqr(vm.ticket_url,vm)
                     }else{
                         vm.$message({
                             message: "获取失败" + ret.error,
@@ -69,9 +70,9 @@
                 });
 
             },
-            genqr(url){
+            genqr(url,vm){
                 var canvas = document.getElementById('canvas');
-                this.QRCode.toCanvas(canvas, url,{ errorCorrectionLevel: 'H' }, function (error) {
+                vm.QRCode.toCanvas(canvas, url,{ errorCorrectionLevel: 'H' }, function (error) {
                     if (error){} else{}
                 })
                 var context=canvas.getContext('2d');
@@ -87,7 +88,7 @@
                 context2.font="bold 10px 微软雅黑"
                 context2.fillStyle="black"
                 var url = img.toDataURL("image/png");
-                this.qrsrc = url;
+                vm.qrsrc = url;
             },
             getCodeStatus(){
                 let vm = this;
