@@ -85,9 +85,9 @@
             }
         },
         watch:{
-            currentVal:{
+            maxVal:{
                 handler(newVal,oldVal){
-                    this.newVal = newVal;
+                    this.newVal = this.currentVal;
                     if(this.currentVal == 0){
 
                     }else{
