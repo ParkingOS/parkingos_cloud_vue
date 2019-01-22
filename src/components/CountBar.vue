@@ -75,8 +75,12 @@
 
                 }else{
                     // this.countWidth = Math.ceil((this.currentVal / this.maxVal)*100) +'%'
-                    let round = (this.currentVal / this.maxVal)*100;
-                    this.countWidth = Math.round(round * 100) / 100 +'%';
+
+                    // let round = (this.currentVal / this.maxVal)*100;
+                    // this.countWidth = Math.round(round * 100) / 100 +'%';
+
+                    let str =this.$math.round(this.$math.format(this.$math.chain(this.$math.bignumber(this.currentVal)).divide(this.$math.bignumber(this.maxVal)).done()),4)
+                    this.countWidth = this.$math.format(this.$math.chain(this.$math.bignumber(str)).multiply(this.$math.bignumber(100)).done())+'%'
                 }
             }
         },
@@ -88,8 +92,13 @@
 
                     }else{
                         // this.countWidth = Math.ceil((this.currentVal / this.maxVal)*100) +'%'
-                        let round = (this.currentVal / this.maxVal)*100;
-                        this.countWidth = Math.round(round * 100) / 100 +'%';
+
+
+                        // let round = (this.currentVal / this.maxVal)*100;
+                        // this.countWidth = Math.round(round * 100) / 100 +'%';
+
+                        let str =this.$math.round(this.$math.format(this.$math.chain(this.$math.bignumber(this.currentVal)).divide(this.$math.bignumber(this.maxVal)).done()),4)
+                        this.countWidth = this.$math.format(this.$math.chain(this.$math.bignumber(str)).multiply(this.$math.bignumber(100)).done())+'%'
                     }
                 },
                 deep:true

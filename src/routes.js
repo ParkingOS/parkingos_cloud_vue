@@ -54,6 +54,7 @@ import SystemManage_MonthCard from './pages/park/SystemManage_MonthCard.vue';
 import SystemManage_Logs from './pages/park/SystemManage_Logs.vue';
 import SystemManage_AddedService_Sms from './pages/park/SystemManage_Sms';
 import SystemManage_AddedService_Screen from './pages/park/SystemManage_Screen';
+import AddServices_Program from './pages/park/AddServices_Program';
 
 //cyz add
 import  MonitorApp from './MonitorApp.vue';
@@ -350,8 +351,19 @@ let routes = [
             {path: '/systemManage_Price', component: SystemManage_Price, name: '价格管理'},
             {path: '/systemManage_MonthCard', component: SystemManage_MonthCard, name: '月卡套餐管理'},
             {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'},
+            // {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'},//增值服务-短信服务
+            // {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-短信服务
+
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '增值服务',
+        children: [
             {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'},//增值服务-短信服务
-            {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-短信服务
+            {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-数据大屏
+            {path: '/AddServices_Program', component: AddServices_Program, name: 'program'},//增值服务-数据大屏
 
         ]
     },

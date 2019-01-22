@@ -22,6 +22,7 @@ import 'babel-polyfill'
 import QRCode from 'qrcode';
 import VueClipboard from 'vue-clipboard2'
 import scroll from 'vue-seamless-scroll';
+import math from 'mathjs'
 Vue.use(scroll)
 Vue.use(QRCode)
 Vue.use(ElementUI);
@@ -32,7 +33,7 @@ Vue.use(BaiduMap,{
 Vue.use(VueClipboard)
 Vue.prototype.$axios=axios;
 Vue.prototype.$qs=require('qs');
-
+Vue.prototype.$math = math;
 Vue.prototype.QRCode=QRCode
 
 Vue.prototype.common=common;
