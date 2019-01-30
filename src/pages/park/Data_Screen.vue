@@ -542,10 +542,9 @@
                                that.moneyList = that.receiveTotalFormat(that.otherData.receiveTotal,that)
                             }
 
-                            let totalIncomPie= parkAllData.totalIncomPie; //今日收费汇总
-                            if(totalIncomPie.length >0){
-                                that.incomePieAll(totalIncomPie,that)
-                            }
+                            let totalIncomPie= parkAllData.totalIncome; //今日收费汇总
+                            that.incomePieAll(totalIncomPie,that)
+
                             let parkState = parkAllData.parkState; //车场状态
                             that.parkState = parkState; //车场状态
                             that.parkStateFormat(parkState,that);
@@ -597,10 +596,12 @@
                     }));
             },
             incomePieAll(row,that){
-                that.incomePie.electronics = +row[0].value;
-                that.incomePie.cash = +row[1].value;
-                that.incomePie.reduction = +row[2].value;
-                that.incomePie.all =  parseFloat(row[0].value) + parseFloat(row[1].value)+parseFloat(row[2].value)
+                that.incomePie.electronics = +row.elePay;
+                that.incomePie.cash = +row.cashPay;
+                that.incomePie.reduction = +row.freePay;
+                let inAll = that.$math.add(row.elePay, row.cashPay);
+                that.incomePie.all = that.$math.add(inAll, row.freePay);
+                // that.incomePie.all =  parseFloat(row.elePay) + parseFloat(row.cashPay)+parseFloat(row.freePay)
             },
             //格式化在线设备
             parkStateFormat(parkState,that){

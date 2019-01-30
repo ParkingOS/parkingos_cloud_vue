@@ -16,7 +16,7 @@
                         <div class="count-bar-item-style"  :style="{background:countBarColor,width:countWidth}"></div>
                     </div>
                 </div>
-                <div :style="{width:'80px',fontWeight:'bold',marginLeft:'15px'}"><countTo :startVal='0' :endVal='newVal' :duration='1000'></countTo>元</div>
+                <div :style="{width:'120px',textAlign:'right',fontWeight:'bold',marginLeft:'15px'}"><countTo :startVal='0' :endVal='newVal' :duration='1000' :decimals="2"></countTo>元</div>
             </div>
         </div>
 
