@@ -796,13 +796,15 @@
                                         if (p == item) {
                                             //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
                                             _this.showParkItem[item] = common.pageShow(u, AUTH_ID[p]);
-                                            if (_this.highlightindex == '') {
-                                                //没有导航到任意界面，则继续检测
-                                                if (item.indexOf('_') > -1) {
-                                                    //带下划线的才是页面
-                                                    if (_this.showParkItem[item]) {
-                                                        _this.highlightindex = '/' + item;
-                                                        _this.expandindex = '/' + item.split('_')[0];
+                                            if(_this.showParkItem[item]){
+                                                if (_this.highlightindex == '') {
+                                                    //没有导航到任意界面，则继续检测
+                                                    if (item.indexOf('_') > -1) {
+                                                        //带下划线的才是页面
+                                                        if (_this.showParkItem[item]) {
+                                                            _this.highlightindex = '/' + item;
+                                                            _this.expandindex = '/' + item.split('_')[0];
+                                                        }
                                                     }
                                                 }
                                             }
@@ -812,7 +814,7 @@
                                 }
 
                                 sessionStorage.setItem('showParkItem', JSON.stringify(_this.showParkItem));
-                                // console.log(_this.showParkItem)
+                                console.log(_this.highlightindex)
                                 if (_this.highlightindex == '') {
                                     _this.$router.push({path: '/index'});
                                 } else {

@@ -150,6 +150,10 @@ export default {
             }
         }
     },
+    getMoneyData:function(){
+
+
+    },
     funcformat: function (is_collector, is_inspect, is_opencard) {
         if (is_collector == 1) {
             return RoleFuncion[1].value_name;

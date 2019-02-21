@@ -148,7 +148,7 @@
                     },
 
                     disabledDate(time){
-                        return time.getTime() >  new Date(that.minDate).getTime()+30*24*3600000||time.getTime()>Date.now()||time.getTime() <  new Date(that.minDate).getTime()-30*24*3600000;
+                        return (time.getTime() >  new Date(that.minDate).getTime()+30*24*3600000)||(time.getTime()>Date.now()+86399000)||(time.getTime() <  new Date(that.minDate).getTime()-30*24*3600000);
                     }
                 },
                 tableitems: [
@@ -746,7 +746,7 @@
             this.setAuthorityFn()
             this.initFn(this)
             this.getQuery()
-            this.$refs['tabPane'].getTableData({},this)
+            //this.$refs['tabPane'].getTableData({},this)
 
         },
         activated() {
