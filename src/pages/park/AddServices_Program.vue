@@ -80,23 +80,23 @@
                 <el-step title="数量选择" icon="icon"></el-step>
                 <el-step title="扫码支付" icon="icon"></el-step>
             </el-steps>
-            <el-form ref="addForm" label-width="80px" :model="purchaseSMS" class="custom-form-style fiexd-code-form">
+            <el-form ref="addForm" label-width="80px" :model="purchaseSMS" class="custom-form-style fiexd-code-form" :rules="rules">
                 <div v-show="activeIndex == 1">
-                    <el-form-item label="登录账号">
-                        <el-select v-model="purchaseSMS.count" style="width: 292px" @change="changeCount">
+                    <el-form-item label="登录账号" prop="username">
+                        <el-select v-model="purchaseSMS.username" filterable style="width: 292px" @change="changeUsername">
                             <el-option
-                                    v-for="item in countSelectData"
-                                    :label="item.count"
-                                    :value="item.count"
-                                    :key="item.id"
+                                    v-for="item in collectors"
+                                    :label="item.value_no"
+                                    :value="item.value_no"
+                                    :key="item.value_no"
                             >
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="姓名">
-                        <el-input v-model="purchaseSMS.count" placeholder="请输入内容" readonly></el-input>
+                        <el-input v-model="purchaseSMS.user_name" placeholder="姓名不可编辑" readonly></el-input>
                     </el-form-item>
-                    <el-form-item label="购买月份">
+                    <el-form-item label="购买月份" prop="count">
                         <el-select v-model="purchaseSMS.count" style="width: 292px" @change="changeCount">
                             <el-option
                                     v-for="item in countSelectData"
@@ -159,6 +159,7 @@
         },
         data(){
             return {
+                collectors:[],
                 readSecondSuccess:5,
                 readSecondError:5,
                 payState:0,
@@ -171,8 +172,11 @@
                 purchaseSMSVisible:false,
                 months:24,
                 purchaseSMS:{
-                    count:3,
-                    money:3
+                    username:'',
+                    user_name:'',
+                    user_id:'',
+                    count:'',
+                    money:'-'
                 },
                 countSelectData:[],
                 activeIndex:1,
@@ -185,8 +189,8 @@
                 searchFormData:{
                     currentData:'',
                 },
-                exportapi: '/bigscreen/exportbuytrade',
-                queryapi: '/bigscreen/getbuytrade',
+                exportapi: '/userprogram/exportbuytrade',
+                queryapi: '/userprogram/getbuytrade',
                 orderfield:'id',
                 fieldsstr:'id__count__utime__pay_time__etime__money__trade_no',
                 tableitems: [
@@ -194,7 +198,7 @@
                         hasSubs: false, subs: [
                             {
                                 label: '登录账号',
-                                prop: 'buy_month',
+                                prop: 'user_id',
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
@@ -209,7 +213,7 @@
                         hasSubs: false, subs: [
                             {
                                 label: '姓名',
-                                prop: 'buy_month',
+                                prop: 'user_name',
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
@@ -296,11 +300,26 @@
                         ]
                     },
                 ],
+                rules:{
+                    username:[
+                        { required: true, message: '请选择小程序登录账号', trigger: 'change' },
+                    ],
+                    count:[
+                        { required: true, message: '请选择购买月份', trigger: 'change' },
+                    ]
+                },
                 shopCar:require('../../assets/images/shop-car.png'),
                 paySuccessImg:require('../../assets/images/pay-success.png'),
                 payErrorImg:require('../../assets/images/pay-error.png'),
                 hideExport:false,
             }
+        },
+        mounted(){
+            let _this = this;
+            axios.all([common.getCollector()])
+                .then(axios.spread(function (ret) {
+                    _this.collectors = ret.data;
+                }));
         },
         methods:{
             transferData(res){
@@ -329,40 +348,64 @@
                 this.activeIndex = 2;
             },
             getCode(){
-                clearInterval(this.timer);
-                let _this = this;
-                _this.payState = 2;
-                _this.nextLoad = true;
-                //暂时重置为0.01元
-                // _this.purchaseSMS.money = 0.01;
-                axios.get(path+'/bigscreen/tobuy', {
-                    params: { 'comid': sessionStorage.getItem('comid'),'buy_month':this.purchaseSMS.count,'money': this.purchaseSMS.money}
-                }).then(function (response) {
-                    _this.nextLoad = false;
-                    // console.log('response',response)
-                    if(response.data.state == 1){
-                        let _url = path2 + '/zld/buymessage?trade_no='+ response.data.trade_no;
-                        _this.trade_no = response.data.trade_no;
-                        _this.timer = setInterval(()=>{
-                            _this.getPayStateFn(_this);
-                        },2500);
-                        _this.genqr(_url)
-                    }else{
-                        _this.nextLoad = false;
-                        _this.$message({
-                            message: '获取失败，请稍后重试',
-                            type: 'error',
-                            duration: 600
+                this.$refs['addForm'].validate((valid) => {
+                    if (valid) {
+                        clearInterval(this.timer);
+                        let _this = this;
+                        _this.payState = 2;
+                        _this.nextLoad = true;
+                        //暂时重置为0.01元
+                        _this.purchaseSMS.money = 0.01;
+                        let timestamp = Math.random().toString();
+                        axios.get(path+'/userprogram/tobuy', {
+                            params: {
+                                'tmp': timestamp,
+                                'comid': sessionStorage.getItem('comid'),
+                                'buy_month':this.purchaseSMS.count,
+                                'money': this.purchaseSMS.money,
+                                'user_id':this.purchaseSMS.user_id
+                            }
+                        }).then(function (response) {
+                            _this.nextLoad = false;
+                            // console.log('response',response)
+                            if(response.data.state == 1){
+                                let _url = path2 + '/zld/buymessage?trade_no='+ response.data.trade_no;
+                                _this.trade_no = response.data.trade_no;
+                                _this.timer = setInterval(()=>{
+                                    _this.getPayStateFn(_this);
+                                },2500);
+                                _this.genqr(_url)
+                            }else{
+                                _this.nextLoad = false;
+                                _this.$message({
+                                    message: '获取失败，请稍后重试',
+                                    type: 'error',
+                                    duration: 600
+                                });
+                            }
+                        }).catch(function (error) {
+                            _this.nextLoad = false;
+                            _this.$message({
+                                message: '获取失败，请稍后重试',
+                                type: 'error',
+                                duration: 600
+                            });
                         });
+
+                    } else {
+                        return false;
                     }
-                }).catch(function (error) {
-                    _this.nextLoad = false;
-                    _this.$message({
-                        message: '获取失败，请稍后重试',
-                        type: 'error',
-                        duration: 600
-                    });
                 });
+            },
+            changeUsername(val){
+                let data = this.collectors;
+                for(let i in  data){
+                    let item = data[i];
+                    if(item.value_no == val){
+                        this.purchaseSMS.user_name = item.value_name;
+                        this.purchaseSMS.user_id = item.value_no;
+                    }
+                }
             },
             changeCount(val){
                 let data = this.countSelectData;
@@ -436,11 +479,17 @@
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
             getQuery(){
-                axios.get(path+'/getdata/getbigscreenprice',{params:{
+                axios.get(path+'/getdata/getprogramprice',{params:{
                         'comid':sessionStorage.getItem('comid')
                     }}).then((response)=>{
                     if(response.status == 200){
                         this.countSelectData = response.data;
+                        for(let item in this.countSelectData){
+                            if(this.countSelectData[item].count == 3){
+                                this.purchaseSMS.count = this.countSelectData[item].count;
+                                this.purchaseSMS.money = this.countSelectData[item].totalMoney;
+                            }
+                        }
                     }
                 }).catch((error)=>{
                     console.log(error)
