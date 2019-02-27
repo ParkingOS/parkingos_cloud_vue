@@ -137,6 +137,7 @@
                                     <span class="menuitem">增值服务</span></template>
                                 <el-menu-item index="/systemManage_AddedService_Sms" v-if="this.showParkItem.systemManage_AddedService_Sms">短信服务</el-menu-item>
                                 <el-menu-item index="/systemManage_AddedService_Screen" v-if="this.showParkItem.systemManage_AddedService_Screen">数据大屏</el-menu-item>
+                                <el-menu-item index="/addServices_Public" v-if="this.showParkItem.systemManage_AddServices_Public">商户公众号</el-menu-item>
                             </el-submenu>
                     <el-submenu index="/systemManage" v-if="this.showParkItem.systemManage"
                                 style="font-weight: normal;padding-bottom: 30px">
@@ -147,6 +148,10 @@
                             <template slot="title">
                                 <!--<i class="menu-icon iconfont icon-shebeiguanli"></i>-->
                                 <span class="menuitem" style="font-size: 14px">设备管理</span></template>
+                            <el-menu-item index="/equipmentManage_Watchhouse"
+                                          v-if="this.showParkItem.equipmentManage_Watchhouse">
+                                岗亭管理
+                            </el-menu-item>
                             <el-menu-item index="/equipmentManage_Monitor"
                                           v-if="this.showParkItem.equipmentManage_Monitor">
                                 监控管理

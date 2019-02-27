@@ -32,6 +32,8 @@ import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue';
 import ShopManage_Shop from './pages/park/ShopManage_Shop.vue';
 import ShopMange_Shop_Staff from './pages/park/shopMange_Shop_Staff.vue';
 import ShopManage_QueryAccount from './pages/park/ShopManage_QueryAccount.vue';
+//设备管理
+import EquipmentManage_Watchhouse from './pages/park/EquipmentManage_Watchhouse.vue';
 import EquipmentManage_Monitor from './pages/park/EquipmentManage_Monitor.vue';
 import EquipmentManage_Intercom from './pages/park/EquipmentManage_Intercom.vue';
 import EquipmentManage_WorkStation from './pages/park/EquipmentManage_WorkStation.vue';
@@ -55,6 +57,7 @@ import SystemManage_Logs from './pages/park/SystemManage_Logs.vue';
 import SystemManage_AddedService_Sms from './pages/park/SystemManage_Sms';
 import SystemManage_AddedService_Screen from './pages/park/SystemManage_Screen';
 import AddServices_Program from './pages/park/AddServices_Program';
+import AddServices_Public from './pages/park/AddServices_Public';
 
 //cyz add
 import  MonitorApp from './MonitorApp.vue';
@@ -94,6 +97,8 @@ import City_Manage_Staff from './pages/admin/City_Manage_Staff.vue';
 import CreateUin from './pages/admin/CreateUin.vue';
 import Message_Service from './pages/admin/Message_Service.vue';
 import BigScreen_Service from './pages/admin/BigScreen_Service.vue';
+import Public_Service from './pages/admin/Public_Service.vue';
+//Public_Service
 //商户后台页面
 import ShopAccount from './pages/shop/ShopAccount.vue';
 import ShopRecharge from './pages/shop/ShopRecharge.vue';
@@ -133,7 +138,9 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/message_service', component: Message_Service, name: '短信服务'},
-            {path: '/bigScreen_service', component: BigScreen_Service, name: '大屏服务'}
+            {path: '/bigScreen_service', component: BigScreen_Service, name: '大屏服务'},
+            {path: '/public_service', component: Public_Service, name: '公众号服务'},
+
         ]
     },
     //商户页面
@@ -317,6 +324,7 @@ let routes = [
         name: '设备管理',
         iconCls: 'el-icon-document',
         children: [
+            {path: '/equipmentManage_Watchhouse', component: EquipmentManage_Watchhouse, name: '岗亭管理'},
             {path: '/equipmentManage_Monitor', component: EquipmentManage_Monitor, name: '监控管理'},
             {path: '/equipmentManage_Intercom', component: EquipmentManage_Intercom, name: '对讲管理'},
             {path: '/equipmentManage_WorkStation', component: EquipmentManage_WorkStation, name: '工作站管理'},
@@ -363,7 +371,9 @@ let routes = [
         children: [
             {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'},//增值服务-短信服务
             {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-数据大屏
-            {path: '/AddServices_Program', component: AddServices_Program, name: 'program'},//增值服务-数据大屏
+            {path: '/AddServices_Program', component: AddServices_Program, name: 'program'},//增值服务-小程序
+            {path: '/addServices_Public', component: AddServices_Public, name: 'public'},//增值服务-小程序
+
 
         ]
     },

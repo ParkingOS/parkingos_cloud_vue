@@ -159,39 +159,43 @@
             <header class="fixed-code__title" slot="title">
                 公众号设置
             </header>
-            <div class="fixes-code__tip">
-                如果启用了公众号设置，必须关注该公众号才能使用固定码功能，且只支持微信扫码！
+            <div v-if="!purchaseState">
+                <p style="margin: 0 50px;padding-top: 150px;font-size: 16px">当前商户未购买该项增值服务，请前往车场后台（增值服务中心）购买后使用！</p>
             </div>
-            <el-form ref="publicForm"
-                     label-width="120px"
-                     class="custom-form-style fiexd-code-form1"
-                     :model="publicFormModel"
-                     :rules="publicFormRules">
-                <el-form-item label="公众号设置" >
-                    <el-select v-model="public_state" style="width: 328px">
-                        <el-option
-                                v-for="item in setList"
-                                :key="item.value_no"
-                                :label="item.value_name"
-                                :value="item.value_no"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="公众号appid"  :prop="appid" v-if="showPublicSet">
-                    <el-input v-model="publicFormModel.appid" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="公众号秘钥"  :prop="secret" v-if="showPublicSet">
-                    <el-input v-model="publicFormModel.secret" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="关注地址"  :prop="concern_address" v-if="showPublicSet">
-                    <el-input v-model="publicFormModel.concern_address" placeholder=""></el-input>
-                </el-form-item>
-                <div class="fixed-code-btn">
-                    <el-button type="primary" style="width: 144px" @click="addPublic" :loading="addloading">确定</el-button>
+            <div v-else>
+                <div class="fixes-code__tip">
+                    如果启用了公众号设置，必须关注该公众号才能使用固定码功能，且只支持微信扫码！
                 </div>
-            </el-form>
-
+                <el-form ref="publicForm"
+                         label-width="120px"
+                         class="custom-form-style fiexd-code-form1"
+                         :model="publicFormModel"
+                         :rules="publicFormRules">
+                    <el-form-item label="公众号设置" >
+                        <el-select v-model="public_state" style="width: 328px">
+                            <el-option
+                                    v-for="item in setList"
+                                    :key="item.value_no"
+                                    :label="item.value_name"
+                                    :value="item.value_no"
+                            >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="公众号appid"  :prop="appid" v-if="showPublicSet">
+                        <el-input v-model="publicFormModel.appid" placeholder=""></el-input>
+                    </el-form-item>
+                    <el-form-item label="公众号秘钥"  :prop="secret" v-if="showPublicSet">
+                        <el-input v-model="publicFormModel.secret" placeholder=""></el-input>
+                    </el-form-item>
+                    <el-form-item label="关注地址"  :prop="concern_address" v-if="showPublicSet">
+                        <el-input v-model="publicFormModel.concern_address" placeholder=""></el-input>
+                    </el-form-item>
+                    <div class="fixed-code-btn">
+                        <el-button type="primary" style="width: 144px" @click="addPublic" :loading="addloading">确定</el-button>
+                    </div>
+                </el-form>
+            </div>
         </el-dialog>
 
         <!--操作-->
@@ -659,7 +663,8 @@
                   password: [
                       {required: true, message: '请输入4位数字密码',min:4,max:4, trigger: 'blur'}
                   ],
-              }
+              },
+                purchaseState:false,
             }
         },
         methods:{
@@ -805,6 +810,22 @@
                 })
             },
             setPublic(){
+                let that = this;
+                that.$axios.get(path+'/fixcode/getofficialstate'+ '?shop_id='+sessionStorage.getItem('shopid')+'&t='+Date.now())
+                    .then(function (response) {
+                        if(response.data == 0){
+                        //    未购买
+                            that.purchaseState = false;
+                        }else if(response.data == 1){
+                            //已购买
+                            that.purchaseState = true;
+                        }else{
+                            that.purchaseState = false;
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
                 this.publicFormModel =common.clone(this.tempSetForm);
                 this.public_state=this.tempSetForm.public_state
                 this.showPublicDialog=true

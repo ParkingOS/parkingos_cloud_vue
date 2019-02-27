@@ -781,6 +781,10 @@
                                 // _this.$router.push({path: '/Park_Manage'});
                             }
                             else if (u.oid == ROLE_ID.BOSS) {
+                                for(let item in showShopItem_const){
+                                    showShopItem_const[item] = false;
+                                }
+                                sessionStorage.removeItem('showShopItem');
                                 _this.highlightindex = '/city_manage';
                                 _this.$router.push({path: _this.highlightindex});
                                 sessionStorage.setItem('highlightindex', _this.highlightindex);

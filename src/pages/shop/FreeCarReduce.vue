@@ -73,6 +73,7 @@
                             </el-form-item>
                         </el-form>
                         <div class="shop-common-btn scancode-btn" style="margin-top: 21px">
+                            <el-button  @click="getOrderDetail" :loading="currentOrderLoading" plain class="custom-plain-btn" :disabled="disable">订单</el-button>
                             <el-button type="primary" @click="useTicketByCarNumber" :loading="reduceSubmitLoading" class="custom-primary-btn" style="width: 144px" :disabled="disable">确定</el-button>
                         </div>
                     </div>
@@ -259,10 +260,10 @@
                     ]
                 },
                 visibleCarReduction:false,
-                carNumReduce:{
-                    reduce:'',
-                    car_number:''
-                },
+                // carNumReduce:{
+                //     reduce:'',
+                //     car_number:''
+                // },
                 qrCodeView:false,
                 withdrawFormRules:{
                     freeLimit: [
@@ -482,7 +483,7 @@
                     if (valid) {
                         vm.currentOrderLoading = true;
                         vm.orderInfoVisible = true;
-                        vm.$axios.post(server+"/zld/shopticket?action=getorderdetail&comid="+sessionStorage.getItem('comid')+"&car_number="+encodeURI(encodeURI(vm.carNumReduce.car_number))+"&reduce="+vm.carNumReduce.reduce,{
+                        vm.$axios.post(server+"/zld/shopticket?action=getorderdetail&comid="+sessionStorage.getItem('comid')+"&car_number="+encodeURI(encodeURI(vm.carNumReduce.car_number))+"&reduce=1",{
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
