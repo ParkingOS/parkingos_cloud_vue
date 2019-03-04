@@ -57,7 +57,7 @@ import SystemManage_Logs from './pages/park/SystemManage_Logs.vue';
 import SystemManage_AddedService_Sms from './pages/park/SystemManage_Sms';
 import SystemManage_AddedService_Screen from './pages/park/SystemManage_Screen';
 import AddServices_Program from './pages/park/AddServices_Program';
-import AddServices_Public from './pages/park/AddServices_Public';
+import SystemManage_AddServices_Public from './pages/park/AddServices_Public';
 
 //cyz add
 import  MonitorApp from './MonitorApp.vue';
@@ -372,7 +372,7 @@ let routes = [
             {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'},//增值服务-短信服务
             {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-数据大屏
             {path: '/AddServices_Program', component: AddServices_Program, name: 'program'},//增值服务-小程序
-            {path: '/addServices_Public', component: AddServices_Public, name: 'public'},//增值服务-小程序
+            {path: '/systemManage_AddServices_Public', component: SystemManage_AddServices_Public, name: 'public'},//增值服务-小程序
 
 
         ]

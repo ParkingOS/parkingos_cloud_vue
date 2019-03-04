@@ -137,7 +137,7 @@
                                     <span class="menuitem">增值服务</span></template>
                                 <el-menu-item index="/systemManage_AddedService_Sms" v-if="this.showParkItem.systemManage_AddedService_Sms">短信服务</el-menu-item>
                                 <el-menu-item index="/systemManage_AddedService_Screen" v-if="this.showParkItem.systemManage_AddedService_Screen">数据大屏</el-menu-item>
-                                <el-menu-item index="/addServices_Public" v-if="this.showParkItem.systemManage_AddServices_Public">商户公众号</el-menu-item>
+                                <el-menu-item index="/systemManage_AddServices_Public" v-if="this.showParkItem.systemManage_AddServices_Public">商户公众号</el-menu-item>
                             </el-submenu>
                     <el-submenu index="/systemManage" v-if="this.showParkItem.systemManage"
                                 style="font-weight: normal;padding-bottom: 30px">

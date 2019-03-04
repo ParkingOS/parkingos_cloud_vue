@@ -489,7 +489,7 @@
                             }
                         }).then(function (response) {
                             let ret = response.data;
-                            console.log('ret',ret);
+                            // console.log('ret',ret);
                             vm.currentOrderLoading = false;
                             if(ret.state==1||ret.state==2){
                                 vm.currentOrderVisible = true;
@@ -514,8 +514,24 @@
                                     vm.currentOrderForm.derate_duration=ret.derate_duration;
                                 }
                             }else if(ret.state==0||ret.state==3){
-
+                                let errmsg = '';
+                                if(ret.errmsg.indexOf('<br/>')>-1){
+                                    errmsg = ret.errmsg.replace('<br/>',',');
+                                }else{
+                                    errmsg = ret.errmsg
+                                }
+                                vm.$message({
+                                    message: errmsg,
+                                    type: 'warning',
+                                    duration: 3000
+                                });
                             }else{
+                                vm.$message({
+                                    message: ret.error,
+                                    type: 'error',
+                                    duration: 2000
+                                });
+                                vm.currentOrderVisible = true;
                                 vm.orderInfoVisible = false;
                             }
                         });

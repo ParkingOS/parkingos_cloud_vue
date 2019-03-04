@@ -715,13 +715,15 @@
                                         if (p == item) {
                                             //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
                                             _this.showUnionItem[item] = common.pageShow(u, AUTH_ID_UNION[p]);
-                                            if (_this.highlightindex == '') {
-                                                //没有导航到任意界面，则继续检测
-                                                if (item.indexOf('_') > -1) {
-                                                    //带下划线的才是页面
-                                                    if (_this.showUnionItem[item]) {
-                                                        _this.highlightindex = '/' + item;
-                                                        _this.expandindex = '/' + item.split('_')[0];
+                                            if(_this.showUnionItem[item]) {
+                                                if (_this.highlightindex == '') {
+                                                    //没有导航到任意界面，则继续检测
+                                                    if (item.indexOf('_') > -1) {
+                                                        //带下划线的才是页面
+                                                        if (_this.showUnionItem[item]) {
+                                                            _this.highlightindex = '/' + item;
+                                                            _this.expandindex = '/' + item.split('_')[0];
+                                                        }
                                                     }
                                                 }
                                             }
@@ -756,14 +758,16 @@
                                         if (p == item) {
                                             //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
                                             _this.showShopItem[item] = common.pageShow(u, AUTH_ID_SHOP[p]);
-                                            if (_this.highlightindex == '') {
-                                                //没有导航到任意界面，则继续检测
-                                                //带下划线的才是页面
-                                                if (_this.showShopItem[item]) {
-                                                    if(item=="member"){
+                                            if(_this.showShopItem[item]) {
+                                                if (_this.highlightindex == '') {
+                                                    //没有导航到任意界面，则继续检测
+                                                    //带下划线的才是页面
+                                                    if (_this.showShopItem[item]) {
+                                                        if (item == "member") {
 
-                                                    }else{
-                                                        _this.highlightindex = '/'+item;
+                                                        } else {
+                                                            _this.highlightindex = '/' + item;
+                                                        }
                                                     }
                                                 }
                                             }
@@ -800,17 +804,18 @@
                                         if (p == item) {
                                             //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
                                             _this.showParkItem[item] = common.pageShow(u, AUTH_ID[p]);
-                                            if (_this.highlightindex == '') {
-                                                //没有导航到任意界面，则继续检测
-                                                if (item.indexOf('_') > -1) {
-                                                    //带下划线的才是页面
-                                                    if (_this.showParkItem[item]) {
-                                                        _this.highlightindex = '/' + item;
-                                                        _this.expandindex = '/' + item.split('_')[0];
+                                            if(_this.showParkItem[item]) {
+                                                if (_this.highlightindex == '') {
+                                                    //没有导航到任意界面，则继续检测
+                                                    if (item.indexOf('_') > -1) {
+                                                        //带下划线的才是页面
+                                                        if (_this.showParkItem[item]) {
+                                                            _this.highlightindex = '/' + item;
+                                                            _this.expandindex = '/' + item.split('_')[0];
+                                                        }
                                                     }
                                                 }
                                             }
-
                                         }
                                     }
                                 }

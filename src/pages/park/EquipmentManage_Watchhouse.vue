@@ -79,7 +79,7 @@
                         subs: [{
                             label: '名称',
                             prop: 'local_name',
-                            width: '123',
+                            width: '180',
                             editable: true,
                             searchable: true,
                             addtable: true,
@@ -100,10 +100,9 @@
                         subs: [{
                             label: '岗亭编号',
                             prop: 'local_id',
-                            width: '123',
                             searchable: true,
                             unsortable: true,
-                            align: 'center',
+                            align: 'left',
                             editable: true,
                             addtable:true,
                             "type": "input",
@@ -184,7 +183,7 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID.systemManage_FreeReason == item.auth_id) {
+                        if (AUTH_ID.equipmentManage_Watchhouse == item.auth_id) {
                             this.hideAdd= common.showSubAdd(item.sub_auth)
                             this.showEdit = common.showSubEdit(item.sub_auth)
                             this.showdelete = common.showSubDel(item.sub_auth)
