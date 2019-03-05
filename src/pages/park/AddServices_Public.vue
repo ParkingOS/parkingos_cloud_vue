@@ -329,7 +329,7 @@
                         _this.payState = 2;
                         _this.nextLoad = true;
                         //暂时重置为0.01元
-                        _this.purchaseSMS.money = 0.01;
+                        // _this.purchaseSMS.money = 0.01;
                         let timestamp = Math.random().toString();
                         axios.get(path+'/fixcode/tobuy', {
                             params: {
@@ -457,7 +457,7 @@
                     }}).then((response)=>{
                     if(response.status == 200){
                         if(response.data.length>0){
-                            that.purchaseSMS.money = response.data[0].count;
+                            that.purchaseSMS.money = response.data[0].totalMoney;
                         }else{
                             that.purchaseSMS.money = '-'
                         }
