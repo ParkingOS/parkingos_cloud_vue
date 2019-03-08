@@ -237,7 +237,7 @@
                                 label: '所属运营集团',
                                 prop: 'groupid',
                                 addtable: true,
-                                editable: true,
+                                editable: false,
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center',
