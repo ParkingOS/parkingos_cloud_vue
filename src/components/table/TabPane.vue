@@ -133,6 +133,7 @@
                 :value="editRowData"
                 :editFormConfig="TableItems"
                 title="编辑"
+                :loading="editLoading"
                 v-on:input="onEditInput"
                 v-on:edit="onEdit"
                 v-on:cancelEdit="cancelEdit"
@@ -163,6 +164,7 @@
         },
         data(){
             return {
+                editLoading:false,
                 addLoading:false,
                 rowdata:{},
                 editFormVisible:false,
@@ -252,6 +254,7 @@
                 let api = this.editapi;
                 let eform = this.rowdata;
                 eform = common.generateForm(eform);
+                that.editLoading = true;
                 this.$refs.editref.$refs.editForm.validate((valid) => {
                     if (valid) {
                         editTableData(api,eform).then(res=>{
@@ -272,6 +275,7 @@
                                         type: 'info',
                                         duration: 600
                                     });
+                                    that.editLoading = false;
                                 }
                             }
                         }).catch(err => {
@@ -280,7 +284,10 @@
                                 type: 'error',
                                 duration: 600
                             });
+                            that.editLoading = false;
                         })
+                    }else{
+                        that.editLoading = false;
                     }
                 });
             },
@@ -298,6 +305,7 @@
                 let api = this.addapi;
                 let aform = this.addFormData;
                 aform = common.generateForm(aform);
+                that.addLoading = true;
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
                         that.addLoading = true;
@@ -331,6 +339,9 @@
                             });
                             that.addLoading = false;
                         })
+                    }else{
+                        console.log('----load状态')
+                        that.addLoading = false;
                     }
                 });
             },
@@ -442,6 +453,7 @@
                             message:msg,
                             type: 'success'
                         });
+                        that.$emit('totalCount',that.total);
                     }else{
                         that.$message({
                             message: response.data.msg,

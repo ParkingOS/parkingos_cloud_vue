@@ -104,7 +104,7 @@
             },
             addSubmit(){
                 //通知父组件用户点了确定按钮
-                this.addLoading = true;
+                // this.addLoading = true;
                 this.$emit('add',true)
             },
             cancelAdd(){

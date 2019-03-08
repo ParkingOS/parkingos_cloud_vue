@@ -5,8 +5,9 @@
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
                     <div class="console-main">
                         <div>
-                            <el-button type="primary" @click="handleAdd"  style="width: 120px;margin-right: 20px">新增</el-button>
-                            <el-checkbox v-model="priority">平台计费优先</el-checkbox>
+                            <el-button type="primary" @click="handleAdd"  style="width: 120px;margin-right: 20px" :disabled="isSHow">新增</el-button>
+                            <el-checkbox v-model="priority"  @change="firstCloud">平台计费优先</el-checkbox>
+                            <a href="javasript:;" style="margin-left: 20px" >使用说明</a>
                         </div>
                     </div>
 
@@ -36,6 +37,8 @@
                     fixedDom="scrollBarDom"
                     ref="tabPane"
                     v-on:cancelDel="cancelDel"
+                    v-on:transferData="transferData"
+                    v-on:totalCount="totalCount"
             ></tab-pane>
         </div>
         <!--重置密码-->
@@ -58,14 +61,20 @@
                     <el-date-picker
                             v-model="ruleFrom.inlasse"
                             type="datetime"
-                            placeholder="选择日期时间">
+                            default-time="00:00:00"
+                            value-format="timestamp"
+                            placeholder="选择入场时间"
+                            @change="changeDateFormat">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="出场时间">
                     <el-date-picker
                             v-model="ruleFrom.appearance"
                             type="datetime"
-                            placeholder="选择日期时间">
+                            default-time="23:59:59"
+                            value-format="timestamp"
+                            placeholder="选择出场时间"
+                            @change="changeDateFormat">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="金额统计">
@@ -102,6 +111,8 @@
         data() {
             return {
                 ////////////////////////////////////////
+                isSHow:false,
+                $uid:'',
                 offState:false,
                 ruleFrom:{
                     inlasse:'',
@@ -198,11 +209,13 @@
                                                 props:{
                                                     activeText:'ON',
                                                     inactiveText:'OFF',
-                                                    value:this.offState
+                                                    value:(params.row.is_open == 1)?true:false
                                                 },
                                                 on: {
                                                     change: (e) => {
-                                                        this.offState = e;
+
+                                                        // console.log('----id',params.row.id)
+                                                        this.changeState(e,params.row)
                                                     }
                                                 }
                                             })
@@ -217,6 +230,10 @@
                                                 marginRight: '5px',
                                             },
                                             on: {
+                                                click:(e)=>{
+                                                    window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                    // this.$uid =
+                                                }
                                             }
                                         }, '开关'),
                                     ]),
@@ -268,7 +285,6 @@
                         }]
                     },
                     {
-
                         hasSubs: false,
                         subs: [{
                             label: '计费代码',
@@ -288,6 +304,16 @@
                             "rules": [
                                 {required: true, message: '请输入计费代码', trigger: 'blur'}
                             ],
+                            columnType:'render',
+                            render: (h, params) => {
+                                let str = params.row.js_content;
+                                if(str.length >60){
+                                    str = str.substring(0,60)+'...'
+                                }
+                                return h('div', [
+                                    h('span', str)
+                                ]);
+                            }
                         }]
                     },
                     {
@@ -327,6 +353,81 @@
             }
         },
         methods:{
+            totalCount(val){
+                if(val>=1){
+                    this.isSHow = true;
+                }else{
+                    this.isSHow = false;
+                }
+            },
+            transferData(val){
+                if(val.total>=1){
+                  this.isSHow = true;
+                }else{
+                  this.isSHow = false;
+                }
+            },
+            changeDateFormat(val){
+                if(this.ruleFrom.inlasse != "" && this.ruleFrom.inlasse != null && this.ruleFrom.appearance != '' && this.ruleFrom.appearance != null){
+                    let vm = this;
+                    // this.searchFormData.comid
+                    let rform = {
+                        comid:vm.searchFormData.comid,
+                        cloud_first:vm.priority?'1':'0'
+                    }
+                    vm.$axios.get(path + '/charging/testjs?id='+vm.rowid+'&begin_time='+vm.ruleFrom.inlasse+'&end_time='+vm.ruleFrom.appearance+'&tmp='+new Date().getTime()).then(function (response) {
+                        // console.log('优先级别',response)
+                        if(response.status == 200){
+                            vm.ruleFrom.money = response.data;
+                        }
+                    }).catch(function (error) {
+                        vm.$message.error(ndata.msg);
+                    })
+                }
+            },
+            changeState(e,row){
+                let vm = this;
+                let rform = {
+                    id:row.id,
+                    is_open:e?'1':'0'
+                }
+                vm.$axios.post(path + '/charging/openorclose', vm.$qs.stringify(rform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    let ndata = response.data;
+                    if(ndata.state == 1){
+                        // vm.offState = e;
+                        row.is_open = e?'1':'0';
+                        vm.$message.success(ndata.msg);
+                    }else if(ndata.state == 0){
+                        vm.$message.error(ndata.msg);
+                    }
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error)
+                    }, 150)
+                })
+            },
+            firstCloud(){
+                let vm = this;
+                let rform = {
+                    comid:vm.searchFormData.comid,
+                    cloud_first:vm.priority?'1':'0'
+                }
+                vm.$axios.post(path + '/charging/cloudfirst', vm.$qs.stringify(rform), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    console.log('优先级别',response)
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error)
+                    }, 150)
+                })
+            },
             cancelModel(){
                 this.ruleVisible = false;
             },
@@ -396,9 +497,7 @@
             },
             resetPassword(row) {
                 this.rowid = row.id
-                this.pwd1 = ''
-                this.pwd2 = ''
-                //显示充值密码对话框
+                //测试对话框
                 this.ruleVisible = true;
             },
             saveModify: function () {
@@ -416,9 +515,6 @@
                 } else {
                     return "工作人员"
                 }
-            },
-            changeDateFormat(val){
-
             },
             //编辑
             editInput(eform){
@@ -467,13 +563,15 @@
                 }
             },
             getQuery(id){
-                let _this = this;
-                sessionStorage.setItem('comid', id);
-                axios.all([common.getEmployeeRole()])
-                    .then(axios.spread(function (ret) {
-                        _this.aroles = ret.data;
-                        sessionStorage.setItem('comid', '')
-                    }))
+                let vm = this;
+                vm.$axios.get(path + '/charging/getfirstornot?comid='+id).then(function (response) {
+                    vm.priority = response.data == 1?true:false;
+                }).catch(function (error) {
+                    setTimeout(() => {
+                        vm.alertInfo('请求失败!' + error)
+                    }, 150)
+                })
+
             },
             alertInfo(msg) {
                 this.$alert(msg, '提示', {
@@ -494,7 +592,7 @@
         activated() {
             let $url =  document.location.href;
             this.searchFormData.comid = $url.split('=')[1];
-            // this.getQuery(this.searchFormData.comid);
+            this.getQuery(this.searchFormData.comid);
             this.resetForm()
         },
         watch: {
@@ -507,7 +605,7 @@
                 if(newVal == 'charging'){
                     let $url =  document.location.href;
                     this.searchFormData.comid = $url.split('=')[1];
-                    // this.getQuery(this.searchFormData.comid);
+                    this.getQuery(this.searchFormData.comid);
                     this.resetForm()
                 }
             },
@@ -515,7 +613,7 @@
                 if(this.showState == 'charging'){
                     let $url =  document.location.href;
                     this.searchFormData.comid = $url.split('=')[1];
-                    // this.getQuery(this.searchFormData.comid);
+                    this.getQuery(this.searchFormData.comid);
                     this.resetForm()
                 }
             }

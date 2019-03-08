@@ -33,7 +33,7 @@
                 <!--<el-button size="small" style="width: 90px;" @click="cancelEdit">取 消</el-button>-->
                 <!--<el-button type="primary" size="small" style="width: 90px;margin-left: 60px" @click="editSubmit">确 定</el-button>-->
                 <el-button @click="cancelEdit" class="dialog-footer-btn">取 消</el-button>
-                <el-button type="primary" style="margin-left: 60px" @click="editSubmit" class="dialog-footer-btn">确 定</el-button>
+                <el-button type="primary" style="margin-left: 60px" @click="editSubmit" class="dialog-footer-btn" :loading="editLoading">确 定</el-button>
             </footer>
         </el-dialog>
     </div>
@@ -48,12 +48,17 @@
         },
         data () {
             return {
+                editLoading:false,
                 editForm:{},
                 tempeditForm:{},
                 rowdata:{},
             }
         },
         props:{
+            loading:{
+                type:Boolean,
+                default:false
+            },
             editVisible:{
                 type:Boolean,
                 default:false
@@ -88,6 +93,9 @@
         methods:{
             onClose(){
                 this.$refs['editForm'].clearValidate()
+                setTimeout(()=>{
+                    this.editLoading = false;
+                },1000)
             },
             handleInput(val, key) {
                 // 这里element-ui没有上报event，直接就是value了
@@ -124,6 +132,16 @@
         mounted() {
             this.setDefaultValue()
         },
+        watch:{
+            loading:function (val) {
+                console.log('---val',val)
+                if(val){
+                    this.editLoading = true;
+                }else{
+                    this.editLoading = false;
+                }
+            }
+        }
     };
 </script>
 

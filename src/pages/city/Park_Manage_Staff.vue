@@ -73,7 +73,8 @@
 
         },
         activated() {
-
+            this.showState='staff';
+            this.classSetting='staff';
         },
         watch: {
 
