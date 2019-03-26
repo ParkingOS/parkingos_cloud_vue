@@ -25,6 +25,7 @@ export const AUTH_ID = {
     employeePermission_Manage: 23, //员工管理
     systemManage_AddedService_Sms:341,//短信服务
     systemManage_AddedService_Screen:342,//数据大屏
+    systemManage_AddServices_Public:380,//商户公众号
     systemManage_AddedService:340, //增值服务
     systemManage: 24, //系统管理
     systemManage_BlackList: 313, //黑名单管理
@@ -39,6 +40,7 @@ export const AUTH_ID = {
     systemManage_MonthCard: 29, //月卡套餐管理
     systemManage_Logs: 80, //系统日志
     equipmentManage: 343, //设备管理
+    equipmentManage_Watchhouse:379, //岗亭管理
     equipmentManage_Monitor: 344, //监控管理
     equipmentManage_Intercom: 345, //对讲管理
     equipmentManage_WorkStation: 346,//工作站管理
@@ -83,6 +85,7 @@ export const showParkItem_const = {
     shopManage_Shop: false,
     shopManage_QueryAccount: false,
     equipmentManage: false,
+    equipmentManage_Watchhouse:false,
     equipmentManage_Monitor: false,
     equipmentManage_Intercom: false,
     equipmentManage_WorkStation: false,
@@ -104,6 +107,7 @@ export const showParkItem_const = {
     systemManage_Price: false,
     systemManage_MonthCard: false,
     systemManage_Logs: false,
+    systemManage_AddServices_Public:false,
     systemManage_AddedService_Sms:false,
     systemManage_AddedService_Screen:false,
     systemManage_AddedService:false,

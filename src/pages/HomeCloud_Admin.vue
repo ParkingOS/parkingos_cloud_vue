@@ -117,6 +117,8 @@
                         </el-menu-item>
                         <el-menu-item index="/bigScreen_service">大屏服务
                         </el-menu-item>
+                        <el-menu-item index="/public_service">商户公众号
+                        </el-menu-item>
                     </el-submenu>
 
                     <el-submenu v-if="this.city" index="/union_manage">

@@ -2,7 +2,7 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">增值服务<span style="margin: 2px">-</span>小程序收费</p>
+                <p style="float: left">增值服务<span style="margin: 2px">-</span>商户公众号</p>
                 <div class="float-right"><el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button></div>
             </header>
             <div class="showcase">
@@ -10,7 +10,7 @@
                 <div class="purchase" @click="goshop">
                     <img :src="shopCar">购买
                 </div>
-                <p class="shop-tip"><i class="el-icon-question" style="margin-right: 10px"></i>员工账号所属角色勾选“登录小程序”，且购买该服务后，在有效期内可登录小程序场内预付收费</p>
+                <p class="shop-tip"><i class="el-icon-question" style="margin-right: 10px"></i>商户登录web后台生成固定码，可以设置车主关注公众号之后才可扫描固定码领券</p>
             </div>
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search" v-if="active">
@@ -33,11 +33,11 @@
                         <el-form-item class="shop-clear-style">
                             <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
                         </el-form-item>
-                        <div class="float-right">
-                            <el-form-item class="shop-clear-style">
-                                <el-button type="primary" style="width: 120px" @click="exportFn" v-if="hideExport">导出</el-button>
-                            </el-form-item>
-                        </div>
+                        <!--<div class="float-right">-->
+                            <!--<el-form-item class="shop-clear-style">-->
+                                <!--<el-button type="primary" style="width: 120px" @click="exportFn" v-if="hideExport">导出</el-button>-->
+                            <!--</el-form-item>-->
+                        <!--</div>-->
                     </div>
                 </el-form>
             </div>
@@ -82,30 +82,14 @@
             </el-steps>
             <el-form ref="addForm" label-width="80px" :model="purchaseSMS" class="custom-form-style fiexd-code-form" :rules="rules">
                 <div v-show="activeIndex == 1">
-                    <el-form-item label="登录账号" prop="username">
+                    <el-form-item label="商户名称" prop="username">
                         <el-select v-model="purchaseSMS.username" filterable style="width: 292px" @change="changeUsername">
                             <el-option
                                     v-for="item in collectors"
-                                    :label="item.value_no"
+                                    :label="item.value_name"
                                     :value="item.value_no"
                                     :key="item.value_no"
                             >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="姓名">
-                        <el-input v-model="purchaseSMS.user_name" placeholder="姓名不可编辑" readonly></el-input>
-                    </el-form-item>
-                    <el-form-item label="购买月份" prop="count">
-                        <el-select v-model="purchaseSMS.count" style="width: 292px" @change="changeCount">
-                            <el-option
-                                    v-for="item in countSelectData"
-                                    :label="item.count"
-                                    :value="item.count"
-                                    :key="item.id"
-                            >
-                                <span style="float: left">{{ item.count }}</span>
-                                <span style="float: right; color: #8492a6; font-size: 13px">月</span>
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -190,15 +174,15 @@
                     currentData:'',
                 },
                 exportapi: '/userprogram/exportbuytrade',
-                queryapi: '/userprogram/getbuytrade',
+                queryapi: '/fixcode/getbuytrade',
                 orderfield:'id',
-                fieldsstr:'id__count__utime__pay_time__etime__money__trade_no',
+                fieldsstr:'id__shop_id__shop_name__ctime__money__trade_no',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '登录账号',
-                                prop: 'user_id',
+                                label: '商户号',
+                                prop: 'shop_id',
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
@@ -212,23 +196,8 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '姓名',
-                                prop: 'user_name',
-                                type: 'str',
-                                editable: false,
-                                searchable: true,
-                                addtable: true,
-                                hidden:'',
-                                unsortable: true,
-                                align: 'center',
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '购买月数',
-                                prop: 'buy_month',
+                                label: '商户名称',
+                                prop: 'shop_name',
                                 type: 'str',
                                 editable: false,
                                 searchable: true,
@@ -242,40 +211,40 @@
                     {
                         hasSubs: false,
                         subs: [{
-                            label: '续费日期',
-                            prop: 'utime',
+                            label: '购买日期',
+                            prop: 'ctime',
                             type: 'date',
                             unsortable: true,
                             align: 'center',
                             columnType:'render',
                             render: (h, params) => {
                                 return h('div', [
-                                    h('span', common.dateformat(params.row.pay_time))
+                                    h('span', common.dateformat(params.row.ctime))
                                 ]);
                             }
                         }]
                     },
-                    {
-                        hasSubs: false,
-                        subs: [{
-                            label: '到期日期',
-                            prop: 'etime',
-                            type: 'date',
-                            unsortable: true,
-                            align: 'center',
-                            columnType:'render',
-                            render: (h, params) => {
-                                return h('div', [
-                                    h('span', common.dateformat(params.row.end_time))
-                                ]);
-                            }
-                        }]
-                    },
+                    // {
+                    //     hasSubs: false,
+                    //     subs: [{
+                    //         label: '到期日期',
+                    //         prop: 'etime',
+                    //         type: 'date',
+                    //         unsortable: true,
+                    //         align: 'center',
+                    //         columnType:'render',
+                    //         render: (h, params) => {
+                    //             return h('div', [
+                    //                 h('span', common.dateformat(params.row.end_time))
+                    //             ]);
+                    //         }
+                    //     }]
+                    // },
                     {
                         hasSubs: false,
                         subs: [{
                             label: '支付金额',
-                            prop: 'end_time',
+                            prop: 'money',
                             type: 'date',
                             unsortable: true,
                             align: 'center',
@@ -302,7 +271,7 @@
                 ],
                 rules:{
                     username:[
-                        { required: true, message: '请选择小程序登录账号', trigger: 'change' },
+                        { required: true, message: '请选择商户名称', trigger: 'change' },
                     ],
                     count:[
                         { required: true, message: '请选择购买月份', trigger: 'change' },
@@ -315,11 +284,16 @@
             }
         },
         mounted(){
-            let _this = this;
-            axios.all([common.getCollector()])
-                .then(axios.spread(function (ret) {
-                    _this.collectors = ret.data;
-                }));
+            let that = this;
+            that.$axios.get(path+'/getdata/getshops'+ '?comid='+sessionStorage.getItem('comid')+'&t='+Date.now())
+                .then(function (response) {
+                    if(response.status == 200){
+                        that.collectors = response.data;
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
         },
         methods:{
             transferData(res){
@@ -355,19 +329,17 @@
                         _this.payState = 2;
                         _this.nextLoad = true;
                         //暂时重置为0.01元
-                        _this.purchaseSMS.money = 0.01;
+                        // _this.purchaseSMS.money = 0.01;
                         let timestamp = Math.random().toString();
-                        axios.get(path+'/userprogram/tobuy', {
+                        axios.get(path+'/fixcode/tobuy', {
                             params: {
                                 'tmp': timestamp,
                                 'comid': sessionStorage.getItem('comid'),
-                                'buy_month':this.purchaseSMS.count,
                                 'money': this.purchaseSMS.money,
-                                'user_id':this.purchaseSMS.user_id
+                                'shop_id':this.purchaseSMS.username
                             }
                         }).then(function (response) {
                             _this.nextLoad = false;
-                            // console.log('response',response)
                             if(response.data.state == 1){
                                 let _url = path2 + '/zld/buymessage?trade_no='+ response.data.trade_no;
                                 _this.trade_no = response.data.trade_no;
@@ -398,14 +370,14 @@
                 });
             },
             changeUsername(val){
-                let data = this.collectors;
-                for(let i in  data){
-                    let item = data[i];
-                    if(item.value_no == val){
-                        this.purchaseSMS.user_name = item.value_name;
-                        this.purchaseSMS.user_id = item.value_no;
-                    }
-                }
+                // let data = this.collectors;
+                // for(let i in  data){
+                //     let item = data[i];
+                //     if(item.value_no == val){
+                //         this.purchaseSMS.user_name = item.value_name;
+                //         this.purchaseSMS.user_id = item.value_no;
+                //     }
+                // }
             },
             changeCount(val){
                 let data = this.countSelectData;
@@ -479,16 +451,15 @@
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
             getQuery(){
-                axios.get(path+'/getdata/getprogramprice',{params:{
+                let that = this;
+                axios.get(path+'/getdata/getofficialprice',{params:{
                         'comid':sessionStorage.getItem('comid')
                     }}).then((response)=>{
                     if(response.status == 200){
-                        this.countSelectData = response.data;
-                        for(let item in this.countSelectData){
-                            if(this.countSelectData[item].count == 3){
-                                this.purchaseSMS.count = this.countSelectData[item].count;
-                                this.purchaseSMS.money = this.countSelectData[item].totalMoney;
-                            }
+                        if(response.data.length>0){
+                            that.purchaseSMS.money = response.data[0].totalMoney;
+                        }else{
+                            that.purchaseSMS.money = '-'
                         }
                     }
                 }).catch((error)=>{
