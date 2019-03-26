@@ -17,6 +17,9 @@ import index from './pages/park/index.vue';
 import Data_Center_Park from './pages/park/Data_Center_Park.vue';
 import OrderManage_Orders from './pages/park/OrderManage_Orders.vue';
 import OrderManage_Poles from './pages/park/OrderManage_Poles.vue';
+import Bolink_Expense from './pages/park/Bolink_Expense.vue';
+import Bolink_Income from './pages/park/Bolink_Income.vue';
+import Reduce_Record from './pages/park/Reduce_Record.vue';
 import OrderManage_OrderDetail from './pages/park/OrderManage_OrderDetail.vue';
 import MonthMember_Refill from './pages/park/MonthMember_Refill.vue';
 import MonthMember_VIP from './pages/park/MonthMember_VIP.vue';
@@ -26,6 +29,7 @@ import PrepayCard_Use from './pages/park/PrepayCard_Use.vue';
 import OnlinePay_CashManage from './pages/park/OnlinePay_CashManage.vue';
 import OnlinePay_Income from './pages/park/OnlinePay_Income.vue';
 import OrderStatistics_DailyReport from './pages/park/OrderStatistics_DailyReport.vue';
+import OrderStatistics_DailyBalance from './pages/park/OrderStatistics_DailyBalance.vue';
 import OrderStatistics_CollectorReport from './pages/park/OrderStatistics_CollectorReport.vue';
 import OrderStatistics_MonthReport from './pages/park/OrderStatistics_MonthReport.vue';
 import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue';
@@ -254,6 +258,9 @@ let routes = [
         children: [
             {path: '/orderManage_Orders', component: OrderManage_Orders, name: '订单记录'},
             {path: '/orderManage_Poles', component: OrderManage_Poles, name: '抬杆记录'},
+            {path: '/orderManage_Income', component: Bolink_Income, name: '交易记录'},
+            {path: '/orderManage_Expense', component: Bolink_Expense, name: '支出记录'},
+            {path: '/orderManage_Record', component: Reduce_Record, name: '减免记录'},
             {path: '/orderManage_OrderDetail', component: OrderManage_OrderDetail, name: '订单详情'}
         ]
     },
@@ -299,6 +306,7 @@ let routes = [
 
             {path: '/orderStatistics_CollectorReport', component: OrderStatistics_CollectorReport, name: '收费员'},
             {path: '/orderStatistics_DailyReport', component: OrderStatistics_DailyReport, name: '日报'},
+            {path: '/orderStatistics_DailyBalance', component: OrderStatistics_DailyBalance, name: '日报'},
             {path: '/orderStatistics_MonthReport', component: OrderStatistics_MonthReport, name: '月报'}
         ]
     },

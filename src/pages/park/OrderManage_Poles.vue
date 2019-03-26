@@ -389,7 +389,7 @@
             this.setAuthorityFn(this);
             this.initFn(this)
             this.getQuery()
-            this.$refs['tabPane'].getTableData({},this)
+            //this.$refs['tabPane'].getTableData({},this)
 
         },
         activated() {

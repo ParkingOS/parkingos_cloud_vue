@@ -110,7 +110,9 @@
                 img_out: '',
                 imgpath: '',
                 imgdialog_url: '',
+                getNewRowUrl:'',
                 imgapi: '/order/getOrderPicture',
+                getNewRowApi:'/order/getorderdetail',
                 imgSize: 300,
                 detailStyle: '',
                 orderPayType: [
@@ -144,6 +146,17 @@
                         _this.imgpath = path;
                     }));
 
+            },
+            getNewRow: function (row) {
+                this.getNewRowUrl=path+this.getNewRowApi+'?orderid='+row.order_id_local+'&comid=' + sessionStorage.getItem('comid')+'&car_number='+row.car_number
+                let _this = this;
+                axios.all([axios.get(this.getNewRowUrl)])
+                    .then(axios.spread(function (ret) {
+                        console.log("------------>>>>>:"+ret.data.ele_prepay);
+                        _this.currentRow.electronic_pay=ret.data.ele_pay
+                        _this.currentRow.cash_prepay=ret.data.cash_prepay
+                        _this.currentRow.electronic_prepay=ret.data.ele_prepay
+                    }));
             }
         },
         mounted() {
@@ -162,6 +175,11 @@
             }else{
                 this.currentRow = this.$route.query.row;
             }
+
+            // electronic_prepay  cash_prepay  electronic_pay
+            //重新去获取订单的电子预付 和结算金额以及现金预付金额
+            //this.getNewRow(this.currentRow);
+
             this.currentIndex = this.$route.query.index;
             this.img_in = [];
             this.img_out = [];

@@ -2,7 +2,7 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">财务报表<span style="margin: 2px">-</span>车场日报</p>
+                <p style="float: left">统计分析<span style="margin: 2px">-</span>车场日报</p>
                 <div class="float-right">
                     <el-button type="text"  icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="resetForm">刷新</el-button>
                 </div>
@@ -12,25 +12,21 @@
                     <div class="console-main">
                         <el-form-item label="选择时间">
                             <el-date-picker
-                                    style="width: 150px"
-                                    class="shop-custom-date"
+                                    style="width: 360px"
+                                    class="shop-custom-datepicker"
                                     v-model="searchFormData.currentData"
-                                    type="date"
-                                    :placeholder="start_placeholder"
-                                    value-format="timestamp"
+                                    type="datetimerange"
+                                    align="right"
+                                    unlink-panels
+                                    range-separator="至"
+                                    :start-placeholder="start_placeholder"
+                                    :end-placeholder="end_placeholder"
+                                    :picker-options="chartPickerOptions"
+                                    :default-time="['00:00:00', '23:59:59']"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
                                     @change="changeCurrentDate"
                             >
                             </el-date-picker>
-                        </el-form-item>
-                        <el-form-item label="车场名称" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.comid_start" filterable placeholder="请选择" class="shop-custom-input" >
-                                <el-option
-                                        v-for="item in parklistChart"
-                                        :key="item.value_no"
-                                        :label="item.value_name"
-                                        :value="item.value_no">
-                                </el-option>
-                            </el-select>
                         </el-form-item>
                         <el-form-item class="shop-clear-style">
                             <el-button type="primary" @click="queryForChart" icon="el-icon-search">搜索</el-button>
@@ -48,7 +44,9 @@
             </div>
         </div>
         <!--折线图-->
-
+        <!--<div class="charts-wrapper">
+            <div  id="chart" class="count-charts-style" ></div>
+        </div>-->
 
         <div class="count-table-wrapper-style">
             <el-table
@@ -62,37 +60,45 @@
                 </el-table-column>
                 <el-table-column
                         align="center"
-                        prop="name"
-                        label="车场名称"
-                        >
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="time"
+                        prop="e_time"
                         label="日期"
-                >
+                        width="110">
                 </el-table-column>
-                <el-table-column label="收入" align="center">
+
+                <el-table-column label="电子收入" align="center">
                     <el-table-column
                             align="center"
-                            prop="cash_pay"
-                            label="现金支付">
+                            prop="ele_prepay"
+                            label="场内预付">
                     </el-table-column>
                     <el-table-column
                             align="center"
                             prop="ele_pay"
-                            label="电子支付">
+                            label="出场结算">
                     </el-table-column>
                     <el-table-column
                             align="center"
-                            prop="act_total"
+                            prop="ele_total"
                             label="合计">
                     </el-table-column>
                 </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="out_money"
-                        label="支出">
+
+                <el-table-column label="现金收入" align="center">
+                    <el-table-column
+                            align="center"
+                            prop="cash_prepay"
+                            label="场内预付">
+                    </el-table-column>
+                    <el-table-column
+                            align="center"
+                            prop="cash_pay"
+                            label="出场结算">
+                    </el-table-column>
+                    <el-table-column
+                            align="center"
+                            prop="cash_total"
+                            label="合计">
+                    </el-table-column>
                 </el-table-column>
                 <el-table-column
                         align="center"
@@ -123,8 +129,7 @@
                 tableData:[],
                 searchFormData:{
                     currentData:'',
-                    comid_start:-1,
-                    date:'',
+                    date:''
                 },
                 /////////////////////////////////////////
                 //图表相关
@@ -132,7 +137,7 @@
                 end_placeholder: '',
                 activeName: 'tableStyle',
                 chartDate: '',
-                comid_start: -1,
+                selParkId: -1,
                 chartHeight: '600px',
                 chartWidth: '800px',
                 chartstyles: '',
@@ -174,8 +179,6 @@
                 currentRow: '',
                 parklist: [],
                 parklistChart: [],
-
-
                 loading: false,
                 hideExport: false,
                 hideSearch: true,
@@ -186,155 +189,22 @@
                 hideOptions: true,
                 hideTool: false,
                 hidePagination: true,
-                exportapi: '/cityparkorderanlysis/exportExcel',
-                queryapi: '/cityparkorderanlysis/query',
-                fieldsstr: 'time__comid__amount_receivable__cash_pay__electronic_pay__act_total__free_pay',
-                tableitems: [
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '车场名称',
-                                prop: 'name',
-                                width: '123',
-                                type: 'str',
-                                editable: false,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-                            }
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '日期',
-                                prop: 'time',
-                                width: '123',
-                                type: 'str',
-                                editable: false,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-                            }
-                        ]
-                    },
-                    {
-                        hasSubs: false,
-                        subs: [{
-                            label: '总订单数',
-                            prop: 'scount',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '应收金额',
-                            prop: 'amount_receivable',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: false,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    },
-                    {
-                        label: '实收金额',
-                        hasSubs: true,
-                        subs: [
-
-                            {
-                                label: '现金支付',
-                                prop: 'cash_pay',
-                                width: '123',
-                                type: 'str',
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-
-                            }, {
-
-                                hasSubs: false,
-
-                                label: '电子支付',
-                                prop: 'electronic_pay',
-                                width: '123',
-                                type: 'str',
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-
-                            }, {
-
-                                hasSubs: false,
-
-                                label: '合计',
-                                prop: 'act_total',
-                                width: '123',
-                                type: 'str',
-                                editable: true,
-                                searchable: true,
-                                addable: true,
-                                unsortable: true,
-                                align: 'center'
-
-                            }]
-                    }, {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '减免金额',
-                            prop: 'free_pay',
-                            width: '123',
-                            type: 'str',
-                            editable: true,
-                            searchable: true,
-                            addable: true,
-                            unsortable: true,
-                            align: 'center'
-                        }]
-                    }
-
-
-                ],
+                queryapi: '/parkbalance/query',
+                exportapi: '/parkbalance/exportExcel',
+                btswidth: '100',
+                fieldsstr: 'groupid__comid__name__out_uid__sdate__scount__monthcount__cash_pay__cash_prepay__electronic_pay__free_pay__reduce_pay__amount_receivable',
                 searchtitle: '高级查询',
-
                 datesselector: '',
-
-                currentPage: 1,
-                pageSize: 20,
-                total: 0,
-                orderby: 'desc',
                 orderfield: 'id',
-                table: [],
-                sform: {},
-                showWorkDetail: false,
-                showOrderDetail: false,
-                currentRow: ''
             };
         },
         methods: {
             changeCurrentDate(val){
                 if(val != null && val != ''){
-                    this.searchFormData.date = val/1000;
+                    this.searchFormData.date = val[0] + encodeURI(encodeURI('至')) + val[1];
                 }else{
                     this.searchFormData.date = '';
                 }
-
             },
             resetForm(){
                 this.initFn(this)
@@ -346,9 +216,9 @@
                 * */
                 that.searchFormData={
                     currentData:'',
-                    comid_start:'',
-                    date:''
+                    date:'',
                 };
+                this.searchFormData.currentData = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
                 that.queryForChart();
             },
             searchFn(){
@@ -363,7 +233,7 @@
                 this.chart = echarts.init(document.getElementById('chart'));
             },
 
-            queryForChart: function (isFirst) {
+            queryForChart: function () {
                 let api = this.queryapi;
                 var formdata = {};
                 let vm = this;
@@ -372,15 +242,20 @@
                 formdata.orderby = this.orderby;
                 formdata.orderfield = this.orderfield;
                 formdata.fieldsstr = this.fieldsstr;
+                formdata.time = 'between';
                 if(this.searchFormData.currentData != null && this.searchFormData.currentData != ''){
-                    formdata.date = (this.searchFormData.currentData)/1000;
+                    formdata.date = this.searchFormData.currentData[0] + '至' + this.searchFormData.currentData[1];
                 }else{
                     formdata.date = '';
                 }
-                if (this.searchFormData.comid_start > 0) {
-                    formdata.comid_start = this.searchFormData.comid_start;
+                if (this.searchFormData.selParkId > 0) {
+                    formdata.out_uid = 3;
+                    formdata.out_uid_start = this.searchFormData.selParkId;
+                    formdata.comid = '';
                 }else {
-                    formdata.comid_start = '';
+                    formdata.out_uid = '';
+                    formdata.out_uid_start = '';
+                    formdata.comid = '';
                 }
                 formdata = common.generateForm(formdata);
                 vm.$axios.post(path + api, vm.$qs.stringify(formdata), {
@@ -388,26 +263,14 @@
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
                 }).then(function (response) {
-                    // 把配置和数据放这里
                     let dataRows = response.data.rows;
                     vm.tableData = dataRows;
-                    // console.log(response.data.rows);
+
                 });
             },
             getQuery(){
                 let _this = this;
-                _this.$nextTick(function () {
-                    axios.all([common.getAllParks()])
-                        .then(axios.spread(function (ret) {
-                            _this.parklist = ret.data;
-                            _this.parklistChart =  ret.data;
-                            _this.parklistChart.push({
-                                value_name:'全部车场',
-                                value_no:-1}
-                            );
-                            _this.queryForChart(1);
-                        }));
-                });
+                _this.queryForChart();
             },
             //导出表格数据
             handleExport() {
@@ -415,7 +278,7 @@
                 let api = this.exportapi;
                 let params = '';
                 let exportForm = JSON.parse(JSON.stringify( vm.searchFormData));
-                    exportForm = common.generateForm(exportForm);
+                exportForm = common.generateForm(exportForm);
                 if (common.getLength(exportForm) == 0) {
                     params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
                 } else {
@@ -446,14 +309,15 @@
         mounted() {
             //this.initChart();
         },
-
         activated() {
-            this.start_placeholder = common.currentDate();
+            this.start_placeholder = common.currentDate() + ' 00:00:00';
+            this.end_placeholder = common.currentDate() + ' 23:59:59';
+            this.searchFormData.currentData = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
             this.getQuery();
             //this.chart.resize();
             //window.addEventListener('resize', () => {
             //    this.chart.resize();
-            //});
+            //});-->
         }
     };
 
