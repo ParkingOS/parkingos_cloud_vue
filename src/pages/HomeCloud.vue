@@ -54,6 +54,12 @@
                         </el-menu-item>
                         <el-menu-item index="/orderManage_Poles" v-if="this.showParkItem.orderManage_Poles">抬杆记录
                         </el-menu-item>
+                        <el-menu-item index="/orderManage_Income" v-if="this.showParkItem.orderManage_Income">交易记录
+                        </el-menu-item>
+                        <el-menu-item index="/orderManage_Expense" v-if="this.showParkItem.orderManage_Expense">支出记录
+                        </el-menu-item>
+                        <el-menu-item index="/orderManage_Record" v-if="this.showParkItem.orderManage_Record">减免记录
+                        </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.monthMember" index="/monthMember">
                         <template slot="title">
@@ -79,25 +85,16 @@
                         <el-menu-item index="/vistorManage_homeOwner" v-if="this.showParkItem.vistorManage_homeOwner">业主管理
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu v-if="this.showParkItem.onlinePay" index="/onlinePay">
-                        <template slot="title"><img src="../assets/menu.svg" style="margin-right: 5px;"><span
-                                class="menuitem">电子支付</span></template>
-                        <el-menu-item index="/onlinePay_CashManage" v-if="this.showParkItem.onlinePay_CashManage">
-                            提现管理
-                        </el-menu-item>
-                        <el-menu-item index="/onlinePay_Income" v-if="this.showParkItem.onlinePay_Income">电子收款
-                        </el-menu-item>
-                    </el-submenu>
                     <el-submenu v-if="this.showParkItem.orderStatistics" index="/orderStatistics">
                         <template slot="title">
                             <i class="menu-icon iconfont icon-shujufenxi"></i>
                             <span class="menuitem">统计分析</span></template>
+
                         <el-menu-item index="/orderStatistics_CollectorReport"
                                   v-if="this.showParkItem.orderStatistics_CollectorReport">收费员日报
                         </el-menu-item>
-
                         <el-menu-item index="/orderStatistics_DailyReport"
-                                      v-if="this.showParkItem.orderStatistics_DailyReport">车场日报
+                                  v-if="this.showParkItem.orderStatistics_DailyReport">车场日报
                         </el-menu-item>
 
                         <el-menu-item index="/orderStatistics_MonthReport"

@@ -44,9 +44,7 @@
             </div>
         </div>
         <!--折线图-->
-        <div class="charts-wrapper">
-            <div  id="chart" class="count-charts-style" ></div>
-        </div>
+
 
         <div class="count-table-wrapper-style">
             <el-table
@@ -64,12 +62,7 @@
                         label="日期"
                         width="110">
                 </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="amount_receivable"
-                        label="应收金额">
-                </el-table-column>
-                <el-table-column label="实收金额" align="center">
+                <el-table-column label="收入" align="center">
                     <el-table-column
                             align="center"
                             prop="cash_pay"
@@ -77,7 +70,7 @@
                     </el-table-column>
                     <el-table-column
                             align="center"
-                            prop="electronic_pay"
+                            prop="ele_pay"
                             label="电子支付">
                     </el-table-column>
                     <el-table-column
@@ -85,6 +78,11 @@
                             prop="act_total"
                             label="合计">
                     </el-table-column>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="out_money"
+                        label="支出">
                 </el-table-column>
                 <el-table-column
                         align="center"
@@ -248,107 +246,9 @@
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
                 }).then(function (response) {
-                    // 把配置和数据放这里
-                    let seriesData = [
-                        {
-                            name: '现金支付',
-                            type: 'line',
-                            stack: '总量1',
-                            data: []
-                        },
-                        {
-                            name: '应收金额',
-                            type: 'line',
-                            stack: '总量2',
-                            data: []
-                        },
-                        {
-                            name: '电子支付',
-                            type: 'line',
-                            stack: '总量3',
-                            data: []
-                        },
-                        {
-                            name: '实收金额',
-                            type: 'line',
-                            stack: '总量4',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'top'
-                                }
-                            },
-                            data: []
-                        },
-                        {
-                            name: '减免金额',
-                            type: 'line',
-                            stack: '总量5',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'top'
-                                }
-                            },
-                            data: []
-                        }
-                    ];
-                    let xAxisData = [];
                     let dataRows = response.data.rows;
                     vm.tableData = dataRows;
                     // console.log(response.data.rows);
-                    for (let i = 0; i < dataRows.length; i++) {
-                        let rData = dataRows[i];
-                        xAxisData[i] = rData.time;
-                        seriesData[0].data[i] = rData.cash_pay; //现金支付
-                        seriesData[1].data[i] = rData.amount_receivable;  //应收金额
-                        seriesData[2].data[i] = rData.electronic_pay;  //电子支付
-                        seriesData[3].data[i] = rData.act_total;  //实收金额
-                        seriesData[4].data[i] = rData.free_pay;  //减免金额,字段是free_pay
-                    }
-                    vm.chart.setOption({
-                        title: {
-                            text: '集团日报'
-                        },
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {
-                                type: 'cross',
-                                label: {
-                                    backgroundColor: '#6a7985'
-                                }
-                            }
-                        },
-                        color:['#727BDD','#00CAAA','#FAB127','#51A5DE','#76DDFB'],
-                        legend: {
-                            data: ['现金支付', '应收金额', '电子支付', '实收金额', '减免金额']
-                        },
-                        toolbox: {
-                            right: 20,
-                            feature: {
-                                saveAsImage: {}
-                            }
-                        },
-                        grid: {
-                            left: '3%',
-                            right: '4%',
-                            bottom: '3%',
-                            containLabel: true
-                        },
-                        xAxis: [
-                            {
-                                type: 'category',
-                                boundaryGap: false,
-                                data: xAxisData
-                            }
-                        ],
-                        yAxis: [
-                            {
-                                type: 'value'
-                            }
-                        ],
-                        series: seriesData
-                    });
                 });
             },
             getQuery(){
@@ -391,7 +291,7 @@
             },
         },
         mounted() {
-            this.initChart();
+            //this.initChart();
         },
         activated() {
             this.start_placeholder = common.currentDate() + ' 00:00:00';
@@ -399,10 +299,10 @@
             // this.searchFormData.currentData = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
             this.searchFormData.currentData = common.currentDateArray(10);
             this.getQuery();
-            this.chart.resize();
-            window.addEventListener('resize', () => {
-                this.chart.resize();
-            });
+            //this.chart.resize();
+            //window.addEventListener('resize', () => {
+            //    this.chart.resize();
+            //});
         }
     };
 
