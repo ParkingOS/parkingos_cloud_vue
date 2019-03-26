@@ -3,6 +3,9 @@ export const AUTH_ID = {
     data_Center_park: 69, //订单管理
     orderManage_Orders: 83, //订单记录
     orderManage_Poles: 84, //抬杆记录
+    orderManage_Income:376,//交易记录
+    orderManage_Expense:377,//支出记录
+    orderManage_Record:378,//减免记录
     monthMember: 7, //月卡会员-大菜单
     monthMember_Refill: 297, //月卡续费记录
     monthMember_VIP: 298, //月卡会员-小菜单
@@ -60,6 +63,9 @@ export const showParkItem_const = {
     data_Center_park: false,
     orderManage_Orders: false,
     orderManage_Poles: false,
+    orderManage_Income:false,//交易记录
+    orderManage_Expense:false,//支出记录
+    orderManage_Record:false,//减免记录
     monthMember: false,
     monthMember_Refill: false,
     monthMember_VIP: false,

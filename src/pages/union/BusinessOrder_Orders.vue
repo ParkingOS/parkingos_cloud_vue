@@ -8,30 +8,7 @@
                     <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
-            <div style="display: block;background: #fff">
-                <div class="refill-money-wrapper bgcolor-white" style="margin-top: 0;text-align: center">
-                    <el-row type="flex" justify="center" align="center">
-                        <el-col :span="12" style="border-right: 2px solid #DDDDDD;color: #F5B962;">
-                            <div class="refill-money-left">
-                                <i class="iconfont icon-jine money-icon" ></i>
-                                <p class="refill-month-title">现金支付</p>
-                                <p class="refill-month-count" >
-                                    <countTo :startVal='0' :endVal='cashpay' :decimals="2" :duration='1000'></countTo>元
-                                </p>
-                            </div>
-                        </el-col>
-                        <el-col :span="12" style="color: #8693F3">
-                            <div class="refill-money-left">
-                                <i class="iconfont icon-jine money-icon" ></i>
-                                <p class="refill-month-title">移动支付</p>
-                                <p class="refill-month-count">
-                                    <countTo :startVal='0' :endVal='elepay' :decimals="2" :duration='1000'></countTo>元
-                                </p>
-                            </div>
-                        </el-col>
-                    </el-row>
-                </div>
-            </div>
+
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
                     <div class="advanced-options" v-show="isShow">

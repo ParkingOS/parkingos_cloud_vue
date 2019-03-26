@@ -821,7 +821,7 @@
                                 }
 
                                 sessionStorage.setItem('showParkItem', JSON.stringify(_this.showParkItem));
-                                // console.log(_this.showParkItem)
+                                console.log(_this.highlightindex)
                                 if (_this.highlightindex == '') {
                                     _this.$router.push({path: '/index'});
                                 } else {
