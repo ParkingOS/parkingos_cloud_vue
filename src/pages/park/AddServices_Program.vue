@@ -355,7 +355,7 @@
                         _this.payState = 2;
                         _this.nextLoad = true;
                         //暂时重置为0.01元
-                        _this.purchaseSMS.money = 0.01;
+                        // _this.purchaseSMS.money = 0.01;
                         let timestamp = Math.random().toString();
                         axios.get(path+'/userprogram/tobuy', {
                             params: {
@@ -541,7 +541,7 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID.systemManage_AddedService_Sms == item.auth_id) {
+                        if (AUTH_ID.systemManage_AddServices_Program == item.auth_id) {
                             this.hideExport = common.showSubExport(item.sub_auth)
                             break;
                         }

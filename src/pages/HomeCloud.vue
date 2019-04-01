@@ -3,10 +3,10 @@
         <div class="mian-header" style="border-bottom: 1px solid #ebeef5;">
             <div class="logo">
                 <div class="logo-one">
-                    <img src="../assets/images/within-logo.png">
+                    <img :src="logo1">
                 </div>
                 <div class="logo-two">
-                    <img src="../assets/images/within-logo2.png">
+                    <img :src="logo2">
                 </div>
             </div>
             <div class="console">
@@ -135,6 +135,7 @@
                                 <el-menu-item index="/systemManage_AddedService_Sms" v-if="this.showParkItem.systemManage_AddedService_Sms">短信服务</el-menu-item>
                                 <el-menu-item index="/systemManage_AddedService_Screen" v-if="this.showParkItem.systemManage_AddedService_Screen">数据大屏</el-menu-item>
                                 <el-menu-item index="/systemManage_AddServices_Public" v-if="this.showParkItem.systemManage_AddServices_Public">商户公众号</el-menu-item>
+                                <el-menu-item index="/systemManage_AddServices_Program" v-if="this.showParkItem.systemManage_AddServices_Program">小程序收费</el-menu-item>
                             </el-submenu>
                     <el-submenu index="/systemManage" v-if="this.showParkItem.systemManage"
                                 style="font-weight: normal;padding-bottom: 30px">
@@ -256,6 +257,8 @@
     export default {
         data() {
             return {
+                logo1:require('@/assets/images/within-logo.png'),
+                logo2:require('@/assets/images/within-logo2.png'),
                 outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
@@ -412,12 +415,23 @@
                     this.admin = true;
                 }
 
+                let logo1 =  sessionStorage.getItem('logo1');
+                if(logo1 != undefined && logo1 != ''){
+                    this.logo1 = sessionStorage.getItem('logo1');
+                    this.logo2 = sessionStorage.getItem('logo2');
+                }else{
+                    this.logo1 = require('@/assets/images/within-logo.png');
+                    this.logo2 = require('@/assets/images/within-logo2.png');
+                }
             }
 
             this.currentHeight =  (document.body.clientHeight - 45) + 'px'
             window.addEventListener('resize', () => {
                 this.currentHeight =  (document.body.clientHeight - 45) + 'px'
             });
+        },
+        activated(){
+
         },
         watch: {
             $route: {

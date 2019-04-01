@@ -76,6 +76,7 @@ import BusinessOrder_Details from './pages/union/BusinessOrderDetails.vue';
 import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue';
 import Member_MonthVIP from './pages/union/Member_MonthVIP.vue';
 import Member_BlackList from './pages/union/Member_BlackList.vue';
+import Member_WhiteList from './pages/union/Member_WhiteList.vue';
 import SystemSetting_Account from './pages/union/SystemSetting_Account.vue';
 import SystemSetting_Park from './pages/union/SystemSetting_Park.vue';
 import SystemSetting_Park_Staff from './pages/union/SystemSetting_Park_Staff.vue'
@@ -102,6 +103,8 @@ import CreateUin from './pages/admin/CreateUin.vue';
 import Message_Service from './pages/admin/Message_Service.vue';
 import BigScreen_Service from './pages/admin/BigScreen_Service.vue';
 import Public_Service from './pages/admin/Public_Service.vue';
+import Program_Service from './pages/admin/Program_Service.vue';
+
 //Public_Service
 //商户后台页面
 import ShopAccount from './pages/shop/ShopAccount.vue';
@@ -144,6 +147,7 @@ let routes = [
             {path: '/message_service', component: Message_Service, name: '短信服务'},
             {path: '/bigScreen_service', component: BigScreen_Service, name: '大屏服务'},
             {path: '/public_service', component: Public_Service, name: '公众号服务'},
+            {path: '/program_service', component: Program_Service, name: '收费小程序'},
 
         ]
     },
@@ -379,7 +383,7 @@ let routes = [
         children: [
             {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'},//增值服务-短信服务
             {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-数据大屏
-            {path: '/AddServices_Program', component: AddServices_Program, name: 'program'},//增值服务-小程序
+            {path: '/systemManage_AddServices_Program', component: AddServices_Program, name: 'program'},//增值服务-小程序
             {path: '/systemManage_AddServices_Public', component: SystemManage_AddServices_Public, name: 'public'},//增值服务-小程序
 
 
@@ -428,7 +432,8 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/member_MonthVIP', component: Member_MonthVIP, name: '月卡会员'},
-            {path: '/member_BlackList', component: Member_BlackList, name: '黑名单管理'}
+            {path: '/member_BlackList', component: Member_BlackList, name: '黑名单管理'},
+            {path: '/member_WhiteList', component: Member_WhiteList, name: '白名单管理'},
         ]
     },
     {

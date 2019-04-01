@@ -696,6 +696,15 @@
                             sessionStorage.setItem('shopid', u.shopid);
                             sessionStorage.setItem('nickname1', u.nickname);
 
+                            //切换logo
+                            if(u.logo1 != undefined && u.logo1 != null && u.logo1 != ''){
+                                sessionStorage.setItem('logo1', u.logo1);
+                                sessionStorage.setItem('logo2', u.logo2);
+                            }else{
+                                sessionStorage.removeItem('logo1');
+                                sessionStorage.removeItem('logo2');
+                            }
+
                             // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                             if (u.oid == ROLE_ID.GROUP) {
                                 // _this.$router.push({path: '/bolinkunion'});

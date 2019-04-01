@@ -37,7 +37,7 @@
 
         <!--<el-time-picker v-else-if="item.type==='time'" :is-range="item.isRange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :value-format="item.valueFormat" :format="item.valueFormat" :placeholder="item.placeholder" v-bind="$attrs" v-on="$listeners"></el-time-picker>-->
 
-        <!--<el-date-picker v-else-if="item.type==='date'" :type="item.subtype" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :value-format="item.valueFormat" :format="item.viewFormat||item.valueFormat" :placeholder="item.placeholder" v-bind="$attrs" v-on="$listeners" :disabled="item.disabled"></el-date-picker>-->
+        <el-date-picker v-else-if="item.type==='date'" :type="item.subtype" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :value-format="item.valueFormat" :format="item.viewFormat||item.valueFormat" :placeholder="item.placeholder" v-bind="$attrs" v-on="$listeners" :disabled="item.disabled" :style="{width:'100%'}"></el-date-picker>
 
         <!--<richtext v-else-if="item.type==='richtext'" v-bind="$attrs" v-on="$listeners"></richtext>-->
 

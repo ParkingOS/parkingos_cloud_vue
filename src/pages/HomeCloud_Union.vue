@@ -3,10 +3,10 @@
         <div class="mian-header" style="border-bottom: 1px solid #ebeef5;">
             <div class="logo">
                 <div class="logo-one">
-                    <img src="../assets/images/within-logo.png">
+                    <img :src="logo1">
                 </div>
                 <div class="logo-two">
-                    <img src="../assets/images/within-logo2.png">
+                    <img :src="logo2">
                 </div>
             </div>
             <div class="console">
@@ -62,6 +62,9 @@
                                 <el-menu-item index="/member_BlackList" v-if="this.showUnionItem.member_BlackList">
                                     黑名单管理
                                 </el-menu-item>
+                                <!--<el-menu-item index="/member_WhiteList" v-if="this.showUnionItem.member_BlackList">-->
+                                    <!--白名单管理-->
+                                <!--</el-menu-item>-->
                             </el-submenu>
                             <el-submenu v-if="this.showUnionItem.strategicAnalysis" index="/strategicAnalysis">
                                 <template slot="title">
@@ -178,6 +181,8 @@
     export default {
         data() {
             return {
+                logo1:require('@/assets/images/within-logo.png'),
+                logo2:require('@/assets/images/within-logo2.png'),
                 outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
@@ -339,6 +344,14 @@
                     this.shop = true;
                 }
 
+                let logo1 =  sessionStorage.getItem('logo1');
+                if(logo1 != undefined && logo1 != '' && logo1 != null){
+                    this.logo1 = sessionStorage.getItem('logo1');
+                    this.logo2 = sessionStorage.getItem('logo2');
+                }else{
+                    this.logo1 = require('@/assets/images/within-logo.png');
+                    this.logo2 = require('@/assets/images/within-logo2.png');
+                }
             }
 
             this.currentHeight =  (document.body.clientHeight - 45) + 'px'
