@@ -76,7 +76,7 @@ import BusinessOrder_Details from './pages/union/BusinessOrderDetails.vue';
 import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue';
 import Member_MonthVIP from './pages/union/Member_MonthVIP.vue';
 import Member_BlackList from './pages/union/Member_BlackList.vue';
-import Member_WhiteList from './pages/union/Member_WhiteList.vue';
+// import Member_WhiteList from './pages/union/Member_WhiteList.vue';
 import SystemSetting_Account from './pages/union/SystemSetting_Account.vue';
 import SystemSetting_Park from './pages/union/SystemSetting_Park.vue';
 import SystemSetting_Park_Staff from './pages/union/SystemSetting_Park_Staff.vue'
@@ -89,6 +89,8 @@ import strategicAnalysis_DailyParkReport from './pages/union/strategicAnalysis_D
 
 import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_MonthReport.vue';
 
+import Union_Bolink_Expense from './pages/union/Bolink_Expense.vue';
+import Union_Bolink_Income from './pages/union/Bolink_Income.vue';
 //厂商页面
 import Park_Manage from './pages/city/Park_Manage.vue';
 import Park_Manage_Staff from './pages/city/Park_Manage_Staff.vue';
@@ -421,6 +423,8 @@ let routes = [
             {path: '/businessOrder_Orders', component: BusinessOrder_Orders, name: '订单记录'},
             {path: '/businessOrder_Poles', component: BusinessOrder_Poles, name: '抬杆记录'},
             {path: '/businessOrder_Cars', component: BusinessOrder_Cars, name: '在场车辆'},
+            {path: '/union_Bolink_Income', component: Union_Bolink_Income, name: '交易记录'},
+            {path: '/union_Bolink_Expense', component: Union_Bolink_Expense, name: '支出记录'},
             {path: '/businessOrder_Details', component: BusinessOrder_Details, name: '订单记录详情'},
         ]
     },
@@ -433,7 +437,7 @@ let routes = [
         children: [
             {path: '/member_MonthVIP', component: Member_MonthVIP, name: '月卡会员'},
             {path: '/member_BlackList', component: Member_BlackList, name: '黑名单管理'},
-            {path: '/member_WhiteList', component: Member_WhiteList, name: '白名单管理'},
+            // {path: '/member_WhiteList', component: Member_WhiteList, name: '白名单管理'},
         ]
     },
     {
