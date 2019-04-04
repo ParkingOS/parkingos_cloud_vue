@@ -1,7 +1,7 @@
 <template>
     <section style="padding: 50px;"  >
 
-        <p>欢迎使用ParkingOS开源停车云平台，请完整填写下面资料，如车场需和泊链平台做数据交互，请务必填写泊链厂商编号和厂商秘钥，否则后续新建车场无法与泊链连接。</p>
+        <p>欢迎使用ParkingOS开源停车云平台，请完整填写下面资料，如车场需和互联平台做数据交互，请务必填写互联厂商编号和厂商秘钥，否则后续新建车场无法与互联连接。</p>
 
         <el-row style="margin-top:100px;margin-left: 160px;" >
             <div>
@@ -11,11 +11,11 @@
                         <el-form-item label="厂商名称" :prop="name">
                             <el-input v-model="addFormPark.name" style="width:90%" placeholder=""></el-input>
                         </el-form-item>
-                        <el-form-item label="泊链厂商编号" :prop="union_id">
+                        <el-form-item label="互联厂商编号" :prop="union_id">
                             <el-input v-model="addFormPark.union_id" style="width:90%" placeholder=""></el-input>
                         </el-form-item>
 
-                        <el-form-item label="泊链厂商秘钥" :prop="ukey">
+                        <el-form-item label="互联厂商秘钥" :prop="ukey">
                             <el-input v-model="addFormPark.ukey" style="width:90%" placeholder=""></el-input>
                         </el-form-item>
 
@@ -56,10 +56,10 @@
                         {required: true, message: '请填写厂商名称', trigger: 'blur'}
                     ],
                     union_id: [
-                        {required: true, message: '请填写泊链厂商编号', trigger: 'blur'}
+                        {required: true, message: '请填写互联厂商编号', trigger: 'blur'}
                     ],
                     ukey: [
-                        {required: true, message: '请填写泊链厂商秘钥', trigger: 'blur'}
+                        {required: true, message: '请填写互联厂商秘钥', trigger: 'blur'}
                     ],
                 },
             }

@@ -11,7 +11,7 @@
             <div style="margin: 0 30px">
                 <el-tabs v-model="classSetting" @tab-click="handleClick">
                     <el-tab-pane label="员工管理" name="staff"></el-tab-pane>
-                    <el-tab-pane label="分时计费" name="charging"></el-tab-pane>
+                    <!--<el-tab-pane label="分时计费" name="charging"></el-tab-pane> -->
                 </el-tabs>
             </div>
             <div v-if="classSetting == 'staff'">
