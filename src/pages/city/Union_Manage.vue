@@ -11,7 +11,7 @@
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
                     <div class="advanced-options" v-show="isShow">
-                        <el-form-item label="泊链运营集团编号" class="clear-style">
+                        <el-form-item label="互联运营集团编号" class="clear-style">
                             <el-input v-model="searchFormData.operatorid" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
                         </el-form-item>
                     </div>
@@ -199,7 +199,7 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '泊链运营集团编号',
+                                label: '互联运营集团编号',
                                 prop: 'operatorid',
                                 addtable: true,
                                 editable: true,

@@ -11,10 +11,10 @@
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
                     <div class="advanced-options" v-show="isShow">
-                        <el-form-item label="泊链车场编号" class="clear-style">
+                        <el-form-item label="互联车场编号" class="clear-style">
                             <el-input v-model="searchFormData.bolink_id" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
                         </el-form-item>
-                        <el-form-item label="泊链车场秘钥" class="clear-style">
+                        <el-form-item label="互联车场秘钥" class="clear-style">
                             <el-input v-model="searchFormData.ukey" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
                         </el-form-item>
                     </div>
@@ -282,7 +282,7 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '泊链车场编号',
+                                label: '互联车场编号',
                                 prop: 'bolink_id',
                                 addtable: true,
                                 editable: true,
@@ -301,7 +301,7 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '泊链车场秘钥',
+                                label: '互联车场秘钥',
                                 prop: 'ukey',
                                 searchable: true,
                                 unsortable: true,
