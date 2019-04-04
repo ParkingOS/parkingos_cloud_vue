@@ -50,10 +50,10 @@
                                 <el-menu-item index="/businessOrder_Poles" v-if="this.showUnionItem.businessOrder_Poles">
                                     抬杆记录
                                 </el-menu-item>
-                                <el-menu-item index="/union_Bolink_Income" v-if="this.showUnionItem.businessOrder_Poles">
+                                <el-menu-item index="/union_Bolink_Income" v-if="this.showUnionItem.unionBolink_Income">
                                     交易记录
                                 </el-menu-item>
-                                <el-menu-item index="/union_Bolink_Expense" v-if="this.showUnionItem.businessOrder_Poles">
+                                <el-menu-item index="/union_Bolink_Expense" v-if="this.showUnionItem.unionBolink_Expense">
                                     支出记录
                                 </el-menu-item>
                             </el-submenu>

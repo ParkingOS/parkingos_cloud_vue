@@ -2,7 +2,7 @@
     <section class="right-wrapper-size" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">订单管理<span style="margin: 2px">-</span>支出记录</p>
+                <p style="float: left">业务订单<span style="margin: 2px">-</span>支出记录</p>
                 <div class="float-right">
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
@@ -24,6 +24,9 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
+                        <el-form-item label="订单号">
+                            <el-input style="width: 140px" v-model="searchFormData.order_id" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
                     </div>
                     <div class="console-main">
                         <el-form-item label="支付时间">
@@ -42,12 +45,20 @@
                             >
                             </el-date-picker>
                         </el-form-item>
+                        <el-form-item label="所属车场" class="clear-style margin-left-20">
+                            <el-select v-model="searchFormData.comid_start" filterable placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 160px">
+                                <el-option
+                                        v-for="item in parklist"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
                         <el-form-item label="车牌号">
                             <el-input style="width: 140px" v-model="searchFormData.car_number" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
                         </el-form-item>
-                        <el-form-item label="订单号">
-                            <el-input style="width: 140px" v-model="searchFormData.order_id" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
-                        </el-form-item>
+
                         <el-form-item class="shop-clear-style">
                             <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
                             <el-button type="text"
@@ -100,6 +111,7 @@
         data: function () {
             var that = this;
             return {
+                parklist:[],
                 pay_channels:'',
                 noimg:require('../../assets/images/no.png'),
                 offimg:require('../../assets/images/off.png'),
@@ -124,6 +136,7 @@
                     pay_time:'between',
                     pay_time_start:'',
                     pay_time_end:'',
+                    comid_start:''
                 },
                 searchForm:{},
 
@@ -150,7 +163,7 @@
                        //显示停车信息
                 hideTool: false,        //隐藏工具栏
                 showEdit:true,
-                queryapi: '/bolinkexpense/query',    //数据请求路径
+                queryapi: '/bolinkexpense/groupquery',    //数据请求路径
                 btswidth: '100',                 //按钮宽度
                 fieldsstr: 'id__car_number__order_id__trade_no__pay_time__pay_channel',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
@@ -159,7 +172,6 @@
                         subs: [{
                             label: '编号',          //页面表格显示
                             prop: 'id',             //对应表中字段
-                            width: '100',           //列宽度
                             type: 'number',         //对应表中字段类型
                             editable: false,         //是否可编辑
                             searchable: true,       //是否可查询
@@ -168,12 +180,30 @@
                             align: 'center'         //页面表格内容显示位置
                         }]
                     }, {
+                        hasSubs: false,
+                        subs: [{
+                            label: '所属车场',          //页面表格显示
+                            prop: 'park_id',             //对应表中字段
+                            editable: false,         //是否可编辑
+                            searchable: true,       //是否可查询
+                            addable: false,          //是否可添加
+                            unsortable: true,       //是否可排序
+                            align: 'center',         //页面表格内容显示位置
+                            columnType:'render',
+                            render: (h, params) => {
+                                let result = common.nameformat(params.row, this.parklist, 'park_id');
+                                if (result == '请选择')result = '';
+                                return h('div', [
+                                    h('span', result)
+                                ]);
+                            }
+                        }]
+                    },{
 
                         hasSubs: false,
                         subs: [{
                             label: '车牌号',
                             prop: 'car_number',
-                            width: '165',
                             editable: true,
                             searchable: true,
                             addtable: true,
@@ -195,7 +225,6 @@
                         subs: [{
                             label: '订单号',
                             prop: 'order_id',
-                            width: '150',
                             editable: true,
                             searchable: true,
                             addtable: true,
@@ -206,7 +235,6 @@
 
                        hasSubs: false,
                        subs: [{
-                           width:'180',
                            label: '支付时间',
                            prop: 'pay_time',
                            type: 'date',
@@ -228,7 +256,6 @@
                         subs: [{
                             label: '支付金额',
                             prop: 'pay_money',
-                            width: '100',
                             editable: true,
                             searchable: false,
                             addtable: true,
@@ -245,7 +272,6 @@
 
                         hasSubs: false,
                         subs: [{
-                            width:'180',
                             label: '交易号',
                             prop: 'trade_no',
                             editable: true,
@@ -264,7 +290,6 @@
 
                           hasSubs: false,
                           subs: [{
-                              width:'150',
                               label: '支付类型',
                               prop: 'type',
                               editable: true,
@@ -300,7 +325,6 @@
                       },{
                       hasSubs: false,
                       subs: [{
-                          width:'150',
                           label: '支付通道',
                           prop: 'pay_channel',
                           editable: true,
@@ -326,7 +350,6 @@
                   },{
                     hasSubs: false,
                     subs: [{
-                        width:'180',
                         label: '备注',
                         prop: 'remark',
                         editable: true,
@@ -480,6 +503,7 @@
                     pay_time:'between',
                     pay_time_start:'',
                     pay_time_end:'',
+                    comid_start:''
                 };
                let currentTime =  common.currentDateArray(1);
                that.searchFormData.currentData = [common.timestampFormat(currentTime[0]),common.timestampFormat(currentTime[1])];
@@ -508,6 +532,10 @@
                     {'value_name': '汇付', 'value_no': '7'},
                     {'value_name': '富友', 'value_no': '8'},
                 ]
+                axios.all([common.getAllParks()])
+                    .then(axios.spread(function (parks) {
+                        _this.parklist = parks.data;
+                    }));
             },
             setAuthorityFn(){
                 let user = sessionStorage.getItem('user');

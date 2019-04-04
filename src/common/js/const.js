@@ -123,6 +123,8 @@ export const AUTH_ID_UNION = {
     businessOrder_Cars: 208, //在场车辆
     businessOrder_Orders: 104, //订单记录
     businessOrder_Poles: 106, //抬杆记录
+    unionBolink_Income:358, //交易记录
+    unionBolink_Expense:359, //支出记录
     member: 212, //会员
     member_MonthVIP: 214, //月卡会员
     member_BlackList: 215, //黑名单管理
@@ -148,6 +150,8 @@ export const showUnionItem_const = {
     businessOrder_Cars: false,
     businessOrder_Orders: false,
     businessOrder_Poles: false,
+    unionBolink_Income:false, //交易记录
+    unionBolink_Expense:false, //支出记录
     member: false,
     member_MonthVIP: false,
     member_BlackList: false,

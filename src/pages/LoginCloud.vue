@@ -892,6 +892,22 @@
             // }
         }
     };
+
+
+    /**
+     *
+     * @date 20190404
+     * @author: cyz
+     * @describe:百度流量统计
+     */
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?8154a186ac2e0d3a2c751a5cf7d65c3a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
 </script>
 <style rel="stylesheet/scss" lang="scss">
     .login-wrapper{
