@@ -40,7 +40,34 @@ Vue.prototype.common=common;
 const router = new VueRouter({
     routes
 });
+
+/**
+ *
+ * @date 20190404
+ * @author: cyz
+ * @describe:百度流量统计
+ */
+
+var _hmt = _hmt || [];
+window._hmt = _hmt; // 必须把_hmt挂载到window下，否则找不到
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?c7e225d3f79576d85cfd59703506510f";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+
 router.beforeEach((to, from, next) => {
+
+    //把页面推送给百度统计
+    if (_hmt) {
+        if (to.path) {
+            console.log('_hmt',to.fullPath)
+            // eslint-disable-next-line
+            _hmt.push(['_trackPageview', '/#' + to.fullPath]);
+        }
+    }
+
     //NProgress.start();
     let state = store.state.app.screenPower;
     if (to.path == '/loginCloud') {
