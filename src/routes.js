@@ -423,8 +423,8 @@ let routes = [
             {path: '/businessOrder_Orders', component: BusinessOrder_Orders, name: '订单记录'},
             {path: '/businessOrder_Poles', component: BusinessOrder_Poles, name: '抬杆记录'},
             {path: '/businessOrder_Cars', component: BusinessOrder_Cars, name: '在场车辆'},
-            {path: '/union_Bolink_Income', component: Union_Bolink_Income, name: '交易记录'},
-            {path: '/union_Bolink_Expense', component: Union_Bolink_Expense, name: '支出记录'},
+            {path: '/businessOrder_Income', component: Union_Bolink_Income, name: '交易记录'},
+            {path: '/businessOrder_Expense', component: Union_Bolink_Expense, name: '支出记录'},
             {path: '/businessOrder_Details', component: BusinessOrder_Details, name: '订单记录详情'},
         ]
     },

@@ -62,7 +62,6 @@ router.beforeEach((to, from, next) => {
     //把页面推送给百度统计
     if (_hmt) {
         if (to.path) {
-            console.log('_hmt',to.fullPath)
             // eslint-disable-next-line
             _hmt.push(['_trackPageview', '/#' + to.fullPath]);
         }
