@@ -84,7 +84,7 @@
                                 <el-col  :span="8" v-if="stay" style="height: 100%">
                                     <h3 style="line-height: 40px;text-align: center;color: #fff">出场待确认车辆</h3>
                                     <div class="confirmed_car">
-                                        <img :src="paths+'/images/monitor/'+accurate.picName" :title="accurate.car_nmber" :alt="accurate.car_nmber">
+                                        <img :src="accurate.picName" :title="accurate.car_nmber" :alt="accurate.car_nmber">
                                     </div>
                                 </el-col>
                                 <el-col :span="16"
@@ -100,7 +100,7 @@
                                     </div>
                                     <div  class="alternative" v-show="!undefindOrder">
                                         <a class="alterNativeHeight" href="javascript:;" v-for="item in vague" :key="item.orderId">
-                                            <img :src="paths+'/images/monitor/'+item.picName" :alt="item.carNumber" :id="item.orderId" :title="item.carNumber" @click="confirmBtn(item)">
+                                            <img :src="item.picName" :alt="item.carNumber" :id="item.orderId" :title="item.carNumber" @click="confirmBtn(item)">
                                         </a>
                                     </div>
                                 </el-col>
@@ -114,7 +114,7 @@
                                 </el-col>
                                 <el-col :span="12" v-if="manuals" style="height: 100%" class="manuals-right">
                                     <a href="javascript:;" class="man-car">
-                                        <img :src="paths+'/images/monitor/'+manualDataUrl" :alt="manualDataUrl">
+                                        <img :src="manualDataUrl" :alt="manualDataUrl">
                                     </a>
                                     <button @click="placeOrder(manualData)">确定</button>
                                 </el-col>
