@@ -4,8 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">会员<span style="margin: 2px">-</span>白名单管理</p>
                 <div class="float-right">
-                    <el-button type="text"  @click="handleImport" native-type="button" icon="el-icon-upload">导入白名单</el-button>
-                    <el-button type="text"  @click="exportFn" native-type="button" icon="el-icon-printer" v-if="hideExport">导出</el-button>
+                    <el-button type="text"  @click="exportFn" native-type="button" icon="el-icon-printer" >导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -21,17 +20,6 @@
                                 <el-option label="正常"  value="1"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="所属车场" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.park_id" filterable placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 160px">
-                                <el-option
-                                        v-for="item in parklist"
-                                        :key="item.value_no"
-                                        :label="item.value_name"
-                                        :value="item.value_no">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-
                         <el-form-item class="shop-clear-style">
                             <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
                         </el-form-item>
@@ -176,11 +164,11 @@
                 showCustomizeAdd: false,
                 hideAdd: true,
                 uploadapi: path + '/groupwhite/importExcel?1=1' + common.commonParams(),
-                queryapi: '/groupwhite/query',
+                queryapi: '/white/query',
                 exportapi: '/cityblackuser/exportExcel',
-                addapi: '/groupwhite/add',
-                editapi: '/groupwhite/edit',
-                delapi: '/groupwhite/delete',
+                addapi: '/white/add',
+                editapi: '/white/edit',
+                delapi: '/white/delete',
                 parkid: '',
                 currentIndex: 0,
                 currentRow: '',
@@ -261,35 +249,6 @@
                                         h('span', str)
                                     ]);
                                 }
-                            }
-                        ]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '所属车场',
-                                prop: 'comid',
-                                searchable: true,
-                                unsortable: true,
-                                align: 'center',
-                                addtable:true,
-                                editable: true,
-                                columnType:'render',
-                                render: (h, params) => {
-                                    let str = common.nameformat(params.row, this.parklist, 'park_id');
-                                    if(str == '请选择')str='';
-                                    return h('div', [
-                                        h('span', str)
-                                    ]);
-                                },
-                                "type": "select",
-                                "value": "",
-                                "button": false,
-                                "border": true,
-                                "rules": [
-                                    {required: true, message: '请选择所属车场', trigger: 'blur'}
-                                ],
-                                'size':'',
-                                "options": this.parklist,
                             }
                         ]
                     },
@@ -494,7 +453,6 @@
                                             click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.editRowData = params.row;
-                                                this.editRowData.comid = params.row.park_id+'';
                                                 this.editTo++;
 
                                             }

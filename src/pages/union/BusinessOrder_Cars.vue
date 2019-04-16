@@ -4,6 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">业务订单<span style="margin: 2px">-</span>在场车辆</p>
                 <div class="float-right">
+                    <el-button type="text" icon="el-icon-news"  @click="manualSettlementFn" native-type="button">手动结算</el-button>
                     <el-button type="text" icon="el-icon-printer"  @click="exportFn" native-type="button" v-if="hideExport">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
@@ -84,6 +85,35 @@
                     ref="tabPane"
             ></tab-pane>
         </div>
+        <el-dialog
+                width="600px"
+                :show-close="false"
+                :visible.sync="settlementVible"
+                custom-class="custom-dialog custom-dialog-sms"
+                @close="closeDialog">
+            <header class="dialog-header" slot="title">
+                手动结算<i class="el-icon-close dialog-header-iconfont" @click="settlementVible = false"></i>
+            </header>
+            <el-form ref="refillForm" label-width="120px" :model="currentRow" class="dialog-form-width">
+                <el-form-item label="订单编号">
+                    <span>{{currentRow.id}}</span>
+                </el-form-item>
+                <el-form-item label="车牌号码">
+                    <span>{{currentRow.car_number}}</span>
+                    <!--<el-input v-model.trim="currentRow.car_number" placeholder="" :readonly=true></el-input>-->
+                </el-form-item>
+                <el-form-item label="结算金额">
+                    <el-input-number v-model="currentRow.money" controls-position="right" :min="0"></el-input-number>
+                </el-form-item>
+                <el-form-item label="支付方式">
+                    <span>现金支付</span>
+                </el-form-item>
+            </el-form>
+            <footer slot="footer" class="dialog-footer">
+                <el-button @click="settlementVible = false" class="custom-btns-style">取 消</el-button>
+                <el-button type="primary" @click="settSubmit"  :loading="settLoading" style="margin-left: 60px" class="custom-btns-style">确 定</el-button>
+            </footer>
+        </el-dialog>
     </section>
 </template>
 
@@ -101,7 +131,12 @@
             TabPane
         },
         data() {
+            var that = this;
             return {
+                settLoading:false,
+                settlementVible:false,
+                currentRow:{},
+                selectVal:'',
                 noimg:require('../../assets/images/no.png'),
                 offimg:require('../../assets/images/off.png'),
                 searchFormData:{
@@ -140,6 +175,32 @@
                 btswidth: '100',
                 fieldsstr: 'id__groupid__comid__berthsec_id__cid__uid__prepaid__parking_type__c_type__car_number__create_time__duration__state__id__in_passid__order_id_local',
                 tableitems: [
+                    {
+                        hasSubs: false,
+                        subs: [{
+                            label: '',
+                            align: 'center',
+                            width:'50',
+                            unsortable: true,
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('ElRadio',{
+                                        props:{
+                                            label:params.index,
+                                            value:that.selectVal
+                                        },
+                                        on:{
+                                            change(){
+                                                that.selectVal = params.index;
+                                                that.currentRow = params.row;
+                                            }
+                                        },
+                                    },'')
+                                ]);
+                            }
+                        }]
+                    },
                     {
                         hasSubs: false,
                         subs: [{
@@ -376,10 +437,79 @@
             };
         },
         methods: {
+            settSubmit(){
+                let _this = this;
+                let aform = {};
+                 aform = common.generateForm(aform);
+                 aform.id = this.currentRow.id;
+                 aform.cityid = this.currentRow.cityid;
+                 aform.in_time = this.currentRow.create_time;
+                 aform.money = this.currentRow.money;
+                if(this.currentRow.money != undefined && this.currentRow.money != ''){
+                    _this.$axios.post(path + '/unorder/tozero', _this.$qs.stringify(aform), {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function (response) {
+                        if(response.status == 200){
+                            let res = response.data;
+                            if(res.state == 1){
+                                _this.settlementVible = false;
+                                _this.$message({
+                                    message: res.msg,
+                                    type: 'success',
+                                    duration: 600
+                                });
+                                _this.searchFn()
+                            }else{
+                                _this.$message({
+                                    message: res.msg,
+                                    type: 'error',
+                                    duration: 600
+                                });
+                            }
+                        }else{
+                            _this.$message({
+                                message: '结算失败,请稍后重试',
+                                type: 'error',
+                                duration: 600
+                            });
+                        }
+
+                    }).catch(function (error) {
+                        _this.$message({
+                            message: '设置失败,请稍后重试',
+                            type: 'error',
+                            duration: 600
+                        });
+                    })
+                }else{
+                    _this.$message({
+                        message: '金额不能为空',
+                        type: 'info',
+                        duration: 600
+                    });
+                    return false;
+                }
+
+            },
+            closeDialog(){
+
+            },
+            manualSettlementFn(){
+                console.log('--------',this.selectVal)
+              if(this.selectVal !== ''){
+                this.settlementVible = true;
+              }else{
+                  this.$message('请先选中一条记录');
+              }
+            },
             searchFn() {
                 /*
                 * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
                 * */
+                this.currentRow = {};
+                this.selectVal = '';
                 let sform = JSON.parse(JSON.stringify( this.searchFormData ));
                 sform.uid = sform.uid_start;
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
@@ -406,6 +536,8 @@
                 * 初始化操作
                 * 点击刷新时 和初进入页面时
                 * */
+                that.currentRow = {};
+                that.selectVal = '';
                 that.searchFormData ={
                     currentData:'',
                     create_time:'',

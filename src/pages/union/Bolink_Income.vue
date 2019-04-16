@@ -4,6 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">业务订单<span style="margin: 2px">-</span>交易记录</p>
                 <div class="float-right">
+                    <span style="padding-right: 30px">合计金额：{{allTotal}} 元</span>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -97,6 +98,7 @@
                     fixedDom="scrollBarDom"
                     ref="tabPane"
                     v-on:cancelDel="cancelDel"
+                    v-on:transferData="transferData"
             ></tab-pane>
         </div>
     </section>
@@ -120,6 +122,7 @@
         data: function () {
             var that = this;
             return {
+                allTotal:0,
                 parklist:[],
                 pay_types:'',
                 noimg:require('../../assets/images/no.png'),
@@ -376,6 +379,9 @@
             //this.$refs['tabPane'].getTableData(this.searchForm,this)
         },
         methods:{
+            transferData(val){
+                this.allTotal = val.total;
+            },
             changeDateFormat(val){
                 if(val == null){
                     this.searchFormData.pay_time_start = '';

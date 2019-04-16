@@ -2,45 +2,34 @@
     <section class="right-wrapper-size" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">业务订单<span style="margin: 2px">-</span>支出记录</p>
+                <p style="float: left">订单管理<span style="margin: 2px">-</span>减免记录</p>
                 <div class="float-right">
-                    <span style="padding-right: 30px">合计金额：{{allTotal}} 元</span>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
-
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
                     <div class="advanced-options" v-show="isShow">
-                        <el-form-item label="交易编号" class="clear-style">
-                            <el-input v-model="searchFormData.trade_no" placeholder="请输入交易号" class="shop-custom-input"></el-input>
-                        </el-form-item>
-                        <el-form-item label="支付通道" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.pay_channel" placeholder="请选择" class="shop-custom-input">
-                                <el-option
-                                        v-for="item in pay_channels"
-                                        :key="item.value_no"
-                                        :label="item.value_name"
-                                        :value="item.value_no">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="订单号">
-                            <el-input style="width: 140px" v-model="searchFormData.order_id" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
-                        </el-form-item>
-                        <el-form-item label="支付类型" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.type_start" placeholder="请选择" class="shop-custom-input">
-                                <el-option
-                                        v-for="item in pay_type"
-                                        :key="item.value_no"
-                                        :label="item.value_name"
-                                        :value="item.value_no">
-                                </el-option>
-                            </el-select>
+                        <el-form-item label="商户名称">
+                            <el-input style="width: 140px" v-model="searchFormData.shop_name" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
                         </el-form-item>
                     </div>
                     <div class="console-main">
-                        <el-form-item label="支付时间">
+                        <el-form-item label="所属车场" class="clear-style margin-left-20">
+                            <el-select v-model="searchFormData.com_id" filterable placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 160px">
+                                <el-option
+                                        v-for="item in parklist"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item label="车牌号">
+                            <el-input style="width: 140px" v-model="searchFormData.car_number" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="使用时间">
                             <el-date-picker
                                     style="width: 350px"
                                     class="shop-custom-datepicker"
@@ -56,31 +45,12 @@
                             >
                             </el-date-picker>
                         </el-form-item>
-                        <el-form-item label="所属车场" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.comid_start" filterable placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 160px">
-                                <el-option
-                                        v-for="item in parklist"
-                                        :key="item.value_no"
-                                        :label="item.value_name"
-                                        :value="item.value_no">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="车牌号">
-                            <el-input style="width: 140px" v-model="searchFormData.car_number" class="shop-custom-input" placeholder="请输入搜索内容"></el-input>
-                        </el-form-item>
-
                         <el-form-item class="shop-clear-style">
                             <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
                             <el-button type="text"
                                        @click="changeMore"
                                        style="color:#3C75CF;font-size: 16px;"><img :src="isShow ?offimg:noimg" style="display: inline-block;vertical-align: text-top"> 高级搜索</el-button>
                         </el-form-item>
-                        <div class="float-right">
-                            <el-form-item class="shop-clear-style">
-                                <el-button type="primary"  @click="exportFn" native-type="button" v-if="!hideExport">导出</el-button>
-                            </el-form-item>
-                        </div>
                     </div>
 
                 </el-form>
@@ -99,7 +69,6 @@
                     fixedDom="scrollBarDom"
                     ref="tabPane"
                     v-on:cancelDel="cancelDel"
-                    v-on:transferData="transferData"
             ></tab-pane>
         </div>
     </section>
@@ -123,27 +92,13 @@
         data: function () {
             var that = this;
             return {
-                pay_type:[{
-                    value_name:'全部',
-                    value_no:''
-                },{
-                    value_name:'手续费',
-                    value_no:6
-                },{
-                    value_name:'退款',
-                    value_no:7,
-                },{
-                    value_name:'找零',
-                    value_no:8,
-                },],
-                parklist:[],
-                pay_channels:'',
                 noimg:require('../../assets/images/no.png'),
                 offimg:require('../../assets/images/off.png'),
+                isShow:false,
+                parklist:[],
                 delForm:{
 
                 },
-                isShow:false,
                 rowdata:{},
                 editFormVisible:false,
                 editloading:false,
@@ -153,16 +108,12 @@
                     state:'0'
                 },
                 searchFormData:{
-                    type_start:'',
-                    currentData:'',
-                    trade_no:'',
-                    order_id:'',
+                    shop_name:'',
                     car_number:'',
-                    pay_channel:'',
-                    pay_time:'between',
-                    pay_time_start:'',
-                    pay_time_end:'',
-                    comid_start:''
+                    currentData:'',
+                    use_time:'between',
+                    use_time_start:'',
+                    use_time_end:'',
                 },
                 searchForm:{},
 
@@ -177,7 +128,6 @@
                     }
                 },
 
-
                 loading: false,         //loading页面是否显示
                 hideExport: true,       //隐藏导出
                 hideSearch: false,      //隐藏查询
@@ -189,15 +139,36 @@
                        //显示停车信息
                 hideTool: false,        //隐藏工具栏
                 showEdit:true,
-                queryapi: '/bolinkexpense/groupquery',    //数据请求路径
+                queryapi: '/reducerecord/groupquery',    //数据请求路径
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'id__car_number__order_id__trade_no__pay_time__pay_channel',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'ticket_id__car_number__shop_name__order_id__use_time',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '所属车场',
+                                prop: 'com_id',
+                                type: 'selection',
+                                selectlist: this.parklist,
+                                searchable: true,
+                                unsortable: true,
+                                align: 'center',
+                                columnType:'render',
+                                render: (h, params) => {
+                                    let str = common.nameformat(params.row, this.parklist, 'com_id');
+                                    if(str == '请选择')str='';
+                                    return h('div', [
+                                        h('span', str)
+                                    ]);
+                                }
+                            }
+                        ]
+                    },
                     {
                         hasSubs: false,
                         subs: [{
-                            label: '编号',          //页面表格显示
-                            prop: 'id',             //对应表中字段
+                            label: '优惠券编号',          //页面表格显示
+                            prop: 'ticket_id',             //对应表中字段
                             type: 'number',         //对应表中字段类型
                             editable: false,         //是否可编辑
                             searchable: true,       //是否可查询
@@ -206,25 +177,27 @@
                             align: 'center'         //页面表格内容显示位置
                         }]
                     }, {
-                        hasSubs: false,
-                        subs: [{
-                            label: '所属车场',          //页面表格显示
-                            prop: 'park_id',             //对应表中字段
-                            editable: false,         //是否可编辑
-                            searchable: true,       //是否可查询
-                            addable: false,          //是否可添加
-                            unsortable: true,       //是否可排序
-                            align: 'center',         //页面表格内容显示位置
-                            columnType:'render',
-                            render: (h, params) => {
-                                let result = common.nameformat(params.row, this.parklist, 'park_id');
-                                if (result == '请选择')result = '';
-                                return h('div', [
-                                    h('span', result)
-                                ]);
-                            }
-                        }]
-                    },{
+
+                           hasSubs: false,
+                           subs: [{
+                               label: '商户名称',
+                               prop: 'shop_name',
+                               editable: true,
+                               searchable: true,
+                               addtable: true,
+                               unsortable: true,
+                               align: 'center',
+                               "type": "input",
+                               "disable": false,
+                               "readonly": false,
+                               "value": "",
+                               'size':'',
+                               "subtype": "text",
+                               "rules": [
+                                   {required: true, message: '请输入名称', trigger: 'blur'}
+                               ],
+                           }]
+                       },{
 
                         hasSubs: false,
                         subs: [{
@@ -251,6 +224,7 @@
                         subs: [{
                             label: '订单号',
                             prop: 'order_id',
+                            selectlist:this.channelType,//此处引用通道管理的名称栏
                             editable: true,
                             searchable: true,
                             addtable: true,
@@ -261,8 +235,8 @@
 
                        hasSubs: false,
                        subs: [{
-                           label: '支付时间',
-                           prop: 'pay_time',
+                           label: '使用时间',
+                           prop: 'use_time',
                            type: 'date',
                            editable: true,
                            searchable: true,
@@ -272,7 +246,7 @@
                            columnType:'render',
                            render: (h, params) => {
                                return h('div', [
-                                   h('span', common.dateformat(params.row.pay_time))
+                                   h('span', common.dateformat(params.row.use_time))
                                ]);
                            }
                        }]
@@ -280,8 +254,8 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '支付金额',
-                            prop: 'pay_money',
+                            label: '抵扣额度',
+                            prop: 'deduction_amount',
                             editable: true,
                             searchable: false,
                             addtable: true,
@@ -298,8 +272,8 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '交易号',
-                            prop: 'trade_no',
+                            label: '备注',
+                            prop: 'remark',
                             editable: true,
                             searchable: true,
                             addtable: true,
@@ -312,109 +286,20 @@
                             'size':'',
                             "subtype": "text",
                         }]
-                    },{
-
-                          hasSubs: false,
-                          subs: [{
-                              label: '支付类型',
-                              prop: 'type',
-                              editable: true,
-                              searchable: true,
-                              addtable: true,
-                              unsortable: true,
-                              align: 'center',
-                              "type": "input",
-                              "disable": false,
-                              "readonly": false,
-                              "value": "",
-                              'size':'',
-                              "subtype": "text",
-                              columnType:'render',
-                              render: (h, params) => {
-                               //6手续费  7退款  8找零
-                                var str='';
-                                if(params.row.type==6){
-                                    str='手续费';
-                                }else if(params.row.type==7){
-                                    str='退款';
-                                }else if(params.row.type==8){
-                                   str='找零';
-                                }else {
-                                   str='未知';
-                                }
-                                return h('div', [
-                                  h('span', str)
-                               ]);
-                            }
-
-                          }]
-                      },{
-                      hasSubs: false,
-                      subs: [{
-                          label: '支付通道',
-                          prop: 'pay_channel',
-                          editable: true,
-                          searchable: true,
-                          addtable: true,
-                          unsortable: true,
-                          align: 'center',
-                          "type": "input",
-                          "disable": false,
-                          "readonly": false,
-                          "value": "",
-                          'size':'',
-                          "subtype": "text",
-                          columnType:'render',
-                          render: (h, params) => {
-                           //0-微信 1-支付宝3-银联4-建行
-                            return h('div', [
-                              h('span', common.nameformat(params.row,this.pay_channels,'pay_channel'))
-                           ]);
-                        }
-
-                      }]
-                  },{
-                    hasSubs: false,
-                    subs: [{
-                        label: '备注',
-                        prop: 'remark',
-                        editable: true,
-                        searchable: true,
-                        addtable: true,
-                        unsortable: true,
-                        align: 'center',
-                        "type": "input",
-                        "disable": false,
-                        "readonly": false,
-                        "value": "",
-                        'size':'',
-                        "subtype": "text",
-                    }]
-                }
+                    }
                 ],
-                allTotal:0,
+                addtitle: '添加监控器',
+                searchtitle: '搜索监控器',
+                channelType:'',
             }
         },
         mounted() {
-            //this.setAuthorityFn();
-            this.initFn(this);
+            this.setAuthorityFn();
+            this.initFn(this)
             this.getQuery();
-            //因为initFn 触发了  searchForm变化，所以会自动查询一次,这如果再加会查询两次
             //this.$refs['tabPane'].getTableData({},this)
         },
         methods:{
-            transferData(val){
-                this.allTotal = val.total;
-            },
-            changeDateFormat(val){
-                if(val == null){
-                    this.searchFormData.pay_time_start = '';
-                    this.searchFormData.pay_time_end = ''
-                }else{
-                    this.searchFormData.pay_time_start = val[0];
-                    this.searchFormData.pay_time_end = val[1]
-                }
-            },
             changeMore(){
                 this.isShow = !this.isShow
             },
@@ -525,56 +410,55 @@
                 * 点击刷新时 和初进入页面时
                 * */
                 that.searchFormData ={
-                    type_start:'',
-                    currentData:'',
-                    trade_no:'',
-                    order_id:'',
+                    //ticket_id:'',
+                    //ticket_id_start:'',
+                    shop_name:'',
                     car_number:'',
-                    pay_channel:'',
-                    pay_time:'between',
-                    pay_time_start:'',
-                    pay_time_end:'',
-                    comid_start:''
+                    currentData:'',
+                    use_time:'between',
+                    use_time_start:'',
+                    use_time_end:'',
                 };
-               let currentTime =  common.currentDateArray(1);
-               that.searchFormData.currentData = [common.timestampFormat(currentTime[0]),common.timestampFormat(currentTime[1])];
-               that.searchFormData.pay_time_start = common.timestampFormat(currentTime[0]);
-               that.searchFormData.pay_time_end = common.timestampFormat(currentTime[1]);
-               that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
+                let currentTime =  common.currentDateArray(1);
+                that.searchFormData.currentData = [common.timestampFormat(currentTime[0]),common.timestampFormat(currentTime[1])];
+                that.searchFormData.use_time_start = common.timestampFormat(currentTime[0]);
+                that.searchFormData.use_time_end = common.timestampFormat(currentTime[1]);
+                that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
+            },
+            changeDateFormat(val){
+                if(val == null){
+                    this.searchFormData.use_time_start = '';
+                    this.searchFormData.use_time_end = ''
+                }else{
+                    this.searchFormData.use_time_start = val[0];
+                    this.searchFormData.use_time_end = val[1]
+                }
             },
             searchFn() {
                 /*
                 * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
                 * */
                 let sform = this.searchFormData;
-                sform.pay_channel_start=sform.pay_channel;
-                sform.type = sform.type_start;
+                //sform.ticket_id_start = sform.ticket_id;
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
             getQuery(){
                 let _this = this
-                //0微信 1支付宝 3银联 4建行 5银盛 6停车宝 7汇付 8富友
-                _this.pay_channels=[
-                    {'value_name': '微信', 'value_no': '0'},
-                    {'value_name': '支付宝', 'value_no': '1'},
-                    {'value_name': '银联', 'value_no': '3'},
-                    {'value_name': '建行', 'value_no': '4'},
-                    {'value_name': '银盛', 'value_no': '5'},
-                    {'value_name': '停车宝', 'value_no': '6'},
-                    {'value_name': '汇付', 'value_no': '7'},
-                    {'value_name': '富友', 'value_no': '8'},
-                ]
                 axios.all([common.getAllParks()])
                     .then(axios.spread(function (parks) {
                         _this.parklist = parks.data;
-                    }));
+                        _this.parklist.unshift({
+                            value_name:'全部',
+                            value_no:''
+                        })
+                    }))
             },
             setAuthorityFn(){
                 let user = sessionStorage.getItem('user');
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID.orderManage_Expense == item.auth_id) {
+                        if (AUTH_ID.orderManage_Record == item.auth_id) {
                             this.hideAdd= common.showSubAdd(item.sub_auth)
                             this.showEdit= common.showSubEdit(item.sub_auth)
                             this.showdelete= common.showSubDel(item.sub_auth)
@@ -590,7 +474,6 @@
             }
         },
         activated() {
-
         },
         watch: {
 

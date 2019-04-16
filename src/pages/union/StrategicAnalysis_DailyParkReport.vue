@@ -51,7 +51,18 @@
 
 
         <div class="count-table-wrapper-style">
+            <div class="check-list">
+                <el-checkbox-group v-model="checkList" >
+                    <el-checkbox label="ele_pay">电子支付</el-checkbox>
+                    <el-checkbox label="out_money">支出</el-checkbox>
+                    <el-checkbox label="ele_sett">电子结算</el-checkbox>
+                    <el-checkbox label="cash_pay">现金收入</el-checkbox>
+                    <el-checkbox label="free_pay">减免金额</el-checkbox>
+                </el-checkbox-group>
+            </div>
+
             <el-table
+                    :key="key"
                     :data="tableData"
                     style="width: 100%">
                 <el-table-column
@@ -74,16 +85,19 @@
                 </el-table-column>
                 <el-table-column label="收入" align="center">
                     <el-table-column
+                            v-if="checkObject.cash_pay"
                             align="center"
                             prop="cash_pay"
                             label="现金支付">
                     </el-table-column>
                     <el-table-column
+                            v-if="checkObject.ele_pay"
                             align="center"
                             prop="ele_pay"
                             label="电子支付">
                     </el-table-column>
                     <el-table-column
+                            v-if="checkObject.ele_pay  && checkObject.cash_pay"
                             align="center"
                             prop="act_total"
                             label="合计">
@@ -95,6 +109,13 @@
                         label="支出">
                 </el-table-column>
                 <el-table-column
+                        v-if="checkObject.ele_sett"
+                        align="center"
+                        prop="ele_total"
+                        label="电子结算">
+                </el-table-column>
+                <el-table-column
+                        v-if="checkObject.free_pay"
                         align="center"
                         prop="free_pay"
                         label="减免金额">
@@ -120,6 +141,13 @@
         },
         data() {
             return {
+                key:1,
+                checkList:['ele_pay','out_money','ele_sett'],
+                checkObject:{
+                    ele_pay:true,
+                    out_money:true,
+                    ele_sett:true,
+                },
                 tableData:[],
                 searchFormData:{
                     currentData:'',
@@ -172,6 +200,7 @@
                 showWorkDetail: false,
                 showOrderDetail: false,
                 currentRow: '',
+                orderfield: 'id',
                 parklist: [],
                 parklistChart: [],
 
@@ -312,19 +341,8 @@
 
                 ],
                 searchtitle: '高级查询',
-
                 datesselector: '',
 
-                currentPage: 1,
-                pageSize: 20,
-                total: 0,
-                orderby: 'desc',
-                orderfield: 'id',
-                table: [],
-                sform: {},
-                showWorkDetail: false,
-                showOrderDetail: false,
-                currentRow: ''
             };
         },
         methods: {
@@ -448,19 +466,38 @@
         },
 
         activated() {
+            this.checkList=['ele_pay','out_money','ele_sett'];
+            this.checkObject={
+                ele_pay:true,
+                out_money:true,
+                ele_sett:true,
+            };
+            this.key = 0;
             this.start_placeholder = common.currentDate();
             this.getQuery();
-            //this.chart.resize();
-            //window.addEventListener('resize', () => {
-            //    this.chart.resize();
-            //});
+        },
+        watch: {
+            checkList(valArr){
+                this.checkObject ={};
+                if(valArr.length > 0){
+                    for(let item in valArr){
+                        let i = valArr[item];
+                        this.checkObject[i] = true;
+                    }
+                }else{
+                    this.checkObject = {};
+                }
+                this.key ++;
+            }
         }
     };
 
 </script>
 
 <style>
-
+    .check-list{
+        padding: 0 0 10px 10px;
+    }
     .charts-wrapper{
         margin: 12px;
         padding: 23px 45px 38px 20px;

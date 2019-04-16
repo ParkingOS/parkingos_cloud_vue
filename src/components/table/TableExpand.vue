@@ -248,6 +248,26 @@
                 </div>
             </el-form>
         </div>
+        <div v-if="nameType == 'member-white-list'">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <div>
+                    <el-form-item label="更新时间">
+                        <span>{{common.dateformat(expandData.u_time)}}</span>
+                    </el-form-item>
+                    <el-form-item label="车主姓名">
+                        <span>{{expandData.user_name}}</span>
+                    </el-form-item>
+                </div>
+                <div>
+                    <el-form-item label="车主电话">
+                        <span>{{expandData.mobile}}</span>
+                    </el-form-item>
+                    <el-form-item label="车位">
+                        <span>{{expandData.car_location}}</span>
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
     </div>
 </template>
 

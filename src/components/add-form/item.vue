@@ -19,14 +19,16 @@
             <component :is="item.button?'el-radio-button':'el-radio'" v-for="o in item.options||ajaxOptions" :key='o.value_no' :label="o.value_no" :disabled="o.disabled" :border="item.border">{{o.value_name}}</component>
         </el-radio-group>
 
-        <!--<el-checkbox-group v-else-if="item.type==='checkbox'" :min="item.min" :max="item.max" v-bind="$attrs" v-on="$listeners">-->
-            <!--<component-->
-                    <!--:is="item.button?'el-checkbox-button':'el-checkbox'"-->
-                    <!--v-for="o in item.options||ajaxOptions"-->
-                    <!--:key='o.value'-->
-                    <!--:disabled="o.disabled"-->
-                    <!--:label="o.value" :border="item.border">{{o.label}}</component>-->
-        <!--</el-checkbox-group>-->
+        <el-checkbox-group v-else-if="item.type==='checkbox'" :min="item.min" :max="item.max" v-bind="$attrs" v-on="$listeners">
+            <component
+                    :is="item.button?'el-checkbox-button':'el-checkbox'"
+                    v-for="o in item.options||ajaxOptions"
+                    :key='o.value'
+                    :disabled="o.disabled"
+                    :true-label="o.trueLabel"
+                    :false-label="o.falseLabel"
+                    :label="o.value" :border="item.border">{{o.label}}</component>
+        </el-checkbox-group>
 
         <el-select v-else-if="item.type==='select'" v-bind="$attrs" v-on="$listeners" :multiple="item.multiple" :disabled="item.disabled" :multiple-limit="item.multipleLimit" :size="item.size" :style="{width:'100%'}">
             <el-option v-for="o in item.options||ajaxOptions" :key="o.value_no" :label="o.value_name" :value="o.value_no" :disabled="o.disabled">

@@ -55,6 +55,16 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
+                        <el-form-item label="所属车场" class="clear-style margin-left-20">
+                            <el-select v-model="searchFormData.park_id" filterable placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 160px">
+                                <el-option
+                                        v-for="item in parklist"
+                                        :key="item.value_no"
+                                        :label="item.value_name"
+                                        :value="item.value_no">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
                         <el-form-item class="shop-clear-style">
                             <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
                             <el-button type="text"
@@ -123,6 +133,7 @@
                 delForm:{},
                 //搜索
                 searchFormData:{
+                    park_id:'',
                     currentData:'',
                     operate_time:'between',
                     operate_time_start:'',
@@ -140,7 +151,7 @@
                 orderfield:'id',
                 queryapi: '/citylog/query',
                 btswidth: '100',
-                fieldsstr: 'id__log_id__operate_time__content__operate_user__remark__operate_type__type',
+                fieldsstr: 'id__log_id__operate_time__content__operate_user__remark__operate_type__type__park_id',
                 tableitems: [
                     {
 
@@ -156,6 +167,27 @@
                             unsortable: true,
                             align: 'center'
                         }]
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '所属车场',
+                                prop: 'park_id',
+                                type: 'selection',
+                                selectlist: this.parklist,
+                                searchable: true,
+                                unsortable: true,
+                                align: 'center',
+                                columnType:'render',
+                                render: (h, params) => {
+                                    let str = common.nameformat(params.row, this.parklist, 'park_id');
+                                    if(str == '请选择')str='';
+                                    return h('div', [
+                                        h('span', str)
+                                    ]);
+                                }
+                            }
+                        ]
                     },
                     {
                         hasSubs: false, subs: [
@@ -295,6 +327,7 @@
 
                 ],
                 searchtitle: '高级查询',
+                parklist:[],
 
             }
         },
@@ -312,8 +345,10 @@
                 * */
                 let sform = this.searchFormData;
                 sform.type_start = this.searchFormData.type;
+                sform.park_id_start = this.searchFormData.park_id;
                 sform.operate_type_start =this.searchFormData.operate_type;
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
+
             },
             initFn(that){
                 /*
@@ -321,6 +356,7 @@
                 * 点击刷新时 和初进入页面时
                 * */
                 that.searchFormData ={
+                    park_id:'',
                     currentData:'',
                     operate_time:'between',
                     operate_time_start:'',
@@ -369,9 +405,14 @@
             },
             getQuery(){
                 let _this = this
-                _this.$axios.all([common.getCarType()])
-                    .then(_this.$axios.spread(function (retcartype) {
+                _this.$axios.all([common.getCarType(),common.getAllParks()])
+                    .then(_this.$axios.spread(function (retcartype,parks) {
                         _this.cartype = retcartype.data;
+                        _this.parklist = parks.data;
+                        _this.parklist.unshift({
+                            value_name:'全部',
+                            value_no:''
+                        })
                     }))
             },
         },

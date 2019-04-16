@@ -36,6 +36,8 @@ import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue';
 import ShopManage_Shop from './pages/park/ShopManage_Shop.vue';
 import ShopMange_Shop_Staff from './pages/park/shopMange_Shop_Staff.vue';
 import ShopManage_QueryAccount from './pages/park/ShopManage_QueryAccount.vue';
+// Park_WhiteList
+import Park_WhiteList from './pages/park/Park_WhiteList.vue';
 //设备管理
 import EquipmentManage_Watchhouse from './pages/park/EquipmentManage_Watchhouse.vue';
 import EquipmentManage_Monitor from './pages/park/EquipmentManage_Monitor.vue';
@@ -76,7 +78,7 @@ import BusinessOrder_Details from './pages/union/BusinessOrderDetails.vue';
 import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue';
 import Member_MonthVIP from './pages/union/Member_MonthVIP.vue';
 import Member_BlackList from './pages/union/Member_BlackList.vue';
-// import Member_WhiteList from './pages/union/Member_WhiteList.vue';
+import Member_WhiteList from './pages/union/Member_WhiteList.vue';
 import SystemSetting_Account from './pages/union/SystemSetting_Account.vue';
 import SystemSetting_Park from './pages/union/SystemSetting_Park.vue';
 import SystemSetting_Park_Staff from './pages/union/SystemSetting_Park_Staff.vue'
@@ -91,6 +93,9 @@ import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_Month
 
 import Union_Bolink_Expense from './pages/union/Bolink_Expense.vue';
 import Union_Bolink_Income from './pages/union/Bolink_Income.vue';
+
+//集团减免记录 BusinessOrder_Reduce
+import BusinessOrder_Reduce from './pages/union/BusinessOrder_Reduce.vue';
 //厂商页面
 import Park_Manage from './pages/city/Park_Manage.vue';
 import Park_Manage_Staff from './pages/city/Park_Manage_Staff.vue';
@@ -281,6 +286,7 @@ let routes = [
             {path: '/prepay_card', component: PrepayCard_VIP, name: '储值卡会员'},
             {path: '/prepay_card_trade', component: PrepayCard_Trade, name: '储值卡充值记录'},
             {path: '/prepay_card_use', component: PrepayCard_Use, name: '储值卡使用记录'},
+            {path: '/park_white_list', component: Park_WhiteList, name: '白名单管理'},
         ]
     },
     {
@@ -425,6 +431,7 @@ let routes = [
             {path: '/businessOrder_Cars', component: BusinessOrder_Cars, name: '在场车辆'},
             {path: '/businessOrder_Income', component: Union_Bolink_Income, name: '交易记录'},
             {path: '/businessOrder_Expense', component: Union_Bolink_Expense, name: '支出记录'},
+            {path: '/businessOrder_Reduce', component: BusinessOrder_Reduce, name: '减免记录'},
             {path: '/businessOrder_Details', component: BusinessOrder_Details, name: '订单记录详情'},
         ]
     },
@@ -437,7 +444,7 @@ let routes = [
         children: [
             {path: '/member_MonthVIP', component: Member_MonthVIP, name: '月卡会员'},
             {path: '/member_BlackList', component: Member_BlackList, name: '黑名单管理'},
-            // {path: '/member_WhiteList', component: Member_WhiteList, name: '白名单管理'},
+            {path: '/member_WhiteList', component: Member_WhiteList, name: '白名单管理'},
         ]
     },
     {

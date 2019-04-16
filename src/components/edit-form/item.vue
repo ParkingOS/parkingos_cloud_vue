@@ -11,7 +11,7 @@
 
         <!--<el-rate v-else-if="item.type==='rate'" v-bind="$attrs" v-on="$listeners" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" text-color="#ff9900"></el-rate>-->
 
-        <!--<el-color-picker v-else-if="item.type==='color'" v-bind="$attrs" v-on="$listeners" :show-alpha="item.showAlpha" :color-format="item.format"></el-color-picker>-->
+        <el-color-picker v-else-if="item.type==='color'" v-bind="$attrs" v-on="$listeners" :show-alpha="item.showAlpha" :color-format="item.format"></el-color-picker>
 
         <!--<el-slider v-else-if="item.type==='slider'" v-bind="$attrs" v-on="$listeners" :range="item.isRange" :show-stops="item.showStops" :step="item.step" :min="item.min" :max="item.max"></el-slider>-->
 
@@ -19,14 +19,16 @@
             <component :is="item.button?'el-radio-button':'el-radio'" v-for="o in item.options||ajaxOptions" :key='o.value_no' :label="o.value_no" :disabled="o.disabled" :border="item.border">{{o.value_name}}</component>
         </el-radio-group>
 
-        <!--<el-checkbox-group v-else-if="item.type==='checkbox'" :min="item.min" :max="item.max" v-bind="$attrs" v-on="$listeners">-->
-            <!--<component-->
-                    <!--:is="item.button?'el-checkbox-button':'el-checkbox'"-->
-                    <!--v-for="o in item.options||ajaxOptions"-->
-                    <!--:key='o.value'-->
-                    <!--:disabled="o.disabled"-->
-                    <!--:label="o.value" :border="item.border">{{o.label}}</component>-->
-        <!--</el-checkbox-group>-->
+        <el-checkbox-group v-else-if="item.type==='checkbox'" :min="item.min" :max="item.max" v-bind="$attrs" v-on="$listeners">
+            <component
+                    :is="item.button?'el-checkbox-button':'el-checkbox'"
+                    v-for="o in item.options||ajaxOptions"
+                    :key='o.value'
+                    :disabled="o.disabled"
+                    :true-label="o.trueLabel"
+                    :false-label="o.falseLabel"
+                    :label="o.value" :border="item.border">{{o.label}}</component>
+        </el-checkbox-group>
 
         <el-select v-else-if="item.type==='select'" v-bind="$attrs" v-on="$listeners" :multiple="item.multiple" :disabled="item.disabled" :multiple-limit="item.multipleLimit" :size="item.size" :style="{width:'100%'}">
             <el-option v-for="o in item.options||ajaxOptions" :key="o.value_no" :label="o.value_name" :value="o.value_no" :disabled="o.disabled">
@@ -37,7 +39,7 @@
 
         <!--<el-time-picker v-else-if="item.type==='time'" :is-range="item.isRange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :value-format="item.valueFormat" :format="item.valueFormat" :placeholder="item.placeholder" v-bind="$attrs" v-on="$listeners"></el-time-picker>-->
 
-        <!--<el-date-picker v-else-if="item.type==='date'" :type="item.subtype" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :value-format="item.valueFormat" :format="item.viewFormat||item.valueFormat" :placeholder="item.placeholder" v-bind="$attrs" v-on="$listeners" :disabled="item.disabled"></el-date-picker>-->
+        <el-date-picker v-else-if="item.type==='date'" :type="item.subtype" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :value-format="item.valueFormat" :format="item.viewFormat||item.valueFormat" :placeholder="item.placeholder" v-bind="$attrs" v-on="$listeners" :disabled="item.disabled"></el-date-picker>
 
         <!--<richtext v-else-if="item.type==='richtext'" v-bind="$attrs" v-on="$listeners"></richtext>-->
 
