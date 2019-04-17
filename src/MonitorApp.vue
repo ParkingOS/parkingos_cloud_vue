@@ -469,7 +469,7 @@
                 that.videoPlay(that.videoList['monitor1'],that.videoList['video1'])
             },1000)
             //循环刷新数据
-            this.dataInteval = setInterval(that.getDatas, 10000);
+            this.dataInteval = setInterval(that.getDatas, 120000);
             //通讯
             //启动页面ReverseAjax 功能
             //dwr.engine.setActiveReverseAjax(true);
