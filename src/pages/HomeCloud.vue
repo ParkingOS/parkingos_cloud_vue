@@ -75,7 +75,7 @@
                         </el-menu-item>
                         <el-menu-item index="/prepay_card_use" v-if="this.showParkItem.prepay_card_use">储值卡使用记录
                         </el-menu-item>
-                        <el-menu-item index="/park_white_list" v-if="this.showParkItem.prepay_card_use">白名单管理
+                        <el-menu-item index="/park_white_list" v-if="this.showParkItem.park_white_list">白名单管理
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.vistorManage" index="/vistorManage">

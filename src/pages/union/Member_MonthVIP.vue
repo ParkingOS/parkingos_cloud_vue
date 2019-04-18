@@ -934,15 +934,15 @@
                         if (AUTH_ID_UNION.member_MonthVIP == item.auth_id) {
                             this.hideExport = common.showSubExport(item.sub_auth);
                             this.hideImport = common.showSubImport(item.sub_auth);
-                            // this.showdelete = common.showSubDel(item.sub_auth);
-                            // this.showmRefill = common.showSubReFill(item.sub_auth);
-                            // this.showEdit = common.showSubEdit(item.sub_auth);
-                            // this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
-                            // if(!this.showEdit&&!this.showmRefill){
-                            //     this.hideOptions = true;
-                            // }else{
-                            //     this.hideOptions = false;
-                            // }
+                            this.showdelete = common.showSubDel(item.sub_auth);
+                            this.showmRefill = common.showSubReFill(item.sub_auth);
+                            this.showEdit = common.showSubEdit(item.sub_auth);
+                            this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
+                            if(!this.showEdit&&!this.showmRefill){
+                                this.hideOptions = true;
+                            }else{
+                                this.hideOptions = false;
+                            }
                             break;
                         }
                     }

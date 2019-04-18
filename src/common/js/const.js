@@ -9,6 +9,7 @@ export const AUTH_ID = {
     monthMember: 7, //月卡会员-大菜单
     monthMember_Refill: 297, //月卡续费记录
     monthMember_VIP: 298, //月卡会员-小菜单
+    park_white_list:362,//白名单管理
     prepay_card:339,
     prepay_card_trade:340,
     prepay_card_use:341,
@@ -70,6 +71,7 @@ export const showParkItem_const = {
     monthMember: false,
     monthMember_Refill: false,
     monthMember_VIP: false,
+    park_white_list:false,
     prepay_card:false,
     prepay_card_trade:false,
     prepay_card_use:false,
@@ -125,9 +127,11 @@ export const AUTH_ID_UNION = {
     businessOrder_Poles: 106, //抬杆记录
     businessOrder_Income:358, //交易记录
     businessOrder_Expense:359, //支出记录
+    businessOrder_Reduce:361,//减免记录
     member: 212, //会员
     member_MonthVIP: 214, //月卡会员
     member_BlackList: 215, //黑名单管理
+    member_WhiteList:360,//白名单管理
     systemSetting: 238, //系统设置
     systemSetting_Company: 240, //企业信息
     systemSetting_Account: 247, //账户信息
@@ -152,9 +156,11 @@ export const showUnionItem_const = {
     businessOrder_Poles: false,
     businessOrder_Income:false, //交易记录
     businessOrder_Expense:false, //支出记录
+    businessOrder_Reduce:false,//减免记录
     member: false,
     member_MonthVIP: false,
     member_BlackList: false,
+    member_WhiteList:false,
     systemSetting: false,
     systemSetting_Account: false,
     systemSetting_Company: false,

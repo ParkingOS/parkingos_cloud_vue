@@ -4,7 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">会员<span style="margin: 2px">-</span>白名单管理</p>
                 <div class="float-right">
-                    <el-button type="text"  @click="exportFn" native-type="button" icon="el-icon-printer" >导出</el-button>
+                    <el-button type="text"  @click="exportFn" native-type="button" icon="el-icon-printer" v-if="hideExport">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -24,7 +24,7 @@
                             <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
                         </el-form-item>
                         <el-form-item class="float-right">
-                            <el-button type="primary" plain  @click="handleAdd" native-type="button" icon="el-icon-plus">添加白名单</el-button>
+                            <el-button type="primary" @click="handleAdd" native-type="button" icon="el-icon-plus" v-if="showCustomizeAdd">添加</el-button>
                         </el-form-item>
                     </div>
 
@@ -157,15 +157,15 @@
                 hideExport: false,
                 tableheight: common.gwh() - 143,
                 hideOptions: false,
-                showEdit: true,
-                showdelete: true,
+                showEdit: false,
+                showdelete: false,
                 showModifyCarNumber: true,
                 showmRefill: true,
                 showCustomizeAdd: false,
                 hideAdd: true,
                 uploadapi: path + '/groupwhite/importExcel?1=1' + common.commonParams(),
                 queryapi: '/white/query',
-                exportapi: '/cityblackuser/exportExcel',
+                exportapi: '/white/exportExcel',
                 addapi: '/white/add',
                 editapi: '/white/edit',
                 delapi: '/white/delete',
@@ -433,7 +433,7 @@
                             label: '操作',
                             prop: 'name',
                             width: '100',
-                            hidden:false,
+                            hidden:this.hideOptions,
                             type: 'str',
                             searchable: true,
                             unsortable: true,
@@ -447,7 +447,7 @@
                                             size: 'small'
                                         },
                                         style: {
-
+                                            display:this.showEdit?'':'none'
                                         },
                                         on: {
                                             click: (e) => {
@@ -464,7 +464,8 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            color:'#f56c6c'
+                                            color:'#f56c6c',
+                                            display:this.showdelete?'':'none'
                                         },
                                         on: {
                                             click: (e) => {
@@ -657,11 +658,16 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (let item of user.authlist) {
-                        if (AUTH_ID_UNION.member_BlackList == item.auth_id) {
+                        if (AUTH_ID_UNION.park_white_list == item.auth_id) {
                             this.hideExport = common.showSubExport(item.sub_auth);
                             this.showEdit = common.showSubEdit(item.sub_auth);
-                            if (!this.showEdit) {
+                            // this.hideImport = common.showSubImport(item.sub_auth);
+                            this.showdelete = common.showSubDel(item.sub_auth);
+                            this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
+                            if (!this.showEdit && !this.showdelete) {
                                 this.hideOptions = true;
+                            }else{
+                                this.hideOptions = false;
                             }
                             break;
                         }

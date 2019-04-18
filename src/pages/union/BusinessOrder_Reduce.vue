@@ -2,7 +2,7 @@
     <section class="right-wrapper-size" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">订单管理<span style="margin: 2px">-</span>减免记录</p>
+                <p style="float: left">业务订单<span style="margin: 2px">-</span>减免记录</p>
                 <div class="float-right">
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
@@ -16,7 +16,7 @@
                     </div>
                     <div class="console-main">
                         <el-form-item label="所属车场" class="clear-style margin-left-20">
-                            <el-select v-model="searchFormData.com_id" filterable placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 160px">
+                            <el-select v-model="searchFormData.comid" filterable placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 160px">
                                 <el-option
                                         v-for="item in parklist"
                                         :key="item.value_no"
@@ -108,6 +108,7 @@
                     state:'0'
                 },
                 searchFormData:{
+                    comid:'',
                     shop_name:'',
                     car_number:'',
                     currentData:'',
@@ -141,13 +142,13 @@
                 showEdit:true,
                 queryapi: '/reducerecord/groupquery',    //数据请求路径
                 btswidth: '100',                 //按钮宽度
-                fieldsstr: 'ticket_id__car_number__shop_name__order_id__use_time',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'ticket_id__car_number__shop_name__order_id__use_time__comid',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
                         hasSubs: false, subs: [
                             {
                                 label: '所属车场',
-                                prop: 'com_id',
+                                prop: 'comid',
                                 type: 'selection',
                                 selectlist: this.parklist,
                                 searchable: true,
@@ -155,7 +156,7 @@
                                 align: 'center',
                                 columnType:'render',
                                 render: (h, params) => {
-                                    let str = common.nameformat(params.row, this.parklist, 'com_id');
+                                    let str = common.nameformat(params.row, this.parklist, 'comid');
                                     if(str == '请选择')str='';
                                     return h('div', [
                                         h('span', str)
@@ -412,6 +413,7 @@
                 that.searchFormData ={
                     //ticket_id:'',
                     //ticket_id_start:'',
+                    comid:'',
                     shop_name:'',
                     car_number:'',
                     currentData:'',
@@ -439,6 +441,7 @@
                 * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
                 * */
                 let sform = this.searchFormData;
+                sform.comid_start = sform.comid;
                 //sform.ticket_id_start = sform.ticket_id;
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },

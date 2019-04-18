@@ -404,7 +404,7 @@
         },
         methods:{
             transferData(val){
-                this.allTotal = val.total;
+                this.allTotal = val.money;
             },
             changeDateFormat(val){
                 if(val == null){

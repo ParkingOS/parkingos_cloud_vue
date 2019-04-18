@@ -56,7 +56,7 @@
                                 <el-menu-item index="/businessOrder_Expense" v-if="this.showUnionItem.businessOrder_Expense">
                                     支出记录
                                 </el-menu-item>
-                                <el-menu-item index="/businessOrder_Reduce" v-if="this.showUnionItem.businessOrder_Expense">
+                                <el-menu-item index="/businessOrder_Reduce" v-if="this.showUnionItem.businessOrder_Reduce">
                                     减免记录
                                 </el-menu-item>
                             </el-submenu>
@@ -71,7 +71,7 @@
                                 <el-menu-item index="/member_BlackList" v-if="this.showUnionItem.member_BlackList">
                                     黑名单管理
                                 </el-menu-item>
-                                <el-menu-item index="/member_WhiteList" v-if="this.showUnionItem.member_BlackList">
+                                <el-menu-item index="/member_WhiteList" v-if="this.showUnionItem.member_WhiteList">
                                     白名单管理
                                 </el-menu-item>
                             </el-submenu>

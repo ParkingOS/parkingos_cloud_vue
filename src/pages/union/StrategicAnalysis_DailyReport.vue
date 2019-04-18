@@ -57,6 +57,7 @@
                 </el-checkbox-group>
             </div>
             <el-table
+                    :key="key"
                     :data="tableData"
                     style="width: 100%">
                 <el-table-column
@@ -71,7 +72,7 @@
                         label="日期"
                         width="110">
                 </el-table-column>
-                <el-table-column label="收入" align="center">
+                <el-table-column label="收入" align="center" v-if="checkObject.ele_pay  || checkObject.cash_pay">
                     <el-table-column
                             v-if="checkObject.cash_pay"
                             align="center"
@@ -92,6 +93,7 @@
                     </el-table-column>
                 </el-table-column>
                 <el-table-column
+                        v-if="checkObject.out_money"
                         align="center"
                         prop="out_money"
                         label="支出">

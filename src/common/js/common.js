@@ -414,6 +414,13 @@ export default {
 
         return false;
     },
+    showSettlement:function (sub_auth) {
+    //    0元结算
+        if (sub_auth.indexOf('手动结算') > -1) {
+            return true;
+        }
+        return false;
+    },
     showSubSearch: function (sub_auth) {
         //显示高级查询
         if (sub_auth.indexOf('查看') > -1) {

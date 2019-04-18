@@ -4,7 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">业务订单<span style="margin: 2px">-</span>在场车辆</p>
                 <div class="float-right">
-                    <el-button type="text" icon="el-icon-news"  @click="manualSettlementFn" native-type="button">手动结算</el-button>
+                    <el-button type="text" icon="el-icon-news"  @click="manualSettlementFn" native-type="button" v-if="hideSettlement">手动结算</el-button>
                     <el-button type="text" icon="el-icon-printer"  @click="exportFn" native-type="button" v-if="hideExport">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
@@ -86,7 +86,7 @@
             ></tab-pane>
         </div>
         <el-dialog
-                width="600px"
+                width="500px"
                 :show-close="false"
                 :visible.sync="settlementVible"
                 custom-class="custom-dialog custom-dialog-sms"
@@ -96,14 +96,15 @@
             </header>
             <el-form ref="refillForm" label-width="120px" :model="currentRow" class="dialog-form-width">
                 <el-form-item label="订单编号">
-                    <span>{{currentRow.id}}</span>
+                    <span>{{currentRow.order_id_local}}</span>
                 </el-form-item>
                 <el-form-item label="车牌号码">
                     <span>{{currentRow.car_number}}</span>
                     <!--<el-input v-model.trim="currentRow.car_number" placeholder="" :readonly=true></el-input>-->
                 </el-form-item>
                 <el-form-item label="结算金额">
-                    <el-input-number v-model="currentRow.money" controls-position="right" :min="0"></el-input-number>
+                    <!--<el-input-number v-model="currentRow.money" controls-position="right" :min="0"></el-input-number>-->
+                    <el-input v-model="currentRow.money" style="width: 150px"></el-input>
                 </el-form-item>
                 <el-form-item label="支付方式">
                     <span>现金支付</span>
@@ -133,6 +134,8 @@
         data() {
             var that = this;
             return {
+                hodeRadeo:false,
+                hideSettlement:false,
                 settLoading:false,
                 settlementVible:false,
                 currentRow:{},
@@ -182,6 +185,7 @@
                             align: 'center',
                             width:'50',
                             unsortable: true,
+                            hidden:that.hodeRadeo,
                             columnType:'render',
                             render: (h, params) => {
                                 return h('div', [
@@ -194,6 +198,7 @@
                                             change(){
                                                 that.selectVal = params.index;
                                                 that.currentRow = params.row;
+                                                that.currentRow.money = 0;
                                             }
                                         },
                                     },'')
@@ -445,6 +450,15 @@
                  aform.cityid = this.currentRow.cityid;
                  aform.in_time = this.currentRow.create_time;
                  aform.money = this.currentRow.money;
+                let reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                if(!reg.test(aform.money)){
+                    _this.$message({
+                        message: '金额输入有误',
+                        type: 'error',
+                        duration: 600
+                    });
+                    return false;
+                }
                 if(this.currentRow.money != undefined && this.currentRow.money != ''){
                     _this.$axios.post(path + '/unorder/tozero', _this.$qs.stringify(aform), {
                         headers: {
@@ -497,7 +511,6 @@
 
             },
             manualSettlementFn(){
-                console.log('--------',this.selectVal)
               if(this.selectVal !== ''){
                 this.settlementVible = true;
               }else{
@@ -572,6 +585,12 @@
                     for (var item of user.authlist) {
                         if (AUTH_ID_UNION.businessOrder_Cars == item.auth_id) {
                             this.hideExport = common.showSubExport(item.sub_auth);
+                            this.hideSettlement = common.showSettlement(item.sub_auth);
+                            if(!this.hideSettlement){
+                                this.hodeRadeo = true;
+                            }else{
+                                this.hodeRadeo = false;
+                            }
                             break;
                         }
                     }
@@ -593,6 +612,9 @@
             },
             parklist: function (val) {
                 this.tableitems[1].subs[0].selectlist = val;
+            },
+            hodeRadeo:function (val) {
+                this.tableitems[0].subs[0].hidden = val;
             }
         }
     };
