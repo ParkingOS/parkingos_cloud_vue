@@ -224,6 +224,7 @@
                 </div>
             </el-aside>
         </div>
+
         <!--监控列表详情模态-->
         <el-dialog title="监控器管理" :visible.sync="dialogTableVisible" width="80%">
             <el-table :data="mtData.rows" border  height="350">
@@ -1314,7 +1315,7 @@
     .manuals-left{
         padding: 2% 5%;
         .chu{
-            height: calc(100% - 40px);
+            height: calc(100% - 70px);
             p{
                 font-size: 18px;
                 line-height: 50px;
@@ -1349,7 +1350,7 @@
         .man-car{
             display: block;
             text-align: center;
-            height: calc(100% - 40px);
+            height: calc(100% - 70px);
             img{
                 display: inline-block;
                 max-width: 100%;
@@ -1375,7 +1376,7 @@
         .chu{
             display: block;
             text-align: center;
-            height: calc(100% - 40px);
+            height: calc(100% - 70px);
             img{
                 display: inline-block;
                 vertical-align: top;
