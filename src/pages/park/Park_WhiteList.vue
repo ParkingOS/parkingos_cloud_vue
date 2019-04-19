@@ -16,8 +16,8 @@
                         </el-form-item>
                         <el-form-item label="状态" class="clear-style margin-left-20">
                             <el-select v-model="searchFormData.state" filterable placeholder="请选择" class="shop-custom-input shop-custom-suffix" style="width: 160px">
-                                <el-option label="已过期"  value="0"></el-option>
-                                <el-option label="正常"  value="1"></el-option>
+                                <el-option label="已过期"  value="1"></el-option>
+                                <el-option label="正常"  value="0"></el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item class="shop-clear-style">
@@ -41,6 +41,7 @@
                     :addapi="addapi"
                     :addRowData="addRowData"
                     v-on:addInput="addInput"
+                    v-on:clearSearchData="clearSearchData"
                     :delapi="delapi"
                     :del-form="delForm"
                     v-on:cancelDel="cancelDel"
@@ -105,7 +106,7 @@
         path, blackStateType
     } from '../../api/api';
     import common from '../../common/js/common';
-    import {AUTH_ID_UNION} from '../../common/js/const';
+    import {AUTH_ID} from '../../common/js/const';
     import ComplexSearch from '../../components/ComplexSearch';
     import axios from 'axios';
     import TabPane from '../../components/table/TabPane';
@@ -243,7 +244,7 @@
                                     if(str == 1){
                                         str = '已过期'
                                     }else{
-                                        str = '可用'
+                                        str = '正常'
                                     }
                                     return h('div', [
                                         h('span', str)
@@ -452,7 +453,12 @@
                                         on: {
                                             click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.editRowData = params.row;
+                                                this.editRowData = JSON.parse(JSON.stringify(params.row));
+                                                let long = ((this.editRowData.b_time).toString()).length;
+                                                if(long == 10){
+                                                    this.editRowData.b_time = ((this.editRowData.b_time).toString())+'000';
+                                                    this.editRowData.e_time = ((this.editRowData.e_time).toString())+'000';
+                                                }
                                                 this.editTo++;
 
                                             }
@@ -494,6 +500,13 @@
             };
         },
         methods: {
+            clearSearchData(){
+                this.searchFormData ={
+                    car_number:'',
+                    park_id:'',
+                    state:''
+                };
+            },
             //编辑
             editInput(eform){
                 this.editRowData = eform;
@@ -658,7 +671,7 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (let item of user.authlist) {
-                        if (AUTH_ID_UNION.park_white_list == item.auth_id) {
+                        if (AUTH_ID.park_white_list == item.auth_id) {
                             this.hideExport = common.showSubExport(item.sub_auth);
                             this.showEdit = common.showSubEdit(item.sub_auth);
                             // this.hideImport = common.showSubImport(item.sub_auth);
@@ -700,6 +713,10 @@
                 axios.all([common.getAllParks()])
                     .then(axios.spread(function (ret) {
                         _this.parklist = ret.data;
+                        _this.parklist.unshift({
+                            value_name:'全部',
+                            value_no:'-2'
+                        })
                     }));
             });
 

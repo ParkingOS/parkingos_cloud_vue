@@ -103,8 +103,7 @@
                     <!--<el-input v-model.trim="currentRow.car_number" placeholder="" :readonly=true></el-input>-->
                 </el-form-item>
                 <el-form-item label="结算金额">
-                    <!--<el-input-number v-model="currentRow.money" controls-position="right" :min="0"></el-input-number>-->
-                    <el-input v-model="currentRow.money" style="width: 150px"></el-input>
+                    <el-input v-model="currentRow.money" maxlength="5" style="width: 150px"></el-input> 元
                 </el-form-item>
                 <el-form-item label="支付方式">
                     <span>现金支付</span>
@@ -459,7 +458,7 @@
                     });
                     return false;
                 }
-                if(this.currentRow.money != undefined && this.currentRow.money != ''){
+                if(this.currentRow.money !== undefined && this.currentRow.money !== ''){
                     _this.$axios.post(path + '/unorder/tozero', _this.$qs.stringify(aform), {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

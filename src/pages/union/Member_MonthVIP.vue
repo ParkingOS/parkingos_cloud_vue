@@ -744,12 +744,13 @@
             getProByCar:function(){
                 //alert(this.refillForm.car_type_id);
                 var carId = this.refillForm.car_type_id;
+                var comId = this.refillForm.comid;
                 var _this = this;
                 axios.get(path+'/getdata/getpnamebycar',{
                     params:{
                         carId:carId,
                         token:sessionStorage.getItem('token'),
-                        comid:sessionStorage.getItem('comid'),
+                        comid:comId,
                         loginuin:sessionStorage.getItem('loginuin'),
                         supperadmin:sessionStorage.getItem('supperadmin'),
                         nickname1:encodeURI(encodeURI(sessionStorage.getItem('nickname1')))
@@ -938,7 +939,7 @@
                             this.showmRefill = common.showSubReFill(item.sub_auth);
                             this.showEdit = common.showSubEdit(item.sub_auth);
                             this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
-                            if(!this.showEdit&&!this.showmRefill){
+                            if(!this.showEdit&&!this.showdelete){
                                 this.hideOptions = true;
                             }else{
                                 this.hideOptions = false;
@@ -971,6 +972,10 @@
             // },
             parklist: function (val) {
                 this.tableitems[2].subs[0].selectlist = val;
+            },
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[len -1].subs[0].hidden = val
             }
         }
     };

@@ -321,6 +321,7 @@
                                     setTimeout(()=>{
                                         that.addFormVisible = false;
                                         that.getTableData(that.addedValue,that);
+                                        that.$emit('clearSearchData');
                                     },60);
                                 }else{
                                     that.addLoading = false;

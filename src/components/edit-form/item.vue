@@ -30,7 +30,7 @@
                     :label="o.value" :border="item.border">{{o.label}}</component>
         </el-checkbox-group>
 
-        <el-select v-else-if="item.type==='select'" v-bind="$attrs" v-on="$listeners" :multiple="item.multiple" :disabled="item.disabled" :multiple-limit="item.multipleLimit" :size="item.size" :style="{width:'100%'}">
+        <el-select v-else-if="item.type==='select'" v-bind="$attrs" v-on="$listeners" :multiple="item.multiple" :disabled="item.disabled" :multiple-limit="item.multipleLimit" :size="item.size" :style="{width:'100%'}" filterable>
             <el-option v-for="o in item.options||ajaxOptions" :key="o.value_no" :label="o.value_name" :value="o.value_no" :disabled="o.disabled">
             </el-option>
         </el-select>

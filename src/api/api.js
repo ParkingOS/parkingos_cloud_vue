@@ -92,6 +92,7 @@ export const unionTypes = [
     {'value_no': 'groupinfo', 'value_name': '集团管理'},
     {'value_no': 'login', 'value_name': '登录模块'},
     {'value_no': 'member', 'value_name': '员工模块'},
+    {'value_no': 'white', 'value_name': '白名单管理'},
     {'value_no': '', 'value_name': '全部'}
 ];
 

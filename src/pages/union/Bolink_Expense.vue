@@ -404,7 +404,11 @@
         },
         methods:{
             transferData(val){
-                this.allTotal = val.money;
+                if(val.money == undefined){
+                    this.allTotal = 0;
+                }else{
+                    this.allTotal = val.money;
+                }
             },
             changeDateFormat(val){
                 if(val == null){
