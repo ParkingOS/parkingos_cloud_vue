@@ -222,6 +222,54 @@
                 <el-button type="primary"  @click="handleRegis" :loading="resetloading" style="width: 90px;margin-left: 60px">确 定</el-button>
             </footer>
         </el-dialog>
+
+        <!--月卡续费的dialog-->
+        <el-dialog
+                width="600px"
+                :visible.sync="showRefill" custom-class="custom-dialog" :show-close="false">
+            <header class="dialog-header" slot="title">
+                月卡续费<i class="el-icon-close dialog-header-iconfont" @click="showRefill = false"></i>
+            </header>
+            <el-form ref="refillForm" label-width="120px" :rules="refillFormRules" :model="refillForm" class="dialog-form-width">
+                <el-form-item label="包月产品" :prop="p_name">
+                    <el-select v-model="refillForm.p_name" filterable @change="getRefillTotal"  style="width: 100%" :disabled="true">
+                        <el-option
+                                v-for="item in newPname"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="续费月数" :prop="months">
+                    <el-select v-model="refillForm.months" @change="getRefillTotal"   style="width: 100%">
+                        <el-option
+                                v-for="item in [1,2,3,4,5,6,7,8,9,10,11,12]"
+                                :label="item"
+                                :value="item"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="应收金额" :prop="total">
+                    <el-input v-model.trim="refillForm.total" placeholder=""  :readonly="readonly"></el-input>
+                </el-form-item>
+                <el-form-item label="实收金额" :prop="act_total">
+                    <el-input v-model.trim="refillForm.act_total"   placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="起始日期">
+                    <el-date-picker type="datetime" v-model="refillstartDate"  style="width: 100%"
+                                    :readonly='datereadonly'></el-date-picker>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input v-model.trim="refillForm.remark"  placeholder="" :readonly=true></el-input>
+                </el-form-item>
+            </el-form>
+            <footer slot="footer" class="dialog-footer">
+                <el-button @click="showRefill = false"  class="custom-btns-style">取 消</el-button>
+                <el-button type="primary"  @click="handleRefill" :loading="resetloading" class="custom-btns-style" style="margin-left: 60px">确 定</el-button>
+            </footer>
+        </el-dialog>
     </section>
 </template>
 
@@ -565,6 +613,24 @@
                                         },
                                         style: {
                                             marginRight: '5px',
+                                            display:this.showmRefill?'':'none'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.refillForm = params.row;
+                                                this.refillForm.limit_day_type = this.refillForm.limit_day_type+'';
+                                                this.showrefill(params.index, params.row)
+                                            }
+                                        }
+                                    }, '续费'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '5px',
                                             color:'#F54B4B',
                                             display:this.showdelete?'':'none'
                                         },
@@ -662,6 +728,152 @@
             };
         },
         methods: {
+            //获取包月产品
+            getMonthlyProducts:function(that){
+                console.log(that.refillForm);
+                var carId = that.refillForm.car_type_id;
+                var comId = that.refillForm.com_id;
+                axios.get(path+'/getdata/getpnamebycar',{
+                    params:{
+                        carId:carId,
+                        token:sessionStorage.getItem('token'),
+                        comid:comId,
+                        loginuin:sessionStorage.getItem('loginuin'),
+                        supperadmin:sessionStorage.getItem('supperadmin'),
+                        nickname1:encodeURI(encodeURI(sessionStorage.getItem('nickname1')))
+                    }
+                }).then((response)=>{
+                    that.newPname = response.data;
+                    for (let item of that.newPname) {
+                        if (that.refillForm.pid == item.value_no) {
+                            that.refillForm.p_name = item.value_name;
+                            that.showRefill = true;
+                            that.readonly = true;
+                            return;
+                        }
+                    }
+                })
+            },
+            //提交月卡续费
+            handleRefill: function () {
+                let _this = this;
+                this.$refs.refillForm.validate((valid) => {
+                    if (valid) {
+                        if(_this.datereadonly){
+                            _this.refillForm.e_time=_this.refillForm.e_time>new Date().valueOf()/1000?_this.refillForm.e_time:new Date().valueOf()/1000
+                        }else{
+                            _this.refillForm.e_time = Date.parse(new Date(this.refillstartDate))/1000
+                        }
+                        _this.refillForm.name=_this.refillForm.name==undefined?'':_this.refillForm.name
+                        _this.resetloading = true;
+                        // let aform = {
+                        //     token:sessionStorage.getItem('token'),
+                        //     p_name:_this.refillForm.p_name,
+                        //     months:_this.refillForm.months,
+                        //     name:encodeURI(encodeURI(_this.currentRow.name)),
+                        //     b_time:_this.currentRow.e_time,
+                        //     id:_this.currentRow.id,
+                        //     remark:encodeURI(encodeURI(_this.refillForm.remark)),
+                        //     act_total:
+                        // };
+                        let aform = _this.refillForm;
+                        aform.comid = _this.refillForm.com_id;
+                        aform.b_time = aform.e_time;
+
+                        aform = common.generateForm(_this.refillForm);
+
+                        _this.$axios.post(path + '/vip/renewproduct', _this.$qs.stringify(aform), {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            }
+                        }).then(function (ret) {
+                            let data = ret.data;
+                            // console.log(data)
+                            if (data.state == 1) {
+                                _this.initFn(_this)
+                                _this.$message({
+                                    message: '续费成功!',
+                                    type: 'success',
+                                    duration: 600
+                                });
+                                _this.showRefill = false;
+                                // _this.refillForm.resetFields()
+                                _this.$refs['refillForm'].resetFields();
+                                _this.refillForm.p_name = ''
+                            } else {
+                                //更新失败
+                                _this.$message({
+                                    message: data.msg + '!',
+                                    type: 'error',
+                                    duration: 600
+                                });
+                            }
+                            _this.resetloading = false;
+                        }).catch(function (error) {
+
+                        })
+                        // axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total,_this.refillForm.total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))),encodeURI(encodeURI(_this.currentRow.card_id)))])
+                        //     .then(axios.spread(function (ret) {
+                        //         let data = ret.data;
+                        //         // console.log(data)
+                        //         if (data.state == 1) {
+                        //             _this.initFn(_this)
+                        //             _this.$message({
+                        //                 message: '续费成功!',
+                        //                 type: 'success',
+                        //                 duration: 600
+                        //             });
+                        //             _this.showRefill = false;
+                        //             // _this.refillForm.resetFields()
+                        //             _this.$refs['refillForm'].resetFields();
+                        //             _this.refillForm.p_name = ''
+                        //         } else {
+                        //             //更新失败
+                        //             _this.$message({
+                        //                 message: data.msg + '!',
+                        //                 type: 'error',
+                        //                 duration: 600
+                        //             });
+                        //         }
+                        //         _this.resetloading = false;
+                        //     }))
+                    }
+                })
+
+            },
+            //云平台续费
+            showrefill: function (index, row) {
+                let _this = this;
+                _this.refillstartDate=0;
+                this.currentIndex = index;
+                this.currentRow = row;
+                this.refillForm.p_name ='';
+                let now = new Date().getTime();
+                let endtime = row.e_time;
+                this.refillForm.remark = '云平台续费';
+                let newDate = new Date();
+                if (now / 1000 > endtime) {
+                    _this.refillstartDate = new Date(newDate.setTime(now));
+                } else {
+                    _this.refillstartDate = newDate.setTime(endtime * 1000);
+                }
+
+                this.getMonthlyProducts(this);
+
+                // for (let item of this.pname) {
+                //     if (row.pid == item.value_no) {
+                //         this.refillForm.p_name = item.value_name;
+                //         this.showRefill = true;
+                //         this.readonly = true;
+                //         return;
+                //     }
+                // }
+
+                //如果当前套餐在套餐列表中，则应收是readonly
+                //当前套餐不存在，则应收可以自由填写
+                this.readonly = false;
+                this.showRefill = true;
+            },
             cancelDel(){
                 this.delForm.delVisible = false;
             },
@@ -761,10 +973,6 @@
                 _this.refillForm.p_name='';
             },
             getRefillTotal: function () {
-                // console.log('计算续费金额' + this.refillForm.p_name + ' -- ' + this.refillForm.months)
-                // if (this.refillForm.p_name == '' || this.refillForm.months == '')
-                //     return;
-
                 this.readonly = false;
                 for (let item of this.pname) {
                     // console.log(this.refillForm.p_name+'  '+item.value_name)
@@ -811,7 +1019,22 @@
                 this.$refs['refillForm'].resetFields()
             },
             registerMember(){
-                this.refillForm.remark = '云平台注册';
+                this.refillForm = {
+                    comid:'',
+                    name: '',
+                    car_number: '',
+                    p_lot:'',
+                    p_name: '',
+                    months: '',
+                    b_time: '',
+                    total: '',
+                    act_total: '',
+                    mobile: '',
+                    limit_day_type: 0,
+                    remark: '云平台注册',
+                    car_type_id:'',
+                    address:'',
+                }
                 this.showRegis = true;
                 this.selectActive = '1';
             },
@@ -931,6 +1154,9 @@
                 let user = sessionStorage.getItem('user');
                 if (user) {
                     user = JSON.parse(user);
+                    if(user.self_setting){//如果设置了，那么日期可以修改
+                        this.datereadonly=false;
+                    }
                     for (var item of user.authlist) {
                         if (AUTH_ID_UNION.member_MonthVIP == item.auth_id) {
                             this.hideExport = common.showSubExport(item.sub_auth);
@@ -939,7 +1165,7 @@
                             this.showmRefill = common.showSubReFill(item.sub_auth);
                             this.showEdit = common.showSubEdit(item.sub_auth);
                             this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
-                            if(!this.showEdit&&!this.showdelete){
+                            if(!this.showEdit&&!this.showdelete && !this.showmRefill){
                                 this.hideOptions = true;
                             }else{
                                 this.hideOptions = false;

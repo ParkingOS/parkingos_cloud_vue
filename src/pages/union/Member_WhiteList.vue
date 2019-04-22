@@ -93,7 +93,7 @@
                 导入白名单<i class="el-icon-close dialog-header-iconfont" @click="showUpload = false"></i>
             </header>
             <div class="import-tip">
-                请选择Excel文件，支持xls,xlsx等格式。 <a href="https://image.bolink.club/whitelist.xls" download class="import-download">点击下载</a>
+                请选择Excel文件，支持xls,xlsx等格式。 <a href="https://image.bolink.club/whitelist1.0.xls" download class="import-download">点击下载</a>
             </div>
             <div class="import-input-wrapper">
                 <el-upload class="upload-demo" ref="upload" :action="uploadapi" :auto-upload="false"

@@ -77,6 +77,7 @@ import BusinessOrder_Orders from './pages/union/BusinessOrder_Orders.vue';
 import BusinessOrder_Details from './pages/union/BusinessOrderDetails.vue';
 import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue';
 import Member_MonthVIP from './pages/union/Member_MonthVIP.vue';
+import Member_PrepayCardVIP from './pages/union/Member_PrepayCardVIP.vue';//储值卡会员
 import Member_BlackList from './pages/union/Member_BlackList.vue';
 import Member_WhiteList from './pages/union/Member_WhiteList.vue';
 import SystemSetting_Account from './pages/union/SystemSetting_Account.vue';
@@ -443,6 +444,7 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/member_MonthVIP', component: Member_MonthVIP, name: '月卡会员'},
+            {path: '/member_PrepayCardVIP', component: Member_PrepayCardVIP, name: '储值卡会员'},
             {path: '/member_BlackList', component: Member_BlackList, name: '黑名单管理'},
             {path: '/member_WhiteList', component: Member_WhiteList, name: '白名单管理'},
         ]

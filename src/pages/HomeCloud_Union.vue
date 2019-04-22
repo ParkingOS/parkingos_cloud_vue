@@ -68,6 +68,9 @@
                                 <el-menu-item index="/member_MonthVIP" v-if="this.showUnionItem.member_MonthVIP">
                                     月卡会员
                                 </el-menu-item>
+                                <el-menu-item index="/member_PrepayCardVIP" v-if="this.showUnionItem.member_PrepayCardVIP">
+                                    储值卡会员
+                                </el-menu-item>
                                 <el-menu-item index="/member_BlackList" v-if="this.showUnionItem.member_BlackList">
                                     黑名单管理
                                 </el-menu-item>
