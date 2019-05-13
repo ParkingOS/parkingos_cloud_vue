@@ -2,6 +2,21 @@ import axios from 'axios';
 import {path, RoleFuncion} from '../../api/api';
 
 export default {
+    /**
+     * 某些状态、名称等需要格式化显示的数据
+     * @param arr,state
+     * @returns {str}
+     */
+    formatCommonSateFn(arr,state){
+        let stateText = '';
+        arr.forEach(item=>{
+            if(item.value_no == state){
+                stateText = item.value_name;
+                return stateText;
+            }
+        });
+        return stateText;
+    },
     timestampFormat:function (d) {
         var date = d;
         date = date.substring(0,19);
@@ -380,6 +395,14 @@ export default {
             + '&nickname=' + nickname;
         return axios.get(path + '/vip/renewproduct' + param);
     },
+
+
+    /**
+     *
+     * @returns {AxiosPromise<any>}
+     */
+
+
     getSmsInfo() {
         //短信续费
         let param = '?token=' + sessionStorage.getItem('token');

@@ -679,13 +679,14 @@
                                 return;
                             }
                             sessionStorage.setItem('user', JSON.stringify(u));
-                            sessionStorage.setItem('token', ret.token);
+                            sessionStorage.setItem('token', u.token);
                             sessionStorage.setItem('comid', u.comid);
                             localStorage.setItem('comid', u.comid)
                             sessionStorage.setItem('groupid', u.groupid);
                             localStorage.setItem('groupid', u.groupid)
                             sessionStorage.setItem('channelid', u.channelid);
-                            sessionStorage.setItem('unionid', u.unionid);
+                            // sessionStorage.setItem('unionid', u.unionid);
+                            sessionStorage.setItem('unionid', u.union_id);
                             sessionStorage.setItem('cityid', u.cityid);
                             sessionStorage.setItem('loginuin', u.loginuin);
                             sessionStorage.setItem('oid', u.oid);
@@ -756,6 +757,12 @@
                                 _this.highlightindex = '/union_manage';
                                 _this.$router.push({path: _this.highlightindex});
                                 sessionStorage.setItem('highlightindex', _this.highlightindex);
+                                /**
+                                 * @update date 20190430
+                                 * @为厂商添加泊链token
+                                 * @token:'24F3B3D37079AEE55679DAE2FE7A1FA4F966AEC8FECC5DDFC479B4DAEFBB0A1C'
+                                 */
+                                // sessionStorage.setItem('token', 'CF65EA414C89ECADE9914F116E838F05AB0F377A176751CE935654A40C28B6EB');
                             }
                             else if (u.oid == ROLE_ID.SHOP) {
                                 //alert(JSON.stringify(u.authlist))
@@ -801,6 +808,12 @@
                                 _this.highlightindex = '/city_manage';
                                 _this.$router.push({path: _this.highlightindex});
                                 sessionStorage.setItem('highlightindex', _this.highlightindex);
+                                /**
+                                 * @update date 20190428
+                                 * @为总后台添加泊链token
+                                 * @token:'24F3B3D37079AEE55679DAE2FE7A1FA4F966AEC8FECC5DDFC479B4DAEFBB0A1C'
+                                 */
+                                // sessionStorage.setItem('token', '24F3B3D37079AEE55679DAE2FE7A1FA4F966AEC8FECC5DDFC479B4DAEFBB0A1C');
                             }
                             else if (u.oid == ROLE_ID.PARK) {
                                 //先跳转空页面，然后再根据数据情况显示页面再跳转

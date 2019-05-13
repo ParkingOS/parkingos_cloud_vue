@@ -228,7 +228,7 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/park_manage', component: Park_Manage, name: '车场管理'},
-            {path: '/park_manage_staff', component: Park_Manage_Staff, name: '员工管理'},
+            {path: '/park_manage_staff', component: Park_Manage_Staff, name: 'park_manage_staff'},
 
         ]
     },

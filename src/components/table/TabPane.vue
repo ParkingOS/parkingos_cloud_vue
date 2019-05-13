@@ -1,6 +1,6 @@
 <template>
     <section style="padding: 21px 16px;margin: 0 10px;background: #fff">
-        <sticky class-name="sub-navbar" :fixedDom="fixedDom" stickyTop='50' zIndex='90' v-on:topShow="topShowFn">
+        <sticky class-name="sub-navbar" :fixedDom="fixedDom" stickyTop='50' zIndex='90' v-on:topShow="topShowFn" v-if="suctionTopVisible">
             <ul style="display: flex;width:100%" v-show="topShow">
                 <template v-for="items in TableItems" >
                     <li
@@ -13,6 +13,7 @@
         </sticky>
         <!--列表-->
         <el-table
+                :key="key"
                 :stripe="stripe"
                 :loading="loading"
                 :data="tableData"
@@ -20,7 +21,7 @@
                 resizable="false"
                 highlight-current-row
                 style="width:100%;"
-                :min-height="300"
+                :max-height="tableMaxHeight"
                 v-loading="loading"
                 @sort-change="sortChange"
                 @row-click = "rowClickFn"
@@ -32,7 +33,7 @@
                         :type="tableitem.columnType"
                         :label="tableitem.label"
                         :header-align="tableitem.headerAlign"
-                        :align="tableitem.align"
+                        :align="tableitem.align || 'center'"
                         :sortable="!tableitem.unsortable"
                         :width="tableitem.width"
                         :formatter="tableitem.format"
@@ -142,7 +143,8 @@
 </template>
 
 <script>
-    import {path} from '../../api/api';
+    import {mapState} from 'vuex';
+    import {path,bolinkPath} from '../../api/api';
     import { getTableQuery,delTableData ,editTableData,addTableData} from '../../api/base'
     import common from '../../common/js/common';
     import Printd from 'printd';
@@ -153,6 +155,7 @@
     import expand from './expand'
     import ElButton from 'element-ui/packages/button/src/button';
     import Sticky from './sticky'
+    import qs from 'Qs'
     export default {
         components: {
             ElButton,
@@ -164,6 +167,8 @@
         },
         data(){
             return {
+                key:0,
+                // tableMaxHeight:'auto',
                 editLoading:false,
                 addLoading:false,
                 rowdata:{},
@@ -182,7 +187,6 @@
                 isSticky:false,
                 wHeight:undefined,
                 isWidthStyle:"flex:1;text-align:center;line-height:44px;color:#909399;font-weight:500;background-color: #F4F8FF;",
-                loading:false,
                 currentHeight:'300px',
                 orderby:'desc',
                 pageSize:20,
@@ -194,6 +198,14 @@
             }
         },
         props:{
+            isBolink:{
+              type:Boolean,
+              default:false,
+            },
+            openFixedHeight:{
+                type:Boolean,
+                default:false,
+            },
             stripe:Boolean,
             TableItems:{
                 type:Array,
@@ -241,6 +253,10 @@
                     }
 
                 }
+            },
+            suctionTopVisible:{
+                type:Boolean,
+                default:true,
             }
         },
         methods:{
@@ -250,46 +266,95 @@
             },
             onEdit: function () {
                 //发送ajax,提交表单更新
-                let that = this;
-                let api = this.editapi;
-                let eform = this.rowdata;
-                eform = common.generateForm(eform);
-                that.editLoading = true;
-                this.$refs.editref.$refs.editForm.validate((valid) => {
-                    if (valid) {
-                        editTableData(api,eform).then(res=>{
-                            if(res.status == 200){
-                                if(res.data.state == 1){
-                                    that.$message({
-                                        message: '编辑成功!',
-                                        type: 'success',
-                                        duration: 600
-                                    });
-                                    setTimeout(()=>{
-                                        that.editFormVisible = false;
-                                        that.getTableData(that.sform,that);
-                                    },60)
-                                }else{
-                                    that.$message({
-                                        message: res.data.msg,
-                                        type: 'info',
-                                        duration: 600
-                                    });
-                                    that.editLoading = false;
+                /**
+                 * 通过isBolink 的值，选用不同的访问路径
+                 * isBolink  true为泊链的访问地址   false为云平台的访问地址
+                 *path--->云平台
+                 * bolinkPath --- 泊链
+                 */
+
+                if(this.isBolink){
+                    let that = this;
+                    let api = this.editapi;
+                    let eform = this.rowdata;
+                    that.editLoading = true;
+                    this.$refs.editref.$refs.editForm.validate((valid) => {
+                        if (valid) {
+                            let formData  = new FormData();
+                            formData.append('token',sessionStorage.getItem('token'));
+                            if(eform){
+                                for(let item in eform){
+                                    formData.append(item,eform[item])
                                 }
                             }
-                        }).catch(err => {
-                            that.$message({
-                                message: '更新失败',
-                                type: 'error',
-                                duration: 600
-                            });
+                            axios.post(bolinkPath+api,formData).then(res=>{
+                                that.$message({
+                                    message: '编辑成功!',
+                                    type: 'success',
+                                    duration: 600
+                                });
+                                setTimeout(()=>{
+                                    that.editFormVisible = false;
+                                    that.getTableData(that.sform,that);
+                                },60)
+
+                            }).catch(err => {
+                                that.$message({
+                                    message: '更新失败',
+                                    type: 'error',
+                                    duration: 600
+                                });
+                                that.editLoading = false;
+                            })
+                        }else{
                             that.editLoading = false;
-                        })
-                    }else{
-                        that.editLoading = false;
-                    }
-                });
+                        }
+                    });
+                }else{
+                    let that = this;
+                    let api = this.editapi;
+                    let eform = this.rowdata;
+                    eform = common.generateForm(eform);
+                    that.editLoading = true;
+                    this.$refs.editref.$refs.editForm.validate((valid) => {
+                        if (valid) {
+                            editTableData(api,eform).then(res=>{
+                                if(res.status == 200){
+                                    if(res.data.state == 1){
+                                        that.$message({
+                                            message: '编辑成功!',
+                                            type: 'success',
+                                            duration: 600
+                                        });
+                                        setTimeout(()=>{
+                                            that.editFormVisible = false;
+                                            that.getTableData(that.sform,that);
+                                        },60)
+                                    }else{
+                                        that.$message({
+                                            message: res.data.msg,
+                                            type: 'info',
+                                            duration: 600
+                                        });
+                                        that.editLoading = false;
+                                    }
+                                }
+                            }).catch(err => {
+                                that.$message({
+                                    message: '更新失败',
+                                    type: 'error',
+                                    duration: 600
+                                });
+                                that.editLoading = false;
+                            })
+                        }else{
+                            that.editLoading = false;
+                        }
+                    });
+                }
+
+
+
             },
             onEditInput:function (eform) {
                 this.rowdata=eform;
@@ -301,47 +366,84 @@
             },
             onAdd:function () {
                 //发送请求,添加一条记录
+                /**
+                 * 通过isBolink 的值，选用不同的访问路径
+                 * isBolink  true为泊链的访问地址   false为云平台的访问地址
+                 *path--->云平台
+                 * bolinkPath --- 泊链
+                 */
+
                 let that = this;
                 let api = this.addapi;
-                let aform = this.addFormData;
-                aform = common.generateForm(aform);
                 that.addLoading = true;
                 this.$refs.addref.$refs.addForm.validate((valid) => {
                     if (valid) {
                         that.addLoading = true;
-                        addTableData(api,aform).then(res=>{
-
-                            if(res.status == 200){
-                                if(res.data.state == 1){
-                                    that.$message({
-                                        message: '添加成功!',
-                                        type: 'success',
-                                        duration: 600
-                                    });
-                                    setTimeout(()=>{
-                                        that.addFormVisible = false;
-                                        that.getTableData(that.addedValue,that);
-                                        that.$emit('clearSearchData');
-                                    },60);
-                                }else{
-                                    that.addLoading = false;
-                                    that.$message({
-                                        message: res.data.msg,
-                                        type: 'info',
-                                        duration: 600
-                                    });
+                        if(that.isBolink){
+                            let aform = this.addFormData;
+                            let formData  = new FormData();
+                            formData.append('token',sessionStorage.getItem('token'));
+                            if(aform){
+                                for(let item in aform){
+                                    formData.append(item,aform[item])
                                 }
                             }
-                        }).catch(err => {
-                            that.$message({
-                                message: '更新失败',
-                                type: 'error',
-                                duration: 600
-                            });
-                            that.addLoading = false;
-                        })
+                            axios.post(bolinkPath+api,formData).then(res=>{
+                                that.$message({
+                                    message: '添加成功!',
+                                    type: 'success',
+                                    duration: 600
+                                });
+                                setTimeout(()=>{
+                                    that.addFormVisible = false;
+                                    that.getTableData(that.addedValue,that);
+                                    that.$emit('clearSearchData');
+                                },60);
+
+                            }).catch(error => {
+                                that.$message({
+                                    message: '更新失败',
+                                    type: 'error',
+                                    duration: 600
+                                });
+                                that.addLoading = false;
+                            })
+                        }else{
+                            let aform = this.addFormData;
+                            aform = common.generateForm(aform);
+                            addTableData(api,aform).then(res=>{
+                                if(res.status == 200){
+                                    if(res.data.state == 1){
+                                        that.$message({
+                                            message: '添加成功!',
+                                            type: 'success',
+                                            duration: 600
+                                        });
+                                        setTimeout(()=>{
+                                            that.addFormVisible = false;
+                                            that.getTableData(that.addedValue,that);
+                                            that.$emit('clearSearchData');
+                                        },60);
+                                    }else{
+                                        that.addLoading = false;
+                                        that.$message({
+                                            message: res.data.msg,
+                                            type: 'info',
+                                            duration: 600
+                                        });
+                                    }
+                                }
+                            }).catch(err => {
+                                that.$message({
+                                    message: '更新失败',
+                                    type: 'error',
+                                    duration: 600
+                                });
+                                that.addLoading = false;
+                            })
+                        }
+
                     }else{
-                        console.log('----load状态')
                         that.addLoading = false;
                     }
                 });
@@ -369,29 +471,86 @@
                 // this.$refs['refTable'].toggleRowExpansion(row)
             },
             getTableData(sform,that){
-                var nform = sform,url = that.queryapi;
-                nform.rp = this.pageSize;
-                nform.page = this.currentPage;
-                nform.orderby = this.orderby;
-                nform.fieldsstr = this.fieldsstr;
-                nform.orderfield = this.orderfield;
-                nform = common.generateForm(nform);
+                var url = that.queryapi;
                 that.loading = true;
                 this.tableData=[];
-                getTableQuery(url,sform).then(response =>{
-                    that.loading = false;
-                    that.off = true;
-                    if(response.status == 200){
-                        let tableData =  response.data
-                        this.total = tableData.total;
-                        this.tableData= tableData.rows;
-                        this.$emit('transferData',tableData);
+
+                /**
+                 * 通过isBolink 的值，选用不同的访问路径
+                 * isBolink  true为泊链的访问地址   false为云平台的访问地址
+                 *path--->云平台
+                 * bolinkPath --- 泊链
+                 */
+
+                if(that.isBolink){
+                    let formData  = new FormData();
+                    formData.append('rp',this.pageSize);
+                    formData.append('page',this.currentPage);
+                    formData.append('orderby',this.orderby);
+                    formData.append('fieldsstr',this.fieldsstr);
+                    formData.append('orderfield',this.orderfield);
+                    formData.append('token',sessionStorage.getItem('token'));
+                    if(sform){
+                        for(let item in sform){
+                            formData.append(item,sform[item])
+                        }
                     }
-                }).catch(err => {
-                    that.loading = false;
-                    that.off = true;
-                    console.log('拉取错误了',err)
-                })
+                    axios.post(bolinkPath+url,formData).then(response=>{
+                        that.loading = false;
+                        that.off = true;
+                        if(response.status == 200){
+                            let tableData =  response.data;
+                            this.total = tableData.total;
+                            if(tableData.validate == 1){
+                                this.$alert('登录超时，请重新登录', '登录超时提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        sessionStorage.removeItem('user');
+                                        sessionStorage.removeItem('token');
+                                        localStorage.removeItem('comid');
+                                        localStorage.removeItem('groupid');
+                                        that.$router.push('/login');
+                                    }
+                                });
+                            }else if(tableData.rows[0] == null){
+                                this.tableData = [];
+                            }else{
+                                this.tableData= tableData.rows;
+                            }
+                            this.$emit('transferData',tableData);
+                        }else{
+                            this.total = 0;
+                            this.tableData= [];
+                            this.$emit('transferData',[]);
+                        }
+                    }).catch(error => {
+                        that.loading = false;
+                        that.off = true;
+                        console.log('error--->',error)
+                    })
+                }else{
+                    var nform = sform;
+                    nform.rp = this.pageSize;
+                    nform.page = this.currentPage;
+                    nform.orderby = this.orderby;
+                    nform.fieldsstr = this.fieldsstr;
+                    nform.orderfield = this.orderfield;
+                    nform = common.generateForm(nform);
+                    getTableQuery(url,nform).then(response =>{
+                        that.loading = false;
+                        that.off = true;
+                        if(response.status == 200){
+                            let tableData =  response.data
+                            this.total = tableData.total;
+                            this.tableData= tableData.rows;
+                            this.$emit('transferData',tableData);
+                        }
+                    }).catch(err => {
+                        that.loading = false;
+                        that.off = true;
+                        console.log('拉取错误了',err)
+                    })
+                }
             },
             //导出表格数据
             handleExport() {
@@ -402,7 +561,6 @@
                     params = 'fieldsstr=' + this.fieldsstr + '&token=' + sessionStorage.getItem('token');
                 } else {
                     for (var x in this.sform) {
-                        //console.log(this.sform[x])
                         if(x=='car_number'||x=='nickname1'){
                             params += x + '=' + encodeURI(encodeURI(this.sform[x])) + '&';
                         }else{
@@ -410,6 +568,7 @@
                         }
 
                     }
+                    params += 'token=' + sessionStorage.getItem('token')+'&fieldsstr='+this.fieldsstr;
                 }
                 let groupid = sessionStorage.getItem('groupid');
                 let cityid = sessionStorage.getItem('cityid');
@@ -419,13 +578,16 @@
                 if (cityid != 'undefined' && !(params.indexOf('cityid=') > -1)) {
                     params += '&cityid=' + cityid;
                 }
-                // params += '&groupid=' + groupid + '&cityid=' + cityid
-                //alert(params)
-                if (params.indexOf('comid=') > -1) {
-                    window.open(path + api + '?' + params);
-                } else {
-                    window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
+                if(this.isBolink){
+                    window.open(bolinkPath + api + '?' + params);
+                }else{
+                    if (params.indexOf('comid=') > -1) {
+                        window.open(path + api + '?' + params);
+                    } else {
+                        window.open(path + api + '?' + params + '&comid=' + sessionStorage.getItem('comid'));
+                    }
                 }
+
 
             },
             //取消删除
@@ -503,18 +665,47 @@
         updated(){
 
         },
+        computed:{
+            ...mapState({
+                tableMaxHeight:state => state.tableMaxHeight
+            }),
+            tableMaxHeight:{
+                get(){
+                    if(this.openFixedHeight){
+                        return this.$store.state.app.tableMaxHeight;
+                    }else{
+                        return 'auto';
+                    }
+
+                },
+                set(){
+                    if(this.openFixedHeight){
+                        return this.$store.state.app.tableMaxHeight;
+                    }else{
+                        return 'auto';
+                    }
+                }
+                // return this.$store.state.app.tableMaxHeight;
+            }
+        },
         activated(){
 
         },
         mounted(){
-
-
-
+            if(this.openFixedHeight){
+                this.tableMaxHeight = this.$store.state.app.tableMaxHeight;
+            }else{
+                this.tableMaxHeight = 'auto'
+            }
+            this.key = 0;
         },
         beforeMount(){
-            this.currentHeight = common.gwh() - 100 +'px';
+            // this.currentHeight = common.gwh() - 100 +'px';
         },
         watch:{
+            tableMaxHeight:function(val){
+                this.key = this.key++;
+            },
             searchForm:{
                 handler(newVal,oldVal){
                     if(this.off){

@@ -95,6 +95,8 @@
         },
         data() {
             return {
+                bolink_id:'',
+                union_id:'',
                 classSetting:'staff',
                 aroles:[],
                 pwd1:'',
@@ -463,9 +465,11 @@
             },
             //添加
             handleAdd(){
-                this.addedValue.comid = this.searchFormData.comid;
+                this.addedValue.bolink_id = this.bolink_id;
+                this.addedValue.union_id = this.union_id;
                 this.addRowData = {};
-                this.addRowData.comid = this.searchFormData.comid;
+                this.addRowData.bolink_id = this.bolink_id;
+                this.addRowData.union_id = this.union_id;
                 this.addTo++;
             },
             addInput(aform){
@@ -482,7 +486,8 @@
                 that.searchFormData.strid= '';
                 that.searchFormData.nickname= '';
                 that.searchFormData.currentData='';
-
+                this.searchFormData.bolink_id = this.bolink_id;
+                this.searchFormData.union_id = this.union_id;
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
             },
             setAuthorityFn(){
@@ -503,14 +508,16 @@
 
                 }
             },
-            getQuery(id){
+            getQuery(params){
                 let _this = this;
-                sessionStorage.setItem('comid', id);
-                axios.all([common.getEmployeeRole()])
-                    .then(axios.spread(function (ret) {
-                        _this.aroles = ret.data;
-                        sessionStorage.setItem('comid', '')
-                    }))
+                axios.get(path+'/member/getrole',{
+                    params:params
+                }).then(res=>{
+                    this.aroles = res.data;
+                }).catch(err=>{
+
+                })
+                this.resetForm()
             },
             alertInfo(msg) {
                 this.$alert(msg, '提示', {
@@ -529,10 +536,13 @@
 
         },
         activated() {
-            let $url =  document.location.href;
-            this.searchFormData.comid = $url.split('=')[1];
-            this.getQuery(this.searchFormData.comid);
-            this.resetForm()
+
+            let params = this.$route.query;
+            this.bolink_id = params.bolink_id;
+            this.union_id = params.union_id;
+            this.searchFormData.bolink_id = params.bolink_id;
+            this.searchFormData.union_id = params.union_id;
+            this.getQuery(params)
         },
         watch: {
             hideOptions:function (val,oldVal) {

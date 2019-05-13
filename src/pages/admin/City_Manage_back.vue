@@ -2,17 +2,20 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">运营集团<span style="margin: 2px">-</span>运营集团管理</p>
+                <p style="float: left">厂商管理<span style="margin: 2px">-</span>厂商管理</p>
                 <div class="float-right">
-                    <el-button type="text"  @click="handleAdd" native-type="button" v-if="hideAdd" icon="el-icon-plus">注册运营集团</el-button>
+                    <el-button type="text"  @click="handleAdd" native-type="button" v-if="hideAdd" icon="el-icon-plus">注册厂商</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
                     <div class="advanced-options" v-show="isShow">
-                        <el-form-item label="互联运营集团编号" class="clear-style">
-                            <el-input v-model="searchFormData.operatorid" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
+                        <el-form-item label="厂商编号" class="clear-style">
+                            <el-input v-model="searchFormData.union_id" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
+                        </el-form-item>
+                        <el-form-item label="厂商秘钥" class="clear-style">
+                            <el-input v-model="searchFormData.ukey" placeholder="请输入搜索内容" class="shop-custom-input"></el-input>
                         </el-form-item>
                     </div>
                     <div class="console-main">
@@ -107,7 +110,8 @@
                     id:3,
                     id_start:'',
                     name:'',
-                    operatorid:'',
+                    union_id:'',
+                    ukey:''
                 },
                 searchForm:{},
                 //编辑
@@ -135,12 +139,12 @@
                 hideTool: false,
                 showImg: true,
                 showBusinessPoles: true,
-                queryapi: '/citygroup/query',
-                addapi: '/citygroup/addAndEdit',
-                editapi: '/citygroup/addAndEdit',
-                delapi: '/citygroup/delete',
+                queryapi: '/admin/query',
+                addapi: '/admin/addAndEdit',
+                editapi: '/admin/addAndEdit',
+                delapi: '/admin/delete',
                 btswidth: '100',
-                fieldsstr: 'id__name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__create_time__update_time__ukey__operatorid',
+                fieldsstr: 'id__name__parking_type__parking_total__etc__state__areaid__city__address__longitude__latitude__mobile__ctime__update_time__union_id__ukey',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
@@ -180,7 +184,7 @@
                         hasSubs: false, subs: [
                             {
                                 label: '创建时间',
-                                prop: 'create_time',
+                                prop: 'ctime',
                                 type: 'date',
                                 searchable: true,
                                 addable: true,
@@ -188,7 +192,7 @@
                                 align: 'center',
                                 columnType:'render',
                                 render: (h, params) => {
-                                    let str = common.dateformat(params.row.create_time);
+                                    let str = common.dateformat(params.row.ctime);
                                     return h('div', [
                                         h('span', str)
                                     ]);
@@ -199,8 +203,8 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '互联运营集团编号',
-                                prop: 'operatorid',
+                                label: '厂商编号',
+                                prop: 'union_id',
                                 addtable: true,
                                 editable: true,
                                 searchable: true,
@@ -212,6 +216,9 @@
                                 "value": "",
                                 'size':'',
                                 "subtype": "text",
+                                "rules": [
+                                    {required: true, message: '请输入厂商平台编号', trigger: 'blur'}
+                                ],
                             },
                         ]
                     },
@@ -219,12 +226,23 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '地址',
-                                prop: 'address',
+                                label: '厂商秘钥',
+                                prop: 'ukey',
                                 type: 'str',
+                                addtable: true,
+                                editable: true,
                                 searchable: true,
                                 unsortable: true,
-                                align: 'center'
+                                align: 'center',
+                                "type": "input",
+                                "disable": false,
+                                "readonly": false,
+                                "value": "",
+                                'size':'',
+                                "subtype": "text",
+                                "rules": [
+                                    {required: true, message: '请输入厂商平台秘钥', trigger: 'blur'}
+                                ],
                             },
                         ]
                     },
@@ -268,7 +286,7 @@
                                         on: {
                                             click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                this.$router.push({path: '/union_manage_staff?shop_id='+params.row.id});
+                                                this.$router.push({path: '/city_manage_staff?shop_id='+params.row.id});
                                             }
                                         }
                                     }, '设置'),
@@ -340,8 +358,8 @@
                     id:3,
                     id_start:'',
                     name:'',
-                    operatorid:'',
-
+                    union_id:'',
+                    ukey:''
                 };
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
             },
@@ -351,9 +369,9 @@
                 * */
                 let sform = JSON.parse(JSON.stringify( this.searchFormData )) ;
                 if(sform.currentDate != null && sform.currentDate != ''){
-                    sform.create_time = 'between';
-                    sform.create_time_start = sform.currentDate[0];
-                    sform.create_time_end = sform.currentDate[1];
+                    sform.ctime = 'between';
+                    sform.ctime_start = sform.currentDate[0];
+                    sform.ctime_end = sform.currentDate[1];
                 }
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
@@ -371,17 +389,17 @@
             },
             getQuery(){
                 let _this = this;
-                // axios.all([common.getAllCollector(), common.getLiftReason(),common.getAllParks()])
-                //     .then(axios.spread(function (collector, reason,parks) {
-                //         _this.collectors = collector.data;
-                //         _this.collectors.unshift({
-                //             value_name: '全部',
-                //             value_no: ''
-                //         })
-                //         _this.reasons = reason.data;
-                //         _this.parklist = parks.data;
-                //
-                //     }))
+                axios.all([common.getAllCollector(), common.getLiftReason(),common.getAllParks()])
+                    .then(axios.spread(function (collector, reason,parks) {
+                        _this.collectors = collector.data;
+                        _this.collectors.unshift({
+                            value_name: '全部',
+                            value_no: ''
+                        })
+                        _this.reasons = reason.data;
+                        _this.parklist = parks.data;
+
+                    }))
             },
             setAuthorityFn(){
                 let user = sessionStorage.getItem('user');

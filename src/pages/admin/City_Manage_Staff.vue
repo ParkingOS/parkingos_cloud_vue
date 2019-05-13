@@ -101,7 +101,7 @@
                 //添加
                 addRowData:{},
                 addedValue:{
-                    cityid:''
+                    union_id:''
                 },
                 addTo:0,
                 //删除
@@ -112,7 +112,7 @@
                 searchFormData:{
                     comid:undefined,
                     oid:7,
-                    cityid:'',
+                    union_id:'',
                     currentData:'',
                     nickname:'',
                     count:0
@@ -267,7 +267,7 @@
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.editRowData = params.row;
                                                 this.editRowData.role_id = params.row.role_id+'';
-                                                this.editRowData.cityid = this.searchFormData.cityid;
+                                                this.editRowData.union_id = this.searchFormData.union_id;
                                                 this.editTo++;
                                             }
                                         }
@@ -425,10 +425,10 @@
             },
             //添加
             handleAdd(){
-                this.addedValue.cityid = this.searchFormData.cityid;
+                this.addedValue.union_id = this.searchFormData.union_id;
                 this.addedValue.oid = this.searchFormData.oid;
                 this.addRowData = {};
-                this.addRowData.cityid = this.searchFormData.cityid;
+                this.addRowData.union_id = this.searchFormData.union_id;
                 this.addRowData.oid = this.addRowData.oid;
                 this.addTo++;
             },
@@ -481,10 +481,10 @@
         },
         activated() {
             let $url =  document.location.href;
-            this.searchFormData.cityid = $url.split('=')[1];
-            console.log('$url',this.searchFormData.cityid)
+            this.searchFormData.union_id = $url.split('=')[1];
+            console.log('$url',this.searchFormData.union_id)
             this.searchFn();
-            // this.getQuery(this.searchFormData.cityid);
+            // this.getQuery(this.searchFormData.union_id);
         },
         watch: {
             hideOptions:function (val,oldVal) {
