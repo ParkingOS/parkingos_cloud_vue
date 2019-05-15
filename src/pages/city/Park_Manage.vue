@@ -377,7 +377,7 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '车场名称',
+                                label: '车场名称（编号）',
                                 prop: 'name',
                                 width:200,
                                 unsortable: true,
@@ -554,28 +554,7 @@
                             },
                         ]
                     },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                width:100,
-                                label: '车位总数',
-                                prop: 'total_plot',
-                                addtable: true,
-                                searchable: true,
-                                unsortable: true,
-                                align: 'center',
-                                "type": "input",
-                                "disable": false,
-                                "readonly": false,
-                                "value": "",
-                                'size':'',
-                                "subtype": "text",
-                                "rules": [
-                                    {required: true, message: '请输入车位总数', trigger: 'blur'}
-                                ],
-                            },
-                        ]
-                    },
+
                     {
                         hasSubs: false, subs: [
                             {
@@ -642,8 +621,20 @@
                                 width:160,
                                 label: '车位数',
                                 prop: 'total_plot',
-                                unsortable: true,
 
+                                addtable: true,
+                                searchable: true,
+                                unsortable: true,
+                                align: 'center',
+                                "type": "input",
+                                "disable": false,
+                                "readonly": false,
+                                "value": "",
+                                'size':'',
+                                "subtype": "text",
+                                "rules": [
+                                    {required: true, message: '请输入车位总数', trigger: 'blur'}
+                                ],
                             },
                         ]
                     },
