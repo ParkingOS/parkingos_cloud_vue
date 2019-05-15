@@ -1,4 +1,3 @@
-// import Login from './pages/Login.vue'
 import LoginCloud from './pages/LoginCloud.vue';
 import NotFound from './pages/404.vue';
 import CodeReduce from './pages/CodeReduce.vue';
@@ -7,7 +6,6 @@ import CarReduce from './pages/CarReduce.vue';
 import FreeCarReduce from './pages/FreeCarReduce.vue';
 import ReduceExport from './pages/ReduceExport.vue';
 import FreeReduceExport from './pages/FreeReduceExport.vue';
-// import Home from './pages/Home.vue'
 import HomeCloud from './pages/HomeCloud.vue';
 import HomeCloud_Union from './pages/HomeCloud_Union.vue';
 import HomeCloud_Admin from './pages/HomeCloud_Admin.vue';
@@ -36,7 +34,6 @@ import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue';
 import ShopManage_Shop from './pages/park/ShopManage_Shop.vue';
 import ShopMange_Shop_Staff from './pages/park/shopMange_Shop_Staff.vue';
 import ShopManage_QueryAccount from './pages/park/ShopManage_QueryAccount.vue';
-// Park_WhiteList
 import Park_WhiteList from './pages/park/Park_WhiteList.vue';
 //设备管理
 import EquipmentManage_Watchhouse from './pages/park/EquipmentManage_Watchhouse.vue';
@@ -121,10 +118,54 @@ import TicketManage from './pages/shop/TicketManage.vue';
 import FixCode from './pages/shop/FixCode.vue';
 import EmployeePermission_ShopMember from './pages/shop/EmployeePermission_EmployeeManage.vue';
 import EmployeePermission_ShopRole from './pages/shop/EmployeePermission_RoleManage.vue';
-// import CodeReduce from './pages/shop/CodeReduce.vue';
 
+
+/**
+ *
+ * @date:20190515
+ * @author:cyzhi
+ * @description:泊链厂商页面迁移至云平台
+ * @page:Account
+ */
+import Account from  './pages/city/Account.vue'
+import MoneyRecord from  './pages/city/MoneyRecord.vue'
+import NewUnionProfit from './pages/city/NewUnionProfit.vue'
+/*--------------end---------------------*/
 let routes = [
 
+    /**
+     * @date:20190515
+     * @author:cyzhi
+     * @description:泊链厂商页面迁移至云平台
+     */
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/account', component: Account, name: 'Account'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/money-record', component: MoneyRecord, name: 'MoneyRecord'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/new-union-profit', component: NewUnionProfit, name: 'NewUnionProfit'},
+        ]
+    },
+    ///////////////////end////////////////////////////////////////////
 
     {
         path: '/',

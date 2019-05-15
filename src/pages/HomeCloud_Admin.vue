@@ -123,6 +123,18 @@
                         </el-menu-item>
                     </el-submenu>
 
+                    <!--
+                        @date:20190515
+                        @author:cyzhi
+                        @description:泊链页面迁移至云平台
+                        @page:Account、
+                    -->
+                    <el-menu-item v-if="this.city" index="/account">
+                        <i class="menu-icon icon iconfont icon-order"></i>
+                        <span slot="title">我的账户</span>
+                    </el-menu-item>
+
+<!--                    ----------end-->
                     <el-submenu v-if="this.city" index="/union_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">运营集团</span></template>
@@ -135,6 +147,17 @@
                         <el-menu-item index="/park_manage">车场管理
                         </el-menu-item>
                     </el-submenu>
+
+                    <el-menu-item v-if="this.city" index="/money-record">
+                        <i class="menu-icon icon iconfont icon-order"></i>
+                        <span slot="title">资金流水</span>
+                    </el-menu-item>
+
+                    <el-menu-item v-if="this.city" index="/new-union-profit">
+                        <i class="menu-icon icon iconfont icon-order"></i>
+                        <span slot="title">车场分润报表</span>
+                    </el-menu-item>
+
                     <el-submenu v-if="this.city" index="/setting_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">个性化设置</span></template>
