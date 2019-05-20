@@ -1,5 +1,4 @@
 import '../theme/index.css'; //主题色
-// import './common/css/index.css'  //本地色
 
 //全局引入iconfont
 import './assets/iconfont/iconfont.css'
@@ -23,6 +22,7 @@ import QRCode from 'qrcode';
 import VueClipboard from 'vue-clipboard2'
 import scroll from 'vue-seamless-scroll';
 import math from 'mathjs'
+import jQuery from 'jquery'
 Vue.use(scroll)
 Vue.use(QRCode)
 Vue.use(ElementUI);
@@ -35,8 +35,13 @@ Vue.prototype.$axios=axios;
 Vue.prototype.$qs=require('qs');
 Vue.prototype.$math = math;
 Vue.prototype.QRCode=QRCode
-
 Vue.prototype.common=common;
+
+Vue.prototype.$post=jQuery.post;
+Vue.prototype.$ajax=jQuery.ajax;
+Vue.prototype.$getJSON=jQuery.getJSON;
+Vue.prototype.$extend=jQuery.extend;
+
 const router = new VueRouter({
     routes
 });

@@ -334,14 +334,13 @@ export var checkValiTime = (rule, value, callback) => {
 };
 
 export var checkURL = (rule, value, callback) => {
-    // if (typeof(value) == 'undefined' || value == '') {
-    //     return callback(new Error('请输入地址'));
-    // } else if (!(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/.test(value))) {
-    //     return callback(new Error('请输入正确的地址'));
-    // } else {
-    //     callback();
-    // }
-    console.log('' + callback);
+    if(typeof(value)=='undefined'||value==''){
+        return callback(new Error('请输入地址'))
+    }else if(!(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/.test(value))){
+        return callback(new Error('请输入正确的地址'))
+    }else{
+        callback()
+    }
 };
 
 export var checkUpload = (rule, value, callback) => {

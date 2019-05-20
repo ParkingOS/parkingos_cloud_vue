@@ -130,6 +130,12 @@ import EmployeePermission_ShopRole from './pages/shop/EmployeePermission_RoleMan
 import Account from  './pages/city/Account.vue'
 import MoneyRecord from  './pages/city/MoneyRecord.vue'
 import NewUnionProfit from './pages/city/NewUnionProfit.vue'
+import ManufacturerRoleManagement from './pages/city/ManufacturerRoleManagement.vue'
+import PersonnelManagement from './pages/city/PersonnelManagement.vue'
+import MessageNtification from './pages/city/MessageNtification.vue'
+import FirmSystemManageLogs from './pages/city/Firm_SystemManage_Logs.vue'
+import Development from './pages/city/Development.vue'
+import MaterielTable from './pages/city/MaterielTable'
 /*--------------end---------------------*/
 let routes = [
 
@@ -153,7 +159,7 @@ let routes = [
         name: 'plat',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/money-record', component: MoneyRecord, name: 'MoneyRecord'},
+            {path: '/money_record', component: MoneyRecord, name: 'MoneyRecord'},
         ]
     },
     {
@@ -162,7 +168,36 @@ let routes = [
         name: 'plat',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/new-union-profit', component: NewUnionProfit, name: 'NewUnionProfit'},
+            {path: '/new_union_profit', component: NewUnionProfit, name: 'NewUnionProfit'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/manufacturer_role_management', component: ManufacturerRoleManagement, name: 'ManufacturerRoleManagement'},
+            {path: '/mersonnel_management', component: PersonnelManagement, name: 'PersonnelManagement'},
+            {path: '/message_ntification', component: MessageNtification, name: 'MessageNtification'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/firm_system_manage_logs', component: FirmSystemManageLogs, name: 'FirmSystemManageLogs'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/development', component: Development, name: 'Development'},
         ]
     },
     ///////////////////end////////////////////////////////////////////
@@ -269,6 +304,7 @@ let routes = [
         iconCls: 'el-icon-document',
         children: [
             {path: '/park_manage', component: Park_Manage, name: '车场管理'},
+            {path: '/materiel_table', component: MaterielTable, name: 'MaterielTable'},
             {path: '/park_manage_staff', component: Park_Manage_Staff, name: 'park_manage_staff'},
 
         ]
