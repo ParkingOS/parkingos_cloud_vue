@@ -2,13 +2,6 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
 
-             <el-alert
-                            title="5月10日至5月13日，云平台电子支付账目有重复记录，预计5月20日数据恢复正常。"
-                            type="error"
-                            :closable="false"
-                            style="font-size:20px"
-                            center>
-                          </el-alert>
 
             <header class="shop-custom-header">
                 <p style="float: left">财务报表<span style="margin: 2px">-</span>集团月报</p>
