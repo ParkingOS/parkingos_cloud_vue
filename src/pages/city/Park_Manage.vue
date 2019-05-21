@@ -82,7 +82,7 @@
                         </el-select>
                     </el-col>
                     <el-col :span="11" :offset="2">
-                        <el-input v-if="needChannel" v-model="channelValue" placeholder="请输入通道编号"></el-input>
+                        <el-input v-if="needChannel" v-model.trim="channelValue" placeholder="请输入通道编号" @change="changeChanneFn"></el-input>
                     </el-col>
                 </el-row>
 
@@ -951,6 +951,10 @@
             changeQrBox(event){
                 //1平台类型,2车场名称,3二维码类型,4通道编号
                 this.generatable = false
+            },
+            changeChanneFn(val){
+                console.log('--->',val)
+                this.generatable = false;
             },
             qrclose(){
                 this.type=''
