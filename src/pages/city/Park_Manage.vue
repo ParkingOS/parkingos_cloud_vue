@@ -149,7 +149,7 @@
             </header>
             <el-form ref="addForm" label-width="120px" :rules="addFormRules" :model="addForm" class="dialog-form-width">
                 <div style="height: 30px"></div>
-                <el-form-item label="运营商" v-if="addType == 'add'">
+                <el-form-item label="运营商">
                     <el-select v-model="addForm.groupid"  placeholder="请选择" style="width: 100%">
                         <el-option
                                 v-for="item in unionList"

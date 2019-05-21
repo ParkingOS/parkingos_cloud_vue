@@ -19,6 +19,9 @@ import OrderManage_Orders from './pages/park/OrderManage_Orders.vue';
 import OrderManage_Poles from './pages/park/OrderManage_Poles.vue';
 import Bolink_Expense from './pages/park/Bolink_Expense.vue';
 import Bolink_Income from './pages/park/Bolink_Income.vue';
+
+import Abnormal_Order from './pages/park/Abnormal_Order.vue';
+
 import Reduce_Record from './pages/park/Reduce_Record.vue';
 import OrderManage_OrderDetail from './pages/park/OrderManage_OrderDetail.vue';
 import MonthMember_Refill from './pages/park/MonthMember_Refill.vue';
@@ -94,7 +97,6 @@ import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_Month
 
 import Union_Bolink_Expense from './pages/union/Bolink_Expense.vue';
 import Union_Bolink_Income from './pages/union/Bolink_Income.vue';
-
 //集团减免记录 BusinessOrder_Reduce
 import BusinessOrder_Reduce from './pages/union/BusinessOrder_Reduce.vue';
 //厂商页面
@@ -272,6 +274,7 @@ let routes = [
             {path: '/orderManage_Poles', component: OrderManage_Poles, name: '抬杆记录'},
             {path: '/orderManage_Income', component: Bolink_Income, name: '交易记录'},
             {path: '/orderManage_Expense', component: Bolink_Expense, name: '支出记录'},
+            {path: '/orderManage_Abnormal', component: Abnormal_Order, name: '异常订单'},
             {path: '/orderManage_Record', component: Reduce_Record, name: '减免记录'},
             {path: '/orderManage_OrderDetail', component: OrderManage_OrderDetail, name: '订单详情'}
         ]

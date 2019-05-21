@@ -2,6 +2,7 @@
     <el-form-item :rules="Rules" :label="item.label" :prop="item.prop" class="clear-style">
 
         <el-input
+                :style="{width:item.width?item.width+'px':'auto'}"
                 v-if="item.type==='input'"
                 v-bind="$attrs"
                 v-on="$listeners"
@@ -73,6 +74,7 @@
                 :value-format="item.valueFormat"
                 :format="item.viewFormat"
                 :placeholder="item.placeholder"
+                :default-time="item.defaultTime"
                 v-bind="$attrs"
                 v-on="$listeners"
                 :disabled="item.disabled"
