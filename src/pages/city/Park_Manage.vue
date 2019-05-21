@@ -674,6 +674,7 @@
                                             click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.addForm = JSON.parse(JSON.stringify(params.row));
+                                                this.$set(this.addForm,'groupid',this.addForm.group_id+'');
                                                 this.addForm.groupid = this.addForm.group_id+'';
                                                 if(this.addForm.groupid == '-1' || this.addForm.groupid == null){
                                                     this.addForm.groupid = '';
