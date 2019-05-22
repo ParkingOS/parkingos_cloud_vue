@@ -156,31 +156,9 @@
                 chartWidth: '800px',
                 chartstyles: '',
                 chartPickerOptions: {
-                    shortcuts: [{
-                        text: '最近一周',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近一个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近三个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }]
+                    disabledDate(time){
+                        return time.getTime() > Date.now();
+                    }
                 },
                 currentPage: 1,
                 pageSize: 20,
@@ -231,7 +209,7 @@
                     currentData:'',
                     date:'',
                 };
-                this.searchFormData.currentData = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
+                this.searchFormData.currentData = [common.currentDate() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
                 that.queryForChart();
             },
             searchFn(){
@@ -327,7 +305,7 @@
             this.start_placeholder = common.currentDate() + ' 00:00:00';
             this.end_placeholder = common.currentDate() + ' 23:59:59';
             // this.searchFormData.currentData = [common.getFirstDayOfWeek() + ' 00:00:00', common.currentDate() + ' 23:59:59'];
-            this.searchFormData.currentData = common.currentDateArray(10);
+            this.searchFormData.currentData = common.currentDateArray(1);
             this.getQuery();
             //this.chart.resize();
             //window.addEventListener('resize', () => {
