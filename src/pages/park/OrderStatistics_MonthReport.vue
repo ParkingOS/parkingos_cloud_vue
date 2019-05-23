@@ -5,6 +5,7 @@
 
             <header class="shop-custom-header">
                 <p style="float: left">统计分析<span style="margin: 2px">-</span>车场月报</p>
+                <div style="margin-left: 160px;color: red;font-weight: 400;font-size: 14px" >(不包含当天的统计数据)</div>
                 <div class="float-right">
                     <el-button type="text"  icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="resetForm">刷新</el-button>
                 </div>

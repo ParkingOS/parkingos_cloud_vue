@@ -24,6 +24,7 @@
                     </template>
                 </div>
                 <div class="console-main" v-if="isFirst">
+                    <slot name="first"></slot>
                     <template v-for="(items,$index) in formConfig.first">
                         <dynamic-form-item
                                 :key="items.prop"

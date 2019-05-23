@@ -8,12 +8,26 @@
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
-
             <!--开发superForm组件-->
             <!--formConfig   表单的配置文件-->
             <!--searchData   基础传入的数据 可为空对象-->
             <!--searchValueFn 数据传递一周后输出的值-->
             <super-form :form-config="formConfig" :value="searchData" v-on:input="searchValueFn">
+                <el-form-item label="更新时间" slot="first">
+                    <el-date-picker
+                            style="width: 350px"
+                            class="shop-custom-datepicker"
+                            v-model="currentDate"
+                            type="datetimerange"
+                            range-separator="至"
+                            :default-time="['00:00:00','23:59:59']"
+                            start-placeholder="请输入时间"
+                            end-placeholder="请输入时间"
+                            value-format="timestamp"
+                            :picker-options="pickerOptions"
+                    >
+                    </el-date-picker>
+                </el-form-item>
 
             </super-form>
             <!--结束end-->
@@ -58,19 +72,11 @@
         data: function () {
             var that = this;
             return {
+                currentDate:null,
                 searchData:{},
                 formConfig:{
                     showMore:true,
                     first:[
-                        {
-                            label:'更新时间',
-                            type:'date',
-                            subtype:'datetimerange',
-                            prop:'currentDate',
-                            subprop:'update_time',
-                            valueFormat:'timestamp',
-                            defaultTime:['00:00:00','23:59:59']
-                        },
                         {
                             label:'车牌号',
                             type:'input',
@@ -107,17 +113,6 @@
                 addloading:false,
                 addFormData:{
                     state:'0'
-                },
-                searchFormData:{
-                    currentData:'',
-                    trade_no:'',
-                    order_id:'',
-                    car_number:'',
-                    type:'',
-                    pay_time:'between',
-                    pay_time_start:'',
-                    pay_time_end:'',
-                    collector:'',
                 },
                 searchForm:{},
 
@@ -413,7 +408,13 @@
                 * state Boolean  true点击搜索  false日常的数据更新
                 * */
                 if(state){
-                    this.searchForm = JSON.parse(JSON.stringify( this.searchData ));
+                    let sform = JSON.parse(JSON.stringify( this.searchData ));
+                    if(this.currentDate != null){
+                        sform.update_time = 'between';
+                        sform.update_time_start = this.currentDate[0];
+                        sform.update_time_end = this.currentDate[1];
+                    }
+                    this.searchForm = sform;
                 }else{
                     this.searchData = Object.assign({},val)
                 }
@@ -430,18 +431,15 @@
                 * 初始化操作
                 * 点击刷新时 和初进入页面时
                 * */
-                this.searchData = {
-                };
-                this.searchForm = JSON.parse(JSON.stringify( this.searchData ));
-            },
-            searchFn() {
-                /*
-                * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
-                * */
-                let sform = this.searchFormData;
-                sform.collector_start = sform.collector;
-                sform.type_start = sform.type;
-                this.searchForm = JSON.parse(JSON.stringify( sform ))
+                let date = common.currentDateArray(3);
+                this.currentDate = [new Date(date[0]), new Date(date[1])];
+                let sform = JSON.parse(JSON.stringify( that.searchData ));
+                if(that.currentDate != null){
+                    sform.update_time = 'between';
+                    sform.update_time_start = common.strTimeToTimestamp(date[0]);
+                    sform.update_time_end = common.strTimeToTimestamp(date[1]);
+                }
+                that.searchForm = sform;
             },
             getQuery(){
                 let _this = this;

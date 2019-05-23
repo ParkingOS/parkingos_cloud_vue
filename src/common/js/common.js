@@ -672,5 +672,17 @@ export default {
         try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
         m=Math.pow(10,Math.max(r1,r2))
         return (arg1*m+arg2*m)/m
+    },
+    /**
+     *
+     * @description:字符串时间转时间戳
+     * @value:date
+     * @case: 2019-05-22 00:00:00 ===> 1558454400000
+     */
+    strTimeToTimestamp(date){
+        var ndate = date.substring(0,19);
+            ndate = ndate.replace(/-/g,'/');
+        var timestamp = new Date(ndate).getTime();
+        return timestamp
     }
 };
