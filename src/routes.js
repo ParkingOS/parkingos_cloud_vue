@@ -106,6 +106,9 @@ import Union_Manage from './pages/city/Union_Manage.vue';
 import Union_Manage_Staff from './pages/city/Union_Manage_Staff.vue';
 import Setting_Manage from './pages/city/Setting_Manage.vue';
 
+import Ser_Manage from './pages/city/Ser_Manage.vue';
+import Ser_Manage_Staff from './pages/city/Ser_Manage_Staff.vue';
+
 //总后台页面
 import City_Manage from './pages/admin/City_Manage.vue';
 import City_Manage_Staff from './pages/admin/City_Manage_Staff.vue';
@@ -125,7 +128,7 @@ import EmployeePermission_ShopMember from './pages/shop/EmployeePermission_Emplo
 import EmployeePermission_ShopRole from './pages/shop/EmployeePermission_RoleManage.vue';
 // import CodeReduce from './pages/shop/CodeReduce.vue';
 
-let routes = [
+const CommonRouteItems = [
 
 
     {
@@ -212,6 +215,18 @@ let routes = [
     },
 
     // 厂商页面
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '工程服务商',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/ser_manage', component: Ser_Manage, name: '服务商管理'},
+            {path: '/ser_manage_staff', component: Ser_Manage_Staff, name: 'ser_manage_staff'},
+
+
+        ]
+    },
     {
         path: '/',
         component: HomeCloud_Admin,
@@ -553,4 +568,96 @@ let routes = [
     }
 ];
 
+/**
+ *
+ * @date: 20190528
+ * @author: cyzhi
+ * @description:服务商路由管理
+ */
+
+//HomeCloud_Service 服务商的左侧列表，公共页面
+import HomeCloud_Service from './pages/HomeCloud_Service.vue';
+
+//服务商下
+//      我的账户
+import myAccount from './pages/service/myAccount'
+//      运营商管理
+import operatorManage from './pages/service/operatorManage/Operator_Manage'
+//      运营商管理下的员工
+import operatorManageStaff from './pages/service/operatorManage/Operator_Manage_Staff'
+//      车场管理
+import  serverParkManage from './pages/service/parkManage/Park_Manage'
+//      车场管理下的员工
+import serverParkManageStaff from './pages/service/parkManage/Park_Manage_Staff'
+//      车场管理下的查看详情
+import serverParkManageDetail from './pages/service/parkManage/Park_Manage_Detail'
+//      子服务商管理
+import subServiceManage from './pages/service/subService/subservice_Manage'
+import subServiceManageStaff from './pages/service/subService/subservice_Manage_Staff'
+
+//      资金流水
+import serverMoneyRecord from './pages/service/MoneyRecord'
+//      车场分润报表
+import serverNewUnionProfit from './pages/service/NewUnionProfit'
+//      人力资源  1---角色管理  2---员工管理
+import serverRoleManage from './pages/service/humanResources/RoleManage'
+import serverEmployeeManage from './pages/service/humanResources/EmployeeManage'
+const ServerRouteItems = [
+    {
+        path: '/',
+        component: HomeCloud_Service,
+        children: [
+            {path: '/my_account', component: myAccount, name: 'myAccount'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Service,
+        children: [
+            {path: '/operator_manage', component: operatorManage, name: 'operatorManage',children:[
+                    {path: '/operator_manage/operator_manage_staff', component: operatorManageStaff, name: 'operatorManageStaff'}
+                ]}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Service,
+        children: [
+            {path: '/server_park_manage', component: serverParkManage, name: 'serverParkManage'},
+            {path: '/server_park_manage/server_park_manage_staff', component: serverParkManageStaff, name: 'serverParkManageStaff'},
+            {path: '/server_park_manage/server_park_manage_detail', component: serverParkManageDetail, name: 'serverParkManageDetail'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Service,
+        children: [
+            {path: '/subservice_manage', component: subServiceManage, name: 'subServiceManage'},
+            {path: '/subservice_manage/subservice_manage_staff', component: subServiceManageStaff, name: 'subServiceManageStaff'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Service,
+        children: [
+            {path: '/serverTrade_MoneyRecord', component: serverMoneyRecord, name: 'serverMoneyRecord'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Service,
+        children: [
+            {path: '/serverStatistics_NewUnionProfit', component: serverNewUnionProfit, name: 'serverNewUnionProfit'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Service,
+        children: [
+            {path: '/serverResources_RoleManage', component: serverRoleManage, name: 'serverRoleManage'},
+            {path: '/serverResources_EmployeeManage', component: serverEmployeeManage, name: 'serverEmployeeManage'},
+        ]
+    }
+];
+const routes = [...CommonRouteItems,...ServerRouteItems];
 export default routes;

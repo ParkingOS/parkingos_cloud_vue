@@ -218,13 +218,13 @@ export default {
         return axios.get(path + '/getdata/getMonitorName' + param);
 
     },
-    getUnionList: function (params) {
-        let param = '?token=' + sessionStorage.getItem('token');
-        if (typeof(params) != 'undefined') {
-            param += params;
-        }
-        return axios.get(path + '/getdata/unionlist' + param);
-    },
+    // getUnionList: function (params) {
+    //     let param = '?token=' + sessionStorage.getItem('token');
+    //     if (typeof(params) != 'undefined') {
+    //         param += params;
+    //     }
+    //     return axios.get(path + '/getdata/unionlist' + param);
+    // },
     getServerList: function (params) {
         let param = '?token=' + sessionStorage.getItem('token');
         if (typeof(params) != 'undefined') {
@@ -519,7 +519,7 @@ export default {
         return false;
     },
     showSubPermission: function (sub_auth) {
-        if (sub_auth.indexOf('权限') > -1) {
+        if (sub_auth.indexOf('权限') > -1 || sub_auth.indexOf('编辑权限') > -1 ) {
             return true;
         }
         return false;
@@ -537,6 +537,12 @@ export default {
     },
     showSubReset: function (sub_auth) {
         if (sub_auth.indexOf('修改密码') > -1) {
+            return true;
+        }
+        return false;
+    },
+    showResources:function(sub_auth) {
+        if (sub_auth.indexOf('禁用') > -1) {
             return true;
         }
         return false;
@@ -573,6 +579,7 @@ export default {
         sform.comid = sform.comid || this.attachParams('comid', 1);
         sform.groupid =sform.groupid ||this.attachParams('groupid', 1);
         sform.cityid =sform.cityid || this.attachParams('cityid', 1);
+        sform.serverid = sform.serverid || this.attachParams('serverid', 1);
         sform.unionid = this.attachParams('unionid', 1);
         sform.channelid = this.attachParams('channelid', 1);
         sform.loginuin = this.attachParams('loginuin', 1);
@@ -684,5 +691,15 @@ export default {
             ndate = ndate.replace(/-/g,'/');
         var timestamp = new Date(ndate).getTime();
         return timestamp
-    }
+    },
+    /**
+     *
+     * @description:校验是不是数字
+     * @value:num
+     * @case:
+     */
+    CheckNum:function (num) {
+        let check = /^[0-9]+.?[0-9]*$/;
+        return (check.test(num)||num==0);
+    },
 };

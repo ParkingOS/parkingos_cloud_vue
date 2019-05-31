@@ -1,85 +1,97 @@
 <template>
-    <section class="shop-table-wrapper">
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
-            <div class="shop-custom-console">
-                <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
-                    <div class="console-main">
-                        <el-form-item label="姓名" class="clear-style margin-left-20">
-                            <el-input v-model="searchFormData.nickname" placeholder="请输入姓名" class="shop-custom-input"></el-input>
-                        </el-form-item>
-                        <el-form-item label="登录账号" class="clear-style margin-left-20">
-                            <el-input v-model="searchFormData.strid" placeholder="请输入登录账号" class="shop-custom-input"></el-input>
-                        </el-form-item>
-                        <el-form-item class="shop-clear-style">
-                            <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
-                        </el-form-item>
-                        <div class="float-right">
-                            <el-form-item class="shop-clear-style">
-                                <el-button type="primary" @click="handleAdd" >添加员工</el-button>
-                            </el-form-item>
-                        </div>
+            <header class="shop-custom-header">
+                <p style="float: left">车场管理<span style="margin: 2px">-</span>员工设置</p>
+                <div class="float-right">
+                    <el-button type="text" size="mini" style="font-size: 14px;color: #1E1E1E;" @click="saveModify" ><img :src="orderImg" style="margin-right: 5px;vertical-align: text-top">返回</el-button>
+                    <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
+            <section class="shop-table-wrapper">
+                <div class="shop-custom-operation">
+                    <div class="shop-custom-console">
+                        <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
+                            <div class="console-main">
+                                <el-form-item label="姓名" class="clear-style margin-left-20">
+                                    <el-input v-model="searchFormData.nickname" placeholder="请输入姓名" class="shop-custom-input"></el-input>
+                                </el-form-item>
+                                <el-form-item label="登录账号" class="clear-style margin-left-20">
+                                    <el-input v-model="searchFormData.strid" placeholder="请输入登录账号" class="shop-custom-input"></el-input>
+                                </el-form-item>
+                                <el-form-item class="shop-clear-style">
+                                    <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
+                                </el-form-item>
+                                <div class="float-right">
+                                    <el-form-item class="shop-clear-style">
+                                        <el-button type="primary" @click="handleAdd" >添加员工</el-button>
+                                    </el-form-item>
+                                </div>
+                            </div>
+
+                        </el-form>
                     </div>
+                </div>
 
-                </el-form>
-            </div>
-        </div>
-
-        <div class="table-wrapper-style">
-            <tab-pane
-                    :editTo="editTo"
-                    :editapi="editapi"
-                    :editRowData="editRowData"
-                    v-on:editInput="editInput"
-                    :addTo="addTo"
-                    :addapi="addapi"
-                    :addRowData="addRowData"
-                    :addedValue="addedValue"
-                    v-on:addInput="addInput"
-                    :delapi="delapi"
-                    :del-form="delForm"
-                    :queryapi="queryapi"
-                    :fieldsstr="fieldsstr"
-                    :table-items="tableitems"
-                    align-pos="right"
-                    bts-width="200"
-                    :searchForm="searchForm"
-                    fixedDom="scrollBarDom"
-                    ref="tabPane"
-                    v-on:cancelDel="cancelDel"
-            ></tab-pane>
-        </div>
-        <!--重置密码-->
-        <el-dialog
-                title="重置密码"
-                :visible.sync="resetPwdVisible"
-                width="30%"
-                size="tiny">
-            <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
-                <el-form-item label="请输入新密码">
-                    <el-input v-model="pwd1" style="width:90%"></el-input>
-                </el-form-item>
-                <el-form-item label="再次输入密码">
-                    <el-input v-model="pwd2" style="width:90%"></el-input>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
+                <div class="table-wrapper-style">
+                    <tab-pane
+                            :editTo="editTo"
+                            :editapi="editapi"
+                            :editRowData="editRowData"
+                            v-on:editInput="editInput"
+                            :addTo="addTo"
+                            :addapi="addapi"
+                            :addRowData="addRowData"
+                            :addedValue="addedValue"
+                            v-on:addInput="addInput"
+                            :delapi="delapi"
+                            :del-form="delForm"
+                            :queryapi="queryapi"
+                            :fieldsstr="fieldsstr"
+                            :table-items="tableitems"
+                            align-pos="right"
+                            bts-width="200"
+                            :searchForm="searchForm"
+                            fixedDom="scrollBarDom"
+                            ref="tabPane"
+                            v-on:cancelDel="cancelDel"
+                    ></tab-pane>
+                </div>
+                <!--重置密码-->
+                <el-dialog
+                        title="重置密码"
+                        :visible.sync="resetPwdVisible"
+                        width="30%"
+                        size="tiny">
+                    <el-form ref="form" label-width="120px" style="margin-bottom:-30px">
+                        <el-form-item label="请输入新密码">
+                            <el-input v-model="pwd1" style="width:90%"></el-input>
+                        </el-form-item>
+                        <el-form-item label="再次输入密码">
+                            <el-input v-model="pwd2" style="width:90%"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
             <el-button @click="resetPwdVisible = false" size="small">取 消</el-button>
             <el-button type="primary" size="small" @click="resetPwd">确 定</el-button>
         </span>
-        </el-dialog>
+                </el-dialog>
 
 
+            </section>
+        </div>
     </section>
+
 </template>
 
 <script>
-    import axios from 'axios';
-    import {blackStateType,path} from '../../api/api';
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    import TabPane from '../../components/table/TabPane';
+    import axios from 'axios/index';
+    import {blackStateType,path} from '../../../api/api';
+    import common from '../../../common/js/common'
+    import {AUTH_ID} from '../../../common/js/const'
+    import TabPane from '../../../components/table/TabPane';
     export default {
-        name: 'staff_assembly',
+        name: 'park_manage_staff',
         components: {
             TabPane
         },
@@ -119,12 +131,7 @@
                 isShow:false,
                 //搜索
                 searchFormData:{
-                    strid:'',
-                    shop_id:'',
-                    currentData:'',
-                    nickname:'',
-                    count:0,
-                    comid:''
+
                 },
                 searchForm:{},
                 queryapi:'/member/query',
