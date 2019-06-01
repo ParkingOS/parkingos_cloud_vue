@@ -729,7 +729,7 @@
             },
             filterTableItems:function () {
                 return this.TableItems.filter(function(item){
-                    return item.subs[0].hidden != true
+                    return (item.subs[0].hidden != true) && (item.subs[0].hidden != 'true')
                 })
             }
         },

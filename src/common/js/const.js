@@ -214,10 +214,10 @@ export const showBossItem_const = {
  *
  */
 export const AUTH_ID_SERVER = {
-    my_account:365,
-    operator_manage:366,
-    server_park_manage:367,
-    subservice_manage:368,
+    my_account:379,
+    operator_manage:376,
+    server_park_manage:377,
+    subservice_manage:378,
     serverTrade:369,
     serverTrade_MoneyRecord:374,
     serverStatistics:370,
