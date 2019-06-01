@@ -17,11 +17,10 @@
                     ref="editForm"
                     :style="{width:dialogStyle.dialogFormWidth}" >
                 <el-input v-model="value.id" style="display:none"></el-input>
-                <template v-for="items in editFormConfig">
+                <template v-for="items in filterEditTableItems">
                     <dynamic-form-item
                             v-for="item in items.subs"
                             :key="item.prop"
-                            v-if="item.editable"
                             :item="item"
                             :value="value[item.prop]"
                             @input="handleInput($event, item.prop)"
@@ -131,6 +130,13 @@
         },
         mounted() {
             this.setDefaultValue()
+        },
+        computed:{
+            filterEditTableItems:function () {
+                return this.editFormConfig.filter(function(item){
+                    return item.subs[0].editable == true
+                })
+            }
         },
         watch:{
             loading:function (val) {

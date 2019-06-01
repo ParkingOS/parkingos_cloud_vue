@@ -2,10 +2,9 @@
     <section style="padding: 21px 16px;margin: 0 10px;background: #fff">
         <sticky class-name="sub-navbar" :fixedDom="fixedDom" stickyTop='50' zIndex='90' v-on:topShow="topShowFn" v-if="suctionTopVisible">
             <ul style="display: flex;width:100%" v-show="topShow">
-                <template v-for="items in TableItems" >
+                <template v-for="items in filterTableItems" >
                     <li
                         :style="tableitem.width ? {width:tableitem.width+'px',textAlign:'center',lineHeight:'44px',color:'#909399',fontWeight:'500',backgroundColor: '#F4F8FF'} : isWidthStyle"
-                        v-if="!tableitem.hidden"
                         v-for="(tableitem,index) in items.subs"
                     >{{tableitem.label}}</li>
                 </template>
@@ -27,10 +26,9 @@
                 @row-click = "rowClickFn"
                 :row-style="rowStyle"
                 ref="refTable">
-            <template v-for="(items,index) in TableItems">
+            <template v-for="(items,index) in filterTableItems">
                 <el-table-column
                         v-for="(tableitem,index) in items.subs"
-                        v-if="!tableitem.hidden"
                         :type="tableitem.columnType"
                         :label="tableitem.label"
                         :header-align="tableitem.headerAlign"
@@ -728,6 +726,11 @@
                     }
                 }
                 // return this.$store.state.app.tableMaxHeight;
+            },
+            filterTableItems:function () {
+                return this.TableItems.filter(function(item){
+                    return item.subs[0].hidden != true
+                })
             }
         },
         activated(){

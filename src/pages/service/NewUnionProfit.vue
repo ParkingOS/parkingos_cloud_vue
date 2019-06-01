@@ -16,26 +16,19 @@
             <super-form :form-config="formConfig" :value="searchData" v-on:input="searchValueFn">
                 <div style="display: inline-block;" slot="first">
                     <el-input  slot="first" style="width: 220px" v-model="money" :readonly="true">
-                        <template slot="prepend">厂商分润</template>
-                    </el-input>
-                    <el-input  slot="first" style="width: 220px;margin-right: 10px" v-model="servermoney" :readonly="true">
-                        <template slot="prepend">工程商分润</template>
+                        <template slot="prepend">总分润</template>
                     </el-input>
                 </div>
 
-                <el-form-item label="日期" class="clear-style" slot="first">
+                <el-form-item label="日期" class="clear-style" slot="first" style="margin-left: 10px">
                     <el-date-picker
-                            style="width: 250px"
                             v-model="currentDate"
                             class="shop-custom-datepicker"
-                            type="daterange"
-                            align="right"
-                            unlink-panels
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
+                            type="date"
                             value-format="yyyy-MM-dd"
-                            :picker-options="pickerOptions">
+                            placeholder="选择日期"
+                    >
+
                     </el-date-picker>
                 </el-form-item>
             </super-form>
@@ -121,33 +114,6 @@
                 money:0,
                 parkLists:[],
                 currentDate:null,
-                pickerOptions:{
-                    shortcuts: [{
-                        text: '最近一周',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近一个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近三个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }]
-                },
                 searchData:{},
                 expandForm:{},
                 formConfig:{
@@ -240,30 +206,13 @@
                     {
                         hasSubs: false, subs: [
                             {
-                                label: '厂商分润(元)',
+                                label: '分润(元)',
                                 prop: 'profit_amount',
                                 unsortable: true,
                                 width:200,
                                 columnType:'render',
                                 render: (h, params) => {
                                     let str = common.balanceformat(params.row.profit_amount,5);
-                                    return h('div', [
-                                        h('span', str)
-                                    ]);
-                                },
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                label: '工程商分润(元)',
-                                prop: 'server_profit_amount',
-                                width:200,
-                                unsortable: true,
-                                columnType:'render',
-                                render: (h, params) => {
-                                    let str = common.balanceformat(params.row.server_profit_amount,5);
                                     return h('div', [
                                         h('span', str)
                                     ]);
@@ -308,7 +257,7 @@
                 * */
                 if(state){
                     if(this.currentDate != null){
-                        this.searchData.date = this.currentDate[0]+'至'+this.currentDate[1]
+                        this.searchData.date = this.currentDate;
                     }else{
                         this.searchData.date = null;
                     }
@@ -332,9 +281,9 @@
                 * 初始化操作
                 * 点击刷新时 和初进入页面时
                 * */
-                this.currentDate = null;
+                this.currentDate = common.formatDate(1);
                 this.searchData = {
-
+                    date:this.currentDate
                 };
                 this.searchForm = JSON.parse(JSON.stringify( this.searchData ));
             },

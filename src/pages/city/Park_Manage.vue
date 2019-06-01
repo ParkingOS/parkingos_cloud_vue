@@ -172,7 +172,7 @@
                 <el-form-item label="车场名称" prop="name">
                     <el-input v-model.trim="addForm.name" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="互联车场编号">
+                <el-form-item label="互联车场编号" v-if="addType == 'edit'">
                     <el-input v-model.trim="addForm.park_id"  placeholder="" :readonly="addType == 'edit'"></el-input>
                 </el-form-item>
                 <el-form-item label="车位总数" prop="total_plot">
@@ -840,7 +840,7 @@
                             newForm.server_id = addForm.serverid;
                             newForm.group_id = addForm.groupid;
                             newForm.company_name = addForm.name;
-                            newForm.bolink_id = addForm.park_id;
+                            // newForm.bolink_id = addForm.park_id;
                             newForm.parking_total = addForm.total_plot;
                             newForm.mobile = addForm.phone;
                             common.generateForm(newForm);

@@ -556,7 +556,7 @@
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.$router.push({
                                                     path: '/subservice_manage/subservice_manage_staff',
-                                                    name:'subservice_manage_staff',
+                                                    name:'subServiceManageStaff',
                                                     query: {
                                                         serverid: params.row.id
                                                     }

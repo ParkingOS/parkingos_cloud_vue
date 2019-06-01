@@ -2,7 +2,7 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">车场管理<span style="margin: 2px">-</span>员工设置</p>
+                <p style="float: left">子服务商管理<span style="margin: 2px">-</span>员工设置</p>
                 <div class="float-right">
                     <el-button type="text" size="mini" style="font-size: 14px;color: #1E1E1E;" @click="saveModify" ><img :src="orderImg" style="margin-right: 5px;vertical-align: text-top">返回</el-button>
                     <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
@@ -91,7 +91,7 @@
     import {AUTH_ID} from '@/common/js/const'
     import TabPane from '@/components/table/TabPane';
     export default {
-        name: 'staff_assembly',
+        name: 'subservice_manage_staff',
         components: {
             TabPane
         },
@@ -371,6 +371,7 @@
                 showEdit:false,
                 showdelete:false,
                 hideOptions:false,
+                oid:'-1'
             }
         },
         methods:{
@@ -487,7 +488,8 @@
                 let that = this;
                 that.searchFormData.count = that.searchFormData.count++;
                 that.searchFormData = {
-                    serverid:that.serverid
+                    serverid:that.serverid,
+                    oid:'-1'
                 }
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
             },
@@ -534,16 +536,13 @@
             },
         },
         mounted() {
-            // this.setAuthorityFn();
 
         },
         activated() {
-
             let params = this.$route.query;
             this.serverid = params.serverid;
-            this.$set(this.searchFormData,'serverid',params.serverid);
-            // this.searchFormData.serverid = params.serverid;
-            this.getQuery(params)
+            this.resetForm()
+
         },
         watch: {
             hideOptions:function (val,oldVal) {

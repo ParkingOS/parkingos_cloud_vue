@@ -4,7 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">车场管理<span style="margin: 2px">-</span>车场管理</p>
                 <div class="float-right">
-                    <el-button type="text"  @click="handleAdd('add')" native-type="button" v-if="showCustomizeAdd" icon="el-icon-plus">注册停车场</el-button>
+                    <el-button type="text"  @click="handleAdd('add')" native-type="button" v-if="showCustomizeAdd" icon="el-icon-plus">注册车场</el-button>
                     <el-button type="text"  @click="exportFn" native-type="button"  icon="el-icon-printer" v-if="hideExport">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
@@ -79,7 +79,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="运营商">
+                <el-form-item label="运营集团">
                     <el-select v-model="addForm.groupid"  placeholder="请选择" style="width: 100%">
                         <el-option
                                 v-for="item in unionList"
@@ -92,7 +92,7 @@
                 <el-form-item label="车场名称" prop="name">
                     <el-input v-model.trim="addForm.name" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="互联车场编号">
+                <el-form-item label="互联车场编号" v-show="addType == 'edit'">
                     <el-input v-model.trim="addForm.park_id"  placeholder="" :readonly="addType == 'edit'"></el-input>
                 </el-form-item>
                 <el-form-item label="车位总数" prop="total_plot">
@@ -170,6 +170,7 @@
         },
         data() {
             return {
+                allunionList:[],
                 /////////add///////////////////
                 addType:'',
                 addTitle:'',
@@ -220,7 +221,7 @@
                             subtype: "text",
                             prop:'park_id'
                         },{
-                            label:'运营商',
+                            label:'运营集团',
                             type:'select',
                             prop:'group_id',
                             options:[],
@@ -357,7 +358,7 @@
                         hasSubs: false, subs: [
                             {
                                 width:150,
-                                label: '运营商',
+                                label: '运营集团',
                                 prop: 'group_name',
                                 addtable: true,
                                 editable: true,
@@ -724,7 +725,7 @@
                             newForm.server_id = addForm.serverid;
                             newForm.groupid = addForm.groupid;
                             newForm.company_name = addForm.name;
-                            newForm.bolink_id = addForm.park_id;
+                            // newForm.bolink_id = addForm.park_id;
                             newForm.parking_total = addForm.total_plot;
                             newForm.mobile = addForm.phone;
                             common.generateForm(newForm);
@@ -1007,9 +1008,12 @@
             getQuery(){
                 let _this = this;
                 axios.all([
-                    axios.get(bolinkPath+'/getdata/subServerlist?token='+sessionStorage.getItem('token'))])
-                    .then(axios.spread(function (serverList) {
+                    axios.get(bolinkPath+'/getdata/subServerlist?token='+sessionStorage.getItem('token')),
+                    axios.get(path+'/getdata/getGroupsByServer?serverid='+sessionStorage.getItem('serverid')+'&type=0')
+                ])
+                    .then(axios.spread(function (serverList,allunionList) {
                         _this.serverList = serverList.data;
+                        _this.allunionList = allunionList.data;
                     }))
 
                 this.$nextTick(res=>{
@@ -1077,7 +1081,7 @@
             this.getQuery();
         },
         watch: {
-            unionList: function (val) {
+            allunionList: function (val) {
                 this.formConfig.first[2].options = val;
             },
             serverList:function(val){

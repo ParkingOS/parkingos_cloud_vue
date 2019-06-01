@@ -18,11 +18,10 @@
                     ref="addForm"
                     :style="{width:dialogStyle.dialogFormWidth}" >
                 <el-input v-model="value.id" style="display:none"></el-input>
-                <template v-for="items in addFormConfig">
+                <template v-for="items in filterAddTableItems">
                     <dynamic-form-item
                             v-for="item in items.subs"
                             :key="item.prop"
-                            v-if="item.addtable"
                             :item="item"
                             :value="value[item.prop]"
                             @input="handleInput($event, item.prop)"
@@ -132,6 +131,13 @@
         },
         mounted() {
             this.setDefaultValue()
+        },
+        computed:{
+            filterAddTableItems:function () {
+                return this.addFormConfig.filter(function(item){
+                    return item.subs[0].addtable == true
+                })
+            }
         },
         watch:{
             loading:function (val) {

@@ -702,4 +702,14 @@ export default {
         let check = /^[0-9]+.?[0-9]*$/;
         return (check.test(num)||num==0);
     },
+    /**
+     *
+     * @description 日期格式化
+     * @params num
+     */
+    formatDate(num) {
+        let formatNum = num?num:0;
+        let date = new Date(new Date().getTime() - (24*60*60*1000*formatNum))
+        return date.getFullYear() + '-' + this.formatNumber(date.getMonth() + 1) + '-' + this.formatNumber(date.getDate());
+    },
 };
