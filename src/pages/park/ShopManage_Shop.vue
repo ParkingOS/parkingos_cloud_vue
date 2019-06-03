@@ -17,7 +17,10 @@
                                         :value="item.value_no">
                                 </el-option>
                             </el-select>
+
                         </el-form-item>
+
+
                         <div class="float-right">
                         <el-form-item class="shop-clear-style">
                             <el-button type="primary" @click="showadd" v-if="showCustomizeAdd" style="outline: none">添加商户</el-button>
@@ -320,7 +323,6 @@
         </span>
         </el-dialog>
 
-
         <!--退款-->
         <el-dialog
                 width="500px"
@@ -397,8 +399,16 @@
                             </el-form-item>
                         </div>
                         <div class="add-shop-wrapper-right">
-                            <el-form-item label="有效期/小时" :prop="validite_time">
-                                <el-input v-model="shopForm.validite_time" placeholder=""></el-input>
+                            <el-form-item style="margin-left: 30px;" label-width="0px"  :prop="validite_time">
+                                <div style="display:flex;">
+                                     <!--这行代码的含义是在做校验 别删掉-->
+                                     <el-input v-model="shopForm.validite_time" placeholder=""  v-show = false></el-input>
+                                     <el-select v-model="shopForm.limit_day_unit" @change="changeRadio" placeholder="请选择"  style="width: 150px;margin-right:10px">
+                                        <el-option label="有效期/小时" value="1"></el-option>
+                                        <el-option label="有效期/分钟" value="2"></el-option>
+                                    </el-select>
+                                    <el-input v-model="shopForm.validite_time" placeholder="" style="flex:1"></el-input>
+                                </div>
                             </el-form-item>
                             <el-form-item label="叠加限制" >
                                 <el-select v-model="use_limit" filterable style="width:100%">
@@ -1337,6 +1347,7 @@
                                                 this.shopForm.ticket_limit = row.ticket_limit + ""
                                                 this.shopForm.v_discount_money = row.discount_money + ""
                                                 this.shopForm.v_discount_percent = row.discount_percent + ""
+                                                this.$set(this.shopForm,'limit_day_unit',row.limit_day_unit+"")
                                                 this.shopTitle = "编辑"
                                                 this.shop_ticket_type = row.ticket_type
                                                 this.shop_support_type =row.support_type
@@ -1455,6 +1466,9 @@
             }
         },
         methods: {
+            changeRadio(val){
+                this.$set(this.shopForm,'limit_day_unit',val+"")
+            },
             nextStep(){
                 this.activeIndex = 2;
             },
@@ -2036,6 +2050,7 @@
 
                 this.loadDefaultData();
                 this.shopForm.id = '';
+                this.$set(this.shopForm,'limit_day_unit',"1")
                 this.shopTitle = '添加商户'
                 this.editOrAdd=1;
                 this.shop_ticket_type=1;
@@ -2099,7 +2114,7 @@
                         aform.discount_money = this.shopForm.v_discount_money
                         aform.free_money = this.shopForm.v_free_money
                         aform.validite_time = this.shopForm.validite_time
-
+                        aform.limit_day_unit = this.shopForm.limit_day_unit
                         _this.$axios.post(path + _this.addapi, _this.$qs.stringify(aform), {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -2137,29 +2152,6 @@
                     }
                 })
 
-            },
-            showeditshop: function (index, row) {
-                console.log(row)
-                this.shopForm.id = row.id
-                this.shopForm.name = row.name
-                this.shopForm.address = row.address
-                this.shopForm.mobile = row.mobile
-                this.shopForm.v_free_money = row.free_money + ""
-                this.shopForm.default_limit = row.default_limit
-                this.shopForm.validite_time = row.validite_time + ""
-                this.shopForm.ticket_limit = row.ticket_limit + ""
-                this.shopForm.v_discount_money = row.discount_money + ""
-                this.shopForm.v_discount_percent = row.discount_percent + ""
-                this.shopTitle = "编辑"
-                this.shop_ticket_type = row.ticket_type
-                this.shop_support_type =row.support_type
-                this.hand_input_enable = row.hand_input_enable
-                this.free_limit_times=row.free_limit_times;
-                this.use_fix_code=row.use_fix_code;
-                this.use_limit = row.use_limit
-                this.unit = row.ticket_unit
-                this.oldunit = row.ticket_unit
-                this.showRegis = true
             },
             getAddMoney() {
                 //this.totalMoney = 0;

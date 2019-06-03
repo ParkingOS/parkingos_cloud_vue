@@ -2,14 +2,15 @@
 // export const path = window.parkingosapi;
 // export const path = 'http://yun.bolink.club/cloud';
 export const path = 'http://test.bolink.club/cloud';
-// export const path = 'http://192.168.199.205:10203/cloud';
+// export const path = 'http://192.168.2.114:10203/cloud';
+// export const path = 'http://192.168.199.206:10203/cloud';
 // export const path = 'http://pub.ghparking.com/cloud';
 // export const server = 'http://pub.ghparking.com';
 // export const server = 'http://yun.bolink.club';
 export const server = 'http://test.bolink.club';
 // export const path2 = 'https://yun.bolink.club';
 export const path2 = 'https://test.bolink.club';
-export const bolinkPath = 'http://beta.bolink.club/web';
+export const bolinkPath = 'http://bt2.bolink.club/web';
 //beta设置为5   s.bolink设置为2
 export const percision = 5;
 
@@ -295,7 +296,7 @@ export var checkPhone = (rule, value, callback) => {
 
 export var checkParkMobile = (rule, value, callback) => {
     if (typeof(value) === 'undefined' || value === '') {
-        return callback(new Error('请输入车场手机号码'));
+        return callback(new Error('请输入手机号码'));
     } else if (!((/^1[3456789]\d{9}$/.test(value)))) {
         return callback(new Error('请输入正确的手机号码'));
     } else {
@@ -334,13 +335,14 @@ export var checkValiTime = (rule, value, callback) => {
 };
 
 export var checkURL = (rule, value, callback) => {
-    if(typeof(value)=='undefined'||value==''){
-        return callback(new Error('请输入地址'))
-    }else if(!(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/.test(value))){
-        return callback(new Error('请输入正确的地址'))
-    }else{
-        callback()
-    }
+    // if (typeof(value) == 'undefined' || value == '') {
+    //     return callback(new Error('请输入地址'));
+    // } else if (!(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/.test(value))) {
+    //     return callback(new Error('请输入正确的地址'));
+    // } else {
+    //     callback();
+    // }
+    console.log('' + callback);
 };
 
 export var checkUpload = (rule, value, callback) => {

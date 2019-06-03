@@ -865,6 +865,10 @@ $--shop-from-item__bordercolor:#D4D4D4;
         .el-range-input{
           background: none;
         }
+        .el-input__inner{
+          background: none;
+          border:none;
+        }
       }
       .shop-custom-date{
         background: none;

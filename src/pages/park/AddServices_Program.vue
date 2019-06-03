@@ -10,7 +10,10 @@
                 <div class="purchase" @click="goshop">
                     <img :src="shopCar">购买
                 </div>
-                <p class="shop-tip"><i class="el-icon-question" style="margin-right: 10px"></i>员工账号所属角色勾选“登录小程序”，且购买该服务后，在有效期内可登录“云车场管家”小程序场内预付收费</p>
+                <p class="shop-tip">
+                    <a href="https://www.kancloud.cn/bolink/cash_prepay/1099319" target="_blank" style="color: #3C75CF">查看使用说明</a>
+<!--                    <i class="el-icon-question" style="margin-right: 10px"></i>员工账号所属角色勾选“登录小程序”，且购买该服务后，在有效期内可登录“云车场管家”小程序场内预付收费-->
+                </p>
             </div>
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search" v-if="active">

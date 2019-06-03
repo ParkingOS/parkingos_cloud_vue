@@ -6,6 +6,7 @@ export const AUTH_ID = {
     orderManage_Income:353,//交易记录
     orderManage_Expense:354,//支出记录
     orderManage_Record:355,//减免记录
+    orderManage_Abnormal:364,//异常订单
     monthMember: 7, //月卡会员-大菜单
     monthMember_Refill: 297, //月卡续费记录
     monthMember_VIP: 298, //月卡会员-小菜单
@@ -68,6 +69,7 @@ export const showParkItem_const = {
     orderManage_Income:false,//交易记录
     orderManage_Expense:false,//支出记录
     orderManage_Record:false,//减免记录
+    orderManage_Abnormal:false,//异常订单
     monthMember: false,
     monthMember_Refill: false,
     monthMember_VIP: false,
@@ -205,9 +207,43 @@ export const showBossItem_const = {
     systemSetting_UnionManage: true,
     systemSetting_ParkManage: true
 };
+
+/**
+ * @date:20190528
+ * @description:服务商权限
+ *
+ */
+export const AUTH_ID_SERVER = {
+    my_account:379,
+    operator_manage:376,
+    server_park_manage:377,
+    subservice_manage:378,
+    serverTrade:369,
+    serverTrade_MoneyRecord:374,
+    serverStatistics:370,
+    serverStatistics_NewUnionProfit:375,
+    serverResources:371,
+    serverResources_RoleManage:373,
+    serverResources_EmployeeManage:372
+}
+export const showServerItems_const = {
+    my_account:false,
+    operator_manage:false,
+    server_park_manage:false,
+    subservice_manage:false,
+    serverTrade:false,
+    serverTrade_MoneyRecord:false,
+    serverStatistics:false,
+    serverStatistics_NewUnionProfit:false,
+    serverResources:false,
+    serverResources_RoleManage:false,
+    serverResources_EmployeeManage:false,
+}
+/*----------end-------------*/
 export const ROLE_ID = {
     // 30 车场,26集团,,,27渠道,,28联盟,,,29城市
     //2018.2.6修改 2 集团...............8 车场 ........   7城市
+    //2019.05.28    11服务商
     GROUP: 222,
     CHANNEL: 27,
     UNION: 2,
@@ -215,5 +251,6 @@ export const ROLE_ID = {
     PARK: 8,
     BOSS:5,
     CITYREGIS:1001,
-    SHOP:10
+    SHOP:10,
+    SERVER:11,
 };

@@ -500,7 +500,7 @@
             let $url =  document.location.href;
             this.searchFormData.groupid = $url.split('=')[1];
             this.searchFn();
-            this.getQuery(this.searchFormData.groupid);
+            // this.getQuery(this.searchFormData.groupid);
         },
         watch: {
             hideOptions:function (val,oldVal) {

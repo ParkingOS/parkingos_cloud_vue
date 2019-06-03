@@ -58,6 +58,8 @@
                         </el-menu-item>
                         <el-menu-item index="/orderManage_Expense" v-if="this.showParkItem.orderManage_Expense">支出记录
                         </el-menu-item>
+                        <el-menu-item index="/orderManage_Abnormal" v-if="this.showParkItem.orderManage_Abnormal">异常订单
+                        </el-menu-item>
                         <el-menu-item index="/orderManage_Record" v-if="this.showParkItem.orderManage_Record">减免记录
                         </el-menu-item>
                     </el-submenu>

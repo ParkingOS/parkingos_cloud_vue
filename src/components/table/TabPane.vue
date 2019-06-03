@@ -2,10 +2,9 @@
     <section style="padding: 21px 16px;margin: 0 10px;background: #fff">
         <sticky class-name="sub-navbar" :fixedDom="fixedDom" stickyTop='50' zIndex='90' v-on:topShow="topShowFn" v-if="suctionTopVisible">
             <ul style="display: flex;width:100%" v-show="topShow">
-                <template v-for="items in TableItems" >
+                <template v-for="items in filterTableItems" >
                     <li
                         :style="tableitem.width ? {width:tableitem.width+'px',textAlign:'center',lineHeight:'44px',color:'#909399',fontWeight:'500',backgroundColor: '#F4F8FF'} : isWidthStyle"
-                        v-if="!tableitem.hidden"
                         v-for="(tableitem,index) in items.subs"
                     >{{tableitem.label}}</li>
                 </template>
@@ -25,11 +24,11 @@
                 v-loading="loading"
                 @sort-change="sortChange"
                 @row-click = "rowClickFn"
+                :row-style="rowStyle"
                 ref="refTable">
-            <template v-for="(items,index) in TableItems">
+            <template v-for="(items,index) in filterTableItems">
                 <el-table-column
                         v-for="(tableitem,index) in items.subs"
-                        v-if="!tableitem.hidden"
                         :type="tableitem.columnType"
                         :label="tableitem.label"
                         :header-align="tableitem.headerAlign"
@@ -48,12 +47,30 @@
                                :expand-label="TableItems"
                                :name-type="tableitem.nameType"
                                v-if="tableitem.columnType == 'expand'"></table-expand>
+<!--                        自定义拓展-->
                         <expand
                                 v-else-if="tableitem.columnType === 'render'"
                                 :row="scope.row"
                                 :column="tableitem"
                                 :index="scope.$index"
                                 :render="tableitem.render"></expand>
+<!--                        列表树-->
+                        <span v-else-if="tableitem.hasChildren && scope.row.children">
+                                <span v-if="scope.row.children.length>0">
+                                    <span
+                                            v-for="(space, levelIndex) in scope.row._level"
+                                            class="ms-tree-space"></span>
+                                    <i class="el-icon-caret-right" v-if="scope.row._expanded" @click="toggle(scope.$index)"></i>
+                                    <i class="el-icon-caret-bottom" v-else="scope.row._expanded" @click="toggle(scope.$index)"></i>
+                                    {{scope.row[tableitem.prop]}}
+                                </span>
+                                <span v-else>
+                                    <span
+                                            v-for="(space, levelIndex) in scope.row._level"
+                                            class="ms-tree-space"></span>{{scope.row[tableitem.prop]}}
+                                </span>
+                        </span>
+
                         <span v-else> {{scope.row[tableitem.prop]}}</span>
                     </template>
                 </el-table-column>
@@ -155,6 +172,7 @@
     import expand from './expand'
     import ElButton from 'element-ui/packages/button/src/button';
     import Sticky from './sticky'
+    import dataTranslate from '../../common/js/dataTranslate'
     import qs from 'Qs'
     export default {
         components: {
@@ -198,6 +216,14 @@
             }
         },
         props:{
+            isTree:{
+                type:Boolean,
+                default:false,
+            },
+            defaultExpandAll:{
+              type:Boolean,
+              default:true,
+            },
             isBolink:{
               type:Boolean,
               default:false,
@@ -260,6 +286,17 @@
             }
         },
         methods:{
+            rowStyle(rows, rowIndex) {
+                let row = rows.row;
+                let show = (row._parent ? ((!row._parent._expanded) && row._parent._show) : true)
+                row._show = show
+                return show ? '' : 'display:none;'
+            },
+            toggle: function (trIndex) {
+                let that = this;
+                let record = that.tableData[trIndex];
+                record._expanded = !record._expanded;
+            },
             //编辑
             cancelEdit(){
                 this.editFormVisible = false;
@@ -516,6 +553,10 @@
                                 this.tableData = [];
                             }else{
                                 this.tableData= tableData.rows;
+                                if(this.isTree){
+                                    this.tableData = dataTranslate.treeToArray(this.tableData, null, null, this.defaultExpandAll)
+                                }
+
                             }
                             this.$emit('transferData',tableData);
                         }else{
@@ -715,6 +756,11 @@
                     }
                 }
                 // return this.$store.state.app.tableMaxHeight;
+            },
+            filterTableItems:function () {
+                return this.TableItems.filter(function(item){
+                    return (item.subs[0].hidden != true) && (item.subs[0].hidden != 'true')
+                })
             }
         },
         activated(){
@@ -780,5 +826,20 @@
         margin-bottom: 20px;
         background: #fff;
         padding-bottom: 10px;
+    }
+    .ms-tree-space {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        width: 18px;
+        height: 14px;
+    }
+
+    .ms-tree-space::before {
+        content: ""
     }
 </style>

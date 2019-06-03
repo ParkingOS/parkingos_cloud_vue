@@ -123,6 +123,7 @@
                         </el-menu-item>
                     </el-submenu>
 
+
                     <!--
                         @date:20190515
                         @author:cyzhi
@@ -134,7 +135,18 @@
                         <span slot="title">我的账户</span>
                     </el-menu-item>
 
-<!--                    ----------end-->
+                    <!--                    ----------end-->
+
+<!--                    date:20190524-->
+<!--                    author:cyzhi-->
+<!--                    description:新增工程服务商-->
+                    <el-submenu v-if="this.city" index="/ser_manage">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">工程服务商</span></template>
+                        <el-menu-item index="/ser_manage">服务商管理
+                        </el-menu-item>
+                    </el-submenu>
+
                     <el-submenu v-if="this.city" index="/union_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">运营集团</span></template>
