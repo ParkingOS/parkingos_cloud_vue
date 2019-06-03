@@ -223,8 +223,8 @@ export const AUTH_ID_SERVER = {
     serverStatistics:370,
     serverStatistics_NewUnionProfit:375,
     serverResources:371,
-    serverResources_RoleManage:372,
-    serverResources_EmployeeManage:373
+    serverResources_RoleManage:373,
+    serverResources_EmployeeManage:372
 }
 export const showServerItems_const = {
     my_account:false,
