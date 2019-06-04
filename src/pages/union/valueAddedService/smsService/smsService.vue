@@ -10,6 +10,9 @@
                 <div class="purchase" @click="goshop">
                     <img :src="shopCar">购买
                 </div>
+                <div class="purchase" @click="godistri">
+                    <img :src="shopCar">分配
+                </div>
             </div>
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search" v-if="active">
@@ -183,19 +186,21 @@
         <!--canvas 容器隐藏-->
         <canvas id="canvas" style="display:none"></canvas>
         <canvas id="img" style="display:none"></canvas>
+
+        <router-view></router-view>
     </section>
 </template>
 
 <script>
-    import {AUTH_ID} from '../../common/js/const'
-    import {path,path2} from '../../api/api';
-    import common from '../../common/js/common'
-    import {getPayState} from '../../api/base';
+    import {AUTH_ID} from '@/common/js/const'
+    import {path,path2} from '@/api/api';
+    import common from '@/common/js/common'
+    import {getPayState} from '@/api/base';
     import axios from 'axios'
     import countTo from 'vue-count-to';
-    import TabPane from '../../components/table/TabPane';
+    import TabPane from '@/components/table/TabPane';
     export default {
-        name: 'system-manage_-sms',
+        name: 'smsService',
         components: {
             TabPane,
             countTo
@@ -413,13 +418,19 @@
                     //     }]
                     // },
                 ],
-                shopCar:require('../../assets/images/shop-car.png'),
-                paySuccessImg:require('../../assets/images/pay-success.png'),
-                payErrorImg:require('../../assets/images/pay-error.png'),
+                shopCar:require('@/assets/images/shop-car.png'),
+                paySuccessImg:require('@/assets/images/pay-success.png'),
+                payErrorImg:require('@/assets/images/pay-error.png'),
                 hideExport:false,
             }
         },
         methods:{
+            godistri(){
+              this.$router.push({
+                  path:'/unionValueAddedService_Sms/sms_distribution',
+                  name:'unionSmsServiceDistribution'
+              })
+            },
             transferData(res){
                 this.message_count = res.message_count;
             },

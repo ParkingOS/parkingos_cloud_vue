@@ -136,6 +136,14 @@
                                     </el-menu-item>
                                 </el-submenu>
                             </el-submenu>
+                            <el-submenu index="unionValueAddedService">
+                                <template slot="title">
+                                    <i class="el-icon-star-off" style="width: 20px;font-size: 20px;margin-right: 0"></i>
+                                    <span class="menuitem">增值服务</span>
+                                </template>
+                                <el-menu-item index="/unionValueAddedService_Sms">短信服务
+                                </el-menu-item>
+                            </el-submenu>
                             <el-submenu v-if="this.showUnionItem.centerMonitor" index="centerMonitor"
                                         style="font-weight: normal">
                                 <template slot="title">
