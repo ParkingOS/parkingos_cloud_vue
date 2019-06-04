@@ -53,7 +53,17 @@
         </div>-->
 
         <div class="count-table-wrapper-style">
+            <div class="check-list">
+                <el-checkbox-group v-model="checkList" >
+                    <el-checkbox label="cash_prepay">现金预付</el-checkbox>
+                    <el-checkbox label="cash_pay">现金结算</el-checkbox>
+                    <el-checkbox label="ele_pay">电子结算</el-checkbox>
+                    <el-checkbox label="free_pay">减免金额</el-checkbox>
+                </el-checkbox-group>
+            </div>
+
             <el-table
+                    :key="key"
                     :data="tableData"
                     style="width: 100%">
                 <el-table-column
@@ -68,24 +78,34 @@
                         label="收费员"
                         width="110">
                 </el-table-column>
-                <el-table-column label="实收金额" align="center">
+                <el-table-column label="实收金额" align="center" v-if="checkObject.cash_prepay || checkObject.cash_pay || checkObject.ele_pay">
                     <el-table-column
+                            v-if="checkObject.cash_prepay"
                             align="center"
                             prop="cash_prepay"
                             label="现金预付">
                     </el-table-column>
                     <el-table-column
+                            v-if="checkObject.cash_pay"
                             align="center"
                             prop="cash_pay"
                             label="现金结算">
                     </el-table-column>
                     <el-table-column
+                            v-if="checkObject.ele_pay"
+                            align="center"
+                            prop="ele_pay"
+                            label="电子结算">
+                    </el-table-column>
+                    <el-table-column
+                            v-if="checkObject.cash_prepay || checkObject.cash_pay || checkObject.ele_pay"
                             align="center"
                             prop="act_total"
                             label="合计">
                     </el-table-column>
                 </el-table-column>
                 <el-table-column
+                        v-if="checkObject.free_pay"
                         align="center"
                         prop="free_pay"
                         label="减免金额">
@@ -111,6 +131,14 @@
         },
         data() {
             return {
+                key:1,
+                checkList:['cash_prepay','cash_pay','free_pay'],
+                checkObject:{
+                    cash_prepay:true,
+                    cash_pay:true,
+                    ele_pay:false,
+                    free_pay:true,
+                },
                 tableData:[],
                 searchFormData:{
                     currentData:'',
@@ -485,6 +513,20 @@
             //window.addEventListener('resize', () => {
             //    this.chart.resize();
             //});
+        },
+        watch: {
+            checkList(valArr){
+                this.checkObject ={};
+                if(valArr.length > 0){
+                    for(let item in valArr){
+                        let i = valArr[item];
+                        this.checkObject[i] = true;
+                    }
+                }else{
+                    this.checkObject = {};
+                }
+                this.key ++;
+            }
         }
     };
 

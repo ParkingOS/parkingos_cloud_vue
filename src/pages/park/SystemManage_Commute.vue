@@ -237,9 +237,36 @@
 
                         hasSubs: false,
                         subs: [{
+                            label: '现金预付',
+                            prop: 'cash_prepay',
+                            width: '110',
+                            unsortable: true,
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '现金结算',
+                            prop: 'cash_pay',
+                            width: '110',
+                            unsortable: true,
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '电子结算',
+                            prop: 'ele_pay',
+                            width: '110',
+                            unsortable: true,
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
                             label: '状态',
                             prop: 'state',
-                            width: '123',
+                            width: '100',
                             type: 'selection',
                             selectlist:commuteStateType,
                             editable: true,
