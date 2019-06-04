@@ -315,37 +315,38 @@
                             },
                         ]
                     },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                width:150,
-                                label: '支付平台登录账号',
-                                prop: 'group_id',
-                                addtable: true,
-                                editable: true,
-                                searchable: true,
-                                columnType:'render',
-                                render: (h, params) => {
-                                    return h('div', [
-                                        h('ElButton', {
-                                            props: {
-                                                size: 'small'
-                                            },
-                                            style: {
 
-                                            },
-                                            on: {
-                                                click: (e) => {
-                                                    window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                                    this.getLoginUser(params.row.id)
-                                                }
-                                            }
-                                        }, '获取登录账号'),
-                                    ]);
-                                },
-                            },
-                        ]
-                    },
+                    // {
+                    //     hasSubs: false, subs: [
+                    //         {
+                    //             width:150,
+                    //             label: '支付平台登录账号',
+                    //             prop: 'group_id',
+                    //             addtable: true,
+                    //             editable: true,
+                    //             searchable: true,
+                    //             columnType:'render',
+                    //             render: (h, params) => {
+                    //                 return h('div', [
+                    //                     h('ElButton', {
+                    //                         props: {
+                    //                             size: 'small'
+                    //                         },
+                    //                         style: {
+                    //
+                    //                         },
+                    //                         on: {
+                    //                             click: (e) => {
+                    //                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
+                    //                                 this.getLoginUser(params.row.id)
+                    //                             }
+                    //                         }
+                    //                     }, '获取登录账号'),
+                    //                 ]);
+                    //             },
+                    //         },
+                    //     ]
+                    // },
                     {
                         hasSubs: false, subs: [
                             {
@@ -395,6 +396,26 @@
                                         h('span', str)
                                     ]);
                                 },
+                            },
+                        ]
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                width:200,
+                                label: '支付平台账号',
+                                prop: 'tid',
+                                addtable: true,
+                                editable: true,
+                                unsortable: true,
+                                align: 'center',
+                                "type": "textarea",
+                                "disable": false,
+                                "readonly": false,
+                                "value": "",
+                                'size':'',
+                                "subtype": "textarea",
+
                             },
                         ]
                     },
@@ -488,26 +509,6 @@
                                 "rules": [
                                     {required: true,validator: checkParkMobile, trigger: 'blur'}
                                 ],
-                            },
-                        ]
-                    },
-                    {
-                        hasSubs: false, subs: [
-                            {
-                                width:200,
-                                label: '管理员账号',
-                                prop: 'tid',
-                                addtable: true,
-                                editable: true,
-                                unsortable: true,
-                                align: 'center',
-                                "type": "textarea",
-                                "disable": false,
-                                "readonly": false,
-                                "value": "",
-                                'size':'',
-                                "subtype": "textarea",
-
                             },
                         ]
                     },

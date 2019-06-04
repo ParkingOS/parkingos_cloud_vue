@@ -375,7 +375,7 @@
                         hasSubs: false, subs: [
                             {
                                 width:200,
-                                label: '管理员账号',
+                                label: '支付平台账号',
                                 prop: 'tid',
                                 addtable: true,
                                 editable: true,
