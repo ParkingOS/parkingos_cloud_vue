@@ -296,7 +296,7 @@ export var checkPhone = (rule, value, callback) => {
 
 export var checkParkMobile = (rule, value, callback) => {
     if (typeof(value) === 'undefined' || value === '') {
-        return callback(new Error('请输入车场手机号码'));
+        return callback(new Error('请输入手机号码'));
     } else if (!((/^1[3456789]\d{9}$/.test(value)))) {
         return callback(new Error('请输入正确的手机号码'));
     } else {

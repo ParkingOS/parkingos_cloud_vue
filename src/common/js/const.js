@@ -207,6 +207,40 @@ export const showBossItem_const = {
     systemSetting_UnionManage: true,
     systemSetting_ParkManage: true
 };
+
+/**
+ * @date:20190528
+ * @description:服务商权限
+ *
+ */
+export const AUTH_ID_SERVER = {
+    my_account:397,
+    operator_manage:398,
+    server_park_manage:399,
+    subservice_manage:400,
+    serverTrade:394,
+    serverTrade_MoneyRecord:401,
+    serverStatistics:395,
+    serverStatistics_NewUnionProfit:402,
+    serverResources:396,
+    serverResources_RoleManage:404,
+    serverResources_EmployeeManage:403
+}
+export const showServerItems_const = {
+    my_account:false,
+    operator_manage:false,
+    server_park_manage:false,
+    subservice_manage:false,
+    serverTrade:false,
+    serverTrade_MoneyRecord:false,
+    serverStatistics:false,
+    serverStatistics_NewUnionProfit:false,
+    serverResources:false,
+    serverResources_RoleManage:false,
+    serverResources_EmployeeManage:false,
+}
+/*----------end-------------*/
+
 export const ROLE_ID = {
     // 30 车场,26集团,,,27渠道,,28联盟,,,29城市
     //2018.2.6修改 2 集团...............8 车场 ........   7城市
@@ -217,5 +251,6 @@ export const ROLE_ID = {
     PARK: 8,
     BOSS:5,
     CITYREGIS:1001,
-    SHOP:10
+    SHOP:10,
+    SERVER:11
 };

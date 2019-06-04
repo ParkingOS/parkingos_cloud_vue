@@ -134,7 +134,7 @@
     import {path, checkPass} from '../api/api';
     import MD5 from 'crypto-js/md5';
     import common from '../common/js/common';
-    import {ROLE_ID, AUTH_ID, AUTH_ID_UNION, showUnionItem_const, showParkItem_const,showShopItem_const,AUTH_ID_SHOP} from '../common/js/const';
+    import {ROLE_ID, AUTH_ID, AUTH_ID_UNION, showUnionItem_const, showParkItem_const,showShopItem_const,AUTH_ID_SHOP,AUTH_ID_SERVER,showServerItems_const} from '../common/js/const';
 
     var key = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var iv = CryptoJS.enc.Utf8.parse('zldboink20170613');
@@ -181,6 +181,7 @@
                 showParkItem: showParkItem_const,
                 showUnionItem: showUnionItem_const,
                 showShopItem:showShopItem_const,
+                showServerItem:showServerItems_const,
                 isIE10:false,
                 logining: false,
                 getPassVisible: false,
@@ -641,11 +642,6 @@
 
             onSubmit() {
                 this.handleSubmit2();
-                // this.logining = true;
-                // sessionStorage.setItem('user', '{}');
-                // sessionStorage.setItem('token', '')
-                // this.$router.push({path: '/orderManage_Orders'});
-                // this.$router.push({path: '/monthMember_Refill'});
             },
             handleSubmit2: function () {
                 this.userError = false;
@@ -685,7 +681,6 @@
                             sessionStorage.setItem('groupid', u.groupid);
                             localStorage.setItem('groupid', u.groupid)
                             sessionStorage.setItem('channelid', u.channelid);
-                            // sessionStorage.setItem('unionid', u.unionid);
                             sessionStorage.setItem('unionid', u.union_id);
                             sessionStorage.setItem('cityid', u.cityid);
                             sessionStorage.setItem('loginuin', u.loginuin);
@@ -696,7 +691,8 @@
                             sessionStorage.setItem('supperadmin', u.supperadmin);
                             sessionStorage.setItem('shopid', u.shopid);
                             sessionStorage.setItem('nickname1', u.nickname);
-
+                            sessionStorage.setItem('serverid',u.serverid);
+                            sessionStorage.setItem('bolink_serverid',u.bolink_serverid);
                             //切换logo
                             if(u.logo1 != undefined && u.logo1 != null && u.logo1 != ''){
                                 sessionStorage.setItem('logo1', u.logo1);
@@ -705,6 +701,18 @@
                                 sessionStorage.removeItem('logo1');
                                 sessionStorage.removeItem('logo2');
                             }
+
+                            /*
+                            *
+                            * @date 20190528
+                            * @author cyzhi
+                            * @description:暂时性锁定跳转的路由
+                            * */
+
+                            // _this.$router.push({path: '/my_account'});
+                            // return;
+                            //end-=-----------------end--------------//
+
 
                             // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                             if (u.oid == ROLE_ID.GROUP) {
@@ -754,15 +762,9 @@
                                     showShopItem_const[item] = false;
                                 }
                                 sessionStorage.removeItem('showShopItem');
-                                _this.highlightindex = '/union_manage';
+                                _this.highlightindex = '/ser_manage';
                                 _this.$router.push({path: _this.highlightindex});
                                 sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                /**
-                                 * @update date 20190430
-                                 * @为厂商添加泊链token
-                                 * @token:'24F3B3D37079AEE55679DAE2FE7A1FA4F966AEC8FECC5DDFC479B4DAEFBB0A1C'
-                                 */
-                                // sessionStorage.setItem('token', 'CF65EA414C89ECADE9914F116E838F05AB0F377A176751CE935654A40C28B6EB');
                             }
                             else if (u.oid == ROLE_ID.SHOP) {
                                 //alert(JSON.stringify(u.authlist))
@@ -794,11 +796,8 @@
                                     _this.showShopItem['fixCode']=false;
                                 }
                                 sessionStorage.setItem('showShopItem', JSON.stringify(_this.showShopItem));
-                                //alert(JSON.stringify(_this.showShopItem))
-                                //_this.highlightindex = '/shop';
                                 _this.$router.push({path: _this.highlightindex});
                                 sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                // _this.$router.push({path: '/Park_Manage'});
                             }
                             else if (u.oid == ROLE_ID.BOSS) {
                                 for(let item in showShopItem_const){
@@ -808,17 +807,9 @@
                                 _this.highlightindex = '/city_manage';
                                 _this.$router.push({path: _this.highlightindex});
                                 sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                /**
-                                 * @update date 20190428
-                                 * @为总后台添加泊链token
-                                 * @token:'24F3B3D37079AEE55679DAE2FE7A1FA4F966AEC8FECC5DDFC479B4DAEFBB0A1C'
-                                 */
-                                // sessionStorage.setItem('token', '24F3B3D37079AEE55679DAE2FE7A1FA4F966AEC8FECC5DDFC479B4DAEFBB0A1C');
                             }
                             else if (u.oid == ROLE_ID.PARK) {
                                 //先跳转空页面，然后再根据数据情况显示页面再跳转
-                                // _this.$router.push({path: '/index'});
-                                // _this.$router.push({path: '/orderManage_Orders'});
                                 for (let item in _this.showParkItem) {
                                     //第一层循环，取出标签的 v-if
                                     for (let p in AUTH_ID) {
@@ -843,14 +834,51 @@
                                 }
 
                                 sessionStorage.setItem('showParkItem', JSON.stringify(_this.showParkItem));
-                                console.log(_this.highlightindex)
                                 if (_this.highlightindex == '') {
                                     _this.$router.push({path: '/index'});
                                 } else {
-                                    // _this.highlightindex = '/data_Center_park';//先写死跳转到数据中心。后面权限加上了这句就注释掉
                                     _this.$router.push({path: _this.highlightindex});
                                     sessionStorage.setItem('highlightindex', _this.highlightindex);
                                 }
+                            }
+                            /*
+                             *@date:20190528
+                             * @description:添加新角色服务商
+                             * pramas:oid == 11
+                             **/
+                            else if(u.oid == ROLE_ID.SERVER){
+                                //先跳转空页面，然后再根据数据情况显示页面再跳转
+                                for (let item in _this.showServerItem) {
+                                    //第一层循环，取出标签的 v-if
+                                    for (let p in AUTH_ID_SERVER) {
+                                        //第二层循环，取出AUTH_ID的item
+                                        if (p == item) {
+                                            //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
+                                            _this.showServerItem[item] = common.pageShow(u, AUTH_ID_SERVER[p]);
+                                            if(_this.showServerItem[item]) {
+                                                if (_this.highlightindex == '') {
+                                                    //没有导航到任意界面，则继续检测
+                                                    if (item.indexOf('_') > -1) {
+                                                        //带下划线的才是页面
+                                                        if (_this.showServerItem[item]) {
+                                                            _this.highlightindex = '/' + item;
+                                                            _this.expandindex = '/' + item.split('_')[0];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                sessionStorage.setItem('showServerItem', JSON.stringify(_this.showServerItem));
+                                if (_this.highlightindex == '') {
+                                    _this.$router.push({path: '/my_account'});
+                                } else {
+                                    _this.$router.push({path: _this.highlightindex});
+                                    sessionStorage.setItem('highlightindex', _this.highlightindex);
+                                }
+                                // _this.$router.push({path: '/my_account'});
                             }
                             // 还有一种没有roleid,它是根据另一种判断登录的
                             //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员
@@ -879,6 +907,7 @@
                             }
                         } else {
                             _this.logining = false;
+                            _this.$message.error(ret.msg);
                             if(ret.state == false){
                                 _this.userError = true;
                                 _this.userErrorTip = '账号错误';
@@ -901,8 +930,6 @@
                 }
 
             }
-            //     });
-            // }
         }
     };
 
