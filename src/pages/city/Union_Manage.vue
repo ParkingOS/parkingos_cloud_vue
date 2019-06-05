@@ -291,6 +291,10 @@
                                             click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.editRowData = params.row;
+                                                this.editRowData.serverid = this.editRowData.serverid+'';
+                                                if(this.editRowData.serverid == '-1' || this.editRowData.serverid == undefined){
+                                                    this.editRowData.serverid = ''
+                                                }
                                                 this.editTo++;
                                             }
                                         }
