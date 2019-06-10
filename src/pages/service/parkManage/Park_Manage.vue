@@ -383,18 +383,18 @@
                             {
                                 width:150,
                                 label: '服务商',
-                                prop: 'server_id',
+                                prop: 'server_name',
                                 addtable: true,
                                 editable: true,
                                 searchable: true,
                                 unsortable: true,
-                                columnType:'render',
-                                render: (h, params) => {
-                                    let str = common.formatCommonSateFn(this.serverList,params.row.server_id);
-                                    return h('div', [
-                                        h('span', str)
-                                    ]);
-                                },
+                                // columnType:'render',
+                                // render: (h, params) => {
+                                //     let str = common.formatCommonSateFn(this.serverList,params.row.server_id);
+                                //     return h('div', [
+                                //         h('span', str)
+                                //     ]);
+                                // },
                                 "type": "select",
                                 "disable": false,
                                 "readonly": false,

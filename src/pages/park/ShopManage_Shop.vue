@@ -1158,7 +1158,14 @@
                             align: 'center',
                             columnType:'render',
                             render: (h, params) => {
-                                let str = params.row.validite_time+'小时';
+                                let str =params.row.validite_time;
+
+                                if(params.row.limit_day_unit==2){
+                                    str= params.row.validite_time+'分钟';
+                                }else if(params.row.limit_day_unit==1){
+                                    str = params.row.validite_time+'小时';
+                                }
+
                                 return h('div', [
                                     h('span', {
                                         props: {
