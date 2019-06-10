@@ -378,7 +378,18 @@
             window.addEventListener('resize', () => {
                 this.currentHeight =  (document.body.clientHeight - 45) + 'px'
             });
-        }
+        },
+        watch: {
+            $route: {
+                handler: function(val, oldVal){
+                    let str = val.fullPath.split('/');
+                    this.highlightindex = '/'+str[1];
+                    sessionStorage.setItem('highlightindex',this.highlightindex)
+                },
+                // 深度观察监听
+                deep: true
+            }
+        },
     };
 
 </script>

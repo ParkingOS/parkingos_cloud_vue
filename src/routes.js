@@ -584,9 +584,8 @@ const UnionRouteItems = [
         path: '/',
         component: HomeCloud_Union,
         children: [
-            {path: '/unionValueAddedService_Sms', component: unionSmsService, name: 'unionSmsService',children:[
-                    {path: '/unionValueAddedService_Sms/sms_distribution', component: unionSmsServiceDistribution, name: 'unionSmsServiceDistribution'}
-                ]}
+            {path: '/unionValueAddedService_Sms', component: unionSmsService, name: 'unionSmsService'},
+            {path: '/unionValueAddedService_Sms/sms_distribution', component: unionSmsServiceDistribution, name: 'unionSmsServiceDistribution'}
         ]
     },
 ];

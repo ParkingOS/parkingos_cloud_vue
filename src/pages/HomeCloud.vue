@@ -104,7 +104,9 @@
                         <el-menu-item index="/orderStatistics_MonthReport"
                                       v-if="this.showParkItem.orderStatistics_MonthReport">车场月报
                         </el-menu-item>
-
+                        <el-menu-item index="/systemManage_Commute" v-if="this.showParkItem.systemManage_Commute">
+                            上下班记录
+                        </el-menu-item>
                     </el-submenu>
                     <el-submenu v-if="this.showParkItem.shopManage" index="/shopManage">
                         <template slot="title">
@@ -181,9 +183,7 @@
                                       v-if="this.showParkItem.systemManage_BlackList">
                             黑名单管理
                         </el-menu-item>
-                        <el-menu-item index="/systemManage_Commute" v-if="this.showParkItem.systemManage_Commute">
-                            上下班记录
-                        </el-menu-item>
+
                         <el-menu-item index="/systemManage_Account" v-if="this.showParkItem.systemManage_Account">
                             账户管理
                         </el-menu-item>

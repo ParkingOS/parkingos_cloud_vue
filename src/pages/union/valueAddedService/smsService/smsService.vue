@@ -186,8 +186,6 @@
         <!--canvas 容器隐藏-->
         <canvas id="canvas" style="display:none"></canvas>
         <canvas id="img" style="display:none"></canvas>
-
-        <router-view></router-view>
     </section>
 </template>
 
@@ -233,9 +231,9 @@
                 searchFormData:{
                     currentData:'',
                 },
-                exportapi: '/message/exportbuytrade',
-                exportapi2: '/message/exportsendtrade',
-                queryapi: 'message/getbuytrade',
+                exportapi: '/groupmessage/exportbuytrade',
+                exportapi2: '/groupmessage/exportsendtrade',
+                queryapi: 'groupmessage/getbuytrade',
                 orderfield:'id',
                 fieldsstr:'id__count__utime__etime__money__trade_no',
                 tableitems: [
@@ -334,10 +332,26 @@
                     type:'',
                     click_type:''
                 },
-                queryapi2: 'message/getsendtrade',
+                queryapi2: 'groupmessage/getsendtrade',
                 orderfield2:'id',
                 fieldsstr2:'id__ctime__mobile__type',
                 tableitems2: [
+                    {
+                        hasSubs: false, subs: [
+                            {
+                                label: '车场（编号）',
+                                prop: 'park_info',
+                                width: '315',
+                                type: 'str',
+                                editable: false,
+                                searchable: true,
+                                addtable: true,
+                                hidden:'',
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
                     {
                         hasSubs: false, subs: [
                             {
@@ -462,9 +476,9 @@
                 _this.payState = 2;
                 _this.nextLoad = true;
                 //暂时重置为0.01元
-                // _this.purchaseSMS.money = 0.01;
-                axios.get(path+'/message/tobuy', {
-                    params: { 'comid': sessionStorage.getItem('comid'),'count':this.purchaseSMS.count,'money': this.purchaseSMS.money}
+                _this.purchaseSMS.money = 0.01;
+                axios.get(path+'/groupmessage/tobuy', {
+                    params: { 'groupid': sessionStorage.getItem('groupid'),'count':this.purchaseSMS.count,'money': this.purchaseSMS.money}
                 }).then(function (response) {
                     _this.nextLoad = false;
                     if(response.data.state == 1){
@@ -618,7 +632,7 @@
             },
             getPayStateFn(that){
                 let params = {trade_no:that.trade_no};
-                getPayState('/message/getcodestate',params).then(res=>{
+                getPayState('/groupmessage/getcodestate',params).then(res=>{
                     let state = res.data.state;
                     that.payState = state;
                     if(state == 2){
