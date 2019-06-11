@@ -481,7 +481,7 @@
                 _this.payState = 2;
                 _this.nextLoad = true;
                 //暂时重置为0.01元
-                _this.purchaseSMS.money = 0.01;
+                // _this.purchaseSMS.money = 0.01;
                 axios.get(path+'/groupmessage/tobuy', {
                     params: { 'groupid': sessionStorage.getItem('groupid'),'count':this.purchaseSMS.count,'money': this.purchaseSMS.money}
                 }).then(function (response) {
