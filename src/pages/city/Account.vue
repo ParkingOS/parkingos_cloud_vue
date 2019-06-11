@@ -174,7 +174,7 @@
       },
       bankname:'无',
       queryaccount:'/union/unioninfo',
-      editaccount:'',
+      editaccount:'/union/unionedit',
       unionname:'',
       balance:'获取中...',
       name:'获取中...',
@@ -344,11 +344,10 @@
       var vm = this;
       var eform=this.account;
       this.$extend(eform,{'token':sessionStorage.getItem('token')})
-      console.log(this.$refs)
       this.$refs.editForm.validate((valid)=>{
         if(valid){
           vm.loading=true
-          vm.$.post(path+this.editaccount,eform,function(ret){
+          vm.$post(bolinkPath+this.editaccount,eform,function(ret){
             if(ret>0){
               //更新成功
               vm.getAccountInfo();

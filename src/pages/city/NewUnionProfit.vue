@@ -64,7 +64,6 @@
                     :table-items="tableitems"
                     align-pos="right"
                     bts-width="200"
-                    :exportapi="exportapi"
                     :searchForm="searchForm"
                     fixedDom="scrollBarDom"
                     ref="tabPane"
@@ -214,13 +213,7 @@
                 hideTool: false,
                 showImg: true,
                 showBusinessPoles: true,
-                exportapi:'/trade/profitexportnew',
                 queryapi: '/trade/profitnew',
-                setapi: '/cityparks/setpark',
-                addapi: '/park/add',
-                editapi: '/park/edit',
-                delapi: '/cityparks/deletepark',
-                resetapi:'/cityparks/resetdata',
                 fieldsstr:'id__date__park_counts__trade_counts__money_sum',
                 tableitems: [
                     {
@@ -329,10 +322,14 @@
                 this.initFn(this)
             },
             exportFn(){
-                /*
-                * 导出数据，通过ref 进行定位拉取
-                * */
-                this.$refs['tabPane'].handleExport()
+                let params =  'token=' + sessionStorage.getItem('token');
+                if(this.currentDate != null){
+                    params += '&date=' + this.currentDate[0]+'to'+this.currentDate[1];
+                }
+                if(this.comid != ''){
+                    params +='&comid='+this.comid;
+                }
+                window.open(bolinkPath + '/trade/profitexportnew' + '?' + params);
             },
             initFn(that){
                 /*
