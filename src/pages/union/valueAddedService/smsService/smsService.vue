@@ -10,7 +10,7 @@
                 <div class="purchase" @click="goshop">
                     <img :src="shopCar">购买
                 </div>
-                <div class="purchase" @click="godistri">
+                <div class="purchase" @click="godistri" v-if="hideDistribution">
                     <img :src="shopCar">分配
                 </div>
             </div>
@@ -61,6 +61,9 @@
                                     @change="changeDateFormat"
                             >
                             </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="车场（编号）">
+                            <el-input style="width: 140px" v-model="searchFormData2.park_info" class="shop-custom-input" placeholder="车场、编号均可"></el-input>
                         </el-form-item>
                         <el-form-item label="手机号">
                             <el-input style="width: 140px" v-model="searchFormData2.mobile" class="shop-custom-input" placeholder="请输入手机号"></el-input>
@@ -190,7 +193,7 @@
 </template>
 
 <script>
-    import {AUTH_ID} from '@/common/js/const'
+    import { AUTH_ID_UNION } from '@/common/js/const'
     import {path,path2} from '@/api/api';
     import common from '@/common/js/common'
     import {getPayState} from '@/api/base';
@@ -205,6 +208,7 @@
         },
         data(){
             return {
+                hideDistribution:false,
                 readSecondSuccess:5,
                 readSecondError:5,
                 payState:0,
@@ -330,11 +334,12 @@
                     currentData:'',
                     mobile:'',
                     type:'',
-                    click_type:''
+                    click_type:'',
+                    park_info:''
                 },
                 queryapi2: 'groupmessage/getsendtrade',
                 orderfield2:'id',
-                fieldsstr2:'id__ctime__mobile__type',
+                fieldsstr2:'id__ctime__mobile__type__park_info',
                 tableitems2: [
                     {
                         hasSubs: false, subs: [
@@ -578,7 +583,8 @@
                     currentData:'',
                     mobile:'',
                     type:'',
-                    click_type:''
+                    click_type:'',
+                    park_info: ''
                 };
                 that.searchForm2 = JSON.parse(JSON.stringify( {} ));
             },
@@ -672,8 +678,8 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID.systemManage_AddedService_Sms == item.auth_id) {
-                            this.hideExport = common.showSubExport(item.sub_auth)
+                        if (AUTH_ID_UNION.unionValueAddedService_Sms == item.auth_id) {
+                            this.hideDistribution = common.distribution(item.sub_auth)
                             break;
                         }
                     }

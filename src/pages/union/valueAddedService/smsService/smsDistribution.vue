@@ -43,18 +43,17 @@
                     <el-table-column
                             prop="name"
                             label="车场名称"
-                            width="120">
+                    >
                     </el-table-column>
                     <el-table-column
                             prop="id"
                             label="车场编号"
-                            width="120">
+                            >
                     </el-table-column>
                     <el-table-column
                             prop="use_count"
-                            label="已使用数量（张）"
-                            width="120"
-                            show-overflow-tooltip>
+                            label="已使用数量（条）"
+                            >
                     </el-table-column>
                 </el-table>
             </section>
@@ -132,6 +131,32 @@
                             });
                         })
 
+                }else{
+                    let data = new FormData();
+                    data.append('select_all',0);
+                    data.append('select_parks','');
+                    data.append('groupid',sessionStorage.getItem('groupid'))
+                    this.$axios.post(path+'/groupmessage/setselectparks',data)
+                        .then(res=>{
+                            if(res.data.state == 1){
+                                this.$message({
+                                    message: '当前分配方案保存成功',
+                                    type: 'success',
+                                    duration:2000
+                                });
+                            }else{
+                                this.$message({
+                                    message: '保存失败',
+                                    type: 'warning'
+                                });
+                            }
+                        })
+                        .catch(err=>{
+                            this.$message({
+                                message: '网络繁忙!',
+                                type: 'warning'
+                            });
+                        })
                 }
             },
             getTableData(sform){

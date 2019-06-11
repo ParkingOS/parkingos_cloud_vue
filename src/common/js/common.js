@@ -547,6 +547,12 @@ export default {
         }
         return false;
     },
+    distribution:function (sub_auth) {
+        if (sub_auth.indexOf('分配') > -1) {
+            return true;
+        }
+        return false;
+    },
     getShopMemberList(obj) {
         return axios.get(path + '/shopmember/quickquery' + '?token=' + sessionStorage.getItem('token') + '&shop_id=' + obj.shop_id + '&page=' + obj.page);
     },
