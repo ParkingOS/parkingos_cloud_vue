@@ -15,10 +15,10 @@
             <!--searchValueFn 数据传递一周后输出的值-->
             <super-form :form-config="formConfig" :value="searchData" v-on:input="searchValueFn">
                 <div style="display: inline-block;" slot="first">
-                    <el-input  slot="first" style="width: 220px" v-model="money" readonly="true">
+                    <el-input  slot="first" style="width: 220px" v-model="money" :readonly="true">
                         <template slot="prepend">厂商分润</template>
                     </el-input>
-                    <el-input  slot="first" style="width: 220px;margin-right: 10px" v-model="servermoney" readonly="true">
+                    <el-input  slot="first" style="width: 220px;margin-right: 10px" v-model="servermoney" :readonly="true">
                         <template slot="prepend">工程商分润</template>
                     </el-input>
                 </div>
@@ -37,6 +37,17 @@
                             value-format="yyyy-MM-dd"
                             :picker-options="pickerOptions">
                     </el-date-picker>
+                </el-form-item>
+
+                <el-form-item label="车场名称" class="clear-style" slot="first">
+                    <el-select v-model="comid" class="shop-custom-input" filterable>
+                        <el-option
+                                v-for="item in parkLists"
+                                :key="item.value_no"
+                                :label="item.value_name"
+                                :value="item.value_no"
+                        ></el-option>
+                    </el-select>
                 </el-form-item>
             </super-form>
             <!--结束end-->
@@ -120,6 +131,7 @@
                 servermoney:0,
                 money:0,
                 parkLists:[],
+                comid:'',
                 currentDate:null,
                 pickerOptions:{
                     shortcuts: [{
@@ -152,13 +164,7 @@
                 expandForm:{},
                 formConfig:{
                     showMore:false,
-                    first:[
-                        {
-                            label:'车场名称',
-                            type:'select',
-                            prop:'name',
-                            options:[],
-                        }],
+                    first:[],
                 },
                 readonly:false,
                 rowid:'',
@@ -208,14 +214,14 @@
                 hideTool: false,
                 showImg: true,
                 showBusinessPoles: true,
-                exportapi:'/trade/export',
-                queryapi: '/trade/moneyrecord',
+                exportapi:'/trade/profitexportnew',
+                queryapi: '/trade/profitnew',
                 setapi: '/cityparks/setpark',
                 addapi: '/park/add',
                 editapi: '/park/edit',
                 delapi: '/cityparks/deletepark',
                 resetapi:'/cityparks/resetdata',
-                fieldsstr:'order_id__query_id__trade_no__pay_type__pay_channel__dtype__otype__ctime__money__remark',
+                fieldsstr:'id__date__park_counts__trade_counts__money_sum',
                 tableitems: [
                     {
                         hasSubs: false, subs: [
@@ -312,6 +318,7 @@
                     }else{
                         this.searchData.date = null;
                     }
+                    this.searchData.comid = this.comid;
                     this.searchForm = JSON.parse(JSON.stringify( this.searchData ));
                 }else{
                     this.searchData = Object.assign({},val)
@@ -412,9 +419,9 @@
 
         },
         watch: {
-            parkLists:function (val) {
-                this.formConfig.first[0].options = val;
-            }
+            // parkLists:function (val) {
+            //     this.formConfig.first[0].options = val;
+            // }
         }
     }
 

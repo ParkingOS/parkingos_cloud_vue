@@ -213,6 +213,7 @@
                                 label: '互联运营集团编号',
                                 prop: 'operatorid',
                                 addtable: true,
+                                editable: true,
                                 searchable: true,
                                 unsortable: true,
                                 align: 'center',
@@ -284,7 +285,7 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            marginRight:'10px'
+
                                         },
                                         on: {
                                             click: (e) => {
@@ -311,25 +312,25 @@
                                             }
                                         }
                                     }, '设置'),
-                                    // h('ElButton', {
-                                    //     props: {
-                                    //         type: 'text',
-                                    //         size: 'small'
-                                    //     },
-                                    //     style: {
-                                    //         color:'red'
-                                    //     },
-                                    //     on: {
-                                    //         click: (e) => {
-                                    //             window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                    //             this.delForm = {
-                                    //                 $index:params.index,
-                                    //                 delVisible:true,
-                                    //                 id:params.row.id,
-                                    //             }
-                                    //         }
-                                    //     }
-                                    // }, '删除'),
+                                    h('ElButton', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            color:'red'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                                                this.delForm = {
+                                                    $index:params.index,
+                                                    delVisible:true,
+                                                    id:params.row.id,
+                                                }
+                                            }
+                                        }
+                                    }, '删除'),
                                 ]);
                             }
                         }]
