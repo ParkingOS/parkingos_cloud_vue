@@ -110,6 +110,19 @@
                     {
                         hasSubs: false, subs: [
                             {
+                                label: '集团名称',
+                                prop: 'group_name',
+                                type: 'str',
+                                searchable: false,
+                                addable: true,
+                                unsortable: true,
+                                align: 'center',
+                            },
+                        ]
+                    },
+                    {
+                        hasSubs: false, subs: [
+                            {
                                 label: '车场名称(编号)',
                                 prop: 'park_name',
                                 type: 'str',

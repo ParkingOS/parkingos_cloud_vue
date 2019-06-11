@@ -32,7 +32,7 @@ export const AUTH_ID = {
     systemManage_AddedService:340, //增值服务
     systemManage: 24, //系统管理
     systemManage_BlackList: 313, //黑名单管理
-    systemManage_Commute: 312, //上下班记录
+    systemManage_Commute: 407, //上下班记录
     systemManage_Account: 25, //账户管理
     systemManage_Params: 26, //参数设置
     systemManage_FreeReason: 72, //免费原因
@@ -151,7 +151,9 @@ export const AUTH_ID_UNION = {
     strategicAnalysis_DailyReport: 315, //封闭车场订单统计-车场日报
     strategicAnalysis_MonthReport:316,
     strategicAnalysis_DailyParkReport:318,//车场日报
-    centerMonitor: 301 //中央监控
+    centerMonitor: 301, //中央监控
+    unionValueAddedService:405,//增值服务
+    unionValueAddedService_Sms:406 //短信服务
 };
 export const showUnionItem_const = {
     businessOrder: false,
@@ -181,7 +183,9 @@ export const showUnionItem_const = {
     strategicAnalysis_DailyReport: false,
     strategicAnalysis_MonthReport: false,
     strategicAnalysis_DailyParkReport:false,//车场日报
-    centerMonitor: false
+    centerMonitor: false,
+    unionValueAddedService:false,//增值服务
+    unionValueAddedService_Sms:false //短信服务
 };
 
 export const showShopItem_const = {

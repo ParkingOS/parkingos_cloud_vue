@@ -10,7 +10,7 @@ export const server = 'http://yun.bolink.club';
 // export const server = 'http://test.bolink.club';
 export const path2 = 'https://yun.bolink.club';
 // export const path2 = 'https://test.bolink.club';
-export const bolinkPath = 'http://s.bolink.club/web';
+export const bolinkPath = 'https://s.bolink.club/web';
 //beta设置为5   s.bolink设置为2
 export const percision = 5;
 

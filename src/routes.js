@@ -645,6 +645,28 @@ const CommonRouteItems = [
     }
 ];
 
+
+/**
+ *
+ * @date:20190604
+ * @author:cyzhi
+ * @description:集团路由管理
+ */
+import unionSmsService from './pages/union/valueAddedService/smsService/smsService.vue'
+import unionSmsServiceDistribution from './pages/union/valueAddedService/smsService/smsDistribution.vue'
+/***--------------end-------------**/
+
+const UnionRouteItems = [
+    {
+        path: '/',
+        component: HomeCloud_Union,
+        children: [
+            {path: '/unionValueAddedService_Sms', component: unionSmsService, name: 'unionSmsService'},
+            {path: '/unionValueAddedService_Sms/sms_distribution', component: unionSmsServiceDistribution, name: 'unionSmsServiceDistribution'}
+        ]
+    },
+];
+
 /**
  *
  * @date: 20190528
@@ -736,5 +758,5 @@ const ServerRouteItems = [
         ]
     }
 ];
-const routes = [...CommonRouteItems,...ServerRouteItems];
+const routes = [...CommonRouteItems,...UnionRouteItems,...ServerRouteItems];
 export default routes;

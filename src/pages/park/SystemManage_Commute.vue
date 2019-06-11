@@ -3,6 +3,7 @@
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
                 <p style="float: left">系统管理<span style="margin: 2px">-</span>上下班管理</p>
+                <el-button type="text"  icon="el-icon-question" style="margin-left: 20px" @click="openRule">统计规则</el-button>
                 <div class="float-right">
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
@@ -237,9 +238,36 @@
 
                         hasSubs: false,
                         subs: [{
+                            label: '现金预付',
+                            prop: 'cash_prepay',
+                            width: '110',
+                            unsortable: true,
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '现金结算',
+                            prop: 'cash_pay',
+                            width: '110',
+                            unsortable: true,
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
+                            label: '电子结算',
+                            prop: 'ele_pay',
+                            width: '110',
+                            unsortable: true,
+                        }]
+                    }, {
+
+                        hasSubs: false,
+                        subs: [{
                             label: '状态',
                             prop: 'state',
-                            width: '123',
+                            width: '100',
                             type: 'selection',
                             selectlist:commuteStateType,
                             editable: true,
@@ -266,6 +294,16 @@
             this.$refs['tabPane'].getTableData({},this)
         },
         methods:{
+            openRule(){
+                let html = '';
+                html +='<p>1、各班次上下班时间完整、状态为“已签退”且间距在48小时之内的，予以统计展示；</p>'
+                html +='<p>2、各班次上传下班时间后即完成统计，不计入补传的订单；</p>'
+                html +='<p>3、各班次的收费员编号user_id 要在云平台存在；</p>'
+                html +='<p>4、各班次的 uuid 在上下班时间完整时不可重复使用。</p>'
+                this.$alert(html, '统计规则', {
+                    dangerouslyUseHTMLString: true
+                });
+            },
             searchFn() {
                 /*
                 * 点击搜索后，克隆一份表单数据进行查询，以触发table的查询事件
