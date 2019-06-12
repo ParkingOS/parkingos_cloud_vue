@@ -178,7 +178,7 @@
                 chartstyles: '',
                 chartPickerOptions: {
                     disabledDate(time){
-                        return time.getTime() > Date.now();
+                        return time.getTime() >= new Date(new Date(new Date().toLocaleDateString()).getTime());
                     }
                 },
                 currentPage: 1,

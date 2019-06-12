@@ -311,14 +311,15 @@
                             options:[],
                         }],
                     second:[
+                        // {
+                        //     label:'心跳时间',
+                        //     type:'date',
+                        //     subtype:'datetimerange',
+                        //     prop:'pantTime',
+                        //     subprop:'utime',
+                        //     valueFormat:'timestamp'
+                        // },
                         {
-                            label:'心跳时间',
-                            type:'date',
-                            subtype:'datetimerange',
-                            prop:'pantTime',
-                            subprop:'utime',
-                            valueFormat:'timestamp'
-                        },{
                             label:'服务商',
                             type:'select',
                             prop:'server_id',
@@ -541,11 +542,11 @@
                             {
                                 width:160,
                                 label: '心跳时间',
-                                prop: 'utime',
+                                prop: 'lastbeat_time',
                                 unsortable: true,
                                 columnType:'render',
                                 render: (h, params) => {
-                                    let str = common.dateformat(params.row.utime);
+                                    let str = common.dateformat(params.row.lastbeat_time);
                                     return h('div', [
                                         h('span', str)
                                     ]);
@@ -1337,11 +1338,11 @@
         },
         watch: {
             bolinkServerList:function(val){
-                this.formConfig.second[1].options = val;
+                this.formConfig.second[0].options = val;
             },
-            unionList: function (val) {
-                this.formConfig.first[2].options = val;
-            },
+            // unionList: function (val) {
+            //     this.formConfig.first[2].options = val;
+            // },
             serverList:function(val){
               // this.formConfig.second[1].options = val;
             },
