@@ -239,13 +239,13 @@
         collectType,
         inparkType,
         checkParkMobile,
-    } from '../../api/api';
-    import common from '../../common/js/common'
-    import { getTableQuery } from '../../api/base'
-    import {AUTH_ID_UNION} from '../../common/js/const'
-    import TabPane from '../../components/table/TabPane';
-    import superForm from '../../components/super-form/inline-form';
-    import axios from 'axios'
+    } from '@/api/api';
+    import common from '@/common/js/common'
+    import { getTableQuery } from '@/api/base'
+    import {AUTH_ID_UNION} from '@/common/js/const'
+    import TabPane from '@/components/table/TabPane';
+    import superForm from '@/components/super-form/inline-form';
+    import axios from 'axios/index'
 
     export default {
         components: {
@@ -334,8 +334,8 @@
                 resetDataVisible:false,
                 unionList:[],
                 isShow:false,
-                noimg:require('../../assets/images/no.png'),
-                offimg:require('../../assets/images/off.png'),
+                noimg:require('@/assets/images/no.png'),
+                offimg:require('@/assets/images/off.png'),
                 searchFormData:{
                     id:3,
                     id_start:'',

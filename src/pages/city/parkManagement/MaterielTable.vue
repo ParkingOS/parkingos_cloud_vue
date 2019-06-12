@@ -197,13 +197,13 @@
 </template>
 
 <script>
-    import {bolinkPath, path, telFormit} from '../../api/api';
-    import common from '../../common/js/common'
-    import axios from 'axios'
+    import {bolinkPath, path, telFormit} from '../../../api/api';
+    import common from '../../../common/js/common'
+    import axios from 'axios/index'
     import countTo from 'vue-count-to';
-    import TabPane from '../../components/table/TabPane';
-    import creatQrcode from '../../components/creat-qrcode/index'
-    import superForm from '../../components/super-form/inline-form';
+    import TabPane from '../../../components/table/TabPane';
+    import creatQrcode from '../../../components/creat-qrcode/index'
+    import superForm from '../../../components/super-form/inline-form';
     export default {
         name: "materiel-table",
         components: {

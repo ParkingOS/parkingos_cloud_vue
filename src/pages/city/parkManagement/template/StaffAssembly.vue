@@ -73,11 +73,11 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import {blackStateType,path} from '../../api/api';
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    import TabPane from '../../components/table/TabPane';
+    import axios from 'axios/index';
+    import {blackStateType,path} from '../../../../api/api';
+    import common from '../../../../common/js/common'
+    import {AUTH_ID} from '../../../../common/js/const'
+    import TabPane from '../../../../components/table/TabPane';
     export default {
         name: 'staff_assembly',
         components: {

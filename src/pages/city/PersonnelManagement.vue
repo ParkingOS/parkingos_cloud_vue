@@ -2,7 +2,7 @@
     <section class="right-wrapper-size" id="scrollBarDom">
         <div class="shop-custom-operation">
             <header class="shop-custom-header">
-                <p style="float: left">人力资源<span style="margin: 2px">-</span>员工管理</p>
+                <p style="float: left">员工权限<span style="margin: 2px">-</span>员工管理</p>
                 <div class="float-right">
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
@@ -92,12 +92,11 @@
 
 
 <script>
-    import {genderType, collectType, checkTelePhone, checkMobile,path} from '../../api/api';
-    import common from '../../common/js/common';
-    import {AUTH_ID} from '../../common/js/const';
-    import CommonTable from '../../components/CommonTable';
-    import axios from 'axios';
-    import TabPane from '../../components/table/TabPane';
+    import {genderType, collectType, checkTelePhone, checkMobile,path} from '@/api/api';
+    import common from '@/common/js/common';
+    import {AUTH_ID_SERVER} from '@/common/js/const';
+    import CommonTable from '@/components/CommonTable';
+    import TabPane from '@/components/table/TabPane';
     export default {
         components: {
             CommonTable,TabPane
@@ -170,14 +169,11 @@
                 hideTool: false,
                 showEdit: true,
                 showdelete: true,
-                // showSettingFee:true,
-                // showCommutime:true,
-                // showPermission:true,
-                addapi: '/member/createmember',
-                delapi: '/member/delmember',
-                editapi: '/member/editmember',
-                queryapi: '/member/query',
-                resetapi: '/member/editpass',
+                addapi: '/city/addMember',
+                delapi: '/city/deleteMember',
+                editapi: '/city/editMember',
+                queryapi: '/city/queryMember',
+                resetapi: '/city/editMemberPass',
                 btswidth: '180',
                 orderfield:'id',
                 fieldsstr: 'id__nickname__strid__phone__mobile__role_id__reg_time__sex__logon_time__isview',
@@ -328,36 +324,38 @@
                             align: 'center',
                             hidden:true,
                         }]
-                    }, {
-                        hasSubs: false, subs: [
-                            {
-                                label: '性别',
-                                prop: 'sex',
-                                width: '100',
-                                selectlist: genderType,
-                                editable: true,
-                                searchable: true,
-                                addtable: true,
-                                unsortable: true,
-                                align: 'center',
-                                columnType:'render',
-                                render: (h, params) => {
-                                    return h('div', [
-                                        h('span', common.nameformat(params.row, genderType, 'sex'))
-                                    ]);
-                                },
-                                "type": "select",
-                                "value": "",
-                                "button": false,
-                                "border": true,
-                                "rules": [
-                                    {required: true, message: '请选择角色', trigger: 'blur'}
-                                ],
-                                'size':'',
-                                "options": genderType,
-                            }
-                        ]
-                    }, {
+                    },
+                    // {
+                    //     hasSubs: false, subs: [
+                    //         {
+                    //             label: '性别',
+                    //             prop: 'sex',
+                    //             width: '100',
+                    //             selectlist: genderType,
+                    //             editable: true,
+                    //             searchable: true,
+                    //             addtable: true,
+                    //             unsortable: true,
+                    //             align: 'center',
+                    //             columnType:'render',
+                    //             render: (h, params) => {
+                    //                 return h('div', [
+                    //                     h('span', common.nameformat(params.row, genderType, 'sex'))
+                    //                 ]);
+                    //             },
+                    //             "type": "select",
+                    //             "value": "",
+                    //             "button": false,
+                    //             "border": true,
+                    //             "rules": [
+                    //                 {required: true, message: '请选择角色', trigger: 'blur'}
+                    //             ],
+                    //             'size':'',
+                    //             "options": genderType,
+                    //         }
+                    //     ]
+                    // },
+                    {
 
                         hasSubs: false,
                         subs: [{
@@ -617,10 +615,13 @@
             },
             getQuery(){
                 let _this = this;
-                axios.all([common.getEmployeeRole()])
-                    .then(axios.spread(function (ret) {
+                this.$axios.get(path+'/city/getAllRoles?cityid='+sessionStorage.getItem('cityid')+'&oid='+sessionStorage.getItem('oid'))
+                    .then( ret =>{
                         _this.aroles = ret.data;
-                    }));
+                    })
+                    .catch(err=>{
+                        console.log('err-->',err)
+                    })
             },
             alertInfo(msg) {
                 this.$alert(msg, '提示', {
@@ -643,7 +644,7 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID.employeePermission_Manage == item.auth_id) {
+                        if (AUTH_ID_SERVER.serverResources_EmployeeManage == item.auth_id) {
                             this.showdelete = common.showSubDel(item.sub_auth);
                             this.showresetpwd = common.showSubReset(item.sub_auth);
                             this.showEdit = common.showSubEdit(item.sub_auth);

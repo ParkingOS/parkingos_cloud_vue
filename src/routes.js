@@ -97,8 +97,8 @@ import Union_Bolink_Income from './pages/union/Bolink_Income.vue';
 //集团减免记录 BusinessOrder_Reduce
 import BusinessOrder_Reduce from './pages/union/BusinessOrder_Reduce.vue';
 //厂商页面
-import Park_Manage from './pages/city/Park_Manage.vue';
-import Park_Manage_Staff from './pages/city/Park_Manage_Staff.vue';
+import Park_Manage from './pages/city/parkManagement/Park_Manage.vue';
+import Park_Manage_Staff from './pages/city/parkManagement/Park_Manage_Staff.vue';
 import Union_Manage from './pages/city/Union_Manage.vue';
 import Union_Manage_Staff from './pages/city/Union_Manage_Staff.vue';
 import Setting_Manage from './pages/city/Setting_Manage.vue';
@@ -140,7 +140,7 @@ import PersonnelManagement from './pages/city/PersonnelManagement.vue'
 import MessageNtification from './pages/city/MessageNtification.vue'
 import FirmSystemManageLogs from './pages/city/Firm_SystemManage_Logs.vue'
 import Development from './pages/city/Development.vue'
-import MaterielTable from './pages/city/MaterielTable'
+import MaterielTable from './pages/city/parkManagement/MaterielTable'
 /*--------------end---------------------*/
 const CommonRouteItems = [
 

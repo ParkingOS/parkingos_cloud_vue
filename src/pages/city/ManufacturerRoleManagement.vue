@@ -12,8 +12,8 @@
 
 
         <!--<header class="custom-header">-->
-            <!--员工权限-角色管理 <div class="float-right"><el-button @click="handleAdd" type="primary" size="mini" v-if="hideAdd">添加角色</el-button>-->
-            <!--<el-button size="mini" @click="resetForm">刷新</el-button></div>-->
+        <!--员工权限-角色管理 <div class="float-right"><el-button @click="handleAdd" type="primary" size="mini" v-if="hideAdd">添加角色</el-button>-->
+        <!--<el-button size="mini" @click="resetForm">刷新</el-button></div>-->
         <!--</header>-->
 
         <div class="table-wrapper-style">
@@ -50,11 +50,11 @@
                 v-on:cancelEdit="cancelEdit"
                 :editVisible="editFormVisible"></custom-edit-form>
         <el-dialog
-                    width="650px"
-                   :visible.sync="isShowPermission"
-                    custom-class="custom-dialog"
-                   :show-close="false"
-                   :close-on-click-modal="false">
+                width="650px"
+                :visible.sync="isShowPermission"
+                custom-class="custom-dialog"
+                :show-close="false"
+                :close-on-click-modal="false">
             <header class="dialog-header" slot="title">
                 权限设置<i class="el-icon-close dialog-header-iconfont" @click="isShowPermission = false"></i>
             </header>
@@ -97,14 +97,13 @@
 
 
 <script>
-    import {path, RoleFuncion} from '../../api/api';
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    // import CommonTable from '../../components/CommonTable'
-    import TabPane from '../../components/table/TabPane';
-    import customEditForm from '../../components/edit-form/editForm'
-    import customAddForm from '../../components/add-form/addForm'
-    import {editTableData,addTableData} from "../../api/base";
+    import {path, RoleFuncion} from '@/api/api';
+    import common from '@/common/js/common'
+    import {AUTH_ID_SERVER} from '@/common/js/const'
+    import TabPane from '@/components/table/TabPane';
+    import customEditForm from '@/components/edit-form/editForm'
+    import customAddForm from '@/components/add-form/addForm'
+    import {editTableData,addTableData} from "@/api/base";
 
     export default {
         components: {
@@ -125,7 +124,7 @@
                 loading: false,
                 hideExport: true,
                 hideSearch: true,
-                hideAdd: false,
+                hideAdd: true,
                 tableheight: '',
                 hideOptions: false,
                 hideTool: false,
@@ -135,12 +134,12 @@
                 // showSettingFee: true,
                 // showCommutime: true,
                 showPermission: true,
-                addapi: '/adminrole/addrole',
-                delapi: '/adminrole/deleterole',
-                editapi: '/adminrole/editrole',
-                queryapi: '/adminrole/query',
-                permissionapi: '/adminrole/getroleauth',
-                permissioneditapi: '/adminrole/editroleauth',
+                addapi: '/city/addOrEditRole',
+                delapi: '/city/addOrEditRole',
+                editapi: '/city/addOrEditRole',
+                queryapi: '/city/getRoles',
+                permissionapi: '/grouprole/getroleauth',
+                permissioneditapi: '/grouprole/editroleauth',
                 btswidth: '180',
                 fieldsstr: 'id__role_name__func__resume',
                 tableitems: [
@@ -262,6 +261,7 @@
                                                     $index:params.index,
                                                     delVisible:true,
                                                     id:params.row.id,
+                                                    state:1,
                                                 }
 
                                             }
@@ -523,7 +523,7 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID.employeePermission_Role == item.auth_id) {
+                        if (AUTH_ID_SERVER.serverResources_RoleManage == item.auth_id) {
                             this.showdelete = common.showSubDel(item.sub_auth)
                             this.showEdit = common.showSubEdit(item.sub_auth)
                             this.hideAdd = common.showSubAdd(item.sub_auth)
