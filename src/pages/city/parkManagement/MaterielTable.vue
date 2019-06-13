@@ -1,6 +1,6 @@
 <template>
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
-        <div class="shop-custom-operation" id="consoleCurrentHeight">
+        <div class="shop-custom-operation" id="consoleCurrentHeight" style="margin-bottom: 0">
             <header class="shop-custom-header">
                 <p style="float: left">车场管理<span style="margin: 2px">-</span>物料管理</p>
                 <div class="float-right">

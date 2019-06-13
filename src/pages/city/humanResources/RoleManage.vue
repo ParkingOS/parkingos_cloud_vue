@@ -99,7 +99,7 @@
 <script>
     import {path, RoleFuncion} from '@/api/api';
     import common from '@/common/js/common'
-    import {AUTH_ID_SERVER} from '@/common/js/const'
+    import {AUTH_ID_CITY} from '@/common/js/const'
     import TabPane from '@/components/table/TabPane';
     import customEditForm from '@/components/edit-form/editForm'
     import customAddForm from '@/components/add-form/addForm'
@@ -523,7 +523,7 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID_SERVER.serverResources_RoleManage == item.auth_id) {
+                        if (AUTH_ID_CITY.cityResources_RoleManage == item.auth_id) {
                             this.showdelete = common.showSubDel(item.sub_auth)
                             this.showEdit = common.showSubEdit(item.sub_auth)
                             this.hideAdd = common.showSubAdd(item.sub_auth)

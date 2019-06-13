@@ -94,11 +94,11 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import {path,blackStateType} from '../../api/api';
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    import TabPane from '../../components/table/TabPane';
+    import axios from 'axios/index';
+    import {path,blackStateType} from '../../../api/api';
+    import common from '../../../common/js/common'
+    import {AUTH_ID} from '../../../common/js/const'
+    import TabPane from '../../../components/table/TabPane';
     export default {
         name: 'shop-mange_-shop_-staff',
         components: {

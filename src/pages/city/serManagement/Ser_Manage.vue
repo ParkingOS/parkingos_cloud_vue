@@ -4,8 +4,8 @@
             <header class="shop-custom-header">
                 <p style="float: left">工程服务商<span style="margin: 2px">-</span>服务商管理</p>
                 <div class="float-right">
-                    <el-button type="text"  @click="handleAdd('add')" native-type="button" icon="el-icon-plus">注册服务商</el-button>
-                    <el-button type="text"  @click="exportFn" native-type="button"  icon="el-icon-printer">导出</el-button>
+                    <el-button type="text"  @click="handleAdd('add')" native-type="button" icon="el-icon-plus" v-if="showCustomizeAdd">注册服务商</el-button>
+                    <el-button type="text"  @click="exportFn" native-type="button"  icon="el-icon-printer" v-if="hideExport">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -160,15 +160,13 @@
         collectType,
         inparkType,
         checkParkMobile,
-    } from '../../api/api';
-    import common from '../../common/js/common'
-    import { getTableQuery } from '../../api/base'
-    import {AUTH_ID_UNION} from '../../common/js/const'
-    import TabPane from '../../components/table/TabPane';
-    import expand from '../../components/table/expand.js';
-    import superForm from '../../components/super-form/inline-form';
-    import dataTranslate from '../../common/js/dataTranslate'
-    import axios from 'axios'
+    } from '@/api/api';
+    import common from '@/common/js/common'
+    import {AUTH_ID_CITY} from '@/common/js/const'
+    import TabPane from '@/components/table/TabPane';
+    import expand from '@/components/table/expand.js';
+    import superForm from '@/components/super-form/inline-form';
+    import axios from 'axios/index'
 
     export default {
         components: {
@@ -176,6 +174,11 @@
         },
         data() {
             return {
+                showEdit:false,
+                showCustomizeAdd:false,
+                showSetting:false,
+                hideOptions:false,
+                hideExport:false,
                 ////////////////////////////////////////////////////////////////////
                 defaultExpandAll:true,
                 treeStructure:false,
@@ -250,8 +253,8 @@
                 resetDataVisible:false,
                 unionList:[],
                 isShow:false,
-                noimg:require('../../assets/images/no.png'),
-                offimg:require('../../assets/images/off.png'),
+                noimg:require('@/assets/images/no.png'),
+                offimg:require('@/assets/images/off.png'),
                 searchFormData:{
                     id:3,
                     id_start:'',
@@ -277,7 +280,6 @@
                 delForm:{},
                 /////////////////////////////////////////
                 loading: false,
-                hideExport: false,
                 hideSearch: false,
 
                 orderfield:'id',
@@ -285,7 +287,6 @@
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
-                hideOptions: true,
                 imgSize:450,
                 hideTool: false,
                 showImg: true,
@@ -391,44 +392,6 @@
                             },
                         ]
                     },
-                    // {
-                    //     hasSubs: false, subs: [
-                    //         {
-                    //             width:150,
-                    //             label: '支付平台登录账号',
-                    //             prop: 'group_id',
-                    //             addtable: true,
-                    //             editable: true,
-                    //             searchable: true,
-                    //             unsortable: true,
-                    //             columnType:'render',
-                    //             render: (h, params) => {
-                    //                 let str = common.balanceformat(params.row.balance,2);
-                    //                 return h('div', [
-                    //                     h('ElButton', {
-                    //                         props: {
-                    //                             size: 'small'
-                    //                         },
-                    //                         style: {
-                    //
-                    //                         },
-                    //                         on: {
-                    //                             click: (e) => {
-                    //                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
-                    //                                 this.getLoginUser(params.row.id)
-                    //                             }
-                    //                         }
-                    //                     }, '获取登录账号'),
-                    //                 ]);
-                    //             },
-                    //             "type": "select",
-                    //             "disable": false,
-                    //             "readonly": false,
-                    //             "value": "",
-                    //             'size':'',
-                    //         },
-                    //     ]
-                    // },
                     {
                         hasSubs: false, subs: [
                             {
@@ -528,7 +491,7 @@
                         subs: [{
                             fixed:'right',
                             label: '操作',
-                            width: '200',
+                            width: '150',
                             hidden:false,
                             searchable: true,
                             unsortable: true,
@@ -542,7 +505,8 @@
                                             size: 'small'
                                         },
                                         style: {
-
+                                            display:this.showEdit? '' : 'none',
+                                            marginRight: '5px'
                                         },
                                         on: {
                                             click: (e) => {
@@ -560,7 +524,9 @@
                                             type: 'text',
                                             size: 'small'
                                         },
-                                        style: {},
+                                        style: {
+                                            display: this.showSetting ? '':'none'
+                                        },
                                         on: {
                                             click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
@@ -968,8 +934,16 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID_UNION.businessOrder_Poles == item.auth_id) {
+                        if (AUTH_ID_CITY.citySerManage_serManagePage == item.auth_id) {
+                            this.showEdit = common.showSubEdit(item.sub_auth);
+                            this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
+                            this.showSetting = common.showSetting(item.sub_auth);
                             this.hideExport = common.showSubExport(item.sub_auth);
+                            if(!this.showEdit&&!this.showSetting){
+                                this.hideOptions = true;
+                            }else{
+                                this.hideOptions = false;
+                            }
                             break;
                         }
                     }
@@ -1014,13 +988,10 @@
             this.getQuery();
         },
         watch: {
-            // unionList: function (val) {
-            //     this.formConfig.first[2].options = val;
-            //
-            // },
-            // readonly:function (val) {
-            //     this.tableitems[5].subs[0].readonly = val
-            // }
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[len -1].subs[0].hidden = val
+            },
         }
     }
 

@@ -75,8 +75,8 @@
 </template>
 
 <script>
-    import { path,bolinkPath} from '../../api/api';
-    import common from '../../common/js/common'
+    import { path,bolinkPath} from '../../../api/api';
+    import common from '../../../common/js/common'
     export default {
         name: "message-ntification",
         data(){

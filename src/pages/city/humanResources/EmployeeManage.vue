@@ -94,12 +94,11 @@
 <script>
     import {genderType, collectType, checkTelePhone, checkMobile,path} from '@/api/api';
     import common from '@/common/js/common';
-    import {AUTH_ID_SERVER} from '@/common/js/const';
-    import CommonTable from '@/components/CommonTable';
+    import {AUTH_ID_CITY} from '@/common/js/const';
     import TabPane from '@/components/table/TabPane';
     export default {
         components: {
-            CommonTable,TabPane
+            TabPane
         },
         data() {
             var validatePass = (rule, value, callback) => {
@@ -644,7 +643,7 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID_SERVER.serverResources_EmployeeManage == item.auth_id) {
+                        if (AUTH_ID_CITY.cityResources_EmployeeManage == item.auth_id) {
                             this.showdelete = common.showSubDel(item.sub_auth);
                             this.showresetpwd = common.showSubReset(item.sub_auth);
                             this.showEdit = common.showSubEdit(item.sub_auth);

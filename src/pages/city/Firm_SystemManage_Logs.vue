@@ -141,7 +141,7 @@
                 },
                 searchForm:{},
                 orderfield:'id',
-                queryapi: '/parklog/query',
+                queryapi: '/citylog/cityQuery',
                 btswidth: '100',
                 fieldsstr: 'id__log_id__operate_time__content__operate_user__remark__operate_type__type',
                 tableitems: [

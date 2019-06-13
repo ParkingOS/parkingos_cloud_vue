@@ -96,15 +96,7 @@ import Union_Bolink_Expense from './pages/union/Bolink_Expense.vue';
 import Union_Bolink_Income from './pages/union/Bolink_Income.vue';
 //集团减免记录 BusinessOrder_Reduce
 import BusinessOrder_Reduce from './pages/union/BusinessOrder_Reduce.vue';
-//厂商页面
-import Park_Manage from './pages/city/parkManagement/Park_Manage.vue';
-import Park_Manage_Staff from './pages/city/parkManagement/Park_Manage_Staff.vue';
-import Union_Manage from './pages/city/Union_Manage.vue';
-import Union_Manage_Staff from './pages/city/Union_Manage_Staff.vue';
-import Setting_Manage from './pages/city/Setting_Manage.vue';
 
-import Ser_Manage from './pages/city/Ser_Manage.vue';
-import Ser_Manage_Staff from './pages/city/Ser_Manage_Staff.vue';
 
 //总后台页面
 import City_Manage from './pages/admin/City_Manage.vue';
@@ -125,87 +117,8 @@ import EmployeePermission_ShopMember from './pages/shop/EmployeePermission_Emplo
 import EmployeePermission_ShopRole from './pages/shop/EmployeePermission_RoleManage.vue';
 
 
-/**
- *
- * @date:20190515
- * @author:cyzhi
- * @description:泊链厂商页面迁移至云平台
- * @page:Account
- */
-import Account from  './pages/city/Account.vue'
-import MoneyRecord from  './pages/city/MoneyRecord.vue'
-import NewUnionProfit from './pages/city/NewUnionProfit.vue'
-import ManufacturerRoleManagement from './pages/city/ManufacturerRoleManagement.vue'
-import PersonnelManagement from './pages/city/PersonnelManagement.vue'
-import MessageNtification from './pages/city/MessageNtification.vue'
-import FirmSystemManageLogs from './pages/city/Firm_SystemManage_Logs.vue'
-import Development from './pages/city/Development.vue'
-import MaterielTable from './pages/city/parkManagement/MaterielTable'
-/*--------------end---------------------*/
-const CommonRouteItems = [
 
-    /**
-     * @date:20190515
-     * @author:cyzhi
-     * @description:泊链厂商页面迁移至云平台
-     */
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: 'plat',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/account', component: Account, name: 'Account'},
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: 'plat',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/money_record', component: MoneyRecord, name: 'MoneyRecord'},
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: 'plat',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/new_union_profit', component: NewUnionProfit, name: 'NewUnionProfit'},
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: 'plat',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/manufacturer_role_management', component: ManufacturerRoleManagement, name: 'ManufacturerRoleManagement'},
-            {path: '/mersonnel_management', component: PersonnelManagement, name: 'PersonnelManagement'},
-            {path: '/message_ntification', component: MessageNtification, name: 'MessageNtification'},
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: 'plat',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/firm_system_manage_logs', component: FirmSystemManageLogs, name: 'FirmSystemManageLogs'},
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: 'plat',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/development', component: Development, name: 'Development'},
-        ]
-    },
-    ///////////////////end////////////////////////////////////////////
+const CommonRouteItems = [
 
     {
         path: '/',
@@ -290,51 +203,8 @@ const CommonRouteItems = [
         ]
     },
 
-    // 厂商页面
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '工程服务商',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/ser_manage', component: Ser_Manage, name: '服务商管理'},
-            {path: '/ser_manage_staff', component: Ser_Manage_Staff, name: 'ser_manage_staff'},
 
 
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '运营集团',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/union_manage', component: Union_Manage, name: '运营集团'},
-            {path: '/union_manage_staff', component: Union_Manage_Staff, name: '运营集团'},
-
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '车场管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/park_manage', component: Park_Manage, name: '车场管理'},
-            {path: '/materiel_table', component: MaterielTable, name: 'MaterielTable'},
-            {path: '/park_manage_staff', component: Park_Manage_Staff, name: 'park_manage_staff'},
-
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '个性化设置',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/setting_manage', component: Setting_Manage, name: '运营集团'}
-        ]
-    },
 
     {
         path: '/loginCloud',
@@ -648,6 +518,134 @@ const CommonRouteItems = [
 
 /**
  *
+ * @data:20190612
+ * @author:cyzhi
+ * @description:厂商路由管理
+ * @update:20190612
+ * @description:泊链厂商页面迁移至云平台
+ */
+import HomeCloud_City from './pages/HomeCloud_City';
+import Account from  './pages/city/Account.vue'
+import MoneyRecord from  './pages/city/MoneyRecord.vue'
+import NewUnionProfit from './pages/city/NewUnionProfit.vue'
+import ManufacturerRoleManagement from './pages/city/humanResources/RoleManage.vue'
+import PersonnelManagement from './pages/city/humanResources/EmployeeManage.vue'
+import MessageNtification from './pages/city/humanResources/MessageNtification.vue'
+import FirmSystemManageLogs from './pages/city/Firm_SystemManage_Logs.vue'
+import Development from './pages/city/Development.vue'
+import MaterielTable from './pages/city/parkManagement/MaterielTable'
+import Park_Manage from './pages/city/parkManagement/Park_Manage.vue';
+import Park_Manage_Staff from './pages/city/parkManagement/Park_Manage_Staff.vue';
+import Union_Manage from './pages/city/unionManagement/Union_Manage.vue';
+import Union_Manage_Staff from './pages/city/unionManagement/Union_Manage_Staff.vue';
+import Setting_Manage from './pages/city/Setting_Manage.vue';
+import Ser_Manage from './pages/city/serManagement/Ser_Manage.vue';
+import Ser_Manage_Staff from './pages/city/serManagement/Ser_Manage_Staff.vue';
+
+const CityRouteItems = [
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/city_account', component: Account, name: 'Account'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '工程服务商',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/citySerManage_serManagePage', component: Ser_Manage, name: 'Ser_Manage'},
+            {path: '/ser_manage_staff', component: Ser_Manage_Staff, name: 'ser_manage_staff'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '运营集团',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityUnionManage_unionManagePage', component: Union_Manage, name: 'Union_Manage'},
+            {path: '/union_manage_staff', component: Union_Manage_Staff, name: 'Union_Manage_Staff'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '车场管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityParkManage_parkManagePage', component: Park_Manage, name: 'Park_Manage'},
+            {path: '/cityParkManage_materielPage', component: MaterielTable, name: 'MaterielTable'},
+            {path: '/park_manage_staff', component: Park_Manage_Staff, name: 'park_manage_staff'},
+
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityTrade_MoneyRecord', component: MoneyRecord, name: 'MoneyRecord'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityStatistics_NewUnionProfit', component: NewUnionProfit, name: 'NewUnionProfit'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityResources_RoleManage', component: ManufacturerRoleManagement, name: 'ManufacturerRoleManagement'},
+            {path: '/cityResources_EmployeeManage', component: PersonnelManagement, name: 'PersonnelManagement'},
+            {path: '/cityResources_MessageNtification', component: MessageNtification, name: 'MessageNtification'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/city_systemMange', component: FirmSystemManageLogs, name: 'citySystemMange'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '个性化设置',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/citySettingManage_settingPage', component: Setting_Manage, name: 'Setting_Manage'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/development', component: Development, name: 'Development'},
+        ]
+    },
+];
+
+/*------------end---------------*/
+
+/**
+ *
  * @date:20190604
  * @author:cyzhi
  * @description:集团路由管理
@@ -758,5 +756,10 @@ const ServerRouteItems = [
         ]
     }
 ];
-const routes = [...CommonRouteItems,...UnionRouteItems,...ServerRouteItems];
+const routes = [
+    ...CommonRouteItems,
+    ...UnionRouteItems,
+    ...ServerRouteItems,
+    ...CityRouteItems
+];
 export default routes;

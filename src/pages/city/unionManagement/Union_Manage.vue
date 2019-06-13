@@ -4,7 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">运营集团<span style="margin: 2px">-</span>运营集团管理</p>
                 <div class="float-right">
-                    <el-button type="text"  @click="handleAdd" native-type="button" v-if="hideAdd" icon="el-icon-plus">注册运营集团</el-button>
+                    <el-button type="text"  @click="handleAdd" native-type="button" icon="el-icon-plus" v-if="showCustomizeAdd">注册运营集团</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -96,11 +96,11 @@
         parkState,
         inparkType,
         checkParkMobile,
-    } from '../../api/api';
-    import common from '../../common/js/common'
-    import {AUTH_ID_UNION} from '../../common/js/const'
-    import TabPane from '../../components/table/TabPane';
-    import axios from 'axios'
+    } from '../../../api/api';
+    import common from '../../../common/js/common'
+    import {AUTH_ID_CITY} from '../../../common/js/const'
+    import TabPane from '../../../components/table/TabPane';
+
 
     export default {
         components: {
@@ -108,10 +108,15 @@
         },
         data() {
             return {
-
+                showEdit:false,
+                showCustomizeAdd:false,
+                showSetting:false,
+                hideOptions:false,
+                hideExport:false,
+                showdelete:false,
                 isShow:false,
-                noimg:require('../../assets/images/no.png'),
-                offimg:require('../../assets/images/off.png'),
+                noimg:require('../../../assets/images/no.png'),
+                offimg:require('../../../assets/images/off.png'),
                 searchFormData:{
                     currentDate:'',
                     id:3,
@@ -133,15 +138,11 @@
                 delForm:{},
                 /////////////////////////////////////////
                 loading: false,
-                hideExport: false,
                 hideSearch: false,
-
                 orderfield:'id',
 
                 hideAdd: true,
                 tableheight: '',
-                showdelete: true,
-                hideOptions: true,
                 imgSize:450,
                 hideTool: false,
                 showImg: true,
@@ -285,7 +286,8 @@
                                             size: 'small'
                                         },
                                         style: {
-
+                                            display:this.showEdit? '' : 'none',
+                                            marginRight: '5px'
                                         },
                                         on: {
                                             click: (e) => {
@@ -304,7 +306,9 @@
                                             type: 'text',
                                             size: 'small'
                                         },
-                                        style: {},
+                                        style: {
+                                            display: this.showSetting ? '':'none',
+                                        },
                                         on: {
                                             click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
@@ -318,7 +322,9 @@
                                             size: 'small'
                                         },
                                         style: {
-                                            color:'red'
+                                            color:'red',
+                                            display: this.showdelete ? '':'none',
+                                            marginLeft: '5px'
                                         },
                                         on: {
                                             click: (e) => {
@@ -432,8 +438,16 @@
                 if (user) {
                     user = JSON.parse(user);
                     for (var item of user.authlist) {
-                        if (AUTH_ID_UNION.businessOrder_Poles == item.auth_id) {
-                            this.hideExport = common.showSubExport(item.sub_auth);
+                        if (AUTH_ID_CITY.cityUnionManage_unionManagePage == item.auth_id) {
+                            this.showEdit = common.showSubEdit(item.sub_auth);
+                            this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
+                            this.showSetting = common.showSetting(item.sub_auth);
+                            this.showdelete = common.showSubDel(item.sub_auth)
+                            if(!this.showEdit&&!this.showSetting && !this.showdelete){
+                                this.hideOptions = true;
+                            }else{
+                                this.hideOptions = false;
+                            }
                             break;
                         }
                     }
@@ -461,7 +475,11 @@
             },
             serverList:function (val) {
                 this.tableitems[4].subs[0].options = val
-            }
+            },
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[len -1].subs[0].hidden = val
+            },
         }
     }
 
