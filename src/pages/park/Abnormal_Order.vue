@@ -432,7 +432,8 @@
                 * 点击刷新时 和初进入页面时
                 * */
                 let date = common.currentDateArray(3);
-                this.currentDate = [new Date(date[0]), new Date(date[1])];
+                //this.currentDate = [new Date(date[0]), new Date(date[1])];
+                this.currentDate = [common.strTimeToTimestamp(date[0]), common.strTimeToTimestamp(date[1])];
                 let sform = JSON.parse(JSON.stringify( that.searchData ));
                 if(that.currentDate != null){
                     sform.update_time = 'between';

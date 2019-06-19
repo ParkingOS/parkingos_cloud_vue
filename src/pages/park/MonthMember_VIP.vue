@@ -134,7 +134,12 @@
                 </el-form-item>
                 <el-form-item label="起始日期">
                     <el-date-picker type="datetime" v-model="refillstartDate"  style="width: 100%"
-                     :readonly='datereadonly'></el-date-picker>
+                     :readonly='datereadonly' @change="changeEndDate" value-format="timestamp"></el-date-picker>
+                </el-form-item>
+
+                <el-form-item label="结束日期">
+                    <el-date-picker type="datetime" v-model="refillEndDate"  style="width: 100%"
+                     :readonly='datereadonly2'></el-date-picker>
                 </el-form-item>
                 <el-form-item label="备注">
                     <el-input v-model.trim="refillForm.remark"  placeholder="" :readonly=true></el-input>
@@ -646,6 +651,7 @@
                 addtitle: '注册会员',
                 readonly: true,
                 datereadonly:true,
+                datereadonly2:true,
                 refillFormRules: {
                     total: [
                         {required: true, message: '应收金额不能为空', trigger: 'blur'}
@@ -681,6 +687,7 @@
                     p_name: '',
                     months: '',
                     b_time: '',
+                    e_time:'',
                     total: '',
                     act_total: '',
                     mobile: '',
@@ -715,10 +722,28 @@
                     },
                 ],
                 refillstartDate: 0,
+                refillEndDate:0,
 
             }
         },
         methods: {
+            changeEndDate(){
+                console.log("change beginTime:"+this.refillstartDate+"~~"+this.refillForm.months)
+                if (this.refillForm.months == ''){
+                    return;
+                }
+
+                let _this = this;
+                let newDate = new Date();
+
+                _this.refillEndDate = new Date(newDate.setTime(_this.refillstartDate));
+
+                axios.all([common.getEndTime(new Date(this.refillstartDate).getTime(), this.refillForm.months)])
+                    .then(axios.spread(function (endTime) {
+                        console.log("==endTime.data:"+endTime.data);
+                        _this.refillEndDate  =endTime.data ;
+                    }))
+            },
             goShopSms(){
                 this.setSmSVible = false;
                 sessionStorage.setItem('highlightindex', '/systemManage_AddedService_Sms');
@@ -809,6 +834,7 @@
                 console.log('-------',index,row)
                 let _this = this;
                  _this.refillstartDate=0;
+                 _this.refillEndDate=0;
                 this.currentIndex = index;
                 this.currentRow = row;
                 this.refillForm.p_name ='';
@@ -817,11 +843,11 @@
                 this.refillForm.remark = '云平台续费';
                 let newDate = new Date();
                 if (now / 1000 > endtime) {
-                    _this.refillstartDate = new Date(newDate.setTime(now));
+                    _this.refillstartDate = newDate.setTime(now);
                 } else {
                     _this.refillstartDate = newDate.setTime(endtime * 1000);
                 }
-
+                console.log("begin:"+_this.refillstartDate)
                 for (let item of this.pname) {
                     if (row.pid == item.value_no) {
                         this.refillForm.p_name = item.value_name;
@@ -844,15 +870,19 @@
                 let _this = this;
                 this.$refs.refillForm.validate((valid) => {
                     if (valid) {
-                        if(_this.datereadonly){
-                            _this.currentRow.e_time=_this.currentRow.e_time>new Date().valueOf()/1000?_this.currentRow.e_time:new Date().valueOf()/1000
-                        }else{
-                            _this.currentRow.e_time = Date.parse(new Date(this.refillstartDate))/1000
-                        }
+                        //if(_this.datereadonly){
+                        //    _this.currentRow.e_time=_this.currentRow.e_time>new Date().valueOf()/1000?_this.currentRow.e_time:new Date().valueOf()/1000
+                        //}else{
+                        //    _this.currentRow.e_time = Date.parse(new Date(this.refillstartDate))/1000
+                        //}
+
+                        _this.currentRow.e_time = Date.parse(new Date(this.refillstartDate))/1000
                         _this.currentRow.name=_this.currentRow.name==undefined?'':_this.currentRow.name
 
+                        _this.refillForm.e_time =  Date.parse(new Date(this.refillEndDate))/1000
+                        console.log("to refill:"+ _this.currentRow.e_time+"~~"+_this.refillForm.e_time)
                         _this.resetloading = true;
-                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total,_this.refillForm.total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))),encodeURI(encodeURI(_this.currentRow.card_id)))])
+                        axios.all([common.reNewProduct(_this.refillForm.p_name, _this.refillForm.months, encodeURI(encodeURI(_this.currentRow.name)), _this.currentRow.e_time, _this.currentRow.id, encodeURI(encodeURI(_this.refillForm.remark)), _this.refillForm.act_total,_this.refillForm.total, encodeURI(encodeURI(sessionStorage.getItem('nickname'))),encodeURI(encodeURI(_this.currentRow.card_id)),_this.refillForm.e_time)])
                             .then(axios.spread(function (ret) {
                                 let data = ret.data;
                                 // console.log(data)
@@ -882,10 +912,6 @@
 
             },
             getRefillTotal: function () {
-                // console.log('计算续费金额' + this.refillForm.p_name + ' -- ' + this.refillForm.months)
-                // if (this.refillForm.p_name == '' || this.refillForm.months == '')
-                //     return;
-
                 this.readonly = false;
                 for (let item of this.pname) {
                     // console.log(this.refillForm.p_name+'  '+item.value_name)
@@ -902,11 +928,17 @@
 
 
                 let _this = this;
-                axios.all([common.getProdSum(this.refillForm.p_name, this.refillForm.months)])
-                    .then(axios.spread(function (ret) {
+                console.log("change months:"+_this.refillstartDate+"~~month:"+this.refillForm.months)
+                let newDate = new Date();
+
+                _this.refillEndDate = new Date(newDate.setTime(_this.refillstartDate));
+
+                axios.all([common.getProdSum(this.refillForm.p_name, this.refillForm.months),common.getEndTime(_this.refillstartDate, this.refillForm.months)])
+                    .then(axios.spread(function (ret,endTime) {
                         _this.refillForm.total = ret.data + '';
                         _this.refillForm.act_total = ret.data + '';
-                        // console.log(ret.data)
+                        console.log("==endTime.data:"+endTime.data);
+                        _this.refillEndDate  =endTime.data ;
                     }))
             },
             handleRegis: function () {
@@ -1093,6 +1125,9 @@
                     user = JSON.parse(user);
                     if(user.self_setting){//如果设置了，那么日期可以修改
                         this.datereadonly=false;
+                    }
+                    if(user.end_time_setting){
+                        this.datereadonly2=false;
                     }
                     for (var item of user.authlist) {
                         if (AUTH_ID.monthMember_VIP == item.auth_id) {
