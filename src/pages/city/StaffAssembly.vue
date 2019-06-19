@@ -556,16 +556,16 @@
 
                 if(newVal == 'staff'){
                     let $url =  document.location.href;
-                    this.searchFormData.comid = $url.split('=')[1];
-                    this.getQuery(this.searchFormData.comid);
+                    //this.searchFormData.comid = $url.split('=')[1];
+                    this.getQuery();
                     this.resetForm()
                 }
             },
             count:function (newVal,oldVal) {
                 if(this.showState == 'staff'){
                     let $url =  document.location.href;
-                    this.searchFormData.comid = $url.split('=')[1];
-                    this.getQuery(this.searchFormData.comid);
+                    //this.searchFormData.comid = $url.split('=')[1];
+                    this.getQuery();
                     this.resetForm()
                 }
             }
