@@ -2,12 +2,12 @@
     <div class="login-wrapper" :style="{'background': 'url('+loginBg+'),#112068 no-repeat','background-size': '100% 100%',
         'background-position': 'center center'}">
 
-        <div class="header-wrapper">
+        <!--<div class="header-wrapper">
             <div class="logo" :style="{'background':'url('+logoImg+') no-repeat','background-size': '100% 100%',
         'background-position': 'center center'}"></div>
             <div class="logo-title" :style="{'background':'url('+logoTipImg+') no-repeat','background-size': '100% 100%',
         'background-position': 'center center'}"></div>
-        </div>
+        </div>-->
 
         <div class="main-wrapper">
             <div class="login" v-if="loginShow">
@@ -171,9 +171,10 @@
                 closeImg:require('../assets/images/close.png'),
                 mobileImg:require('../assets/images/mobile.png'),
                 vcodeImg:require('../assets/images/vcode.png'),
-                loginBg:require('../assets/images/bgImg.jpg'),
-                logoImg:require('../assets/images/logo.png'),
-                logoTipImg:require('../assets/images/bgtext.png'),
+                //loginBg:require('../assets/images/bgImg.jpg'),
+                //logoImg:require('../assets/images/logo.png'),
+                //logoTipImg:require('../assets/images/bgtext.png'),
+                loginBg:require('../assets/images/yunbo.jpg'),
                 ///////////////////////////////////////////////////////////////
                 expandindex: '',   //'/order',//展开的sub_menu
                 highlightindex: '',//'/orderManage_Poles',//高亮的item
