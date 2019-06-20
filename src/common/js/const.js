@@ -254,7 +254,7 @@ export const showServerItems_const = {
 export const AUTH_ID_CITY = {
     city_account: 383,
     citySerManage:384,
-    citySerManage_serManagePage:393,
+    citySerManage_serManagePage:392,
     cityUnionManage:385,
     cityUnionManage_unionManagePage:393,
     cityParkManage:386,
@@ -264,7 +264,7 @@ export const AUTH_ID_CITY = {
     cityStatistics_NewUnionProfit:388,
     cityResources:389,
     cityResources_RoleManage:396,
-    cityResources_EmployeeManage:397,
+    cityResources_EmployeeManage:395,
     cityResources_MessageNtification:397,
     citySettingManage:390,
     citySettingManage_settingPage:398,

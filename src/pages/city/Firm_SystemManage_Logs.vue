@@ -51,7 +51,7 @@
                             <el-select v-model="searchFormData.type"  filterable
                                        placeholder="请选择" class="shop-custom-input" style="width: 140px">
                                 <el-option
-                                        v-for="item in types"
+                                        v-for="item in cityTypes"
                                         :key="item.value_no"
                                         :label="item.value_name"
                                         :value="item.value_no">
@@ -88,7 +88,7 @@
 
 
 <script>
-    import {path, checkURL, checkUpload, checkNumber, payType,types,operateTypes} from '../../api/api';
+    import {path, checkURL, checkUpload, checkNumber, payType,cityTypes,operateTypes} from '../../api/api';
     import util from '../../common/js/util'
     import common from '../../common/js/common'
     import {AUTH_ID} from '../../common/js/const'
@@ -102,7 +102,7 @@
             return {
                 noimg:require('../../assets/images/no.png'),
                 offimg:require('../../assets/images/off.png'),
-                types:types,
+                cityTypes:cityTypes,
                 operateTypes:operateTypes,
                 isShow:false,
                 timeTypeOption:[
@@ -229,7 +229,6 @@
                                 prop: 'type',
                                 width: '123',
                                 type: 'selection',
-                                selectlist: types,
                                 editable: false,
                                 searchable: true,
                                 addable: true,
@@ -237,9 +236,8 @@
                                 align: 'center',
                                 columnType:'render',
                                 render: (h, params) => {
-
                                     return h('div', [
-                                        h('span', common.nameformat(params.row, types, 'type')),
+                                        h('span', common.nameformat(params.row, cityTypes, 'type')),
                                     ]);
                                 },
                             },

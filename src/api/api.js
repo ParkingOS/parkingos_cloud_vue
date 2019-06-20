@@ -98,6 +98,15 @@ export const unionTypes = [
     {'value_no': 'prepaycard', 'value_name': '储值卡会员'},
     {'value_no': '', 'value_name': '全部'}
 ];
+export const cityTypes = [
+    {'value_no': 'login', 'value_name': '登录模块'},
+    {'value_no': 'server', 'value_name': '服务商管理'},
+    {'value_no': 'group', 'value_name': '运营集团管理'},
+    {'value_no': 'parkinfo', 'value_name': '车场管理'},
+    {'value_no': 'member', 'value_name': '员工模块'},
+    {'value_no': 'adminrole', 'value_name': '角色管理'},
+    {'value_no': '', 'value_name': '全部'}
+];
 
 export const moveSpeed = [
     {'value_no': 0, 'value_name': '0'},
@@ -335,14 +344,13 @@ export var checkValiTime = (rule, value, callback) => {
 };
 
 export var checkURL = (rule, value, callback) => {
-    // if (typeof(value) == 'undefined' || value == '') {
-    //     return callback(new Error('请输入地址'));
-    // } else if (!(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/.test(value))) {
-    //     return callback(new Error('请输入正确的地址'));
-    // } else {
-    //     callback();
-    // }
-    console.log('' + callback);
+    if (typeof(value) == 'undefined' || value == '') {
+        return callback(new Error('请输入地址'));
+    } else if (!(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/.test(value))) {
+        return callback(new Error('请输入正确的地址'));
+    } else {
+        callback();
+    }
 };
 
 export var checkUpload = (rule, value, callback) => {

@@ -265,7 +265,6 @@
                                 label: '手机',
                                 prop: 'mobile',
                                 width: '113',
-                                type: 'str',
                                 editable: true,
                                 searchable: true,
                                 addtable: true,

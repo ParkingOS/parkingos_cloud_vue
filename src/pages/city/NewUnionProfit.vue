@@ -2,7 +2,7 @@
     <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation" id="consoleCurrentHeight">
             <header class="shop-custom-header">
-                <p style="float: left">资金流水</p>
+                <p style="float: left">车场分润报表</p>
                 <div class="float-right">
                     <el-button type="text"  @click="exportFn" native-type="button"  icon="el-icon-printer">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
