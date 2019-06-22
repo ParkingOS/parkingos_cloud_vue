@@ -12,67 +12,15 @@ import HomeCloud from './pages/HomeCloud.vue';
 import HomeCloud_Union from './pages/HomeCloud_Union.vue';
 import HomeCloud_Admin from './pages/HomeCloud_Admin.vue';
 
-//云平台页面-车场
-import index from './pages/park/index.vue';
-import Data_Center_Park from './pages/park/Data_Center_Park.vue';
-import OrderManage_Orders from './pages/park/OrderManage_Orders.vue';
-import OrderManage_Poles from './pages/park/OrderManage_Poles.vue';
-import Bolink_Expense from './pages/park/Bolink_Expense.vue';
-import Bolink_Income from './pages/park/Bolink_Income.vue';
 
-import Abnormal_Order from './pages/park/Abnormal_Order.vue';
 
-import Reduce_Record from './pages/park/Reduce_Record.vue';
-import OrderManage_OrderDetail from './pages/park/OrderManage_OrderDetail.vue';
-import MonthMember_Refill from './pages/park/MonthMember_Refill.vue';
-import MonthMember_VIP from './pages/park/MonthMember_VIP.vue';
-import PrepayCard_VIP from './pages/park/PrepayCard_VIP.vue';
-import PrepayCard_Trade from './pages/park/PrepayCard_Trade.vue';
-import PrepayCard_Use from './pages/park/PrepayCard_Use.vue';
-import OnlinePay_CashManage from './pages/park/OnlinePay_CashManage.vue';
-import OnlinePay_Income from './pages/park/OnlinePay_Income.vue';
-import OrderStatistics_DailyReport from './pages/park/OrderStatistics_DailyReport.vue';
-import OrderStatistics_DailyBalance from './pages/park/OrderStatistics_DailyBalance.vue';
-import OrderStatistics_CollectorReport from './pages/park/OrderStatistics_CollectorReport.vue';
-import OrderStatistics_MonthReport from './pages/park/OrderStatistics_MonthReport.vue';
-import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue';
-import ShopManage_Shop from './pages/park/ShopManage_Shop.vue';
-import ShopMange_Shop_Staff from './pages/park/shopMange_Shop_Staff.vue';
-import ShopManage_QueryAccount from './pages/park/ShopManage_QueryAccount.vue';
-// Park_WhiteList
-import Park_WhiteList from './pages/park/Park_WhiteList.vue';
-//设备管理
-import EquipmentManage_Watchhouse from './pages/park/EquipmentManage_Watchhouse.vue';
-import EquipmentManage_Monitor from './pages/park/EquipmentManage_Monitor.vue';
-import EquipmentManage_Intercom from './pages/park/EquipmentManage_Intercom.vue';
-import EquipmentManage_WorkStation from './pages/park/EquipmentManage_WorkStation.vue';
-import EquipmentManage_Channel from './pages/park/EquipmentManage_Channel.vue';
-import EquipmentManage_Camera from './pages/park/EquipmentManage_Camera.vue';
-import EquipmentManage_LED from './pages/park/EquipmentManage_LED.vue';
-import VistorManage_VistorMember from './pages/park/VistorManage_VistorMember.vue';
-import VistorManage_HomeOwner from './pages/park/VistorManage_HomeOwner.vue';
-import EmployeePermission_Manage from './pages/park/EmployeePermission_EmployeeManage.vue';
-import EmployeePermission_Role from './pages/park/EmployeePermission_RoleManage.vue';
-import SystemManage_BlackList from './pages/park/SystemManage_BlackList.vue';
-import SystemManage_Commute from './pages/park/SystemManage_Commute.vue';
-import SystemManage_Account from './pages/park/SystemManage_Account.vue';
-import SystemManage_Params from './pages/park/SystemManage_Params.vue';
-import SystemManage_FreeReason from './pages/park/SystemManage_FreeReason.vue';
-import SystemManage_CarManage_CarType from './pages/park/SystemManage_CarManage_CarType.vue';
-import SystemManage_CarManage_BindType from './pages/park/SystemManage_CarManage_BindType.vue';
-import SystemManage_Price from './pages/park/SystemManage_Price.vue';
-import SystemManage_MonthCard from './pages/park/SystemManage_MonthCard.vue';
-import SystemManage_Logs from './pages/park/SystemManage_Logs.vue';
-import SystemManage_AddedService_Sms from './pages/park/SystemManage_Sms';
-import SystemManage_AddedService_Screen from './pages/park/SystemManage_Screen';
-import AddServices_Program from './pages/park/AddServices_Program';
-import SystemManage_AddServices_Public from './pages/park/AddServices_Public';
+/**
+ *
+ * @date:20190620
+ * description:云平台集团权限的页面
+ */
 
-//cyz add
-import  MonitorApp from './MonitorApp.vue';
-import  DataScreen from './pages/park/Data_Screen.vue'
 
-//cyz add end
 //云平台页面-集团
 import Data_Center from './pages/union/Data_Center.vue';
 import BusinessOrder_Cars from './pages/union/BusinessOrder_Cars.vue';
@@ -265,167 +213,7 @@ const CommonRouteItems = [
         name: '',
         hidden: true
     },
-    /*
-    * 以下是云平台页面
-    * 车场
-    *
-    * */
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '数据中心',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/data_Center_park', component: Data_Center_Park, name: '数据中心'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        // name: '订单管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/orderManage_Orders', component: OrderManage_Orders, name: '订单记录'},
-            {path: '/orderManage_Poles', component: OrderManage_Poles, name: '抬杆记录'},
-            {path: '/orderManage_Income', component: Bolink_Income, name: '交易记录'},
-            {path: '/orderManage_Expense', component: Bolink_Expense, name: '支出记录'},
-            {path: '/orderManage_Abnormal', component: Abnormal_Order, name: '异常订单'},
-            {path: '/orderManage_Record', component: Reduce_Record, name: '减免记录'},
-            {path: '/orderManage_OrderDetail', component: OrderManage_OrderDetail, name: '订单详情'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '月卡会员管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/monthMember_Refill', component: MonthMember_Refill, name: '月卡续费记录'},
-            {path: '/monthMember_VIP', component: MonthMember_VIP, name: '月卡会员'},
-            {path: '/prepay_card', component: PrepayCard_VIP, name: '储值卡会员'},
-            {path: '/prepay_card_trade', component: PrepayCard_Trade, name: '储值卡充值记录'},
-            {path: '/prepay_card_use', component: PrepayCard_Use, name: '储值卡使用记录'},
-            {path: '/park_white_list', component: Park_WhiteList, name: '白名单管理'},
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '访客管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/vistorManage_VistorMember', component: VistorManage_VistorMember, name: '访客人员管理'},
-            {path: '/vistorManage_homeOwner', component: VistorManage_HomeOwner, name: '访客人员管理'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '电子支付',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/onlinePay_CashManage', component: OnlinePay_CashManage, name: '提现管理'},
-            {path: '/onlinePay_Income', component: OnlinePay_Income, name: '电子收款'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '统计分析',
-        iconCls: 'el-icon-document',
-        children: [
 
-            {path: '/orderStatistics_CollectorReport', component: OrderStatistics_CollectorReport, name: '收费员'},
-            {path: '/orderStatistics_DailyReport', component: OrderStatistics_DailyReport, name: '日报'},
-            {path: '/orderStatistics_DailyBalance', component: OrderStatistics_DailyBalance, name: '日报'},
-            {path: '/orderStatistics_MonthReport', component: OrderStatistics_MonthReport, name: '月报'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '商户管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {
-                path: '/shopManage_Coupon',
-                component: ShopManage_Coupon,
-                name: '商户管理',
-            },
-            {path: '/shopManage_Shop', component: ShopManage_Shop, name: '流水查询'},
-            {path: '/shopManage_QueryAccount', component: ShopManage_QueryAccount, name: '优惠券管理'},
-            {path: '/ShopManage_Coupon_Staff', component: ShopMange_Shop_Staff, name: '员工管理'},
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '设备管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/equipmentManage_Watchhouse', component: EquipmentManage_Watchhouse, name: '岗亭管理'},
-            {path: '/equipmentManage_Monitor', component: EquipmentManage_Monitor, name: '监控管理'},
-            {path: '/equipmentManage_Intercom', component: EquipmentManage_Intercom, name: '对讲管理'},
-            {path: '/equipmentManage_WorkStation', component: EquipmentManage_WorkStation, name: '工作站管理'},
-            {path: '/equipmentManage_Channel', component: EquipmentManage_Channel, name: '通道管理'},
-            {path: '/equipmentManage_Camera', component: EquipmentManage_Camera, name: '摄像头管理'},
-            {path: '/equipmentManage_LED', component: EquipmentManage_LED, name: 'LED屏管理'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '员工权限',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/employeePermission_Role', component: EmployeePermission_Role, name: '角色管理'},
-            {path: '/employeePermission_Manage', component: EmployeePermission_Manage, name: '员工管理'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '系统管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/systemManage_BlackList', component: SystemManage_BlackList, name: '黑名单管理'},
-            {path: '/systemManage_Commute', component: SystemManage_Commute, name: '上下班记录'},
-            {path: '/systemManage_Account', component: SystemManage_Account, name: '账户管理'},
-            {path: '/systemManage_Params', component: SystemManage_Params, name: '参数管理'},
-            {path: '/systemManage_FreeReason', component: SystemManage_FreeReason, name: '免费原因'},
-            {path: '/systemManage_CarManage_CarType', component: SystemManage_CarManage_CarType, name: '车型管理dad'},
-            {path: '/systemManage_CarManage_BindType', component: SystemManage_CarManage_BindType, name: '车型管理son'},
-            {path: '/systemManage_Price', component: SystemManage_Price, name: '价格管理'},
-            {path: '/systemManage_MonthCard', component: SystemManage_MonthCard, name: '月卡套餐管理'},
-            {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'},
-            // {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'},//增值服务-短信服务
-            // {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-短信服务
-
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        name: '增值服务',
-        children: [
-            {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'},//增值服务-短信服务
-            {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-数据大屏
-            {path: '/systemManage_AddServices_Program', component: AddServices_Program, name: 'program'},//增值服务-小程序
-            {path: '/systemManage_AddServices_Public', component: SystemManage_AddServices_Public, name: 'public'},//增值服务-小程序
-
-
-        ]
-    },
-    {
-        path: '/monitorApp',
-        component:MonitorApp ,
-        name: '自定义监控'
-    },
-    {
-        path: '/dataScreen',
-        component:DataScreen ,
-        name: '数据大屏'
-    },
     /*
     * 以下是集团页面
     *
@@ -571,6 +359,271 @@ const CommonRouteItems = [
 
 /**
  *
+ * @date:20190620
+ * @description:整理router页面路由 改为按需加载路由
+ *
+ * @update:20190620
+ * @description:车场端的页面路由整理
+ */
+//云平台页面-车场
+// index 空页面
+const index = () => import('./pages/park/index.vue');
+//数据中心
+const Data_Center_Park = () => import(/* webpackChunkName: "park-items" */ './pages/park/Data_Center_Park.vue');
+//订单管理下 ---
+//      订单记录、抬杆记录、支出记录、交易记录、异常订单、减免记录
+//          --订单详情
+const OrderManage_Orders = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderManage_Orders.vue');
+const OrderManage_Poles = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderManage_Poles.vue');
+const Bolink_Expense = () => import(/* webpackChunkName: "park-items" */ './pages/park/Bolink_Expense.vue');
+const Bolink_Income = () => import(/* webpackChunkName: "park-items" */ './pages/park/Bolink_Income.vue');
+const Abnormal_Order = () => import(/* webpackChunkName: "park-items" */ './pages/park/Abnormal_Order.vue');
+const Reduce_Record = () => import(/* webpackChunkName: "park-items" */ './pages/park/Reduce_Record.vue');
+const OrderManage_OrderDetail = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderManage_OrderDetail.vue');
+
+//会员管理
+    //月卡会员、月卡续费记录、储值卡会员、储值卡充值记录、储值卡使用记录、白名单管理
+const MonthMember_VIP = () => import(/* webpackChunkName: "park-items" */ './pages/park/MonthMember_VIP.vue');
+const MonthMember_Refill = () => import(/* webpackChunkName: "park-items" */ './pages/park/MonthMember_Refill.vue');
+const PrepayCard_VIP = () => import(/* webpackChunkName: "park-items" */ './pages/park/PrepayCard_VIP.vue');
+const PrepayCard_Trade = () => import(/* webpackChunkName: "park-items" */ './pages/park/PrepayCard_Trade.vue');
+const PrepayCard_Use = () => import(/* webpackChunkName: "park-items" */ './pages/park/PrepayCard_Use.vue');
+const Park_WhiteList = () => import(/* webpackChunkName: "park-items" */ './pages/park/Park_WhiteList.vue');
+
+//访客管理
+    //访客人员管理、业主管理
+const VistorManage_VistorMember = () => import(/* webpackChunkName: "park-items" */ './pages/park/VistorManage_VistorMember.vue');
+const VistorManage_HomeOwner = () => import(/* webpackChunkName: "park-items" */ './pages/park/VistorManage_HomeOwner.vue');
+
+//统计分析
+    //收费员日报、车场日报、车场日报、上下班记录
+const OrderStatistics_CollectorReport = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderStatistics_CollectorReport.vue');
+const OrderStatistics_DailyReport = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderStatistics_DailyReport.vue');
+const OrderStatistics_MonthReport = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderStatistics_MonthReport.vue');
+const SystemManage_Commute = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Commute.vue');
+        //其他
+const OrderStatistics_DailyBalance = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderStatistics_DailyBalance.vue');
+
+//商户管理
+    //商户管理、流水查询、优惠券管理
+        //商户管理下的员工设置
+const ShopManage_Shop = () => import(/* webpackChunkName: "park-items" */ './pages/park/ShopManage_Shop.vue');
+const ShopMange_Shop_Staff = () => import(/* webpackChunkName: "park-items" */ './pages/park/shopMange_Shop_Staff.vue');
+const ShopManage_QueryAccount = () => import(/* webpackChunkName: "park-items" */ './pages/park/ShopManage_QueryAccount.vue');
+const ShopManage_Coupon = () => import(/* webpackChunkName: "park-items" */ './pages/park/ShopManage_Coupon.vue');
+
+
+//电子支付
+    //提现设置、电子收款
+const OnlinePay_CashManage = () => import(/* webpackChunkName: "park-items" */ './pages/park/OnlinePay_CashManage.vue');
+const OnlinePay_Income = () => import(/* webpackChunkName: "park-items" */ './pages/park/OnlinePay_Income.vue');
+
+//员工权限
+    //角色管理、员工管理
+const EmployeePermission_Role = () => import(/* webpackChunkName: "park-items" */ './pages/park/EmployeePermission_RoleManage.vue');
+const EmployeePermission_Manage = () => import(/* webpackChunkName: "park-items" */ './pages/park/EmployeePermission_EmployeeManage.vue');
+
+//增值服务
+    //短信服务、数据大屏、商户公众号、小程序收费
+const SystemManage_AddedService_Sms = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Sms.vue');
+const SystemManage_AddedService_Screen = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Screen.vue');
+const AddServices_Program = () => import(/* webpackChunkName: "park-items" */ './pages/park/AddServices_Program.vue');
+const SystemManage_AddServices_Public = () => import(/* webpackChunkName: "park-items" */ './pages/park/AddServices_Public.vue');
+
+//系统管理
+    //设备管理、黑名单管理、账户管理、免费原因、车型管理、时租价格管理、月卡套餐管理、系统日志
+        //设备管理下--> 岗亭管理、监控管理、对讲管理、工作站管理、通道管理
+
+
+//设备管理
+const EquipmentManage_Watchhouse = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Watchhouse.vue');
+const EquipmentManage_Monitor = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Monitor.vue');
+const EquipmentManage_Intercom = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Intercom.vue');
+const EquipmentManage_WorkStation = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_WorkStation.vue');
+const EquipmentManage_Channel = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Channel.vue');
+const EquipmentManage_Camera = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Camera.vue');
+const EquipmentManage_LED = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_LED.vue');
+
+
+const SystemManage_BlackList = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_BlackList.vue');
+const SystemManage_Account = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Account.vue');
+const SystemManage_Params = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Params.vue');
+const SystemManage_FreeReason = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_FreeReason.vue');
+const SystemManage_CarManage_CarType = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_CarManage_CarType.vue');
+const SystemManage_CarManage_BindType = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_CarManage_BindType.vue');
+const SystemManage_Price = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Price.vue');
+const SystemManage_MonthCard = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_MonthCard.vue');
+const SystemManage_Logs = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Logs.vue');
+
+//打开新窗口的页面
+/**
+ * 监控中心暂时无法懒加载，原因不详
+ * 如果按照常规方法写错懒加载，则左侧菜单栏高度出现错误
+ */
+//数据大屏、监控中心
+const DataScreen = () => import(/* webpackChunkName: "park-items" */ './pages/park/Data_Screen.vue');
+import  MonitorApp from './MonitorApp.vue';
+
+
+const ParkRouteItems = [
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '数据中心',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/data_Center_park', component: Data_Center_Park, name: '数据中心'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        // name: '订单管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/orderManage_Orders', component: OrderManage_Orders, name: '订单记录'},
+            {path: '/orderManage_Poles', component: OrderManage_Poles, name: '抬杆记录'},
+            {path: '/orderManage_Income', component: Bolink_Income, name: '交易记录'},
+            {path: '/orderManage_Expense', component: Bolink_Expense, name: '支出记录'},
+            {path: '/orderManage_Abnormal', component: Abnormal_Order, name: '异常订单'},
+            {path: '/orderManage_Record', component: Reduce_Record, name: '减免记录'},
+            {path: '/orderManage_OrderDetail', component: OrderManage_OrderDetail, name: '订单详情'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '月卡会员管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/monthMember_Refill', component: MonthMember_Refill, name: '月卡续费记录'},
+            {path: '/monthMember_VIP', component: MonthMember_VIP, name: '月卡会员'},
+            {path: '/prepay_card', component: PrepayCard_VIP, name: '储值卡会员'},
+            {path: '/prepay_card_trade', component: PrepayCard_Trade, name: '储值卡充值记录'},
+            {path: '/prepay_card_use', component: PrepayCard_Use, name: '储值卡使用记录'},
+            {path: '/park_white_list', component: Park_WhiteList, name: '白名单管理'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '访客管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/vistorManage_VistorMember', component: VistorManage_VistorMember, name: '访客人员管理'},
+            {path: '/vistorManage_homeOwner', component: VistorManage_HomeOwner, name: '访客人员管理'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '电子支付',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/onlinePay_CashManage', component: OnlinePay_CashManage, name: '提现管理'},
+            {path: '/onlinePay_Income', component: OnlinePay_Income, name: '电子收款'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '统计分析',
+        iconCls: 'el-icon-document',
+        children: [
+
+            {path: '/orderStatistics_CollectorReport', component: OrderStatistics_CollectorReport, name: '收费员'},
+            {path: '/orderStatistics_DailyReport', component: OrderStatistics_DailyReport, name: '日报'},
+            {path: '/orderStatistics_DailyBalance', component: OrderStatistics_DailyBalance, name: '日报'},
+            {path: '/orderStatistics_MonthReport', component: OrderStatistics_MonthReport, name: '月报'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '商户管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {
+                path: '/shopManage_Coupon',
+                component: ShopManage_Coupon,
+                name: '商户管理',
+            },
+            {path: '/shopManage_Shop', component: ShopManage_Shop, name: '流水查询'},
+            {path: '/shopManage_QueryAccount', component: ShopManage_QueryAccount, name: '优惠券管理'},
+            {path: '/ShopManage_Coupon_Staff', component: ShopMange_Shop_Staff, name: '员工管理'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '设备管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/equipmentManage_Watchhouse', component: EquipmentManage_Watchhouse, name: '岗亭管理'},
+            {path: '/equipmentManage_Monitor', component: EquipmentManage_Monitor, name: '监控管理'},
+            {path: '/equipmentManage_Intercom', component: EquipmentManage_Intercom, name: '对讲管理'},
+            {path: '/equipmentManage_WorkStation', component: EquipmentManage_WorkStation, name: '工作站管理'},
+            {path: '/equipmentManage_Channel', component: EquipmentManage_Channel, name: '通道管理'},
+            {path: '/equipmentManage_Camera', component: EquipmentManage_Camera, name: '摄像头管理'},
+            {path: '/equipmentManage_LED', component: EquipmentManage_LED, name: 'LED屏管理'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '员工权限',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/employeePermission_Role', component: EmployeePermission_Role, name: '角色管理'},
+            {path: '/employeePermission_Manage', component: EmployeePermission_Manage, name: '员工管理'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '系统管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/systemManage_BlackList', component: SystemManage_BlackList, name: '黑名单管理'},
+            {path: '/systemManage_Commute', component: SystemManage_Commute, name: '上下班记录'},
+            {path: '/systemManage_Account', component: SystemManage_Account, name: '账户管理'},
+            {path: '/systemManage_Params', component: SystemManage_Params, name: '参数管理'},
+            {path: '/systemManage_FreeReason', component: SystemManage_FreeReason, name: '免费原因'},
+            {path: '/systemManage_CarManage_CarType', component: SystemManage_CarManage_CarType, name: '车型管理dad'},
+            {path: '/systemManage_CarManage_BindType', component: SystemManage_CarManage_BindType, name: '车型管理son'},
+            {path: '/systemManage_Price', component: SystemManage_Price, name: '价格管理'},
+            {path: '/systemManage_MonthCard', component: SystemManage_MonthCard, name: '月卡套餐管理'},
+            {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        name: '增值服务',
+        children: [
+            {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'},//增值服务-短信服务
+            {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-数据大屏
+            {path: '/systemManage_AddServices_Program', component: AddServices_Program, name: 'program'},//增值服务-小程序
+            {path: '/systemManage_AddServices_Public', component: SystemManage_AddServices_Public, name: 'public'},//增值服务-小程序
+
+
+        ]
+    },
+    {
+        path: '/monitorApp',
+        component:MonitorApp ,
+        name: '自定义监控'
+    },
+    {
+        path: '/dataScreen',
+        component:DataScreen ,
+        name: '数据大屏'
+    },
+];
+
+
+/**
+ *
  * @date:20190604
  * @author:cyzhi
  * @description:集团路由管理
@@ -602,28 +655,28 @@ import HomeCloud_Service from './pages/HomeCloud_Service.vue';
 
 //服务商下
 //      我的账户
-import myAccount from './pages/service/myAccount'
+const myAccount = () => import(/* webpackChunkName: "service-items" */ './pages/service/myAccount');
 //      运营商管理
-import operatorManage from './pages/service/operatorManage/Operator_Manage'
+const operatorManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/operatorManage/Operator_Manage');
 //      运营商管理下的员工
-import operatorManageStaff from './pages/service/operatorManage/Operator_Manage_Staff'
+const operatorManageStaff = () => import(/* webpackChunkName: "service-items" */ './pages/service/operatorManage/Operator_Manage_Staff');
 //      车场管理
-import  serverParkManage from './pages/service/parkManage/Park_Manage'
+const serverParkManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/parkManage/Park_Manage');
 //      车场管理下的员工
-import serverParkManageStaff from './pages/service/parkManage/Park_Manage_Staff'
+const serverParkManageStaff = () => import(/* webpackChunkName: "service-items" */ './pages/service/parkManage/Park_Manage_Staff');
 //      车场管理下的查看详情
-import serverParkManageDetail from './pages/service/parkManage/Park_Manage_Detail'
+const serverParkManageDetail = () => import(/* webpackChunkName: "service-items" */ './pages/service/parkManage/Park_Manage_Detail');
 //      子服务商管理
-import subServiceManage from './pages/service/subService/subservice_Manage'
-import subServiceManageStaff from './pages/service/subService/subservice_Manage_Staff'
-
+const subServiceManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/subService/subservice_Manage');
+const subServiceManageStaff = () => import(/* webpackChunkName: "service-items" */ './pages/service/subService/subservice_Manage_Staff');
 //      资金流水
-import serverMoneyRecord from './pages/service/MoneyRecord'
+const serverMoneyRecord = () => import(/* webpackChunkName: "service-items" */ './pages/service/MoneyRecord');
 //      车场分润报表
-import serverNewUnionProfit from './pages/service/NewUnionProfit'
+const serverNewUnionProfit = () => import(/* webpackChunkName: "service-items" */ './pages/service/NewUnionProfit');
 //      人力资源  1---角色管理  2---员工管理
-import serverRoleManage from './pages/service/humanResources/RoleManage'
-import serverEmployeeManage from './pages/service/humanResources/EmployeeManage'
+const serverRoleManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/humanResources/RoleManage');
+const serverEmployeeManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/humanResources/EmployeeManage');
+
 const ServerRouteItems = [
     {
         path: '/',
@@ -681,5 +734,5 @@ const ServerRouteItems = [
         ]
     }
 ];
-const routes = [...CommonRouteItems,...UnionRouteItems,...ServerRouteItems];
+const routes = [...CommonRouteItems,...ParkRouteItems,...UnionRouteItems,...ServerRouteItems];
 export default routes;
