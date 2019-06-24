@@ -118,23 +118,51 @@
                     <el-form-item label="有效期" prop="end_time">
                         <el-date-picker type="datetime" placeholder="选择日期时间" v-model="addFormPark.end_time" style="width: 292px"></el-date-picker>
                     </el-form-item>
-                    <el-form-item label="可用时段">
-                        <el-time-picker
-                                style="width: 292px"
-                                is-range
-                                arrow-control
-                                v-model="addFormPark.time_inuse"
-                                :picker-options="{
+                    <el-form-item label="可用时段" prop="time_inuse_start">
+<!--                        <el-time-picker-->
+<!--                                style="width: 292px"-->
+<!--                                is-range-->
+<!--                                arrow-control-->
+<!--                                v-model="addFormPark.time_inuse"-->
+<!--                                :picker-options="{-->
+<!--                                  format:'HH:mm'-->
+<!--                                }"-->
+<!--                                format="HH:mm"-->
+<!--                                value-format="HH:mm"-->
+<!--                                range-separator="至"-->
+<!--                                start-placeholder="开始时间"-->
+<!--                                end-placeholder="结束时间"-->
+<!--                                placeholder="选择时间范围"-->
+<!--                                >-->
+<!--                        </el-time-picker>-->
+                        <el-row type="flex">
+                            <el-col><el-time-picker
+                                    clearable
+                                    style="width: 130px;"
+                                    v-model="addFormPark.time_inuse_start"
+                                    :picker-options="{
                                   format:'HH:mm'
                                 }"
-                                format="HH:mm"
-                                value-format="HH:mm"
-                                range-separator="至"
-                                start-placeholder="开始时间"
-                                end-placeholder="结束时间"
-                                placeholder="选择时间范围"
-                                >
-                        </el-time-picker>
+                                    format="HH:mm"
+                                    value-format="HH:mm"
+                                    placeholder="开始时间"
+                            >
+                            </el-time-picker></el-col>
+                            <el-col style="margin: 0 10px"><span>至</span></el-col>
+                            <el-col><el-time-picker
+                                    clearable
+                                    style="width: 130px"
+                                    v-model="addFormPark.time_inuse_end"
+                                    :picker-options="{
+                                  format:'HH:mm'
+                                }"
+                                    format="HH:mm"
+                                    value-format="HH:mm"
+                                    placeholder="结束时间"
+                            >
+                            </el-time-picker></el-col>
+                        </el-row>
+
                     </el-form-item>
                     <el-form-item label="状态" >
                         <el-select v-model="addFormPark.state" style="width: 292px">
@@ -282,6 +310,19 @@
             TabPane
         },
         data() {
+            var vaildatorTimeSelect = (rule, value, callback) => {
+                console.log('value--->',value)
+                if ((typeof(value) === 'undefined' || value === '' || value === null ) && (typeof(this.addFormPark.time_inuse_end) === 'undefined' || this.addFormPark.time_inuse_end === '' || this.addFormPark.time_inuse_end === null ) ) {
+                    callback();
+                } else if (typeof(value) !== 'undefined' && (typeof(this.addFormPark.time_inuse_end) === 'undefined' || this.addFormPark.time_inuse_end == '' || this.addFormPark.time_inuse_end == null) ) {
+                    return callback(new Error('请选择结束时间'));
+                }else if ((typeof(this.addFormPark.time_inuse_end) !== 'undefined' || this.addFormPark.time_inuse_end != '' || this.addFormPark.time_inuse_end != null) && (typeof(value) === 'undefined' || value == null ||  value == '') ) {
+                    return callback(new Error('请选择开始时间'));
+                }
+                else {
+                    callback();
+                }
+            };
             return {
                 default_limit:'',
                 inputreadonly:false,
@@ -300,7 +341,8 @@
                     amount_limit:'',
                     free_limit:'',
                     state:0,
-                    time_inuse:'',
+                    time_inuse_start:'',
+                    time_inuse_end:'',
                 },
                 addFormVisible:false,
                 available:require('../../assets/images/shop/state-available.png'),
@@ -642,6 +684,9 @@
                     validite_time:[
                       {validator: checkValiTime, trigger: 'blur'}
                     ],
+                    time_inuse_start:[
+                        {validator: vaildatorTimeSelect, trigger: 'blur'}
+                    ]
                 },
 
                 appid:"appid",
