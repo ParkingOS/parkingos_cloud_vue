@@ -31,8 +31,8 @@
 </template>
 
 <script>
-    import StaffAssembly from './StaffAssembly'
-    import ChargingAssembly from './ChargingAssembly'
+    import StaffAssembly from './template/StaffAssembly'
+    import ChargingAssembly from './template/ChargingAssembly'
     export default {
         name: 'shop-mange_-shop_-staff',
         components: {

@@ -1,5 +1,4 @@
 import '../theme/index.css'; //主题色
-// import './common/css/index.css'  //本地色
 
 //全局引入iconfont
 import './assets/iconfont/iconfont.css'
@@ -13,7 +12,7 @@ import {path,path2} from './api/api';
 import common from './common/js/common';
 import axios from 'axios';
 import store from './store';
-import BaiduMap from 'vue-baidu-map';
+// import BaiduMap from 'vue-baidu-map';
 import './styles/element-variables.scss'; // global css
 import './styles/index.scss'; // global css
 import './styles/common-style.scss'
@@ -23,20 +22,26 @@ import QRCode from 'qrcode';
 import VueClipboard from 'vue-clipboard2'
 import scroll from 'vue-seamless-scroll';
 import math from 'mathjs'
+import jQuery from 'jquery'
 Vue.use(scroll)
 Vue.use(QRCode)
 Vue.use(ElementUI);
 Vue.use(VueRouter);
-Vue.use(BaiduMap,{
-  ak:'Ona5elzlpSrwOeeAI1k0EE2yHtpLoxlN'
-});
+// Vue.use(BaiduMap,{
+//   ak:'Ona5elzlpSrwOeeAI1k0EE2yHtpLoxlN'
+// });
 Vue.use(VueClipboard)
 Vue.prototype.$axios=axios;
 Vue.prototype.$qs=require('qs');
 Vue.prototype.$math = math;
 Vue.prototype.QRCode=QRCode
-
 Vue.prototype.common=common;
+
+Vue.prototype.$post=jQuery.post;
+Vue.prototype.$ajax=jQuery.ajax;
+Vue.prototype.$getJSON=jQuery.getJSON;
+Vue.prototype.$extend=jQuery.extend;
+
 const router = new VueRouter({
     routes
 });

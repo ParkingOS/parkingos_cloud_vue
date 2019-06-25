@@ -1,14 +1,35 @@
 <template>
-    <section class="shop-table-wrapper">
+    <section class="right-wrapper-size shop-table-wrapper" id="scrollBarDom">
         <div class="shop-custom-operation">
+            <header class="shop-custom-header">
+                <p style="float: left">运营集团管理<span style="margin: 2px">-</span>员工管理</p>
+                <div class="float-right">
+                    <el-button type="text" size="mini" style="font-size: 14px;color: #1E1E1E;" @click="saveModify" ><img :src="orderImg" style="margin-right: 5px;vertical-align: text-top">返回</el-button>
+                    <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
+                </div>
+            </header>
             <div class="shop-custom-console">
                 <el-form :inline="true" :model="searchFormData" class="shop-custom-form-search">
                     <div class="console-main">
+
+                        <!--<el-form-item label="创建时间">-->
+                        <!--<el-date-picker-->
+                        <!--style="width: 350px"-->
+                        <!--class="shop-custom-datepicker"-->
+                        <!--v-model="searchFormData.currentData"-->
+                        <!--type="datetimerange"-->
+                        <!--range-separator="至"-->
+                        <!--:default-time="['00:00:00','23:59:59']"-->
+                        <!--start-placeholder="请输入时间"-->
+                        <!--end-placeholder="请输入时间"-->
+                        <!--value-format="timestamp"-->
+                        <!--@change="changeDateFormat"-->
+                        <!--&gt;-->
+                        <!--</el-date-picker>-->
+                        <!--</el-form-item>-->
+
                         <el-form-item label="姓名" class="clear-style margin-left-20">
                             <el-input v-model="searchFormData.nickname" placeholder="请输入姓名" class="shop-custom-input"></el-input>
-                        </el-form-item>
-                        <el-form-item label="登录账号" class="clear-style margin-left-20">
-                            <el-input v-model="searchFormData.strid" placeholder="请输入登录账号" class="shop-custom-input"></el-input>
                         </el-form-item>
                         <el-form-item class="shop-clear-style">
                             <el-button type="primary" @click="searchFn" icon="el-icon-search">搜索</el-button>
@@ -73,31 +94,18 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import {blackStateType,path} from '../../api/api';
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    import TabPane from '../../components/table/TabPane';
+    import axios from 'axios/index';
+    import {path,blackStateType} from '../../../api/api';
+    import common from '../../../common/js/common'
+    import {AUTH_ID} from '../../../common/js/const'
+    import TabPane from '../../../components/table/TabPane';
     export default {
-        name: 'staff_assembly',
+        name: 'shop-mange_-shop_-staff',
         components: {
             TabPane
         },
-        props:{
-            showState:{
-                type:String,
-                defalut:'staff'
-            },
-            count:{
-                type:Number,
-                defalut:0
-            }
-        },
         data() {
             return {
-                bolink_id:'',
-                union_id:'',
-                classSetting:'staff',
                 aroles:[],
                 pwd1:'',
                 pwd2:'',
@@ -110,7 +118,7 @@
                 //添加
                 addRowData:{},
                 addedValue:{
-                    comid:''
+                    groupid:''
                 },
                 addTo:0,
                 //删除
@@ -119,18 +127,18 @@
                 isShow:false,
                 //搜索
                 searchFormData:{
-                    strid:'',
-                    shop_id:'',
+                    comid:undefined,
+                    oid:2,
+                    groupid:'',
                     currentData:'',
                     nickname:'',
-                    count:0,
-                    comid:''
+                    count:0
                 },
                 searchForm:{},
-                queryapi:'/member/query',
-                addapi: '/member/createmember',
-                delapi: '/member/delmember',
-                editapi: '/member/editmember',
+                queryapi:'/groupmember/query',
+                addapi: '/groupmember/createmember',
+                delapi: '/groupmember/delmember',
+                editapi: '/groupmember/editmember',
                 btswidth: '100',
                 fieldsstr: 'id__nickname__strid__phone__mobile__role_id__reg_time__sex__logon_time__isview',
                 tableitems: [
@@ -253,34 +261,6 @@
                         }]
                     },
                     {
-
-                        hasSubs: false,
-                        subs: [{
-                            label: '角色',
-                            prop: 'role_id',
-                            searchable: true,
-                            unsortable: true,
-                            addtable:true,
-                            editable:true,
-                            align: 'center',
-                            columnType:'render',
-                            render: (h, params) => {
-                                return h('div', [
-                                    h('span', common.nameformat(params.row, this.aroles, 'role_id'))
-                                ]);
-                            },
-                            "type": "select",
-                            "value": "",
-                            "button": false,
-                            "border": true,
-                            "rules": [
-                                {required: true, message: '请选择角色', trigger: 'blur'}
-                            ],
-                            'size':'',
-                            "options": this.aroles
-                        }]
-                    },
-                    {
                         hasSubs:false,
                         subs: [{
                             label: '操作',
@@ -304,7 +284,7 @@
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.editRowData = params.row;
                                                 this.editRowData.role_id = params.row.role_id+'';
-                                                this.editRowData.comid = this.searchFormData.comid;
+                                                this.editRowData.groupid = this.searchFormData.groupid;
                                                 this.editTo++;
                                             }
                                         }
@@ -369,9 +349,6 @@
             }
         },
         methods:{
-            handleClick(){
-
-            },
             resetPwd() {
                 let vm = this;
                 if (this.pwd1 === '' || this.pwd2 === '') {
@@ -392,7 +369,7 @@
                     'id': this.rowid,
                     'token': sessionStorage.getItem('token')
                 };
-                vm.$axios.post(path + '/member/editpass', vm.$qs.stringify(rform), {
+                vm.$axios.post(path + '/groupmember/editpass', vm.$qs.stringify(rform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
@@ -444,7 +421,7 @@
                 this.$router.history.go(-1);
             },
             searchFn(){
-                this.searchForm = JSON.parse(JSON.stringify( this.searchFormData ));
+                this.searchForm = JSON.parse(JSON.stringify( this.searchFormData));
             },
             regUser(){
 
@@ -465,11 +442,11 @@
             },
             //添加
             handleAdd(){
-                this.addedValue.bolink_id = this.bolink_id;
-                this.addedValue.union_id = this.union_id;
+                this.addedValue.groupid = this.searchFormData.groupid;
+                this.addedValue.oid = this.searchFormData.oid;
                 this.addRowData = {};
-                this.addRowData.bolink_id = this.bolink_id;
-                this.addRowData.union_id = this.union_id;
+                this.addRowData.groupid = this.searchFormData.groupid;
+                this.addRowData.oid = this.addRowData.oid;
                 this.addTo++;
             },
             addInput(aform){
@@ -483,66 +460,47 @@
             resetForm(){
                 let that = this;
                 that.searchFormData.count = that.searchFormData.count++;
-                that.searchFormData.strid= '';
                 that.searchFormData.nickname= '';
                 that.searchFormData.currentData='';
-                this.searchFormData.bolink_id = this.bolink_id;
-                this.searchFormData.union_id = this.union_id;
+
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
             },
             setAuthorityFn(){
-                // let user = sessionStorage.getItem('user');
-                // if (user) {
-                //     user = JSON.parse(user);
-                //     for (var item of user.authlist) {
-                //         if (AUTH_ID.systemManage_BlackList == item.auth_id) {
-                //             this.hideAdd = common.showSubAdd(item.sub_auth)
-                //             this.showEdit = common.showSubEdit(item.sub_auth)
-                //             this.showdelete = common.showSubDel(item.sub_auth)
-                //             if(!this.showEdit&&!this.showdelete){
-                //                 this.hideOptions = true;
-                //             }
-                //             break;
-                //         }
-                //     }
-                //
-                // }
-            },
-            getQuery(params){
-                let _this = this;
-                axios.get(path+'/member/getrole',{
-                    params:params
-                }).then(res=>{
-                    this.aroles = res.data;
-                }).catch(err=>{
-
-                })
-                this.resetForm()
-            },
-            alertInfo(msg) {
-                this.$alert(msg, '提示', {
-                    confirmButtonText: '确定',
-                    type: 'warning',
-                    callback: action => {
-                        sessionStorage.removeItem('user');
-                        sessionStorage.removeItem('token');
-                        this.$router.push('/login');
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID.systemManage_BlackList == item.auth_id) {
+                            this.hideAdd = common.showSubAdd(item.sub_auth)
+                            this.showEdit = common.showSubEdit(item.sub_auth)
+                            this.showdelete = common.showSubDel(item.sub_auth)
+                            if(!this.showEdit&&!this.showdelete){
+                                this.hideOptions = true;
+                            }
+                            break;
+                        }
                     }
-                });
+
+                }
             },
+            getQuery(id){
+                let _this = this;
+                sessionStorage.setItem('comid', id);
+                axios.all([common.getEmployeeRole()])
+                    .then(axios.spread(function (ret) {
+                        _this.aroles = ret.data;
+                        sessionStorage.setItem('comid', '')
+                    }))
+            }
         },
         mounted() {
             // this.setAuthorityFn();
-
         },
         activated() {
-
-            let params = this.$route.query;
-            this.bolink_id = params.bolink_id;
-            this.union_id = params.union_id;
-            this.searchFormData.bolink_id = params.bolink_id;
-            this.searchFormData.union_id = params.union_id;
-            this.getQuery(params)
+            let $url =  document.location.href;
+            this.searchFormData.groupid = $url.split('=')[1];
+            this.searchFn();
+            // this.getQuery(this.searchFormData.groupid);
         },
         watch: {
             hideOptions:function (val,oldVal) {
@@ -551,23 +509,6 @@
             },
             aroles:function (newVal,oldVal) {
                 this.tableitems[7].subs[0].options = newVal;
-            },
-            showState:function (newVal,oldVal) {
-
-                if(newVal == 'staff'){
-                    let $url =  document.location.href;
-                    //this.searchFormData.comid = $url.split('=')[1];
-                    this.getQuery();
-                    this.resetForm()
-                }
-            },
-            count:function (newVal,oldVal) {
-                if(this.showState == 'staff'){
-                    let $url =  document.location.href;
-                    //this.searchFormData.comid = $url.split('=')[1];
-                    this.getQuery();
-                    this.resetForm()
-                }
             }
         }
     };

@@ -123,6 +123,20 @@
                         </el-menu-item>
                     </el-submenu>
 
+
+                    <!--
+                        @date:20190515
+                        @author:cyzhi
+                        @description:泊链页面迁移至云平台
+                        @page:Account、
+                    -->
+                    <el-menu-item v-if="this.city" index="/account">
+                        <i class="menu-icon icon iconfont icon-order"></i>
+                        <span slot="title">我的账户</span>
+                    </el-menu-item>
+
+                    <!--                    ----------end-->
+
 <!--                    date:20190524-->
 <!--                    author:cyzhi-->
 <!--                    description:新增工程服务商-->
@@ -132,6 +146,7 @@
                         <el-menu-item index="/ser_manage">服务商管理
                         </el-menu-item>
                     </el-submenu>
+
                     <el-submenu v-if="this.city" index="/union_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">运营集团</span></template>
@@ -143,7 +158,28 @@
                                 class="menuitem">车场管理</span></template>
                         <el-menu-item index="/park_manage">车场管理
                         </el-menu-item>
+                        <el-menu-item index="/materiel_table">物料管理
+                        </el-menu-item>
                     </el-submenu>
+
+                    <el-menu-item v-if="this.city" index="/money_record">
+                        <i class="menu-icon icon iconfont icon-order"></i>
+                        <span slot="title">资金流水</span>
+                    </el-menu-item>
+
+                    <el-menu-item v-if="this.city" index="/new_union_profit">
+                        <i class="menu-icon icon iconfont icon-order"></i>
+                        <span slot="title">车场分润报表</span>
+                    </el-menu-item>
+
+                    <el-submenu v-if="this.city" index="/manufacturer_role-management">
+                        <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
+                                class="menuitem">人力资源</span></template>
+                        <el-menu-item index="/manufacturer_role_management">角色管理</el-menu-item>
+                        <el-menu-item index="/mersonnel_management">员工管理</el-menu-item>
+                        <el-menu-item index="/message_ntification">消息通知</el-menu-item>
+                    </el-submenu>
+
                     <el-submenu v-if="this.city" index="/setting_manage">
                         <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span
                                 class="menuitem">个性化设置</span></template>
@@ -151,6 +187,19 @@
                         </el-menu-item>
                     </el-submenu>
 
+                    <el-menu-item v-if="this.city" index="/firm_system_manage_logs">
+                        <i class="menu-icon icon iconfont icon-order"></i>
+                        <span slot="title">系统日志</span>
+                    </el-menu-item>
+
+                    <el-menu-item v-if="this.city" index="/development">
+                        <i class="menu-icon icon iconfont icon-order"></i>
+                        <span slot="title">开发配置</span>
+                    </el-menu-item>
+
+<!--                    <el-menu-item>-->
+<!--                        <a href="http://beta.bolink.club/#/platformmyaccount" target="_blank"></a>-->
+<!--                    </el-menu-item>-->
                 </el-menu>
 
             </aside>

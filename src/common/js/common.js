@@ -474,6 +474,12 @@ export default {
         }
         return false;
     },
+    showQrBtn:function(sub_auth){
+        if (sub_auth.indexOf('二维码') > -1) {
+            return true;
+        }
+        return false;
+    },
     showSubAdd: function (sub_auth) {
         //显示新增
         if (sub_auth.indexOf('注册') > -1) {

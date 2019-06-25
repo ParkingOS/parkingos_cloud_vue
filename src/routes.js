@@ -1,4 +1,3 @@
-// import Login from './pages/Login.vue'
 import LoginCloud from './pages/LoginCloud.vue';
 import NotFound from './pages/404.vue';
 import CodeReduce from './pages/CodeReduce.vue';
@@ -7,7 +6,6 @@ import CarReduce from './pages/CarReduce.vue';
 import FreeCarReduce from './pages/FreeCarReduce.vue';
 import ReduceExport from './pages/ReduceExport.vue';
 import FreeReduceExport from './pages/FreeReduceExport.vue';
-// import Home from './pages/Home.vue'
 import HomeCloud from './pages/HomeCloud.vue';
 import HomeCloud_Union from './pages/HomeCloud_Union.vue';
 import HomeCloud_Admin from './pages/HomeCloud_Admin.vue';
@@ -21,41 +19,7 @@ import HomeCloud_Admin from './pages/HomeCloud_Admin.vue';
  */
 
 
-//云平台页面-集团
-import Data_Center from './pages/union/Data_Center.vue';
-import BusinessOrder_Cars from './pages/union/BusinessOrder_Cars.vue';
-import BusinessOrder_Orders from './pages/union/BusinessOrder_Orders.vue';
-import BusinessOrder_Details from './pages/union/BusinessOrderDetails.vue';
-import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue';
-import Member_MonthVIP from './pages/union/Member_MonthVIP.vue';
-import Member_PrepayCardVIP from './pages/union/Member_PrepayCardVIP.vue';//储值卡会员
-import Member_BlackList from './pages/union/Member_BlackList.vue';
-import Member_WhiteList from './pages/union/Member_WhiteList.vue';
-import SystemSetting_Account from './pages/union/SystemSetting_Account.vue';
-import SystemSetting_Park from './pages/union/SystemSetting_Park.vue';
-import SystemSetting_Park_Staff from './pages/union/SystemSetting_Park_Staff.vue'
-import SystemSetting_EmployeeManage from './pages/union/SystemSetting_EmployeeManage.vue';
-import SystemSetting_RoleManage from './pages/union/SystemSetting_RoleManage.vue';
-import SystemSetting_LogsOperate from './pages/union/SystemSetting_LogsOperate.vue';
-import SystemSetting_LogsCollector from './pages/union/SystemSetting_LogsCollector.vue';
-import StrategicAnalysis_DailyReport from './pages/union/StrategicAnalysis_DailyReport.vue';
-import strategicAnalysis_DailyParkReport from './pages/union/strategicAnalysis_DailyParkReport.vue';
 
-import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_MonthReport.vue';
-
-import Union_Bolink_Expense from './pages/union/Bolink_Expense.vue';
-import Union_Bolink_Income from './pages/union/Bolink_Income.vue';
-//集团减免记录 BusinessOrder_Reduce
-import BusinessOrder_Reduce from './pages/union/BusinessOrder_Reduce.vue';
-//厂商页面
-import Park_Manage from './pages/city/Park_Manage.vue';
-import Park_Manage_Staff from './pages/city/Park_Manage_Staff.vue';
-import Union_Manage from './pages/city/Union_Manage.vue';
-import Union_Manage_Staff from './pages/city/Union_Manage_Staff.vue';
-import Setting_Manage from './pages/city/Setting_Manage.vue';
-
-import Ser_Manage from './pages/city/Ser_Manage.vue';
-import Ser_Manage_Staff from './pages/city/Ser_Manage_Staff.vue';
 
 //总后台页面
 import City_Manage from './pages/admin/City_Manage.vue';
@@ -74,10 +38,10 @@ import TicketManage from './pages/shop/TicketManage.vue';
 import FixCode from './pages/shop/FixCode.vue';
 import EmployeePermission_ShopMember from './pages/shop/EmployeePermission_EmployeeManage.vue';
 import EmployeePermission_ShopRole from './pages/shop/EmployeePermission_RoleManage.vue';
-// import CodeReduce from './pages/shop/CodeReduce.vue';
+
+
 
 const CommonRouteItems = [
-
 
     {
         path: '/',
@@ -162,50 +126,8 @@ const CommonRouteItems = [
         ]
     },
 
-    // 厂商页面
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '工程服务商',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/ser_manage', component: Ser_Manage, name: '服务商管理'},
-            {path: '/ser_manage_staff', component: Ser_Manage_Staff, name: 'ser_manage_staff'},
 
 
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '运营集团',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/union_manage', component: Union_Manage, name: '运营集团'},
-            {path: '/union_manage_staff', component: Union_Manage_Staff, name: '运营集团'},
-
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '车场管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/park_manage', component: Park_Manage, name: '车场管理'},
-            {path: '/park_manage_staff', component: Park_Manage_Staff, name: 'park_manage_staff'},
-
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '个性化设置',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/setting_manage', component: Setting_Manage, name: '运营集团'}
-        ]
-    },
 
     {
         path: '/loginCloud',
@@ -214,74 +136,7 @@ const CommonRouteItems = [
         hidden: true
     },
 
-    /*
-    * 以下是集团页面
-    *
-    * */
-    {
-        path: '/',
-        component: HomeCloud_Union,
-        name: '数据中心',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/data_Center', component: Data_Center, name: '数据中心'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Union,
-        name: '业务订单',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/businessOrder_Orders', component: BusinessOrder_Orders, name: '订单记录'},
-            {path: '/businessOrder_Poles', component: BusinessOrder_Poles, name: '抬杆记录'},
-            {path: '/businessOrder_Cars', component: BusinessOrder_Cars, name: '在场车辆'},
-            {path: '/businessOrder_Income', component: Union_Bolink_Income, name: '交易记录'},
-            {path: '/businessOrder_Expense', component: Union_Bolink_Expense, name: '支出记录'},
-            {path: '/businessOrder_Reduce', component: BusinessOrder_Reduce, name: '减免记录'},
-            {path: '/businessOrder_Details', component: BusinessOrder_Details, name: '订单记录详情'},
-        ]
-    },
 
-    {
-        path: '/',
-        component: HomeCloud_Union,
-        name: '会员',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/member_MonthVIP', component: Member_MonthVIP, name: '月卡会员'},
-            {path: '/member_PrepayCardVIP', component: Member_PrepayCardVIP, name: '储值卡会员'},
-            {path: '/member_BlackList', component: Member_BlackList, name: '黑名单管理'},
-            {path: '/member_WhiteList', component: Member_WhiteList, name: '白名单管理'},
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Union,
-        name: '决策分析',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/strategicAnalysis_DailyParkReport', component: strategicAnalysis_DailyParkReport, name: '车场日报'},
-            {path: '/strategicAnalysis_DailyReport', component: StrategicAnalysis_DailyReport, name: '集团日报'},
-            {path: '/strategicAnalysis_MonthReport', component: StrategicAnalysis_MonthReport, name: '集团月报'}
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Union,
-        name: '系统设置',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/systemSetting_Account', component: SystemSetting_Account, name: '账户信息'},
-            {path: '/systemSetting_Park', component: SystemSetting_Park, name: '停车场'},
-            {path:'/systemSetting_Park_Staff',component:SystemSetting_Park_Staff,name:'停车场员工'},
-            {path: '/systemSetting_EmployeeManage', component: SystemSetting_EmployeeManage, name: '员工管理'},
-            {path: '/systemSetting_RoleManage', component: SystemSetting_RoleManage, name: '角色管理'},
-            {path: '/systemSetting_LogsOperates', component: SystemSetting_LogsOperate, name: '操作日志管理'},
-            {path: '/systemSetting_LogsCollector', component: SystemSetting_LogsCollector, name: '收费员日志'},
-
-        ]
-    },
 
     /*
     * 404保留页面
@@ -624,15 +479,237 @@ const ParkRouteItems = [
 
 /**
  *
+ * @date:20190612
+ * @author:cyzhi
+ * @title:city
+ * @description:厂商路由管理
+ * @update:20190612
+ * @description:泊链厂商页面迁移至云平台
+ */
+
+const HomeCloud_City = () => import(/* webpackChunkName: "city-items" */ './pages/HomeCloud_City');
+const Account = () => import(/* webpackChunkName: "city-items" */ './pages/city/Account.vue');
+const MoneyRecord = () => import(/* webpackChunkName: "city-items" */ './pages/city/MoneyRecord.vue');
+const NewUnionProfit = () => import(/* webpackChunkName: "city-items" */ './pages/city/NewUnionProfit.vue');
+const ManufacturerRoleManagement = () => import(/* webpackChunkName: "city-items" */ './pages/city/humanResources/RoleManage.vue');
+const PersonnelManagement = () => import(/* webpackChunkName: "city-items" */ './pages/city/humanResources/EmployeeManage.vue');
+const MessageNtification = () => import(/* webpackChunkName: "city-items" */ './pages/city/humanResources/MessageNtification.vue');
+const FirmSystemManageLogs = () => import(/* webpackChunkName: "city-items" */ './pages/city/Firm_SystemManage_Logs.vue');
+const Development = () => import(/* webpackChunkName: "city-items" */ './pages/city/Development.vue');
+const MaterielTable = () => import(/* webpackChunkName: "city-items" */ './pages/city/parkManagement/MaterielTable.vue');
+const Park_Manage = () => import(/* webpackChunkName: "city-items" */ './pages/city/parkManagement/Park_Manage.vue');
+const Park_Manage_Staff = () => import(/* webpackChunkName: "city-items" */ './pages/city/parkManagement/Park_Manage_Staff.vue');
+const Union_Manage = () => import(/* webpackChunkName: "city-items" */ './pages/city/unionManagement/Union_Manage.vue');
+const Union_Manage_Staff = () => import(/* webpackChunkName: "city-items" */ './pages/city/unionManagement/Union_Manage_Staff.vue');
+const Setting_Manage = () => import(/* webpackChunkName: "city-items" */ './pages/city/Setting_Manage.vue');
+const Ser_Manage = () => import(/* webpackChunkName: "city-items" */ './pages/city/serManagement/Ser_Manage.vue');
+const Ser_Manage_Staff = () => import(/* webpackChunkName: "city-items" */ './pages/city/serManagement/Ser_Manage_Staff.vue');
+
+const CityRouteItems = [
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/city_account', component: Account, name: 'Account'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '工程服务商',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/citySerManage_serManagePage', component: Ser_Manage, name: 'Ser_Manage'},
+            {path: '/ser_manage_staff', component: Ser_Manage_Staff, name: 'ser_manage_staff'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '运营集团',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityUnionManage_unionManagePage', component: Union_Manage, name: 'Union_Manage'},
+            {path: '/union_manage_staff', component: Union_Manage_Staff, name: 'Union_Manage_Staff'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '车场管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityParkManage_parkManagePage', component: Park_Manage, name: 'Park_Manage'},
+            {path: '/cityParkManage_materielPage', component: MaterielTable, name: 'MaterielTable'},
+            {path: '/park_manage_staff', component: Park_Manage_Staff, name: 'park_manage_staff'},
+
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityTrade_MoneyRecord', component: MoneyRecord, name: 'MoneyRecord'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityStatistics_NewUnionProfit', component: NewUnionProfit, name: 'NewUnionProfit'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityResources_RoleManage', component: ManufacturerRoleManagement, name: 'ManufacturerRoleManagement'},
+            {path: '/cityResources_EmployeeManage', component: PersonnelManagement, name: 'PersonnelManagement'},
+            {path: '/cityResources_MessageNtification', component: MessageNtification, name: 'MessageNtification'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/city_systemMange', component: FirmSystemManageLogs, name: 'citySystemMange'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '个性化设置',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/citySettingManage_settingPage', component: Setting_Manage, name: 'Setting_Manage'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/development', component: Development, name: 'Development'},
+        ]
+    },
+];
+
+/*------------end---------------*/
+
+/**
+ *
  * @date:20190604
  * @author:cyzhi
  * @description:集团路由管理
  */
-import unionSmsService from './pages/union/valueAddedService/smsService/smsService.vue'
-import unionSmsServiceDistribution from './pages/union/valueAddedService/smsService/smsDistribution.vue'
+//云平台页面-集团
+const Data_Center = () => import(/* webpackChunkName: "union-items" */ './pages/union/Data_Center.vue');
+const BusinessOrder_Cars = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrder_Cars.vue');
+const BusinessOrder_Orders = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrder_Orders.vue');
+const BusinessOrder_Details = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrderDetails.vue');
+const BusinessOrder_Poles = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrder_Poles.vue');
+const Member_MonthVIP = () => import(/* webpackChunkName: "union-items" */ './pages/union/Member_MonthVIP.vue');
+const Member_PrepayCardVIP = () => import(/* webpackChunkName: "union-items" */ './pages/union/Member_PrepayCardVIP.vue');
+const Member_BlackList = () => import(/* webpackChunkName: "union-items" */ './pages/union/Member_BlackList.vue');
+const Member_WhiteList = () => import(/* webpackChunkName: "union-items" */ './pages/union/Member_WhiteList.vue');
+const SystemSetting_Account = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_Account.vue');
+const SystemSetting_Park = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_Park.vue');
+const SystemSetting_Park_Staff = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_Park_Staff.vue');
+const SystemSetting_EmployeeManage = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_EmployeeManage.vue');
+const SystemSetting_RoleManage = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_RoleManage.vue');
+const SystemSetting_LogsOperate = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_LogsOperate.vue');
+const SystemSetting_LogsCollector = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_LogsCollector.vue');
+const StrategicAnalysis_DailyReport = () => import(/* webpackChunkName: "union-items" */ './pages/union/StrategicAnalysis_DailyReport.vue');
+const strategicAnalysis_DailyParkReport = () => import(/* webpackChunkName: "union-items" */ './pages/union/strategicAnalysis_DailyParkReport.vue');
+const StrategicAnalysis_MonthReport = () => import(/* webpackChunkName: "union-items" */ './pages/union/StrategicAnalysis_MonthReport.vue');
+const Union_Bolink_Expense = () => import(/* webpackChunkName: "union-items" */ './pages/union/Bolink_Expense.vue');
+const Union_Bolink_Income = () => import(/* webpackChunkName: "union-items" */ './pages/union/Bolink_Income.vue');
+const BusinessOrder_Reduce = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrder_Reduce.vue');
+const unionSmsService = () => import(/* webpackChunkName: "union-items" */ './pages/union/valueAddedService/smsService/smsService.vue');
+const unionSmsServiceDistribution = () => import(/* webpackChunkName: "union-items" */ './pages/union/valueAddedService/smsService/smsDistribution.vue');
+
 /***--------------end-------------**/
 
 const UnionRouteItems = [
+    /*
+    * 以下是集团页面
+    *
+    * */
+    {
+        path: '/',
+        component: HomeCloud_Union,
+        name: '数据中心',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/data_Center', component: Data_Center, name: '数据中心'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Union,
+        name: '业务订单',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/businessOrder_Orders', component: BusinessOrder_Orders, name: '订单记录'},
+            {path: '/businessOrder_Poles', component: BusinessOrder_Poles, name: '抬杆记录'},
+            {path: '/businessOrder_Cars', component: BusinessOrder_Cars, name: '在场车辆'},
+            {path: '/businessOrder_Income', component: Union_Bolink_Income, name: '交易记录'},
+            {path: '/businessOrder_Expense', component: Union_Bolink_Expense, name: '支出记录'},
+            {path: '/businessOrder_Reduce', component: BusinessOrder_Reduce, name: '减免记录'},
+            {path: '/businessOrder_Details', component: BusinessOrder_Details, name: '订单记录详情'},
+        ]
+    },
+
+    {
+        path: '/',
+        component: HomeCloud_Union,
+        name: '会员',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/member_MonthVIP', component: Member_MonthVIP, name: '月卡会员'},
+            {path: '/member_PrepayCardVIP', component: Member_PrepayCardVIP, name: '储值卡会员'},
+            {path: '/member_BlackList', component: Member_BlackList, name: '黑名单管理'},
+            {path: '/member_WhiteList', component: Member_WhiteList, name: '白名单管理'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Union,
+        name: '决策分析',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/strategicAnalysis_DailyParkReport', component: strategicAnalysis_DailyParkReport, name: '车场日报'},
+            {path: '/strategicAnalysis_DailyReport', component: StrategicAnalysis_DailyReport, name: '集团日报'},
+            {path: '/strategicAnalysis_MonthReport', component: StrategicAnalysis_MonthReport, name: '集团月报'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Union,
+        name: '系统设置',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/systemSetting_Account', component: SystemSetting_Account, name: '账户信息'},
+            {path: '/systemSetting_Park', component: SystemSetting_Park, name: '停车场'},
+            {path:'/systemSetting_Park_Staff',component:SystemSetting_Park_Staff,name:'停车场员工'},
+            {path: '/systemSetting_EmployeeManage', component: SystemSetting_EmployeeManage, name: '员工管理'},
+            {path: '/systemSetting_RoleManage', component: SystemSetting_RoleManage, name: '角色管理'},
+            {path: '/systemSetting_LogsOperates', component: SystemSetting_LogsOperate, name: '操作日志管理'},
+            {path: '/systemSetting_LogsCollector', component: SystemSetting_LogsCollector, name: '收费员日志'},
+
+        ]
+    },
     {
         path: '/',
         component: HomeCloud_Union,
@@ -734,5 +811,11 @@ const ServerRouteItems = [
         ]
     }
 ];
-const routes = [...CommonRouteItems,...ParkRouteItems,...UnionRouteItems,...ServerRouteItems];
+const routes = [
+    ...CommonRouteItems,
+    ...ParkRouteItems,
+    ...UnionRouteItems,
+    ...ServerRouteItems,
+    ...CityRouteItems
+];
 export default routes;
