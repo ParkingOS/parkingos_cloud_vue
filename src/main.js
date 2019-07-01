@@ -7,7 +7,7 @@ import Vue from 'vue';
 import App from './App';
 import ElementUI from 'element-ui';
 import VueRouter from 'vue-router';
-import routes from './routes';
+import routes from './router/routes';
 import {path,path2} from './api/api';
 import common from './common/js/common';
 import axios from 'axios';

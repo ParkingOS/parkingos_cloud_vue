@@ -27,6 +27,11 @@ if(process.env.NODE_ENV == 'development'){ //开发环境
     server = "http://yun.bolink.club";
     bolinkPath = "https://s.bolink.club/web"
     percision = 2;
+}else{
+    path = "http://test.bolink.club/cloud";
+    path2 = "https://test.bolink.club";
+    server = "http://test.bolink.club";
+    bolinkPath = "https://beta.bolink.club/web"
 }
 module.exports = {
     path,
