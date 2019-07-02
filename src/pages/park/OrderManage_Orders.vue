@@ -148,6 +148,7 @@
                     },
 
                     disabledDate(time){
+                        that.minDate = that.minDate == null ?undefined:that.minDate;
                         let state = (time.getTime() >  new Date(that.minDate).getTime()+30*24*3600000)
                             ||(time.getTime()>= new Date(new Date(new Date().toLocaleDateString()).getTime() + (24*60*60*1000)))
                             ||(time.getTime() <  new Date(that.minDate).getTime()-30*24*3600000);
@@ -767,9 +768,7 @@
                         this.minDate = undefined;
                     }
                 },
-                // immediate: true,
-                // deep: true
-            }
+            },
         }
     };
 
