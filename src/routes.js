@@ -29,6 +29,7 @@ import Message_Service from './pages/admin/Message_Service.vue';
 import BigScreen_Service from './pages/admin/BigScreen_Service.vue';
 import Public_Service from './pages/admin/Public_Service.vue';
 import Program_Service from './pages/admin/Program_Service.vue';
+import Device_Manage from './pages/admin/Device_manage.vue';
 
 //Public_Service
 //商户后台页面
@@ -74,6 +75,15 @@ const CommonRouteItems = [
             {path: '/public_service', component: Public_Service, name: '公众号服务'},
             {path: '/program_service', component: Program_Service, name: '收费小程序'},
 
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_Admin,
+        name: '设备管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/device_manage', component: Device_Manage, name: '设备管理'},
         ]
     },
     //商户页面
@@ -309,6 +319,7 @@ const SystemManage_CarManage_BindType = () => import(/* webpackChunkName: "park-
 const SystemManage_Price = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Price.vue');
 const SystemManage_MonthCard = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_MonthCard.vue');
 const SystemManage_Logs = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Logs.vue');
+const Camera_Manage = () => import(/* webpackChunkName: "park-items" */ './pages/park/Camera_Manage.vue');
 
 //打开新窗口的页面
 /**
@@ -414,6 +425,7 @@ const ParkRouteItems = [
         name: '设备管理',
         iconCls: 'el-icon-document',
         children: [
+            {path: '/equipmentManage_ParkCamera', component: Camera_Manage, name: '车牌相机管理'},
             {path: '/equipmentManage_Watchhouse', component: EquipmentManage_Watchhouse, name: '岗亭管理'},
             {path: '/equipmentManage_Monitor', component: EquipmentManage_Monitor, name: '监控管理'},
             {path: '/equipmentManage_Intercom', component: EquipmentManage_Intercom, name: '对讲管理'},

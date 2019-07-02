@@ -148,7 +148,11 @@
                     },
 
                     disabledDate(time){
-                        return (time.getTime() >  new Date(that.minDate).getTime()+30*24*3600000)||(time.getTime()>Date.now()+86399000)||(time.getTime() <  new Date(that.minDate).getTime()-30*24*3600000);
+                        let state = (time.getTime() >  new Date(that.minDate).getTime()+30*24*3600000)
+                            ||(time.getTime()>= new Date(new Date(new Date().toLocaleDateString()).getTime() + (24*60*60*1000)))
+                            ||(time.getTime() <  new Date(that.minDate).getTime()-30*24*3600000);
+                        return state;
+                        // return (time.getTime() >  new Date(that.minDate).getTime()+30*24*3600000)||(time.getTime()>Date.now()+86399000)||(time.getTime() <  new Date(that.minDate).getTime()-30*24*3600000);
                     }
                 },
                 tableitems: [
@@ -756,6 +760,15 @@
             collectors: function (val) {
                 this.tableitems[16].subs[0].selectlist = val;
                 this.tableitems[17].subs[0].selectlist = val;
+            },
+            'searchFormData.currentData': {
+                handler(newVal, oldVal) {
+                    if(newVal == null){
+                        this.minDate = undefined;
+                    }
+                },
+                // immediate: true,
+                // deep: true
             }
         }
     };

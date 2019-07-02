@@ -122,7 +122,12 @@
                         <el-menu-item index="/program_service">小程序收费
                         </el-menu-item>
                     </el-submenu>
-
+                    <el-submenu v-if="this.admin" index="/device_manage">
+                        <template slot="title"><i class="el-icon-tickets"></i><span
+                                class="menuitem">设备管理</span></template>
+                        <el-menu-item index="/device_manage">设备管理
+                        </el-menu-item>
+                    </el-submenu>
 
                     <!--
                         @date:20190515

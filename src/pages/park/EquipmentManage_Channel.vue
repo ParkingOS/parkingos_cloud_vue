@@ -44,11 +44,11 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item  class="clear-style" label="工作站">
-                            <el-select v-model="searchFormData.worksite_id"  filterable
+                        <el-form-item  class="clear-style" label="相机">
+                            <el-select v-model="searchFormData.camera_id"  filterable
                                        placeholder="请选择" class="shop-custom-input" style="width: 140px">
                                 <el-option
-                                        v-for="item in worksite_id"
+                                        v-for="item in camera_id"
                                         :key="item.value_no"
                                         :label="item.value_name"
                                         :value="item.value_no">
@@ -150,8 +150,8 @@
                     passname:'',
                     passtype:'',
                     passtype_start:'',
-                    worksite_id:'',
-                    worksite_id_start:'',
+                    camera_id:'',
+                    camera_id_start:'',
                     month_set:'',
                     month_set_start:'',
                     month2_set:'',
@@ -163,7 +163,7 @@
                 addapi: '/EQ_channel/add',
                 editapi: '/EQ_channel/edit',
                 delapi: '/EQ_channel/remove',
-                fieldsstr: 'id__passname__passtype__worksite_id__month_set__month2_set__description__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
+                fieldsstr: 'id__passname__passtype__camera_id__month_set__month2_set__description__limit_time__resume',//请求数据的格式，在云平台的页面找接口和有关请求参数。
                 tableitems: [                       //表格元素，表头
                     {
                         hasSubs: false,
@@ -228,8 +228,8 @@
 
                         hasSubs: false,
                         subs: [{
-                            label: '所属工作站',
-                            prop: 'worksite_id',
+                            label: '相机',
+                            prop: 'camera_id',
                             width: '150',
                             editable: true,
                             searchable: true,
@@ -239,7 +239,7 @@
                             columnType:'render',
                             render: (h, params) => {
                                 return h('div', [
-                                    h('span', common.nameformat(params.row, this.worksite_id, 'worksite_id'))
+                                    h('span', common.nameformat(params.row, this.camera_id, 'camera_id'))
                                 ]);
                             },
                             "type": "select",
@@ -248,7 +248,7 @@
                             "border": true,
                             "rules": [],
                             'size':'',
-                            "options": this.worksite_id
+                            "options": this.camera_id
                         }]
                     },{
 
@@ -349,10 +349,10 @@
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.editFormVisible = true;
                                                 this.rowdata = params.row;
-                                                if(this.rowdata.worksite_id == '-1'){
-                                                    this.rowdata.worksite_id = '';
+                                                if(this.rowdata.camera_id == undefined || this.rowdata.camera_id == '-1'){
+                                                    this.rowdata.camera_id = '';
                                                 }else{
-                                                    this.rowdata.worksite_id = this.rowdata.worksite_id+'';
+                                                    this.rowdata.camera_id = this.rowdata.camera_id+'';
                                                 }
                                                 if( this.rowdata.month_set == '-1'){
                                                     this.rowdata.month_set = '';
@@ -360,7 +360,6 @@
                                                     this.rowdata.month_set = this.rowdata.month_set+'';
                                                 }
 
-                                                // this.rowdata.month2_set = this.rowdata.month2_set+'';
                                             }
                                         }
                                     }, '编辑'),
@@ -391,7 +390,7 @@
                         }]
                     },
                 ],
-                worksite_id:undefined,
+                camera_id:undefined,
                 hideAdd:false,
                 showEdit:false,
                 showdelete:false,
@@ -400,7 +399,6 @@
         },
         mounted() {
             this.setAuthorityFn();
-            this.getQuery();
             this.$refs['tabPane'].getTableData({},this)
         },
         methods:{
@@ -518,8 +516,8 @@
                     passname:'',
                     passtype:'',
                     passtype_start:'',
-                    worksite_id:'',
-                    worksite_id_start:'',
+                    camera_id:'',
+                    camera_id_start:'',
                     month_set:'',
                     month_set_start:'',
                     month2_set:'',
@@ -535,17 +533,17 @@
                 let sform = this.searchFormData;
                 sform.id_start = sform.id;
                 sform.passtype_start = sform.passtype;
-                sform.worksite_id_start = sform.worksite_id;
+                sform.camera_id_start = sform.camera_id;
                 sform.month_set_start = sform.month_set;
                 sform.month2_set_start = sform.month2_set;
                 this.searchForm = JSON.parse(JSON.stringify( sform ))
             },
             getQuery(){
                 let _this = this
-                axios.all([common.getWorkSite_id()])
-                    .then(axios.spread(function (ret) {
-                        _this.worksite_id = ret.data;
-                    }))
+                this.$axios.get(path+'/getdata/getCameras?comid='+sessionStorage.getItem('comid'))
+                    .then(res=>{
+                        _this.camera_id = res.data;
+                    })
             },
             setAuthorityFn(){
                 let user = sessionStorage.getItem('user');
@@ -568,13 +566,14 @@
             }
         },
         activated() {
+            this.getQuery();
         },
         watch: {
             hideOptions:function (val,oldVal) {
                 let len = this.tableitems.length;
                 this.tableitems[len - 1].subs[0].hidden = val
             },
-            worksite_id:function (newVal,oldVal) {
+            camera_id:function (newVal,oldVal) {
                 this.tableitems[3].subs[0].options = newVal;
             }
         },

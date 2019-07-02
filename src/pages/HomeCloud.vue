@@ -152,6 +152,10 @@
                             <template slot="title">
                                 <!--<i class="menu-icon iconfont icon-shebeiguanli"></i>-->
                                 <span class="menuitem" style="font-size: 14px">设备管理</span></template>
+                            <el-menu-item index="/equipmentManage_ParkCamera"
+                                          >
+                                车牌相机管理
+                            </el-menu-item>
                             <el-menu-item index="/equipmentManage_Watchhouse"
                                           v-if="this.showParkItem.equipmentManage_Watchhouse">
                                 岗亭管理
@@ -163,10 +167,10 @@
                             <el-menu-item index="/equipmentManage_Intercom"
                                           v-if="this.showParkItem.equipmentManage_Intercom">对讲管理
                             </el-menu-item>
-                            <el-menu-item index="/equipmentManage_WorkStation"
-                                          v-if="this.showParkItem.equipmentManage_WorkStation">
-                                工作站管理
-                            </el-menu-item>
+<!--                            <el-menu-item index="/equipmentManage_WorkStation"-->
+<!--                                          v-if="this.showParkItem.equipmentManage_WorkStation">-->
+<!--                                工作站管理-->
+<!--                            </el-menu-item>-->
                             <el-menu-item index="/equipmentManage_Channel"
                                           v-if="this.showParkItem.equipmentManage_Channel">
                                 通道管理
