@@ -2,7 +2,9 @@
     <section class="right-wrapper-size" id="scrollBarDom">
         <div class="shop-custom-operation" id="consoleCurrentHeight">
             <header class="shop-custom-header">
-                <p style="float: left">订单管理<span style="margin: 2px">-</span>异常订单</p>
+                <p style="float: left">订单管理<span style="margin: 2px">-</span>异常订单
+                    <span style="font-size:16px;font-weight:400;margin-left:10px;color:#989898"><i class="el-icon-question" style="margin-right: 10px"></i>该页面显示车场上传的出场时间为今天之前的订单；本页面订单不计入现金统计</span>
+                </p>
                 <div class="float-right">
                     <el-button type="text" v-if="hideExport" @click="exportFn" native-type="button"  icon="el-icon-printer">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
