@@ -615,7 +615,7 @@ const CityRouteItems = [
  * @description:集团路由管理
  */
 //云平台页面-集团
-// const Data_Center = () => import(/* webpackChunkName: "union-items" */ '../pages/union/Data_Center.vue');
+// const Data_Center = () => import(/* webpackChunkName: "union-items" */ '@/pages/union/Data_Center.vue');
 // const Data_Center = () => import(/* webpackChunkName: "union-items" */ '../pages/other/union/Data_Center.vue');
 // const Data_Center = () => _import('union/Data_Center');
 // console.log('----->',Data_Center)
@@ -656,7 +656,8 @@ const UnionRouteItems = [
         name: '数据中心',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/data_Center', component: _import('union/Data_Center'), name: '数据中心'}
+            {path: '/data_Center', component: _import("union/Data_Center"), name: '数据中心'}
+            // {path: '/data_Center', component: Data_Center, name: '数据中心'}
         ]
     },
     {

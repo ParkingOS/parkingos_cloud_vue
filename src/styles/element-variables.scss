@@ -14,7 +14,7 @@ $--color-transition-base: color .2s cubic-bezier(.645,.045,.355,1) !default;
 $--color-white: #fff !default;
 $--color-black: #000 !default;
 
-$--color-primary: #262B53 !default;
+$--color-primary: #3C75CF !default;
 $--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
 $--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
 $--color-primary-light-3: mix($--color-white, $--color-primary, 30%) !default; /* 79bbff */
@@ -44,20 +44,21 @@ $--color-info-lighter: mix($--color-white, $--color-info, 90%) !default;
 $--color-text-primary: #303133 !default;
 $--color-text-regular: #333 !default;
 $--color-text-secondary: #666666 !default;
-$--color-text-placeholder: #c0c4cc !default;
+$--color-text-placeholder: #999 !default;
 
 /* parkingOS
 --------------------------*/
 $--color-btn-text:#0E5FF6;
 $--parkingos-header-background: #2d3a4b !default;;
-$--parkingos-sidemenu-background:  #262B53 !default;
-$--parkingos-sidemenu-background-hover-color: #0E5FF6 !default;
-$--parkingos-sidemenu-background-9: #434A50 !default; /* ecf5ff */
+$--parkingos-sidemenu-background:  '' !default;
+$--parkingos-sidemenu-background-hover-color: #354563 !default;
 $--parkingos-datacenter-background: #393a3e !default;
 $--parkingos-menu-icon-color: #fff !default;
 $--parkingos-icon-park-color: #fff !default;
 $--parkingos-fill-color:#E7EAFE !default;
+$--parkingos-sidemenu-background-9: #434A50 !default; /* ecf5ff */
 $--parkingos-button-text-color:#0E5FF6 !default;
+$--parkingos-aside-bgcolor:#162949 !default;
 /* Link
 -------------------------- */
 $--link-color: $--color-primary-light-2 !default;
@@ -334,11 +335,11 @@ $--input-border: $--border-base !default;
 $--input-border-color: $--border-color-base !default;
 $--input-border-radius: $--border-radius-base !default;
 $--input-border-color-hover: $--border-color-hover !default;
-$--input-fill: $--parkingos-fill-color !default;
+$--input-fill: $--color-white !default;
 $--input-fill-disabled: $--disabled-fill-base !default;
 $--input-color-disabled: $--font-color-disabled-base !default;
 $--input-icon-color: $--color-text-placeholder !default;
-$--input-placeholder-color: $--color-text-regular !default;
+$--input-placeholder-color: $--color-text-placeholder !default;
 $--input-max-width: 314px !default;
 
 $--input-hover-border: $--border-color-hover !default;
@@ -485,7 +486,6 @@ $--dialog-title-font-size: $--font-size-large !default;
 $--dialog-font-size: 14px !default;
 $--dialog-line-height: $--font-line-height-primary !default;
 $--dialog-padding-primary: 20px !default;
-
 /* Table
 -------------------------- */
 $--table-border-color: $--border-color-lighter !default;
