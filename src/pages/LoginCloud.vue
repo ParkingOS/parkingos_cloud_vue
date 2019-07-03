@@ -132,17 +132,26 @@
 <script>
     import CryptoJS from 'crypto-js';
     import {path, checkPass} from '../api/api';
-    import MD5 from 'crypto-js/md5';
     import common from '../common/js/common';
-    import {ROLE_ID, AUTH_ID, AUTH_ID_UNION, showUnionItem_const, showParkItem_const,showShopItem_const,AUTH_ID_SHOP,AUTH_ID_SERVER,showServerItems_const} from '../common/js/const';
+    import {
+        ROLE_ID,
+        AUTH_ID,
+        AUTH_ID_UNION,
+        showUnionItem_const,
+        showParkItem_const,
+        showShopItem_const,
+        AUTH_ID_SHOP,
+        AUTH_ID_SERVER,
+        showServerItems_const,
+        AUTH_ID_CITY,
+        showCityItems_const
+    } from '../common/js/const';
 
     var key = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var iv = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var timer,timer2;
     var obtainValidation = undefined;
-    // import SvgIcon from '../components/SvgIcon/index.vue'// svg组件
     export default {
-        // components: {svgicon: SvgIcon},
         data() {
             return {
                 loginShow:true,
@@ -183,6 +192,7 @@
                 showUnionItem: showUnionItem_const,
                 showShopItem:showShopItem_const,
                 showServerItem:showServerItems_const,
+                showCityItem:showCityItems_const,
                 isIE10:false,
                 logining: false,
                 getPassVisible: false,
@@ -640,7 +650,36 @@
             clearCookie:function () {
                 this.setCookie("","",-1);//修改2值都为空，天数为负1天就好了
             },
-
+            storeSetItemFormat(u){
+                sessionStorage.setItem('user', JSON.stringify(u));
+                sessionStorage.setItem('token', u.token);
+                sessionStorage.setItem('comid', u.comid);
+                localStorage.setItem('comid', u.comid)
+                sessionStorage.setItem('groupid', u.groupid);
+                localStorage.setItem('groupid', u.groupid)
+                sessionStorage.setItem('channelid', u.channelid);
+                sessionStorage.setItem('unionid', u.union_id);
+                sessionStorage.setItem('cityid', u.cityid);
+                sessionStorage.setItem('loginuin', u.loginuin);
+                sessionStorage.setItem('oid', u.oid);
+                sessionStorage.setItem('nickname', u.nickname);
+                sessionStorage.setItem('ishdorder', u.ishdorder);
+                sessionStorage.setItem('loginroleid', u.loginroleid);
+                sessionStorage.setItem('supperadmin', u.supperadmin);
+                sessionStorage.setItem('shopid', u.shopid);
+                sessionStorage.setItem('nickname1', u.nickname);
+                sessionStorage.setItem('serverid',u.serverid);
+                sessionStorage.setItem('bolink_serverid',u.bolink_serverid);
+                sessionStorage.setItem('docking_type',u.docking_type);
+                //切换logo
+                if(u.logo1 != undefined && u.logo1 != null && u.logo1 != ''){
+                    sessionStorage.setItem('logo1', u.logo1);
+                    sessionStorage.setItem('logo2', u.logo2);
+                }else{
+                    sessionStorage.removeItem('logo1');
+                    sessionStorage.removeItem('logo2');
+                }
+            },
             onSubmit() {
                 this.handleSubmit2();
             },
@@ -675,58 +714,17 @@
                                 _this.logining = false;
                                 return;
                             }
-                            sessionStorage.setItem('user', JSON.stringify(u));
-                            sessionStorage.setItem('token', u.token);
-                            sessionStorage.setItem('comid', u.comid);
-                            localStorage.setItem('comid', u.comid)
-                            sessionStorage.setItem('groupid', u.groupid);
-                            localStorage.setItem('groupid', u.groupid)
-                            sessionStorage.setItem('channelid', u.channelid);
-                            sessionStorage.setItem('unionid', u.union_id);
-                            sessionStorage.setItem('cityid', u.cityid);
-                            sessionStorage.setItem('loginuin', u.loginuin);
-                            sessionStorage.setItem('oid', u.oid);
-                            sessionStorage.setItem('nickname', u.nickname);
-                            sessionStorage.setItem('ishdorder', u.ishdorder);
-                            sessionStorage.setItem('loginroleid', u.loginroleid);
-                            sessionStorage.setItem('supperadmin', u.supperadmin);
-                            sessionStorage.setItem('shopid', u.shopid);
-                            sessionStorage.setItem('nickname1', u.nickname);
-                            sessionStorage.setItem('serverid',u.serverid);
-                            sessionStorage.setItem('bolink_serverid',u.bolink_serverid);
-                            //切换logo
-                            if(u.logo1 != undefined && u.logo1 != null && u.logo1 != ''){
-                                sessionStorage.setItem('logo1', u.logo1);
-                                sessionStorage.setItem('logo2', u.logo2);
-                            }else{
-                                sessionStorage.removeItem('logo1');
-                                sessionStorage.removeItem('logo2');
-                            }
 
-                            /*
-                            *
-                            * @date 20190528
-                            * @author cyzhi
-                            * @description:暂时性锁定跳转的路由
-                            * */
-
-                            // _this.$router.push({path: '/my_account'});
-                            // return;
-                            //end-=-----------------end--------------//
+                            //本地数据存储 20190612
+                            _this.storeSetItemFormat(u);
 
 
                             // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
                             if (u.oid == ROLE_ID.GROUP) {
                                 // _this.$router.push({path: '/bolinkunion'});
                             }
-                            // else if (u.oid == ROLE_ID.CITYREGIS) {
-                            //     _this.$router.push({path: '/CreateUin'});
-                            // }
-                            // else if (u.oid == ROLE_ID.CHANNEL) {
-                            //     // _this.$router.push({path: '/account'});
-                            // }
+
                             else if (u.oid == ROLE_ID.UNION) {
-                                // _this.$router.push({path: '/account'});
                                 for (let item in _this.showUnionItem) {
                                     //第一层循环，取出标签的 v-if
                                     for (let p in AUTH_ID_UNION) {
@@ -758,17 +756,37 @@
                                     sessionStorage.setItem('highlightindex', _this.highlightindex);
                                 }
                             }
+
                             else if (u.oid == ROLE_ID.CITY) {
-                                for(let item in showShopItem_const){
-                                    showShopItem_const[item] = false;
+                                for (let item in _this.showCityItem) {
+                                    for (let p in AUTH_ID_CITY) {
+                                        if (p == item) {
+                                            _this.showCityItem[item] = common.pageShow(u, AUTH_ID_CITY[p]);
+                                            if(_this.showCityItem[item]) {
+                                                if (_this.highlightindex == '') {
+                                                    if (item.indexOf('_') > -1) {
+                                                        if (_this.showCityItem[item]) {
+                                                            _this.highlightindex = '/' + item;
+                                                            _this.expandindex = '/' + item.split('_')[0];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                                sessionStorage.removeItem('showShopItem');
-                                _this.highlightindex = '/ser_manage';
-                                _this.$router.push({path: _this.highlightindex});
-                                sessionStorage.setItem('highlightindex', _this.highlightindex);
+
+                                sessionStorage.setItem('showCityItem', JSON.stringify(_this.showCityItem));
+                                if (_this.highlightindex == '') {
+                                    _this.$router.push({path: '/cityAccount'});
+                                } else {
+                                    _this.$router.push({path: _this.highlightindex});
+                                    sessionStorage.setItem('highlightindex', _this.highlightindex);
+                                }
                             }
+
+
                             else if (u.oid == ROLE_ID.SHOP) {
-                                //alert(JSON.stringify(u.authlist))
                                 for (let item in _this.showShopItem) {
                                     //第一层循环，取出标签的 v-if
                                     for (let p in AUTH_ID_SHOP) {
@@ -879,7 +897,6 @@
                                     _this.$router.push({path: _this.highlightindex});
                                     sessionStorage.setItem('highlightindex', _this.highlightindex);
                                 }
-                                // _this.$router.push({path: '/my_account'});
                             }
                             // 还有一种没有roleid,它是根据另一种判断登录的
                             //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员

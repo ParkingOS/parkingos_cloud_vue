@@ -781,6 +781,7 @@
                         aform.b_time = aform.e_time;
 
                         aform = common.generateForm(_this.refillForm);
+                        aform.e_time ="";
 
                         _this.$axios.post(path + '/vip/renewproduct', _this.$qs.stringify(aform), {
                             headers: {

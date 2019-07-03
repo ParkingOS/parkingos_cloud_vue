@@ -1,4 +1,3 @@
-// import Login from './pages/Login.vue'
 import LoginCloud from './pages/LoginCloud.vue';
 import NotFound from './pages/404.vue';
 import CodeReduce from './pages/CodeReduce.vue';
@@ -7,107 +6,20 @@ import CarReduce from './pages/CarReduce.vue';
 import FreeCarReduce from './pages/FreeCarReduce.vue';
 import ReduceExport from './pages/ReduceExport.vue';
 import FreeReduceExport from './pages/FreeReduceExport.vue';
-// import Home from './pages/Home.vue'
 import HomeCloud from './pages/HomeCloud.vue';
 import HomeCloud_Union from './pages/HomeCloud_Union.vue';
 import HomeCloud_Admin from './pages/HomeCloud_Admin.vue';
 
-//云平台页面-车场
-import index from './pages/park/index.vue';
-import Data_Center_Park from './pages/park/Data_Center_Park.vue';
-import OrderManage_Orders from './pages/park/OrderManage_Orders.vue';
-import OrderManage_Poles from './pages/park/OrderManage_Poles.vue';
-import Bolink_Expense from './pages/park/Bolink_Expense.vue';
-import Bolink_Income from './pages/park/Bolink_Income.vue';
 
-import Abnormal_Order from './pages/park/Abnormal_Order.vue';
 
-import Reduce_Record from './pages/park/Reduce_Record.vue';
-import OrderManage_OrderDetail from './pages/park/OrderManage_OrderDetail.vue';
-import MonthMember_Refill from './pages/park/MonthMember_Refill.vue';
-import MonthMember_VIP from './pages/park/MonthMember_VIP.vue';
-import PrepayCard_VIP from './pages/park/PrepayCard_VIP.vue';
-import PrepayCard_Trade from './pages/park/PrepayCard_Trade.vue';
-import PrepayCard_Use from './pages/park/PrepayCard_Use.vue';
-import OnlinePay_CashManage from './pages/park/OnlinePay_CashManage.vue';
-import OnlinePay_Income from './pages/park/OnlinePay_Income.vue';
-import OrderStatistics_DailyReport from './pages/park/OrderStatistics_DailyReport.vue';
-import OrderStatistics_DailyBalance from './pages/park/OrderStatistics_DailyBalance.vue';
-import OrderStatistics_CollectorReport from './pages/park/OrderStatistics_CollectorReport.vue';
-import OrderStatistics_MonthReport from './pages/park/OrderStatistics_MonthReport.vue';
-import ShopManage_Coupon from './pages/park/ShopManage_Coupon.vue';
-import ShopManage_Shop from './pages/park/ShopManage_Shop.vue';
-import ShopMange_Shop_Staff from './pages/park/shopMange_Shop_Staff.vue';
-import ShopManage_QueryAccount from './pages/park/ShopManage_QueryAccount.vue';
-// Park_WhiteList
-import Park_WhiteList from './pages/park/Park_WhiteList.vue';
-//设备管理
-import EquipmentManage_Watchhouse from './pages/park/EquipmentManage_Watchhouse.vue';
-import EquipmentManage_Monitor from './pages/park/EquipmentManage_Monitor.vue';
-import EquipmentManage_Intercom from './pages/park/EquipmentManage_Intercom.vue';
-import EquipmentManage_WorkStation from './pages/park/EquipmentManage_WorkStation.vue';
-import EquipmentManage_Channel from './pages/park/EquipmentManage_Channel.vue';
-import EquipmentManage_Camera from './pages/park/EquipmentManage_Camera.vue';
-import EquipmentManage_LED from './pages/park/EquipmentManage_LED.vue';
-import VistorManage_VistorMember from './pages/park/VistorManage_VistorMember.vue';
-import VistorManage_HomeOwner from './pages/park/VistorManage_HomeOwner.vue';
-import EmployeePermission_Manage from './pages/park/EmployeePermission_EmployeeManage.vue';
-import EmployeePermission_Role from './pages/park/EmployeePermission_RoleManage.vue';
-import SystemManage_BlackList from './pages/park/SystemManage_BlackList.vue';
-import SystemManage_Commute from './pages/park/SystemManage_Commute.vue';
-import SystemManage_Account from './pages/park/SystemManage_Account.vue';
-import SystemManage_Params from './pages/park/SystemManage_Params.vue';
-import SystemManage_FreeReason from './pages/park/SystemManage_FreeReason.vue';
-import SystemManage_CarManage_CarType from './pages/park/SystemManage_CarManage_CarType.vue';
-import SystemManage_CarManage_BindType from './pages/park/SystemManage_CarManage_BindType.vue';
-import SystemManage_Price from './pages/park/SystemManage_Price.vue';
-import SystemManage_MonthCard from './pages/park/SystemManage_MonthCard.vue';
-import SystemManage_Logs from './pages/park/SystemManage_Logs.vue';
-import SystemManage_AddedService_Sms from './pages/park/SystemManage_Sms';
-import SystemManage_AddedService_Screen from './pages/park/SystemManage_Screen';
-import AddServices_Program from './pages/park/AddServices_Program';
-import SystemManage_AddServices_Public from './pages/park/AddServices_Public';
+/**
+ *
+ * @date:20190620
+ * description:云平台集团权限的页面
+ */
 
-//cyz add
-import  MonitorApp from './MonitorApp.vue';
-import  DataScreen from './pages/park/Data_Screen.vue'
 
-//cyz add end
-//云平台页面-集团
-import Data_Center from './pages/union/Data_Center.vue';
-import BusinessOrder_Cars from './pages/union/BusinessOrder_Cars.vue';
-import BusinessOrder_Orders from './pages/union/BusinessOrder_Orders.vue';
-import BusinessOrder_Details from './pages/union/BusinessOrderDetails.vue';
-import BusinessOrder_Poles from './pages/union/BusinessOrder_Poles.vue';
-import Member_MonthVIP from './pages/union/Member_MonthVIP.vue';
-import Member_PrepayCardVIP from './pages/union/Member_PrepayCardVIP.vue';//储值卡会员
-import Member_BlackList from './pages/union/Member_BlackList.vue';
-import Member_WhiteList from './pages/union/Member_WhiteList.vue';
-import SystemSetting_Account from './pages/union/SystemSetting_Account.vue';
-import SystemSetting_Park from './pages/union/SystemSetting_Park.vue';
-import SystemSetting_Park_Staff from './pages/union/SystemSetting_Park_Staff.vue'
-import SystemSetting_EmployeeManage from './pages/union/SystemSetting_EmployeeManage.vue';
-import SystemSetting_RoleManage from './pages/union/SystemSetting_RoleManage.vue';
-import SystemSetting_LogsOperate from './pages/union/SystemSetting_LogsOperate.vue';
-import SystemSetting_LogsCollector from './pages/union/SystemSetting_LogsCollector.vue';
-import StrategicAnalysis_DailyReport from './pages/union/StrategicAnalysis_DailyReport.vue';
-import strategicAnalysis_DailyParkReport from './pages/union/strategicAnalysis_DailyParkReport.vue';
 
-import StrategicAnalysis_MonthReport from './pages/union/StrategicAnalysis_MonthReport.vue';
-
-import Union_Bolink_Expense from './pages/union/Bolink_Expense.vue';
-import Union_Bolink_Income from './pages/union/Bolink_Income.vue';
-//集团减免记录 BusinessOrder_Reduce
-import BusinessOrder_Reduce from './pages/union/BusinessOrder_Reduce.vue';
-//厂商页面
-import Park_Manage from './pages/city/Park_Manage.vue';
-import Park_Manage_Staff from './pages/city/Park_Manage_Staff.vue';
-import Union_Manage from './pages/city/Union_Manage.vue';
-import Union_Manage_Staff from './pages/city/Union_Manage_Staff.vue';
-import Setting_Manage from './pages/city/Setting_Manage.vue';
-
-import Ser_Manage from './pages/city/Ser_Manage.vue';
-import Ser_Manage_Staff from './pages/city/Ser_Manage_Staff.vue';
 
 //总后台页面
 import City_Manage from './pages/admin/City_Manage.vue';
@@ -126,10 +38,10 @@ import TicketManage from './pages/shop/TicketManage.vue';
 import FixCode from './pages/shop/FixCode.vue';
 import EmployeePermission_ShopMember from './pages/shop/EmployeePermission_EmployeeManage.vue';
 import EmployeePermission_ShopRole from './pages/shop/EmployeePermission_RoleManage.vue';
-// import CodeReduce from './pages/shop/CodeReduce.vue';
+
+
 
 const CommonRouteItems = [
-
 
     {
         path: '/',
@@ -214,50 +126,8 @@ const CommonRouteItems = [
         ]
     },
 
-    // 厂商页面
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '工程服务商',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/ser_manage', component: Ser_Manage, name: '服务商管理'},
-            {path: '/ser_manage_staff', component: Ser_Manage_Staff, name: 'ser_manage_staff'},
 
 
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '运营集团',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/union_manage', component: Union_Manage, name: '运营集团'},
-            {path: '/union_manage_staff', component: Union_Manage_Staff, name: '运营集团'},
-
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '车场管理',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/park_manage', component: Park_Manage, name: '车场管理'},
-            {path: '/park_manage_staff', component: Park_Manage_Staff, name: 'park_manage_staff'},
-
-        ]
-    },
-    {
-        path: '/',
-        component: HomeCloud_Admin,
-        name: '个性化设置',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/setting_manage', component: Setting_Manage, name: '运营集团'}
-        ]
-    },
 
     {
         path: '/loginCloud',
@@ -265,11 +135,192 @@ const CommonRouteItems = [
         name: '',
         hidden: true
     },
+
+
+
     /*
-    * 以下是云平台页面
-    * 车场
-    *
+    * 404保留页面
     * */
+    {
+        path: '*',
+        hidden: true,
+        redirect: {path: '/404'}
+    },
+
+    {
+        path: '/code_reduce',
+        component: CodeReduce,
+        name: 'CodeReduce',
+        hidden: true
+    },
+    {
+        path: '/car_reduce',
+        component: CarReduce,
+        name: 'CarReduce',
+        hidden: true
+    },
+    {
+        path: '/free_car_reduce',
+        component: FreeCarReduce,
+        name: 'FreeCarReduce',
+        hidden: true
+    },
+    {
+        path: '/free_code_reduce',
+        component: FreeCodeReduce,
+        name: 'FreeCodeReduce',
+        hidden: true
+    },
+    {
+        path: '/reduce_export',
+        component: ReduceExport,
+        name: 'ReduceExport',
+        hidden: true
+    },
+    {
+        path: '/free_reduce_export',
+        component: FreeReduceExport,
+        name: 'FreeReduceExport',
+        hidden: true
+    },
+
+    {
+        path: '/404',
+        component: NotFound,
+        name: '',
+        hidden: true
+    },
+    {
+        path: '/',
+        component: HomeCloud,
+        // name: 'home',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/index', component: index, name: '空页面'}
+        ]
+    },
+
+    {
+        path: '/',
+        component: HomeCloud_Union,
+        // name: 'home',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/index_Union', component: index, name: '空页面'}
+        ]
+    }
+];
+
+
+/**
+ *
+ * @date:20190620
+ * @description:整理router页面路由 改为按需加载路由
+ *
+ * @update:20190620
+ * @description:车场端的页面路由整理
+ */
+//云平台页面-车场
+// index 空页面
+const index = () => import('./pages/park/index.vue');
+//数据中心
+const Data_Center_Park = () => import(/* webpackChunkName: "park-items" */ './pages/park/Data_Center_Park.vue');
+//订单管理下 ---
+//      订单记录、抬杆记录、支出记录、交易记录、异常订单、减免记录
+//          --订单详情
+const OrderManage_Orders = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderManage_Orders.vue');
+const OrderManage_Poles = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderManage_Poles.vue');
+const Bolink_Expense = () => import(/* webpackChunkName: "park-items" */ './pages/park/Bolink_Expense.vue');
+const Bolink_Income = () => import(/* webpackChunkName: "park-items" */ './pages/park/Bolink_Income.vue');
+const Abnormal_Order = () => import(/* webpackChunkName: "park-items" */ './pages/park/Abnormal_Order.vue');
+const Reduce_Record = () => import(/* webpackChunkName: "park-items" */ './pages/park/Reduce_Record.vue');
+const OrderManage_OrderDetail = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderManage_OrderDetail.vue');
+
+//会员管理
+    //月卡会员、月卡续费记录、储值卡会员、储值卡充值记录、储值卡使用记录、白名单管理
+const MonthMember_VIP = () => import(/* webpackChunkName: "park-items" */ './pages/park/MonthMember_VIP.vue');
+const MonthMember_Refill = () => import(/* webpackChunkName: "park-items" */ './pages/park/MonthMember_Refill.vue');
+const PrepayCard_VIP = () => import(/* webpackChunkName: "park-items" */ './pages/park/PrepayCard_VIP.vue');
+const PrepayCard_Trade = () => import(/* webpackChunkName: "park-items" */ './pages/park/PrepayCard_Trade.vue');
+const PrepayCard_Use = () => import(/* webpackChunkName: "park-items" */ './pages/park/PrepayCard_Use.vue');
+const Park_WhiteList = () => import(/* webpackChunkName: "park-items" */ './pages/park/Park_WhiteList.vue');
+
+//访客管理
+    //访客人员管理、业主管理
+const VistorManage_VistorMember = () => import(/* webpackChunkName: "park-items" */ './pages/park/VistorManage_VistorMember.vue');
+const VistorManage_HomeOwner = () => import(/* webpackChunkName: "park-items" */ './pages/park/VistorManage_HomeOwner.vue');
+
+//统计分析
+    //收费员日报、车场日报、车场日报、上下班记录
+const OrderStatistics_CollectorReport = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderStatistics_CollectorReport.vue');
+const OrderStatistics_DailyReport = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderStatistics_DailyReport.vue');
+const OrderStatistics_MonthReport = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderStatistics_MonthReport.vue');
+const SystemManage_Commute = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Commute.vue');
+        //其他
+const OrderStatistics_DailyBalance = () => import(/* webpackChunkName: "park-items" */ './pages/park/OrderStatistics_DailyBalance.vue');
+
+//商户管理
+    //商户管理、流水查询、优惠券管理
+        //商户管理下的员工设置
+const ShopManage_Shop = () => import(/* webpackChunkName: "park-items" */ './pages/park/ShopManage_Shop.vue');
+const ShopMange_Shop_Staff = () => import(/* webpackChunkName: "park-items" */ './pages/park/shopMange_Shop_Staff.vue');
+const ShopManage_QueryAccount = () => import(/* webpackChunkName: "park-items" */ './pages/park/ShopManage_QueryAccount.vue');
+const ShopManage_Coupon = () => import(/* webpackChunkName: "park-items" */ './pages/park/ShopManage_Coupon.vue');
+
+
+//电子支付
+    //提现设置、电子收款
+const OnlinePay_CashManage = () => import(/* webpackChunkName: "park-items" */ './pages/park/OnlinePay_CashManage.vue');
+const OnlinePay_Income = () => import(/* webpackChunkName: "park-items" */ './pages/park/OnlinePay_Income.vue');
+
+//员工权限
+    //角色管理、员工管理
+const EmployeePermission_Role = () => import(/* webpackChunkName: "park-items" */ './pages/park/EmployeePermission_RoleManage.vue');
+const EmployeePermission_Manage = () => import(/* webpackChunkName: "park-items" */ './pages/park/EmployeePermission_EmployeeManage.vue');
+
+//增值服务
+    //短信服务、数据大屏、商户公众号、小程序收费
+const SystemManage_AddedService_Sms = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Sms.vue');
+const SystemManage_AddedService_Screen = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Screen.vue');
+const AddServices_Program = () => import(/* webpackChunkName: "park-items" */ './pages/park/AddServices_Program.vue');
+const SystemManage_AddServices_Public = () => import(/* webpackChunkName: "park-items" */ './pages/park/AddServices_Public.vue');
+
+//系统管理
+    //设备管理、黑名单管理、账户管理、免费原因、车型管理、时租价格管理、月卡套餐管理、系统日志
+        //设备管理下--> 岗亭管理、监控管理、对讲管理、工作站管理、通道管理
+
+
+//设备管理
+const EquipmentManage_Watchhouse = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Watchhouse.vue');
+const EquipmentManage_Monitor = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Monitor.vue');
+const EquipmentManage_Intercom = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Intercom.vue');
+const EquipmentManage_WorkStation = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_WorkStation.vue');
+const EquipmentManage_Channel = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Channel.vue');
+const EquipmentManage_Camera = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_Camera.vue');
+const EquipmentManage_LED = () => import(/* webpackChunkName: "park-items" */ './pages/park/EquipmentManage_LED.vue');
+
+
+const SystemManage_BlackList = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_BlackList.vue');
+const SystemManage_Account = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Account.vue');
+const SystemManage_Params = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Params.vue');
+const SystemManage_FreeReason = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_FreeReason.vue');
+const SystemManage_CarManage_CarType = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_CarManage_CarType.vue');
+const SystemManage_CarManage_BindType = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_CarManage_BindType.vue');
+const SystemManage_Price = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Price.vue');
+const SystemManage_MonthCard = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_MonthCard.vue');
+const SystemManage_Logs = () => import(/* webpackChunkName: "park-items" */ './pages/park/SystemManage_Logs.vue');
+
+//打开新窗口的页面
+/**
+ * 监控中心暂时无法懒加载，原因不详
+ * 如果按照常规方法写错懒加载，则左侧菜单栏高度出现错误
+ */
+//数据大屏、监控中心
+const DataScreen = () => import(/* webpackChunkName: "park-items" */ './pages/park/Data_Screen.vue');
+import  MonitorApp from './MonitorApp.vue';
+
+
+const ParkRouteItems = [
     {
         path: '/',
         component: HomeCloud,
@@ -398,9 +449,6 @@ const CommonRouteItems = [
             {path: '/systemManage_Price', component: SystemManage_Price, name: '价格管理'},
             {path: '/systemManage_MonthCard', component: SystemManage_MonthCard, name: '月卡套餐管理'},
             {path: '/systemManage_Logs', component: SystemManage_Logs, name: '系统日志'},
-            // {path: '/SystemManage_AddedService_Sms', component: SystemManage_AddedService_Sms, name: 'sms'},//增值服务-短信服务
-            // {path: '/SystemManage_AddedService_Screen', component: SystemManage_AddedService_Screen, name: 'screen'},//增值服务-短信服务
-
         ]
     },
     {
@@ -426,6 +474,174 @@ const CommonRouteItems = [
         component:DataScreen ,
         name: '数据大屏'
     },
+];
+
+
+/**
+ *
+ * @date:20190612
+ * @author:cyzhi
+ * @title:city
+ * @description:厂商路由管理
+ * @update:20190612
+ * @description:泊链厂商页面迁移至云平台
+ */
+
+const HomeCloud_City = () => import(/* webpackChunkName: "city-items" */ './pages/HomeCloud_City');
+const Account = () => import(/* webpackChunkName: "city-items" */ './pages/city/Account.vue');
+const MoneyRecord = () => import(/* webpackChunkName: "city-items" */ './pages/city/MoneyRecord.vue');
+const NewUnionProfit = () => import(/* webpackChunkName: "city-items" */ './pages/city/NewUnionProfit.vue');
+const ManufacturerRoleManagement = () => import(/* webpackChunkName: "city-items" */ './pages/city/humanResources/RoleManage.vue');
+const PersonnelManagement = () => import(/* webpackChunkName: "city-items" */ './pages/city/humanResources/EmployeeManage.vue');
+const MessageNtification = () => import(/* webpackChunkName: "city-items" */ './pages/city/humanResources/MessageNtification.vue');
+const FirmSystemManageLogs = () => import(/* webpackChunkName: "city-items" */ './pages/city/Firm_SystemManage_Logs.vue');
+const Development = () => import(/* webpackChunkName: "city-items" */ './pages/city/Development.vue');
+const MaterielTable = () => import(/* webpackChunkName: "city-items" */ './pages/city/parkManagement/MaterielTable.vue');
+const Park_Manage = () => import(/* webpackChunkName: "city-items" */ './pages/city/parkManagement/Park_Manage.vue');
+const Park_Manage_Staff = () => import(/* webpackChunkName: "city-items" */ './pages/city/parkManagement/Park_Manage_Staff.vue');
+const Union_Manage = () => import(/* webpackChunkName: "city-items" */ './pages/city/unionManagement/Union_Manage.vue');
+const Union_Manage_Staff = () => import(/* webpackChunkName: "city-items" */ './pages/city/unionManagement/Union_Manage_Staff.vue');
+const Setting_Manage = () => import(/* webpackChunkName: "city-items" */ './pages/city/Setting_Manage.vue');
+const Ser_Manage = () => import(/* webpackChunkName: "city-items" */ './pages/city/serManagement/Ser_Manage.vue');
+const Ser_Manage_Staff = () => import(/* webpackChunkName: "city-items" */ './pages/city/serManagement/Ser_Manage_Staff.vue');
+
+const CityRouteItems = [
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/city_account', component: Account, name: 'Account'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '工程服务商',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/citySerManage_serManagePage', component: Ser_Manage, name: 'Ser_Manage'},
+            {path: '/ser_manage_staff', component: Ser_Manage_Staff, name: 'ser_manage_staff'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '运营集团',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityUnionManage_unionManagePage', component: Union_Manage, name: 'Union_Manage'},
+            {path: '/union_manage_staff', component: Union_Manage_Staff, name: 'Union_Manage_Staff'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '车场管理',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityParkManage_parkManagePage', component: Park_Manage, name: 'Park_Manage'},
+            {path: '/cityParkManage_materielPage', component: MaterielTable, name: 'MaterielTable'},
+            {path: '/park_manage_staff', component: Park_Manage_Staff, name: 'park_manage_staff'},
+
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityTrade_MoneyRecord', component: MoneyRecord, name: 'MoneyRecord'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityStatistics_NewUnionProfit', component: NewUnionProfit, name: 'NewUnionProfit'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/cityResources_RoleManage', component: ManufacturerRoleManagement, name: 'ManufacturerRoleManagement'},
+            {path: '/cityResources_EmployeeManage', component: PersonnelManagement, name: 'PersonnelManagement'},
+            {path: '/cityResources_MessageNtification', component: MessageNtification, name: 'MessageNtification'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/city_systemMange', component: FirmSystemManageLogs, name: 'citySystemMange'},
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: '个性化设置',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/citySettingManage_settingPage', component: Setting_Manage, name: 'Setting_Manage'}
+        ]
+    },
+    {
+        path: '/',
+        component: HomeCloud_City,
+        name: 'plat',
+        iconCls: 'el-icon-document',
+        children: [
+            {path: '/development', component: Development, name: 'Development'},
+        ]
+    },
+];
+
+/*------------end---------------*/
+
+/**
+ *
+ * @date:20190604
+ * @author:cyzhi
+ * @description:集团路由管理
+ */
+//云平台页面-集团
+const Data_Center = () => import(/* webpackChunkName: "union-items" */ './pages/union/Data_Center.vue');
+const BusinessOrder_Cars = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrder_Cars.vue');
+const BusinessOrder_Orders = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrder_Orders.vue');
+const BusinessOrder_Details = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrderDetails.vue');
+const BusinessOrder_Poles = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrder_Poles.vue');
+const Member_MonthVIP = () => import(/* webpackChunkName: "union-items" */ './pages/union/Member_MonthVIP.vue');
+const Member_PrepayCardVIP = () => import(/* webpackChunkName: "union-items" */ './pages/union/Member_PrepayCardVIP.vue');
+const Member_BlackList = () => import(/* webpackChunkName: "union-items" */ './pages/union/Member_BlackList.vue');
+const Member_WhiteList = () => import(/* webpackChunkName: "union-items" */ './pages/union/Member_WhiteList.vue');
+const SystemSetting_Account = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_Account.vue');
+const SystemSetting_Park = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_Park.vue');
+const SystemSetting_Park_Staff = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_Park_Staff.vue');
+const SystemSetting_EmployeeManage = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_EmployeeManage.vue');
+const SystemSetting_RoleManage = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_RoleManage.vue');
+const SystemSetting_LogsOperate = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_LogsOperate.vue');
+const SystemSetting_LogsCollector = () => import(/* webpackChunkName: "union-items" */ './pages/union/SystemSetting_LogsCollector.vue');
+const StrategicAnalysis_DailyReport = () => import(/* webpackChunkName: "union-items" */ './pages/union/StrategicAnalysis_DailyReport.vue');
+const strategicAnalysis_DailyParkReport = () => import(/* webpackChunkName: "union-items" */ './pages/union/strategicAnalysis_DailyParkReport.vue');
+const StrategicAnalysis_MonthReport = () => import(/* webpackChunkName: "union-items" */ './pages/union/StrategicAnalysis_MonthReport.vue');
+const Union_Bolink_Expense = () => import(/* webpackChunkName: "union-items" */ './pages/union/Bolink_Expense.vue');
+const Union_Bolink_Income = () => import(/* webpackChunkName: "union-items" */ './pages/union/Bolink_Income.vue');
+const BusinessOrder_Reduce = () => import(/* webpackChunkName: "union-items" */ './pages/union/BusinessOrder_Reduce.vue');
+const unionSmsService = () => import(/* webpackChunkName: "union-items" */ './pages/union/valueAddedService/smsService/smsService.vue');
+const unionSmsServiceDistribution = () => import(/* webpackChunkName: "union-items" */ './pages/union/valueAddedService/smsService/smsDistribution.vue');
+
+/***--------------end-------------**/
+
+const UnionRouteItems = [
     /*
     * 以下是集团页面
     *
@@ -494,92 +710,6 @@ const CommonRouteItems = [
 
         ]
     },
-
-    /*
-    * 404保留页面
-    * */
-    {
-        path: '*',
-        hidden: true,
-        redirect: {path: '/404'}
-    },
-
-    {
-        path: '/code_reduce',
-        component: CodeReduce,
-        name: 'CodeReduce',
-        hidden: true
-    },
-    {
-        path: '/car_reduce',
-        component: CarReduce,
-        name: 'CarReduce',
-        hidden: true
-    },
-    {
-        path: '/free_car_reduce',
-        component: FreeCarReduce,
-        name: 'FreeCarReduce',
-        hidden: true
-    },
-    {
-        path: '/free_code_reduce',
-        component: FreeCodeReduce,
-        name: 'FreeCodeReduce',
-        hidden: true
-    },
-    {
-        path: '/reduce_export',
-        component: ReduceExport,
-        name: 'ReduceExport',
-        hidden: true
-    },
-    {
-        path: '/free_reduce_export',
-        component: FreeReduceExport,
-        name: 'FreeReduceExport',
-        hidden: true
-    },
-
-    {
-        path: '/404',
-        component: NotFound,
-        name: '',
-        hidden: true
-    },
-    {
-        path: '/',
-        component: HomeCloud,
-        // name: 'home',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/index', component: index, name: '空页面'}
-        ]
-    },
-
-    {
-        path: '/',
-        component: HomeCloud_Union,
-        // name: 'home',
-        iconCls: 'el-icon-document',
-        children: [
-            {path: '/index_Union', component: index, name: '空页面'}
-        ]
-    }
-];
-
-
-/**
- *
- * @date:20190604
- * @author:cyzhi
- * @description:集团路由管理
- */
-import unionSmsService from './pages/union/valueAddedService/smsService/smsService.vue'
-import unionSmsServiceDistribution from './pages/union/valueAddedService/smsService/smsDistribution.vue'
-/***--------------end-------------**/
-
-const UnionRouteItems = [
     {
         path: '/',
         component: HomeCloud_Union,
@@ -602,28 +732,28 @@ import HomeCloud_Service from './pages/HomeCloud_Service.vue';
 
 //服务商下
 //      我的账户
-import myAccount from './pages/service/myAccount'
+const myAccount = () => import(/* webpackChunkName: "service-items" */ './pages/service/myAccount');
 //      运营商管理
-import operatorManage from './pages/service/operatorManage/Operator_Manage'
+const operatorManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/operatorManage/Operator_Manage');
 //      运营商管理下的员工
-import operatorManageStaff from './pages/service/operatorManage/Operator_Manage_Staff'
+const operatorManageStaff = () => import(/* webpackChunkName: "service-items" */ './pages/service/operatorManage/Operator_Manage_Staff');
 //      车场管理
-import  serverParkManage from './pages/service/parkManage/Park_Manage'
+const serverParkManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/parkManage/Park_Manage');
 //      车场管理下的员工
-import serverParkManageStaff from './pages/service/parkManage/Park_Manage_Staff'
+const serverParkManageStaff = () => import(/* webpackChunkName: "service-items" */ './pages/service/parkManage/Park_Manage_Staff');
 //      车场管理下的查看详情
-import serverParkManageDetail from './pages/service/parkManage/Park_Manage_Detail'
+const serverParkManageDetail = () => import(/* webpackChunkName: "service-items" */ './pages/service/parkManage/Park_Manage_Detail');
 //      子服务商管理
-import subServiceManage from './pages/service/subService/subservice_Manage'
-import subServiceManageStaff from './pages/service/subService/subservice_Manage_Staff'
-
+const subServiceManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/subService/subservice_Manage');
+const subServiceManageStaff = () => import(/* webpackChunkName: "service-items" */ './pages/service/subService/subservice_Manage_Staff');
 //      资金流水
-import serverMoneyRecord from './pages/service/MoneyRecord'
+const serverMoneyRecord = () => import(/* webpackChunkName: "service-items" */ './pages/service/MoneyRecord');
 //      车场分润报表
-import serverNewUnionProfit from './pages/service/NewUnionProfit'
+const serverNewUnionProfit = () => import(/* webpackChunkName: "service-items" */ './pages/service/NewUnionProfit');
 //      人力资源  1---角色管理  2---员工管理
-import serverRoleManage from './pages/service/humanResources/RoleManage'
-import serverEmployeeManage from './pages/service/humanResources/EmployeeManage'
+const serverRoleManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/humanResources/RoleManage');
+const serverEmployeeManage = () => import(/* webpackChunkName: "service-items" */ './pages/service/humanResources/EmployeeManage');
+
 const ServerRouteItems = [
     {
         path: '/',
@@ -681,5 +811,11 @@ const ServerRouteItems = [
         ]
     }
 ];
-const routes = [...CommonRouteItems,...UnionRouteItems,...ServerRouteItems];
+const routes = [
+    ...CommonRouteItems,
+    ...ParkRouteItems,
+    ...UnionRouteItems,
+    ...ServerRouteItems,
+    ...CityRouteItems
+];
 export default routes;

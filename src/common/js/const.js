@@ -246,6 +246,52 @@ export const showServerItems_const = {
 }
 /*----------end-------------*/
 
+/**
+ * @date:20190612
+ * @description:厂商权限
+ *
+ */
+export const AUTH_ID_CITY = {
+    city_account: 417,
+    citySerManage:418,
+    citySerManage_serManagePage:424,
+    cityUnionManage:419,
+    cityUnionManage_unionManagePage:425,
+    cityParkManage:420,
+    cityParkManage_parkManagePage:426,
+    cityParkManage_materielPage:427,
+    cityTrade_MoneyRecord:421,
+    cityStatistics_NewUnionProfit:428,
+    cityResources:429,
+    cityResources_RoleManage:432,
+    cityResources_EmployeeManage:431,
+    cityResources_MessageNtification:433,
+    citySettingManage:422,
+    citySettingManage_settingPage:430,
+    city_systemMange:423,
+};
+export const showCityItems_const = {
+    city_account: false,
+    citySerManage: false,
+    citySerManage_serManagePage: false,
+    cityUnionManage: false,
+    cityUnionManage_unionManagePage: false,
+    cityParkManage: false,
+    cityParkManage_parkManagePage: false,
+    cityParkManage_materielPage:false,
+    cityTrade_MoneyRecord: false,
+    cityStatistics_NewUnionProfit: false,
+    cityResources: false,
+    cityResources_RoleManage: false,
+    cityResources_EmployeeManage: false,
+    cityResources_MessageNtification: false,
+    citySettingManage: false,
+    citySettingManage_settingPage: false,
+    city_systemMange: false,
+};
+/*---------end------------------*/
+
+
 export const ROLE_ID = {
     // 30 车场,26集团,,,27渠道,,28联盟,,,29城市
     //2018.2.6修改 2 集团...............8 车场 ........   7城市

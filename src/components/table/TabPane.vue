@@ -33,6 +33,7 @@
                         :label="tableitem.label"
                         :header-align="tableitem.headerAlign"
                         :align="tableitem.align || 'center'"
+                        :sortable="false"
                         :width="tableitem.width"
                         :formatter="tableitem.format"
                         :fixed="tableitem.fixed"
@@ -638,37 +639,66 @@
             handledelete() {
                 let that = this;
                 let url = this.delapi;
-                let dform = JSON.parse(JSON.stringify( this.delForm ));
-                dform.token = sessionStorage.getItem('token');
-                dform = common.generateForm(dform);
-                delTableData(url,dform).then(response=>{
-                    if(response.data.state == 1){
-                        that.$emit('cancelDel',false);
-                        that.tableData.splice(that.delForm.$index,1);
-                        that.total = that.total - 1;
-                        let msg = '';
-                        if(response.data.msg == undefined){
-                            msg = '删除成功!';
-                        }else {
-                            msg = response.data.msg;
+                if(that.isBolink){
+                    this.$axios.post(bolinkPath+url+'?id='+this.delForm.id+'&token='+sessionStorage.getItem('token'))
+                        .then(res=>{
+                            let ret = res.data;
+                            if(ret>0){
+                                that.$emit('cancelDel',false);
+                                that.tableData.splice(that.delForm.$index,1);
+                                that.total = that.total - 1;
+                                that.$message({
+                                    message:'删除成功',
+                                    type: 'success'
+                                });
+                                that.$emit('totalCount',that.total);
+                            }else{
+                                that.$message({
+                                    message: '更新失败',
+                                    type: 'warning'
+                                });
+                            }
+                        })
+                        .catch(err=>{
+                            that.$message({
+                                message: '网络错误，请稍后重试',
+                                type: 'warning'
+                            });
+                        })
+                }else{
+                    let dform = JSON.parse(JSON.stringify( this.delForm ));
+                    dform.token = sessionStorage.getItem('token');
+                    dform = common.generateForm(dform);
+                    delTableData(url,dform).then(response=>{
+                        if(response.data.state == 1){
+                            that.$emit('cancelDel',false);
+                            that.tableData.splice(that.delForm.$index,1);
+                            that.total = that.total - 1;
+                            let msg = '';
+                            if(response.data.msg == undefined){
+                                msg = '删除成功!';
+                            }else {
+                                msg = response.data.msg;
+                            }
+                            that.$message({
+                                message:msg,
+                                type: 'success'
+                            });
+                            that.$emit('totalCount',that.total);
+                        }else{
+                            that.$message({
+                                message: response.data.msg,
+                                type: 'warning'
+                            });
                         }
+                    }).catch(err=>{
                         that.$message({
-                            message:msg,
-                            type: 'success'
-                        });
-                        that.$emit('totalCount',that.total);
-                    }else{
-                        that.$message({
-                            message: response.data.msg,
+                            message: '网络错误，请稍后重试',
                             type: 'warning'
                         });
-                    }
-                }).catch(err=>{
-                    that.$message({
-                        message: '网络错误，请稍后重试',
-                        type: 'warning'
-                    });
-                })
+                    })
+                }
+
             },
 
             //没封装的删除

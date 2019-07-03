@@ -4,8 +4,8 @@
             <header class="shop-custom-header">
                 <p style="float: left">车场管理<span style="margin: 2px">-</span>车场管理</p>
                 <div class="float-right">
-                    <el-button type="text"  @click="handleAdd('add')" native-type="button" v-if="hideAdd" icon="el-icon-plus">注册停车场</el-button>
-                    <el-button type="text"  @click="exportFn" native-type="button"  icon="el-icon-printer">导出</el-button>
+                    <el-button type="text"  @click="handleAdd('add')" native-type="button" v-if="showCustomizeAdd" icon="el-icon-plus">注册停车场</el-button>
+                    <el-button type="text"  @click="exportFn" native-type="button"  icon="el-icon-printer" v-if="hideExport">导出</el-button>
                     <el-button type="text" size="mini" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -239,13 +239,13 @@
         collectType,
         inparkType,
         checkParkMobile,
-    } from '../../api/api';
-    import common from '../../common/js/common'
-    import { getTableQuery } from '../../api/base'
-    import {AUTH_ID_UNION} from '../../common/js/const'
-    import TabPane from '../../components/table/TabPane';
-    import superForm from '../../components/super-form/inline-form';
-    import axios from 'axios'
+    } from '@/api/api';
+    import common from '@/common/js/common'
+    import { getTableQuery } from '@/api/base'
+    import {AUTH_ID_CITY} from '@/common/js/const'
+    import TabPane from '@/components/table/TabPane';
+    import superForm from '@/components/super-form/inline-form';
+    import axios from 'axios/index'
 
     export default {
         components: {
@@ -253,6 +253,13 @@
         },
         data() {
             return {
+                showResources:false,
+                showEdit:false,
+                showCustomizeAdd:false,
+                showSetting:false,
+                hideOptions:false,
+                hideExport:false,
+                showQrBtn:false,
                 serverList:[],
                 bolinkServerList:[],
                 /////////add///////////////////
@@ -311,14 +318,6 @@
                             options:[],
                         }],
                     second:[
-                        // {
-                        //     label:'心跳时间',
-                        //     type:'date',
-                        //     subtype:'datetimerange',
-                        //     prop:'pantTime',
-                        //     subprop:'utime',
-                        //     valueFormat:'timestamp'
-                        // },
                         {
                             label:'服务商',
                             type:'select',
@@ -335,8 +334,8 @@
                 resetDataVisible:false,
                 unionList:[],
                 isShow:false,
-                noimg:require('../../assets/images/no.png'),
-                offimg:require('../../assets/images/off.png'),
+                noimg:require('@/assets/images/no.png'),
+                offimg:require('@/assets/images/off.png'),
                 searchFormData:{
                     id:3,
                     id_start:'',
@@ -362,7 +361,6 @@
                 delForm:{},
                 /////////////////////////////////////////
                 loading: false,
-                hideExport: false,
                 hideSearch: false,
 
                 orderfield:'id',
@@ -370,7 +368,6 @@
                 hideAdd: true,
                 tableheight: '',
                 showdelete: true,
-                hideOptions: true,
                 imgSize:450,
                 hideTool: false,
                 showImg: true,
@@ -702,7 +699,8 @@
                                             size: 'small'
                                         },
                                         style: {
-
+                                            display:this.showEdit? '' : 'none',
+                                            marginRight: '5px'
                                         },
                                         on: {
                                             click: (e) => {
@@ -727,7 +725,8 @@
                                             size: 'small'
                                         },
                                         style: {
-
+                                            display:this.showQrBtn? '' : 'none',
+                                            marginRight: '5px'
                                         },
                                         on: {
                                             click: (e) => {
@@ -741,7 +740,10 @@
                                             type: 'text',
                                             size: 'small'
                                         },
-                                        style: {},
+                                        style: {
+                                            marginRight: '5px',
+                                            display: this.showSetting ? '':'none'
+                                        },
                                         on: {
                                             click: (e) => {
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
@@ -765,7 +767,8 @@
                                             disabled:(params.row.state != 1)?true:false
                                         },
                                         style: {
-                                            color:(params.row.state != 1)?'#666':'red'
+                                            color:(params.row.state != 1)?'#666':'red',
+                                            display: this.showResources ? '':'none'
                                         },
                                         on: {
                                             click: (e) => {
@@ -774,23 +777,6 @@
                                             }
                                         }
                                     }, '禁用'),
-                                    // h('ElButton', {
-                                    //     props: {
-                                    //         type: 'text',
-                                    //         size: 'small'
-                                    //     },
-                                    //     style: {
-                                    //         color:'red'
-                                    //     },
-                                    //     on: {
-                                    //         click: (e) => {
-                                    //             window.event? window.event.cancelBubble = true : e.stopPropagation();
-                                    //             this.pwd = '';
-                                    //             this.resetDataVisible = true;
-                                    //             this.rowid = params.row.id;
-                                    //         }
-                                    //     }
-                                    // }, '重置'),
                                 ]);
                             }
                         }]
@@ -1288,17 +1274,27 @@
                 })
             },
             setAuthorityFn(){
-                // let user = sessionStorage.getItem('user');
-                // if (user) {
-                //     user = JSON.parse(user);
-                //     for (var item of user.authlist) {
-                //         if (AUTH_ID_UNION.businessOrder_Poles == item.auth_id) {
-                //             this.hideExport = common.showSubExport(item.sub_auth);
-                //             break;
-                //         }
-                //     }
-                //
-                // }
+                let user = sessionStorage.getItem('user');
+                if (user) {
+                    user = JSON.parse(user);
+                    for (var item of user.authlist) {
+                        if (AUTH_ID_CITY.cityParkManage_parkManagePage == item.auth_id) {
+                            this.showEdit = common.showSubEdit(item.sub_auth);
+                            this.showCustomizeAdd = common.showSubAdd(item.sub_auth);
+                            this.showSetting = common.showSetting(item.sub_auth);
+                            this.hideExport = common.showSubExport(item.sub_auth);
+                            this.showResources = common.showResources(item.sub_auth);
+                            this.showQrBtn = common.showQrBtn(item.sub_auth);
+                            if(!this.showEdit&&!this.showSetting&&!this.showResources&&!this.showQrBtn){
+                                this.hideOptions = true;
+                            }else{
+                                this.hideOptions = false;
+                            }
+                            break;
+                        }
+                    }
+
+                }
             },
             alertInfo(msg) {
                 this.$alert(msg, '提示', {
@@ -1340,15 +1336,13 @@
             bolinkServerList:function(val){
                 this.formConfig.second[0].options = val;
             },
-            // unionList: function (val) {
-            //     this.formConfig.first[2].options = val;
-            // },
-            serverList:function(val){
-              // this.formConfig.second[1].options = val;
-            },
             readonly:function (val) {
                 this.tableitems[5].subs[0].readonly = val
-            }
+            },
+            hideOptions:function (val,oldVal) {
+                let len = this.tableitems.length;
+                this.tableitems[len -1].subs[0].hidden = val
+            },
         }
     }
 

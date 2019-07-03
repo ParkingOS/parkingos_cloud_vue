@@ -378,7 +378,15 @@ export default {
             + '&months=' + month;
         return axios.get(path + '/getdata/getprodsum' + param);
     },
-    reNewProduct(p_name, month, name, b_time, id, remark, act_total,total, nickname,card_id) {
+    getEndTime(begin, month) {
+        //通过续费月数和月卡套餐获取金额
+        let param = '?token=' + sessionStorage.getItem('token')
+            + this.commonParams()
+            + '&beginTime=' + begin
+            + '&months=' + month;
+        return axios.get(path + '/getdata/getEndTime' + param);
+    },
+    reNewProduct(p_name, month, name, b_time, id, remark, act_total,total, nickname,card_id,e_time) {
         // reNewProduct(this.pnameno,this.refillcount,this.currentRow.name,this.Btime,this.currentRow.pid,this.currentRow.remark,this.RefillTotalact,roleid==30?'车场':roleid){
         //月卡续费
         let param = '?token=' + sessionStorage.getItem('token')
@@ -392,7 +400,8 @@ export default {
             + '&act_total=' + act_total
             + '&total=' + total
             + '&card_id=' + card_id
-            + '&nickname=' + nickname;
+            + '&nickname=' + nickname
+            + '&e_time=' + e_time;
         return axios.get(path + '/vip/renewproduct' + param);
     },
 
@@ -461,6 +470,12 @@ export default {
     showSubImport: function (sub_auth) {
         //显示导入
         if (sub_auth.indexOf('导入') > -1) {
+            return true;
+        }
+        return false;
+    },
+    showQrBtn:function(sub_auth){
+        if (sub_auth.indexOf('二维码') > -1) {
             return true;
         }
         return false;
