@@ -1,38 +1,12 @@
 <template>
     <el-row class="container">
-        <!--<el-col :span="24" class="header not-print">-->
-            <!--<el-col :span="17">-->
-                <!--<div style="display:flex">-->
-                    <!--<div style="width:40px;height:40px;margin-left: 20px;">-->
-                        <!--<i style="width:40px;height:40px;font-size:40px" class="icon iconfont icon-park"></i>-->
-                    <!--</div>-->
-                    <!--<div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">-->
-                        <!--智慧停车云-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</el-col>-->
-            <!--<el-col :span="7" style="padding-right:10px">-->
-                <!--<div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute;">{{nickname}}:-->
-                    <!--{{sysUserName}}-->
-                <!--</div>-->
-                <!--<el-menu-->
-                        <!--style="height:50px;width: 100px;float: right;background-color:#2d3a4b;border-right: solid 0px #e6e6e6;"-->
-                        <!--@select="selectTop">-->
-                    <!--<el-menu-item index="/loginCloud" style="height:50px;"><span-->
-                            <!--style="color:#fff;font-size:13px;float: right;height:50px;color: #109EFF">退出登录</span>-->
-                        <!--&lt;!&ndash;<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>&ndash;&gt;-->
-                    <!--</el-menu-item>-->
-                <!--</el-menu>-->
-            <!--</el-col>-->
-
-        <!--</el-col>-->
         <div class="mian-header" style="border-bottom: 1px solid #ebeef5;">
             <div class="logo">
                 <div class="logo-one">
-                    <img src="../assets/images/within-logo.png">
+                    <img :src="logo1">
                 </div>
                 <div class="logo-two">
-                    <img src="../assets/images/within-logo2.png">
+                    <img :src="logo2">
                 </div>
             </div>
             <div class="console">
@@ -243,6 +217,8 @@
     export default {
         data() {
             return {
+                logo1:'',
+                logo2:'',
                 outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
@@ -291,42 +267,26 @@
                 //console.log('handleclose');
             },
             selectTop(a, b) {
-                //console.log(a)
-                //console.log(b)
-                console.log(this.active);
                 this.active = a;
                 this.$router.push(a);
-                console.log(this.active);
             },
             handleselect: function (a, b) {
-                // console.log(this.active)
-                // console.log(a)
-                // console.log(b)
-                // console.log(this.$router)
                 if (a == 'centerMonitor') {
                     let routetocm = 'http://yun.bolink.club/tcbcloud/monitor.do?loginuin=' + sessionStorage.getItem('loginuin');
                     let comid = sessionStorage.getItem('comid');
                     let groupid = sessionStorage.getItem('groupid');
                     if (comid != '' && comid != 'undefined') {
-                        console.log(comid);
                         routetocm = routetocm + '&comid=' + comid;
                     }
                     if (groupid != '' && groupid != 'undefined') {
-                        console.log(groupid);
                         routetocm = routetocm + '&groupid=' + groupid;
                     }
-                    console.log(routetocm);
                     window.open(routetocm);
                     return;
                 }
                 var cpath = this.$router.currentRoute.fullPath;
-
-                //console.log(cpath)
                 var options = this.$router.options.routes;
                  this.highlightindex = a;
-                //this.expandindex = a.split('_')[0];
-                // console.log('>>>' + a)
-                // console.log('>>>' + a.split('_')[0])
                 this.$router.push(a);
             },
             isoutloginVisible(){
@@ -343,40 +303,19 @@
                 localStorage.removeItem('comid');
                 localStorage.removeItem('groupid');
                 _this.$router.push('/login');
-                // this.$confirm('确认退出吗?', '提示', {
-                //     //type: 'warning'
-                // }).then(() => {
-                //     //this.$post(path+"/user/dologout",logoutParams)
-                //     sessionStorage.removeItem('user');
-                //     sessionStorage.removeItem('token');
-                //     localStorage.removeItem('comid');
-                //     localStorage.removeItem('groupid');
-                //     _this.$router.push('/login');
-                // }).catch(() => {
-                //
-                // });
             }
 
         },
         mounted() {
-            console.log('home  mounted');
             let vm = this;
             let user = sessionStorage.getItem('user');
-            this.ccccccc = true;
             if (user) {
-
                 user = JSON.parse(user);
-                console.log('00000000000000000000000')
-                //console.log('chen:'+user.nickname)
-               console.log(user.name+'~~~'+user.nickname)
                var maxLength1 = user.nickname.length;//管理员名称
                var maxLength2 = user.name.length;
-
-               //console.log('~~~~~~~'+user.nickname+'~~~'+(maxLength1>8));
                this.sysUserName = maxLength1>10?user.nickname.slice(0,10)+'...':user.nickname;
                this.nickname = maxLength2>20?user.name.slice(0,20)+'...':user.name;
                 var cpath = this.$router.currentRoute.fullPath;
-                console.log(cpath);
                 this.highlightindex = cpath;
                 if (cpath == '/query/queryout') {
                     this.active = '/query/queryin';
@@ -385,31 +324,26 @@
                 } else {
                     this.active = cpath;
                 }
-                if (user.oid == 0 || user.oid == ROLE_ID.PARK) {
-                    this.nickname = '车场';
-                    this.park = true;
-                }
-                if (user.oid == ROLE_ID.UNION) {
-                    this.nickname = '运营集团';
-                    this.union = true;
-                }
-                if (user.oid == ROLE_ID.CITY) {
-                    //this.nickname = '厂商';
-                    this.city = true;
-                }
-                if (user.oid == ROLE_ID.BOSS) {
-                    this.nickname = 'Admin';
-                    this.admin = true;
-                }
-                if (user.oid == ROLE_ID.CITYREGIS) {
-                    this.nickname = '注册厂商';
-                    this.cityregis = true;
-                }
-                if (user.oid == ROLE_ID.SHOP) {
-                    //this.nickname = '商户';
-                    this.shop = true;
-                }
 
+                let logo1 =  sessionStorage.getItem('logo1');
+                if(logo1 != undefined && logo1 != '' && logo1 != null){
+                    this.logo1 = sessionStorage.getItem('logo1');
+                    this.logo2 = sessionStorage.getItem('logo2');
+                }else{
+                    /**
+                     *
+                     * @type {boolean|app.mutations.authFlag|(function(*): *)}
+                     * @description:根据权限引入不同的logo
+                     */
+                    let authFlag = this.$store.state.app.authFlag;
+                    if(authFlag){
+                        this.logo1 = require('@/assets/images/within-logo.png');
+                        this.logo2 = require('@/assets/images/within-logo2.png');
+                    }else{
+                        this.logo1 = require('@/pages/other/assets/images/within-logo.png');
+                        this.logo2 = require('@/pages/other/assets/images/within-logo2.png');
+                    }
+                }
             }
         }
 

@@ -261,8 +261,8 @@
     export default {
         data() {
             return {
-                logo1:require('@/assets/images/within-logo.png'),
-                logo2:require('@/assets/images/within-logo2.png'),
+                logo1:'',
+                logo2:'',
                 outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
@@ -373,28 +373,20 @@
 
         },
         mounted() {
-            console.log('home  mounted');
             let vm = this;
             let user = sessionStorage.getItem('user');
-            this.ccccccc = true;
             if (user) {
                 user = JSON.parse(user);
                 var maxLength1 = user.nickname.length;//管理员名称
                 var maxLength2 = user.name.length;
-
-                console.log('~~~~~~~'+user.nickname+'~~~'+(maxLength1>8));
                 this.sysUserName = maxLength1>10?user.nickname.slice(0,10)+'...':user.nickname;
                 this.nickname = maxLength2>20?user.name.slice(0,20)+'...':user.name;
-                //this.sysUserName =user.nickname;
-                //this.nickname=user.name;
                 var cpath = this.$router.currentRoute.fullPath;
-                console.log(cpath);
                 if(cpath.indexOf('orderManage_OrderDetail') > -1 ){
                     this.highlightindex ='/orderManage_Orders'
                 }else{
                      this.highlightindex = cpath;
                 }
-                // this.highlightindex = '/data_Center_park';
                 if (cpath == '/query/queryout') {
                     this.active = '/query/queryin';
                 } else if (cpath == '/order/orderout') {
@@ -402,30 +394,25 @@
                 } else {
                     this.active = cpath;
                 }
-                if (user.oid == 0 || user.oid == ROLE_ID.PARK) {
-                //    this.nickname = '车场';
-                    this.park = true;
-                }
-                if (user.oid == ROLE_ID.UNION) {
-                    this.nickname = '集团';
-                    this.union = true;
-                }
-                if (user.oid == ROLE_ID.CITY) {
-                    this.nickname = "厂商";
-                    this.city = true;
-                }
-                if (user.oid == ROLE_ID.BOSS) {
-                    this.nickname = "Admin";
-                    this.admin = true;
-                }
 
                 let logo1 =  sessionStorage.getItem('logo1');
                 if(logo1 != undefined && logo1 != ''){
                     this.logo1 = sessionStorage.getItem('logo1');
                     this.logo2 = sessionStorage.getItem('logo2');
                 }else{
-                    this.logo1 = require('@/assets/images/within-logo.png');
-                    this.logo2 = require('@/assets/images/within-logo2.png');
+                    /**
+                     *
+                     * @type {boolean|app.mutations.authFlag|(function(*): *)}
+                     * @description:根据权限引入不同的logo
+                     */
+                    let authFlag = this.$store.state.app.authFlag;
+                    if(authFlag){
+                        this.logo1 = require('@/assets/images/within-logo.png');
+                        this.logo2 = require('@/assets/images/within-logo2.png');
+                    }else{
+                        this.logo1 = require('@/pages/other/assets/images/within-logo.png');
+                        this.logo2 = require('@/pages/other/assets/images/within-logo2.png');
+                    }
                 }
             }
 

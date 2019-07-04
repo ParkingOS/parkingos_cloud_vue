@@ -150,8 +150,8 @@
         data() {
             return {
                 city:false,
-                logo1:require('@/assets/images/within-logo.png'),
-                logo2:require('@/assets/images/within-logo2.png'),
+                logo1:'',
+                logo2:'',
                 outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
@@ -257,8 +257,19 @@
                     this.logo1 = sessionStorage.getItem('logo1');
                     this.logo2 = sessionStorage.getItem('logo2');
                 }else{
-                    this.logo1 = require('@/assets/images/within-logo.png');
-                    this.logo2 = require('@/assets/images/within-logo2.png');
+                    /**
+                     *
+                     * @type {boolean|app.mutations.authFlag|(function(*): *)}
+                     * @description:根据权限引入不同的logo
+                     */
+                    let authFlag = this.$store.state.app.authFlag;
+                    if(authFlag){
+                        this.logo1 = require('@/assets/images/within-logo.png');
+                        this.logo2 = require('@/assets/images/within-logo2.png');
+                    }else{
+                        this.logo1 = require('@/pages/other/assets/images/within-logo.png');
+                        this.logo2 = require('@/pages/other/assets/images/within-logo2.png');
+                    }
                 }
             }
 
