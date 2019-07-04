@@ -580,4 +580,4 @@
     };
 </script>
 
-<style lang="scss" src="../../styles/Home.scss" scoped></style>
+<!--<style lang="scss" src="../../styles/Home.scss" scoped></style>-->

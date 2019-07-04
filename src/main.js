@@ -1,8 +1,15 @@
-import '../theme/index.css'; //主题色
+//引入全局样式
+// import './assets/style/theme-dev/index.css'; //主题色
+import './styles/index.scss'; // global css
+import './styles/common-style.scss'
+import './styles/Home.scss'
 
-//全局引入iconfont
+
+//全局引入自定义iconfont
 import './assets/iconfont/iconfont.css'
 import './assets/shop-iconfont/iconfont.css'
+
+//引入公用组件
 import Vue from 'vue';
 import App from './App';
 import ElementUI from 'element-ui';
@@ -12,10 +19,7 @@ import {path,path2} from './api/api';
 import common from './common/js/common';
 import axios from 'axios';
 import store from './store';
-// import BaiduMap from 'vue-baidu-map';
-import './styles/element-variables.scss'; // global css
-import './styles/index.scss'; // global css
-import './styles/common-style.scss'
+
 import './common/js/const.js';
 import 'babel-polyfill'
 import QRCode from 'qrcode';
@@ -27,9 +31,6 @@ Vue.use(scroll)
 Vue.use(QRCode)
 Vue.use(ElementUI);
 Vue.use(VueRouter);
-// Vue.use(BaiduMap,{
-//   ak:'Ona5elzlpSrwOeeAI1k0EE2yHtpLoxlN'
-// });
 Vue.use(VueClipboard)
 Vue.prototype.$axios=axios;
 Vue.prototype.$qs=require('qs');

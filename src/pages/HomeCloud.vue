@@ -18,15 +18,6 @@
 
         <el-col :span="24" class="main">
             <aside :class="isCollapse?'scroll-hidden menu-collapsed':'scroll-hidden menu-expanded'">
-                <!--<el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"-->
-                           <!--class="menu-expan-button menu-expan-button2 menu-open-color">-->
-                    <!--<i class="iconfont icon-fanxiangmulujiantou"></i>-->
-                <!--</el-button>-->
-                <!--<el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button menu-open-color">-->
-                    <!--<i class="iconfont icon-mulujiantou"></i>-->
-                <!--</el-button>-->
-
-                <!--text-color="#fff" active-text-color="#109EFF"-->
                 <!--应用element内置自定义滚动条-->
                 <el-scrollbar :native="true">
                     <div :style="{height: currentHeight}">
@@ -405,6 +396,7 @@
                      * @type {boolean|app.mutations.authFlag|(function(*): *)}
                      * @description:根据权限引入不同的logo
                      */
+                    this.$store.commit('authFlag')
                     let authFlag = this.$store.state.app.authFlag;
                     if(authFlag){
                         this.logo1 = require('@/assets/images/within-logo.png');
@@ -439,6 +431,6 @@
     };
 
 </script>
-<style lang="scss" src="../styles/Home.scss" scoped>
+<!--<style lang="scss" src="../styles/Home.scss" scoped>-->
 
-</style>
+<!--</style>-->

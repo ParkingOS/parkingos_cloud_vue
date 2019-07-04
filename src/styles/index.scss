@@ -1,10 +1,11 @@
 .link-type,
 .link-type:focus {
-  //color: #337ab7;
   color: #008F4C;
   cursor: pointer;
   &:hover {
-    //color: rgb(32, 160, 255);
     color: #33CC52;
   }
+}
+.el-dialog{
+  border-radius: 6px !important;
 }

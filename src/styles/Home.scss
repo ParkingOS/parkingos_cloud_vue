@@ -1,15 +1,13 @@
-@import "element-variables.scss";
+@import "common-variables.scss";
 
 .container {
   position: absolute;
   top: 0px;
   bottom: 0px;
-
   width: 100%;
   .header {
     height: 50px;
     line-height: 50px;
-
     background: $--parkingos-header-background;
     color: #fff;
     .userinfo {
@@ -63,7 +61,6 @@
   //侧边栏样式
   .main {
     display: flex;
-    // background: #324057;
     position: absolute;
     top: 60px;
     bottom: 0px;
@@ -78,9 +75,6 @@
       .el-menu {
         height: 100%;
         border:none;
-        //li{
-        //  background-color: $--parkingos-sidemenu-background;
-        //}
       }
 
       .collapsed {
@@ -101,8 +95,6 @@
     }
     .menuitem {
       font-size: 16px;
-      /*margin-left: 12px;*/
-      //color:black
     }
     .menu-collapsed {
       flex: 0 0 60px;
@@ -110,7 +102,6 @@
       background-color: $--parkingos-aside-bgcolor;
     }
     .menu-expanded {
-      /*flex: 0 0 180px;*/
       width: 80px;
       overflow-y: auto;
       display: flex;
@@ -125,16 +116,7 @@
       position: relative;
       overflow-y: hidden;
       overflow-x: auto;
-
-
-      //position: relative;
-      //flex: 1;
-      //
-      //overflow-y: hidden;
-      //padding: 10px;
-      //padding-top: 8px;
       .breadcrumb-container {
-        //margin-bottom: 15px;
         .title {
           width: 180px;
           float: left;
@@ -179,7 +161,6 @@
   height: 0;
   flex: 1;
   > li{
-    //background-color: $--parkingos-sidemenu-background;
     &:hover{
       color: #fff;
     }
@@ -197,46 +178,10 @@
 
 .menu-icon {
   /*左侧菜单栏图标*/
-  //color: #6d9eeb;
   color: #ffffff;
   width: 50px;
   height: 50px;
   font-size: 20px;
-  //margin-right: 5px;
-}
-
-.menu-expan-button {
-  /*收起、展开按钮样式*/
-  width: 100%;
-  margin-left: 0;
-  background-color: $--parkingos-sidemenu-background-9;
-  border: 0;
-  border-radius: 0;
-}
-.menu-expan-button2 {
-  /*收起、展开按钮样式*/
-  //width: 179px;
-  min-height: 45px;
-}
-.menu-open-color{
-  color: #fff;
-  background-color: #1E2343;
-}
-.logout-button{
-  background-color: $--parkingos-header-background;
-}
-.logout-button:hover{
-  background-color: $--parkingos-sidemenu-background-9;
-}
-.data-sec {
-    width: 100%;
-    background-color: $--parkingos-datacenter-background;
-    color: #ffffff;
-    border-radius: 2px;
-    padding-bottom: 20px;
-    .title {
-        background-color: $--parkingos-datacenter-background;
-    }
 }
 
 /*
@@ -306,10 +251,6 @@
 .seamless-item-style:nth-of-type(even){
 //偶数行
 }
-
-//.el-scrollbar__wrap {
-//  overflow-x: hidden !important;
-//}
 .icon-font-size{
   font-size: 12px !important;
 }

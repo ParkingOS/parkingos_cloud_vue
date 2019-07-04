@@ -494,8 +494,8 @@
     };
 </script>
 
-<style lang="scss" src="@/styles/Home.scss" scoped>
+<!--<style lang="scss" src="@/styles/Home.scss" scoped>-->
 
 
 
-</style>
+<!--</style>-->

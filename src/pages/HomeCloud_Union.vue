@@ -325,6 +325,7 @@
                      * @type {boolean|app.mutations.authFlag|(function(*): *)}
                      * @description:根据权限引入不同的logo
                      */
+                    this.$store.commit('authFlag')
                     let authFlag = this.$store.state.app.authFlag;
                     if(authFlag){
                         this.logo1 = require('@/assets/images/within-logo.png');
@@ -355,6 +356,6 @@
     };
 
 </script>
-<style lang="scss" src="../styles/Home.scss" scoped>
+<!--<style lang="scss" src="../styles/Home.scss" scoped>-->
 
-</style>
+<!--</style>-->

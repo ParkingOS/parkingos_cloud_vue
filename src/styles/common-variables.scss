@@ -1,0 +1,36 @@
+
+/* parkingOS
+--------------------------*/
+$--color-btn-text:#0E5FF6;
+$--parkingos-header-background: #2d3a4b !default;;
+$--parkingos-sidemenu-background:  '' !default;
+$--parkingos-sidemenu-background-hover-color: #354563 !default;
+$--parkingos-datacenter-background: #393a3e !default;
+$--parkingos-menu-icon-color: #fff !default;
+$--parkingos-icon-park-color: #fff !default;
+$--parkingos-fill-color:#E7EAFE !default;
+$--parkingos-sidemenu-background-9: #434A50 !default; /* ecf5ff */
+$--parkingos-button-text-color:#0E5FF6 !default;
+$--parkingos-aside-bgcolor:#162949 !default;
+
+$--custom-dialog-header-bg:#193C7B;
+$--shop-from-item__bgcolor:#FAFAFA;
+$--shop-from-item__bordercolor:#D4D4D4;
+$--fixed-code-title-bg: #193C7B;
+
+/* 改变主题色变量 */
+$--color-white: #fff !default;
+$--color-black: #000 !default;
+$--color-primary: #3C75CF;
+$--color-text-regular: #333 !default;
+$--color-text-secondary: #666666 !default;
+$--color-text-placeholder: #999 !default;
+$--border-color-lighter: #ebeef5 !default;
+$--table-border:  1px solid $--border-color-lighter !default;
+$--table-header-background: #F4F8FF !default;
+$--menu-item-fill: $--parkingos-sidemenu-background !default;
+$--menu-item-hover-fill: $--parkingos-sidemenu-background-hover-color !default;
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";

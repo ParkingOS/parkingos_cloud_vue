@@ -17,13 +17,6 @@
         </div>
         <el-col :span="24" class="main">
             <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
-                <!--<el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"-->
-                           <!--class="menu-expan-button menu-expan-button2">-->
-                    <!--<i class="menu-icon icon iconfont icon-menuclose"></i>-->
-                <!--</el-button>-->
-                <!--<el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button">-->
-                    <!--<i class="menu-icon icon iconfont icon-menuopen"></i>-->
-                <!--</el-button>-->
                 <el-menu class="el-menu-vertical-demo el-parkingos-menu" @open="handleopen"
                          @close="handleclose"
                          @select="handleselect"
@@ -267,26 +260,42 @@
                 //console.log('handleclose');
             },
             selectTop(a, b) {
+                //console.log(a)
+                //console.log(b)
+                console.log(this.active);
                 this.active = a;
                 this.$router.push(a);
+                console.log(this.active);
             },
             handleselect: function (a, b) {
+                // console.log(this.active)
+                // console.log(a)
+                // console.log(b)
+                // console.log(this.$router)
                 if (a == 'centerMonitor') {
                     let routetocm = 'http://yun.bolink.club/tcbcloud/monitor.do?loginuin=' + sessionStorage.getItem('loginuin');
                     let comid = sessionStorage.getItem('comid');
                     let groupid = sessionStorage.getItem('groupid');
                     if (comid != '' && comid != 'undefined') {
+                        console.log(comid);
                         routetocm = routetocm + '&comid=' + comid;
                     }
                     if (groupid != '' && groupid != 'undefined') {
+                        console.log(groupid);
                         routetocm = routetocm + '&groupid=' + groupid;
                     }
+                    console.log(routetocm);
                     window.open(routetocm);
                     return;
                 }
                 var cpath = this.$router.currentRoute.fullPath;
+
+                //console.log(cpath)
                 var options = this.$router.options.routes;
                  this.highlightindex = a;
+                //this.expandindex = a.split('_')[0];
+                // console.log('>>>' + a)
+                // console.log('>>>' + a.split('_')[0])
                 this.$router.push(a);
             },
             isoutloginVisible(){
@@ -303,19 +312,40 @@
                 localStorage.removeItem('comid');
                 localStorage.removeItem('groupid');
                 _this.$router.push('/login');
+                // this.$confirm('确认退出吗?', '提示', {
+                //     //type: 'warning'
+                // }).then(() => {
+                //     //this.$post(path+"/user/dologout",logoutParams)
+                //     sessionStorage.removeItem('user');
+                //     sessionStorage.removeItem('token');
+                //     localStorage.removeItem('comid');
+                //     localStorage.removeItem('groupid');
+                //     _this.$router.push('/login');
+                // }).catch(() => {
+                //
+                // });
             }
 
         },
         mounted() {
+            console.log('home  mounted');
             let vm = this;
             let user = sessionStorage.getItem('user');
+            this.ccccccc = true;
             if (user) {
+
                 user = JSON.parse(user);
+                console.log('00000000000000000000000')
+                //console.log('chen:'+user.nickname)
+               console.log(user.name+'~~~'+user.nickname)
                var maxLength1 = user.nickname.length;//管理员名称
                var maxLength2 = user.name.length;
+
+               //console.log('~~~~~~~'+user.nickname+'~~~'+(maxLength1>8));
                this.sysUserName = maxLength1>10?user.nickname.slice(0,10)+'...':user.nickname;
                this.nickname = maxLength2>20?user.name.slice(0,20)+'...':user.name;
                 var cpath = this.$router.currentRoute.fullPath;
+                console.log(cpath);
                 this.highlightindex = cpath;
                 if (cpath == '/query/queryout') {
                     this.active = '/query/queryin';
@@ -323,6 +353,30 @@
                     this.active = '/order/orderin';
                 } else {
                     this.active = cpath;
+                }
+                if (user.oid == 0 || user.oid == ROLE_ID.PARK) {
+                    this.nickname = '车场';
+                    this.park = true;
+                }
+                if (user.oid == ROLE_ID.UNION) {
+                    this.nickname = '运营集团';
+                    this.union = true;
+                }
+                if (user.oid == ROLE_ID.CITY) {
+                    //this.nickname = '厂商';
+                    this.city = true;
+                }
+                if (user.oid == ROLE_ID.BOSS) {
+                    this.nickname = 'Admin';
+                    this.admin = true;
+                }
+                if (user.oid == ROLE_ID.CITYREGIS) {
+                    this.nickname = '注册厂商';
+                    this.cityregis = true;
+                }
+                if (user.oid == ROLE_ID.SHOP) {
+                    //this.nickname = '商户';
+                    this.shop = true;
                 }
 
                 let logo1 =  sessionStorage.getItem('logo1');
@@ -335,6 +389,7 @@
                      * @type {boolean|app.mutations.authFlag|(function(*): *)}
                      * @description:根据权限引入不同的logo
                      */
+                    this.$store.commit('authFlag')
                     let authFlag = this.$store.state.app.authFlag;
                     if(authFlag){
                         this.logo1 = require('@/assets/images/within-logo.png');
