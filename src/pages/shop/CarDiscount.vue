@@ -132,6 +132,7 @@
                     <ul v-if="orderInfoVisible">
                         <li><span class="label">停车位置：</span>{{currentOrderForm.park_name}}{{currentOrderForm.separate}}{{currentOrderForm.stop_position}}</li>
                         <li><span class="label">进场时间：</span>{{currentOrderForm.in_time}}</li>
+                        <li><span class="label">停车时长：</span>{{currentOrderForm.duration}}</li>
                         <li><span class="label">减免金额：</span><span style="color: #F56D6D">{{currentOrderForm.derate_money}}元</span></li>
                         <li><span class="label">减免时长：</span>{{currentOrderForm.duration}}</li>
                         <li><span class="label">已付金额：</span><span style="color:#3C75CF">{{currentOrderForm.prepay}} 元</span></li>
@@ -373,6 +374,7 @@
                 });
 
             },
+
             //车牌减免
             useTicketByCarNumber(){
                 let vm = this;
