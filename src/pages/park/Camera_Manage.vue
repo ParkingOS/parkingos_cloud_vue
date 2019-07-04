@@ -49,6 +49,7 @@
         },
         data() {
             return {
+                channelType:undefined,
                 //编辑
                 editRowData:{},
                 editTo:0,
@@ -123,6 +124,12 @@
                         subs: [{
                             label: '通道',
                             prop: 'channel_id',
+                            columnType:'render',
+                            render: (h, params) => {
+                                return h('div', [
+                                    h('span', common.nameformat(params.row, this.channelType, 'channel_id'))
+                                ]);
+                            },
                         }]
                     },{
                         hasSubs:false,
@@ -189,6 +196,13 @@
                 that.searchFormData.count = that.searchFormData.count++;
                 that.searchForm = JSON.parse(JSON.stringify( that.searchFormData ));
             },
+            getQuery(){
+                let _this = this
+                this.$axios.all([common.getChannelType()])
+                    .then(this.$axios.spread(function (ret) {
+                        _this.channelType = ret.data;
+                    }))
+            },
             setAuthorityFn(){
                 let user = sessionStorage.getItem('user');
                 if (user) {
@@ -208,6 +222,7 @@
         },
         mounted() {
             this.setAuthorityFn();
+            this.getQuery();
             this.$refs['tabPane'].getTableData({},this)
         },
         activated() {

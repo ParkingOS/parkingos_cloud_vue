@@ -165,8 +165,8 @@ export const channlManager = [
 ];
 
 export const channlManagerType = [
-    {'value_name': '出', 'value_no': '0'},
-    {'value_name': '入', 'value_no': '1'},
+    {'value_name': '出', 'value_no': '1'},
+    {'value_name': '入', 'value_no': '0'},
     {'value_name': '出入', 'value_no': '2'}
 ];
 

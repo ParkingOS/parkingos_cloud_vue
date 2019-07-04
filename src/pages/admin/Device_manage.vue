@@ -193,6 +193,7 @@
                                 message: res.data.msg,
                                 type: 'success'
                             });
+                            this.visibleDialog = false;
                             this.resetForm()
                         }else{
                             this.$message.error(res.data.msg);
