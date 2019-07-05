@@ -196,6 +196,9 @@
                             "value": "",
                             'size':'',
                             "subtype": "text",
+                            "rules": [
+                                {required: true, message: '请输入名称', trigger: 'blur'}
+                            ],
                         }]
                     },
                     {
@@ -220,7 +223,9 @@
                             "value": "",
                             "button": false,
                             "border": true,
-                            "rules": [],
+                            "rules": [
+                                {required: true, message: '请选择通道类型', trigger: 'blur'}
+                            ],
                             'size':'',
                             "options": channlManagerType
                         }]
@@ -257,9 +262,9 @@
                             label: '非月卡车',
                             prop: 'month_set',
                             width: '150',
-                            editable: true,
+                            editable: false,
                             searchable: true,
-                            addtable: true,
+                            addtable: false,
                             unsortable: true,
                             align: 'center',
                             columnType:'render',
