@@ -1034,7 +1034,7 @@
                             margin-bottom: 25px;
                             width: 304px;
                             height: 46px;
-                            background: #3C75CF;
+                            background: $--color-primary;
                             box-shadow: 0 8px 17px 0 rgba(51,121,233,0.30);
                             border-radius: 2px;
                             color: #fff;
@@ -1135,7 +1135,7 @@
                             /*margin-bottom: 25px;*/
                             width: 304px;
                             height: 46px;
-                            background: #3C75CF;
+                            background: $--color-primary;
                             box-shadow: 0 8px 17px 0 rgba(51,121,233,0.30);
                             border-radius: 2px;
                             color: #fff;

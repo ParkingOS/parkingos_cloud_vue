@@ -39,5 +39,8 @@ export default {
 		vertical-align: baseline;
 		margin-right: 10px;
 	}
+	.container{
+		height: 100%;
+	}
 
 </style>

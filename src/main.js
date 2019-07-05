@@ -1,8 +1,7 @@
 //引入全局样式
-// import './assets/style/theme-dev/index.css'; //主题色
-import './styles/index.scss'; // global css
-import './styles/common-style.scss'
+import './styles/index.scss'
 import './styles/Home.scss'
+import './styles/common-style.scss'
 
 
 //全局引入自定义iconfont

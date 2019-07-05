@@ -1,4 +1,4 @@
-@import "common-variables.scss";
+//@import "common-variables.scss";
 p {
   margin: 0;
   padding: 0;
@@ -872,7 +872,7 @@ p {
   }
   .el-form-item:hover{
     outline: none;
-    border-color: #3C75CF;
+    border-color: $--color-primary;
   }
   .shop-clear-style{
     background: none;

@@ -30,5 +30,7 @@ $--table-border:  1px solid $--border-color-lighter !default;
 $--table-header-background: #F4F8FF !default;
 $--menu-item-fill: $--parkingos-sidemenu-background !default;
 $--menu-item-hover-fill: $--parkingos-sidemenu-background-hover-color !default;
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
 
-
+@import "~element-ui/packages/theme-chalk/src/index";
