@@ -4,4 +4,4 @@ export const { AUTH_ID,AUTH_ID_ADMIN, showParkItem_const,
     showBossItem_const,
     AUTH_ID_SERVER,showServerItems_const,
     AUTH_ID_CITY,showCityItems_const,
-    ROLE_ID }  = process.env.NODE_ENV == 'production' ? require('./const_yun'): require('./const_test');
+    ROLE_ID }  = process.env.NODE_ENV == 'production' ? require('./const_yun'): process.env.NODE_ENV == 'produce' ? require('./const_yun'): require('./const_test');

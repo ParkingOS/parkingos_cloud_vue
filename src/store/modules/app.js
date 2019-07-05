@@ -9,7 +9,7 @@ const app = {
     },
     mutations: {
         authFlag:function (state){
-            let st = ((process.env.NODE_ENV == 'dev') || (process.env.NODE_ENV == 'prod') || (process.env.NODE_ENV == 'test'))?true:false;
+            let st = ((process.env.NODE_ENV == 'dev') || (process.env.NODE_ENV == 'production') || (process.env.NODE_ENV == 'test'))?true:false;
             state.authFlag = st;
             return st;
         },
