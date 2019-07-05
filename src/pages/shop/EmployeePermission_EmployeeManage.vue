@@ -588,7 +588,7 @@
                                                 window.event? window.event.cancelBubble = true : e.stopPropagation();
                                                 this.delForm = {
                                                     $index:params.index,
-                                                    delVisible2:true,
+                                                    delVisible:true,
                                                     id:params.row.id,
                                                 }
 
@@ -739,7 +739,7 @@
             },
             //删除
             cancelDel(){
-                this.delForm.delVisible2 = false;
+                this.delForm.delVisible = false;
             },
             //编辑
             // editInput(){
