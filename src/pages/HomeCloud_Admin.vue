@@ -1,38 +1,12 @@
 <template>
     <el-row class="container">
-        <!--<el-col :span="24" class="header not-print">-->
-            <!--<el-col :span="17">-->
-                <!--<div style="display:flex">-->
-                    <!--<div style="width:40px;height:40px;margin-left: 20px;">-->
-                        <!--<i style="width:40px;height:40px;font-size:40px" class="icon iconfont icon-park"></i>-->
-                    <!--</div>-->
-                    <!--<div style="margin-left:5px;font-size:30px;postition:relative;line-height:50px;vertical-align:middle;float:left;font-family:STXinwei">-->
-                        <!--智慧停车云-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</el-col>-->
-            <!--<el-col :span="7" style="padding-right:10px">-->
-                <!--<div style="color:#fff;font-size:15px;display:inline;right:235px;position:absolute;">{{nickname}}:-->
-                    <!--{{sysUserName}}-->
-                <!--</div>-->
-                <!--<el-menu-->
-                        <!--style="height:50px;width: 100px;float: right;background-color:#2d3a4b;border-right: solid 0px #e6e6e6;"-->
-                        <!--@select="selectTop">-->
-                    <!--<el-menu-item index="/loginCloud" style="height:50px;"><span-->
-                            <!--style="color:#fff;font-size:13px;float: right;height:50px;color: #109EFF">退出登录</span>-->
-                        <!--&lt;!&ndash;<el-menu-item @click="logout"><span style="color:#fff;font-size:13px;float: right;">退出登录</span>&ndash;&gt;-->
-                    <!--</el-menu-item>-->
-                <!--</el-menu>-->
-            <!--</el-col>-->
-
-        <!--</el-col>-->
         <div class="mian-header" style="border-bottom: 1px solid #ebeef5;">
             <div class="logo">
                 <div class="logo-one">
-                    <img src="../assets/images/within-logo.png">
+                    <img :src="logo1">
                 </div>
                 <div class="logo-two">
-                    <img src="../assets/images/within-logo2.png">
+                    <img :src="logo2">
                 </div>
             </div>
             <div class="console">
@@ -43,13 +17,6 @@
         </div>
         <el-col :span="24" class="main">
             <aside :class="isCollapse?'menu-collapsed':'menu-expanded'">
-                <!--<el-button v-show="!isCollapse" @click="isCollapse = !isCollapse"-->
-                           <!--class="menu-expan-button menu-expan-button2">-->
-                    <!--<i class="menu-icon icon iconfont icon-menuclose"></i>-->
-                <!--</el-button>-->
-                <!--<el-button v-show="isCollapse" @click="isCollapse = !isCollapse" class="menu-expan-button">-->
-                    <!--<i class="menu-icon icon iconfont icon-menuopen"></i>-->
-                <!--</el-button>-->
                 <el-menu class="el-menu-vertical-demo el-parkingos-menu" @open="handleopen"
                          @close="handleclose"
                          @select="handleselect"
@@ -243,6 +210,8 @@
     export default {
         data() {
             return {
+                logo1:'',
+                logo2:'',
                 outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
@@ -410,6 +379,26 @@
                     this.shop = true;
                 }
 
+                let logo1 =  sessionStorage.getItem('logo1');
+                if(logo1 != undefined && logo1 != '' && logo1 != null){
+                    this.logo1 = sessionStorage.getItem('logo1');
+                    this.logo2 = sessionStorage.getItem('logo2');
+                }else{
+                    /**
+                     *
+                     * @type {boolean|app.mutations.authFlag|(function(*): *)}
+                     * @description:根据权限引入不同的logo
+                     */
+                    this.$store.commit('authFlag')
+                    let authFlag = this.$store.state.app.authFlag;
+                    if(authFlag){
+                        this.logo1 = require('@/assets/images/within-logo.png');
+                        this.logo2 = require('@/assets/images/within-logo2.png');
+                    }else{
+                        this.logo1 = require('@/pages/other/assets/images/within-logo.png');
+                        this.logo2 = require('@/pages/other/assets/images/within-logo2.png');
+                    }
+                }
             }
         }
 

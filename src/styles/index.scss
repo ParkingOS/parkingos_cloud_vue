@@ -1,10 +1,15 @@
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import "~element-ui/packages/theme-chalk/src/index";
+
 .link-type,
 .link-type:focus {
-  //color: #337ab7;
   color: #008F4C;
   cursor: pointer;
   &:hover {
-    //color: rgb(32, 160, 255);
     color: #33CC52;
   }
+}
+.el-dialog{
+  border-radius: 6px !important;
 }

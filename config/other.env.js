@@ -1,5 +1,5 @@
 module.exports = {
-  NODE_ENV: '"dev"',
-  ENV_CONFIG: '"dev"',
+  NODE_ENV: '"other"',
+  ENV_CONFIG: '"other"',
   BASE_API: '"https://api-dev"'
 }

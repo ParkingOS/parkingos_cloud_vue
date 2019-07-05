@@ -12,7 +12,7 @@ const portfinder = require('portfinder')
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
-
+const env = require('../config/' + process.env.env_config + '.env')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
@@ -48,7 +48,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+      'process.env': env
     }),
     new webpack.HotModuleReplacementPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin

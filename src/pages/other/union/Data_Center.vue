@@ -15,10 +15,9 @@
                     <infor-card
                             id-name="allCount"
                             :end-val="otherData.receiveTotal"
-                            iconType="iconfont icon-jine"
-                            color="linear-gradient(163deg, #FFE06D 0%, #D96E13 100%)"
-                            :iconSize="36"
+                            :background-img="'url('+topCountImg.allBackgroundImg+')'"
                             :retain="2"
+                            :img-url="topCountImg.all"
                             intro-text="总收入（元）"
                     ></infor-card>
                 </el-col>
@@ -26,10 +25,9 @@
                     <infor-card
                             id-name="allCount"
                             :end-val="otherData.parkAliveCount"
-                            iconType="iconfont icon-chewei"
-                            color="linear-gradient(170deg, #6DBFFF 0%, #4C97F1 100%)"
-                            :iconSize="36"
+                            :background-img="'url('+topCountImg.parkBackgroundImg+')'"
                             :retain="0"
+                            :img-url="topCountImg.park"
                             intro-text="在线车场数（个）"
                     ></infor-card>
                 </el-col>
@@ -37,10 +35,9 @@
                     <infor-card
                             id-name="allCount"
                             :end-val="otherData.monthTotal"
-                            iconType="iconfont icon-huiyuan1"
-                            color="linear-gradient(-44deg, #3C4EC9 0%, #53A0FD 100%)"
-                            :iconSize="36"
+                            :background-img="'url('+topCountImg.monthBackgroundImg+')'"
                             :retain="0"
+                            :img-url="topCountImg.month"
                             intro-text="月卡会员（人）"
                     ></infor-card>
                 </el-col>
@@ -48,10 +45,9 @@
                     <infor-card
                             id-name="allCount"
                             :end-val="otherData.blackTotal"
-                            iconType="iconfont icon-quan"
-                            color="linear-gradient(165deg, #6DFF7C 0%, #138ED9 100%)"
-                            :iconSize="36"
+                            :background-img="'url('+topCountImg.blackBackgroundImg+')'"
                             :retain="0"
+                            :img-url="topCountImg.black"
                             intro-text="黑名单（个）"
                     ></infor-card>
                 </el-col>
@@ -276,19 +272,27 @@
     </section>
 </template>
 <script>
-    import {path, orderStateType, orderPayType, parkType} from '../../api/api';
-    import util from '../../common/js/util';
-    import echarts from 'echarts';
+    import {path, orderStateType, orderPayType, parkType} from '@/api/api';
     import axios from 'axios';
-    import inforCard from  '../../components/InforCard'
-    import chartsPie from  '../../components/ChartsPie'
-    import countBar from '../../components/CountBar'
+    import inforCard from  './components/InforCard'
+    import chartsPie from  '@/components/ChartsPie'
+    import countBar from '@/components/CountBar'
     export default {
         components: {
             inforCard,chartsPie,countBar
         },
         data () {
             return {
+                topCountImg:{
+                    'all':require('./assets/images/dataCenter/all.png'),
+                    'allBackgroundImg':require('./assets/images/dataCenter/all-right.png'),
+                    'park':require('./assets/images/dataCenter/park.png'),
+                    'parkBackgroundImg':require('./assets/images/dataCenter/park-right.png'),
+                    'month':require('./assets/images/dataCenter/month.png'),
+                    'monthBackgroundImg':require('./assets/images/dataCenter/month-right.png'),
+                    'black':require('./assets/images/dataCenter/black.png'),
+                    'blackBackgroundImg':require('./assets/images/dataCenter/black-right.png'),
+                },
                 baseImg:{
                     'ruchang':require('@/assets/images/ruchang.png'),
                     'chuchang':require('@/assets/images/chuchang.png'),
@@ -435,7 +439,7 @@
             //格式化泊位使用率数据
             berthDataFormat(berthData){
                 let rData = [];
-                if(berthData.length > 0){
+                if(berthData && berthData.length > 0){
                     rData.value = [];
                     rData.name = [];
                     for (var i = 0; i < berthData.length; i++) {
@@ -448,7 +452,7 @@
             //格式化今日收费排行数据
             renkDataFormat(rankData){
                 let rData = [];
-                if(rankData.length>0){
+                if(rankData && rankData.length>0){
                     rData.value = [];
                     rData.name = [];
                     for (var i = rankData.length - 1; i >= 0; i--) {
@@ -490,7 +494,7 @@
     };
 </script>
 
-<!--<style lang="scss" src="../../styles/Home.scss" scoped>-->
+<!--<style lang="scss" src="@/styles/Home.scss" scoped>-->
 
 
 

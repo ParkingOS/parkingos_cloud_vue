@@ -1,8 +1,6 @@
 <template>
-    <div class="login-wrapper" :style="{'background': 'url('+loginBg+'),#112068 no-repeat','background-size': '100% 100%',
-        'background-position': 'center center'}">
-
-        <div class="header-wrapper">
+    <div class="login-wrapper" :style="cloudLoginBgStyle">
+        <div class="header-wrapper" v-if="authFlag">
             <div class="logo" :style="{'background':'url('+logoImg+') no-repeat','background-size': '100% 100%',
         'background-position': 'center center'}"></div>
             <div class="logo-title" :style="{'background':'url('+logoTipImg+') no-repeat','background-size': '100% 100%',
@@ -154,6 +152,8 @@
     export default {
         data() {
             return {
+                authFlag:true,
+                cloudLoginBgStyle:{},
                 loginShow:true,
                 passDiff:false,
                 updataPass1:true,
@@ -180,7 +180,7 @@
                 closeImg:require('../assets/images/close.png'),
                 mobileImg:require('../assets/images/mobile.png'),
                 vcodeImg:require('../assets/images/vcode.png'),
-                loginBg:require('../assets/images/bgImg.jpg'),
+                loginBg:'',
                 logoImg:require('../assets/images/logo.png'),
                 logoTipImg:require('../assets/images/bgtext.png'),
                 ///////////////////////////////////////////////////////////////
@@ -264,10 +264,23 @@
                 showDialog: false
             };
         },
-
         mounted() {
-            //alert(common.gwh())
-
+            this.$store.commit('authFlag')
+            let authFlag = this.$store.state.app.authFlag;
+            this.authFlag = authFlag;
+            if(authFlag){
+                this.cloudLoginBgStyle = {
+                    'background': 'url('+require('@/assets/images/bgImg.jpg')+'),#112068 no-repeat',
+                    'background-size': '100% 100%',
+                    'background-position': 'center center'
+                }
+            }else{
+                this.cloudLoginBgStyle = {
+                    'background': 'url('+require('@/pages/other/assets/images/yunbo.jpg')+'),#595959 no-repeat',
+                    'background-size': '100% 100%',
+                    'background-position': 'center center'
+                }
+            }
             var vm = this;
             vm.getCookie()
             var pad = Math.ceil((common.gww() - 1366) / 2);
@@ -275,16 +288,6 @@
             this.bgheight = 'height:' + (common.gwh() - 110) + 'px;width:' + common.gww() + 'px';
             this.content = 'float:left;width:1250px;height:' + (common.gwh() - 110) + 'px;margin-left:' + Math.ceil((common.gww() - 1500) / 2) + 'px';
 
-            //检测回车按键
-            // document.addEventListener('keydown', function (e) {
-            //     if (e.keyCode == 13) {
-            //         console.log('按下回车',vm.loginShow)
-            //         if(vm.loginShow){
-            //             vm.handleSubmit2();
-            //         }
-            //
-            //     }
-            // }, false);
             vm.iEVersionCheck();
             obtainValidation = new TencentCaptcha('2043299115',function (res) {
                 if(res.ret === 0){
@@ -973,9 +976,6 @@
         padding: 0;
         width: 100%;
         height: 100%;
-        /*background: url("../assets/images/bgImg.png") no-repeat;*/
-        /*background-size: 100% 100%;*/
-        /*background-position: center center;*/
         .header-wrapper{
             position: absolute;
             top:27%;
@@ -986,18 +986,12 @@
                 display: inline-block;
                 width: 64px;
                 height: 64px;
-                /*background: url("../assets/images/logo.png") no-repeat;*/
-                /*background-size: 100% 100%;*/
-                /*background-position: center center;*/
                 margin-right: 19px;
             }
             .logo-title{
                 display: inline-block;
                 width: 198px;
                 height: 64px;
-                /*background: url("../assets/images/bgtext.png") no-repeat;*/
-                /*background-size: 100% 100%;*/
-                /*background-position: center center;*/
             }
         }
         .main-wrapper{
@@ -1040,7 +1034,7 @@
                             margin-bottom: 25px;
                             width: 304px;
                             height: 46px;
-                            background: #3C75CF;
+                            background: $--color-primary;
                             box-shadow: 0 8px 17px 0 rgba(51,121,233,0.30);
                             border-radius: 2px;
                             color: #fff;
@@ -1141,7 +1135,7 @@
                             /*margin-bottom: 25px;*/
                             width: 304px;
                             height: 46px;
-                            background: #3C75CF;
+                            background: $--color-primary;
                             box-shadow: 0 8px 17px 0 rgba(51,121,233,0.30);
                             border-radius: 2px;
                             color: #fff;

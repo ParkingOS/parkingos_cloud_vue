@@ -5,9 +5,14 @@ const app = {
     state: {
         screenPower:false,
         tableMaxHeight:'auto',
-
+        authFlag:true,
     },
     mutations: {
+        authFlag:function (state){
+            let st = ((process.env.NODE_ENV == 'dev') || (process.env.NODE_ENV == 'production') || (process.env.NODE_ENV == 'test'))?true:false;
+            state.authFlag = st;
+            return st;
+        },
         setScreenPower:function (state,no) {
             state.screenPower = no;
             console.log('state---',state,no)

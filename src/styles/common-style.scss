@@ -1,11 +1,4 @@
-@import "element-variables.scss";
-
-//@font-face {
-//  font-family: 'CustomDigigface';
-//  src: url('../assets/DIGITAL-Regular.ttf');
-//  font-weight: normal;
-//  font-style: normal;
-//}
+//@import "common-variables.scss";
 p {
   margin: 0;
   padding: 0;
@@ -72,7 +65,7 @@ p {
 .margin-20{
   margin:20px;
 }
-$--custom-dialog-header-bg:#193C7B;
+
   /*
   *  dialog
   */
@@ -804,9 +797,7 @@ $--custom-dialog-header-bg:#193C7B;
 
   }
 }
-//自定义颜色
-$--shop-from-item__bgcolor:#FAFAFA;
-$--shop-from-item__bordercolor:#D4D4D4;
+
 //-----------------------------------------
 .shop-custom-operation{
   margin-bottom: 14px;
@@ -881,7 +872,7 @@ $--shop-from-item__bordercolor:#D4D4D4;
   }
   .el-form-item:hover{
     outline: none;
-    border-color: #3C75CF;
+    border-color: $--color-primary;
   }
   .shop-clear-style{
     background: none;
@@ -910,7 +901,7 @@ $--shop-from-item__bordercolor:#D4D4D4;
   }
 }
 //--------color---------------//
-$--fixed-code-title-bg: #193C7B;
+
 //商户固定码dia
 .shop-fixedCode-dialog{
   width: 478px;
@@ -922,7 +913,8 @@ $--fixed-code-title-bg: #193C7B;
     height: 48px;
     line-height: 48px;
     background: $--fixed-code-title-bg;
-    color: $--alert-danger-color;
+    color: #fff;
+    //color: $--alert-danger-color;
     .dialog-header-iconfont{
       position: absolute;
       right: 20px;

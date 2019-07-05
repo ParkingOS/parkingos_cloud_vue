@@ -5,7 +5,7 @@ import { Message,MessageBox } from 'element-ui'
 
 import {path} from './api';
 import VueRouter from 'vue-router';
-import routes from '../routes';
+import routes from '../router/routes';
 // create an axios instance
 const router = new VueRouter({
     routes

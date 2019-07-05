@@ -201,8 +201,8 @@
     export default {
         data() {
             return {
-                logo1:require('@/assets/images/within-logo.png'),
-                logo2:require('@/assets/images/within-logo2.png'),
+                logo1:'',
+                logo2:'',
                 outloginVisible:false,
                 isCollapse: false,
                 activeIndex: '/loginCloud',
@@ -248,18 +248,10 @@
                 //console.log('handleclose');
             },
             selectTop(a, b) {
-                //console.log(a)
-                //console.log(b)
-                console.log(this.active);
                 this.active = a;
                 this.$router.push(a);
-                console.log(this.active);
             },
             handleselect: function (a, b) {
-                // console.log(this.active)
-                // console.log(a)
-                // console.log(b)
-                // console.log(this.$router)
                 if(a == '/monitorApp'){
                     let routeData = this.$router.resolve({
                         name: "自定义监控",
@@ -272,25 +264,18 @@
                     let comid = sessionStorage.getItem('comid');
                     let groupid = sessionStorage.getItem('groupid');
                     if (comid != '' && comid != 'undefined') {
-                        console.log(comid);
                         routetocm = routetocm + '&comid=' + comid;
                     }
                     if (groupid != '' && groupid != 'undefined') {
-                        console.log(groupid);
                         routetocm = routetocm + '&groupid=' + groupid;
                     }
-                    console.log(routetocm);
                     window.open(routetocm);
                     return;
                 }
                 var cpath = this.$router.currentRoute.fullPath;
-
-                //console.log(cpath)
                 var options = this.$router.options.routes;
                 this.highlightindex = a;
                 this.expandindex = a.split('_')[0];
-                // console.log('>>>' + a)
-                // console.log('>>>' + a.split('_')[0])
                 this.$router.push(a);
             },
             isoutloginVisible(){
@@ -308,28 +293,8 @@
                 localStorage.removeItem('groupid');
                 _this.$router.push('/login');
             },
-            //退出登录
-            // logout: function () {
-            //     var _this = this;
-            //     let user = sessionStorage.getItem('user');
-            //     let u = JSON.parse(user);
-            //     let logoutParams = {userid: u.userid, token: sessionStorage.getItem('token')};
-            //     this.$confirm('确认退出吗?', '提示', {
-            //         //type: 'warning'
-            //     }).then(() => {
-            //         //this.$post(path+"/user/dologout",logoutParams)
-            //         sessionStorage.removeItem('user');
-            //         sessionStorage.removeItem('token');
-            //         localStorage.removeItem('comid');
-            //         localStorage.removeItem('groupid');
-            //         _this.$router.push('/login');
-            //     }).catch(() => {
-            //
-            //     });
-            // }
         },
         mounted() {
-            // console.log('home  mounted');
             let vm = this;
             let user = sessionStorage.getItem('user');
 
@@ -341,9 +306,7 @@
                this.sysUserName = maxLength1>10?user.nickname.slice(0,10)+'...':user.nickname;
                this.nickname = maxLength2>20?user.name.slice(0,20)+'...':user.name;
                 var cpath = this.$router.currentRoute.fullPath;
-                console.log(cpath);
                 this.highlightindex = cpath;
-                // this.highlightindex = '/data_Center';
                 if (cpath == '/query/queryout') {
                     this.active = '/query/queryin';
                 } else if (cpath == '/order/orderout') {
@@ -351,26 +314,26 @@
                 } else {
                     this.active = cpath;
                 }
-                if (user.oid == 0 || user.oid == ROLE_ID.PARK) {
-                    this.nickname = '车场';
-                    this.park = true;
-                }
-                //if (user.oid == ROLE_ID.UNION) {
-                //    this.nickname = '运营集团';
-                //   this.union = true;
-                //}
-                if (user.oid == ROLE_ID.SHOP) {
-                    this.nickname = '商户';
-                    this.shop = true;
-                }
 
                 let logo1 =  sessionStorage.getItem('logo1');
                 if(logo1 != undefined && logo1 != '' && logo1 != null){
                     this.logo1 = sessionStorage.getItem('logo1');
                     this.logo2 = sessionStorage.getItem('logo2');
                 }else{
-                    this.logo1 = require('@/assets/images/within-logo.png');
-                    this.logo2 = require('@/assets/images/within-logo2.png');
+                    /**
+                     *
+                     * @type {boolean|app.mutations.authFlag|(function(*): *)}
+                     * @description:根据权限引入不同的logo
+                     */
+                    this.$store.commit('authFlag')
+                    let authFlag = this.$store.state.app.authFlag;
+                    if(authFlag){
+                        this.logo1 = require('@/assets/images/within-logo.png');
+                        this.logo2 = require('@/assets/images/within-logo2.png');
+                    }else{
+                        this.logo1 = require('@/pages/other/assets/images/within-logo.png');
+                        this.logo2 = require('@/pages/other/assets/images/within-logo2.png');
+                    }
                 }
             }
 
@@ -393,6 +356,6 @@
     };
 
 </script>
-<style lang="scss" src="../styles/Home.scss" scoped>
+<!--<style lang="scss" src="../styles/Home.scss" scoped>-->
 
-</style>
+<!--</style>-->
