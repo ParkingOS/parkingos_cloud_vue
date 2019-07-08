@@ -22,7 +22,7 @@
 <script>
     import {
         path
-    } from '../../api/api';
+    } from '@/api/api';
 export default {
     data() {
       return {

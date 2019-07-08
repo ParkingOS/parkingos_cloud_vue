@@ -4,7 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">访客管理<span style="margin: 2px">-</span>访客人员管理</p>
                 <div class="float-right">
-                    <el-button type="text" icon="el-icon-message" @click="setSMS" v-if="showSetSMS">短信购买</el-button>
+                    <el-button type="text" icon="el-icon-message" @click="setSMS" v-show="showParkItem_const.systemManage_AddedService_Sms">短信购买</el-button>
                     <el-button type="text" @click="resetForm" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;">刷新</el-button>
                 </div>
             </header>
@@ -192,52 +192,28 @@
             </footer>
         </el-dialog>
 
-
-
-        <el-dialog
-                width="600px"
-                :show-close="false"
-                :visible.sync="Tips"
-                custom-class="custom-dialog custom-dialog-sms"
-                >
-            <header class="dialog-header" slot="title">
-                提示<i class="el-icon-close dialog-header-iconfont" @click="Tips = false"></i>
-            </header>
-            <div class="custom_tips">
-
-                <p>从2018年12月28日开始,访客申请发送短信验证码功能收取短信费用,车场需及时购买短信服务,保证该功能正常使用!</p>
-                <P>短信购买方式:登录页面前往车场新版,在增值服务中购买!</p>
-
-            </div>
-            <footer slot="footer" class="dialog-footer">
-                <el-button @click="Tips = false" class="custom-btns-style">确 定</el-button>
-            </footer>
-        </el-dialog>
-
     </section>
 </template>
 
 
 <script>
-    import {path,server} from '../../api/api';
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    // import CommonTable from '../../components/CommonTable'
+    import {path,server} from '@/api/api';
+    import common from '@/common/js/common'
+    import { showParkItem_const } from '@/common/js/const'
     import axios from 'axios'
-    import ElRadioButton from 'element-ui/packages/radio/src/radio-button';
-    import TabPane from '../../components/table/TabPane';
+    import TabPane from '@/components/table/TabPane';
     import countTo from 'vue-count-to';
     export default {
         components: {
-            ElRadioButton,
             TabPane,
             countTo
         },
         data() {
             return {
+                showParkItem_const:showParkItem_const,
                 Tips:false,
                 resetloading: false,
-                renewalImg:require('../../assets/images/renewal.png'),
+                renewalImg:require('@/assets/images/renewal.png'),
                 smsData:{
                     message_count:0,
                 },
@@ -965,7 +941,7 @@
             this.imgSize = common.gww()/4;
             this.getVisitorSet({});
             let _this = this;
-            _this.Tips=true;
+            // _this.Tips=true;
         },
         watch: {
 

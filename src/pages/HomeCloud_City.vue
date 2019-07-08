@@ -47,19 +47,7 @@
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">运营集团管理</span>
                             </el-menu-item>
-<!--                            <el-submenu index="/citySerManage" v-if="showCityItem.citySerManage">-->
-<!--                                <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span-->
-<!--                                        class="menuitem">工程服务商</span></template>-->
-<!--                                <el-menu-item index="/citySerManage_serManagePage" v-if="showCityItem.citySerManage_serManagePage">服务商管理-->
-<!--                                </el-menu-item>-->
-<!--                            </el-submenu>-->
 
-<!--                            <el-submenu index="/cityUnionManage" v-if="showCityItem.cityUnionManage">-->
-<!--                                <template slot="title"><i class="menu-icon icon iconfont icon-order"></i><span-->
-<!--                                        class="menuitem">运营集团</span></template>-->
-<!--                                <el-menu-item index="/cityUnionManage_unionManagePage" v-if="showCityItem.cityUnionManage_unionManagePage">运营集团管理-->
-<!--                                </el-menu-item>-->
-<!--                            </el-submenu>-->
                             <el-submenu index="/cityParkManage"  v-if="showCityItem.cityParkManage">
                                 <template slot="title">
                                     <i class="el-icon-menu"></i>
@@ -93,6 +81,8 @@
                                 <template slot="title"><i class="el-icon-setting"></i><span
                                         class="menuitem">个性化设置</span></template>
                                 <el-menu-item index="/citySettingManage_settingPage" v-if="showCityItem.citySettingManage_settingPage">个性化设置
+                                </el-menu-item>
+                                <el-menu-item index="/citySettingManage_authPage">权限设置
                                 </el-menu-item>
                             </el-submenu>
 

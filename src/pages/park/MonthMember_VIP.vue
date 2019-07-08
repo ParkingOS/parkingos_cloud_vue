@@ -247,7 +247,7 @@
             </header>
             <div class="sms-header">
                 <p>短信剩余<span class="sms-count"><countTo :startVal='0' :endVal='smsData.message_count' :duration='1000'></countTo></span>条</p>
-                <div class="renewal-btn" @click="goShopSms"><img :src="renewalImg" class="renewalImg">去续费</div>
+                <div class="renewal-btn" @click="goShopSms" v-show="showParkItem_const.systemManage_AddedService_Sms"><img :src="renewalImg" class="renewalImg">去续费</div>
             </div>
             <el-form ref="refillForm" label-width="120px" :rules="refillFormRules" :model="refillForm" class="dialog-form-width">
                 <el-form-item label="续费提前通知">
@@ -295,17 +295,17 @@
         singleDoubleLimit,
         singleDoubleType,
         path
-    } from '../../api/api';
+    } from '@/api/api';
 
-    import common from '../../common/js/common'
-    import {AUTH_ID} from '../../common/js/const'
-    import CommonTable from '../../components/CommonTable'
-    import AddDate from '../../components/add-subs/AddDate'
-    import TabPane from '../../components/table/TabPane';
+    import common from '@/common/js/common'
+    import { AUTH_ID, showParkItem_const } from '@/common/js/const'
+    import CommonTable from '@/components/CommonTable'
+    import AddDate from '@/components/add-subs/AddDate'
+    import TabPane from '@/components/table/TabPane';
     import countTo from 'vue-count-to';
     import axios from 'axios'
     import ElRadioButton from 'element-ui/packages/radio/src/radio-button';
-    import { editTableData } from '../../api/base'
+    import { editTableData } from '@/api/base'
     export default {
         components: {
             ElRadioButton,
@@ -316,10 +316,11 @@
         },
         data() {
             return {
-                noimg:require('../../assets/images/no.png'),
-                offimg:require('../../assets/images/off.png'),
+                showParkItem_const:showParkItem_const,
+                noimg:require('@/assets/images/no.png'),
+                offimg:require('@/assets/images/off.png'),
                 highlightindex:sessionStorage.getItem('highlightindex'),
-                renewalImg:require('../../assets/images/renewal.png'),
+                renewalImg:require('@/assets/images/renewal.png'),
                 //短信模块
                 smsData:{
                     message_count:0,

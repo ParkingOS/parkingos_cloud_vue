@@ -4,7 +4,7 @@
             <header class="shop-custom-header">
                 <p style="float: left">数据中心<span style="margin: 2px">-</span>数据中心</p>
                 <div class="float-right">
-                    <el-button type="text" size="mini" style="font-size: 14px;" @click="getDataScreen">
+                    <el-button type="text" size="mini" style="font-size: 14px;" @click="getDataScreen" v-show="showParkItem_const.systemManage_AddedService_Screen">
                         <img :src="baseImg.screen" style="vertical-align: text-top;width: 16px;height: 16px;margin-right: 5px">数据大屏</el-button>
                     <el-button type="text" size="mini" icon="el-icon-refresh" style="font-size: 14px;color: #1E1E1E;" @click="getDatas">刷新</el-button>
                 </div>
@@ -324,19 +324,19 @@
     </section>
 </template>
 <script>
-    import {path, orderStateType, orderPayType, parkType} from '../../api/api';
-    import util from '../../common/js/util';
-    import echarts from 'echarts';
+    import {path, orderStateType, orderPayType, parkType} from '@/api/api';
+    import { showParkItem_const } from '@/common/js/const';
     import axios from 'axios';
-    import inforCard from  '../../components/InforCard'
-    import chartsPie from  '../../components/ChartsPie'
-    import countBar from '../../components/CountBar'
+    import inforCard from  '@/components/InforCard'
+    import chartsPie from  '@/components/ChartsPie'
+    import countBar from '@/components/CountBar'
     export default {
         components: {
             inforCard,chartsPie,countBar
         },
         data () {
             return {
+                showParkItem_const:showParkItem_const,
                 visibleScreenDialog:false,
                 bigScreen:{
                     state:1,
@@ -576,6 +576,9 @@
             closeFn(){
 
             },
+            setAuthorityFn(){
+
+            }
         }
     };
 </script>

@@ -502,7 +502,8 @@ const Park_Manage = () => import(/* webpackChunkName: "city-items" */ '../pages/
 const Park_Manage_Staff = () => import(/* webpackChunkName: "city-items" */ '../pages/city/parkManagement/Park_Manage_Staff.vue');
 const Union_Manage = () => import(/* webpackChunkName: "city-items" */ '../pages/city/unionManagement/Union_Manage.vue');
 const Union_Manage_Staff = () => import(/* webpackChunkName: "city-items" */ '../pages/city/unionManagement/Union_Manage_Staff.vue');
-const Setting_Manage = () => import(/* webpackChunkName: "city-items" */ '../pages/city/Setting_Manage.vue');
+const Setting_Manage = () => import(/* webpackChunkName: "city-items" */ '../pages/city/personalitySettings/Setting_Manage.vue');
+const AuthSetting_Manage = () => import(/* webpackChunkName: "city-items" */ '../pages/city/personalitySettings/authSetting.vue');
 const Ser_Manage = () => import(/* webpackChunkName: "city-items" */ '../pages/city/serManagement/Ser_Manage.vue');
 const Ser_Manage_Staff = () => import(/* webpackChunkName: "city-items" */ '../pages/city/serManagement/Ser_Manage_Staff.vue');
 
@@ -592,7 +593,8 @@ const CityRouteItems = [
         name: '个性化设置',
         iconCls: 'el-icon-document',
         children: [
-            {path: '/citySettingManage_settingPage', component: Setting_Manage, name: 'Setting_Manage'}
+            {path: '/citySettingManage_settingPage', component: Setting_Manage, name: 'Setting_Manage'},
+            {path: '/citySettingManage_authPage', component: AuthSetting_Manage, name: 'AuthSetting_Manage'},
         ]
     },
     {
