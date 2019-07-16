@@ -70,7 +70,7 @@
                             </el-menu-item>
 
                             <el-submenu index="/cityResources" v-if="showCityItem.cityResources">
-                                <template slot="title"><i class="menu-icon iconfont icon-yuangongguanli" style="margin-right: 5px"></i>
+                                <template slot="title"><i class="menu-icon iconfont icon-yuangongguanli" style="margin-right: 5px;font-size: 18px"></i>
                                     <span class="menuitem">人力资源</span></template>
                                 <el-menu-item index="/cityResources_RoleManage" v-if="showCityItem.cityResources_RoleManage">角色管理</el-menu-item>
                                 <el-menu-item index="/cityResources_EmployeeManage" v-if="showCityItem.cityResources_EmployeeManage">员工管理</el-menu-item>
@@ -82,12 +82,12 @@
                                         class="menuitem">个性化设置</span></template>
                                 <el-menu-item index="/citySettingManage_settingPage" v-if="showCityItem.citySettingManage_settingPage">个性化设置
                                 </el-menu-item>
-                                <el-menu-item index="/citySettingManage_authPage">权限设置
+                                <el-menu-item index="/citySettingManage_authPage" v-if="showCityItem.citySettingManage_authPage">权限设置
                                 </el-menu-item>
                             </el-submenu>
 
                             <el-menu-item index="/city_systemMange" v-if="showCityItem.city_systemMange">
-                                <i class="menu-icon icon iconfont icon-order"></i>
+                                <i class="el-icon-tickets"></i>
                                 <span slot="title">系统日志</span>
                             </el-menu-item>
 

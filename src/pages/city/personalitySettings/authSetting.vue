@@ -6,7 +6,7 @@
             </div>
             <div class="auth-setting">
                 <p>车场管理员</p>
-                <p><el-button type="primary" @click="showRolePermission">编辑权限</el-button></p>
+                <p><el-button type="primary" @click="showRolePermission">修改权限</el-button></p>
             </div>
             <p class="auth-set-tip"><span>*</span>可编辑车场总管理员账号的页面操作权限，请慎重操作！</p>
         </el-card>

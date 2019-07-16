@@ -202,7 +202,7 @@
                             月卡套餐管理
                         </el-menu-item>
                         <el-menu-item index="/systemManage_Logs" v-if="this.showParkItem.systemManage_Logs">系统日志</el-menu-item>
-                        <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor||this.showUnionItem.centerMonitor">中央监控</el-menu-item>
+                        <el-menu-item index="/monitorApp" v-if="this.showParkItem.centerMonitor">中央监控</el-menu-item>
                     </el-submenu>
 
                 </el-menu>

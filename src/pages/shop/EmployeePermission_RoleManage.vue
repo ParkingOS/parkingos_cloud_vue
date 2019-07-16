@@ -271,7 +271,7 @@
                                                 this.showRolePermission(params.index,params.row);
                                             }
                                         }
-                                    }, '编辑权限'),
+                                    }, '修改权限'),
                                     h('ElButton', {
                                         props: {
                                             type: 'text',

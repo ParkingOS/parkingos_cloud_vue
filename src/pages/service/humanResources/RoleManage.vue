@@ -282,7 +282,7 @@
                                                 this.showRolePermission(params.index,params.row);
                                             }
                                         }
-                                    }, '编辑权限'),
+                                    }, '修改权限'),
                                 ]);
                             }
                         }]

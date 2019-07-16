@@ -534,7 +534,7 @@ export default {
         return false;
     },
     showSubPermission: function (sub_auth) {
-        if (sub_auth.indexOf('权限') > -1 || sub_auth.indexOf('编辑权限') > -1 ) {
+        if (sub_auth.indexOf('权限') > -1 || sub_auth.indexOf('修改权限') > -1 ) {
             return true;
         }
         return false;

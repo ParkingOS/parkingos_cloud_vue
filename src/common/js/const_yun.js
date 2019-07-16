@@ -268,6 +268,7 @@ const AUTH_ID_CITY = {
     cityResources_MessageNtification:433,
     citySettingManage:422,
     citySettingManage_settingPage:430,
+    citySettingManage_authPage:434,
     city_systemMange:423,
 };
 const showCityItems_const = {
@@ -287,6 +288,7 @@ const showCityItems_const = {
     cityResources_MessageNtification: false,
     citySettingManage: false,
     citySettingManage_settingPage: false,
+    citySettingManage_authPage:false,
     city_systemMange: false,
 };
 /*---------end------------------*/

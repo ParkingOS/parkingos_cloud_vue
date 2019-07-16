@@ -491,7 +491,7 @@
                     <el-button v-if="showrefund" size="small" :disabled='scope.row.state==2' type="text" @click="showRefund(scope.$index, scope.row)">
                     <span>退款</span></el-button>
                     <el-button v-if="showPermission" size="small" type="text"
-                               @click="handlePermission(scope.$index, scope.row)">编辑权限
+                               @click="handlePermission(scope.$index, scope.row)">修改权限
                     </el-button>
                     <el-button v-if="showSettingFee" size="small" type="text"
                                @click="handleRefill(scope.$index, scope.row)">收费设置
@@ -1758,7 +1758,7 @@
                  this.$emit('handlePwdEdit', index, row);
             },
             handlePermission(index, row) {
-                //员工权限-角色管理-编辑权限
+                //员工权限-角色管理-修改权限
                 // alert('功能正在开发，请耐心等待')
                 this.$emit('showRolePermission', index, row);
             },

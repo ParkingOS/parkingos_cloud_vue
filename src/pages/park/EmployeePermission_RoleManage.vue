@@ -67,7 +67,7 @@
                         </div>
                         <div style="margin-left: 40px;" v-for="sub_ of sub.subpermission">
                             <el-checkbox @change="sub_change(sub,sub_)" v-model="sub_.ischeck">{{sub_.subname}}</el-checkbox>
-                            <div style="margin-left: 20px;display: flex;flex-wrap:wrap;">
+                            <div style="margin-left: 20px;flex-wrap:wrap;">
                                 <div style="margin-left: 20px;"
                                      v-for="sub__ of sub_.subpermission">
                                     <el-checkbox @change="sub__change(sub,sub_,sub__)"
@@ -131,7 +131,6 @@
                 hideOptions: false,
                 hideTool: false,
                 showEdit: true,
-                showdelete: true,
                 orderfield:'id',
                 // showSettingFee: true,
                 // showCommutime: true,
@@ -282,7 +281,7 @@
                                                 this.showRolePermission(params.index,params.row);
                                             }
                                         }
-                                    }, '编辑权限'),
+                                    }, '修改权限'),
                                 ]);
                             }
                         }]
